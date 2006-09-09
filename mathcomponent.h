@@ -28,7 +28,7 @@ struct MathComponent
 
     int iSerial;
 
-    /*m type of structure */
+    //m type of structure
 
     int iType;
 

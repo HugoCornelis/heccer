@@ -31,7 +31,7 @@ struct Compartment
 
     struct MathComponent mc;
 
-    /*m index of parent compartment, -1 for none */
+    //m index of parent compartment, -1 for none
 
     int iParent;
 
@@ -47,9 +47,8 @@ struct Compartment
 
     double dCm;
     double dEm;
-    double dIm;
     double dInitVm;
-    double dInject;		
+    double dInject;
     double dRa;
     double dRm;
 };
