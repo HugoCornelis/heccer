@@ -141,6 +141,10 @@ struct VM
 
 struct Heccer
 {
+    //m status : reflects phases of compilation.
+
+    int iStatus;
+
     //m identification service : translates serials to math components
 
     void * pvService;
@@ -158,6 +162,31 @@ struct Heccer
     struct VM vm;
 
 };
+
+
+//d brandnew allocated, nothing done
+
+#define HECCER_STATUS_PHASE_0		0
+
+//d brandnew allocated, correctly initialized
+
+#define HECCER_STATUS_PHASE_1		10
+
+//d brandnew allocated, intermediary has been built
+
+#define HECCER_STATUS_PHASE_2		20
+
+//d brandnew allocated, byte has been compiled
+
+#define HECCER_STATUS_PHASE_3		30
+
+//d brandnew allocated, initial values have been put in place
+
+#define HECCER_STATUS_PHASE_4		40
+
+//d brandnew allocated, heccs have been done, further status unknown
+
+#define HECCER_STATUS_PHASE_5		50
 
 
 //f prototypes

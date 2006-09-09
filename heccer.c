@@ -17,6 +17,7 @@
 
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "heccer.h"
 
@@ -150,6 +151,17 @@ int HeccerIntialize(struct Heccer *pheccer)
 
 struct Heccer *HeccerNewP1(void)
 {
+    //- set result : a new heccer
+
+    struct Heccer *pheccerResult
+	= (struct Heccer *)calloc(1, sizeof(struct Heccer));
+
+    //- set new status
+
+    pheccerResult->iStatus = HECCER_STATUS_PHASE_1;
+
+    //- return result
+
     return(NULL);
 }
 
@@ -170,7 +182,21 @@ struct Heccer *HeccerNewP1(void)
 
 struct Heccer *HeccerNewP2(struct Intermediary *pinter)
 {
-    return(NULL);
+    //- set result : initialized heccer
+
+    struct Heccer *pheccerResult = HeccerNewP1();
+
+    //- link in intermediary
+
+    memcpy(&pheccerResult->inter, pinter, sizeof(*pinter));
+
+    //- set new status
+
+    pheccerResult->iStatus = HECCER_STATUS_PHASE_2;
+
+    //- return result
+
+    return(pheccerResult);
 }
 
 
