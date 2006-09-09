@@ -426,9 +426,9 @@ int HeccerMinimumDegree (struct Heccer *pheccer)
 
     iResult = iResult && HeccerMDFindFlow(pheccer, pheccer->inter.iCompartments);
 
-    //- sort children according to flow
+/*     //- sort children according to flow */
 
-    iResult = iResult && HeccerMDSortChildren(pheccer, pheccer->inter.iCompartments);
+/*     iResult = iResult && HeccerMDSortChildren(pheccer, pheccer->inter.iCompartments); */
 
     //- return result
 

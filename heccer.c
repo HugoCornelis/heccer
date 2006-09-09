@@ -162,7 +162,7 @@ struct Heccer *HeccerNewP1(void)
 
     //- return result
 
-    return(NULL);
+    return(pheccerResult);
 }
 
 

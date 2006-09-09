@@ -121,9 +121,9 @@ int main(int argc, char *argv[])
 
 	HeccerHecc(pheccer);
 
-	//- dump
+/* 	//- dump */
 
-	HeccerDump(pheccer);
+/* 	HeccerDump(pheccer); */
     }
 
     //- return result
