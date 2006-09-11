@@ -20,6 +20,7 @@
 #define COMPARTMENT_H
 
 
+#include "heccer.h"
 #include "mathcomponent.h"
 
 
@@ -52,6 +53,11 @@ struct Compartment
     double dRa;
     double dRm;
 };
+
+
+//f prototypes
+
+int HeccerCompileCompartments(struct Heccer *pheccer);
 
 
 #endif

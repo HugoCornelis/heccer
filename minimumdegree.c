@@ -108,6 +108,29 @@ HeccerMDFlowEnumerator
 
 	else
 	{
+	    //- if logical branch scheduling
+
+	    if (pheccer->iOptions & HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING)
+	    {
+		//- find reverse flow starting at this child
+
+		return(HeccerMDFlowEnumerator(pheccer, iIndex, iTarget));
+	    }
+	}
+    }
+
+    //- if leave to root scheduling
+
+    if (!(pheccer->iOptions & HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING))
+    {
+	//- loop over children for current compartment
+
+	for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
+	{
+	    //- get current child index
+
+	    int iIndex = pheccer->indexers.md.ppiChildren[iCurrent][i];
+
 	    //- find reverse flow starting at this child
 
 	    return(HeccerMDFlowEnumerator(pheccer, iIndex, iTarget));

@@ -64,7 +64,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///
 ///	success of operation.
 ///
-/// DESCR: Compile the intermediary format into byte code.
+/// DESCR: Analyze the model, build indices for optimization.
 ///
 /// NOTE.:
 ///
@@ -83,7 +83,48 @@ int HeccerCompileP2(struct Heccer *pheccer)
 
     iResult = iResult && HeccerMinimumDegree(pheccer);
 
-    //t compile channels
+    //t index & sort mechanisms
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerCompileP3()
+///
+/// ARGS.:
+///
+///	heccer...: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Compile the intermediary format into byte code.
+///
+///	 Uses indices, initializedso with HeccerCompileP2().
+///
+/// NOTE.:
+///
+///	This function can be used for testing internals of heccer,
+///	just be sure to provide a consistent intermediary image.
+///
+/// **************************************************************************
+
+int HeccerCompileP3(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- do minimum degree
+
+    iResult = iResult && HeccerCompileCompartments(pheccer);
+
+    //t compile mechanisms
 
     //- return result
 
@@ -141,6 +182,9 @@ int HeccerIntialize(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
+///	iOptions.: see heccer.h.
+///	dStep....: required time step (from the time constants of the model).
+///
 /// RTN..: struct Heccer *
 ///
 ///	Instantiated heccer, NULL for failure.
@@ -149,12 +193,23 @@ int HeccerIntialize(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNewP1(void)
+struct Heccer *HeccerNewP1(int iOptions, double dStep)
 {
     //- set result : a new heccer
 
     struct Heccer *pheccerResult
 	= (struct Heccer *)calloc(1, sizeof(struct Heccer));
+
+    if (!pheccerResult)
+    {
+	return(NULL);
+    }
+
+    //- set options and time step
+
+    pheccerResult->iOptions = iOptions;
+
+    pheccerResult->dStep = dStep;
 
     //- set new status
 
@@ -184,7 +239,12 @@ struct Heccer *HeccerNewP2(struct Intermediary *pinter)
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult = HeccerNewP1();
+    struct Heccer *pheccerResult
+	= HeccerNewP1
+	  (
+	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
+	      2e-5
+	      );
 
     //- link in intermediary
 

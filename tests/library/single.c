@@ -107,9 +107,13 @@ int main(int argc, char *argv[])
 
     struct Heccer *pheccer = HeccerNewP2(&inter);
 
-    //- compile to byte code
+    //- build indices for optimization
 
     HeccerCompileP2(pheccer);
+
+    //- compile to byte code
+
+    HeccerCompileP3(pheccer);
 
     //- a couple of times
 

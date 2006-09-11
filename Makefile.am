@@ -21,6 +21,7 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 noinst_LIBRARIES = libheccer.a
 
 libheccer_a_SOURCES = \
+	compartment.c \
 	compartment.h \
 	heccer.c \
 	intermediary.c \

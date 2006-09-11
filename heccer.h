@@ -145,6 +145,14 @@ struct Heccer
 
     int iStatus;
 
+    //m options and operation mode.
+
+    int iOptions;
+
+    //m time step
+
+    double dStep;
+
     //m identification service : translates serials to math components
 
     void * pvService;
@@ -189,17 +197,27 @@ struct Heccer
 #define HECCER_STATUS_PHASE_5		50
 
 
+//d logical branch grouping for solution matrix :
+//d schedules first a leave and all attached compartments until a
+//d branch point.  When disabled, all the leaves are scheduled first,
+//d next the compartments attached to the leaves, etc.
+
+#define HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING		1
+
+
 //f prototypes
 
 int HeccerCompileP1(struct Heccer *pheccer);
 
 int HeccerCompileP2(struct Heccer *pheccer);
 
+int HeccerCompileP3(struct Heccer *pheccer);
+
 int HeccerHecc(struct Heccer *pheccer);
 
 int HeccerIntialize(struct Heccer *pheccer);
 
-struct Heccer *HeccerNewP1(void);
+struct Heccer *HeccerNewP1(int iOptions, double dStep);
 
 struct Heccer *HeccerNewP2(struct Intermediary *pinter);
 
