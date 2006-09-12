@@ -154,14 +154,14 @@ struct TabulatedHHChannel
 
     /*m1-6 point into element hierarchy tabchannel structs */
 
-    struct interpol_struct *ipX_A;
-    struct interpol_struct *ipX_B;
-    struct interpol_struct *ipY_A;
-    struct interpol_struct *ipY_B;
-    struct interpol_struct *ipZ_A;
-    struct interpol_struct *ipZ_B;
+    struct table_struct *ipX_A;
+    struct table_struct *ipX_B;
+    struct table_struct *ipY_A;
+    struct table_struct *ipY_B;
+    struct table_struct *ipZ_A;
+    struct table_struct *ipZ_B;
 
-#ifdef USE_NO_INTERPOLS
+#ifdef USE_NO_TABLE_STRUCT
 
     /*m number of intervals */
 

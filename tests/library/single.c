@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "../../compartment.h"
@@ -39,7 +40,7 @@ struct Compartment compSoma =
 
     //m index of parent compartment, -1 for none
 
-    0,
+    -1,
 
     //m first mechanism
 
@@ -125,9 +126,13 @@ int main(int argc, char *argv[])
 
 	HeccerHecc(pheccer);
 
-/* 	//- dump */
+	//- dump
 
-/* 	HeccerDump(pheccer); */
+	fprintf(stdout, "-------\n");
+
+	fprintf(stdout, "Iteration %i\n", i);
+
+	HeccerDump(pheccer, stdout);
     }
 
     //- return result

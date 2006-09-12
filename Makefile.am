@@ -18,21 +18,26 @@
 
 AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
+CFLAGS = -O0
+
 noinst_LIBRARIES = libheccer.a
 
 libheccer_a_SOURCES = \
 	compartment.c \
-	compartment.h \
 	heccer.c \
+	indexers.c \
 	intermediary.c \
-	mathcomponent.h \
-	minimumdegree.c
+	minimumdegree.c \
+	vm.c
 
 noinst_HEADERS = \
 	compartment.h \
 	heccer.h \
+	indexers.h \
+	intermediary.h \
 	mathcomponent.h \
-	mechanism.h
+	mechanism.h \
+	vm.h
 
 #TESTS = tests/run
 

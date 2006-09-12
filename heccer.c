@@ -28,7 +28,7 @@
 ///
 /// ARGS.:
 ///
-///	heccer...: a heccer.
+///	pheccer...: a heccer.
 ///
 /// RTN..: int
 ///
@@ -58,7 +58,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	heccer...: a heccer.
+///	pheccer...: a heccer.
 ///
 /// RTN..: int
 ///
@@ -97,7 +97,7 @@ int HeccerCompileP2(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	heccer...: a heccer.
+///	pheccer...: a heccer.
 ///
 /// RTN..: int
 ///
@@ -122,9 +122,66 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
     //- do minimum degree
 
-    iResult = iResult && HeccerCompileCompartments(pheccer);
+    iResult = iResult && HeccerCompartmentCompile(pheccer);
 
     //t compile mechanisms
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerDump()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	pfile.....: stdio file.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Call the dump functions.
+///
+/// **************************************************************************
+
+int HeccerDump(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- status : reflects phases of compilation.
+
+    fprintf(pfile, "Heccer (iStatus) : (%i)\n", pheccer->iStatus);
+
+    //- options and operation mode.
+
+    fprintf(pfile, "Heccer (iOptions) : (%i)\n", pheccer->iOptions);
+
+    //- time step
+
+    fprintf(pfile, "Heccer (dStep) : (%f)\n", pheccer->dStep);
+
+    //- identification service : translates serials to math components
+
+    fprintf(pfile, "Heccer (pvService) : (%i)\n", pheccer->pvService);
+
+    //- dump intermediary
+
+    iResult = iResult && HeccerIntermediaryDump(&pheccer->inter, pfile);
+
+    //- dump the indices
+
+    iResult = iResult && HeccerIndexersDump(&pheccer->indexers, pfile);
+
+    //- dump compartment arrays
+
+    iResult = iResult && HeccerVMDump(&pheccer->vm, pfile);
 
     //- return result
 
@@ -138,7 +195,7 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	heccer...: a heccer.
+///	pheccer...: a heccer.
 ///
 /// RTN..: int
 ///
@@ -150,7 +207,19 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
 int HeccerHecc(struct Heccer *pheccer)
 {
-    return(FALSE);
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- perform the compartment operations
+
+    iResult = iResult && HeccerCompartmentSolveCN(pheccer);
+
+    //t perform mechanism operations (including concentration pools)
+
+    //- return result
+
+    return(iResult);
 }
 
 
@@ -160,7 +229,7 @@ int HeccerHecc(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	heccer...: a heccer.
+///	pheccer...: a heccer.
 ///
 /// RTN..: int
 ///

@@ -16,46 +16,43 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef HECCER_MINIMUM_DEGREE_H
-#define HECCER_MINIMUM_DEGREE_H
+#ifndef HECCER_INDEXERS_H
+#define HECCER_INDEXERS_H
 
 
 #include <stdio.h>
 
 
-struct Heccer;
-struct MinimumDegree;
+struct Indexers;
 
 
-//s minimum degree indexing
+#include "minimumdegree.h"
 
-struct MinimumDegree
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+
+//s all indexing structures
+
+struct Indexers
 {
-    //m copy of ...
+    //m minimum degree
 
-    int iEntries;
+    struct MinimumDegree md;
 
-    //m structural analyzers
+    //t need a couple of things for channel reordering
 
-    int *piChildren;
-
-    int **ppiChildren;
-
-    //m unordered to flow
-
-    int *piForward;
-
-    //m flow to unordered
-
-    int *piBackward;
 };
 
 
 //f prototypes
 
-int HeccerMinimumDegree(struct Heccer *pheccer);
-
-int HeccerMinimumDegreeDump(struct MinimumDegree *pmd, FILE *pfile);
+int HeccerIndexersDump(struct Indexers *pindexers, FILE *pfile);
 
 
 #endif

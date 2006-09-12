@@ -20,6 +20,8 @@
 #define COMPARTMENT_H
 
 
+#include <stdio.h>
+
 #include "heccer.h"
 #include "mathcomponent.h"
 
@@ -57,7 +59,11 @@ struct Compartment
 
 //f prototypes
 
-int HeccerCompileCompartments(struct Heccer *pheccer);
+int HeccerCompartmentCompile(struct Heccer *pheccer);
+
+int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile);
+
+int HeccerCompartmentSolveCN(struct Heccer *pheccer);
 
 
 #endif

@@ -16,53 +16,31 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#include "compartment.h"
-#include "intermediary.h"
+#include "vm.h"
 
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerIntermediaryDump()
+/// SHORT: HeccerVMDump()
 ///
 /// ARGS.:
 ///
-///	pinter.: heccer intermediary.
-///	pfile..: stdio file.
+///	pvm...: heccer indexers.
+///	pfile.: stdio file.
 ///
 /// RTN..: int
 ///
 ///	success of operation.
 ///
-/// DESCR: Dump intermediary functions.
+/// DESCR: Dump VM functions.
 ///
 /// **************************************************************************
 
-int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile)
+int HeccerVMDump(struct VM *pvm, FILE *pfile)
 {
     //- set default result : ok
 
     int iResult = TRUE;
-
-    int iCompartments = pinter->iCompartments;
-
-    //- number of compartments
-
-    fprintf(pfile, "Intermediary (iCompartments) : (%i)\n", iCompartments);
-
-    //- loop over compartment array
-
-    //! should be using C++ iterators, should look into it
-
-    struct Compartment *pcomp = pinter->pcomp;
-
-    int i;
-
-    for (i = 0 ; i < iCompartments ; i++)
-    {
-	//- dump compartment
-
-	iResult = iResult && HeccerCompartmentDump(&pcomp[i], pfile);
-    }
 
     //- return result
 

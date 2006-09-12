@@ -16,18 +16,17 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#include "compartment.h"
-#include "intermediary.h"
+#include "indexers.h"
 
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerIntermediaryDump()
+/// SHORT: HeccerIndexersDump()
 ///
 /// ARGS.:
 ///
-///	pinter.: heccer intermediary.
-///	pfile..: stdio file.
+///	pindexers.: heccer indexers.
+///	pfile.....: stdio file.
 ///
 /// RTN..: int
 ///
@@ -37,32 +36,15 @@
 ///
 /// **************************************************************************
 
-int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile)
+int HeccerIndexersDump(struct Indexers *pindexers, FILE *pfile)
 {
     //- set default result : ok
 
     int iResult = TRUE;
 
-    int iCompartments = pinter->iCompartments;
+    //- dump minimum degree structures
 
-    //- number of compartments
-
-    fprintf(pfile, "Intermediary (iCompartments) : (%i)\n", iCompartments);
-
-    //- loop over compartment array
-
-    //! should be using C++ iterators, should look into it
-
-    struct Compartment *pcomp = pinter->pcomp;
-
-    int i;
-
-    for (i = 0 ; i < iCompartments ; i++)
-    {
-	//- dump compartment
-
-	iResult = iResult && HeccerCompartmentDump(&pcomp[i], pfile);
-    }
+    iResult = iResult && HeccerMinimumDegreeDump(&pindexers->md, pfile);
 
     //- return result
 

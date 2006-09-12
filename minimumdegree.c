@@ -42,8 +42,8 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 ///
 /// ARGS.:
 ///
-///	heccer........: a heccer.
-///	iCompartments.: number of compartments.
+///	pheccer........: a heccer.
+///	iCompartments..: number of compartments.
 ///
 /// RTN..: int
 ///
@@ -163,6 +163,12 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
     int *piBackward = (int *)calloc(iCompartments, sizeof(int));
 
+    //- set pointers
+
+    pmd->piForward = piForward;
+
+    pmd->piBackward = piBackward;
+
     //- loop over compartments
 
     int i;
@@ -191,20 +197,18 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
     int iEnd = HeccerMDFlowEnumerator(pheccer, iStart, iTarget);
 
-    //- check if we ended with something reasonable (can only be 0, afaict)
+    //- check if we ended with something reasonable (can only be -1, afaict)
 
-    if (iEnd != 0)
+    if (iEnd != -1)
     {
 	//! segv
 
 	*(int *)0 = 0;
     }
 
-    //- set pointers
+    //- set number of entries
 
-    pmd->piForward = piForward;
-
-    pmd->piBackward = piBackward;
+    pmd->iEntries = iCompartments;
 
     //- return result
 
@@ -218,8 +222,8 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 ///
 /// ARGS.:
 ///
-///	heccer........: a heccer.
-///	iCompartments.: number of compartments.
+///	pheccer........: a heccer.
+///	iCompartments..: number of compartments.
 ///
 /// RTN..: int
 ///
@@ -277,8 +281,8 @@ static int HeccerMDInitialize(struct Heccer *pheccer, int iCompartments)
 ///
 /// ARGS.:
 ///
-///	heccer........: a heccer.
-///	iCompartments.: number of compartments.
+///	pheccer........: a heccer.
+///	iCompartments..: number of compartments.
 ///
 /// RTN..: int
 ///
@@ -403,7 +407,7 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 ///
 /// ARGS.:
 ///
-///	heccer...: a heccer.
+///	pheccer...: a heccer.
 ///
 /// RTN..: int
 ///
@@ -422,14 +426,13 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 ///
 /// **************************************************************************
 
-int HeccerMinimumDegree (struct Heccer *pheccer)
+int HeccerMinimumDegree(struct Heccer *pheccer)
 {
     //- set default result : ok
 
     int iResult = TRUE;
 
-    if (pheccer->inter.iCompartments == 0
-	|| pheccer->inter.iCompartments == 1)
+    if (pheccer->inter.iCompartments == 0)
     {
 	return(TRUE);
     }
@@ -452,6 +455,68 @@ int HeccerMinimumDegree (struct Heccer *pheccer)
 /*     //- sort children according to flow */
 
 /*     iResult = iResult && HeccerMDSortChildren(pheccer, pheccer->inter.iCompartments); */
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerMinimumDegreeDump()
+///
+/// ARGS.:
+///
+///	pcomp...: a compartment.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Perform the compartment operators once.
+///
+/// **************************************************************************
+
+int HeccerMinimumDegreeDump(struct MinimumDegree *pmd, FILE *pfile)
+{
+    //- set default result
+
+    int iResult = TRUE;
+
+    //- index of parent compartment, -1 for none
+
+    fprintf(pfile, "MinimumDegree (iEntries) : (%i)\n", pmd->iEntries);
+
+    //- structural analyzers
+
+    int i;
+
+    for (i = 0 ; i < pmd->iEntries ; i++)
+    {
+	fprintf(pfile, "MinimumDegree (piChildren[%i]) : (%i)\n", i, pmd->piChildren[i]);
+
+	int j;
+
+	for (j = 0 ; j < pmd->piChildren[i] ; j++)
+	{
+	    fprintf(pfile, "MinimumDegree (piChildren[%i][%i]) : (%i)\n", i, j, pmd->ppiChildren[i][j]);
+	}
+    }
+
+    //- unordered to flow
+
+    for (i = 0 ; i < pmd->iEntries ; i++)
+    {
+	fprintf(pfile, "MinimumDegree (piForward[%i]) : (%i)\n", i, pmd->piForward[i]);
+    }
+
+    //- flow to unordered
+
+    for (i = 0 ; i < pmd->iEntries ; i++)
+    {
+	fprintf(pfile, "MinimumDegree (piBackward[%i]) : (%i)\n", i, pmd->piBackward[i]);
+    }
 
     //- return result
 

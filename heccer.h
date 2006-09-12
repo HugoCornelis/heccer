@@ -20,12 +20,15 @@
 #define HECCER_H
 
 
+#include <stdio.h>
+
+
 struct Heccer;
 
 
-#include "compartment.h"
-#include "mechanism.h"
-#include "minimumdegree.h"
+#include "intermediary.h"
+#include "indexers.h"
+#include "vm.h"
 
 
 #ifndef TRUE
@@ -34,107 +37,6 @@ struct Heccer;
 #ifndef FALSE
 #define FALSE 0
 #endif
-
-
-//s mechanism index
-
-struct MechanismIndex
-{
-    //m pointer to mechanism data
-
-    void * pvMechanism;
-};
-
-
-//s heccer main structure
-
-struct Intermediary
-{
-    //m compartment array
-
-    int iCompartments;
-
-    struct Compartment *pcomp;
-
-    //m mechanism index
-
-    int iMechanisms;
-
-    struct MechanismIndex *pim;
-
-    //m mechanism data
-
-    void * pvMechanism;
-};
-
-
-/* //s minimum degree indexing */
-
-/* struct MinimumDegree */
-/* { */
-/*     //m structural analyzers */
-
-/*     int *piParents; */
-
-/*     int *piChildren; */
-
-/*     int **ppiChildren; */
-
-/*     //m unordered to flow */
-
-/*     int *piForward; */
-
-/*     //m flow to unordered */
-
-/*     int *piBackward; */
-/* }; */
-
-
-//t need a couple of things for channel reordering
-
-
-//s all indexing structures
-
-struct Indexers
-{
-    //m minimum degree
-
-    struct MinimumDegree md;
-
-    //t need a couple of things for channel reordering
-
-};
-
-
-//s vm related (name subject to change)
-
-struct VM
-{
-    //m compartment operations
-
-    //t data type unspecified
-
-    void *pvCops;
-
-    //m compartment data
-
-    //t data type unspecified
-
-    void *pvCats;
-
-    //m mechanism operations
-
-    //t data type unspecified
-
-    void *pvMops;
-
-    //m mechanism data
-
-    //t data type unspecified
-
-    void *pvMats;
-
-};
 
 
 //s heccer main structure
@@ -204,6 +106,10 @@ struct Heccer
 
 #define HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING		1
 
+//d use backward euler, default is crank-nicolson
+
+#define HECCER_OPTION_BACKWARD_EULER			2
+
 
 //f prototypes
 
@@ -212,6 +118,8 @@ int HeccerCompileP1(struct Heccer *pheccer);
 int HeccerCompileP2(struct Heccer *pheccer);
 
 int HeccerCompileP3(struct Heccer *pheccer);
+
+int HeccerDump(struct Heccer *pheccer, FILE *pfile);
 
 int HeccerHecc(struct Heccer *pheccer);
 

@@ -1,0 +1,81 @@
+//
+// Heccer : a compartmental solver that implements efficient Crank-Nicolson
+// integration for neuronal models.
+//
+
+//////////////////////////////////////////////////////////////////////////////
+//'
+//' Heccer : testbed C implementation
+//'
+//' Copyright (C) 2006 Hugo Cornelis
+//'
+//' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+//'
+//' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+//'
+//////////////////////////////////////////////////////////////////////////////
+
+
+#ifndef HECCER_INTERMEDIARY_H
+#define HECCER_INTERMEDIARY_H
+
+
+#include <stdio.h>
+
+
+struct Intermediary;
+struct MechanismIndex;
+
+
+#include "compartment.h"
+#include "mechanism.h"
+
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+
+//s mechanism index
+
+struct MechanismIndex
+{
+    //m pointer to mechanism data
+
+    void * pvMechanism;
+};
+
+
+//s heccer main structure
+
+struct Intermediary
+{
+    //m compartment array
+
+    int iCompartments;
+
+    struct Compartment *pcomp;
+
+    //m mechanism index
+
+    int iMechanisms;
+
+    struct MechanismIndex *pim;
+
+    //m mechanism data
+
+    void * pvMechanism;
+};
+
+
+//f prototypes
+
+int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile);
+
+
+#endif
+
+
