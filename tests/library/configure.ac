@@ -19,12 +19,8 @@ dnl //////////////////////////////////////////////////////////////////////////
 
 AC_PREREQ(2.59)
 AC_INIT(heccer, 0.1, hugo.cornelis@gmail.com)
-AC_CONFIG_SRCDIR([compartment.h])
+AC_CONFIG_SRCDIR([single.c])
 AC_CONFIG_HEADER([config.h])
-
-dnl all subdirs
-
-AC_CONFIG_SUBDIRS(tests/library)
 
 AM_INIT_AUTOMAKE(heccer, 0.1)
 
@@ -44,3 +40,5 @@ AC_CHECK_HEADERS([stdlib.h string.h])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
+
+

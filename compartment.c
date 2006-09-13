@@ -80,8 +80,9 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
     //- create storage for diagterms
 
-    double *pdDiagonals
-	= (double *)calloc(pheccer->inter.iCompartments, sizeof(double));
+    pheccer->vm.iDiagonals = pheccer->inter.iCompartments;
+
+    double *pdDiagonals = (double *)calloc(pheccer->vm.iDiagonals, sizeof(double));
 
     pheccer->vm.pdDiagonals = pdDiagonals;
 
@@ -358,9 +359,13 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 	}
     }
 
-    pheccer->vm.pdResults = (double *)calloc(2 * pheccer->inter.iCompartments, sizeof(double));
+    pheccer->vm.iResults = 2 * pheccer->inter.iCompartments;
 
-    pheccer->vm.pdVm = (double *)calloc(pheccer->inter.iCompartments, sizeof(double));
+    pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double));
+
+    pheccer->vm.iVms = pheccer->inter.iCompartments;
+
+    pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double));
 
     //! the diagonal terms are also needed for solving the current
     //! equations, but I guess it is ok to deal with that in the
@@ -450,7 +455,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
     double *pdAxres = pheccer->vm.pdAxres;
     double *pdResult;
     double *pdResults = pheccer->vm.pdResults;
-    double *pdVm = &pheccer->vm.pdVm[pheccer->inter.iCompartments - 1];
+    double *pdVms = &pheccer->vm.pdVms[pheccer->inter.iCompartments - 1];
     double dDiagonal;
     double dResult;
 
@@ -463,7 +468,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	//- compute result
 
         dResult = pdResults[0] / pdResults[1];
-        pdVm[0] = dResult + dResult - pdVm[0];
+        pdVms[0] = dResult + dResult - pdVms[0];
 
 	//- return success
 
@@ -516,7 +521,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
     dResult = dResult / dDiagonal;
 
-    pdVm[0] = dResult + dResult - pdVm[0];
+    pdVms[0] = dResult + dResult - pdVms[0];
 
     pdResult[0] = dResult;
 
@@ -538,10 +543,10 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
         }
 	else if (iCop == HECCER_COP_CALC_RESULTS)
 	{
-	    pdVm--;
+	    pdVms--;
 
             dResult = dResult / pdResult[1];
-	    pdVm[0] = dResult + dResult - pdVm[0];
+	    pdVms[0] = dResult + dResult - pdVms[0];
 
 	    pdResult[0] = dResult;
             pdResult -= 2;

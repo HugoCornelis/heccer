@@ -16,32 +16,8 @@
 ##############################################################################
 
 
-SUBDIRS = . tests/library
+bin_PROGRAMS = \
+	single
 
-AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
-
-CFLAGS = -O0
-
-noinst_LIBRARIES = libheccer.a
-
-libheccer_a_SOURCES = \
-	compartment.c \
-	heccer.c \
-	indexers.c \
-	intermediary.c \
-	minimumdegree.c \
-	vm.c
-
-noinst_HEADERS = \
-	compartment.h \
-	heccer.h \
-	indexers.h \
-	intermediary.h \
-	mathcomponent.h \
-	mechanism.h \
-	vm.h
-
-#TESTS = tests/run
-
-#test: check
+single_LDADD = -L../.. -lheccer
 

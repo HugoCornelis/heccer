@@ -46,6 +46,8 @@ struct VM
 
     //m compartment data
 
+    int iDiagonals;
+
     double *pdDiagonals;
 
     int iAxres;
@@ -54,12 +56,16 @@ struct VM
 
     //m results
 
+    int iResults;
+
     double *pdResults;
 
     //! pdVm is accessible from outside, so should be moved to a
     //! separate place ?
 
-    double *pdVm;
+    int iVms;
+
+    double *pdVms;
 
     //m mechanism operations
 

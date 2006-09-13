@@ -116,6 +116,10 @@ int main(int argc, char *argv[])
 
     HeccerCompileP3(pheccer);
 
+    //- initial dump
+
+    HeccerDump(pheccer, stdout);
+
     //- a couple of times
 
     int i;
