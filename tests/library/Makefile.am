@@ -16,6 +16,10 @@
 ##############################################################################
 
 
+AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
+
+CFLAGS = -O0
+
 bin_PROGRAMS = \
 	single
 

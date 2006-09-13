@@ -54,28 +54,28 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile)
 
     for (i = 0 ; i < pvm->iDiagonals ; i++)
     {
-	fprintf(pfile, "VM Diagonals (pdDiagonals[%i]) : (%f)\n", i, pvm->pdDiagonals[i]);
+	fprintf(pfile, "VM Diagonals (pdDiagonals[%i]) : (%g)\n", i, pvm->pdDiagonals[i]);
     }
 
     //- compartment data : axial resistances
 
     for (i = 0 ; i < pvm->iAxres ; i++)
     {
-	fprintf(pfile, "VM Axial Resistances (pdAxres[%i]) : (%f)\n", i, pvm->pdAxres[i]);
+	fprintf(pfile, "VM Axial Resistances (pdAxres[%i]) : (%g)\n", i, pvm->pdAxres[i]);
     }
 
     //- results : intermediate
 
     for (i = 0 ; i < pvm->iResults ; i++)
     {
-	fprintf(pfile, "VM Axial Resistances (pdResults[%i]) : (%f)\n", i, pvm->pdResults[i]);
+	fprintf(pfile, "VM Axial Resistances (pdResults[%i]) : (%g)\n", i, pvm->pdResults[i]);
     }
 
     //- results : membrane potentials
 
     for (i = 0 ; i < pvm->iVms ; i++)
     {
-	fprintf(pfile, "VM Membrane Potentials (pdVms[%i]) : (%f)\n", i, pvm->pdVms[i]);
+	fprintf(pfile, "VM Membrane Potentials (pdVms[%i]) : (%g)\n", i, pvm->pdVms[i]);
     }
 
 /*     //m mechanism operations */

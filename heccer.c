@@ -165,7 +165,7 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile)
 
     //- time step
 
-    fprintf(pfile, "Heccer (dStep) : (%f)\n", pheccer->dStep);
+    fprintf(pfile, "Heccer (dStep) : (%g)\n", pheccer->dStep);
 
     //- identification service : translates serials to math components
 

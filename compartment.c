@@ -413,17 +413,17 @@ int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile)
 
     //m descriptive values, alphabetical order
 
-    fprintf(pfile, "Compartment (dCm) : (%f)\n", pcomp->dCm);
+    fprintf(pfile, "Compartment (dCm) : (%g)\n", pcomp->dCm);
 
-    fprintf(pfile, "Compartment (dEm) : (%f)\n", pcomp->dEm);
+    fprintf(pfile, "Compartment (dEm) : (%g)\n", pcomp->dEm);
 
-    fprintf(pfile, "Compartment (dInitVm) : (%f)\n", pcomp->dInitVm);
+    fprintf(pfile, "Compartment (dInitVm) : (%g)\n", pcomp->dInitVm);
 
-    fprintf(pfile, "Compartment (dInject) : (%f)\n", pcomp->dInject);
+    fprintf(pfile, "Compartment (dInject) : (%g)\n", pcomp->dInject);
 
-    fprintf(pfile, "Compartment (dRa) : (%f)\n", pcomp->dRa);
+    fprintf(pfile, "Compartment (dRa) : (%g)\n", pcomp->dRa);
 
-    fprintf(pfile, "Compartment (dRm) : (%f)\n", pcomp->dRm);
+    fprintf(pfile, "Compartment (dRm) : (%g)\n", pcomp->dRm);
 
     //- return result
 

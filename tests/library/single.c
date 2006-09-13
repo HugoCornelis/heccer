@@ -21,7 +21,6 @@
 
 #include "../../compartment.h"
 #include "../../heccer.h"
-#include "../../mathcomponent.h"
 
 
 struct Compartment compSoma =
