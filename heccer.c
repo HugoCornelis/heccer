@@ -66,6 +66,11 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///
 /// DESCR: Analyze the model, build indices for optimization.
 ///
+///	Internally, Heccer addresses mechanisms using their
+///	compartment's schedule number.  So the minimum degree
+///	algorithm must run first before the mechanisms can be
+///	compiled.
+///
 /// NOTE.:
 ///
 ///	This function can be used for testing internals of heccer,
@@ -83,7 +88,9 @@ int HeccerCompileP2(struct Heccer *pheccer)
 
     iResult = iResult && HeccerMinimumDegree(pheccer);
 
-    //t index & sort mechanisms
+    //- index & sort mechanisms
+
+    iResult = iResult && HeccerMechanismSort(pheccer);
 
     //- return result
 
@@ -120,11 +127,15 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
-    //- do minimum degree
+    //- compile compartments to byte code
 
     iResult = iResult && HeccerCompartmentCompile(pheccer);
 
-    //t compile mechanisms
+    //- compile mechanisms to byte code
+
+    iResult = iResult && HeccerMechanismCompile(pheccer);
+
+    //t perhaps should discretize channels overhere ?
 
     //- return result
 
@@ -211,11 +222,28 @@ int HeccerHecc(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
+    //! I am undecided where to make the difference between CN and BE.
+    //! From cosmetic viewpoint, here we should only delegate to
+    //! HeccerMechanismHecc() and HeccerCompartmentHecc().
+    //! Then the difference can be made by looking at the options
+    //! (bad~?), or by having byte-code generated for the two specific
+    //! cases (slower~?).
+
+    //! On the other hand, this is less work for the moment and delays
+    //! the decisions involved in the above (perhaps even unnecessary
+    //! to be made~?).
+
+    //- perform mechanism operations (including concentration pools)
+
+    //! doing it like this, assumes that the mechanism values are
+    //! correct at time (now - dt/2).  Does not make a practical
+    //! difference.
+
+    iResult = iResult && HeccerMechanismSolveCN(pheccer);
+
     //- perform the compartment operations
 
     iResult = iResult && HeccerCompartmentSolveCN(pheccer);
-
-    //t perform mechanism operations (including concentration pools)
 
     //- return result
 

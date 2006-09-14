@@ -197,6 +197,15 @@ struct TabulatedHHChannel
 };
 
 
+//f prototypes
+
+int HeccerMechanismCompile(struct Heccer *pheccer);
+
+int HeccerMechanismSolveCN(struct Heccer *pheccer);
+
+int HeccerMechanismSort(struct Heccer *pheccer);
+
+
 #endif
 
 

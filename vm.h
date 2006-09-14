@@ -69,13 +69,15 @@ struct VM
 
     //m mechanism operations
 
-    //t data type unspecified
+    int iMops;
 
-    void *pvMops;
+    int *pvMops;
 
     //m mechanism data
 
     //t data type unspecified
+
+    int iMats;
 
     void *pvMats;
 

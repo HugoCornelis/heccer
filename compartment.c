@@ -44,7 +44,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 {
     //- set default result : ok
 
-    int iResult = FALSE;
+    int iResult = TRUE;
 
     //v time step
 
@@ -166,17 +166,17 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 	}
     }
 
-#define SETCOP1(array,current,operator) array ? array[current++] = operator : current++
+#define SETCOP1(array,current,operator) ((array) ? (array)[(current)++] = (operator) : (current)++)
 
-#define SETCOP2(array,current,operator,operand) array ? ({array[current++] = operator; array[current++] = operand; }) : ({ current += 2; })
+#define SETCOP2(array,current,operator,operand) ((array) ? ({(array)[(current)++] = (operator); (array)[(current)++] = (operand); }) : ({ (current) += 2; }))
 
-#define SETAXRES(array,current,value) array ? (array[current++] = value) : current++;
+#define SETAXRES(array,current,value) ((array) ? ((array)[(current)++] = (value)) : (current)++)
 
     //- first count, next compile the following block
 
     int iCountCompile;
 
-    //- first counting by setting array to nil
+    //- first counting by setting array to NULL
 
     int *piCops = NULL;
 
@@ -531,7 +531,9 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
         dDiagonal = pdResult[1];
     }
 
-    while (1)
+    int iDone = FALSE;
+
+    while (!iDone)
     {
         if (iCop == HECCER_COP_FORWARD_ELIMINATION)
 	{
@@ -558,14 +560,17 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	}
 	else
 	{
-            break;
+	    iDone = TRUE;
         }
 
         iCop = piCops[0];
 	piCops++;
     }
 
-    /* store result last row */
+    //- last row done separately
+
+    //! should try to incorporate this in the next loop
+    //! I have the feeling the loop is coded in the wrong way.
 
     dResult = dResult / dDiagonal;
 
@@ -579,7 +584,9 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
     //- backwards elimination
 
-    while (1)
+    iDone = FALSE;
+
+    while (!iDone)
     {
         iCop = piCops[0];
 	piCops++;
@@ -594,6 +601,9 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	    pdVms--;
 
             dResult = dResult / pdResult[1];
+
+	    //- do explicit forward step
+
 	    pdVms[0] = dResult + dResult - pdVms[0];
 
 	    pdResult[0] = dResult;
@@ -603,7 +613,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	}
 	else
 	{
-            break;
+	    iDone = TRUE;
 	}
     }
 
