@@ -433,6 +433,54 @@ int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile)
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerCompartmentInitialize()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Fill the compartment arrays with initial values.
+///
+/// **************************************************************************
+
+int HeccerCompartmentInitialize(struct Heccer *pheccer)
+{
+    //- set default result
+
+    int iResult = TRUE;
+
+    //- loop over all compartments
+
+    int i;
+
+    for (i = 0 ; i < pheccer->inter.iCompartments ; i++)
+    {
+	//- get schedule number
+
+	int iSchedule = pheccer->indexers.md.piForward[i];
+
+	//- fill in initial membrane potential
+
+	//! if I use initial vm of zero, I get NaN for vm ?
+
+	pheccer->vm.pdVms[iSchedule] = pheccer->inter.pcomp[i].dInitVm;
+
+	//t fill in precomputed values for channels
+
+    }    
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerCompartmentSolveCN()
 ///
 /// ARGS.:

@@ -64,6 +64,8 @@ int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile)
 	iResult = iResult && HeccerCompartmentDump(&pcomp[i], pfile);
     }
 
+    //t mechanisms
+
     //- return result
 
     return(iResult);

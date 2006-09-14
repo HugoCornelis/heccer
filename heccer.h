@@ -123,7 +123,7 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile);
 
 int HeccerHecc(struct Heccer *pheccer);
 
-int HeccerIntialize(struct Heccer *pheccer);
+int HeccerInitialize(struct Heccer *pheccer);
 
 struct Heccer *HeccerNewP1(int iOptions, double dStep);
 

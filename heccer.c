@@ -105,7 +105,7 @@ int HeccerCompileP2(struct Heccer *pheccer)
 ///
 /// DESCR: Compile the intermediary format into byte code.
 ///
-///	 Uses indices, initializedso with HeccerCompileP2().
+///	 Uses indices, initialized with HeccerCompileP2().
 ///
 /// NOTE.:
 ///
@@ -225,7 +225,7 @@ int HeccerHecc(struct Heccer *pheccer)
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerIntialize()
+/// SHORT: HeccerInitialize()
 ///
 /// ARGS.:
 ///
@@ -239,9 +239,23 @@ int HeccerHecc(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-int HeccerIntialize(struct Heccer *pheccer)
+int HeccerInitialize(struct Heccer *pheccer)
 {
-    return(FALSE);
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- initialize compartments
+
+    iResult = iResult && HeccerCompartmentInitialize(pheccer);
+
+/*     //- initialize mechanisms */
+
+/*     iResult = iResult && HeccerMechanismInitialize(pheccer); */
+
+    //- return result
+
+    return(iResult);
 }
 
 

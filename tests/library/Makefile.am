@@ -23,5 +23,7 @@ CFLAGS = -O0
 bin_PROGRAMS = \
 	single
 
+single_DEPENDENCIES = ../../libheccer.a
+
 single_LDADD = -L../.. -lheccer
 
