@@ -180,14 +180,16 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
     int *piCops = NULL;
 
-    int iCops = 0;
-
     double *pdAxres = NULL;
-
-    int iAxres = 0;
 
     for (iCountCompile = 0 ; iCountCompile < 2 ; iCountCompile++)
     {
+	//- counters always start at zero
+
+	int iCops = 0;
+
+	int iAxres = 0;
+
 	//v for leaves in the mid of the array, immediate skip to diagonal
 
 	int iSkipped = 0;
@@ -344,14 +346,14 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 	    //- prepare for compilation : allocate ->piCops and ->pdAxres, set counters
 
 	    pheccer->vm.piCops
-		= (int *)calloc(pheccer->vm.iCops, sizeof(int));
+		= (int *)calloc(iCops, sizeof(int));
 
 	    piCops = pheccer->vm.piCops;
 
 	    pheccer->vm.iCops = iCops;
 
 	    pheccer->vm.pdAxres
-		= (double *)calloc(pheccer->vm.iAxres, sizeof(double));
+		= (double *)calloc(iAxres, sizeof(double));
 
 	    pdAxres = pheccer->vm.pdAxres;
 

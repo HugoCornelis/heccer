@@ -104,27 +104,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
     void *pvMops = NULL;
 
-    //! always one needed to finish
-
-    iMops = 1;
-
     void *pvMats = NULL;
-
-    iMats = 0;
 
     for (iCountCompile = 0 ; iCountCompile < 2 ; iCountCompile++)
     {
-	//- loop over all compartments
+	//- counters always start at zero
 
 	iMops = 0;
 
 	iMats = 0;
 
+	//- loop over all compartments
+
 	for (i = 0 ; i < pheccer->inter.iCompartments ; i++)
 	{
 	    //- fill in compartment operation
-
-#define HECCER_MOP_COMPARTMENT 1
 
 #define	SETMOP_COMPARTMENT(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++)
 
@@ -156,33 +150,31 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    SETMAT_COMPARTMENT((double *)pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iIntermediary]);
 	}
 
+	//- finish all operations
+
+#define	SETMOP_FINISH(piMops,iMops) ((piMops) ? ((piMops)[(iMops)++] = (HECCER_MOP_FINISH)) : (iMops)++)
+
+	SETMOP_FINISH((int *)pvMops, iMops);
+
 	//- if we were counting during the previous loop
 
 	if (!pheccer->vm.pvMops)
 	{
 	    //- prepare for compilation : allocate ->pvMops and ->pvMats, set counters
 
-	    pheccer->vm.pvMops = (void *)calloc(pheccer->vm.iMops, 1);
+	    pheccer->vm.pvMops = (void *)calloc(iMops, 1);
 
 	    pvMops = pheccer->vm.pvMops;
 
 	    pheccer->vm.iMops = iMops;
 
-	    pheccer->vm.pvMats = (void *)calloc(pheccer->vm.iMats, 1);
+	    pheccer->vm.pvMats = (void *)calloc(iMats, 1);
 
 	    pvMats = pheccer->vm.pvMats;
 
 	    pheccer->vm.iMats = iMats;
 	}
     }
-
-    //- finish all operations
-
-#define HECCER_MOP_FINISH 2
-
-#define	SETMOP_FINISH(piMops,iMops) ((piMops) ? ((piMops)[(iMops)++] = (HECCER_MOP_FINISH)) : (iMops)++)
-
-    SETMOP_FINISH((int *)pvMops, iMops);
 
     //- return result
 

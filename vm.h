@@ -106,6 +106,12 @@ struct VM
 #define HECCER_COP_BE_SKIP_DIAGONAL	( 5 || 32 )
 
 
+//d operations for mechanisms
+
+#define HECCER_MOP_COMPARTMENT 1
+#define HECCER_MOP_FINISH 2
+
+
 //f prototypes
 
 int HeccerVMDump(struct VM *pvm, FILE *pfile);
