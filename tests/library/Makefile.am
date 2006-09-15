@@ -21,19 +21,19 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 CFLAGS = -O0
 
 bin_PROGRAMS = \
-	double \
-	single \
-	triple
+	doublep \
+	singlep \
+	triplep
 
-double_DEPENDENCIES = ../../libheccer.a main.c
+doublep_DEPENDENCIES = ../../libheccer.a main.c
 
-double_LDADD = -L../.. -lheccer
+doublep_LDADD = -L../.. -lheccer
 
-single_DEPENDENCIES = ../../libheccer.a main.c
+singlep_DEPENDENCIES = ../../libheccer.a main.c
 
-single_LDADD = -L../.. -lheccer
+singlep_LDADD = -L../.. -lheccer
 
-triple_DEPENDENCIES = ../../libheccer.a main.c
+triplep_DEPENDENCIES = ../../libheccer.a main.c
 
-triple_LDADD = -L../.. -lheccer
+triplep_LDADD = -L../.. -lheccer
 

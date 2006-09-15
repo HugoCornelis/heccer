@@ -19,7 +19,7 @@ dnl //////////////////////////////////////////////////////////////////////////
 
 AC_PREREQ(2.59)
 AC_INIT(heccer, 0.1, hugo.cornelis@gmail.com)
-AC_CONFIG_SRCDIR([single.c])
+AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
 AM_INIT_AUTOMAKE(heccer, 0.1)
@@ -29,6 +29,7 @@ AC_PROG_CC
 AC_PROG_RANLIB
 
 # Checks for libraries.
+AC_CHECK_LIB([heccer], [main])
 
 # Checks for header files.
 AC_HEADER_STDC
