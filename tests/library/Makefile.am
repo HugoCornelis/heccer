@@ -25,15 +25,15 @@ bin_PROGRAMS = \
 	single \
 	triple
 
-double_DEPENDENCIES = ../../libheccer.a
+double_DEPENDENCIES = ../../libheccer.a main.c
 
 double_LDADD = -L../.. -lheccer
 
-single_DEPENDENCIES = ../../libheccer.a
+single_DEPENDENCIES = ../../libheccer.a main.c
 
 single_LDADD = -L../.. -lheccer
 
-triple_DEPENDENCIES = ../../libheccer.a
+triple_DEPENDENCIES = ../../libheccer.a main.c
 
 triple_LDADD = -L../.. -lheccer
 
