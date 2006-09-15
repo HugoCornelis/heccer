@@ -142,12 +142,25 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //t these need an extra check, probably wrong.
 
-	    //t need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START and SETMAT_COMPARTMENT_FINISH
+	    //t perhaps need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START
+	    //t and SETMAT_COMPARTMENT_FINISH
 	    //t between those two, we compile in the mechanisms.
 
-#define	SETMAT_COMPARTMENT(pdMats,iMats,dLR,dI,dCR,dDL) ((pdMats) ? ({(pdMats)[(iMats)++] = dLR ; (pdMats)[(iMats)++] = dI ; (pdMats)[(iMats)++] = dCR ; (pdMats)[(iMats)++] = dDL ; }) : ((iMats) += 4))
+/* #define	SETMAT_COMPARTMENT(pdMats,iMats,dLR,dI,dCR,dDL) ((pdMats) ? ({(pdMats)[(iMats)++] = dLR ; (pdMats)[(iMats)++] = dI ; (pdMats)[(iMats)++] = dCR ; (pdMats)[(iMats)++] = dDL ; }) : ((iMats) += 4)) */
 
-	    SETMAT_COMPARTMENT((double *)pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iIntermediary]);
+/* 	    SETMAT_COMPARTMENT((double *)pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iIntermediary]); */
+
+	    struct MatsCompartment *pmatsc = (struct MatsCompartment *)pvMats;
+
+	    if (pmatsc)
+	    {
+		pmatsc->dLeak = dEm / dRm;
+		pmatsc->dInjected = dInject;
+		pmatsc->dCapacity = dt / dCm;
+		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[iIntermediary];
+
+		pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+	    }
 	}
 
 	//- finish all operations
@@ -212,8 +225,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     void *pvMats = pheccer->vm.pvMats;
 
-    double *pdMats = (double *)pvMats;
-
     double *pdResults = &pheccer->vm.pdResults[0];
 
     //- loop over mechanism operators
@@ -224,6 +235,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	piMop = &piMop[1];
 
+	struct MatsCompartment *pmatsc
+	    = (struct MatsCompartment *)pvMats;
+
+	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+
 	//- get membrane potential
 
 	double dVm = pdVm[0];
@@ -233,9 +249,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	//- initialize current with leak and injected
 
-	double dCurrent = pdMats[0] + pdMats[1];
-
-	pvMats = (void *)&pdMats[2];
+	double dCurrent = pmatsc->dLeak + pmatsc->dInjected;
 
 	//- initial total conductance is zero
 
@@ -252,26 +266,40 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	    //t efficiency reasons, this makes good sense.  Should do the
 	    //t same here, yet differentiation needed between CN and BE ?
 
-	    double dResult = (dVm + dConductances * pdMats[0]) / (dConductances * pdMats[0] + pdMats[1]);
+	    double dResult = ((dVm + dCurrent * pmatsc->dCapacity)
+			      / (dConductances * pmatsc->dCapacity + pmatsc->dDiagonal));
 
 	    pdVm[0] = dResult + dResult - pdVm[0];
 	}
 	else
 	{
-	    pdResults[0] = dVm + dConductances * pdMats[0];
+	    pdResults[0] = dVm + dCurrent * pmatsc->dCapacity;
 
 	    pdResults++;
 
-	    pdResults[0] = dConductances * pdMats[0] + pdMats[1];
+	    pdResults[0] = dConductances * pmatsc->dCapacity + pmatsc->dDiagonal;
 
 	    pdResults++;
 	}
 
 	//- go to next compartment
 
-	pvMats = (void *)&pdMats[2];
-
 	pdVm++;
+    }
+
+    //- check sanity of operator array
+
+    if (piMop[0] != HECCER_MOP_FINISH)
+    {
+	fprintf
+	    (stderr,
+	     "Heccer the hecc : piMop[0] is %i, should be %i\n",
+	     piMop[0],
+	     HECCER_MOP_FINISH);
+
+	//t depending on options, bail out
+
+	//t set status : illegal mop hecc.
     }
 
     //- return result

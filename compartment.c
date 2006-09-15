@@ -515,10 +515,12 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
     if (iCop == HECCER_COP_FINISH)
     {
-	//- compute result
+	//! I moved to the mechanism loop, just like hsolve did it.
 
-        dResult = pdResults[0] / pdResults[1];
-        pdVms[0] = dResult + dResult - pdVms[0];
+/* 	//- compute result */
+
+/*         dResult = pdResults[0] / pdResults[1]; */
+/*         pdVms[0] = dResult + dResult - pdVms[0]; */
 
 	//- return success
 

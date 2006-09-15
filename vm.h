@@ -84,6 +84,15 @@ struct VM
 };
 
 
+struct MatsCompartment
+{
+    double dLeak;
+    double dInjected;
+    double dCapacity;
+    double dDiagonal;
+};
+
+
 //d operations for compartments
 
 #define HECCER_COP_FORWARD_ELIMINATION		1
