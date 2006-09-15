@@ -257,25 +257,33 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	//t mechanisms could go here
 
-	//- compute results for the morphology matrix
+	//- for single compartment neurons
 
 	if (pheccer->vm.iVms == 1)
 	{
-	    //t the hines solver made a difference here between single
-	    //t compartment neurons and multi compartment neurons.  For
-	    //t efficiency reasons, this makes good sense.  Should do the
-	    //t same here, yet differentiation needed between CN and BE ?
+	    //- compute the membrane potential right here
+
+	    //t differentiation needed between CN and BE ?
 
 	    double dResult = ((dVm + dCurrent * pmatsc->dCapacity)
 			      / (dConductances * pmatsc->dCapacity + pmatsc->dDiagonal));
 
 	    pdVm[0] = dResult + dResult - pdVm[0];
 	}
+
+	//- for multiple compartment neurons
+
 	else
 	{
+	    //- compute results for the morphology matrix
+
+	    //- right side
+
 	    pdResults[0] = dVm + dCurrent * pmatsc->dCapacity;
 
 	    pdResults++;
+
+	    //- left side
 
 	    pdResults[0] = dConductances * pmatsc->dCapacity + pmatsc->dDiagonal;
 
@@ -291,6 +299,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     if (piMop[0] != HECCER_MOP_FINISH)
     {
+	//t add something like HeccerError(number, message, varargs);
+
 	fprintf
 	    (stderr,
 	     "Heccer the hecc : piMop[0] is %i, should be %i\n",

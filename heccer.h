@@ -51,6 +51,10 @@ struct Heccer
 
     int iOptions;
 
+    //m current time
+
+    double dTime;
+
     //m time step
 
     double dStep;

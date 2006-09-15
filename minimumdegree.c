@@ -201,6 +201,11 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
     if (iEnd != -1)
     {
+	//t this can happen if the intermediary structure is wrong,
+	//t e.g. out of bound parent index.
+
+	//t add something like HeccerError(number, message, varargs);
+
 	//! segv
 
 	*(int *)0 = 0;

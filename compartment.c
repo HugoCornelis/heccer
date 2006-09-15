@@ -541,7 +541,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
     {
         if (iCop == HECCER_COP_FORWARD_ELIMINATION)
 	{
-            double d = *pdAxres++ / pdResults[piCops[1]];
+            double d = *pdAxres++ / pdResults[piCops[0] + 1];
 	    dDiagonal -= *pdAxres++ * d;
 	    dResult -= pdResults[piCops[0]] * d;
 	    piCops++;
@@ -567,8 +567,11 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	    iDone = TRUE;
         }
 
-        iCop = piCops[0];
-	piCops++;
+	if (!iDone)
+	{
+	    iCop = piCops[0];
+	    piCops++;
+	}
     }
 
     //- last row done separately
