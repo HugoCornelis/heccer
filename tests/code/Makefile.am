@@ -42,3 +42,9 @@ triplep_DEPENDENCIES = ../../libheccer.a main.c
 
 triplep_LDADD = -L../.. -lheccer
 
+#t did not get this to work yet.
+
+#TESTS = ../run
+
+#test: check
+

@@ -11,7 +11,8 @@ depcomp$
 install-sh$
 missing$
 stamp-h1$
-tests/code/doublep$
-tests/code/fork3p$
-tests/code/singlep$
-tests/code/triplep$
+^tests/code/doublep$
+^tests/code/fork3p$
+^tests/code/singlep$
+^tests/code/triplep$
+^tests/html/

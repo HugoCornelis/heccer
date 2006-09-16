@@ -42,7 +42,3 @@ noinst_HEADERS = \
 	mechanism.h \
 	vm.h
 
-#TESTS = tests/run
-
-#test: check
-

@@ -1,0 +1,524 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb
+#
+# $Id: run 1.25 Fri, 14 Jul 2006 14:56:23 -0500 hugo $
+#
+
+use strict;
+
+
+our $heccer_core_directory;
+
+our $heccer_perl_modules;
+
+our $heccer_tests;
+
+
+BEGIN
+{
+    use Cwd ();
+
+    my $dir = Cwd::getcwd();
+
+    # get abs path where this script is located
+
+    $heccer_tests = $dir . '/' . $0;
+
+    print "dir is $dir, 0 is $0\n";
+
+    # get dir where the test library can be found
+
+    $heccer_tests =~ s((.*)/.*)($1/library);
+
+    $heccer_tests =~ s([^/]+/\.\./)()g;
+
+    $heccer_tests =~ s(\./)()g;
+
+    print "heccer_tests is $heccer_tests\n";
+
+    # add to include paths
+
+    unshift @INC, $heccer_tests;
+
+    # find the Heccer c core directory
+
+    $heccer_core_directory = $heccer_tests;
+
+    $heccer_core_directory =~ s((.*)/tests/library$)($1);
+
+    $heccer_perl_modules = $heccer_core_directory;
+
+    # find the Heccer perl modules directory
+
+    $heccer_perl_modules .= "/perl";
+
+    # add to include path
+
+    unshift @INC, $heccer_perl_modules;
+}
+
+
+use Data::Comparator qw(data_comparator);
+
+use Expect;
+
+use Getopt::Long;
+
+use YAML;
+
+
+my $option_help;
+my $option_regex_selector = ".*";
+my $option_verbose;
+
+
+print "Executable is $0,\n";
+print "heccer_core_directory is $heccer_core_directory\n";
+
+
+my $error_report = {};
+
+my $error_count = 0;
+
+
+$SIG{'INT'}
+    = sub
+      {
+	  report_exit();
+      };
+
+
+sub main
+{
+    read_cmd_line();
+
+    my $test_modules = test_library_construct();
+
+    my $test_count = 0;
+
+    # the initial error report is empty
+
+    # loop over all test modules
+
+    my $exp;
+
+    my $running_command_definition;
+
+    my $test_startup;
+
+    foreach my $test_module (@$test_modules)
+    {
+	if ($test_module !~ /$option_regex_selector/i)
+	{
+	    next;
+	}
+
+	my $module_definition = do $test_module;
+
+	report_message(2, 1, "Running tests of module $module_definition->{description}");
+
+	# loop over commands for this module
+
+	my $command_definitions = $module_definition->{command_definitions};
+
+	foreach my $command_definition (@$command_definitions)
+	{
+	    my $description = $command_definition->{description};
+
+	    # give some diagnostics
+
+	    if (@$command_definitions > 1)
+	    {
+		report_message(2, 1, "Running tests of $description");
+	    }
+
+	    my $preparation = $command_definition->{preparation};
+
+	    my $preparation_result;
+
+	    if ($preparation)
+	    {
+		print "*** Preparing ($preparation->{description})\n";
+
+		my $preparer = $preparation->{preparer};
+
+		$preparation_result = &$preparer();
+	    }
+
+	    my $command = $command_definition->{command};
+
+	    if (ref $command eq 'CODE')
+	    {
+	    }
+	    else
+	    {
+		# if there are differences between how to run this
+		# command and the one already running
+
+		my $new_command_definition
+		    = {
+		       arguments => $command_definition->{arguments},
+		       command => $command,
+		      };
+
+		my $differences
+		    = data_comparator
+			($new_command_definition, $running_command_definition);
+
+		my $spawn_new = !$exp || !$differences->is_empty();
+
+		my $arguments = $command_definition->{arguments};
+
+		if ($spawn_new)
+		{
+		    if ($exp)
+		    {
+			# terminate the previous command
+
+			$exp->hard_close();
+		    }
+
+		    # create a new Expect object by spawning a new process with the new command
+
+		    $exp = Expect->new();
+
+		    #! see the expect manual for this one
+
+		    $exp->raw_pty(1);
+
+# 		    $exp->slave->stty(qw(raw -echo));
+
+		    $exp->spawn($command, @$arguments)
+			or die "Cannot spawn $command: $!\n";
+
+		    # set the running_command_definition
+
+		    $running_command_definition = $new_command_definition;
+
+		    print "*** Executing $command " . (join ' ', @$arguments) . "\n";
+
+		    $test_startup = 1;
+		}
+		else
+		{
+		    print "*** Recycling $command " . (join ' ', @$arguments) . "\n";
+
+		    $test_startup = 0;
+		}
+	    }
+
+	    # loop over all tests for this module
+
+	    my $command_tests = $command_definition->{command_tests};
+
+	    foreach my $command_test (@$command_tests)
+	    {
+		# expect this output
+
+		my ($matched_pattern_position,
+		    $error,
+		    $successfully_matching_string,
+		    $before_match,
+		    $after_match);
+
+		if (ref $command eq 'CODE')
+		{
+		    $error
+			= &$command
+			    (
+			     $command_test,
+			     {
+			      c_code => {
+					 directory => $heccer_core_directory,
+					},
+			     },
+			    );
+		}
+		else
+		{
+		    # give feedback about this specific test
+
+		    my $description = $command_test->{description};
+
+		    print "*** Test : $description\n";
+
+		    if ($description =~ /startup successful \?$/)
+		    {
+			if (!$test_startup)
+			{
+			    print "*** Skipped : not testing startup tests on a recycled command ($description)\n";
+
+			    next;
+			}
+		    }
+
+		    # set read and write strings
+
+		    my $read = $command_test->{read};
+
+		    my $write = $command_test->{write};
+
+		    # set timeout, defaults to one second
+
+		    my $timeout = defined $command_test->{timeout} ? $command_test->{timeout} : 2;
+
+		    # write
+
+		    if (defined $write)
+		    {
+			$exp->send("$write\n");
+		    }
+
+		    # read
+
+		    if (defined $read)
+		    {
+			# substitute variables
+
+			$read = substitute_variables($read);
+
+			if (!ref $read)
+			{
+			    ($matched_pattern_position,
+			     $error,
+			     $successfully_matching_string,
+			     $before_match,
+			     $after_match)
+				= $exp->expect($timeout, $read, );
+			}
+
+			#! only array supported for now.
+
+			else
+			{
+			    ($matched_pattern_position,
+			     $error,
+			     $successfully_matching_string,
+			     $before_match,
+			     $after_match)
+				= $exp->expect($timeout, @$read, );
+			}
+		    }
+		}
+
+		# process errors
+
+		if ($error)
+		{
+		    $error_count++;
+
+		    my $description = $command_test->{description};
+
+		    my $command_definition_description = $command_definition->{description};
+
+		    print STDERR "*** Error: $error ($description)\n";
+
+		    # fill in the error report
+
+		    $error_report->{global}->{error_count} = $error_count;
+
+		    $error_report->{modules}->{$test_module}->{$error_count}->{$command_definition_description}->{description} = $command_test->{description};
+		    $error_report->{modules}->{$test_module}->{$error_count}->{error} = $error;
+
+
+		    if ($option_verbose)
+		    {
+			$error_report->{modules}->{$test_module}->{$error_count}->{$command_definition_description}->{report}
+			    = $before_match;
+		    }
+		}
+
+		my $reparation = $command_definition->{reparation};
+
+		if ($reparation)
+		{
+		    print "*** Reparing ($reparation->{description})\n";
+
+		    my $reparer = $reparation->{reparer};
+
+		    my $reparation_error = &$reparer($preparation_result);
+
+		    # process errors
+
+		    if ($reparation_error)
+		    {
+			$error_count++;
+
+			my $description = $reparation_error;
+
+			my $command_definition_description = $command_definition->{description};
+
+			print STDERR "*** Error: $reparation_error ($description)\n";
+
+			# fill in the error report
+
+			$error_report->{global}->{error_count} = $error_count;
+
+			$error_report->{modules}->{$test_module}->{$error_count}->{$command_definition_description}->{description} = $command_test->{description};
+			$error_report->{modules}->{$test_module}->{$error_count}->{error} = $reparation_error;
+		    }
+		}
+
+		$test_count++;
+	    }
+
+	    if (@$command_definitions > 1)
+	    {
+		report_message(1, 2, "End for tests of $description
+Total of $test_count tests (encountered $error_count error(s) so far)");
+	    }
+	}
+
+	report_message(1, 2, "End of tests of module $module_definition->{description}
+Total of $test_count tests (encountered $error_count error(s) so far)");
+    }
+
+    # if there is a command running
+
+    if ($exp)
+    {
+	# terminate the command
+
+	$exp->hard_close();
+    }
+
+    report_exit();
+}
+
+
+sub read_cmd_line
+{
+    my $result
+	= GetOptions
+	    (
+	     "help!" => \$option_help,
+	     "regex-selector=s" => \$option_regex_selector,
+	     "v|verbose+" => \$option_verbose,
+	    );
+
+    if ($option_help)
+    {
+	print
+	    "
+$0: heccer tester
+
+options :
+    regex-selector  defines a regex to run specific tests.
+    help            print usage information.
+    verbose         set verbosity level.
+";
+
+	exit 1;
+    }
+
+}
+
+
+sub report_exit
+{
+    # if there were errors
+
+    if ($error_count)
+    {
+	# yaml out the error report
+
+	print Dump($error_report);
+
+	# exit with failure
+
+	exit 1;
+    }
+
+    # else
+
+    else
+    {
+	# exit with success
+
+	exit 0;
+    }
+}
+
+
+sub report_message
+{
+    my $header = shift;
+
+    my $trailer = shift;
+
+    my $message = shift;
+
+    my $lines = [ split '\n', $message, ];
+
+    my $longest = 0;
+
+    map
+    {
+	($longest < length) && ($longest = length)
+    }
+	@$lines;
+
+    my $line = '-' x $longest;
+
+    print "\n";
+    print "$line\n" for 0 .. $header;
+    print "\n";
+    print "$message\n\n";
+    print "$line\n" for 0 .. $trailer;
+    print "\n";
+}
+
+
+sub substitute_variables
+{
+    my $string = shift;
+
+    my $variables
+	= [
+	   [ '$(libdir)' => "$heccer_core_directory/tests/models", ],
+	  ];
+
+    foreach my $variable (@$variables)
+    {
+	my $searcher = quotemeta($variable->[0]);
+
+	$string =~ s/$searcher/$variable->[1]/g;
+    }
+
+    return $string;
+}
+
+
+sub test_library_construct
+{
+    # define the tests
+
+    my $additional_test_modules
+	= [
+	  ];
+
+    my $program_name = $0;
+
+    $program_name =~ s/.*\///;
+
+    my $library = $0;
+
+    $library =~ s/$program_name$/library/;
+
+    my $test_modules
+	= [
+	   @$additional_test_modules,
+	   map
+	   {
+	       chomp; $_;
+	   }
+	   `find $library -name "*.t"`,
+	  ];
+
+    return $test_modules;
+}
+
+
+main();
+
+

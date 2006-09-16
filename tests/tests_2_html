@@ -1,0 +1,495 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb
+#
+# $Id: tests_2_html 1.6 Fri, 21 Jul 2006 10:58:21 -0500 hugo $
+#
+
+use strict;
+
+
+our $neurospaces_core_directory;
+
+our $neurospaces_perl_modules;
+
+our $neurospaces_tests;
+
+
+BEGIN
+{
+    use Cwd ();
+
+    my $dir = Cwd::getcwd();
+
+    # get abs path where this script is located
+
+    $neurospaces_tests = $dir . '/' . $0;
+
+    print "dir is $dir, 0 is $0\n";
+
+    # get dir where the test library can be found
+
+    $neurospaces_tests =~ s((.*)/.*)($1/library);
+
+    $neurospaces_tests =~ s([^/]+/\.\./)()g;
+
+    $neurospaces_tests =~ s(\./)()g;
+
+    print "neurospaces_tests is $neurospaces_tests\n";
+
+    # add to include paths
+
+    unshift @INC, $neurospaces_tests;
+
+    # find the Neurospaces c core directory
+
+    $neurospaces_core_directory = $neurospaces_tests;
+
+    $neurospaces_core_directory =~ s((.*)/tests/library$)($1);
+
+    $neurospaces_perl_modules = $neurospaces_core_directory;
+
+    # find the Neurospaces perl modules directory
+
+    $neurospaces_perl_modules .= "/perl";
+
+    # add to include path
+
+    unshift @INC, $neurospaces_perl_modules;
+}
+
+
+my $tests_dir = "library";
+
+my $outputs_dir = "html";
+
+
+use CGI;
+
+use Data::Transformator;
+
+use HTML::Table;
+use HTML::Template;
+
+use IO::File;
+
+
+sub html_index
+{
+    my $cgi = shift;
+
+    my $sections = shift;
+
+    my $result = '';
+
+    # create template table
+
+    my $table = HTML::Table->new(1, 1);
+
+    #! note : using $cgi for this would replace '<' with html
+    #! entities, which in turn makes the template illegal.
+
+    $table->setCell(1, 1, "<a href=\"<TMPL_VAR NAME=target>\"><TMPL_VAR NAME=source></a>", );
+
+    my $template_text .= $table->getTable();
+
+    # create the template with a loop over the sections
+
+    #! do not know how otherwise to insert a template loop ...
+
+    $template_text =~ s/(<table.*?>)/$1\n<TMPL_LOOP NAME="index">\n/i;
+
+    $template_text =~ s/(<\/table.*?>)/\n<\/TMPL_LOOP>\n$1/i;
+
+    my $template
+	= HTML::Template->new
+	    (
+	     type => "scalarref",
+	     source => \$template_text,
+	    );
+
+    $template->param
+	(
+	 index =>
+	 [
+	  map
+	  {
+	      {
+		  source => $_->{source},
+		      target => $_->{target},
+		  };
+	  }
+	  @$sections,
+	 ],
+	);
+
+    # add expanded template to result
+
+    $result .= $template->output();
+
+    # return result
+
+    return $result;
+}
+
+
+#
+# html_table_code()
+#
+# Convert the given source to an html table with the given name.
+#
+
+sub html_table_code
+{
+    my $name = shift;
+
+    my $source = shift;
+
+    my $result = '';
+
+    my $table
+	= HTML::Table->new
+	    (
+	     -border => 2,
+	     -spacing => 2,
+	     -padding => 5,
+	    );
+
+    $result .= "<a name=\"$name\"></a>";
+
+    my $interesting_keys = [ sort keys %$source, ];
+
+    $table->addCol(@$interesting_keys, );
+
+    $table->addCol
+	(
+	 map
+	 { (!defined) ? '' : $_ }
+	 @$source{ @$interesting_keys, },
+	);
+
+    $table->setColFormat(2, "<pre>\n", "</pre>\n", );
+
+    $table->setColVAlign(1, "TOP");
+    $table->setColVAlign(2, "TOP");
+
+    $result .= $table->getTable();
+
+    return $result;
+}
+
+
+sub main
+{
+    my $cgi = CGI->new();
+
+    # produce list of all directories
+
+    my $directories = [ sort split '\n', `find $tests_dir -type d`, ];
+
+    # produce an index file for the main directory
+
+    my $sections
+	= [
+	   sort { $a->{source} cmp $b->{source} }
+	   map
+	   {
+	       {
+		   source => $_,
+		       target => "$_/main.html",
+		   };
+	   }
+	   @$directories,
+	  ];
+
+    output_content
+	(
+	 {
+	  cgi => $cgi,
+	  content => html_index($cgi, $sections, ),
+	  filename => "index.html",
+	  title => "Main Index",
+	 },
+	);
+
+    # loop over all directories
+
+    foreach my $directory (@$directories)
+    {
+	# read files in this directory
+
+	my $files
+	    = [
+	       sort
+	       map { s/.t$//; $_ }
+	       grep { /.t$/ }
+	       split '\n', `find $directory -type f -maxdepth 1`,
+	      ];
+
+	my $sections
+	    = [
+	       sort { $a->{source} cmp $b->{source} }
+	       map
+	       {
+		   $_ =~ m(.*/(.*)$);
+
+		   {
+		    source => $_,
+		    target => "$1.html",
+		   };
+	       }
+	       @$files,
+	      ];
+
+	# create index for this directory
+
+	my $depth = ( $directory =~ tr(/)(/) ) + 1;
+
+	output_content
+	    (
+	     {
+	      cgi => $cgi,
+	      content => html_index($cgi, $sections, ),
+	      filename => "$directory/main.html",
+	      flow => {
+		       index => "../" x $depth . "index.html",
+		      },
+	      title => "Index of group $directory",
+	     },
+	    );
+
+	# loop over all files in this directory
+
+	foreach my $file (@$files)
+	{
+	    print "Converting $file\n";
+
+	    # read the file data
+
+	    my $content = do "$file.t";
+
+	    my $html = '';
+
+	    $html .= $cgi->h1($content->{description});
+
+	    # create index for this file
+
+	    my $command_definitions = $content->{command_definitions};
+
+	    my $count = 0;
+
+	    my $sections
+		= [
+		   map
+		   {
+		       $count++;
+
+# 		       "${directory}_${file}_${command_definition_count}_${command_test_count}";
+
+		       {
+			   source => $count . ". " . ucfirst $_->{description},
+			       target => "#${directory}_${file}_${count}",
+			   };
+		   }
+		   @$command_definitions,
+		  ];
+
+	    $html .= html_index($cgi, $sections, );
+
+	    # loop over all command definitions
+
+	    my $command_definition_count = 1;
+
+	    foreach my $command_definition (@$command_definitions)
+	    {
+		$html .= $cgi->hr();
+
+		$html .= "<a name=\"${directory}_${file}_${command_definition_count}\"></a>";
+
+		$html .= $cgi->h2($command_definition_count . ". " . ucfirst $command_definition->{description});
+
+		my $model = [ $command_definition->{command}, @{$command_definition->{arguments} || []}, ];
+
+		if (@$model)
+		{
+		    $html .= $cgi->h4("Startup command : " . (join ' ', @$model));
+
+		    if (! scalar grep { /^[^-]/ } @$model [ 1 .. $#$model ] )
+		    {
+			$html .= "(No model has been loaded for the following set of commands.)";
+		    }
+		}
+
+		$html .= $cgi->hr();
+
+		if ($command_definition->{preparation}
+		    || $command_definition->{reparation})
+		{
+		    # give header
+
+		    $html .= $cgi->h4("Preparation and reparation");
+
+		    # create table
+
+		    my $source
+			= {
+			   "1. Preparation needed before the commands below : " => $command_definition->{preparation}->{description},
+			   "2. And repared afterwards using : " => $command_definition->{reparation}->{description},
+			  };
+
+		    # render
+
+		    $html
+			.= html_table_code
+			    (
+			     "${directory}_${file}_${command_definition_count}_prep",
+			     $source,
+			    );
+		}
+
+		# loop over all tests
+
+		my $command_test_count = 1;
+
+		my $command_tests = $command_definition->{command_tests};
+
+		foreach my $command_test (@$command_tests)
+		{
+		    $html .= $cgi->h4("$command_definition_count.$command_test_count. " . $command_test->{description});
+
+		    my $entries = 1;
+
+		    my $source;
+
+		    if (defined $command_test->{write})
+		    {
+			$source->{"$entries. Executed command"} = $command_test->{write};
+
+			$entries++;
+		    }
+
+		    $source->{"$entries. Expected output "}
+			= (
+			   !ref $command_test->{read}
+			   ? $command_test->{read}
+			   : (
+			      @{$command_test->{read}} == 2
+			      ? $command_test->{read}->[1]
+			      : join '  ', @{$command_test->{read}}
+			     )
+			  );
+
+		    # render
+
+		    $html
+			.= html_table_code
+			    (
+			     "${directory}_${file}_${command_definition_count}_${command_test_count}",
+			     $source,
+			    );
+
+		    $command_test_count++;
+		}
+
+		$command_definition_count++;
+	    }
+
+	    # write output
+
+	    output_content
+		(
+		 {
+		  cgi => $cgi,
+		  content => $html,
+		  filename => "$file.html",
+		  flow => {
+			   index => "../" x $depth . "index.html",
+			   up => "main.html",
+			  },
+		  title => "Index of group $file",
+		 },
+		);
+	}
+    }
+}
+
+
+sub output_content
+{
+    my $arguments = shift;
+
+    my $cgi = $arguments->{cgi};
+
+    my $content = $arguments->{content};
+
+    my $filename = $arguments->{filename};
+
+    my $title = $arguments->{title};
+
+    my $result = '';
+
+    # start result
+
+    $result .= $cgi->start_html("$filename: $title");
+
+    $result .= $cgi->h1("$title");
+
+    # add hierarchy flow if needed
+
+    if ($arguments->{flow})
+    {
+	$result .= $cgi->hr();
+
+	my $flow = $arguments->{flow};
+
+	# loop over all flow elements
+
+	foreach my $flow_element (sort keys %$flow)
+	{
+	    # generate the flow element
+
+	    if (defined $flow->{$flow_element})
+	    {
+		$result .= $cgi->a( { href => $flow->{$flow_element} }, ucfirst $flow_element, );
+
+		$result .= $cgi->br();
+	    }
+	}
+
+	$result .= $cgi->hr();
+    }
+
+    # add external content
+
+    $result .= $content;
+
+    # terminate html
+
+    $result .= $cgi->end_html();
+
+    # compute real output filename
+
+    my $output_file = "$outputs_dir/$filename";
+
+    my $output_dir = $output_file;
+
+    $output_dir =~ s/(.*)\/.*/$1/;
+
+    # write output
+
+    #! note : -p assumes GNU mkdir
+
+    `mkdir -p $output_dir`;
+
+    my $file = IO::File->new(">$output_file");
+
+    print $file $result;
+
+    $file->close();
+
+    return $result;
+}
+
+
+main();
+
+
