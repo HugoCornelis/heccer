@@ -29,6 +29,16 @@ int
 HeccerMDFlowEnumerator
 (struct Heccer *pheccer, int iCurrent, int iTarget);
 
+static
+int
+HeccerMDFlowEnumeratorB
+(struct Heccer *pheccer, int iCurrent, int iTarget);
+
+static
+int
+HeccerMDFlowEnumeratorL
+(struct Heccer *pheccer, int iCurrent, int iTarget);
+
 static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments);
 
 static int HeccerMDInitialize(struct Heccer *pheccer, int iCompartments);
@@ -58,7 +68,7 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 ///
 /// **************************************************************************
 
-/// worker : recursively schedule all compartments
+/// driver : select and drive the enumerator
 
 static
 int
@@ -77,52 +87,49 @@ HeccerMDFlowEnumerator
 
     iTarget -= 1;
 
-    //- loop over children for current compartment
+    //- if branches first scheduling
 
-    int i;
+    //t note : leaves first does not work yet, do not use.
 
-    for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
+    if (1 || pheccer->iOptions & HECCER_OPTION_BRANCHES_FIRST_SCHEDULING)
     {
-	//- get current child index
+	//- do a simple depth-first ordering
 
-	int iIndex = pheccer->indexers.md.ppiChildren[iCurrent][i];
-
-	//- if child has itself no children
-
-	if (pheccer->indexers.md.piChildren[iIndex] == 0)
-	{
-	    //- register schedule number for this child
-
-	    pheccer->indexers.md.piForward[iIndex] = iTarget;
-
-	    //- register reverse schedule number
-
-	    pheccer->indexers.md.piBackward[iTarget] = iIndex;
-
-	    //- decrement schedule number
-
-	    return(iTarget - 1);
-	}
-
-	//- else child has children
-
-	else
-	{
-	    //- if logical branch scheduling
-
-	    if (pheccer->iOptions & HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING)
-	    {
-		//- find reverse flow starting at this child
-
-		return(HeccerMDFlowEnumerator(pheccer, iIndex, iTarget));
-	    }
-	}
+	return(HeccerMDFlowEnumeratorB(pheccer, iCurrent, iTarget));
     }
 
-    //- if leave to root scheduling
+    //- else leaves first scheduling
 
-    if (!(pheccer->iOptions & HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING))
+    else
     {
+	//- loop over children for current compartment
+
+	int i;
+
+	for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
+	{
+	    //- get current child index
+
+	    int iIndex = pheccer->indexers.md.ppiChildren[iCurrent][i];
+
+	    //- only if this child has no children
+
+	    if (pheccer->indexers.md.piChildren[iIndex] == 0)
+	    {
+		//- register schedule number for current compartment
+
+		pheccer->indexers.md.piForward[iIndex] = iTarget;
+
+		//- register reverse schedule number
+
+		pheccer->indexers.md.piBackward[iTarget] = iIndex;
+
+		//- decrement schedule number
+
+		iTarget -= 1;
+	    }
+	}
+
 	//- loop over children for current compartment
 
 	for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
@@ -133,11 +140,107 @@ HeccerMDFlowEnumerator
 
 	    //- find reverse flow starting at this child
 
-	    return(HeccerMDFlowEnumerator(pheccer, iIndex, iTarget));
+	    //! depth-first is the essence of branches first.
+
+	    //! depth-first has two flavours : pre-order, post-order,
+	    //! they are equivalent for this purpose, ie. for a heccer.
+
+	    iTarget = HeccerMDFlowEnumeratorL(pheccer, iIndex, iTarget);
 	}
     }
 
-    //- no compartments : must return zero (recursively)
+    //- no compartments : should return zero (recursively)
+
+    //! check should be made by the driver of this routine
+
+    return(iTarget);
+}
+
+
+/// worker : recursively schedule all compartments, branches first
+
+static
+int
+HeccerMDFlowEnumeratorB
+(struct Heccer *pheccer, int iCurrent, int iTarget)
+{
+    //- loop over children for current compartment
+
+    int i;
+
+    for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
+    {
+	//- get current child index
+
+	int iIndex = pheccer->indexers.md.ppiChildren[iCurrent][i];
+
+	//- find reverse flow starting at this child
+
+	//! depth-first is the essence of branches first.
+
+	//! depth-first has two flavours : pre-order, post-order,
+	//! they are equivalent for this purpose, ie. for a heccer.
+
+	iTarget = HeccerMDFlowEnumerator(pheccer, iIndex, iTarget);
+    }
+
+    //- no compartments : should return zero (recursively)
+
+    //! check should be made by the driver of this routine
+
+    return(iTarget);
+}
+
+
+/// worker : recursively schedule all compartments, leaves first
+
+static
+int
+HeccerMDFlowEnumeratorL
+(struct Heccer *pheccer, int iCurrent, int iTarget)
+{
+    //- loop over children for current compartment
+
+    int i;
+
+    for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
+    {
+	//- get current child index
+
+	int iIndex = pheccer->indexers.md.ppiChildren[iCurrent][i];
+
+	//- only if this child has no children
+
+	if (pheccer->indexers.md.piChildren[iIndex] == 0)
+	{
+	    //- register schedule number for current compartment
+
+	    pheccer->indexers.md.piForward[iIndex] = iTarget;
+
+	    //- register reverse schedule number
+
+	    pheccer->indexers.md.piBackward[iTarget] = iIndex;
+
+	    //- decrement schedule number
+
+	    iTarget -= 1;
+	}
+    }
+
+    //- loop over children for current compartment
+
+    for (i = 0 ; i < pheccer->indexers.md.piChildren[iCurrent]; i++)
+    {
+	//- get current child index
+
+	int iIndex = pheccer->indexers.md.ppiChildren[iCurrent][i];
+
+	//- find reverse flow starting at this child
+
+	iTarget = HeccerMDFlowEnumerator(pheccer, iIndex, iTarget);
+    }
+
+    //- no compartments : should return zero (recursively)
 
     //! check should be made by the driver of this routine
 
@@ -202,7 +305,7 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
     if (iEnd != -1)
     {
 	//t this can happen if the intermediary structure is wrong,
-	//t e.g. out of bound parent index.
+	//t e.g. out of bound parent index or cycles
 
 	//t add something like HeccerError(number, message, varargs);
 

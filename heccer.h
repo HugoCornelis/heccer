@@ -108,7 +108,7 @@ struct Heccer
 //d branch point.  When disabled, all the leaves are scheduled first,
 //d next the compartments attached to the leaves, etc.
 
-#define HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING		1
+#define HECCER_OPTION_BRANCHES_FIRST_SCHEDULING		1
 
 //d use backward euler, default is crank-nicolson
 

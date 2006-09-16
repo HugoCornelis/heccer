@@ -22,12 +22,17 @@ CFLAGS = -O0
 
 bin_PROGRAMS = \
 	doublep \
+	fork3p \
 	singlep \
 	triplep
 
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 
 doublep_LDADD = -L../.. -lheccer
+
+fork3p_DEPENDENCIES = ../../libheccer.a main.c
+
+fork3p_LDADD = -L../.. -lheccer
 
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 

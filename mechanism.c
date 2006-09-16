@@ -157,7 +157,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		pmatsc->dLeak = dEm / dRm;
 		pmatsc->dInjected = dInject;
 		pmatsc->dCapacity = dt / dCm;
-		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[iIntermediary];
+
+		//! note : pdDiagonals was computed with schedule numbers.
+		//! perhaps it is better to change that for consistency
+		//! reasons overhere, and to avoid confusion.
+
+		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[i];
 
 		pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
 	    }

@@ -22,6 +22,8 @@
 
 int main(int argc, char *argv[])
 {
+    //t use argv for heccer options
+
     //- set default result : ok
 
     int iResult = EXIT_SUCCESS;

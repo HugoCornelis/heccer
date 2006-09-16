@@ -11,3 +11,7 @@ depcomp$
 install-sh$
 missing$
 stamp-h1$
+tests/library/doublep$
+tests/library/fork3p$
+tests/library/singlep$
+tests/library/triplep$
