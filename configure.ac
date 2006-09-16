@@ -24,7 +24,7 @@ AC_CONFIG_HEADER([config.h])
 
 dnl all subdirs
 
-AC_CONFIG_SUBDIRS(tests/library)
+AC_CONFIG_SUBDIRS(tests/code)
 
 AM_INIT_AUTOMAKE(heccer, 0.1)
 

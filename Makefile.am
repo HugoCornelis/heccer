@@ -16,7 +16,7 @@
 ##############################################################################
 
 
-SUBDIRS = . tests/library
+SUBDIRS = . tests/code
 
 AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
