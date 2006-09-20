@@ -243,8 +243,8 @@ int HeccerHecc(struct Heccer *pheccer)
     //- perform mechanism operations (including concentration pools)
 
     //! doing it like this, assumes that the mechanism values are
-    //! correct at time (now - dt/2).  Does not make a practical
-    //! difference.
+    //! correctly given to HeccerInitiate() at time (now - dt/2).  Does
+    //! not make a practical difference.
 
     iResult = iResult && HeccerMechanismSolveCN(pheccer);
 
