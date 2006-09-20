@@ -123,7 +123,9 @@ struct MatsCompartment
 
 //f prototypes
 
-int HeccerVMDump(struct VM *pvm, FILE *pfile);
+int
+HeccerVMDump
+(struct VM *pvm, FILE *pfile, int iSelection);
 
 
 #endif

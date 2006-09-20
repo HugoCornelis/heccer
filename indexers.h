@@ -52,7 +52,9 @@ struct Indexers
 
 //f prototypes
 
-int HeccerIndexersDump(struct Indexers *pindexers, FILE *pfile);
+int
+HeccerIndexersDump
+(struct Indexers *pindexers, FILE *pfile, int iSelection);
 
 
 #endif

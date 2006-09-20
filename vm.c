@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include "heccer.h"
 #include "vm.h"
 
 
@@ -226,8 +227,9 @@ HeccerCommandInfoLookup
 ///
 /// ARGS.:
 ///
-///	pvm...: heccer vm.
-///	pfile.: stdio file.
+///	pvm........: heccer vm.
+///	pfile......: stdio file.
+///	iSelection.: selection to dump.
 ///
 /// RTN..: int
 ///
@@ -237,7 +239,7 @@ HeccerCommandInfoLookup
 ///
 /// **************************************************************************
 
-int HeccerVMDump(struct VM *pvm, FILE *pfile)
+int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 {
     //- set default result : ok
 
@@ -245,48 +247,72 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile)
 
     //- dump compartment operations
 
-    int iCops = pvm->iCops;
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_OPERATIONS)
+    {
+	int iCops = pvm->iCops;
 
-    int *piCops = pvm->piCops;
+	int *piCops = pvm->piCops;
 
-    HeccerVMDumpArray("Compartment operations", pvm, &piCops[0], sizeof(piCops[0]), &hctCops, 0, iCops, pfile);
+	HeccerVMDumpArray("Compartment operations", pvm, &piCops[0], sizeof(piCops[0]), &hctCops, 0, iCops, pfile);
+    }
 
     //- dump mechanism operations
 
-    int iMops = pvm->iMops;
+    if (iSelection & HECCER_DUMP_VM_MECHANISM_OPERATIONS)
+    {
+	int iMops = pvm->iMops;
 
-    int *piMops = (int *)pvm->pvMops;
+	int *piMops = (int *)pvm->pvMops;
 
-    HeccerVMDumpArray("Mechanism operations", pvm, &piMops[0], sizeof(piMops[0]), &hctMops, 0, iMops, pfile);
+	HeccerVMDumpArray("Mechanism operations", pvm, &piMops[0], sizeof(piMops[0]), &hctMops, 0, iMops, pfile);
+    }
 
     //- compartment data : diagonals
 
-    int i;
-
-    for (i = 0 ; i < pvm->iDiagonals ; i++)
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX)
     {
-	fprintf(pfile, "VM Diagonals (pdDiagonals[%i]) : (%g)\n", i, pvm->pdDiagonals[i]);
+	int i;
+
+	for (i = 0 ; i < pvm->iDiagonals ; i++)
+	{
+	    fprintf(pfile, "VM Diagonals (pdDiagonals[%i]) : (%g)\n", i, pvm->pdDiagonals[i]);
+	}
     }
 
     //- compartment data : axial resistances
 
-    for (i = 0 ; i < pvm->iAxres ; i++)
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX)
     {
-	fprintf(pfile, "VM Axial Resistances (pdAxres[%i]) : (%g)\n", i, pvm->pdAxres[i]);
+	int i;
+
+	for (i = 0 ; i < pvm->iAxres ; i++)
+	{
+	    fprintf(pfile, "VM Axial Resistances (pdAxres[%i]) : (%g)\n", i, pvm->pdAxres[i]);
+	}
     }
 
     //- results : intermediate
 
-    for (i = 0 ; i < pvm->iResults ; i++)
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX)
     {
-	fprintf(pfile, "VM Axial Resistances (pdResults[%i]) : (%g)\n", i, pvm->pdResults[i]);
+	int i;
+
+	for (i = 0 ; i < pvm->iResults ; i++)
+	{
+	    fprintf(pfile, "VM Axial Resistances (pdResults[%i]) : (%g)\n", i, pvm->pdResults[i]);
+	}
     }
 
     //- results : membrane potentials
 
-    for (i = 0 ; i < pvm->iVms ; i++)
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX)
     {
-	fprintf(pfile, "VM Membrane Potentials (pdVms[%i]) : (%g)\n", i, pvm->pdVms[i]);
+	int i;
+
+	for (i = 0 ; i < pvm->iVms ; i++)
+	{
+	    fprintf(pfile, "VM Membrane Potentials (pdVms[%i]) : (%g)\n", i, pvm->pdVms[i]);
+	}
     }
 
 /*     //m mechanism operations */

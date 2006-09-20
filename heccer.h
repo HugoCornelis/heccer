@@ -123,7 +123,24 @@ int HeccerCompileP2(struct Heccer *pheccer);
 
 int HeccerCompileP3(struct Heccer *pheccer);
 
-int HeccerDump(struct Heccer *pheccer, FILE *pfile);
+int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
+
+#define HECCER_DUMP_ALL 0xffffffff
+
+#define HECCER_DUMP_INDEXERS_SUMMARY				(1 << 8)
+#define HECCER_DUMP_INDEXERS_STRUCTURE				(1 << 9)
+
+#define HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS	(1 << 1)
+#define HECCER_DUMP_INTERMEDIARY_COMPARTMENT_SUMMARY		(1 << 2)
+#define HECCER_DUMP_INTERMEDIARY_MECHANISM_SUMMARY		(1 << 3)
+#define HECCER_DUMP_INTERMEDIARY_STRUCTURE			(1 << 4)
+#define HECCER_DUMP_INTERMEDIARY_SUMMARY			(1 << 5)
+
+#define HECCER_DUMP_VM_COMPARTMENT_MATRIX			(1 << 16)
+#define HECCER_DUMP_VM_COMPARTMENT_OPERATIONS			(1 << 17)
+#define HECCER_DUMP_VM_MECHANISM_OPERATIONS			(1 << 18)
+#define HECCER_DUMP_VM_SUMMARY					(1 << 19)
+
 
 int HeccerHecc(struct Heccer *pheccer);
 

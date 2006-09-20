@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
     fprintf(stdout, "Initiated\n");
 
-    HeccerDump(pheccer, stdout);
+    HeccerDump(pheccer, stdout, HECCER_DUMP_ALL);
 
     //- a couple of times
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
 	fprintf(stdout, "Iteration %i\n", i);
 
-	HeccerDump(pheccer, stdout);
+	HeccerDump(pheccer, stdout, HECCER_DUMP_ALL);
     }
 
     //- return result

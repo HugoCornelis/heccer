@@ -73,7 +73,9 @@ struct Intermediary
 
 //f prototypes
 
-int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile);
+int
+HeccerIntermediaryDump
+(struct Intermediary *pinter, FILE *pfile, int iSelection);
 
 
 #endif

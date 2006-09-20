@@ -576,7 +576,9 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	pcomp...: a compartment.
+///	pmd........: minimum degree index.
+///	pfile......: stdio file.
+///	iSelection.: selection to dump.
 ///
 /// RTN..: int
 ///
@@ -586,7 +588,9 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-int HeccerMinimumDegreeDump(struct MinimumDegree *pmd, FILE *pfile)
+int
+HeccerMinimumDegreeDump
+(struct MinimumDegree *pmd, FILE *pfile, int iSelection)
 {
     //- set default result
 
@@ -594,36 +598,52 @@ int HeccerMinimumDegreeDump(struct MinimumDegree *pmd, FILE *pfile)
 
     //- index of parent compartment, -1 for none
 
-    fprintf(pfile, "MinimumDegree (iEntries) : (%i)\n", pmd->iEntries);
+    if (iSelection & HECCER_DUMP_INDEXERS_SUMMARY)
+    {
+	fprintf(pfile, "MinimumDegree (iEntries) : (%i)\n", pmd->iEntries);
+    }
 
     //- structural analyzers
 
-    int i;
-
-    for (i = 0 ; i < pmd->iEntries ; i++)
+    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
     {
-	fprintf(pfile, "MinimumDegree (piChildren[%i]) : (%i)\n", i, pmd->piChildren[i]);
+	int i;
 
-	int j;
-
-	for (j = 0 ; j < pmd->piChildren[i] ; j++)
+	for (i = 0 ; i < pmd->iEntries ; i++)
 	{
-	    fprintf(pfile, "MinimumDegree (piChildren[%i][%i]) : (%i)\n", i, j, pmd->ppiChildren[i][j]);
+	    fprintf(pfile, "MinimumDegree (piChildren[%i]) : (%i)\n", i, pmd->piChildren[i]);
+
+	    int j;
+
+	    for (j = 0 ; j < pmd->piChildren[i] ; j++)
+	    {
+		fprintf(pfile, "MinimumDegree (piChildren[%i][%i]) : (%i)\n", i, j, pmd->ppiChildren[i][j]);
+	    }
 	}
     }
 
     //- unordered to flow
 
-    for (i = 0 ; i < pmd->iEntries ; i++)
+    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
     {
-	fprintf(pfile, "MinimumDegree (piForward[%i]) : (%i)\n", i, pmd->piForward[i]);
+	int i;
+
+	for (i = 0 ; i < pmd->iEntries ; i++)
+	{
+	    fprintf(pfile, "MinimumDegree (piForward[%i]) : (%i)\n", i, pmd->piForward[i]);
+	}
     }
 
     //- flow to unordered
 
-    for (i = 0 ; i < pmd->iEntries ; i++)
+    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
     {
-	fprintf(pfile, "MinimumDegree (piBackward[%i]) : (%i)\n", i, pmd->piBackward[i]);
+	int i;
+
+	for (i = 0 ; i < pmd->iEntries ; i++)
+	{
+	    fprintf(pfile, "MinimumDegree (piBackward[%i]) : (%i)\n", i, pmd->piBackward[i]);
+	}
     }
 
     //- return result

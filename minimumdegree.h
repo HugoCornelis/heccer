@@ -55,7 +55,9 @@ struct MinimumDegree
 
 int HeccerMinimumDegree(struct Heccer *pheccer);
 
-int HeccerMinimumDegreeDump(struct MinimumDegree *pmd, FILE *pfile);
+int
+HeccerMinimumDegreeDump
+(struct MinimumDegree *pmd, FILE *pfile, int iSelection);
 
 
 #endif

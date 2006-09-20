@@ -26,8 +26,9 @@
 ///
 /// ARGS.:
 ///
-///	pinter.: heccer intermediary.
-///	pfile..: stdio file.
+///	pinter.....: heccer intermediary.
+///	pfile......: stdio file.
+///	iSelection.: selection to dump.
 ///
 /// RTN..: int
 ///
@@ -37,7 +38,9 @@
 ///
 /// **************************************************************************
 
-int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile)
+int
+HeccerIntermediaryDump
+(struct Intermediary *pinter, FILE *pfile, int iSelection)
 {
     //- set default result : ok
 
@@ -47,7 +50,10 @@ int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile)
 
     //- number of compartments
 
-    fprintf(pfile, "Intermediary (iCompartments) : (%i)\n", iCompartments);
+    if (iSelection & HECCER_DUMP_INTERMEDIARY_SUMMARY)
+    {
+	fprintf(pfile, "Intermediary (iCompartments) : (%i)\n", iCompartments);
+    }
 
     //- loop over compartment array
 
@@ -61,7 +67,7 @@ int HeccerIntermediaryDump(struct Intermediary *pinter, FILE *pfile)
     {
 	//- dump compartment
 
-	iResult = iResult && HeccerCompartmentDump(&pcomp[i], pfile);
+	iResult = iResult && HeccerCompartmentDump(&pcomp[i], pfile, iSelection);
     }
 
     //t mechanisms

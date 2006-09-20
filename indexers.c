@@ -25,8 +25,9 @@
 ///
 /// ARGS.:
 ///
-///	pindexers.: heccer indexers.
-///	pfile.....: stdio file.
+///	pindexers..: heccer indexers.
+///	pfile......: stdio file.
+///	iSelection.: selection to dump.
 ///
 /// RTN..: int
 ///
@@ -36,7 +37,9 @@
 ///
 /// **************************************************************************
 
-int HeccerIndexersDump(struct Indexers *pindexers, FILE *pfile)
+int
+HeccerIndexersDump
+(struct Indexers *pindexers, FILE *pfile, int iSelection)
 {
     //- set default result : ok
 
@@ -44,7 +47,7 @@ int HeccerIndexersDump(struct Indexers *pindexers, FILE *pfile)
 
     //- dump minimum degree structures
 
-    iResult = iResult && HeccerMinimumDegreeDump(&pindexers->md, pfile);
+    iResult = iResult && HeccerMinimumDegreeDump(&pindexers->md, pfile, iSelection);
 
     //- return result
 

@@ -151,16 +151,23 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///
 ///	pheccer...: a heccer.
 ///	pfile.....: stdio file.
+///	iSelection: selection to dump.
 ///
 /// RTN..: int
 ///
 ///	success of operation.
 ///
-/// DESCR: Call the dump functions.
+/// DESCR: Call the dump functions, with the given selection.
+///
+///	The selection is the boolean or of zero or more of the following :
+///
+///
+///
+///	The shorthand HECCER_DUMP_ALL selects everything.
 ///
 /// **************************************************************************
 
-int HeccerDump(struct Heccer *pheccer, FILE *pfile)
+int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 {
     //- set default result : ok
 
@@ -180,19 +187,19 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile)
 
     //- identification service : translates serials to math components
 
-    fprintf(pfile, "Heccer (pvService) : (%i)\n", pheccer->pvService);
+    fprintf(pfile, "Heccer (pvService) : (%p)\n", pheccer->pvService);
 
     //- dump intermediary
 
-    iResult = iResult && HeccerIntermediaryDump(&pheccer->inter, pfile);
+    iResult = iResult && HeccerIntermediaryDump(&pheccer->inter, pfile, iSelection);
 
     //- dump the indices
 
-    iResult = iResult && HeccerIndexersDump(&pheccer->indexers, pfile);
+    iResult = iResult && HeccerIndexersDump(&pheccer->indexers, pfile, iSelection);
 
     //- dump compartment arrays
 
-    iResult = iResult && HeccerVMDump(&pheccer->vm, pfile);
+    iResult = iResult && HeccerVMDump(&pheccer->vm, pfile, iSelection);
 
     //- return result
 

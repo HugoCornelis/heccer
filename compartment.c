@@ -385,7 +385,9 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	pcomp...: a compartment.
+///	pcomp......: a compartment.
+///	pfile......: stdio file.
+///	iSelection.: selection to dump.
 ///
 /// RTN..: int
 ///
@@ -395,7 +397,9 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile)
+int
+HeccerCompartmentDump
+(struct Compartment *pcomp, FILE *pfile, int iSelection)
 {
     //- set default result
 
@@ -407,25 +411,34 @@ int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile)
 
     //- index of parent compartment, -1 for none
 
-    fprintf(pfile, "Compartment (iParent) : (%i)\n", pcomp->iParent);
+    if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE)
+    {
+	fprintf(pfile, "Compartment (iParent) : (%i)\n", pcomp->iParent);
+    }
 
     //m number of mechanisms
 
-    fprintf(pfile, "Compartment (iMechanisms) : (%i)\n", pcomp->iMechanisms);
+    if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE)
+    {
+	fprintf(pfile, "Compartment (iMechanisms) : (%i)\n", pcomp->iMechanisms);
+    }
 
     //m descriptive values, alphabetical order
 
-    fprintf(pfile, "Compartment (dCm) : (%g)\n", pcomp->dCm);
+    if (iSelection & HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS)
+    {
+	fprintf(pfile, "Compartment (dCm) : (%g)\n", pcomp->dCm);
 
-    fprintf(pfile, "Compartment (dEm) : (%g)\n", pcomp->dEm);
+	fprintf(pfile, "Compartment (dEm) : (%g)\n", pcomp->dEm);
 
-    fprintf(pfile, "Compartment (dInitVm) : (%g)\n", pcomp->dInitVm);
+	fprintf(pfile, "Compartment (dInitVm) : (%g)\n", pcomp->dInitVm);
 
-    fprintf(pfile, "Compartment (dInject) : (%g)\n", pcomp->dInject);
+	fprintf(pfile, "Compartment (dInject) : (%g)\n", pcomp->dInject);
 
-    fprintf(pfile, "Compartment (dRa) : (%g)\n", pcomp->dRa);
+	fprintf(pfile, "Compartment (dRa) : (%g)\n", pcomp->dRa);
 
-    fprintf(pfile, "Compartment (dRm) : (%g)\n", pcomp->dRm);
+	fprintf(pfile, "Compartment (dRm) : (%g)\n", pcomp->dRm);
+    }
 
     //- return result
 

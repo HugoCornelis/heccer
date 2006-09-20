@@ -61,7 +61,9 @@ struct Compartment
 
 int HeccerCompartmentCompile(struct Heccer *pheccer);
 
-int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile);
+int
+HeccerCompartmentDump
+(struct Compartment *pcomp, FILE *pfile, int iSelection);
 
 int HeccerCompartmentInitiate(struct Heccer *pheccer);
 
