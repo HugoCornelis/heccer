@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef COMPARTMENT_H
-#define COMPARTMENT_H
+#ifndef ADDRESSING_H
+#define ADDRESSING_H
 
 
 #include <stdio.h>
