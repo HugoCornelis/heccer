@@ -25,6 +25,7 @@ CFLAGS = -O0
 noinst_LIBRARIES = libheccer.a
 
 libheccer_a_SOURCES = \
+	addressing.c \
 	compartment.c \
 	heccer.c \
 	indexers.c \
@@ -34,6 +35,7 @@ libheccer_a_SOURCES = \
 	vm.c
 
 noinst_HEADERS = \
+	addressing.h \
 	compartment.h \
 	heccer.h \
 	indexers.h \

@@ -435,7 +435,7 @@ int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile)
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerCompartmentInitialize()
+/// SHORT: HeccerCompartmentInitiate()
 ///
 /// ARGS.:
 ///
@@ -449,7 +449,7 @@ int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile)
 ///
 /// **************************************************************************
 
-int HeccerCompartmentInitialize(struct Heccer *pheccer)
+int HeccerCompartmentInitiate(struct Heccer *pheccer)
 {
     //- set default result
 

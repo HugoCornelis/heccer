@@ -63,7 +63,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer);
 
 int HeccerCompartmentDump(struct Compartment *pcomp, FILE *pfile);
 
-int HeccerCompartmentInitialize(struct Heccer *pheccer);
+int HeccerCompartmentInitiate(struct Heccer *pheccer);
 
 int HeccerCompartmentSolveCN(struct Heccer *pheccer);
 

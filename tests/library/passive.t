@@ -14,7 +14,8 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single passive compartment solved correctly ?",
-						   read => [ 'Heccer (iStatus) : (20)
+						   read => [ 'Initiated
+Heccer (iStatus) : (20)
 Heccer (iOptions) : (0)
 Heccer (dStep) : (2e-05)
 Heccer (pvService) : (0)
@@ -378,7 +379,8 @@ VM Membrane Potentials (pdVms[0]) : (-0.0681455)
 				command_tests => [
 						  {
 						   description => "Is a double passive compartment solved correctly ?",
-						   read => [ 'Heccer (iStatus) : (20)
+						   read => [ 'Initiated
+Heccer (iStatus) : (20)
 Heccer (iOptions) : (0)
 Heccer (dStep) : (2e-05)
 Heccer (pvService) : (0)
@@ -1006,7 +1008,8 @@ VM Membrane Potentials (pdVms[1]) : (-0.0681455)
 				command_tests => [
 						  {
 						   description => "Is a triple passive compartment solved correctly ?",
-						   read => [ 'Heccer (iStatus) : (20)
+						   read => [ 'Initiated
+Heccer (iStatus) : (20)
 Heccer (iOptions) : (0)
 Heccer (dStep) : (2e-05)
 Heccer (pvService) : (0)
@@ -1909,7 +1912,8 @@ VM Membrane Potentials (pdVms[2]) : (-0.0681455)
 				command_tests => [
 						  {
 						   description => "Is a fork of three passive compartment solved correctly ?",
-						   read => [ 'Heccer (iStatus) : (20)
+						   read => [ 'Initiated
+Heccer (iStatus) : (20)
 Heccer (iOptions) : (0)
 Heccer (dStep) : (2e-05)
 Heccer (pvService) : (0)

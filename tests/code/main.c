@@ -40,11 +40,19 @@ int main(int argc, char *argv[])
 
     HeccerCompileP3(pheccer);
 
-    //- initialize values
+    //- initiate values
 
-    HeccerInitialize(pheccer);
+    HeccerInitiate(pheccer);
 
     //- initial dump
+
+    //! funny : the first '---' in the output are taken as an option
+    //! by Expect.pm, which complicates testing a bit.  So just
+    //! removed.
+
+/*     fprintf(stdout, "-------\n"); */
+
+    fprintf(stdout, "Initiated\n");
 
     HeccerDump(pheccer, stdout);
 

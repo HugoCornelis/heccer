@@ -44,7 +44,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     int iResult = FALSE;
 
-    //t build up intermediary
+    //t build up intermediary using the available service
 
     //- return result
 
@@ -253,7 +253,7 @@ int HeccerHecc(struct Heccer *pheccer)
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerInitialize()
+/// SHORT: HeccerInitiate()
 ///
 /// ARGS.:
 ///
@@ -267,19 +267,19 @@ int HeccerHecc(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-int HeccerInitialize(struct Heccer *pheccer)
+int HeccerInitiate(struct Heccer *pheccer)
 {
     //- set default result : ok
 
     int iResult = TRUE;
 
-    //- initialize compartments
+    //- initiate compartments
 
-    iResult = iResult && HeccerCompartmentInitialize(pheccer);
+    iResult = iResult && HeccerCompartmentInitiate(pheccer);
 
-/*     //- initialize mechanisms */
+/*     //- initiate mechanisms */
 
-/*     iResult = iResult && HeccerMechanismInitialize(pheccer); */
+/*     iResult = iResult && HeccerMechanismInitiate(pheccer); */
 
     //- return result
 
