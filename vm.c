@@ -52,7 +52,7 @@ struct HeccerCommandTable
 };
 
 
-struct HeccerCommandInfo phciCops[] =
+static struct HeccerCommandInfo phciCops[] =
 {
     {	HECCER_COP_FORWARD_ELIMINATION,		"HECCER_COP_FORWARD_ELIMINATION",	2, },
     {	HECCER_COP_BACKWARD_SUBSTITUTION,	"HECCER_COP_BACKWARD_SUBSTITUTION",	2, },
@@ -64,7 +64,7 @@ struct HeccerCommandInfo phciCops[] =
 };
 
 
-struct HeccerCommandTable hctCops =
+static struct HeccerCommandTable hctCops =
 {
     0,
     sizeof(phciCops) / sizeof(struct HeccerCommandInfo) - 1,
@@ -72,7 +72,7 @@ struct HeccerCommandTable hctCops =
 };
 
 
-struct HeccerCommandInfo phciMops[] =
+static struct HeccerCommandInfo phciMops[] =
 {
     {	HECCER_MOP_COMPARTMENT,		"HECCER_MOP_COMPARTMENT",		1, },
     {	HECCER_MOP_FINISH,		"HECCER_MOP_FINISH",			1, },
@@ -80,7 +80,7 @@ struct HeccerCommandInfo phciMops[] =
 };
 
 
-struct HeccerCommandTable hctMops =
+static struct HeccerCommandTable hctMops =
 {
     0,
     sizeof(phciMops) / sizeof(struct HeccerCommandInfo) - 1,
