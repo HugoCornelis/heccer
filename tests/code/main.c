@@ -20,6 +20,9 @@
 #include <stdlib.h>
 
 
+/// To use this file : set the variable 'inter' to a intermediary
+/// representation, #include this file, compile and run.
+
 int main(int argc, char *argv[])
 {
     //t use argv for heccer options

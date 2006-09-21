@@ -286,13 +286,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    pdResults[0] = dVm + dCurrent * pmatsc->dCapacity;
 
-	    pdResults++;
-
 	    //- left side
 
-	    pdResults[0] = dConductances * pmatsc->dCapacity + pmatsc->dDiagonal;
+	    pdResults[1] = dConductances * pmatsc->dCapacity + pmatsc->dDiagonal;
 
-	    pdResults++;
+	    pdResults += 2;
 	}
 
 	//- go to next compartment

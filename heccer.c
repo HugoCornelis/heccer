@@ -181,6 +181,10 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     fprintf(pfile, "Heccer (iOptions) : (%i)\n", pheccer->iOptions);
 
+    //- simulation time
+
+    fprintf(pfile, "Heccer (dTime) : (%g)\n", pheccer->dTime);
+
     //- time step
 
     fprintf(pfile, "Heccer (dStep) : (%g)\n", pheccer->dStep);
@@ -229,6 +233,10 @@ int HeccerHecc(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
+    //- update the simulation time
+
+    pheccer->dTime += pheccer->dStep;
+
     //! I am undecided where to make the difference between CN and BE.
     //! From cosmetic viewpoint, here we should only delegate to
     //! HeccerMechanismHecc() and HeccerCompartmentHecc().
@@ -250,7 +258,10 @@ int HeccerHecc(struct Heccer *pheccer)
 
     //- perform the compartment operations
 
-    iResult = iResult && HeccerCompartmentSolveCN(pheccer);
+    if (pheccer->vm.iVms != 1)
+    {
+	iResult = iResult && HeccerCompartmentSolveCN(pheccer);
+    }
 
     //- return result
 
