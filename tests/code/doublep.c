@@ -26,10 +26,6 @@ struct Compartment comp[] =
 	//m administrative overhead
 
 	{
-	    //m identification
-
-	    1,
-
 	    //m type of structure
 
 	    MATH_TYPE_Compartment,
@@ -78,10 +74,6 @@ struct Compartment comp[] =
 	//m administrative overhead
 
 	{
-	    //m identification
-
-	    2,
-
 	    //m type of structure
 
 	    MATH_TYPE_Compartment,

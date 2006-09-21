@@ -24,9 +24,14 @@
 
 struct MathComponent
 {
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
     //m identification
 
     int iSerial;
+
+#endif
 
     //m type of structure
 
