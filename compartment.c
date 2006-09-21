@@ -251,7 +251,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
 		    if (i > 1)
 		    {
-			SETCOP1(piCops, iCops, HECCER_COP_SKIP_DIAGONAL);
+			SETCOP1(piCops, iCops, HECCER_COP_NEXT_ROW);
 
 			//- remember skipped to the diagonal for the next compartment
 
@@ -326,7 +326,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
 	    SETCOP2(piCops, iCops, HECCER_COP_BACKWARD_SUBSTITUTION, 2 * iScheduleNumber);
 
-	    SETCOP1(piCops, iCops, HECCER_COP_CALC_RESULTS);
+	    SETCOP1(piCops, iCops, HECCER_COP_FINISH_ROW);
 
 	    //- set axial resistance value for child
 
@@ -520,66 +520,68 @@ int HeccerCompartmentInitiate(struct Heccer *pheccer)
 
 int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 {
-    int *piCops=pheccer->vm.piCops;
+    int *piCops = &pheccer->vm.piCops[0];
     int iCop;
 
-    double *pdAxres = pheccer->vm.pdAxres;
-    double *pdResult;
-    double *pdResults = pheccer->vm.pdResults;
-    double *pdVms = &pheccer->vm.pdVms[pheccer->inter.iCompartments - 1];
-    double dDiagonal;
-    double dResult;
+    double *pdAxres = &pheccer->vm.pdAxres[0];
+    double *pdResults = &pheccer->vm.pdResults[0];
+    double *pdResult = &pdResults[2];
+    double *pdVms = &pheccer->vm.pdVms[pheccer->inter.iCompartments];
+    double dDiagonal = pdResult[1];
+    double dResult = pdResult[0];
 
-    iCop = *piCops++;
-
-    //- for one compartment
-
-    if (iCop == HECCER_COP_FINISH)
-    {
-	//! I moved to the mechanism loop, just like hsolve did it.
-
-/* 	//- compute result */
-
-/*         dResult = pdResults[0] / pdResults[1]; */
-/*         pdVms[0] = dResult + dResult - pdVms[0]; */
-
-	//- return success
-
-        return(TRUE);
-    }
-    else
-    {
-        //- start forward elimination at row 1
-
-        pdResult = &pdResults[2];
-        dResult = pdResult[0];
-        dDiagonal = pdResult[1];
-    }
+    //- start forward elimination at row 1
 
     int iDone = FALSE;
 
     while (!iDone)
     {
+	iCop = piCops[0];
+	piCops++;
+
         if (iCop == HECCER_COP_FORWARD_ELIMINATION)
 	{
-            double d = *pdAxres++ / pdResults[piCops[0] + 1];
-	    dDiagonal -= *pdAxres++ * d;
+	    //! pdResults[piCops[0] + 1] contains other diagonal term
+
+            double d = pdAxres[0] / pdResults[piCops[0] + 1];
+	    dDiagonal -= pdAxres[1] * d;
+	    pdAxres += 2;
 	    dResult -= pdResults[piCops[0]] * d;
 	    piCops++;
         }
 	else if (iCop == HECCER_COP_SET_DIAGONAL)
 	{
-	    *pdResult ++= dResult;
-	    *pdResult ++= dDiagonal;
-	    dResult = *pdResult;
+	    //- store right side
+
+	    pdResult[0] = dResult;
+
+	    //- store left side
+
+	    pdResult[1] = dDiagonal;
+
+	    //- next row
+
+	    pdResult += 2;
+	    dResult = pdResult[0];
 	    dDiagonal = pdResult[1];
         }
-	else if (iCop == HECCER_COP_SKIP_DIAGONAL)
+	else if (iCop == HECCER_COP_NEXT_ROW)
 	{
+	    //- store right side
+
 	    pdResult[0] = dResult;
-	    pdResult++;
-	    pdResult[0] = dDiagonal;
-	    pdResult += 3;
+
+	    //- store left side
+
+	    pdResult[1] = dDiagonal;
+
+	    //- skip zero coefficients
+
+	    pdResult += 2;
+
+	    //- next row
+
+	    pdResult += 2;
 	    dResult = pdResult[0];
 	    dDiagonal = pdResult[1];
 	}
@@ -587,12 +589,6 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	{
 	    iDone = TRUE;
         }
-
-	if (!iDone)
-	{
-	    iCop = piCops[0];
-	    piCops++;
-	}
     }
 
     //- last row done separately
@@ -600,13 +596,25 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
     //! should try to incorporate this in the next loop
     //! I have the feeling the loop is coded in the wrong way.
 
+/*     SOLVE_ROW(dResult, dResult / dDiagonal); */
+
     dResult = dResult / dDiagonal;
 
+    //- explicit forwards step for last row
+
+/*     COMPUTE_VM(pdVms, dResult); */
+
+    pdVms--;
     pdVms[0] = dResult + dResult - pdVms[0];
 
-    pdResult[0] = dResult;
+/*     REGISTER_ROW_RIGHT(pdResult[0], dResult); */
 
+    pdResult[0] = dResult;
     pdResult -= 2;
+
+    //- start new right side
+
+/*     INITIATE_ROW(dResult, pdResult[0]); */
 
     dResult = pdResult[0];
 
@@ -616,26 +624,46 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
     while (!iDone)
     {
+	//- load the operation
+
         iCop = piCops[0];
 	piCops++;
 
         if (iCop == HECCER_COP_BACKWARD_SUBSTITUTION)
 	{
-	    dResult -= *pdAxres++ * pdResults[piCops[0]];
+	    //- fill in the off diagonal contribution
+
+/* 	    OFF_DIAGONAL_CONTRIBUTION(dResult, pdAxres[0], pdResults, piCops[0]); */
+
+	    dResult -= pdAxres[0] * pdResults[piCops[0]];
+	    pdAxres++;
 	    piCops++;
         }
-	else if (iCop == HECCER_COP_CALC_RESULTS)
+	else if (iCop == HECCER_COP_FINISH_ROW)
 	{
-	    pdVms--;
+	    //- solve the matrix row
+
+	    //! pdResult[1] contains the diagonal
+
+/* 	    SOLVE_ROW(dResult, dResult / pdResult[1]); */
 
             dResult = dResult / pdResult[1];
 
-	    //- do explicit forward step
+	    //- explicit forward step to get the membrane potential
 
+/* 	    COMPUTE_VM(pdVms, dResult); */
+
+	    pdVms--;
 	    pdVms[0] = dResult + dResult - pdVms[0];
+
+/* 	    REGISTER_ROW_RIGHT(pdResult[0], dResult); */
 
 	    pdResult[0] = dResult;
             pdResult -= 2;
+
+	    //- start new right side
+
+/* 	    INITIATE_ROW(dResult, pdResult[0]); */
 
 	    dResult = pdResult[0];
 	}
