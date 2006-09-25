@@ -29,6 +29,7 @@ bin_PROGRAMS = \
 	fork4p2 \
 	fork4p3 \
 	singlep \
+	tensizesp \
 	triplep
 
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c
@@ -62,6 +63,10 @@ fork4p3_LDADD = -L../.. -lheccer
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 
 singlep_LDADD = -L../.. -lheccer
+
+tensizesp_DEPENDENCIES = ../../libheccer.a main.c
+
+tensizesp_LDADD = -L../.. -lheccer
 
 triplep_DEPENDENCIES = ../../libheccer.a main.c
 
