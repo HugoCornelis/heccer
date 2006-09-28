@@ -32,6 +32,9 @@ bin_PROGRAMS = \
 	tensizesp \
 	triplep
 
+noinst_HEADERS = \
+	main.c
+
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c
 
 c1c2p1_LDADD = -L../.. -lheccer
@@ -74,7 +77,11 @@ triplep_LDADD = -L../.. -lheccer
 
 #t automake does not allow to pass in arguments for tests ?
 
-TESTS = ../run
+#TESTS = $(srcdir)/tests/run
+
+check_SCRIPTS = $(srcdir)/../run
+
+TESTS = $(srcdir)/../run
 
 test: check
 

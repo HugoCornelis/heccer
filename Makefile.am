@@ -38,9 +38,35 @@ noinst_HEADERS = \
 	addressing.h \
 	compartment.h \
 	heccer.h \
+	minimumdegree.h \
 	indexers.h \
 	intermediary.h \
 	mathcomponent.h \
 	mechanism.h \
 	vm.h
+
+# the tests are copied overhere.
+# the perl library is copied overhere.
+#
+# The variable EXTRA_DIST could also be used here.
+
+dist-hook:
+	find $(distdir) -name _Inline -exec chmod u+w -R \{\} \;
+	$(RM) -fr `find $(distdir) -name _Inline`
+	cp $(srcdir)/license.txt $(distdir)
+	cp -R $(srcdir)/docs $(distdir)
+	test -d $(distdir)/tests || mkdir $(distdir)/tests
+	test -d $(distdir)/tests/library || mkdir $(distdir)/tests/library
+	cp -R $(srcdir)/tests/run $(distdir)/tests/run
+	cp -R $(srcdir)/tests/tests_2_html $(distdir)/tests/tests_2_html
+	cp -R $(srcdir)/tests/library $(distdir)/tests/library
+	cp -R $(srcdir)/tests/code/tests.config $(distdir)/tests/code/tests.config
+	cp -R $(srcdir)/tests.config $(distdir)
+	cp -R $(srcdir)/perl $(distdir)
+
+#	cp -R $(srcdir)/hierarchy $(distdir)
+#	cp -R $(srcdir)/library $(distdir)
+
+#! this one breaks the distcheck, because automake makes dist dirs read-only
+#	cd $(distdir)/tests && ./tests_2_html
 

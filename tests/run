@@ -55,6 +55,8 @@ BEGIN
 
     $core_directory =~ s([^/\.]+/\.\./)()g;
 
+    print "$0: core_directory is $core_directory\n";
+
     # add to include paths
 
     my $tests_directory = "${core_directory}tests/library";
