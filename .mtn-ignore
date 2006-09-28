@@ -1,5 +1,16 @@
 Makefile$
 Makefile.in$
+^tests/code/c1c2p1$
+^tests/code/c1c2p2$
+^tests/code/doublep$
+^tests/code/fork3p$
+^tests/code/fork4p1$
+^tests/code/fork4p2$
+^tests/code/fork4p3$
+^tests/code/singlep$
+^tests/code/tensizesp$
+^tests/code/triplep$
+^tests/html/
 aclocal.m4$
 autoscan.log$
 config.h$
@@ -11,8 +22,4 @@ depcomp$
 install-sh$
 missing$
 stamp-h1$
-^tests/code/doublep$
-^tests/code/fork3p$
-^tests/code/singlep$
-^tests/code/triplep$
-^tests/html/
+tar.gz$

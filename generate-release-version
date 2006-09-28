@@ -1,0 +1,132 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb
+#
+#
+# Builds a distribution, including checks using automake and checks
+# specific for this package
+#
+
+use strict;
+
+
+use YAML ();
+
+
+
+# check if there are any differences
+
+my $inventory = [ map { chomp ; $_ } `mtn automate inventory` ];
+
+#! see http://www.venge.net/monotone/docs/Automation.html#Automation, inventory command
+
+my $missing = [ grep { /^  M/ } @$inventory ];
+
+#! added or (added and patched)
+
+my $added = [ grep { /^ A./ } @$inventory ];
+
+my $dropped = [ grep { /^D  / } @$inventory ];
+
+my $renamed_from = [ grep { /^R  / } @$inventory ];
+
+my $renamed_to = [ grep { /^ R/ } @$inventory ];
+
+my $patched = [ grep { /^  P/ } @$inventory ];
+
+my $unchanged = [ grep { /^   / } @$inventory ];
+
+my $unknown = [ grep { /^  U/ } @$inventory ];
+
+my $ignored = [ grep { /^  I/ } @$inventory ];
+
+if (@$missing
+    || @$added
+    || @$dropped
+    || @$renamed_from
+    || @$renamed_to
+    || @$patched
+    || @$unknown)
+{
+    die "$0: found uncommitted differences in this workspace, aborting";
+}
+
+# read the version database
+
+my $versions = {};
+
+eval
+{
+    $versions = YAML::LoadFile("versions.yml");
+};
+
+# get all minors
+
+my $minors
+    = [
+       sort
+       map
+       {
+	   $versions->{$_}->{minor}
+       }
+       keys %$versions,
+      ];
+
+# get all majors
+
+my $majors
+    = [
+       sort
+       map
+       {
+	   $versions->{$_}->{major}
+       }
+       keys %$versions,
+      ];
+
+# figure out a next major/minor
+
+my $next_major = $majors->[$#$majors];
+
+if (!defined $next_major)
+{
+    $next_major = 0;
+}
+
+my $next_minor;
+
+if (!defined $next_minor)
+{
+    $next_minor = 1;
+}
+else
+{
+    $next_minor = $minors->[$#$minors] + 1;
+}
+
+# figure out the current VC version
+
+my $current = `mtn automate get_base_revision_id`;
+
+chomp $current;
+
+# construct a new record
+
+my $record
+    = {
+       major => $next_major,
+       minor => $next_minor,
+      };
+
+# add the record
+
+if (exists $versions->{$current})
+{
+    die "$0: this version ($current) is already in the version database";
+}
+
+$versions->{$current} = $record;
+
+# dump the new database
+
+YAML::DumpFile("versions.yml", $versions);
+

@@ -1,0 +1,7 @@
+-*- outline -*-
+
+* How to link matlab to Heccer ?
+No clue, but should not be to difficult.  The key is to instantiate an
+intermediary somehow, check the source intermediary.h and the passive
+tests, e.g. tests/code/c1c2p1.c.
+

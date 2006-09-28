@@ -1,0 +1,98 @@
+#!/usr/bin/perl -w
+#
+#
+# build script to be used to unpack and test a dist tarball.
+#
+# builds in /tmp/heccer/<whatever>, and runs the tests.
+#
+
+use strict;
+
+
+{
+    # $Format: "system 'mkdir --parents \"/tmp/neurospaces/$ProjectVersion$\"'";$
+system 'mkdir --parents "/tmp/heccer/0.1"'
+}
+
+if ($?)
+{
+    die "mkdir failed";
+}
+
+
+{
+    # $Format: "system \"cp '/local_home/hugo/neurospaces/source/c/snapshots/0/neurospacesread-$ProjectVersion$.tar.gz' '/tmp/neurospaces/$ProjectVersion$'\"";$
+system "cp '/local_home/hugo/heccer/source/c/snapshots/0/heccer-0.1.tar.gz' '/tmp/heccer/0.1'"
+}
+
+if ($?)
+{
+    die "cp failed";
+}
+
+
+{
+    # $Format: "chdir \"/tmp/neurospaces/$ProjectVersion$\"";$
+chdir "/tmp/heccer/0.1"
+}
+
+if ($?)
+{
+    die "chdir failed";
+}
+
+
+{
+    # $Format: "system \"tar xfz 'neurospacesread-$ProjectVersion$.tar.gz'\"";$
+system "tar xfz 'heccer-0.1.tar.gz'"
+}
+
+if ($?)
+{
+    die "cp failed";
+}
+
+
+{
+    # $Format: "chdir \"neurospacesread-$ProjectVersion$\"";$
+chdir "heccer-0.1"
+}
+
+if ($?)
+{
+    die "chdir failed";
+}
+
+
+{
+    # $Format: "system \"./configure\"";$
+system "./configure"
+}
+
+if ($?)
+{
+    die "configure failed";
+}
+
+
+{
+    # $Format: "system 'make'";$
+system 'make'
+}
+
+if ($?)
+{
+    die "make failed";
+}
+
+
+{
+    # $Format: "system 'make test'";$
+system 'make test'
+}
+
+if ($?)
+{
+    die "test failed";
+}
+
