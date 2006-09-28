@@ -9,6 +9,8 @@ use strict;
 
 our $core_directory;
 
+our $built_exe_directory;
+
 our $perl_modules_directory;
 
 our $config;
@@ -46,7 +48,7 @@ BEGIN
     }
     else
     {
-	$core_directory = "$ENV{srcdir}/";
+	$core_directory = "$ENV{srcdir}/$config->{core_directory}";
     }
 
     # remove parent and current directories
@@ -72,6 +74,17 @@ BEGIN
     # add to include path
 
     unshift @INC, $perl_modules_directory;
+
+    # more automake hacking : if there is a special _build directory
+    # that separates sources and derived files, we assume that the
+    # _build directory will contain the executables.
+
+    $built_exe_directory = $core_directory . "_build/";
+
+    if (!-d $built_exe_directory)
+    {
+	$built_exe_directory = $core_directory;
+    }
 }
 
 
@@ -175,7 +188,7 @@ sub main
 		my $new_command_definition
 		    = {
 		       arguments => $command_definition->{arguments},
-		       command => $core_directory . $command,
+		       command => $built_exe_directory . $command,
 		      };
 
 		my $differences
@@ -210,7 +223,7 @@ sub main
 # 		    $exp->slave->stty(qw(raw -echo));
 
 		    $exp->spawn($command, @$arguments)
-			or die "Cannot spawn $command: $!\n";
+			or die "$0: cannot spawn $command: $!\n";
 
 		    # set the running_command_definition
 

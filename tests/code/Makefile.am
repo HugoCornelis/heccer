@@ -20,7 +20,7 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
 CFLAGS = -O0
 
-bin_PROGRAMS = \
+check_PROGRAMS = \
 	doublep \
 	c1c2p1 \
 	c1c2p2 \
