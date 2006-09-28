@@ -72,9 +72,9 @@ triplep_DEPENDENCIES = ../../libheccer.a main.c
 
 triplep_LDADD = -L../.. -lheccer
 
-#t did not get this to work yet.
+#t automake does not allow to pass in arguments for tests ?
 
-#TESTS = ../run
+TESTS = ../run
 
-#test: check
+test: check
 
