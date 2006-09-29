@@ -11,7 +11,7 @@ use strict;
 
 {
     # $Format: "system 'mkdir --parents \"/tmp/neurospaces/$ProjectVersion$\"'";$
-system 'mkdir --parents "/tmp/heccer/0.1"'
+system 'mkdir --parents "/tmp/${package}/${release_name}"'
 }
 
 if ($?)
@@ -22,7 +22,7 @@ if ($?)
 
 {
     # $Format: "system \"cp '/local_home/hugo/neurospaces/source/c/snapshots/0/neurospacesread-$ProjectVersion$.tar.gz' '/tmp/neurospaces/$ProjectVersion$'\"";$
-system "cp '/local_home/hugo/heccer/source/c/snapshots/0/heccer-0.1.tar.gz' '/tmp/heccer/0.1'"
+system "cp '/local_home/hugo/${package}/source/c/snapshots/0/${package}-${release_name}.tar.gz' '/tmp/${package}/${release_name}'"
 }
 
 if ($?)
@@ -33,7 +33,7 @@ if ($?)
 
 {
     # $Format: "chdir \"/tmp/neurospaces/$ProjectVersion$\"";$
-chdir "/tmp/heccer/0.1"
+chdir "/tmp/${package}/${release_name}"
 }
 
 if ($?)
@@ -44,7 +44,7 @@ if ($?)
 
 {
     # $Format: "system \"tar xfz 'neurospacesread-$ProjectVersion$.tar.gz'\"";$
-system "tar xfz 'heccer-0.1.tar.gz'"
+system "tar xfz '${package}-${release_name}.tar.gz'"
 }
 
 if ($?)
@@ -55,7 +55,7 @@ if ($?)
 
 {
     # $Format: "chdir \"neurospacesread-$ProjectVersion$\"";$
-chdir "heccer-0.1"
+chdir "${package}-${release_name}"
 }
 
 if ($?)

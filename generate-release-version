@@ -187,6 +187,12 @@ system "find . -name configure.ac -exec perl -pi -e 's/AC_INIT\\(.*?\\)/AC_INIT(
 
 system "find . -name configure.ac -exec perl -pi -e 's/AM_INIT_AUTOMAKE\\(.*?\\)/AM_INIT_AUTOMAKE($package->{package}->{name}, $label)/' \{\} \\;";
 
+# replace the release names in the distribution builder
+
+system "perl -pi -e 's/\\\$\\{package\\}/$package->{package}->{name}/g'";
+
+system "perl -pi -e 's/\\\$\\{release_name\\}/$label/g'";
+
 # put this release in the repository
 
 system "mtn ci --message=\"$0: automated release with name ($label)\"";
