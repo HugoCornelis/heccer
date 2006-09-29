@@ -1,4 +1,5 @@
 #!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb
 #
 #
 # Builds a distribution, including checks using automake and checks
@@ -8,13 +9,27 @@
 use strict;
 
 
+# get the release name
+
+my $release_name = $ARGV[0] || '';
+
+# generate a release version
+
+system "./generate-release-version $release_name";
+
+if ($?)
+{
+    die "$0: ./generate-release-version $release_name failed";
+}
+
+
 # make sure we have an initial makefile
 
 system "./configure";
 
 if ($?)
 {
-    die "./configure failed";
+    die "$0: ./configure failed";
 }
 
 
@@ -24,7 +39,7 @@ system "make distclean";
 
 if ($?)
 {
-    die "distclean failed";
+    die "$0: distclean failed";
 }
 
 
@@ -34,7 +49,7 @@ system "./configure";
 
 if ($?)
 {
-    die "./configure failed";
+    die "$0: ./configure failed";
 }
 
 
@@ -44,7 +59,7 @@ system "make distcheck";
 
 if ($?)
 {
-    die "distcheck failed";
+    die "$0: distcheck failed";
 }
 
 
@@ -58,7 +73,7 @@ system "make clean";
 
 if ($?)
 {
-    die "clean failed";
+    die "$0: clean failed";
 }
 
 
@@ -71,7 +86,7 @@ system "cd tests && ./tests_2_html";
 
 if ($?)
 {
-    die "generating html for the test cases failed";
+    die "$0: generating html for the test cases failed";
 }
 
 
@@ -82,14 +97,9 @@ system "make dist";
 
 if ($?)
 {
-    die "dist failed";
+    die "$0: dist failed";
 }
 
-
-# regenerate the distribution builder (such that its content is
-# revision dependent)
-
-system "./generate-release-version";
 
 # rebuild and test the distribution
 
@@ -97,7 +107,7 @@ system "./build-dist";
 
 if ($?)
 {
-    die "./build-dist failed";
+    die "$0: ./build-dist failed";
 }
 
 

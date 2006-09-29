@@ -146,7 +146,7 @@ int HeccerHecc(struct Heccer *pheccer);
 
 int HeccerInitiate(struct Heccer *pheccer);
 
-struct Heccer *HeccerNewP1(int iOptions, double dStep);
+struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep);
 
 struct Heccer *HeccerNewP2(struct Intermediary *pinter);
 

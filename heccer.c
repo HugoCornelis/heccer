@@ -322,7 +322,7 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNewP1(int iOptions, double dStep)
+struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep)
 {
     //- set result : a new heccer
 
@@ -333,6 +333,10 @@ struct Heccer *HeccerNewP1(int iOptions, double dStep)
     {
 	return(NULL);
     }
+
+    //- set naming service
+
+    pheccerResult->pvService = pvService;
 
     //- set options and time step
 
@@ -371,6 +375,7 @@ struct Heccer *HeccerNewP2(struct Intermediary *pinter)
     struct Heccer *pheccerResult
 	= HeccerNewP1
 	  (
+	      NULL,
 	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
 	      2e-5
 	      );

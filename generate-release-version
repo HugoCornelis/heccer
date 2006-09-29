@@ -12,6 +12,9 @@ use strict;
 use YAML ();
 
 
+# get the release name
+
+my $release_name = $ARGV[0] || '';
 
 # check if there are any differences
 
@@ -50,14 +53,13 @@ if (@$missing
     die "$0: found uncommitted differences in this workspace, aborting";
 }
 
-# read the version database
+# read the release database
 
-my $versions = {};
+my $releases = YAML::LoadFile("releases.yml");
 
-eval
-{
-    $versions = YAML::LoadFile("versions.yml");
-};
+# get versions
+
+my $versions = $releases->{versions} || {};
 
 # get all minors
 
@@ -89,7 +91,15 @@ my $next_major = $majors->[$#$majors];
 
 if (!defined $next_major)
 {
-    $next_major = 0;
+    #t check if I can get that using a cert mtn command.
+
+    my $options = `cat _MTN/options`;
+
+    #! e.g. branch "0"
+
+    $options =~ /branch\s*".*?"/i;
+
+    $next_major = $1;
 }
 
 my $next_minor;
@@ -111,22 +121,67 @@ chomp $current;
 
 # construct a new record
 
+my $email;
+
+if (exists $releases->{branches}->{$next_major}
+    && exists $releases->{branches}->{$next_major}->{maintainer})
+{
+    $email = $releases->{branches}->{$next_major}->{maintainer};
+}
+else
+{
+    $email = $releases->{package}->{maintainer};
+}
+
 my $record
     = {
+       email => $email,
        major => $next_major,
        minor => $next_minor,
+       release_name => $release_name,
       };
 
 # add the record
 
 if (exists $versions->{$current})
 {
-    die "$0: this version ($current) is already in the version database";
+    die "$0: this version ($current) is already in the release database";
 }
 
 $versions->{$current} = $record;
 
+# add a record to map the release back to the major/minor
+
+if (defined $release_name && $release_name ne '')
+{
+    my $release
+	= {
+	   name => $release_name,
+	   id => $current,
+	  };
+
+    $releases->{releases}->{$release_name} = $release;
+}
+
+# put a tag
+
+system "mtn tag $current $release_name";
+
+if ($?)
+{
+    die "$0: failed to add a tag, no release made.";
+}
+
 # dump the new database
 
-YAML::DumpFile("versions.yml", $versions);
+YAML::DumpFile("releases.yml", $versions);
+
+# put this release in the repository
+
+system "mtn ci --message=\"$0: automated release with name ($release_name)\"";
+
+if ($?)
+{
+    die "$0: commiting release $release_name failed";
+}
 
