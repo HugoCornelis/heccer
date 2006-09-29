@@ -1,3 +1,4 @@
+#!/usr/bin/perl -d:ptkdb
 #!/usr/bin/perl -w
 #!/usr/bin/perl -d:ptkdb
 #
@@ -15,7 +16,7 @@ my $release_name = $ARGV[0] || '';
 
 # generate a release version
 
-system "./generate-release-version $release_name";
+system "./generate-release-version \"$release_name\"";
 
 if ($?)
 {
@@ -88,7 +89,6 @@ if ($?)
 {
     die "$0: generating html for the test cases failed";
 }
-
 
 
 # recreate the distribution

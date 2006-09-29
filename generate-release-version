@@ -1,9 +1,9 @@
+#!/usr/bin/perl -d:ptkdb
 #!/usr/bin/perl -w
 #!/usr/bin/perl -d:ptkdb
 #
 #
-# Builds a distribution, including checks using automake and checks
-# specific for this package
+# Generate a release
 #
 
 use strict;
@@ -15,6 +15,13 @@ use YAML ();
 # get the release name
 
 my $release_name = $ARGV[0] || '';
+
+#! made the release_name mandatory
+
+if ($release_name eq '')
+{
+    die "$0: need a release name";
+}
 
 # check if there are any differences
 
@@ -55,126 +62,121 @@ if (@$missing
 
 # read the release database
 
-my $releases = YAML::LoadFile("releases.yml");
+my $package = YAML::LoadFile("package.yml");
 
-# get versions
+# get releases
 
-my $versions = $releases->{versions} || {};
+my $releases = $package->{releases} || {};
 
-# get all minors
+# # get all minors
 
-my $minors
-    = [
-       sort
-       map
-       {
-	   $versions->{$_}->{minor}
-       }
-       keys %$versions,
-      ];
+# my $minors
+#     = [
+#        sort
+#        map
+#        {
+# 	   $releases->{$_}->{minor}
+#        }
+#        keys %$releases,
+#       ];
 
-# get all majors
+# # get all majors
 
-my $majors
-    = [
-       sort
-       map
-       {
-	   $versions->{$_}->{major}
-       }
-       keys %$versions,
-      ];
+# my $majors
+#     = [
+#        sort
+#        map
+#        {
+# 	   $releases->{$_}->{major}
+#        }
+#        keys %$releases,
+#       ];
 
-# figure out a next major/minor
+# # figure out a next major/minor
 
-my $next_major = $majors->[$#$majors];
+# my $next_major = $majors->[$#$majors];
 
-if (!defined $next_major)
-{
-    #t check if I can get that using a cert mtn command.
+# if (!defined $next_major)
+# {
+#     #t check if I can get that using a cert mtn command.
 
-    my $options = `cat _MTN/options`;
+#     my $options = `cat _MTN/options`;
 
-    #! e.g. branch "0"
+#     #! e.g. branch "0"
 
-    $options =~ /branch\s*".*?"/i;
+#     $options =~ /branch\s*"(.*?)"/i;
 
-    $next_major = $1;
-}
+#     $next_major = $1;
+# }
 
-my $next_minor;
+# my $next_minor;
 
-if (!defined $next_minor)
-{
-    $next_minor = 1;
-}
-else
-{
-    $next_minor = $minors->[$#$minors] + 1;
-}
-
-# figure out the current VC version
-
-my $current = `mtn automate get_base_revision_id`;
-
-chomp $current;
+# if (!defined $next_minor)
+# {
+#     $next_minor = 1;
+# }
+# else
+# {
+#     $next_minor = $minors->[$#$minors] + 1;
+# }
 
 # construct a new record
 
 my $email;
 
-if (exists $releases->{branches}->{$next_major}
-    && exists $releases->{branches}->{$next_major}->{maintainer})
+# if (exists $package->{branches}
+#     && exists $package->{branches}->{$next_major}
+#     && exists $package->{branches}->{$next_major}->{maintainer})
+# {
+#     $email = $package->{branches}->{$next_major}->{maintainer};
+# }
+# else
 {
-    $email = $releases->{branches}->{$next_major}->{maintainer};
-}
-else
-{
-    $email = $releases->{package}->{maintainer};
+    $email = $package->{package}->{maintainer};
 }
 
 my $record
     = {
        email => $email,
-       major => $next_major,
-       minor => $next_minor,
-       release_name => $release_name,
+#        major => $next_major,
+#        minor => $next_minor,
+       name => $release_name,
       };
 
 # add the record
 
-if (exists $versions->{$current})
+if (exists $releases->{$release_name})
 {
-    die "$0: this version ($current) is already in the release database";
+    die "$0: this release ($release_name) is already in the release database";
 }
 
-$versions->{$current} = $record;
+$releases->{$release_name} = $record;
 
-# add a record to map the release back to the major/minor
+# link the new releases with the database
 
-if (defined $release_name && $release_name ne '')
-{
-    my $release
-	= {
-	   name => $release_name,
-	   id => $current,
-	  };
+#! if there were no releases yet, $package and $releases are not
+#! linked yet.
 
-    $releases->{releases}->{$release_name} = $release;
-}
-
-# put a tag
-
-system "mtn tag $current $release_name";
-
-if ($?)
-{
-    die "$0: failed to add a tag, no release made.";
-}
+$package->{releases} = $releases;
 
 # dump the new database
 
-YAML::DumpFile("releases.yml", $versions);
+YAML::DumpFile("package.yml", $package);
+
+# # figure out the current VC version
+
+# #! this assumes that the log-message is not included in the SHA that
+# #! makes up the revision id.
+
+# # my $current = `mtn automate get_base_revision_id`;
+
+# my $next_id = `mtn automate get_current_revision_id`;
+
+# chomp $next_id;
+
+#t replace the release names in configure.ac.
+
+
 
 # put this release in the repository
 
@@ -182,6 +184,17 @@ system "mtn ci --message=\"$0: automated release with name ($release_name)\"";
 
 if ($?)
 {
-    die "$0: commiting release $release_name failed";
+    die "$0: commiting release database for $release_name failed";
+}
+
+# put a tag
+
+my $current = `mtn automate get_base_revision_id`;
+
+system "mtn tag $current \"$release_name\"";
+
+if ($?)
+{
+    die "$0: failed to add a tag to the release made.";
 }
 
