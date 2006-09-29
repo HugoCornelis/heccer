@@ -200,6 +200,8 @@ if ($?)
 
 my $current = `mtn automate get_base_revision_id`;
 
+chomp $current;
+
 system "mtn tag $current \"$label\"";
 
 if ($?)
