@@ -104,6 +104,13 @@ if ($minor eq '+')
     $minor = $next_minor;
 }
 
+# remove any micro if there is no minor
+
+if ($minor eq '')
+{
+    $micro = '';
+}
+
 # if micro needs increment
 
 if ($micro eq '+')
