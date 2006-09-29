@@ -12,16 +12,24 @@ use strict;
 use YAML ();
 
 
-# get the release name
+# get the major release name
 
-my $release_name = $ARGV[0] || '';
+my $major = $ARGV[0] || '';
 
-#! made the release_name mandatory
+#! major mandatory
 
-if ($release_name eq '')
+if ($major eq '')
 {
     die "$0: need a release name";
 }
+
+# get the minor release name
+
+my $minor = $ARGV[1] || '';
+
+# get the micro release name
+
+my $micro = $ARGV[2] || '';
 
 # check if there are any differences
 
@@ -68,89 +76,98 @@ my $package = YAML::LoadFile("package.yml");
 
 my $releases = $package->{releases} || {};
 
-# # get all minors
+# if minor needs increment
 
-# my $minors
-#     = [
-#        sort
-#        map
-#        {
-# 	   $releases->{$_}->{minor}
-#        }
-#        keys %$releases,
-#       ];
+if ($minor eq '+')
+{
+    # get a next minor for this major
 
-# # get all majors
+    my $minors
+	= [
+	   sort
+	   {
+	       $a <=> $b
+	   }
+	   keys %{$releases->{$major}},
+	  ];
 
-# my $majors
-#     = [
-#        sort
-#        map
-#        {
-# 	   $releases->{$_}->{major}
-#        }
-#        keys %$releases,
-#       ];
+    my $next_minor;
 
-# # figure out a next major/minor
+    if (!@$minors)
+    {
+	$next_minor = 1;
+    }
+    else
+    {
+	$next_minor = $minors->[$#$minors] + 1;
+    }
 
-# my $next_major = $majors->[$#$majors];
+    $minor = $next_minor;
+}
 
-# if (!defined $next_major)
-# {
-#     #t check if I can get that using a cert mtn command.
+# if micro needs increment
 
-#     my $options = `cat _MTN/options`;
+if ($micro eq '+')
+{
+    # get a next micro for this minor
 
-#     #! e.g. branch "0"
+    my $micros
+	= [
+	   sort
+	   {
+	       $a <=> $b
+	   }
+	   keys %{$releases->{$major}->{$minor}},
+	  ];
 
-#     $options =~ /branch\s*"(.*?)"/i;
+    my $next_micro;
 
-#     $next_major = $1;
-# }
+    if (!@$micros)
+    {
+	$next_micro = 1;
+    }
+    else
+    {
+	$next_micro = $micros->[$#$micros] + 1;
+    }
 
-# my $next_minor;
-
-# if (!defined $next_minor)
-# {
-#     $next_minor = 1;
-# }
-# else
-# {
-#     $next_minor = $minors->[$#$minors] + 1;
-# }
+    $micro = $next_micro;
+}
 
 # construct a new record
 
-my $email;
-
-# if (exists $package->{branches}
-#     && exists $package->{branches}->{$next_major}
-#     && exists $package->{branches}->{$next_major}->{maintainer})
-# {
-#     $email = $package->{branches}->{$next_major}->{maintainer};
-# }
-# else
-{
-    $email = $package->{package}->{maintainer};
-}
+my $email = $package->{package}->{maintainer};
 
 my $record
     = {
        email => $email,
-#        major => $next_major,
-#        minor => $next_minor,
-       name => $release_name,
+       major => $major,
+       micro => $micro,
+       minor => $minor,
       };
+
+# generate the human readable label
+
+my $label = "$major-$minor-$micro";
+
+if ($label !~ /^[a-zA-Z0-9_\-\.]+$/)
+{
+    die "$0: this release has an illegal label ($label), aborting";
+}
+
+#! protect against empty minors and micros
+
+$label =~ s/--/-/g;
+$label =~ s/-$//g;
 
 # add the record
 
-if (exists $releases->{$release_name})
+if (exists $releases->{$major}->{$minor}->{$micro})
 {
-    die "$0: this release ($release_name) is already in the release database";
+    die "$0: this release ($label) is already in the release database";
 }
 
-$releases->{$release_name} = $record;
+$releases->{$major}->{$minor}->{$micro} = $record;
 
 # link the new releases with the database
 
@@ -163,38 +180,31 @@ $package->{releases} = $releases;
 
 YAML::DumpFile("package.yml", $package);
 
-# # figure out the current VC version
+# replace the release names in configure.ac.
 
-# #! this assumes that the log-message is not included in the SHA that
-# #! makes up the revision id.
+my $email = quotemeta $email;
 
-# # my $current = `mtn automate get_base_revision_id`;
+system "find . -name configure.ac -exec perl -pi -e 's/AC_INIT\\(.*?\\)/AC_INIT($package->{package}->{name}, $label, $email)/' \{\} \\;";
 
-# my $next_id = `mtn automate get_current_revision_id`;
-
-# chomp $next_id;
-
-#t replace the release names in configure.ac.
-
-
+system "find . -name configure.ac -exec perl -pi -e 's/AM_INIT_AUTOMAKE\\(.*?\\)/AM_INIT_AUTOMAKE($package->{package}->{name}, $label)/' \{\} \\;";
 
 # put this release in the repository
 
-system "mtn ci --message=\"$0: automated release with name ($release_name)\"";
+system "mtn ci --message=\"$0: automated release with name ($label)\"";
 
 if ($?)
 {
-    die "$0: commiting release database for $release_name failed";
+    die "$0: commiting release database for $label failed";
 }
 
 # put a tag
 
 my $current = `mtn automate get_base_revision_id`;
 
-system "mtn tag $current \"$release_name\"";
+system "mtn tag $current \"$label\"";
 
 if ($?)
 {
-    die "$0: failed to add a tag to the release made.";
+    die "$0: failed to add a tag to the release made ($label).";
 }
 

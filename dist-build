@@ -10,17 +10,25 @@
 use strict;
 
 
-# get the release name
+# get the major release name
 
-my $release_name = $ARGV[0] || '';
+my $major = $ARGV[0] || '';
+
+# get the minor release name
+
+my $minor = $ARGV[1] || '';
+
+# get the micro release name
+
+my $micro = $ARGV[2] || '';
 
 # generate a release version
 
-system "./generate-release-version \"$release_name\"";
+system "./generate-release-version \"$major\" \"$minor\" \"$micro\"";
 
 if ($?)
 {
-    die "$0: ./generate-release-version $release_name failed";
+    die "$0: ./generate-release-version $major-$minor-$micro failed";
 }
 
 
