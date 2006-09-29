@@ -181,7 +181,7 @@ YAML::DumpFile("package.yml", $package);
 
 # replace the release names in configure.ac.
 
-my $email = quotemeta $email;
+$email = quotemeta $email;
 
 system "find . -name configure.ac -exec perl -pi -e 's/AC_INIT\\(.*?\\)/AC_INIT($package->{package}->{name}, $label, $email)/' \{\} \\;";
 
