@@ -4,6 +4,12 @@ package:
   name: heccer
 releases:
   passive:
+    '':
+      1:
+        email: hugo.cornelis@gmail.com
+        major: passive
+        micro: 1
+        minor: ''
     1:
       '':
         email: hugo.cornelis@gmail.com
