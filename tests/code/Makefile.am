@@ -83,5 +83,3 @@ check_SCRIPTS = $(srcdir)/../run
 
 TESTS = $(srcdir)/../run
 
-test: check
-
