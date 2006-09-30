@@ -196,12 +196,16 @@ system "find . -name configure.ac -exec perl -pi -e 's/AM_INIT_AUTOMAKE\\(.*?\\)
 
 # replace the release names in the distribution builder
 
-#t of course if we replace the variables, the disappear from the
-#t source, so this only works once.
+system "./release-expand '$package->{package}->{name}' '$major' '$minor' '$micro'";
 
-system "perl -pi -e 's/\\\$\\{package\\}/$package->{package}->{name}/g' build-dist";
+if ($?)
+{
+    die "$0: expanding release keywords for $label failed";
+}
 
-system "perl -pi -e 's/\\\$\\{release_name\\}/$label/g' build-dist";
+# system "perl -pi -e 's/\\\$\\{package\\}/$package->{package}->{name}/g' build-dist";
+
+# system "perl -pi -e 's/\\\$\\{release_name\\}/$label/g' build-dist";
 
 # put this release in the repository
 

@@ -3,15 +3,15 @@
 #
 # build script to be used to unpack and test a dist tarball.
 #
-# builds in /tmp/heccer/<whatever>, and runs the tests.
+# builds in /tmp/${package}/<whatever>, and runs the tests.
 #
 
 use strict;
 
 
 {
-    # $Format: "system 'mkdir --parents \"/tmp/neurospaces/$ProjectVersion$\"'";$
-system 'mkdir --parents "/tmp/heccer/passive-1"'
+    # $Format: "system 'mkdir --parents \"/tmp/${package}/${label}\"'"$
+system 'mkdir --parents "/tmp/${package}/${label}"'
 }
 
 if ($?)
@@ -21,8 +21,8 @@ if ($?)
 
 
 {
-    # $Format: "system \"cp '/local_home/hugo/neurospaces/source/c/snapshots/0/neurospacesread-$ProjectVersion$.tar.gz' '/tmp/neurospaces/$ProjectVersion$'\"";$
-system "cp '/local_home/hugo/heccer/source/c/snapshots/0/heccer-passive-1.tar.gz' '/tmp/heccer/passive-1'"
+    # $Format: "system \"cp '/local_home/hugo/${package}/source/c/snapshots/0/${package}-${label}.tar.gz' '/tmp/${package}/${label}'\""$
+system "cp '/local_home/hugo/${package}/source/c/snapshots/0/${package}-${label}.tar.gz' '/tmp/${package}/${label}'"
 }
 
 if ($?)
@@ -32,8 +32,8 @@ if ($?)
 
 
 {
-    # $Format: "chdir \"/tmp/neurospaces/$ProjectVersion$\"";$
-chdir "/tmp/heccer/passive-1"
+    # $Format: "chdir \"/tmp/${package}/${label}\""$
+chdir "/tmp/${package}/${label}"
 }
 
 if ($?)
@@ -43,8 +43,8 @@ if ($?)
 
 
 {
-    # $Format: "system \"tar xfz 'neurospacesread-$ProjectVersion$.tar.gz'\"";$
-system "tar xfz 'heccer-passive-1.tar.gz'"
+    # $Format: "system \"tar xfz '${package}-${label}.tar.gz'\""$
+system "tar xfz '${package}-${label}.tar.gz'"
 }
 
 if ($?)
@@ -54,8 +54,8 @@ if ($?)
 
 
 {
-    # $Format: "chdir \"neurospacesread-$ProjectVersion$\"";$
-chdir "heccer-passive-1"
+    # $Format: "chdir \"${package}-${label}\""$
+chdir "${package}-${label}"
 }
 
 if ($?)
@@ -65,7 +65,7 @@ if ($?)
 
 
 {
-    # $Format: "system \"./configure\"";$
+    # $Format: "system \"./configure\""$
 system "./configure"
 }
 
@@ -76,8 +76,8 @@ if ($?)
 
 
 {
-    # $Format: "system 'make'";$
-system 'make'
+    # $Format: "system \"make\""$
+system "make"
 }
 
 if ($?)
@@ -87,8 +87,8 @@ if ($?)
 
 
 {
-    # $Format: "system 'make test'";$
-system 'make test'
+    # $Format: "system \"make test\""$
+system "make test"
 }
 
 if ($?)

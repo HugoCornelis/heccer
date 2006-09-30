@@ -1,0 +1,82 @@
+#!/usr/bin/perl -d:ptkdb
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb
+#
+#
+# Generate a release
+#
+
+use strict;
+
+
+# get the package name
+
+my $package = $ARGV[0] || '';
+
+# get the major release name
+
+my $major = $ARGV[1] || '';
+
+# get the minor release name
+
+my $minor = $ARGV[2] || '';
+
+# get the micro release name
+
+my $micro = $ARGV[3] || '';
+
+#! all mandatory
+
+if ($package eq ''
+    || $major eq ''
+    || $minor eq ''
+    || $micro eq '')
+{
+    die "$0: need a package name, a major, a minor and a micro release label";
+}
+
+# replace the release names in the distribution builder
+
+#t of course if we replace the variables, the disappear from the
+#t source, so this only works once.
+
+my $bd_text;
+
+{
+    # slurp build-dist
+
+    open my $bd, "./build-dist"
+	or die $!;
+    undef $/;
+    my $bd_text = <$bd>;
+    close $bd;
+}
+
+if ($bd_text)
+{
+    while ($bd_text =~ /\G.*\$Format: "(.*)"\$/gs)
+    {
+	# get matched string
+
+	my $matched = $1;
+
+	# replace variables
+
+	$matched =~ s/\$\{package\}/$package/g;
+	$matched =~ s/\$\{major\}/$major/g;
+	$matched =~ s/\$\{minor\}/$minor/g;
+	$matched =~ s/\$\{micro\}/$micro/g;
+
+	# replace the next line with the new text
+
+	$bd_text =~ s/\G(.*\n).*\n/$1$matched\n/;
+    }
+
+    # replace the file
+
+    open my $bd, ">./build-dist"
+	or die $!;
+    print $bd $bd_text;
+    close $bd;
+}
+
