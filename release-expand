@@ -6,34 +6,14 @@
 # Generate a release
 #
 
-use strict;
 
+# get the package info
 
-# get the package name
-
-my $package = $ARGV[0] || '';
-
-# get the major release name
-
-my $major = $ARGV[1] || '';
-
-# get the minor release name
-
-my $minor = $ARGV[2] || '';
-
-# get the micro release name
-
-my $micro = $ARGV[3] || '';
-
-#! all mandatory
-
-if ($package eq ''
-    || $major eq ''
-    || $minor eq ''
-    || $micro eq '')
-{
-    die "$0: need a package name, a major, a minor and a micro release label";
-}
+local $package = $ARGV[0] || '';
+local $major = $ARGV[1] || '';
+local $minor = $ARGV[2] || '';
+local $micro = $ARGV[3] || '';
+local $label = $ARGV[4] || '';
 
 # replace the release names in the distribution builder
 
@@ -48,17 +28,40 @@ my $bd_text;
     open my $bd, "./build-dist"
 	or die $!;
     undef $/;
-    my $bd_text = <$bd>;
+    $bd_text = <$bd>;
     close $bd;
 }
 
 if ($bd_text)
 {
-    while ($bd_text =~ /\G.*\$Format: "(.*)"\$/gs)
+    # loop over source text
+
+    while ($bd_text =~ m/\G.*?\$Format: "([^\n]*)"\$/gs)
     {
+	my $position = pos($bd_text);
+
 	# get matched string
 
 	my $matched = $1;
+
+	# check if info is available
+
+	foreach my $info qw(package major minor micro label)
+	{
+	    no strict "refs";
+
+	    if ($matched =~ /\$\{$info\}/
+		&& $$info eq '')
+	    {
+		die "$0: $info required but not defined";
+	    }
+	}
+
+	# replace quotes
+
+	#! not sure about quoting, probably not all cases covered.
+
+	$matched =~ s/\\"/"/g;
 
 	# replace variables
 
@@ -66,10 +69,13 @@ if ($bd_text)
 	$matched =~ s/\$\{major\}/$major/g;
 	$matched =~ s/\$\{minor\}/$minor/g;
 	$matched =~ s/\$\{micro\}/$micro/g;
+	$matched =~ s/\$\{label\}/$label/g;
 
 	# replace the next line with the new text
 
 	$bd_text =~ s/\G(.*\n).*\n/$1$matched\n/;
+
+	pos($bd_text) = $position;
     }
 
     # replace the file

@@ -196,7 +196,7 @@ system "find . -name configure.ac -exec perl -pi -e 's/AM_INIT_AUTOMAKE\\(.*?\\)
 
 # replace the release names in the distribution builder
 
-system "./release-expand '$package->{package}->{name}' '$major' '$minor' '$micro'";
+system "./release-expand '$package->{package}->{name}' '$major' '$minor' '$micro' '$label'";
 
 if ($?)
 {
