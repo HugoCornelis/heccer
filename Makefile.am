@@ -70,3 +70,5 @@ dist-hook:
 #! this one breaks the distcheck, because automake makes dist dirs read-only
 #	cd $(distdir)/tests && ./tests_2_html
 
+test: check
+
