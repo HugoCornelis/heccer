@@ -5,6 +5,11 @@ package:
 releases:
   passive:
     '':
+      '':
+        email: hugo.cornelis@gmail.com
+        major: passive
+        micro: ''
+        minor: ''
       1:
         email: hugo.cornelis@gmail.com
         major: passive
