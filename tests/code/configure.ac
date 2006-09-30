@@ -18,11 +18,11 @@ dnl //////////////////////////////////////////////////////////////////////////
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(heccer, passive-6, hugo.cornelis@gmail.com)
+AC_INIT(heccer, passive-7, hugo.cornelis@gmail.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE(heccer, passive-6)
+AM_INIT_AUTOMAKE(heccer, passive-7)
 
 # Checks for programs.
 AC_PROG_CC
