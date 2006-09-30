@@ -44,3 +44,9 @@ releases:
         major: passive
         micro: ''
         minor: 4
+    5:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: passive
+        micro: ''
+        minor: 5

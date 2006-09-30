@@ -166,6 +166,8 @@ if ($label !~ /^[a-zA-Z0-9_\-\.]+$/)
 $label =~ s/--/-/g;
 $label =~ s/-$//g;
 
+print "Creating a release for ($label)\n";
+
 # add the record
 
 if (exists $releases->{$major}->{$minor}->{$micro})
