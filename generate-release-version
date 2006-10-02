@@ -190,6 +190,8 @@ YAML::DumpFile("package.yml", $package);
 
 # replace the release names in configure.ac.
 
+#t integrate this ...
+
 $email = quotemeta $email;
 
 system "find . -name configure.ac -exec perl -pi -e 's/AC_INIT\\(.*?\\)/AC_INIT($package->{package}->{name}, $label, $email)/' \{\} \\;";
@@ -197,6 +199,8 @@ system "find . -name configure.ac -exec perl -pi -e 's/AC_INIT\\(.*?\\)/AC_INIT(
 system "find . -name configure.ac -exec perl -pi -e 's/AM_INIT_AUTOMAKE\\(.*?\\)/AM_INIT_AUTOMAKE($package->{package}->{name}, $label)/' \{\} \\;";
 
 # replace the release names in the distribution builder
+
+#t ... with this, ie. only one (configurable) keyword expander is needed.
 
 system "./release-expand '$package->{package}->{name}' '$major' '$minor' '$micro' '$label'";
 
