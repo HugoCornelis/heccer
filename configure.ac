@@ -18,7 +18,10 @@ dnl //////////////////////////////////////////////////////////////////////////
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
+
+# $Format: "AC_INIT(${package}, ${label}, ${email})"$
 AC_INIT(heccer, passive-9, hugo.cornelis@gmail.com)
+
 AC_CONFIG_SRCDIR([compartment.h])
 AC_CONFIG_HEADER([config.h])
 
@@ -26,6 +29,7 @@ dnl all subdirs
 
 AC_CONFIG_SUBDIRS(tests/code)
 
+# $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
 AM_INIT_AUTOMAKE(heccer, passive-9)
 
 # Checks for programs.
