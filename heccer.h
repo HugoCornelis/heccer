@@ -144,7 +144,11 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 
 int HeccerHecc(struct Heccer *pheccer);
 
+int HeccerHeccs(struct Heccer *pheccer, double dTime);
+
 int HeccerInitiate(struct Heccer *pheccer);
+
+struct Heccer *HeccerNew(void *pvService);
 
 struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep);
 

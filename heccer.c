@@ -46,6 +46,10 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     //t build up intermediary using the available service
 
+    //t 1. need compartment stream
+    //t 2. need mechanism stream
+    //t 3. need pool stream
+
     //- return result
 
     return(iResult);
@@ -271,6 +275,53 @@ int HeccerHecc(struct Heccer *pheccer)
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerHeccs()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	dTime.....: current time.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Call HeccerHecc() until dTime.
+///
+/// **************************************************************************
+
+int HeccerHeccs(struct Heccer *pheccer, double dTime)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- while not reached simulation time
+
+    while (pheccer->dTime < dTime)
+    {
+	//- do a single hecc
+
+	iResult = iResult && HeccerHecc(pheccer);
+
+	//! perhaps should move the advance of the local time to this
+	//! point ?  Would allow to remove this test ...
+	//! I don't care for the moment.
+
+	if (iResult == FALSE)
+	{
+	    return(iResult);
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerInitiate()
 ///
 /// ARGS.:
@@ -282,6 +333,16 @@ int HeccerHecc(struct Heccer *pheccer)
 ///	success of operation.
 ///
 /// DESCR: Fill the data arrays with initial values.
+///
+/// TODO.:
+///
+///	I guess it should be possible to override the initial value
+///	array using an additional argument.  Providing NULL means not
+///	overriden.  Probably the initial values should be separated
+///	out from the intermediary and have their own data structure.
+///	In that case, we can also annotate the initial values with
+///	flags, e.g. indicating that they are calculated or not (for
+///	channel equilibrium state fi.).
 ///
 /// **************************************************************************
 
@@ -307,10 +368,48 @@ int HeccerInitiate(struct Heccer *pheccer)
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerNew()
+///
+/// ARGS.:
+///
+///	pvService: identification service.
+///
+/// RTN..: struct Heccer *
+///
+///	Instantiated heccer, NULL for failure.
+///
+/// DESCR: Create a new heccer using defaults.
+///
+///	Defaults include option values and time step.  Look at the
+///	code to see what they really are.
+///
+/// **************************************************************************
+
+struct Heccer *HeccerNew(void *pvService)
+{
+    //- set result : initialized heccer
+
+    struct Heccer *pheccerResult
+	= HeccerNewP1
+	  (
+	      pvService,
+	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
+	      2e-5
+	      );
+
+    //- return result
+
+    return(pheccerResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerNewP1()
 ///
 /// ARGS.:
 ///
+///	pvService: identification service.
 ///	iOptions.: see heccer.h.
 ///	dStep....: required time step (from the time constants of the model).
 ///
@@ -372,13 +471,7 @@ struct Heccer *HeccerNewP2(struct Intermediary *pinter)
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult
-	= HeccerNewP1
-	  (
-	      NULL,
-	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
-	      2e-5
-	      );
+    struct Heccer *pheccerResult = HeccerNew(NULL);
 
     //- link in intermediary
 
