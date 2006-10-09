@@ -38,6 +38,12 @@ releases:
         major: passive
         micro: ''
         minor: 11
+    12:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: passive
+        micro: ''
+        minor: 12
     2:
       '':
         email: hugo.cornelis@gmail.com
