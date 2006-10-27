@@ -1,0 +1,39 @@
+
+Copied from moose, should document how heccer differs here, and why.
+
+/*
+** The technique used for creating the sparse matrix:
+** Let us assume - we have this structure:
+**
+**       s(2)        d1(1)
+**  ----------------------            the numbers in parenthesis indicating the sequence in priority list
+**            \
+**             \  d2(0)
+**              \
+**
+** According to crank-nicolson method
+**
+** | 1 + t/2RC + gt/2C           -(1/2)(t/2RC)           -(1/2)(t/2RC)       |   |V0'|
+** | -(1/2)(t/2RC)               1 + t/2RC + gt/2C       -(1/2)(t/2RC)       | x |V1'|  =
+** | -(1/2)(t/2RC)               -(1/2)(t/2RC)           1 + t/2RC + gt/2C   |   |V2'|
+**
+**	| 1 - t/2RC - gt/2C          (1/2)(t/2RC)           (1/2)(t/2RC)       |   |V0|
+**	| (1/2)(t/2RC)               1 - t/2RC - gt/2C      (1/2)(t/2RC)       | x |V1|
+**	| (1/2)(t/2RC)               (1/2)(t/2RC)           1 - t/2RC - gt/2C  |   |V2|
+**
+** where t is the timestep, g is conductance, R is membrane resistance, C is membrane capacitance
+** V0' V1' V2' new voltage (at time T+t) and V0 V1 V2 old voltage (at time T)
+** R and g in each position must be the equivalents as calculated between connected compartment
+** ( we have removed the subscripts for readability - otherwise R in row i column j is actually Rij
+** - the equivalent resistance between compartment i and j)
+**
+** by multiplying each row on both sides by C/t, we have
+** | C/t + 1/2R + g/2		-(1/2)(1/2R)		-(1/2)(1/2R)	 |   |V0'|
+** | -(1/2)(1/2R)		C/t + 1/2R + g/2        -(1/2)(1/2R)	 | x |V1'| =
+** | -(1/2)(1/2R)		-(1/2)(1/2R)		C/t + 1/2R + g/2 |   |V2'|
+**
+**	| C/t - 1/2R - g/2		(1/2)(1/2R)		(1/2)(1/2R)	  |   |V0|
+**	| (1/2)(1/2R)			C/t - 1/2R - g/2        (1/2)(1/2R)	  | x |V1|
+**	| (1/2)(1/2R)			(1/2)(1/2R)		C/t - 1/2R - g/2  |   |V2|
+**
+d*/

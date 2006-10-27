@@ -69,6 +69,17 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 /// **************************************************************************
 
 /// driver : select and drive the enumerator
+///
+///	A small variant of hines, 1986.  Recursive function, typically
+///	driven with something like HeccerMDFlowEnumerator(p, a, b),
+///	where the a is the soma index and b is the number of
+///	compartments.
+///
+/// NOTE.:
+///
+///	This is a very specific implementation of more general minimum
+///	degree algorithms, and is therefore suboptimal, afatiac.
+///
 
 static
 int
@@ -522,15 +533,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 ///	success of operation.
 ///
 /// DESCR: Minimum degree enumeration for compartment matrix.
-///
-///	A small variant of hines, 1986.  Recursive function, typically
-///	called with something like minimum_degree(heccer, -1, 0),
-///	where the -1 is the soma.
-///
-/// NOTE.:
-///
-///	This is a very specific implementation of more general minimum
-///	degree algorithms, and is therefore suboptimal.
 ///
 /// **************************************************************************
 
