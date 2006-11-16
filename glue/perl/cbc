@@ -1,0 +1,101 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -w -d:ptkdb
+#
+
+
+use strict;
+
+
+use Convert::Binary::C;
+
+use Inline (
+	    C => <<'END_OF_C_CODE'
+
+#include "EXTERN.h"
+#include "perl.h"
+
+
+#include "heccer.h"
+
+
+struct SV * glHeccerNew(SV * psvInter)
+{
+    //- set default result : failure
+
+    SV * psvResult = NULL;
+
+    STRLEN len;
+
+    struct Intermediary *pinter = SvPV(psvInter, len);
+
+    //- instantiate a heccer with an initialized intermediary
+
+    struct Heccer *pheccer = HeccerNewP2(pinter);
+
+    //- build indices for optimization
+
+    HeccerCompileP2(pheccer);
+
+    //- compile to byte code
+
+    HeccerCompileP3(pheccer);
+
+    //- initiate values
+
+    HeccerInitiate(pheccer);
+
+    //- return result
+
+    psvResult = newSVpv(pheccer, sizeof(*pheccer));
+
+    return(psvResult);
+}
+
+END_OF_C_CODE
+	    ,
+	    INC => '-I/local_home/local_home/hugo/heccer/source/c/snapshots/0',
+	    LIBS => '-L/local_home/local_home/hugo/heccer/source/c/snapshots/0 -lheccer',
+	   );
+
+
+use Scalar::Util;
+
+
+my $convertor
+    = Convert::Binary::C->new
+      (
+       Include => [
+		   '/usr/lib/gcc/i486-linux-gnu/4.0.3/include',
+		   '/usr/include',
+		   '/local_home/local_home/hugo/heccer/source/c/snapshots/0',
+		  ],
+      );
+
+$convertor->parse_file("intermediary.h");
+
+my $intermediary
+    = $convertor->pack
+      (
+       'struct Intermediary',
+       {
+	iCompartments => 1,
+	pcomp => [
+		  {
+		   iParent => -1,
+		   iMechanisms => 0,
+		   dCm => 0.0,
+		   dEm => 0.0,
+		   dInitVm => 0.0,
+		   dInject => 0.0,
+		   dRa => 0.0,
+		   dRm => 0.0,
+		  },
+		 ],
+	iMechanisms => 0,
+	pim => 0,
+	pvMechanism => 0,
+       },
+      );
+
+glHeccerNew($intermediary);
+

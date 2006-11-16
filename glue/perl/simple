@@ -1,0 +1,37 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -w -d:ptkdb
+#
+
+
+use strict;
+
+
+use Inline "C";
+
+use Scalar::Util;
+
+
+my $compartment = Inline::Struct::Compartment->new();
+$compartment->iParent(-1);
+$compartment->iMechanisms(0);
+$compartment->dCm(0.0);
+$compartment->dEm(0.0);
+$compartment->dInitVm(0.0);
+$compartment->dInject(0.0);
+$compartment->dRa(0.0);
+$compartment->dRm(0.0);
+
+create_intermediary($compartment);
+
+
+__END__
+__C__
+
+
+#include "intermediary.h"
+
+void create_intermediary(struct compartment *pcomp)
+{
+    printf("myfunc: num=%i, str='%s'\n", f->num, f->str);
+}
+
