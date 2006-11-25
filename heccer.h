@@ -123,6 +123,8 @@ int HeccerCompileP2(struct Heccer *pheccer);
 
 int HeccerCompileP3(struct Heccer *pheccer);
 
+int HeccerDumpV(struct Heccer *pheccer);
+
 int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 
 #define HECCER_DUMP_ALL 0xffffffff

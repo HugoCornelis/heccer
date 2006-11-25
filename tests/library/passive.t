@@ -3,6 +3,13 @@
 
 use strict;
 
+#t
+#t Need a test with one passive compartment that has self as parent.
+#t This is supposed to fail, but it just gives wrong results instead
+#t of failing.
+#t
+#t This came out as an annoyance during implementation of the swig perl glue.
+#t
 
 my $test
     = {

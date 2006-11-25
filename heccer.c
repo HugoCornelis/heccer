@@ -17,6 +17,7 @@
 
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "heccer.h"
@@ -171,11 +172,21 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
+int HeccerDumpV(struct Heccer *pheccer)
+{
+    return(HeccerDump(pheccer, stdout, HECCER_DUMP_ALL));
+}
+
 int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 {
     //- set default result : ok
 
     int iResult = TRUE;
+
+    if (!pfile)
+    {
+	pfile = stdout;
+    }
 
     //- status : reflects phases of compilation.
 
