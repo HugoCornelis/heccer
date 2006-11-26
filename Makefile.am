@@ -16,7 +16,9 @@
 ##############################################################################
 
 
-SUBDIRS = . tests/code
+# glue can only be built if the tests work, explains the order.
+
+SUBDIRS = . tests/code glue
 
 AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
