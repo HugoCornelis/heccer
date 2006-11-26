@@ -220,6 +220,10 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     iResult = iResult && HeccerVMDump(&pheccer->vm, pfile, iSelection);
 
+    //- flush output
+
+    fflush(pfile);
+
     //- return result
 
     return(iResult);

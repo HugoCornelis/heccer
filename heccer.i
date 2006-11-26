@@ -10,9 +10,10 @@
 #include "compartment.h"
 #include "intermediary.h"
 #include "heccer.h"
+#include "mathcomponent.h"
 %}
 
 %include "compartment.h"
 %include "intermediary.h"
 %include "heccer.h"
-
+%include "mathcomponent.h"

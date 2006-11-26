@@ -9,6 +9,9 @@
 use strict;
 
 
+$| = 1;
+
+
 BEGIN
 {
     push @INC, '.';
@@ -36,6 +39,10 @@ use Data::Dumper;
 
 my $soma = Heccer::Compartment->new();
 
+my $mc = $soma->swig_mc_get();
+
+$mc->swig_iType_set(1);
+
 print Dumper($soma);
 
 $soma->swig_dCm_set(4.57537e-11);
@@ -52,22 +59,41 @@ $intermediary->swig_iCompartments_set(1);
 
 $intermediary->swig_pcomp_set($soma);
 
+# instantiate a heccer with an initialized intermediary
+
 my $heccer = Heccer::HeccerNewP2($intermediary);
+
+# build indices for optimization
 
 $heccer->HeccerCompileP2();
 
-$heccer->HeccerDumpV();
+# compile to byte code
 
 $heccer->HeccerCompileP3();
 
-$heccer->HeccerDumpV();
+# initiate values
 
 $heccer->HeccerInitiate();
 
-$heccer->HeccerDumpV();
-
-$heccer->HeccerHecc();
+# initial dump
 
 $heccer->HeccerDumpV();
+
+# a couple of times
+
+foreach (0 .. 9)
+{
+    # step
+
+    $heccer->HeccerHecc();
+
+    # dump
+
+    print "-------\n";
+
+    print "Iteration $_\n";
+
+    $heccer->HeccerDumpV();
+}
 
 print "Perl script finished\n";
