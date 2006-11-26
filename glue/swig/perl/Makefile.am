@@ -32,6 +32,7 @@ bin_SCRIPTS = \
 
 BUILT_SOURCES = \
 	Heccer.pm \
+	Heccer.so \
 	heccer_wrap.c
 
 Heccer.pm heccer_wrap.c:
