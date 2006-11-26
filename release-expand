@@ -20,13 +20,15 @@ my $config
        files => [
 		 './build-dist',
 		 './configure.ac',
+		 './glue/configure.ac',
+		 './glue/swig/perl/configure.ac',
 		 './tests/code/configure.ac',
 		],
       };
 
 my $files = $config->{files};
 
-# replace the release names in the distribution builder
+# loop over all files with keywords
 
 foreach my $file (@$files)
 {
