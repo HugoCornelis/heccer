@@ -22,10 +22,11 @@ SUBDIRS =
 #t the following rules are crap complete, would be good if a auto
 #t expert takes a look at it.
 
-#dist-hook:
-#	cp $(srcdir)/heccer.i $(distdir)
+dist-hook:
+	cp $(srcdir)/heccer.i $(distdir)
+	cp $(srcdir)/heccer_test.pm $(distdir)
 
-noinst_SCRIPTS = \
+bin_SCRIPTS = \
 	heccer.i \
 	heccer_test.pm
 
@@ -64,3 +65,7 @@ test: check
 ## other sources
 ##
 ## http://sourceware.org/ml/automake/2001-03/msg00395.html
+## http://autoconf-archive.cryp.to/macros-by-category.html
+## http://sources.redhat.com/ml/automake/2005-02/msg00058.html
+## https://www.desy.de/~salvaire/root_wrapper.html
+
