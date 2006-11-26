@@ -18,6 +18,8 @@
 
 SUBDIRS = 
 
+#t these still need a $(srcdir) or something to make distcheck work.
+
 Heccer.pm heccer_wrap.c:
 	swig -I../../.. -perl5 -makedefault -module Heccer heccer.i
 
