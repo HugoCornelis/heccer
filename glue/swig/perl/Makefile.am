@@ -18,18 +18,49 @@
 
 SUBDIRS = 
 
-#t these still need a $(srcdir) or something to make distcheck work.
+
+#t the following rules are crap complete, would be good if a auto
+#t expert takes a look at it.
+
+#dist-hook:
+#	cp $(srcdir)/heccer.i $(distdir)
+
+noinst_SCRIPTS = \
+	heccer.i \
+	heccer_test.pm
+
+BUILT_SOURCES = \
+	Heccer.pm \
+	heccer_wrap.c
 
 Heccer.pm heccer_wrap.c:
-	swig -I../../.. -perl5 -makedefault -module Heccer heccer.i
+	swig -I$(srcdir)/../../.. -perl5 -makedefault -module Heccer heccer.i
 
 heccer_wrap.o:
-	gcc -I../../.. -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts` 
+	gcc -I$(srcdir)/../../.. -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts` 
 
-Heccer.so:
+#t this one still need a $(srcdir) or something to make distcheck work.
+
+Heccer.so: heccer_wrap.o
 	gcc -shared heccer_wrap.o -L../../.. -lheccer -o Heccer.so
 
 all: Heccer.so
 
+CLEANFILES = \
+	Heccer.pm \
+	heccer_wrap.c \
+	heccer_wrap.o \
+	Heccer.so
+
+TESTS = heccer_test.pm
+
 test: check
 
+## following http://www.geocities.com/foetsch/python/swig_linux.htm
+
+#BUILT_SOURCES = $(srcdir)/heccer_wrap.c
+#SWIG_SOURCES = heccer.i
+
+## other sources
+##
+## http://sourceware.org/ml/automake/2001-03/msg00395.html
