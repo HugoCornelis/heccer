@@ -1,5 +1,9 @@
 Makefile$
 Makefile.in$
+^Heccer
+^docs/various.txt$
+^glue/swig/perl/Heccer.pm$
+^glue/swig/perl/heccer_wrap.c$
 ^tests/code/c1c2p1$
 ^tests/code/c1c2p2$
 ^tests/code/doublep$
