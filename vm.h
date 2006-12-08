@@ -34,6 +34,9 @@ struct VM;
 #endif
 
 
+#include "callout.h"
+
+
 //s vm related (name subject to change)
 
 struct VM
@@ -90,6 +93,20 @@ struct MatsCompartment
     double dInjected;
     double dCapacity;
     double dDiagonal;
+};
+
+
+struct MatsCallout
+{
+    double d;
+
+    //m the external solver (or glue to)
+
+    ExternalFunction *pfCall;
+
+    //m currently points to intermediary
+
+    struct Callout *pco;
 };
 
 

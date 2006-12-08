@@ -5,6 +5,14 @@
 # Builds a distribution, including checks using automake and checks
 # specific for this package
 #
+# example usage:
+#
+# ./dist-build passive +
+#
+# where 'passive' is the name of the release,
+# '+' tells this script to bump the version number.
+# an additional '+' may be used to bump the revision number.
+#
 
 use strict;
 

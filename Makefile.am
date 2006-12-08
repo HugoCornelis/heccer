@@ -38,6 +38,7 @@ libheccer_a_SOURCES = \
 
 noinst_HEADERS = \
 	addressing.h \
+	callout.h \
 	compartment.h \
 	heccer.h \
 	minimumdegree.h \

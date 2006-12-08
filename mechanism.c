@@ -138,7 +138,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    double dRm = pheccer->inter.pcomp[iIntermediary].dRm;
 
-	    //- fill in constants
+	    //- fill in compartment constants
 
 	    //t these need an extra check, probably wrong.
 
@@ -165,6 +165,55 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[i];
 
 		pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+	    }
+	    else
+	    {
+		//t HeccerError(number, message, varargs);
+
+	    	fprintf
+		    (stderr,
+		     "Heccer the hecc : pmatsc is zero during mechanism compilation\n");
+	    }
+
+	    //- loop over mechanisms for this compartment
+
+	    int iMechanism;
+
+	    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism;
+
+	    for (iMechanism = 0 ; iMechanism < pheccer->inter.iMechanisms ; iMechanism++)
+	    {
+		//- look at mechanism type
+
+		int iType = pmc->iType;
+
+		switch (iType)
+		{
+		case MATH_TYPE_CallOut_conductance:
+		{
+		    //- get type specific data
+
+		    struct MatsCallout *pcall = (struct MatsCallout *)pvMats;
+
+		    //t fill in the function in the mats data, fill in the pointer to the intermediary
+
+		    
+
+		    //- go to next type specific data
+
+		    pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		    break;
+		}
+		default:
+		{
+		    //t HeccerError(number, message, varargs);
+
+		    fprintf
+			(stderr,
+			 "Heccer the hecc : unknown pvMat->iType (%i)\n", iType);
+		    break;
+		}
+		}
 	    }
 	}
 
@@ -239,6 +288,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	//- go to next operator
 
 	piMop = &piMop[1];
+
+	//- get compartment mechanism data
 
 	struct MatsCompartment *pmatsc
 	    = (struct MatsCompartment *)pvMats;

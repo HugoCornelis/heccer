@@ -1,30 +1,42 @@
 -*- outline -*-
 
-* How to add new components ?
-** Step 1
-Add C structures that describe the new components to the intermediary.
-*** Structure
+* How to add new maths to heccer ?
+There are two ways to do this: adding new equation solvers using
+call-outs, or extending the byte code generator and emulator.
+
+** Using call-outs
+See the example on the call-out that computes a conductance.
+
+** How to add new components to the compiler ?
+*** Step 1
+Add C structures that describe the new components in the intermediary.
+*** Mathematical Structure of the new Components
 Preferably using array indices, e.g. iParent of struct Compartment.
-*** Descriptive and Initial Values
+**** Descriptive and Initial Values
 Just double fields, sentinel values can be used to indicate special
 conditions, e.g. DOUBLE_MAX for a maximal conductance could mean that
 a learning rule changes the maximal conductance.
 
-** Step 2
+*** Step 2
 Extend the compiler such that it understands the new C structures of
 the intermediary.  The extended compiler produces new or existing byte
 codes to solve the new components.
-*** Indexers
+**** Indexers
 For optimization, eg. channels are sorted according to their reversal
 potential.
-*** Byte code
+**** Byte code
 
-** Step 3
+*** Step 3
 Extend the virtual machine such that it understands the new byte
 codes.
 
-** Step 4
+*** Step 4
 Make the solved variables accessible.
+
+* How to link Heccer to something else ?
+Heccer can be linked to external code at two levels: at C level, and
+at swig level.  In both cases, examine the files in glue/swig/perl/ to
+know what the interface is, and how it is supposed to be used.
 
 * How to link matlab to Heccer ?
 No clue, but should not be to difficult.  The key is to instantiate an
