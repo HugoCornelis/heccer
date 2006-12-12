@@ -27,6 +27,10 @@
 //o by Heccer, and results to be computed by the external function.  The exact
 //o definition can be found below.
 //o
+//o Note: Heccer does not do any overwriting of the result data of the external
+//o function.  So, if needed, the external function must reinitialize its result
+//o data (to zero or another appropriate value), every time it is called.
+//o
 //o step 2 : define your model.
 //o
 //o The important fact is that you have to link you model with the
