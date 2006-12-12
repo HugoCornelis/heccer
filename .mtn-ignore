@@ -6,6 +6,7 @@ Makefile.in$
 ^glue/swig/perl/heccer_wrap.c$
 ^tests/code/c1c2p1$
 ^tests/code/c1c2p2$
+^tests/code/callout1
 ^tests/code/doublep$
 ^tests/code/fork3p$
 ^tests/code/fork4p1$
