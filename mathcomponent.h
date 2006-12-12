@@ -33,6 +33,14 @@ struct MathComponent
 
 #endif
 
+#ifdef HECCER_SIZED_MATH_STRUCTURES
+
+    //m size of this structure
+
+    int iSize;
+
+#endif
+
     //m type of structure
 
     int iType;

@@ -98,11 +98,11 @@ struct MatsCompartment
 
 struct MatsCallout
 {
-    double d;
+/*     double d; */
 
-    //m the external solver (or glue to)
+/*     //m the external solver (or glue to) */
 
-    ExternalFunction *pfCall;
+/*     ExternalFunction *pfCall; */
 
     //m currently points to intermediary
 
@@ -136,6 +136,8 @@ struct MatsCallout
 
 #define HECCER_MOP_COMPARTMENT 1
 #define HECCER_MOP_FINISH 2
+
+#define HECCER_MOP_CALLOUT 10
 
 
 //f prototypes

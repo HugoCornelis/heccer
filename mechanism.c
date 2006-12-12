@@ -195,13 +195,20 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct MatsCallout *pcall = (struct MatsCallout *)pvMats;
 
-		    //t fill in the function in the mats data, fill in the pointer to the intermediary
+		    //- fill in the pointer to the intermediary
 
-		    
+		    pcall->pco = (struct Callout *)pmc;
 
 		    //- go to next type specific data
 
+#ifndef HECCER_SIZED_MATH_STRUCTURES
+
+		    pmc = (struct MathComponent *)&((struct Callout *)pmc)[1];
+
+#endif
+
 		    pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+
 		    break;
 		}
 		default:
@@ -214,6 +221,14 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 		}
+
+#ifdef HECCER_SIZED_MATH_STRUCTURES
+
+		//- go to next mechanism data
+
+		pmc = (struct MathComponent *)&(((char *)pmc)[pmc->iSize]);
+
+#endif
 	    }
 	}
 
@@ -300,9 +315,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	double dVm = pdVm[0];
 
-	//t mechanisms could go here (preferred cause it groups the
-	//t mechanism data for the leak).
-
 	//- initialize current with leak and injected
 
 	double dCurrent = pmatsc->dLeak + pmatsc->dInjected;
@@ -311,8 +323,53 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	double dConductances = 0;
 
-	//t mechanisms could go here
+	//- look at next mechanism
 
+/* 	//t mechanisms could go here (preferred cause it groups the */
+/* 	//t mechanism data for the leak). */
+
+	switch (piMop[0])
+	{
+	    //- for a call out
+
+	case HECCER_MOP_CALLOUT:
+	{
+	    //- go to next type specific data
+
+	    struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+
+	    pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+
+	    //- get function pointer
+
+	    struct Callout * pco = (struct Callout *)pcall->pco;
+
+	    ExternalFunction * pef = pco->pef;
+
+	    //- fill in internal results
+
+	    struct InternalResults * pir = pco->pir;
+
+	    pir->dVm = dVm;
+
+	    //- call the function
+
+	    struct ExternalResults * per = pco->per;
+
+	    int iResult = (*pef)(pco, pir, per);
+
+	    //- handle external results
+
+	    dConductances += per->dConductance;
+
+	    dCurrent += per->dCurrent;
+
+	    //t check signaling
+
+	    break;
+	}
+	}
+		
 	//- for single compartment neurons
 
 	if (pheccer->vm.iVms == 1)
