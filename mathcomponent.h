@@ -60,7 +60,7 @@ struct MathComponent
 
 #define MATH_TYPE_CallOut_flag			0x8000
 
-#define MATH_TYPE_CallOut_conductance		( 0x8000 | 2 )
+#define MATH_TYPE_CallOut_conductance_current	( 0x8000 | 2 )
 
 
 #endif

@@ -99,6 +99,10 @@ struct Callout
 
     struct MathComponent mc;
 
+    //m external alien data
+
+    void *pvAlien;
+
     //m internal results
 
     struct InternalResults *pir;
@@ -115,15 +119,6 @@ struct Callout
 
     //! and if convenient, internal and external results can follow thereafter
 };
-
-
-//f prototypes
-
-int HeccerMechanismCompile(struct Heccer *pheccer);
-
-int HeccerMechanismSolveCN(struct Heccer *pheccer);
-
-int HeccerMechanismSort(struct Heccer *pheccer);
 
 
 #endif

@@ -74,6 +74,7 @@ static struct HeccerCommandTable hctCops =
 
 static struct HeccerCommandInfo phciMops[] =
 {
+    {	HECCER_MOP_CALLOUT,		"HECCER_MOP_CALLOUT",			1, },
     {	HECCER_MOP_COMPARTMENT,		"HECCER_MOP_COMPARTMENT",		1, },
     {	HECCER_MOP_FINISH,		"HECCER_MOP_FINISH",			1, },
     {    -1,	NULL,	-1,	},

@@ -168,11 +168,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    }
 	    else
 	    {
-		//t HeccerError(number, message, varargs);
+		//! align to 8
 
-	    	fprintf
-		    (stderr,
-		     "Heccer the hecc : pmatsc is zero during mechanism compilation\n");
+		iMats += (((sizeof(struct MatsCompartment) - 1) >> 3) + 1) << 3;
 	    }
 
 	    //- loop over mechanisms for this compartment
@@ -189,26 +187,38 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		switch (iType)
 		{
-		case MATH_TYPE_CallOut_conductance:
+		case MATH_TYPE_CallOut_conductance_current:
 		{
+#define	SETMOP_CALLOUT(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++)
+
+		    SETMOP_CALLOUT((int *)pvMops, iMops, HECCER_MOP_CALLOUT);
+
 		    //- get type specific data
 
 		    struct MatsCallout *pcall = (struct MatsCallout *)pvMats;
 
-		    //- fill in the pointer to the intermediary
+		    if (pcall)
+		    {
+			//- fill in the pointer to the intermediary
 
-		    pcall->pco = (struct Callout *)pmc;
+			pcall->pco = (struct Callout *)pmc;
 
-		    //- go to next type specific data
+			//- go to next type specific data
 
 #ifndef HECCER_SIZED_MATH_STRUCTURES
 
-		    pmc = (struct MathComponent *)&((struct Callout *)pmc)[1];
+			pmc = (struct MathComponent *)&((struct Callout *)pmc)[1];
 
 #endif
 
-		    pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+			pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		    }
+		    else
+		    {
+			//! align to 8
 
+			iMats += (((sizeof(struct MatsCallout) - 1) >> 3) + 1) << 3;
+		    }
 		    break;
 		}
 		default:
@@ -334,6 +344,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	case HECCER_MOP_CALLOUT:
 	{
+	    //- go to next operator
+
+	    piMop = &piMop[1];
+
 	    //- go to next type specific data
 
 	    struct MatsCallout * pcall = (struct MatsCallout *)pvMats;

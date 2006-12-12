@@ -21,9 +21,10 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 CFLAGS = -O0
 
 check_PROGRAMS = \
-	doublep \
 	c1c2p1 \
 	c1c2p2 \
+	callout1 \
+	doublep \
 	fork3p \
 	fork4p1 \
 	fork4p2 \
@@ -42,6 +43,10 @@ c1c2p1_LDADD = -L../.. -lheccer
 c1c2p2_DEPENDENCIES = ../../libheccer.a main.c
 
 c1c2p2_LDADD = -L../.. -lheccer
+
+callout1_DEPENDENCIES = ../../libheccer.a main.c
+
+callout1_LDADD = -L../.. -lheccer
 
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 
