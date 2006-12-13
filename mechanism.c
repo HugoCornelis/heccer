@@ -370,7 +370,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    struct ExternalResults * per = pco->per;
 
-	    int iResult = (*pef)(pco, pir, per);
+	    int iResult = (*pef)(pco, pheccer, pir, per);
 
 	    //- handle external results
 

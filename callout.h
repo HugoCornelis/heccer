@@ -49,6 +49,7 @@
 #define CALLOUT_H
 
 
+#include "heccer.h"
 #include "mathcomponent.h"
 
 
@@ -85,7 +86,7 @@ struct Callout;
 
 typedef 
 int ExternalFunction
-(struct Callout *pco, struct InternalResults *pir, struct ExternalResults *per);
+(struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per);
 
 
 //s call out intermediary

@@ -142,7 +142,7 @@ struct Intermediary inter =
 };
 
 
-int pefSoma(struct Callout *pco, struct InternalResults *pir, struct ExternalResults *per)
+int pefSoma(struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per)
 {
     //- set default result
 
