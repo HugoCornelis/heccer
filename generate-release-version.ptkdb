@@ -1,0 +1,49 @@
+$files = {
+           '_<./generate-release-version' => [
+                                               {
+                                                 'expr' => undef,
+                                                 'value' => '1',
+                                                 'text' => 'if (@$missing
+',
+                                                 'fname' => './generate-release-version',
+                                                 'type' => 'user',
+                                                 'line' => '60'
+                                               }
+                                             ]
+         };
+$expr_list = [
+               {
+                 'expr' => '$missing',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$added',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$dropped',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$renamed_from',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$renamed_to',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$patched',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$unknown',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$ignored',
+                 'depth' => -1
+               }
+             ];
+$eval_saved_text = undef;
+$main_win_geometry = '1592x1114+0+0';
