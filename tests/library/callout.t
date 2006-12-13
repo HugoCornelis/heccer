@@ -48,6 +48,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 2e-05
 -------
 Iteration 0
 Heccer (iStatus) : (20)
@@ -83,6 +84,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680146)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 4e-05
 -------
 Iteration 1
 Heccer (iStatus) : (20)
@@ -118,6 +120,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680292)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 6e-05
 -------
 Iteration 2
 Heccer (iStatus) : (20)
@@ -153,6 +156,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680438)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 8e-05
 -------
 Iteration 3
 Heccer (iStatus) : (20)
@@ -188,6 +192,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680584)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 0.0001
 -------
 Iteration 4
 Heccer (iStatus) : (20)
@@ -223,6 +228,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680729)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 0.00012
 -------
 Iteration 5
 Heccer (iStatus) : (20)
@@ -258,6 +264,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680875)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 0.00014
 -------
 Iteration 6
 Heccer (iStatus) : (20)
@@ -293,6 +300,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068102)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 0.00016
 -------
 Iteration 7
 Heccer (iStatus) : (20)
@@ -328,6 +336,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0681165)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 0.00018
 -------
 Iteration 8
 Heccer (iStatus) : (20)
@@ -363,6 +372,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068131)
 The pefSoma callout says that it is computing current and conductance externally
+The pefSoma callout is advancing to time 0.0002
 -------
 Iteration 9
 Heccer (iStatus) : (20)

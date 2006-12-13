@@ -160,6 +160,7 @@ int pefSoma(struct Callout *pco, struct Heccer *pheccer, struct InternalResults 
     //- give some feedback for testing purposes
 
     fprintf(stdout, "The pefSoma callout says that it is computing current and conductance externally\n");
+    fprintf(stdout, "The pefSoma callout is advancing to time %g\n", pheccer->dTime);
 
     //- return result
 
