@@ -24,6 +24,7 @@ check_PROGRAMS = \
 	c1c2p1 \
 	c1c2p2 \
 	callout1 \
+	calloutInjector \
 	doublep \
 	fork3p \
 	fork4p1 \
@@ -47,6 +48,10 @@ c1c2p2_LDADD = -L../.. -lheccer
 callout1_DEPENDENCIES = ../../libheccer.a main.c
 
 callout1_LDADD = -L../.. -lheccer
+
+calloutInjector_DEPENDENCIES = ../../libheccer.a main.c
+
+calloutInjector_LDADD = -L../.. -lheccer
 
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 
