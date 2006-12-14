@@ -20,6 +20,8 @@
 #define MECHANISM_H
 
 
+#include <float.h>
+
 #include "mathcomponent.h"
 
 
@@ -133,9 +135,126 @@ struct SpikeGenerator
 };
 
 
+//s transition model for a gate concept
+
+struct GateKinetik
+{
+    //! need parameters as follows:
+
+    //! 1   A
+    //! 2   (Vm - V0)          (factor is present or not, membrane dependence)
+    //! 3   /                  (choose between division and multiplication)
+    //! 4   (cte +
+    //! 5    exp((Vm - V0)
+    //! 6        / B))
+
+    //! and relating, in YAML, to table 1 in EDS1994:
+
+    //! 1: A, E
+    //! 2: not done, always DBL_MAX
+    //! 3: division
+    //! 4: B, F
+    //! 5: -C, -G
+    //! 6: D, H
+
+    //m multiplier
+
+    double dMultiplier;
+
+    //m multiplier membrane dependence, DBL_MAX for no dependence
+
+    double dMembraneDependence;
+
+    //m choose between nominator or denominator, 1 means nominator, -1
+    //m means denominator
+
+    int iNominator;
+
+    //m nominator or denominator offset
+
+    double dDeNominatorOffset;
+
+    //m membrane offset
+
+    double dMembraneOffset;
+
+    //m denormalized time constant
+
+    double dTauDenormalizer;
+};
+
+//s channel gate concept
+
+struct GateConcept
+{
+    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
+
+    struct GateKinetik gkForward;
+
+    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+
+    struct GateKinetik gkBackward;
+
+/*     //m equilibrium value, range 0 -- 1 */
+
+/*     double dEquilibrium; */
+
+/*     //m time constant to reach the above */
+
+/*     double dTau; */
+
+};
+
+//s gate with a power
+
+struct PoweredGateConcept
+{
+    //m power, for a standard heccer, something between 1 and 4 or so.
+
+    //! you need more ?  Let me know, I will adapt the code (or check
+    //! for yourself what needs to be done in the byte code emulator,
+    //! not difficult to do, but let me know in any case).
+
+    int iPower;
+
+    //m gate definition
+
+    struct GateConcept gc;
+};
+
+//s HH alike channel, activation and inactivation
+
+#define MECHANISM_TYPE_ChannelActInact 7
+
+struct ChannelActInact
+{
+    //m administration overhead
+
+    struct MathComponent mc;
+
+    //m first set of descriptive values, alphabetical order
+
+    //m reversal potential
+
+    double dE;
+
+    //m maximal conductance when all channels are permissive
+
+    double dG;
+
+    //m activation description
+
+    struct PoweredGateConcept pgcActivation;
+
+    //m inactivation description
+
+    struct PoweredGateConcept pgcInactivation;
+};
+
+
 //s HH alike channel
 
-#define MECHANISM_TYPE_TabulatedHHChannel 7
+#define MECHANISM_TYPE_TabulatedHHChannel 8
 
 struct TabulatedHHChannel
 {

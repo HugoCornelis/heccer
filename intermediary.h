@@ -59,9 +59,11 @@ struct Intermediary
 
     struct Compartment *pcomp;
 
-    //m mechanism index
+    //m number of mechanisms
 
     int iMechanisms;
+
+    //m mechanism index
 
     struct MechanismIndex *pim;
 

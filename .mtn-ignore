@@ -13,6 +13,7 @@ Makefile.in$
 ^tests/code/fork4p1$
 ^tests/code/fork4p2$
 ^tests/code/fork4p3$
+^tests/code/singlea-na$
 ^tests/code/singlep$
 ^tests/code/tensizesp$
 ^tests/code/triplep$
