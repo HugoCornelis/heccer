@@ -26,17 +26,23 @@ dist-hook:
 	cp $(srcdir)/heccer.i $(distdir)
 	cp $(srcdir)/heccer_test.pm $(distdir)
 
-bin_SCRIPTS = \
-	heccer.i \
-	heccer_test.pm
+swigdir = $(prefix)/glue/swig
+
+#t use $(swigdir) here
+
+perldir = $(prefix)/glue/swig/perl
+
+swig_sources = heccer.i
+
+perl_DATA = heccer_test.pm
 
 BUILT_SOURCES = \
 	Heccer.pm \
 	Heccer.so \
-	heccer_wrap.c
+	$(srcdir)/heccer_wrap.c
 
 Heccer.pm heccer_wrap.c:
-	swig -I$(srcdir)/../../.. -perl5 -makedefault -module Heccer heccer.i
+	swig -I$(srcdir)/../../.. -perl5 -makedefault -module Heccer -o heccer_wrap.c $(srcdir)/heccer.i
 
 heccer_wrap.o:
 	gcc -I$(srcdir)/../../.. -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts` 

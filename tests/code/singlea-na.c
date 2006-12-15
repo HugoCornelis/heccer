@@ -70,12 +70,6 @@ struct Compartment compSoma =
 };
 
 
-//v activation for a simple fast sodium channel
-
-struct PoweredGateConcept pgcNaFActivation =
-{
-};
-
 //v a simple fast sodium channel
 
 struct ChannelActInact caiNaF =

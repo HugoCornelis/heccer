@@ -24,7 +24,7 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
 CFLAGS = -O0
 
-noinst_LIBRARIES = libheccer.a
+lib_LIBRARIES = libheccer.a
 
 libheccer_a_SOURCES = \
 	addressing.c \
