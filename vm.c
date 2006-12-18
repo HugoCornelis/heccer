@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#include "heccer.h"
-#include "vm.h"
+#include "heccer/heccer.h"
+#include "heccer/vm.h"
 
 
 struct HeccerCommandInfo

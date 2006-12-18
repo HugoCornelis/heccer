@@ -22,12 +22,12 @@ AC_PREREQ(2.59)
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
 AC_INIT(heccer, passive-20, hugo\.cornelis\@gmail\.com)
 
-AC_CONFIG_SRCDIR([compartment.h])
+AC_CONFIG_SRCDIR([compartment.c])
 AC_CONFIG_HEADER([config.h])
 
-dnl all subdirs
+dnl dnl all subdirs
 
-AC_CONFIG_SUBDIRS(tests/code glue)
+dnl AC_CONFIG_SUBDIRS(tests/code glue)
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
 AM_INIT_AUTOMAKE(heccer, passive-20)
@@ -40,11 +40,22 @@ AC_PROG_RANLIB
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h string.h])
+AC_CHECK_HEADERS([float.h limits.h locale.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
 
 # Checks for library functions.
+AC_CHECK_FUNCS([localeconv strchr])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile
+                 glue/Makefile
+                 glue/swig/perl/Makefile
+                 tests/code/Makefile])
 AC_OUTPUT
+
+dnl # Checks for library functions.
+
+dnl AC_CONFIG_FILES([Makefile])
+dnl AC_OUTPUT

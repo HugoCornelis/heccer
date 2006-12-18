@@ -7,13 +7,13 @@
 
 %module Heccer
 %{
-#include "compartment.h"
-#include "intermediary.h"
-#include "heccer.h"
-#include "mathcomponent.h"
+#include "heccer/compartment.h"
+#include "heccer/intermediary.h"
+#include "heccer/heccer.h"
+#include "heccer/mathcomponent.h"
 %}
 
-%include "compartment.h"
-%include "intermediary.h"
-%include "heccer.h"
-%include "mathcomponent.h"
+%include "heccer/compartment.h"
+%include "heccer/intermediary.h"
+%include "heccer/heccer.h"
+%include "heccer/mathcomponent.h"

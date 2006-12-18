@@ -18,9 +18,9 @@
 
 #include <stdio.h>
 
-#include "../../callout.h"
-#include "../../compartment.h"
-#include "../../heccer.h"
+#include "../../heccer/callout.h"
+#include "../../heccer/compartment.h"
+#include "../../heccer/heccer.h"
 
 
 struct Compartment compSoma =

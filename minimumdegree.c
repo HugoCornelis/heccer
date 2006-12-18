@@ -18,8 +18,8 @@
 
 #include <stdlib.h>
 
-#include "heccer.h"
-#include "minimumdegree.h"
+#include "heccer/heccer.h"
+#include "heccer/minimumdegree.h"
 
 
 //f static prototypes

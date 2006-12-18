@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "heccer.h"
+#include "heccer/heccer.h"
 
 
 /// **************************************************************************

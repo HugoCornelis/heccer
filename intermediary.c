@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#include "compartment.h"
-#include "intermediary.h"
+#include "heccer/compartment.h"
+#include "heccer/intermediary.h"
 
 
 /// **************************************************************************

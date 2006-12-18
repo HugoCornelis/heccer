@@ -36,17 +36,17 @@ libheccer_a_SOURCES = \
 	minimumdegree.c \
 	vm.c
 
-noinst_HEADERS = \
-	addressing.h \
-	callout.h \
-	compartment.h \
-	heccer.h \
-	minimumdegree.h \
-	indexers.h \
-	intermediary.h \
-	mathcomponent.h \
-	mechanism.h \
-	vm.h
+nobase_include_HEADERS = \
+	heccer/addressing.h \
+	heccer/callout.h \
+	heccer/compartment.h \
+	heccer/heccer.h \
+	heccer/minimumdegree.h \
+	heccer/indexers.h \
+	heccer/intermediary.h \
+	heccer/mathcomponent.h \
+	heccer/mechanism.h \
+	heccer/vm.h
 
 # the tests are copied overhere.
 # the perl library is copied overhere.

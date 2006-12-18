@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "addressing.h"
-#include "heccer.h"
+#include "heccer/addressing.h"
+#include "heccer/heccer.h"
 
 
 /// **************************************************************************
