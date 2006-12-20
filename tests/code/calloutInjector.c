@@ -145,15 +145,20 @@ struct Intermediary inter =
 
     &compSoma,
 
-    //m mechanism index
+    //m number of mechanisms
 
     1,
-
-    NULL,
 
     //m mechanism data
 
     &callSoma,
+
+    //m compartment 2 first mechanism number
+
+    {
+	0,
+	-1,
+    },
 };
 
 

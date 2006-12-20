@@ -683,15 +683,29 @@ struct Intermediary inter =
 
     comp,
 
-    //m mechanism index
+    //m number of mechanisms
 
     0,
-
-    NULL,
 
     //m mechanism data
 
     NULL,
+
+    //m compartment 2 first mechanism number
+
+    {
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	-1,
+    },
 };
 
 

@@ -134,11 +134,16 @@ struct Intermediary inter =
 
     1,
 
-    NULL,
-
     //m mechanism data
 
     &callSoma,
+
+    //m compartment 2 first mechanism number
+
+    {
+	0,
+	-1,
+    },
 };
 
 

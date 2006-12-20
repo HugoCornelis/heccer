@@ -39,16 +39,6 @@ struct MechanismIndex;
 #endif
 
 
-//s mechanism index
-
-struct MechanismIndex
-{
-    //m pointer to mechanism data
-
-    void * pvMechanism;
-};
-
-
 //s heccer main structure
 
 struct Intermediary
@@ -63,13 +53,13 @@ struct Intermediary
 
     int iMechanisms;
 
-    //m mechanism index
-
-    struct MechanismIndex *pim;
-
     //m mechanism data
 
     void * pvMechanism;
+
+    //m compartment 2 first mechanism number
+
+    int piC2m[];
 };
 
 

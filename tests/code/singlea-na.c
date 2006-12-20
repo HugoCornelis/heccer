@@ -242,15 +242,22 @@ struct Intermediary inter =
 
     &compSoma,
 
-    //m mechanism index
+    //m number of mechanisms
 
-    0,
-
-    NULL,
+    1,
 
     //m mechanism data
 
-    NULL,
+    &caiNaF,
+
+    //m compartment 2 first mechanism number
+
+    {
+	0,
+	3,
+	7,
+	-1,
+    },
 };
 
 
