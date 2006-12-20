@@ -32,22 +32,19 @@ swigdir = $(prefix)/glue/swig
 
 perldir = $(prefix)/glue/swig/perl
 
-swig_sources = heccer.i
+swig_DATA = heccer.i
 
-perl_DATA = heccer_test.pm
+perl_DATA = heccer_test.pm Heccer.pm Heccer.so
 
 BUILT_SOURCES = \
 	Heccer.pm \
-	Heccer.so \
-	$(srcdir)/heccer_wrap.c
+	heccer_wrap.c
 
-Heccer.pm heccer_wrap.c:
+Heccer.pm heccer_wrap.c: $(swig_DATA)
 	swig -I$(srcdir)/../../.. -perl5 -makedefault -module Heccer -o heccer_wrap.c $(srcdir)/heccer.i
 
 heccer_wrap.o:
-	gcc -I$(srcdir)/../../.. -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts` 
-
-#t this one still need a $(srcdir) or something to make distcheck work.
+	gcc -I$(srcdir)/../../.. -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
 
 Heccer.so: heccer_wrap.o
 	gcc -shared heccer_wrap.o -L../../.. -lheccer -o Heccer.so
