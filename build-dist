@@ -21,7 +21,7 @@ if ($?)
 
 
 {
-    # $Format: "system \"cp '/local_home/hugo/${package}/source/c/snapshots/0/${package}-${label}.tar.gz' '/tmp/${package}/${label}'\""$
+    # $Format: "system \"cp '${package}-${label}.tar.gz' '/tmp/${package}/${label}'\""$
 system "cp '/local_home/hugo/heccer/source/c/snapshots/0/heccer-passive-22.tar.gz' '/tmp/heccer/passive-22'"
 }
 
