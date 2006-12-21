@@ -179,7 +179,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism;
 
-	    for (iMechanism = 0 ; iMechanism < pheccer->inter.iMechanisms ; iMechanism++)
+	    for (iMechanism = 0 ; iMechanism < pheccer->inter.piC2m[i] ; iMechanism++)
 	    {
 		//- look at mechanism type
 

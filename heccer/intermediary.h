@@ -59,7 +59,7 @@ struct Intermediary
 
     //m compartment 2 first mechanism number
 
-    int piC2m[];
+    int *piC2m;
 };
 
 

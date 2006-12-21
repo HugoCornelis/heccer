@@ -234,6 +234,13 @@ struct ChannelActInact caiNaF =
 };
 
 
+int piC2m[] =
+{
+    0,
+    -1,
+};
+
+
 struct Intermediary inter =
 {
     //m compartment array
@@ -252,12 +259,7 @@ struct Intermediary inter =
 
     //m compartment 2 first mechanism number
 
-    {
-	0,
-	3,
-	7,
-	-1,
-    },
+    piC2m,
 };
 
 

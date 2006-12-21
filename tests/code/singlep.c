@@ -70,6 +70,13 @@ struct Compartment compSoma =
 };
 
 
+int piC2m[] =
+{
+    0,
+    -1,
+};
+
+
 struct Intermediary inter =
 {
     //m compartment array
@@ -88,10 +95,7 @@ struct Intermediary inter =
 
     //m compartment 2 first mechanism number
 
-    {
-	0,
-	-1,
-    },
+    piC2m,
 };
 
 

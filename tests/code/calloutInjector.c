@@ -137,6 +137,13 @@ struct Callout callSoma =
 };
 
 
+int piC2m[] =
+{
+    1,
+    -1,
+};
+
+
 struct Intermediary inter =
 {
     //m compartment array
@@ -155,10 +162,7 @@ struct Intermediary inter =
 
     //m compartment 2 first mechanism number
 
-    {
-	0,
-	-1,
-    },
+    piC2m,
 };
 
 
