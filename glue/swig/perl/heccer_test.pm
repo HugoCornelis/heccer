@@ -30,6 +30,8 @@ use Data::Dumper;
 {
     no strict "refs";
 
+    print Dumper(\%{"main::"});
+
     print Dumper(\%{"Heccer::Intermediary::"});
 
     print Dumper(\%{"Heccer::Compartment::"});
@@ -58,6 +60,28 @@ my $intermediary = Heccer::Intermediary->new();
 $intermediary->swig_iCompartments_set(1);
 
 $intermediary->swig_pcomp_set($soma);
+
+print "Here\n";
+
+my $pi = $intermediary->swig_piC2m_get();
+
+print Dumper($pi);
+
+my $piC2m = Heccer::int_array(2);
+
+#t get rid of count by implementing a push, needs current.
+
+my $comp2mech = [ 0, -1];
+
+my $count = 0;
+
+map { Heccer::int_set($piC2m, $count++, $_) } @$comp2mech;
+
+# Heccer::piC2m_set($intermediary, $piC2m, );
+
+$intermediary->swig_piC2m_set( $piC2m );
+
+print "There\n";
 
 # instantiate a heccer with an initialized intermediary
 

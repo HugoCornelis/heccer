@@ -43,7 +43,7 @@ BUILT_SOURCES = \
 Heccer.pm heccer_wrap.c: $(swig_DATA)
 	swig -I$(srcdir)/../../.. -perl5 -makedefault -module Heccer -o heccer_wrap.c $(srcdir)/heccer.i
 
-heccer_wrap.o:
+heccer_wrap.o: heccer_wrap.c
 	gcc -I$(srcdir)/../../.. -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
 
 Heccer.so: heccer_wrap.o
