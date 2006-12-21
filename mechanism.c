@@ -175,9 +175,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- loop over mechanisms for this compartment
 
-	    int iMechanism;
-
 	    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism;
+
+	    int iMechanism;
 
 	    for (iMechanism = 0 ; iMechanism < pheccer->inter.piC2m[i] ; iMechanism++)
 	    {
@@ -240,6 +240,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 #endif
 	    }
+	}
+
+	//- sanity : is next compartment's mechanism invalid ?
+
+	if (pheccer->inter.piC2m[i] != -1)
+	{
+	    fprintf
+		(stderr,
+		 "Heccer the hecc : mechanisms found after last compartment's mechanism\n");
 	}
 
 	//- finish all operations

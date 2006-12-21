@@ -236,7 +236,7 @@ struct ChannelActInact caiNaF =
 
 int piC2m[] =
 {
-    0,
+    1,
     -1,
 };
 
