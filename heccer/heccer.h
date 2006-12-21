@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef HECCER_H
-#define HECCER_H
+#ifndef HECCER_HECCER_H
+#define HECCER_HECCER_H
 
 
 #include <stdio.h>

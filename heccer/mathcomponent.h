@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef MATHCOMPONENT_H
-#define MATHCOMPONENT_H
+#ifndef HECCER_MATHCOMPONENT_H
+#define HECCER_MATHCOMPONENT_H
 
 
 /*s a math component starts with ... */

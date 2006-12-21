@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef ADDRESSING_H
-#define ADDRESSING_H
+#ifndef HECCER_ADDRESSING_H
+#define HECCER_ADDRESSING_H
 
 
 #include <stdio.h>

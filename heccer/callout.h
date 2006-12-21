@@ -45,8 +45,8 @@
 //o
 
 
-#ifndef CALLOUT_H
-#define CALLOUT_H
+#ifndef HECCER_CALLOUT_H
+#define HECCER_CALLOUT_H
 
 
 #include "heccer.h"

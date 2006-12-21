@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef COMPARTMENT_H
-#define COMPARTMENT_H
+#ifndef HECCER_COMPARTMENT_H
+#define HECCER_COMPARTMENT_H
 
 
 #include <stdio.h>
