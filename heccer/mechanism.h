@@ -157,28 +157,28 @@ struct GateKinetik
     //! 5: -C, -G
     //! 6: D, H
 
-    //m multiplier
+    //m 1: multiplier
 
     double dMultiplier;
 
-    //m multiplier membrane dependence, DBL_MAX for no dependence
+    //m 2: multiplier membrane dependence, DBL_MAX for no dependence
 
     double dMembraneDependence;
 
-    //m choose between nominator or denominator, 1 means nominator, -1
+    //m 3: choose between nominator or denominator, 1 means nominator, -1
     //m means denominator
 
     int iNominator;
 
-    //m nominator or denominator offset
+    //m 4: nominator or denominator offset
 
     double dDeNominatorOffset;
 
-    //m membrane offset
+    //m 5: membrane offset
 
     double dMembraneOffset;
 
-    //m denormalized time constant
+    //m 6: denormalized time constant
 
     double dTauDenormalizer;
 };

@@ -187,6 +187,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		switch (iType)
 		{
+		    //- for a callout
+
 		case MATH_TYPE_CallOut_conductance_current:
 		{
 #define	SETMOP_CALLOUT(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++)
@@ -219,6 +221,23 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			iMats += (((sizeof(struct MatsCallout) - 1) >> 3) + 1) << 3;
 		    }
+		    break;
+		}
+
+		//- for an regular channel with activation and inactivation
+
+		case MECHANISM_TYPE_ChannelActInact:
+		{
+		    //t tabulate the channel
+
+		    //t tabulate activation, Genesis X
+		    //t create forward table, Genesis A, alpha
+		    //t create backward table, Genesis B, alpha + beta
+
+		    //t tabulate inactivation, Genesis Y
+
+		    //t retabulate cannot be done yet, do not know yet how many tables
+
 		    break;
 		}
 		default:
