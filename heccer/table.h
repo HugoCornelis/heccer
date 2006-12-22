@@ -110,14 +110,14 @@ HeccerDiscretizeGateConcept
 
 int
 HeccerGateConceptTabulate
-(struct GateConcept *pgc, struct Heccer *pheccer, int iIndex);
+(struct GateConcept *pgc, struct Heccer *pheccer);
 
 int
 HeccerTablesDump
 (struct TabulatedGateTable *ptgt, FILE *pfile, int iSelection);
 
 int
-HeccerTabulatedGateRegister(struct Heccer *pheccer, int iIndex);
+HeccerTabulatedGateRegister(struct Heccer *pheccer, struct GateConcept *pgc);
 
 
 #endif

@@ -27,7 +27,7 @@
 
 static int
 HeccerTableDump
-(struct HeccerTabulatedGate *phtg, FILE *pfile, int iSelection);
+(struct HeccerTabulatedGate *phtg, int iIndex, FILE *pfile, int iSelection);
 
 static
 int
@@ -119,6 +119,13 @@ HeccerDiscretizeGateConcept
 
     int iResult = TRUE;
 
+    //- if already registered
+
+    if (pgc->iTable != -1)
+    {
+	return(TRUE);
+    }
+
     //- allocate structures
 
     //t values should come from heccer configuration
@@ -130,13 +137,17 @@ HeccerDiscretizeGateConcept
 	return(FALSE);
     }
 
+    //- register the index
+
+    pgc->iTable = i;
+
     //- fill the table with the discretized gate kinetics
 
-    iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer, i);
+    iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer);
 
     //- register the table and table descriptor
 
-    iResult = iResult && HeccerTabulatedGateRegister(pheccer, i);
+    iResult = iResult && HeccerTabulatedGateRegister(pheccer, pgc);
 
     //- return result
 
@@ -151,7 +162,7 @@ HeccerDiscretizeGateConcept
 /// ARGS.:
 ///
 ///	pgc.....: a heccer gate concept.
-///	iIndex..: a heccer tabulated gate index.
+///	pheccer.: a heccer.
 ///
 /// RTN..: int
 ///
@@ -165,13 +176,15 @@ HeccerDiscretizeGateConcept
 
 int
 HeccerGateConceptTabulate
-(struct GateConcept *pgc, struct Heccer *pheccer, int iIndex)
+(struct GateConcept *pgc, struct Heccer *pheccer)
 {
     //- set default result : ok
 
     int iResult = TRUE;
 
     //- get access to the tabulated gate structure
+
+    int iIndex = pgc->iTable;
 
     struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
 
@@ -297,7 +310,8 @@ HeccerGateConceptTabulate
 ///
 /// ARGS.:
 ///
-///	pheccer....: a compartment.
+///	phtg.......: a tabulated gate.
+///	iIndex.....: index of this gate.
 ///	pfile......: stdio file.
 ///	iSelection.: selection to dump.
 ///
@@ -311,7 +325,7 @@ HeccerGateConceptTabulate
 
 static int
 HeccerTableDump
-(struct HeccerTabulatedGate *phtg, FILE *pfile, int iSelection)
+(struct HeccerTabulatedGate *phtg, int iIndex, FILE *pfile, int iSelection)
 {
     //- set default result
 
@@ -319,19 +333,19 @@ HeccerTableDump
 
     if (iSelection & HECCER_DUMP_TABLE_GATE_SUMMARY)
     {
-	fprintf(pfile, "Tabulated gate, interval (dStart) : (%i)\n", phtg->hi.dStart);
-	fprintf(pfile, "Tabulated gate, interval (dEnd) : (%i)\n", phtg->hi.dEnd);
-	fprintf(pfile, "Tabulated gate, interval (dStep) : (%i)\n", phtg->hi.dStep);
+	fprintf(pfile, "Tabulated gate %i, interval (dStart) : (%g)\n", iIndex, phtg->hi.dStart);
+	fprintf(pfile, "Tabulated gate %i, interval (dEnd) : (%g)\n", iIndex, phtg->hi.dEnd);
+	fprintf(pfile, "Tabulated gate %i, interval (dStep) : (%g)\n", iIndex, phtg->hi.dStep);
     }
 
     if (iSelection & HECCER_DUMP_TABLE_GATE_SUMMARY)
     {
-	fprintf(pfile, "Tabulated gate, interpolation (iShape) : (%i)\n", phtg->htao.iShape);
+	fprintf(pfile, "Tabulated gate %i, interpolation (iShape) : (%i)\n", iIndex, phtg->htao.iShape);
     }
 
     if (iSelection & HECCER_DUMP_TABLE_GATE_SUMMARY)
     {
-	fprintf(pfile, "Tabulated gate (iEntries) : (%i)\n", phtg->iEntries);
+	fprintf(pfile, "Tabulated gate %i, (iEntries) : (%i)\n", iIndex, phtg->iEntries);
     }
 
     if (iSelection & HECCER_DUMP_TABLE_GATE_TABLES)
@@ -340,12 +354,12 @@ HeccerTableDump
 
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
-	    fprintf(pfile, "Tabulated gate, forward (iEntry %i) : (%g)\n", i, phtg->pdForward[i]);
+	    fprintf(pfile, "Tabulated gate %i, forward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdForward[i]);
 	}
 
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
-	    fprintf(pfile, "Tabulated gate, backward (iEntry %i) : (%g)\n", i, phtg->pdBackward[i]);
+	    fprintf(pfile, "Tabulated gate %i, backward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdBackward[i]);
 	}
     }
 
@@ -393,7 +407,7 @@ HeccerTablesDump
     {
 	//- dump compartment
 
-	iResult = iResult && HeccerTableDump(&ptgt->phtg[i], pfile, iSelection);
+	iResult = iResult && HeccerTableDump(&ptgt->phtg[i], i, pfile, iSelection);
     }
 
     //- return result
@@ -409,7 +423,7 @@ HeccerTablesDump
 /// ARGS.:
 ///
 ///	pheccer.: a compartment.
-///	iIndex..: a heccer tabulated gate index.
+///	pgc.....: a gate concept, with table index filled in.
 ///
 /// RTN..: int
 ///
@@ -420,13 +434,15 @@ HeccerTablesDump
 /// **************************************************************************
 
 int
-HeccerTabulatedGateRegister(struct Heccer *pheccer, int iIndex)
+HeccerTabulatedGateRegister(struct Heccer *pheccer, struct GateConcept *pgc)
 {
     //- set default result
 
     int iResult = TRUE;
 
     //- get access to the tabulated gate structure
+
+    int iIndex = pgc->iTable;
 
     struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
 
