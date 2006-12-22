@@ -20,7 +20,7 @@
 #define HECCER_TABLE_H
 
 
-#include "heccer/mechanism.h"
+#include "mechanism.h"
 
 
 #ifndef TRUE
