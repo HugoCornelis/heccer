@@ -228,15 +228,45 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		case MECHANISM_TYPE_ChannelActInact:
 		{
-		    //t tabulate the channel
+/* #define	SETMOP_GATE(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++) */
 
-		    //t tabulate activation, Genesis X
-		    //t create forward table, Genesis A, alpha
-		    //t create backward table, Genesis B, alpha + beta
+/* 		    SETMOP_GATE((int *)pvMops, iMops, HECCER_MOP_GATE); */
 
-		    //t tabulate inactivation, Genesis Y
+		    //- get type specific data
+
+		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
+
+		    //t define the mechanism operators and data
+
+/* 		    struct MatsGate *pgate = (struct MatsGate *)pvMats; */
+
+		    //- tabulate the channel
+
+		    //- tabulate activation, Genesis X
+		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+
+		    int iTabulatedActivation
+			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
+
+		    //t fill in index in gatekinetic intermediary
+
+		    //t can be found as (pheccer->tgt.iTabulatedGateCount - 1)
+
+		    //- tabulate inactivation, Genesis Y
+		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+
+		    int iTabulatedInactivation
+			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
+
+		    //t fill in index in gatekinetic intermediary
+
+		    //t can be found as (pheccer->tgt.iTabulatedGateCount - 1)
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
+
+		    //- register result from tabulation for outcome of this function
+
+		    iResult = iResult && iTabulatedActivation && iTabulatedInactivation;
 
 		    break;
 		}

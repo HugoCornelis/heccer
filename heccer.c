@@ -216,6 +216,10 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     iResult = iResult && HeccerIndexersDump(&pheccer->indexers, pfile, iSelection);
 
+    //- dump the tables
+
+    iResult = iResult && HeccerTablesDump(&pheccer->tgt, pfile, iSelection);
+
     //- dump compartment arrays
 
     iResult = iResult && HeccerVMDump(&pheccer->vm, pfile, iSelection);

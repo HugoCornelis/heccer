@@ -34,6 +34,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -70,6 +71,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -106,6 +108,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -142,6 +145,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -178,6 +182,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -214,6 +219,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -250,6 +256,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -286,6 +293,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -322,6 +330,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -358,6 +367,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -394,6 +404,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -441,6 +452,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -477,6 +489,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -513,6 +526,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -549,6 +563,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -585,6 +600,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -621,6 +637,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -657,6 +674,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -693,6 +711,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -729,6 +748,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -765,6 +785,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH
@@ -801,6 +822,7 @@ MinimumDegree (iEntries) : (1)
 MinimumDegree (piChildren[0]) : (0)
 MinimumDegree (piForward[0]) : (0)
 MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
 00000 :: 4			HECCER_COP_FINISH

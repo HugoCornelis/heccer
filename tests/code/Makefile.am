@@ -40,55 +40,55 @@ noinst_HEADERS = \
 
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c
 
-c1c2p1_LDADD = -L../.. -lheccer
+c1c2p1_LDADD = -L../.. -lheccer -lm
 
 c1c2p2_DEPENDENCIES = ../../libheccer.a main.c
 
-c1c2p2_LDADD = -L../.. -lheccer
+c1c2p2_LDADD = -L../.. -lheccer -lm
 
 callout1_DEPENDENCIES = ../../libheccer.a main.c
 
-callout1_LDADD = -L../.. -lheccer
+callout1_LDADD = -L../.. -lheccer -lm
 
 calloutInjector_DEPENDENCIES = ../../libheccer.a main.c
 
-calloutInjector_LDADD = -L../.. -lheccer
+calloutInjector_LDADD = -L../.. -lheccer -lm
 
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 
-doublep_LDADD = -L../.. -lheccer
+doublep_LDADD = -L../.. -lheccer -lm
 
 fork3p_DEPENDENCIES = ../../libheccer.a main.c
 
-fork3p_LDADD = -L../.. -lheccer
+fork3p_LDADD = -L../.. -lheccer -lm
 
 fork4p1_DEPENDENCIES = ../../libheccer.a main.c
 
-fork4p1_LDADD = -L../.. -lheccer
+fork4p1_LDADD = -L../.. -lheccer -lm
 
 fork4p2_DEPENDENCIES = ../../libheccer.a main.c
 
-fork4p2_LDADD = -L../.. -lheccer
+fork4p2_LDADD = -L../.. -lheccer -lm
 
 fork4p3_DEPENDENCIES = ../../libheccer.a main.c
 
-fork4p3_LDADD = -L../.. -lheccer
+fork4p3_LDADD = -L../.. -lheccer -lm
 
 singlea_na_DEPENDENCIES = ../../libheccer.a main.c
 
-singlea_na_LDADD = -L../.. -lheccer
+singlea_na_LDADD = -L../.. -lheccer -lm
 
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 
-singlep_LDADD = -L../.. -lheccer
+singlep_LDADD = -L../.. -lheccer -lm
 
 tensizesp_DEPENDENCIES = ../../libheccer.a main.c
 
-tensizesp_LDADD = -L../.. -lheccer
+tensizesp_LDADD = -L../.. -lheccer -lm
 
 triplep_DEPENDENCIES = ../../libheccer.a main.c
 
-triplep_LDADD = -L../.. -lheccer
+triplep_LDADD = -L../.. -lheccer -lm
 
 #t automake does not allow to pass in arguments for tests ?
 

@@ -57,8 +57,6 @@ HeccerIntermediaryDump
 
     //- loop over compartment array
 
-    //! should be using C++ iterators, should look into it
-
     struct Compartment *pcomp = pinter->pcomp;
 
     int i;

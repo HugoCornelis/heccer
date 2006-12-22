@@ -34,6 +34,7 @@ libheccer_a_SOURCES = \
 	intermediary.c \
 	mechanism.c \
 	minimumdegree.c \
+	table.c \
 	vm.c
 
 nobase_include_HEADERS = \
@@ -46,6 +47,7 @@ nobase_include_HEADERS = \
 	heccer/intermediary.h \
 	heccer/mathcomponent.h \
 	heccer/mechanism.h \
+	heccer/table.h \
 	heccer/vm.h
 
 # the tests are copied overhere.

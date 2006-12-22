@@ -102,16 +102,20 @@ struct ChannelActInact caiNaF =
 	//m gate definition
 
 	{
+	    //m corresponding index in tables, set to -1 for initialization.
+
+	    -1,
+
 	    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
 	    {
 		//m multiplier
 
-		35.0,
+		35.0e3,
 
-		//m multiplier membrane dependence, DBL_MAX for no dependence
+		//m multiplier membrane dependence, 0.0 for no dependence
 
-		DBL_MAX,
+		0.0,
 
 		//m choose between nominator or denominator, 1 means nominator, -1
 		//m means denominator
@@ -124,11 +128,11 @@ struct ChannelActInact caiNaF =
 
 		//m membrane offset
 
-		-5.0,
+		5.0e-3,
 
 		//m denormalized time constant
 
-		-10.0,
+		-10.0e-3,
 	    },
 
 	    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -136,11 +140,11 @@ struct ChannelActInact caiNaF =
 	    {
 		//m multiplier
 
-		7.0,
+		7.0e3,
 
-		//m multiplier membrane dependence, DBL_MAX for no dependence
+		//m multiplier membrane dependence, 0.0 for no dependence
 
-		DBL_MAX,
+		0.0,
 
 		//m choose between nominator or denominator, 1 means nominator, -1
 		//m means denominator
@@ -153,11 +157,11 @@ struct ChannelActInact caiNaF =
 
 		//m membrane offset
 
-		-65.0,
+		65.0e-3,
 
 		//m denormalized time constant
 
-		20.0,
+		20.0e-3,
 	    },
 	},
     },
@@ -172,16 +176,20 @@ struct ChannelActInact caiNaF =
 	//m gate definition
 
 	{
+	    //m corresponding index in tables, set to -1 for initialization.
+
+	    -1,
+
 	    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
 	    {
 		//m multiplier
 
-		0.225,
+		0.225e3,
 
-		//m multiplier membrane dependence, DBL_MAX for no dependence
+		//m multiplier membrane dependence, 0.0 for no dependence
 
-		DBL_MAX,
+		0.0,
 
 		//m choose between nominator or denominator, 1 means nominator, -1
 		//m means denominator
@@ -194,11 +202,11 @@ struct ChannelActInact caiNaF =
 
 		//m membrane offset
 
-		-80.0,
+		80.0e-3,
 
 		//m denormalized time constant
 
-		10.0,
+		10.0e-3,
 	    },
 
 	    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -206,11 +214,11 @@ struct ChannelActInact caiNaF =
 	    {
 		//m multiplier
 
-		7.5,
+		7.5e3,
 
-		//m multiplier membrane dependence, DBL_MAX for no dependence
+		//m multiplier membrane dependence, 0.0 for no dependence
 
-		DBL_MAX,
+		0.0,
 
 		//m choose between nominator or denominator, 1 means nominator, -1
 		//m means denominator
@@ -223,11 +231,11 @@ struct ChannelActInact caiNaF =
 
 		//m membrane offset
 
-		3.0,
+		-3.0e-3,
 
 		//m denormalized time constant
 
-		-18.0,
+		-18.0e-3,
 	    },
 	},
     },

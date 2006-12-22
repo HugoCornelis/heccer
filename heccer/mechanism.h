@@ -161,7 +161,7 @@ struct GateKinetik
 
     double dMultiplier;
 
-    //m 2: multiplier membrane dependence, DBL_MAX for no dependence
+    //m 2: multiplier membrane dependence, 0.0 for no dependence
 
     double dMembraneDependence;
 
@@ -187,6 +187,10 @@ struct GateKinetik
 
 struct GateConcept
 {
+    //m corresponding index in tables, set to -1 for initialization.
+
+    int iTable;
+
     //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
     struct GateKinetik gkForward;
@@ -314,6 +318,9 @@ struct TabulatedHHChannel
 #endif
 
 };
+
+
+struct Heccer;
 
 
 //f prototypes

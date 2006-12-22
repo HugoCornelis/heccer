@@ -28,6 +28,7 @@ struct Heccer;
 
 #include "intermediary.h"
 #include "indexers.h"
+#include "table.h"
 #include "vm.h"
 
 
@@ -47,7 +48,7 @@ struct Heccer
 
     int iStatus;
 
-    //m options and operation mode.
+    //m global options and operation mode.
 
     int iOptions;
 
@@ -70,6 +71,10 @@ struct Heccer
     //m indexing structures
 
     struct Indexers indexers;
+
+    //m tabulated gates and rearranged gates
+
+    struct TabulatedGateTable tgt;
 
     //m vm
 
@@ -137,6 +142,9 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 #define HECCER_DUMP_INTERMEDIARY_MECHANISM_SUMMARY		(1 << 3)
 #define HECCER_DUMP_INTERMEDIARY_STRUCTURE			(1 << 4)
 #define HECCER_DUMP_INTERMEDIARY_SUMMARY			(1 << 5)
+
+#define HECCER_DUMP_TABLE_GATE_SUMMARY				(1 << 12)
+#define HECCER_DUMP_TABLE_GATE_TABLES				(1 << 13)
 
 #define HECCER_DUMP_VM_COMPARTMENT_MATRIX			(1 << 16)
 #define HECCER_DUMP_VM_COMPARTMENT_OPERATIONS			(1 << 17)

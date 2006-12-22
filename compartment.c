@@ -393,7 +393,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 ///
 ///	success of operation.
 ///
-/// DESCR: Perform the compartment operators once.
+/// DESCR: Dump compartment parameters to the given stream.
 ///
 /// **************************************************************************
 
