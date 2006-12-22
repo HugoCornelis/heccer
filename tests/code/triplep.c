@@ -20,6 +20,9 @@
 #include "../../heccer/heccer.h"
 
 
+#define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
+
+
 struct Compartment comp[] =
 {
     {

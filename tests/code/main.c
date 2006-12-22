@@ -21,7 +21,8 @@
 
 
 /// To use this file : set the variable 'inter' to a intermediary
-/// representation, #include this file, compile and run.
+/// representation, set HECCER_TEST_TESTED_THINGS to a dump selection,
+/// #include this file, compile and run.
 
 int main(int argc, char *argv[])
 {
@@ -57,7 +58,7 @@ int main(int argc, char *argv[])
 
     fprintf(stdout, "Initiated\n");
 
-    HeccerDump(pheccer, stdout, HECCER_DUMP_ALL);
+    HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
 
     //- a couple of times
 
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
 
 	fprintf(stdout, "Iteration %i\n", i);
 
-	HeccerDump(pheccer, stdout, HECCER_DUMP_ALL);
+	HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
     }
 
     //- return result
