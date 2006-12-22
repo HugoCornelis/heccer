@@ -20,9 +20,12 @@
 #include <stdlib.h>
 
 
-/// To use this file : set the variable 'inter' to a intermediary
-/// representation, set HECCER_TEST_TESTED_THINGS to a dump selection,
-/// #include this file, compile and run.
+//o To use this file :
+//o
+//o set the variable 'inter' to a intermediary representation,
+//o #define HECCER_TEST_STEPS 1
+//o #define HECCER_TEST_TESTED_THINGS to a dump selection,
+//o #include this file, compile, run and parse the output.
 
 int main(int argc, char *argv[])
 {
@@ -64,7 +67,7 @@ int main(int argc, char *argv[])
 
     int i;
 
-    for (i = 0; i < 10 ; i++)
+    for (i = 0; i < HECCER_TEST_STEPS ; i++)
     {
 	//- step
 

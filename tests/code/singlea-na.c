@@ -20,6 +20,7 @@
 #include "../../heccer/heccer.h"
 
 
+#define HECCER_TEST_STEPS 1
 #define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
 
 
