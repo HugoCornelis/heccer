@@ -20,13 +20,13 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, tabulation-1, hugo\.cornelis\@gmail\.com)
+AC_INIT(heccer, tabulation, hugo\.cornelis\@gmail\.com)
 
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, tabulation-1)
+AM_INIT_AUTOMAKE(heccer, tabulation)
 
 # Checks for programs.
 AC_PROG_CC

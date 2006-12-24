@@ -125,4 +125,7 @@ if ($?)
     die "$0: ./build-dist failed";
 }
 
+# update release numbers for subsequent manual builds
+
+system "./generate-release-version --weak \"$major\" \"$minor\" +";
 

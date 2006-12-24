@@ -8,8 +8,45 @@
 use strict;
 
 
+use Getopt::Long;
+
 use YAML ();
 
+
+# parse options
+
+my $option_help;
+my $option_verbose;
+my $option_weak;
+
+sub read_cmd_line
+{
+    my $result
+	= GetOptions
+	    (
+	     "help!" => \$option_help,
+	     "v|verbose+" => \$option_verbose,
+	     "w|weak+" => \$option_weak,
+	    );
+
+    if ($option_help)
+    {
+	print
+	    "
+$0: update release labels
+
+options :
+    help            print usage information.
+    verbose         set verbosity level.
+    weak            do not check for changes with repository.
+";
+
+	exit 1;
+    }
+
+}
+
+read_cmd_line();
 
 # get the major release name
 
@@ -56,13 +93,14 @@ my $unknown = [ grep { /^  U/ } @$inventory ];
 
 my $ignored = [ grep { /^  I/ } @$inventory ];
 
-if (@$missing
-    || @$added
-    || @$dropped
-    || @$renamed_from
-    || @$renamed_to
-    || @$patched
-    || @$unknown)
+if ((@$missing
+     || @$added
+     || @$dropped
+     || @$renamed_from
+     || @$renamed_to
+     || @$patched
+     || @$unknown)
+    && !$option_weak)
 {
     die "$0: found uncommitted differences in this workspace, aborting";
 }
