@@ -6,45 +6,45 @@ setfield c \
 	initVm -0.068 \
 	Ra 360502 \
 	Rm 3.58441e8
-create tabchannel c/naf
-setfield c/naf \
-	Ek 0.045 \
-	Gbar 0.0002092393115 \
+create tabchannel c/ka
+setfield c/ka \
+	Ek -0.085 \
+	Gbar 4.184786349e-07 \
 	Ik 0.0 \
 	Gk 0.0 \
-	Xpower 3.0 \
+	Xpower 4.0 \
 	Ypower 1.0 \
 	Zpower 0.0
-setupalpha c/naf \
+setupalpha c/ka \
 	X \
-	35.0e3 \
-	0.0 \
-	0.0 \
-	0.005 \
-	-10.0e-3 \
-	7.0e3 \
-	0.0 \
-	0.0 \
-	0.065 \
-	20.0e-3 \
-	-size 50 \
-	-range -0.1 0.05
-setupalpha c/naf \
-	Y \
-	0.225e3 \
+	1.40e3 \
 	0.0 \
 	1.0 \
-	0.08 \
-	10.0e-3 \
-	7.5e3 \
-	0.0 \
-	0.0 \
-	-0.003 \
-	-18.0e-3 \
+	0.027 \
+	-12.0e-3 \
+	0.490e3 \
+        0.0 \
+	1.0 \
+	0.030 \
+	4.0e-3 \
 	-size 50 \
 	-range -0.1 0.05
-addmsg c c/naf VOLTAGE Vm
-addmsg c/naf c CHANNEL Gk Ek
+setupalpha c/ka \
+	Y \
+	0.0175e3 \
+	0.0 \
+	1.0 \
+	0.050 \
+	8.0e-3 \
+	1.30e3 \
+	0.0 \
+        1.0 \
+	0.013 \
+	-10.0e-3 \
+	-size 50 \
+	-range -0.1 0.05
+addmsg c c/ka VOLTAGE Vm
+addmsg c/ka c CHANNEL Gk Ek
 create hsolve h
 setmethod h 11
 setfield h \
@@ -67,6 +67,6 @@ end
 
 function showtables
 
-	showfield c/naf *
+	showfield c/ka *
 end
 
