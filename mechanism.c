@@ -128,11 +128,14 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    int iIntermediary = pheccer->indexers.md.piBackward[i];
 
-	    //- retreive are constants
+	    //- retreive compartment constants
 
 	    double dCm = pheccer->inter.pcomp[iIntermediary].dCm;
 
 	    double dEm = pheccer->inter.pcomp[iIntermediary].dEm;
+
+	    //t perhaps better to do current injection with a
+	    //t hardcoded injector callout ?
 
 	    double dInject = pheccer->inter.pcomp[iIntermediary].dInject;
 
@@ -179,7 +182,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    int iMechanism;
 
-	    for (iMechanism = 0 ; iMechanism < pheccer->inter.piC2m[i] ; iMechanism++)
+	    for (iMechanism = 0 ; iMechanism < pheccer->inter.piC2m[iIntermediary] ; iMechanism++)
 	    {
 		//- look at mechanism type
 
