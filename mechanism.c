@@ -68,15 +68,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
     int iMats = pheccer->inter.iCompartments * 4 * sizeof(double);
 
-    //- loop over all mechanisms
+/*     //- loop over all mechanisms */
 
-    int i;
+/*     int i; */
 
-    for (i = 0 ; i < pheccer->inter.iMechanisms ; i++)
-    {
-	//t add to operators for this mechanism, depending on previous
-	//t mechanism, same for operands.
-    }
+/*     for (i = 0 ; i < pheccer->inter.iMechanisms ; i++) */
+/*     { */
+/* 	//t add to operators for this mechanism, depending on previous */
+/* 	//t mechanism, same for operands. */
+/*     } */
 
     //- for backward euler integration
 
@@ -114,9 +114,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	iMats = 0;
 
-	//- loop over all compartments
+	//- loop over all compartments via their schedule number
 
-	for (i = 0 ; i < pheccer->inter.iCompartments ; i++)
+	int iSchedule;
+
+	for (iSchedule = 0 ; iSchedule < pheccer->inter.iCompartments ; iSchedule++)
 	{
 	    //- fill in compartment operation
 
@@ -126,7 +128,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- get intermediary number for the current compartment
 
-	    int iIntermediary = pheccer->indexers.md.piBackward[i];
+	    int iIntermediary = pheccer->indexers.md.piBackward[iSchedule];
 
 	    //- retreive compartment constants
 
@@ -165,7 +167,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		//! perhaps it is better to change that for consistency
 		//! reasons overhere, and to avoid confusion.
 
-		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[i];
+		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[iSchedule];
 
 		pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
 	    }
@@ -292,7 +294,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	//- sanity : is next compartment's mechanism invalid ?
 
-	if (pheccer->inter.piC2m[i] != -1)
+	if (pheccer->inter.piC2m[iSchedule] != -1)
 	{
 	    fprintf
 		(stderr,
