@@ -7,7 +7,7 @@
 #
 # example usage:
 #
-# ./dist-build passive +
+# ./dist-build tabulation +
 #
 # where 'passive' is the name of the release,
 # '+' tells this script to bump the version number.
