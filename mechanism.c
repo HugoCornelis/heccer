@@ -551,6 +551,8 @@ int HeccerMechanismSort(struct Heccer *pheccer)
 
     //t qsort mechanisms per compartment
 
+    //t sort on Ek, see adaptive time step paper and hsolve implementation.
+
     //- return result
 
     return(iResult);
