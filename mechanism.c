@@ -524,9 +524,32 @@ int HeccerMechanismSort(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
-    //t build array with mechanism references into the intermediary
+    //- loop over all compartments
 
-    //t qsort mechanisms
+    int iCompartment;
+
+    for (iCompartment = 0 ; iCompartment < pheccer->inter.iCompartments ; iCompartment++)
+    {
+	//- get model number for this compartment
+
+	int iCompartmentModel = pheccer->indexers.md.piBackward[iCurrent];
+
+	//- loop over all the mechanisms for this compartment
+
+	int iMechanism;
+
+	for (iMechanism = pheccer->inter.piC2m[iCompartment] ;
+	     iMechanism < pheccer->inter.piC2m[iCompartment + 1] ;
+	     iMechanism++)
+	{
+	    //t build array with mechanism references into the intermediary
+
+	    //t because of the structure of the intermediary, we do
+	    //t not need this, do we ?
+	}
+    }
+
+    //t qsort mechanisms per compartment
 
     //- return result
 
