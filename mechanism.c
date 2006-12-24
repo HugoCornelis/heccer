@@ -248,19 +248,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedActivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
 
-		    //t fill in index in gatekinetic intermediary
-
-		    //t can be found as (pheccer->tgt.iTabulatedGateCount - 1)
-
 		    //- tabulate inactivation, Genesis Y
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulatedInactivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
-
-		    //t fill in index in gatekinetic intermediary
-
-		    //t can be found as (pheccer->tgt.iTabulatedGateCount - 1)
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
 
