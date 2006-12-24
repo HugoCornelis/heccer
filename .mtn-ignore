@@ -16,6 +16,7 @@ Makefile.in$
 ^tests/code/fork4p3$
 ^tests/code/singlea-na$
 ^tests/code/singlep$
+^tests/code/table-naf$
 ^tests/code/tensizesp$
 ^tests/code/triplep$
 ^tests/html/

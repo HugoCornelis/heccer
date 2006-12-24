@@ -102,7 +102,7 @@ HeccerMDFlowEnumerator
 
     //t note : leaves first does not work yet, do not use.
 
-    if (1 || pheccer->iOptions & HECCER_OPTION_BRANCHES_FIRST_SCHEDULING)
+    if (1 || pheccer->ho.iOptions & HECCER_OPTION_BRANCHES_FIRST_SCHEDULING)
     {
 	//- do a simple depth-first ordering
 

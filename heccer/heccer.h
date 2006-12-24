@@ -40,6 +40,52 @@ struct Heccer;
 #endif
 
 
+//s global options
+
+struct HeccerOptions
+{
+    //m global options and operation mode.
+
+    int iOptions;
+
+    //m discretized gate, interval start
+
+    double dIntervalStart;
+
+    //m discretized gate, interval end
+
+    double dIntervalEnd;
+
+    //m discretized gate, number of entries
+
+    int iIntervalEntries;
+};
+
+
+//d logical branch grouping for solution matrix :
+//d schedules first a leave and all attached compartments until a
+//d branch point.  When disabled, all the leaves are scheduled first,
+//d next the compartments attached to the leaves, etc.
+
+#define HECCER_OPTION_BRANCHES_FIRST_SCHEDULING		1
+
+//d use backward euler, default is crank-nicolson
+
+#define HECCER_OPTION_BACKWARD_EULER			2
+
+//d discretized gate, interval start
+
+#define HECCER_INTERVAL_DEFAULT_START			(-0.1)
+
+//d discretized gate, interval end
+
+#define HECCER_INTERVAL_DEFAULT_END			(0.05)
+
+//d discretized gate, number of entries
+
+#define HECCER_INTERVAL_DEFAULT_ENTRIES			3000
+
+
 //s heccer main structure
 
 struct Heccer
@@ -48,9 +94,9 @@ struct Heccer
 
     int iStatus;
 
-    //m global options and operation mode.
+    //m options
 
-    int iOptions;
+    struct HeccerOptions ho;
 
     //m current time
 
@@ -106,18 +152,6 @@ struct Heccer
 //d heccs have been done, further status unknown
 
 #define HECCER_STATUS_PHASE_5		50
-
-
-//d logical branch grouping for solution matrix :
-//d schedules first a leave and all attached compartments until a
-//d branch point.  When disabled, all the leaves are scheduled first,
-//d next the compartments attached to the leaves, etc.
-
-#define HECCER_OPTION_BRANCHES_FIRST_SCHEDULING		1
-
-//d use backward euler, default is crank-nicolson
-
-#define HECCER_OPTION_BACKWARD_EULER			2
 
 
 //f prototypes

@@ -22,10 +22,35 @@
 
 //o To use this file :
 //o
-//o set the variable 'inter' to a intermediary representation,
+//o set the variable 'inter' to an intermediary representation,
 //o #define HECCER_TEST_STEPS 1
 //o #define HECCER_TEST_TESTED_THINGS to a dump selection,
+//o and so on for the defines below, when not set they get a
+//o sensible default value.
 //o #include this file, compile, run and parse the output.
+//o
+
+
+#ifndef HECCER_TEST_INTERVAL_DEFAULT_START
+#define HECCER_TEST_INTERVAL_DEFAULT_START (-0.1)
+#endif
+
+#ifndef HECCER_TEST_INTERVAL_DEFAULT_END
+#define HECCER_TEST_INTERVAL_DEFAULT_END (0.05)
+#endif
+
+#ifndef HECCER_TEST_INTERVAL_DEFAULT_ENTRIES
+#define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES 3000
+#endif
+
+#ifndef HECCER_TEST_STEPS
+#define HECCER_TEST_STEPS 10
+#endif
+
+#ifndef HECCER_TEST_TESTED_THINGS
+#define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
+#endif
+
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +63,14 @@ int main(int argc, char *argv[])
     //- instantiate a heccer with an initialized intermediary
 
     struct Heccer *pheccer = HeccerNewP2(&inter);
+
+    //t need sensible API to set options I guess.
+
+    pheccer->ho.dIntervalStart = HECCER_TEST_INTERVAL_DEFAULT_START;
+
+    pheccer->ho.dIntervalEnd = HECCER_TEST_INTERVAL_DEFAULT_END;
+
+    pheccer->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
 
     //- build indices for optimization
 

@@ -52,7 +52,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
     //- for backward euler integration
 
-    if (pheccer->iOptions & HECCER_OPTION_BACKWARD_EULER)
+    if (pheccer->ho.iOptions & HECCER_OPTION_BACKWARD_EULER)
     {
 	//- remember to do full time step
 

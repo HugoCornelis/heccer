@@ -194,7 +194,13 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     //- options and operation mode.
 
-    fprintf(pfile, "Heccer (iOptions) : (%i)\n", pheccer->iOptions);
+    fprintf(pfile, "Heccer Options (iOptions) : (%i)\n", pheccer->ho.iOptions);
+
+    fprintf(pfile, "Heccer Options (dIntervalStart) : (%g)\n", pheccer->ho.dIntervalStart);
+
+    fprintf(pfile, "Heccer Options (dIntervalEnd) : (%g)\n", pheccer->ho.dIntervalEnd);
+
+    fprintf(pfile, "Heccer Options (iIntervalEntries) : (%i)\n", pheccer->ho.iIntervalEntries);
 
     //- simulation time
 
@@ -458,9 +464,15 @@ struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep)
 
     //- set options and time step
 
-    pheccerResult->iOptions = iOptions;
+    pheccerResult->ho.iOptions = iOptions;
 
     pheccerResult->dStep = dStep;
+
+    //- initialize table discretization options
+
+    pheccerResult->ho.dIntervalStart = HECCER_INTERVAL_DEFAULT_START;
+    pheccerResult->ho.dIntervalEnd = HECCER_INTERVAL_DEFAULT_END;
+    pheccerResult->ho.iIntervalEntries = HECCER_INTERVAL_DEFAULT_ENTRIES;
 
     //- set new status
 

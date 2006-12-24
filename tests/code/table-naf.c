@@ -20,6 +20,9 @@
 #include "../../heccer/heccer.h"
 
 
+#define HECCER_TEST_INTERVAL_DEFAULT_START			(-0.1)
+#define HECCER_TEST_INTERVAL_DEFAULT_END			(0.05)
+#define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES			50
 #define HECCER_TEST_STEPS 1
 
 

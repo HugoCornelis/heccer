@@ -128,9 +128,11 @@ HeccerDiscretizeGateConcept
 
     //- allocate structures
 
-    //t values should come from heccer configuration
+    double dStart = pheccer->ho.dIntervalStart;
+    double dEnd = pheccer->ho.dIntervalEnd;
+    int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, -0.1, 0.05, 3000);
+    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
 
     if (i == -1)
     {
