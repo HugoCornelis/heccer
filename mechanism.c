@@ -182,7 +182,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    int iMechanism;
 
-	    for (iMechanism = 0 ; iMechanism < pheccer->inter.piC2m[iIntermediary] ; iMechanism++)
+	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
+
+	    for (iMechanism = iStart ;
+		 iMechanism < pheccer->inter.piC2m[iIntermediary] ;
+		 iMechanism++)
 	    {
 		//- look at mechanism type
 
