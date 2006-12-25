@@ -229,6 +229,10 @@ if (exists $releases->{$major}->{$minor}->{$micro}
 
 $releases->{$major}->{$minor}->{$micro} = $record;
 
+# remove the corresponding pre-release record (if any)
+
+delete $releases->{$major}->{$minor}->{'pre-release'};
+
 # link the new releases with the database
 
 #! if there were no releases yet, $package and $releases are not
