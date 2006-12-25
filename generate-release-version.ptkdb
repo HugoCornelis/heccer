@@ -3,11 +3,11 @@ $files = {
                                                {
                                                  'expr' => undef,
                                                  'value' => '1',
-                                                 'text' => 'if (@$missing
+                                                 'text' => 'my $major = $ARGV[0] || \'\';
 ',
                                                  'fname' => './generate-release-version',
                                                  'type' => 'user',
-                                                 'line' => '60'
+                                                 'line' => '54'
                                                }
                                              ]
          };
@@ -42,6 +42,10 @@ $expr_list = [
                },
                {
                  'expr' => '$ignored',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '@ARGV',
                  'depth' => -1
                }
              ];

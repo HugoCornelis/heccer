@@ -195,3 +195,15 @@ releases:
         major: tabulation
         micro: ''
         minor: 1
+    2:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: tabulation
+        micro: ''
+        minor: 2
+    3:
+      pre-release:
+        email: hugo.cornelis@gmail.com
+        major: tabulation
+        micro: pre-release
+        minor: 3

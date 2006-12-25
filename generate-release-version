@@ -2,7 +2,7 @@
 #!/usr/bin/perl -d:ptkdb
 #
 #
-# Generate a release
+# Generate a release label.
 #
 
 use strict;
@@ -115,7 +115,7 @@ my $releases = $package->{releases} || {};
 
 # if minor needs increment
 
-if ($minor eq '+')
+if ($minor eq '\+')
 {
     # get a next minor for this major
 
@@ -124,6 +124,10 @@ if ($minor eq '+')
 	   sort
 	   {
 	       $a <=> $b
+	   }
+	   grep
+	   {
+	       !$releases->{$major}->{$_}->{'pre-release'}
 	   }
 	   keys %{$releases->{$major}},
 	  ];
@@ -151,7 +155,7 @@ if ($minor eq '')
 
 # if micro needs increment
 
-if ($micro eq '+')
+if ($micro eq '\+')
 {
     # get a next micro for this minor
 
@@ -176,6 +180,15 @@ if ($micro eq '+')
     }
 
     $micro = $next_micro;
+}
+
+# if this is a weak release
+
+if ($option_weak)
+{
+    # indicate it with the micro version identifier
+
+    $micro = 'pre-release';
 }
 
 # construct a new record
@@ -208,7 +221,8 @@ print "Creating a release for ($label)\n";
 
 # add the record
 
-if (exists $releases->{$major}->{$minor}->{$micro})
+if (exists $releases->{$major}->{$minor}->{$micro}
+    && $micro ne 'pre-release')
 {
     die "$0: this release ($label) is already in the release database";
 }
@@ -237,29 +251,31 @@ if ($?)
     die "$0: expanding release keywords for $label failed";
 }
 
-# system "perl -pi -e 's/\\\$\\{package\\}/$package->{package}->{name}/g' build-dist";
-
-# system "perl -pi -e 's/\\\$\\{release_name\\}/$label/g' build-dist";
-
-# put this release in the repository
-
-system "mtn ci --message=\"$0: automated release with name ($label)\"";
-
-if ($?)
+if (!$option_weak)
 {
-    die "$0: commiting release database for $label failed";
+    # put this release in the repository
+
+    system "mtn ci --message=\"$0: automated release with name ($label)\"";
+
+    if ($?)
+    {
+	die "$0: commiting release database for $label failed";
+    }
 }
 
-# put a tag
-
-my $current = `mtn automate get_base_revision_id`;
-
-chomp $current;
-
-system "mtn tag $current \"$label\"";
-
-if ($?)
+if (!$option_weak)
 {
-    die "$0: failed to add a tag to the release made ($label).";
+    # put a tag
+
+    my $current = `mtn automate get_base_revision_id`;
+
+    chomp $current;
+
+    system "mtn tag $current \"$label\"";
+
+    if ($?)
+    {
+	die "$0: failed to add a tag to the release made ($label).";
+    }
 }
 

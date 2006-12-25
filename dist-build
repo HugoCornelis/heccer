@@ -7,7 +7,7 @@
 #
 # example usage:
 #
-# ./dist-build tabulation +
+# ./dist-build tabulation '\+'
 #
 # where 'passive' is the name of the release,
 # '+' tells this script to bump the version number.
@@ -127,5 +127,5 @@ if ($?)
 
 # update release numbers for subsequent manual builds
 
-system "./generate-release-version --weak \"$major\" \"$minor\" +";
+system "./generate-release-version --weak \"$major\" \"$minor\" '\+'";
 

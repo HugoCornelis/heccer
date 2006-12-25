@@ -1,19 +1,67 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl -d:ptkdb
-#
-#
-# Generate a release
-#
+##
+##############################################################################
+##'
+##' Insert labels in a set of files.
+##'
+##' Copyright (C) 2006 Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##############################################################################
+
+
+use strict;
+
+
+use Getopt::Long;
+
+use YAML ();
+
+
+# parse options
+
+my $option_help;
+my $option_remove;
+my $option_verbose;
+
+sub read_cmd_line
+{
+    my $result
+	= GetOptions
+	    (
+	     "help!" => \$option_help,
+	     "r|remove!" => \$option_remove,
+	     "v|verbose+" => \$option_verbose,
+	    );
+
+    if ($option_help)
+    {
+	print
+	    "
+$0: insert labels in a set of files.
+
+options :
+    help            print usage information.
+    verbose         set verbosity level.
+    remove          remove labels instead of insert.
+";
+
+	exit 1;
+    }
+
+}
+
+read_cmd_line();
 
 
 # get the package info
 
-local $package = $ARGV[0] || '';
-local $major = $ARGV[1] || '';
-local $minor = $ARGV[2] || '';
-local $micro = $ARGV[3] || '';
-local $label = $ARGV[4] || '';
-local $email = $ARGV[5] || '';
+my $package = $ARGV[0] || '';
+my $major = $ARGV[1] || '';
+my $minor = $ARGV[2] || '';
+my $micro = $ARGV[3] || '';
+my $label = $ARGV[4] || '';
+my $email = $ARGV[5] || '';
 
 my $config
     = {
@@ -24,6 +72,14 @@ my $config
 		 './glue/swig/perl/configure.ac',
 		 './tests/code/configure.ac',
 		],
+       labels => {
+		  package => $package,
+		  major => $major,
+		  minor => $minor,
+		  micro => $micro,
+		  label => $label,
+		  email => $email,
+		 },
       };
 
 my $files = $config->{files};
@@ -32,71 +88,86 @@ my $files = $config->{files};
 
 foreach my $file (@$files)
 {
-    my $bd_text;
+    my $content;
 
     {
-	# slurp build-dist
+	# slurp content
 
-	open my $bd, $file
+	open my $descriptor, $file
 	    or die $!;
 	undef $/;
-	$bd_text = <$bd>;
-	close $bd;
+	$content = <$descriptor>;
+	close $descriptor;
     }
 
-    if ($bd_text)
+    if ($content)
     {
+	my $old_content = $content;
+
 	# loop over source text
 
-	while ($bd_text =~ m/\G.*?\$Format: "([^\n]*)"\$/gs)
+	while ($content =~ m/\G.*?\$Format: "([^\n]*)"\$/gs)
 	{
-	    my $position = pos($bd_text);
+	    my $position = pos($content);
 
 	    # get matched string
 
 	    my $matched = $1;
 
-	    # check if info is available
+	    # if need to remove labels
 
-	    foreach my $info qw(package major minor micro label email)
+	    if ($option_remove)
 	    {
-		no strict "refs";
+		$matched = '';
+	    }
 
-		if ($matched =~ /\$\{$info\}/
-		    && $$info eq '')
+	    # else insert labels
+
+	    else
+	    {
+		# check if info is available
+
+		foreach my $info (keys %{$config->{labels}})
 		{
-		    die "$0: $info keyword for file $file required but not defined";
+		    if ($matched =~ /\$\{$info\}/
+			&& !defined $config->{labels}->{$info})
+		    {
+			die "$0: '$info' keyword for file '$file' required but not defined";
+		    }
+		}
+
+		# replace quotes
+
+		#! not sure about quoting, probably not all cases covered.
+
+		$matched =~ s/\\"/"/g;
+
+		# replace variables
+
+		foreach my $info (keys %{$config->{labels}})
+		{
+		    $matched =~ s/\$\{$info\}/$config->{labels}->{$info}/g;
 		}
 	    }
 
-	    # replace quotes
-
-	    #! not sure about quoting, probably not all cases covered.
-
-	    $matched =~ s/\\"/"/g;
-
-	    # replace variables
-
-	    $matched =~ s/\$\{package\}/$package/g;
-	    $matched =~ s/\$\{major\}/$major/g;
-	    $matched =~ s/\$\{minor\}/$minor/g;
-	    $matched =~ s/\$\{micro\}/$micro/g;
-	    $matched =~ s/\$\{label\}/$label/g;
-	    $matched =~ s/\$\{email\}/$email/g;
-
 	    # replace the next line with the new text
 
-	    $bd_text =~ s/\G(.*\n).*\n/$1$matched\n/;
+	    $content =~ s/\G(.*\n).*\n/$1$matched\n/;
 
-	    pos($bd_text) = $position;
+	    pos($content) = $position;
 	}
 
-	# replace the file
+	# if something has changed
 
-	open my $bd, ">$file"
-	    or die $!;
-	print $bd $bd_text;
-	close $bd;
+	if ($old_content ne $content)
+	{
+	    # replace the file
+
+	    open my $descriptor, ">$file"
+		or die $!;
+	    print $descriptor $content;
+	    close $descriptor;
+	}
     }
 }
 
