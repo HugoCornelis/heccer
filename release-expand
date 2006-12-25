@@ -42,8 +42,8 @@ $0: insert labels in a set of files.
 
 options :
     help            print usage information.
-    verbose         set verbosity level.
     remove          remove labels instead of insert.
+    verbose         set verbosity level.
 ";
 
 	exit 1;

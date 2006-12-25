@@ -93,16 +93,25 @@ my $unknown = [ grep { /^  U/ } @$inventory ];
 
 my $ignored = [ grep { /^  I/ } @$inventory ];
 
-if ((@$missing
-     || @$added
-     || @$dropped
-     || @$renamed_from
-     || @$renamed_to
-     || @$patched
-     || @$unknown)
-    && !$option_weak)
+if (!$option_weak)
 {
-    die "$0: found uncommitted differences in this workspace, aborting";
+    if (@$missing
+	|| @$added
+	|| @$dropped
+	|| @$renamed_from
+	|| @$renamed_to
+	|| @$patched)
+    {
+	die "$0: found uncommitted differences in this workspace, aborting";
+    }
+
+    #! unknown treated separately since it happens frequently when a
+    #! distcheck has failed
+
+    if (@$unknown)
+    {
+	die "$0: found unknown files in this workspace, aborting";
+    }
 }
 
 # read the release database
