@@ -20,7 +20,7 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, tabulation-7-pre-release, hugo\.cornelis\@gmail\.com)
+AC_INIT(heccer, tabulation-8, hugo\.cornelis\@gmail\.com)
 
 # AC_CONFIG_SRCDIR([compartment.h])
 # AC_CONFIG_HEADER([config.h])
@@ -30,7 +30,7 @@ dnl all subdirs
 AC_CONFIG_SUBDIRS(swig/perl)
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, tabulation-7-pre-release)
+AM_INIT_AUTOMAKE(heccer, tabulation-8)
 
 # Checks for programs.
 # AC_PROG_CC
