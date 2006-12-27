@@ -237,17 +237,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		case MECHANISM_TYPE_ChannelActInact:
 		{
-/* #define	SETMOP_GATE(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++) */
-
-/* 		    SETMOP_GATE((int *)pvMops, iMops, HECCER_MOP_GATE); */
-
 		    //- get type specific data
 
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
-
-		    //t define the mechanism operators and data
-
-/* 		    struct MatsGate *pgate = (struct MatsGate *)pvMats; */
 
 		    //- tabulate the channel
 
@@ -257,11 +249,63 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedActivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
 
+/* #define	SETMOP_SINGLEGATE(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++) */
+
+/* 		    SETMOP_SINGLEGATE((int *)pvMops, iMops, HECCER_MOP_SINGLEGATE); */
+
+		    //t define the mechanism operators and data
+
+		    struct MatsSingleGateConcept *pgate1 = (struct MatsSingleGateConcept *)pvMats;
+
+		    if (pgate1)
+		    {
+#ifndef HECCER_SIZED_MATH_STRUCTURES
+
+			pmc = (struct MathComponent *)&((struct ChannelActInact *)pmc)[1];
+
+#endif
+			//t fill in data stuctures
+
+			pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1];
+		    }
+		    else
+		    {
+			//! align to 8
+
+			iMats += (((sizeof(struct MatsSingleGateConcept) - 1) >> 3) + 1) << 3;
+		    }
+
 		    //- tabulate inactivation, Genesis Y
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulatedInactivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
+
+/* #define	SETMOP_SINGLEGATE(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++) */
+
+/* 		    SETMOP_SINGLEGATE((int *)pvMops, iMops, HECCER_MOP_SINGLEGATE); */
+
+		    //t define the mechanism operators and data
+
+		    struct MatsSingleGateConcept *pgate2 = (struct MatsSingleGateConcept *)pvMats;
+
+		    if (pgate2)
+		    {
+#ifndef HECCER_SIZED_MATH_STRUCTURES
+
+			pmc = (struct MathComponent *)&((struct ChannelActInact *)pmc)[1];
+
+#endif
+			//t fill in data stuctures
+
+			pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1];
+		    }
+		    else
+		    {
+			//! align to 8
+
+			iMats += (((sizeof(struct MatsSingleGateConcept) - 1) >> 3) + 1) << 3;
+		    }
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
 

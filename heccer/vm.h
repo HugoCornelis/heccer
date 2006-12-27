@@ -110,6 +110,34 @@ struct MatsCallout
 };
 
 
+struct MopsSingleGateConcept
+{
+    //m operator : MOP_NEWVOLTAGE
+
+    int iOperator1;
+
+    //m operator : MOP_GATE
+
+    int iOperator2;
+
+    //m table index
+
+    int iTableIndex;
+
+    //m power to apply
+
+    int iPower;
+};
+
+
+struct MatsSingleGateConcept
+{
+    //m gate activation
+
+    double dActivation;
+};
+
+
 //d operations for compartments
 
 #define HECCER_COP_FORWARD_ELIMINATION		1
