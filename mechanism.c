@@ -253,7 +253,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedActivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
 
-#define	SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator1 = HECCER_MOP_NEWVOLTAGE; pmops->iOperator2 = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
+#define	SETMOP_LOADVOLTAGETABLE(pvMops,iMops) ((pvMops) ? ({ struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)(pvMops); pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsVoltageTableDependence)))
+
+		    SETMOP_LOADVOLTAGETABLE(pvMops, iMops);
+
+#define	SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
 
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower);
 
@@ -523,7 +527,20 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //- for a new membrane potential
 
-	    case HECCER_MOP_NEWVOLTAGE:
+	    case HECCER_MOP_LOADVOLTAGETABLE:
+	    {
+		//- go to next operator
+
+		struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for a conceptual gate (HH alike, with powers)
+
+	    case HECCER_MOP_CONCEPTGATE:
 	    {
 		//- go to next operator
 
@@ -538,13 +555,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		pvMats = (void *)&pmats[1];
 
 		break;
-	    }
-
-	    //- for a conceptual gate (HH alike, with powers)
-
-	    case HECCER_MOP_CONCEPTGATE:
-	    {
-		//t todo, needs a separate struct for the operators, I guess
 	    }
 	    }
 	}

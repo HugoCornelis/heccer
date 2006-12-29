@@ -38,9 +38,9 @@ struct HeccerCommandInfo
 
     int iCommands;
 
-    //m number of integers in this command (others assumed to be double), -1 for all integers
+    //m sprintf format string
 
-    int iIntegers;
+    char *pcFormat;
 };
 
 
@@ -62,13 +62,13 @@ struct HeccerCommandTable
 
 static struct HeccerCommandInfo phciCops[] =
 {
-    {	HECCER_COP_FORWARD_ELIMINATION,		"HECCER_COP_FORWARD_ELIMINATION",	2 * sizeof(int),	-1,	-1, },
-    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"HECCER_COP_BACKWARD_SUBSTITUTION",	2 * sizeof(int),	-1,	-1, },
-    {	HECCER_COP_FINISH_ROW,			"HECCER_COP_FINISH_ROW",		1 * sizeof(int),	-1,	-1, },
-    {	HECCER_COP_FINISH,			"HECCER_COP_FINISH",			1 * sizeof(int),	-1,	-1, },
-    {	HECCER_COP_SET_DIAGONAL,		"HECCER_COP_SET_DIAGONAL",		1 * sizeof(int),	-1,	-1, },
-    {	HECCER_COP_NEXT_ROW,			"HECCER_COP_NEXT_ROW",			1 * sizeof(int),	-1,	-1, },
-    {    -1,	NULL,	-1,	},
+    {	HECCER_COP_FORWARD_ELIMINATION,		"HECCER_COP_FORWARD_ELIMINATION",	2 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"HECCER_COP_BACKWARD_SUBSTITUTION",	2 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FINISH_ROW,			"HECCER_COP_FINISH_ROW",		1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FINISH,			"HECCER_COP_FINISH",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_SET_DIAGONAL,		"HECCER_COP_SET_DIAGONAL",		1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_NEXT_ROW,			"HECCER_COP_NEXT_ROW",			1 * sizeof(int),	-1,	NULL, },
+    {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
 
@@ -82,15 +82,13 @@ static struct HeccerCommandTable hctCops =
 
 static struct HeccerCommandInfo phciMops[] =
 {
-    {	HECCER_MOP_CALLOUT,		"HECCER_MOP_CALLOUT",			1 * sizeof(int),	-1,	-1, },
-    {	HECCER_MOP_COMPARTMENT,		"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),	-1,	-1, },
-    {	HECCER_MOP_FINISH,		"HECCER_MOP_FINISH",			1 * sizeof(int),	-1,	-1, },
-    {	HECCER_MOP_CHANNEL,		"HECCER_MOP_CHANNEL",			sizeof(struct MopsChannel),	1,	-1, },
-/*     {	HECCER_MOP_NEWVOLTAGE,		"HECCER_MOP_NEWVOLTAGE",		sizeof(struct MopsSingleGateConcept),	2,	2, }, */
-/*     {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),	2,	2, }, */
-    {	HECCER_MOP_NEWVOLTAGE,		"HECCER_MOP_NEWVOLTAGE",		1 * sizeof(int),	-1,	-1, },
-    {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept) - sizeof(int),	2,	2, },
-    {    -1,	NULL,	-1,	-1,	-1,	},
+    {	HECCER_MOP_CALLOUT,		"HECCER_MOP_CALLOUT",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_MOP_COMPARTMENT,		"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_MOP_FINISH,		"HECCER_MOP_FINISH",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_MOP_CHANNEL,		"HECCER_MOP_CHANNEL",			sizeof(struct MopsChannel),	1,	" %g %g", },
+    {	HECCER_MOP_LOADVOLTAGETABLE,	"HECCER_MOP_LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),	-1,	NULL, },
+    {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),	2,     NULL, },
+    {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
 
@@ -102,7 +100,7 @@ static struct HeccerCommandTable hctMops =
 };
 
 
-static int compare(const void *pv1,const void *pv2)
+static int operator_comparator(const void *pv1,const void *pv2)
 {
     struct HeccerCommandInfo *phci1 = (struct HeccerCommandInfo *)pv1;
     struct HeccerCommandInfo *phci2 = (struct HeccerCommandInfo *)pv2;
@@ -128,7 +126,7 @@ static void SortTable(struct HeccerCommandTable *phct)
 	((void *)phct->phci,
 	 phct->iCommands,
 	 sizeof(struct HeccerCommandInfo),
-	 compare);
+	 operator_comparator);
 
     phct->iStatus |= 1;
 }
@@ -404,7 +402,7 @@ HeccerVMDumpArray
 
     int i;
 
-    for (i = iStart * sizeof(int); i < iEnd; )
+    for (i = iStart; i < iEnd; )
     {
 	int iCommand;
 	struct HeccerCommandInfo *phciCurrent = NULL;
@@ -429,19 +427,40 @@ HeccerVMDumpArray
 
 	    if (phciCurrent->iLength >= 2)
 	    {
-		//- print operands numerically
-
-		int j;
-
-		for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int))
+		if (phciCurrent->pcFormat)
 		{
-		    int iOperand;
+		    //t so only for two doubles ...
 
-		    //- get current operand
+		    char pc[100];
+		    int j;
 
-		    iOperand = piArray[(i + j) / sizeof(int)];
+		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
+		    {
+			double *pd = (double *)&piArray[(i + j) / sizeof(int)];
 
-		    fprintf(pfile, " %4i", iOperand);
+			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1]);
+
+			j += sizeof(double) + sizeof(double);
+		    }
+
+		    fprintf(pfile, "%s", pc);
+		}
+		else
+		{
+		    //- print operands numerically
+
+		    int j;
+
+		    for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int))
+		    {
+			int iOperand;
+
+			//- get current operand
+
+			iOperand = piArray[(i + j) / sizeof(int)];
+
+			fprintf(pfile, " %4i", iOperand);
+		    }
 		}
 	    }
 
@@ -456,19 +475,40 @@ HeccerVMDumpArray
 
 	    if (phciCurrent->iLength >= 2)
 	    {
-		//- print operands numerically
-
-		int j;
-
-		for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int))
+		if (phciCurrent->pcFormat)
 		{
-		    int iOperand;
+		    //t so only for two doubles ...
 
-		    //- get current operand
+		    char pc[100];
+		    int j;
 
-		    iOperand = piArray[(i + j) / sizeof(int)];
+		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
+		    {
+			double *pd = (double *)&piArray[(i + j) / sizeof(int)];
 
-		    fprintf(pfile, " %4i", iOperand);
+			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1]);
+
+			j += sizeof(double) + sizeof(double);
+		    }
+
+		    fprintf(pfile, "%s", pc);
+		}
+		else
+		{
+		    //- print operands numerically
+
+		    int j;
+
+		    for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int))
+		    {
+			int iOperand;
+
+			//- get current operand
+
+			iOperand = piArray[(i + j) / sizeof(int)];
+
+			fprintf(pfile, " %4i", iOperand);
+		    }
 		}
 	    }
 	}

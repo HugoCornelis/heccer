@@ -136,18 +136,22 @@ struct MatsChannel
 };
 
 
-struct MopsSingleGateConcept
+struct MopsVoltageTableDependence
 {
     //t so in principle the following operation is only needed once
     //t per compartment.  Still have to figure out how.
 
-    //m operator : HECCER_MOP_NEWVOLTAGE
+    //m operator : HECCER_MOP_LOADVOLTAGETABLE
 
-    int iOperator1;
+    int iOperator;
+};
 
+
+struct MopsSingleGateConcept
+{
     //m operator : HECCER_MOP_CONCEPTGATE
 
-    int iOperator2;
+    int iOperator;
 
     //m table index
 
@@ -197,7 +201,7 @@ struct MatsSingleGateConcept
 #define HECCER_MOP_CALLOUT 10
 
 #define HECCER_MOP_CHANNEL 20
-#define HECCER_MOP_NEWVOLTAGE 21
+#define HECCER_MOP_LOADVOLTAGETABLE 21
 #define HECCER_MOP_CONCEPTGATE 22
 
 
