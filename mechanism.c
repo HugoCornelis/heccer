@@ -456,6 +456,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	double dConductances = 0;
 
+	//- single channel contribution is zero
+
+	double dChannelConductance = 0.0;
+
+	double dReversalPotential = 0.0;
+
 	//- loop over mechanism operators
 
 	while (piMop[0] > HECCER_MOP_COMPARTMENT_BARRIER)
@@ -526,6 +532,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		pvMats = (void *)&pmats[1];
 
+		//t define variables
+
+		dChannelConductance = pmops->dMaximalConductance;
+
+		dReversalPotential = pmops->dReversalPotential;
+
 		break;
 	    }
 
@@ -538,6 +550,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)piMop;
 
 		piMop = (int *)&pmops[1];
+
+		//t this is a nop for the moment, but when table
+		//t rearrangements get in, this should load the
+		//t table pointed to by the current membrane potential.
 
 		break;
 	    }
@@ -558,6 +574,98 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		pvMats = (void *)&pmats[1];
 
+		//- get type specific constants and variables
+
+		int iPower = pmops->iPower;
+
+		int iTable = pmops->iTableIndex;
+
+		double dActivation = pmats->dActivation;
+
+		//- fetch tables
+
+		//t table rearrangements
+
+		struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
+
+		double *pdForward = phtg->pdForward;
+		double *pdBackward = phtg->pdBackward;
+
+		//- discretize and offset membrane potential
+
+		//t move this to load membrane potential
+		//t need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+
+		int iVm = (dVm - phtg->hi.dStart) / phtg->hi.dStep;
+
+		if (iVm < 0)
+		{
+		    iVm = 0;
+		}
+		else if (iVm >= phtg->iEntries)
+		{
+		    iVm = phtg->iEntries - 1;
+		}
+
+		//- fetch forward and backward gate rates
+
+		double dForward = pdForward[iVm];
+		double dBackward = pdBackward[iVm];
+
+		//t move to channel rearrangements
+
+		dBackward = 1.0 + pheccer->dStep / 2.0 * dBackward;
+
+		dForward = pheccer->dStep * dForward;
+
+		//- compute gate activation state
+
+		dActivation = (dActivation * (2.0 - dBackward) + dForward) / dBackward;
+
+		//- and store it for the next cycle
+
+		pmats->dActivation = dActivation;
+
+		//- gate power (note : also changes units)
+
+		if (iPower == 1)
+		{
+		    dChannelConductance = dChannelConductance * dActivation;
+		}
+		else if (iPower == 2)
+		{
+		    dChannelConductance *= dActivation * dActivation;
+		}
+		else if (iPower == 3)
+		{
+		    dChannelConductance *= dActivation * dActivation * dActivation;
+		}
+		else if (iPower == 4)
+		{
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation * dActivation;
+		}
+		else if (iPower == 5)
+		{
+		    dChannelConductance *= dActivation;
+		    dActivation *= dActivation;
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation;
+		}
+		else if (iPower == 6)
+		{
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation;
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation;
+		}
+		else
+		{
+		    *(int *)0 = 0;
+		}
+
+		//- add to current
+
 		break;
 	    }
 
@@ -570,6 +678,14 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)piMop;
 
 		piMop = (int *)&pmops[1];
+
+		//- compute conductance for matrix left side
+
+		dConductances += dChannelConductance;
+
+		//- compute current for matrix right side
+
+		dCurrent += dChannelConductance * dReversalPotential;
 
 		break;
 	    }

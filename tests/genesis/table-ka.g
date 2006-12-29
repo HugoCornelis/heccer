@@ -48,6 +48,7 @@ addmsg c/ka c CHANNEL Gk Ek
 create hsolve h
 setmethod h 11
 setfield h \
+	calcmode 0 \
 	chanmode 4 \
 	path /c
 call h SETUP
