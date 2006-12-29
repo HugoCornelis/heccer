@@ -67,7 +67,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	3.58440928e+08, // unscaled 3
+	358440928, // unscaled 3
     },
 /* [ /Purkinje/soma ] */
 /* activation           = 0 */
@@ -132,7 +132,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	8.548598272e+09, // unscaled 3
+	8548598272.0, // unscaled 3
     },
 /* [ /Purkinje/main ] */
 /* activation           = 0 */
@@ -197,7 +197,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	4.943399424e+09, // unscaled 3
+	4943399424.0, // unscaled 3
     },
 /* [ /Purkinje/main[1] ] */
 /* activation           = 0 */
@@ -262,7 +262,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	1.614083584e+10// unscaled 3
+	1.614083584e+10, // unscaled 3
     },
 /* [ /Purkinje/main[2] ] */
 /* activation           = 0 */
@@ -327,7 +327,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	2.635531059e+10// unscaled 3
+	2.635531059e+10, // unscaled 3
     },
 /* [ /Purkinje/main[3] ] */
 /* activation           = 0 */
@@ -392,7 +392,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	1.289499341e+10// unscaled 3
+	1.289499341e+10, // unscaled 3
     },
 /* [ /Purkinje/main[4] ] */
 /* activation           = 0 */
@@ -457,7 +457,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	2.196964147e+10// unscaled 3
+	2.196964147e+10, // unscaled 3
     },
 /* [ /Purkinje/main[5] ] */
 /* activation           = 0 */
@@ -522,7 +522,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	2.804921958e+10// unscaled 3
+	2.804921958e+10, // unscaled 3
     },
 /* [ /Purkinje/main[6] ] */
 /* activation           = 0 */
@@ -587,7 +587,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	1.459522355e+10// unscaled 3
+	1.459522355e+10, // unscaled 3
     },
 /* [ /Purkinje/main[7] ] */
 /* activation           = 0 */
@@ -652,7 +652,7 @@ struct Compartment comp[] =
 
 /*     double dRm; */
 
-	9.745444864e+09, // unscaled 3
+	9745444864.0, // unscaled 3
     },
 /* [ /Purkinje/main[8] ] */
 /* activation           = 0 */

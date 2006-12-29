@@ -122,9 +122,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	{
 	    //- fill in compartment operation
 
-#define	SETMOP_COMPARTMENT(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++)
+#define	SETMOP_COMPARTMENT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
 
-	    SETMOP_COMPARTMENT((int *)pvMops, iMops, HECCER_MOP_COMPARTMENT);
+	    SETMOP_COMPARTMENT(pvMops, iMops);
 
 	    //- get intermediary number for the current compartment
 
@@ -200,9 +200,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		case MATH_TYPE_CallOut_conductance_current:
 		{
-#define	SETMOP_CALLOUT(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++)
+#define	SETMOP_CALLOUT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_CALLOUT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
 
-		    SETMOP_CALLOUT((int *)pvMops, iMops, HECCER_MOP_CALLOUT);
+		    SETMOP_CALLOUT(pvMops, iMops);
 
 		    //- get type specific data
 
@@ -241,6 +241,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
+#define	SETMOP_CHANNEL(pvMops,iMops,dG,dE) ((pvMops) ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops); pmops->iOperator = HECCER_MOP_CHANNEL; pmops->dReversalPotential = (dE) ; pmops->dMaximalConductance = (dG) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsChannel)))
+
+		    SETMOP_CHANNEL(pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
+
 		    //- tabulate the channel
 
 		    //- tabulate activation, Genesis X
@@ -249,9 +253,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedActivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
 
-/* #define	SETMOP_SINGLEGATE(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++) */
+#define	SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator1 = HECCER_MOP_NEWVOLTAGE; pmops->iOperator2 = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
 
-/* 		    SETMOP_SINGLEGATE((int *)pvMops, iMops, HECCER_MOP_SINGLEGATE); */
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower);
+
+/* #define	SETMAT_POWEREDGATECONCEPT(pdMats,iMats,dActivation) ((pdMats) ? ({(pdMats)[(iMats)++] = dActivation ; }) : ((iMats) += 1)) */
+
+/* 	    SETMAT_POWEREDGATECONCEPT((double *)pvMats, iMats, 0); */
 
 		    //t define the mechanism operators and data
 
@@ -259,6 +267,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (pgate1)
 		    {
+			pgate1->dActivation = 0;
+
 #ifndef HECCER_SIZED_MATH_STRUCTURES
 
 			pmc = (struct MathComponent *)&((struct ChannelActInact *)pmc)[1];
@@ -281,9 +291,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedInactivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
 
-/* #define	SETMOP_SINGLEGATE(piMops,iMops,operator) ((piMops) ? ((piMops)[(iMops)++] = (operator)) : (iMops)++) */
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower);
 
-/* 		    SETMOP_SINGLEGATE((int *)pvMops, iMops, HECCER_MOP_SINGLEGATE); */
+/* 	    SETMAT_POWEREDGATECONCEPT((double *)pvMats, iMats, 0); */
 
 		    //t define the mechanism operators and data
 
@@ -291,6 +301,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (pgate2)
 		    {
+			pgate2->dActivation = 0;
+
 #ifndef HECCER_SIZED_MATH_STRUCTURES
 
 			pmc = (struct MathComponent *)&((struct ChannelActInact *)pmc)[1];
@@ -347,9 +359,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	//- finish all operations
 
-#define	SETMOP_FINISH(piMops,iMops) ((piMops) ? ((piMops)[(iMops)++] = (HECCER_MOP_FINISH)) : (iMops)++)
+#define	SETMOP_FINISH(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_FINISH; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
 
-	SETMOP_FINISH((int *)pvMops, iMops);
+	SETMOP_FINISH(pvMops, iMops);
 
 	//- if we were counting during the previous loop
 
@@ -436,55 +448,105 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	double dConductances = 0;
 
-	//- look at next mechanism
+	//- loop over mechanism operators
+
+	while (piMop[0] > HECCER_MOP_COMPARTMENT_BARRIER)
+	{
+	    //- look at next mechanism
 
 /* 	//t mechanisms could go here (preferred cause it groups the */
 /* 	//t mechanism data for the leak). */
 
-	switch (piMop[0])
-	{
-	    //- for a call out
+	    switch (piMop[0])
+	    {
+		//- for a call out
 
-	case HECCER_MOP_CALLOUT:
-	{
-	    //- go to next operator
+	    case HECCER_MOP_CALLOUT:
+	    {
+		//- go to next operator
 
-	    piMop = &piMop[1];
+		piMop = &piMop[1];
 
-	    //- go to next type specific data
+		//- go to next type specific data
 
-	    struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
 
-	    pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
 
-	    //- get function pointer
+		//- get function pointer
 
-	    struct Callout * pco = (struct Callout *)pcall->pco;
+		struct Callout * pco = (struct Callout *)pcall->pco;
 
-	    ExternalFunction * pef = pco->pef;
+		ExternalFunction * pef = pco->pef;
 
-	    //- fill in internal results
+		//- fill in internal results
 
-	    struct InternalResults * pir = pco->pir;
+		struct InternalResults * pir = pco->pir;
 
-	    pir->dVm = dVm;
+		pir->dVm = dVm;
 
-	    //- call the function
+		//- call the function
 
-	    struct ExternalResults * per = pco->per;
+		struct ExternalResults * per = pco->per;
 
-	    int iResult = (*pef)(pco, pheccer, pir, per);
+		int iResult = (*pef)(pco, pheccer, pir, per);
 
-	    //- handle external results
+		//- handle external results
 
-	    dConductances += per->dConductance;
+		dConductances += per->dConductance;
 
-	    dCurrent += per->dCurrent;
+		dCurrent += per->dCurrent;
 
-	    //t check signaling
+		//t check signaling
 
-	    break;
-	}
+		break;
+	    }
+
+	    //- for a new membrane potential
+
+	    case HECCER_MOP_CHANNEL:
+	    {
+		//- go to next operator
+
+		struct MopsChannel *pmops = (struct MopsChannel *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsChannel * pmats = (struct MatsChannel *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- for a new membrane potential
+
+	    case HECCER_MOP_NEWVOLTAGE:
+	    {
+		//- go to next operator
+
+		struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- for a conceptual gate (HH alike, with powers)
+
+	    case HECCER_MOP_CONCEPTGATE:
+	    {
+		//t todo, needs a separate struct for the operators, I guess
+	    }
+	    }
 	}
 		
 	//- for single compartment neurons

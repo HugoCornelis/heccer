@@ -240,11 +240,11 @@ struct ChannelActInact
 
     //m reversal potential
 
-    double dE;
+    double dReversalPotential;
 
     //m maximal conductance when all channels are permissive
 
-    double dG;
+    double dMaximalConductance;
 
     //m activation description
 

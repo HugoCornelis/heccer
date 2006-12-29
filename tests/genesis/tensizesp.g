@@ -15,7 +15,7 @@ setfield /Purkinje/soma \
 	Cm 4.575370291e-11 \
 	Em -0.08 \
 	Ra 360501.9688 \
-	Rm 3.58440928e+08 \
+	Rm 358440928.0 \
 	initVm -0.068 \
 	inject 1e-8
 //     {
@@ -63,7 +63,7 @@ setfield /Purkinje/soma \
 
 // /*     double dRm; */
 
-// 	3.58440928e+08, // unscaled 3
+// 	358440928, // unscaled 3
 //     },
 /* [ /Purkinje/soma ] */
 /* activation           = 0 */
@@ -87,7 +87,7 @@ setfield /Purkinje/main \
 	Cm 5.755329373e-12 \
 	Em -0.08 \
 	Ra 772813.4375 \
-	Rm 8.548598272e+09 \
+	Rm 8548598272.0 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -135,7 +135,7 @@ setfield /Purkinje/main \
 
 // /*     double dRm; */
 
-// 	8.548598272e+09, // unscaled 3
+// 	8548598272.0, // unscaled 3
 //     },
 /* [ /Purkinje/main ] */
 /* activation           = 0 */
@@ -159,7 +159,7 @@ setfield /Purkinje/main[1] \
 	Cm 9.952665428e-12 \
 	Em -0.08 \
 	Ra 1107083.25 \
-	Rm 4.943399424e+09 \
+	Rm 4943399424.0 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -207,7 +207,7 @@ setfield /Purkinje/main[1] \
 
 // /*     double dRm; */
 
-// 	4.943399424e+09, // unscaled 3
+// 	4943399424.0, // unscaled 3
 //     },
 /* [ /Purkinje/main[1] ] */
 /* activation           = 0 */
@@ -231,7 +231,7 @@ setfield /Purkinje/main[2] \
 	Cm 3.048169139e-12 \
 	Em -0.08 \
 	Ra 306646.9688 \
-	Rm 614083584e+10 \
+	Rm 1.614083584e+10 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -279,7 +279,7 @@ setfield /Purkinje/main[2] \
 
 // /*     double dRm; */
 
-// 	1.614083584e+10// unscaled 3
+// 	1.614083584e+10, // unscaled 3
 //     },
 /* [ /Purkinje/main[2] ] */
 /* activation           = 0 */
@@ -303,7 +303,7 @@ setfield /Purkinje/main[3] \
 	Cm 1.866796431e-12 \
 	Em -0.08 \
 	Ra 147150.0781 \
-	Rm 635531059e+10 \
+	Rm 2.635531059e+10 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -351,7 +351,7 @@ setfield /Purkinje/main[3] \
 
 // /*     double dRm; */
 
-// 	2.635531059e+10// unscaled 3
+// 	2.635531059e+10, // unscaled 3
 //     },
 /* [ /Purkinje/main[3] ] */
 /* activation           = 0 */
@@ -375,7 +375,7 @@ setfield /Purkinje/main[4] \
 	Cm 3.81543408e-12 \
 	Em -0.08 \
 	Ra 335501.9375 \
-	Rm 289499341e+10 \
+	Rm 1.289499341e+10 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -423,7 +423,7 @@ setfield /Purkinje/main[4] \
 
 // /*     double dRm; */
 
-// 	1.289499341e+10// unscaled 3
+// 	1.289499341e+10, // unscaled 3
 //     },
 /* [ /Purkinje/main[4] ] */
 /* activation           = 0 */
@@ -447,7 +447,7 @@ setfield /Purkinje/main[5] \
 	Cm 2.239454065e-12 \
 	Em -0.08 \
 	Ra 230128.9531 \
-	Rm 196964147e+10 \
+	Rm 2.196964147e+10 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -495,7 +495,7 @@ setfield /Purkinje/main[5] \
 
 // /*     double dRm; */
 
-// 	2.196964147e+10// unscaled 3
+// 	2.196964147e+10, // unscaled 3
 //     },
 /* [ /Purkinje/main[5] ] */
 /* activation           = 0 */
@@ -519,7 +519,7 @@ setfield /Purkinje/main[6] \
 	Cm 1.754059463e-12 \
 	Em -0.08 \
 	Ra 169781.8594 \
-	Rm 804921958e+10 \
+	Rm 2.804921958e+10 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -567,7 +567,7 @@ setfield /Purkinje/main[6] \
 
 // /*     double dRm; */
 
-// 	2.804921958e+10// unscaled 3
+// 	2.804921958e+10, // unscaled 3
 //     },
 /* [ /Purkinje/main[6] ] */
 /* activation           = 0 */
@@ -591,7 +591,7 @@ setfield /Purkinje/main[7] \
 	Cm 3.37096605e-12 \
 	Em -0.08 \
 	Ra 442254.125 \
-	Rm 459522355e+10 \
+	Rm 1.459522355e+10 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -639,7 +639,7 @@ setfield /Purkinje/main[7] \
 
 // /*     double dRm; */
 
-// 	1.459522355e+10// unscaled 3
+// 	1.459522355e+10, // unscaled 3
 //     },
 /* [ /Purkinje/main[7] ] */
 /* activation           = 0 */
@@ -663,7 +663,7 @@ setfield /Purkinje/main[8] \
 	Cm 5.048512389e-12 \
 	Em -0.08 \
 	Ra 518791.0938 \
-	Rm 9.745444864e+09 \
+	Rm 9745444864.0 \
 	initVm -0.068 \
 	inject 0
 //     {
@@ -711,7 +711,7 @@ setfield /Purkinje/main[8] \
 
 // /*     double dRm; */
 
-// 	9.745444864e+09, // unscaled 3
+// 	9745444864.0, // unscaled 3
 //     },
 /* [ /Purkinje/main[8] ] */
 /* activation           = 0 */
@@ -730,6 +730,7 @@ setfield /Purkinje/main[8] \
 /* somatopetaltag       = 0 */
 /* somatofugal          =  /Purkinje/br1 /Purkinje/br2 */
 /* somatofugaltag       = 0 */
+
 
 addmsg /Purkinje/soma /Purkinje/main AXIAL Vm
 addmsg /Purkinje/main /Purkinje/soma RAXIAL Ra Vm

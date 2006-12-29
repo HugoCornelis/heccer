@@ -110,13 +110,42 @@ struct MatsCallout
 };
 
 
+struct MopsChannel
+{
+    //m operation : HECCER_MOP_CHANNEL
+
+    int iOperator;
+
+    //m reversal potential
+
+    double dReversalPotential;
+
+    //m maximal channel conductance
+
+    double dMaximalConductance;
+
+    //! note : more specific things follow, notable gate operations
+};
+
+
+struct MatsChannel
+{
+    //m total channel conductance
+
+    double dConductance;
+};
+
+
 struct MopsSingleGateConcept
 {
-    //m operator : MOP_NEWVOLTAGE
+    //t so in principle the following operation is only needed once
+    //t per compartment.  Still have to figure out how.
+
+    //m operator : HECCER_MOP_NEWVOLTAGE
 
     int iOperator1;
 
-    //m operator : MOP_GATE
+    //m operator : HECCER_MOP_CONCEPTGATE
 
     int iOperator2;
 
@@ -166,6 +195,17 @@ struct MatsSingleGateConcept
 #define HECCER_MOP_FINISH 2
 
 #define HECCER_MOP_CALLOUT 10
+
+#define HECCER_MOP_CHANNEL 20
+#define HECCER_MOP_NEWVOLTAGE 21
+#define HECCER_MOP_CONCEPTGATE 22
+
+
+//d all operators for mechanisms have an opcode larger than ...
+
+//t but perhaps this should be done using flags, not sure.
+
+#define HECCER_MOP_COMPARTMENT_BARRIER 9
 
 
 //f prototypes
