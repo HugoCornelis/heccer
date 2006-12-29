@@ -259,7 +259,8 @@ Mechanism operations
 00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
 00007 :: 22    0    3			HECCER_MOP_CONCEPTGATE    0    3
 00010 :: 22    1    1			HECCER_MOP_CONCEPTGATE    1    1
-00013 :: 2			HECCER_MOP_FINISH
+00013 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00014 :: 2			HECCER_MOP_FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -510,7 +511,8 @@ Mechanism operations
 00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
 00007 :: 22    0    3			HECCER_MOP_CONCEPTGATE    0    3
 00010 :: 22    1    1			HECCER_MOP_CONCEPTGATE    1    1
-00013 :: 2			HECCER_MOP_FINISH
+00013 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00014 :: 2			HECCER_MOP_FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -774,7 +776,8 @@ Mechanism operations
 00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
 00007 :: 22    0    4			HECCER_MOP_CONCEPTGATE    0    4
 00010 :: 22    1    1			HECCER_MOP_CONCEPTGATE    1    1
-00013 :: 2			HECCER_MOP_FINISH
+00013 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00014 :: 2			HECCER_MOP_FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -1025,7 +1028,8 @@ Mechanism operations
 00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
 00007 :: 22    0    4			HECCER_MOP_CONCEPTGATE    0    4
 00010 :: 22    1    1			HECCER_MOP_CONCEPTGATE    1    1
-00013 :: 2			HECCER_MOP_FINISH
+00013 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00014 :: 2			HECCER_MOP_FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)

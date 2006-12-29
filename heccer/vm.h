@@ -147,6 +147,17 @@ struct MopsVoltageTableDependence
 };
 
 
+struct MopsUpdateCompartmentCurrent
+{
+    //t so in principle the following operation is only needed once
+    //t per compartment.  Still have to figure out how.
+
+    //m operator : HECCER_MOP_UPDATECOMPARTMENTCURRENT
+
+    int iOperator;
+};
+
+
 struct MopsSingleGateConcept
 {
     //m operator : HECCER_MOP_CONCEPTGATE
@@ -204,6 +215,7 @@ struct MatsSingleGateConcept
 #define HECCER_MOP_LOADVOLTAGETABLE 21
 #define HECCER_MOP_CONCEPTGATE 22
 
+#define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
 
 //d all operators for mechanisms have an opcode larger than ...
 

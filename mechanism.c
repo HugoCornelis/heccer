@@ -323,6 +323,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			iMats += (((sizeof(struct MatsSingleGateConcept) - 1) >> 3) + 1) << 3;
 		    }
 
+#define	SETMOP_UPDATECOMPARTMENTCURRENT(pvMops,iMops) ((pvMops) ? ({ struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)(pvMops); pmops->iOperator = HECCER_MOP_UPDATECOMPARTMENTCURRENT ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsUpdateCompartmentCurrent)))
+
+		    SETMOP_UPDATECOMPARTMENTCURRENT(pvMops, iMops);
+
 		    //t retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register result from tabulation for outcome of this function
@@ -553,6 +557,19 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
 
 		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    	    //- for a conceptual gate (HH alike, with powers)
+
+	    case HECCER_MOP_UPDATECOMPARTMENTCURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
 
 		break;
 	    }

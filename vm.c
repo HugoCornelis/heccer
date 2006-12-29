@@ -88,6 +88,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_CHANNEL,		"HECCER_MOP_CHANNEL",			sizeof(struct MopsChannel),	1,	" %g %g", },
     {	HECCER_MOP_LOADVOLTAGETABLE,	"HECCER_MOP_LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),	-1,	NULL, },
     {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),	2,     NULL, },
+    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, "HECCER_MOP_UPDATECOMPARTMENTCURRENT", sizeof(struct MopsUpdateCompartmentCurrent),	-1,	NULL, },
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
