@@ -142,7 +142,7 @@ HeccerCommandInfoLookup
  int iOp);
 
 static int
-HeccerVMDumpArray
+HeccerVMDumpOperators
 (char * pcDescription,
  struct VM *pvm,
  int piArray[],
@@ -257,6 +257,13 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
     int iResult = TRUE;
 
+    //- dump compartment data
+
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_DATA)
+    {
+	//! nothing here
+    }
+
     //- dump compartment operations
 
     if (iSelection & HECCER_DUMP_VM_COMPARTMENT_OPERATIONS)
@@ -268,7 +275,18 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 	//! cops are allocated as integers, dump array expects char's,
 	//! so that is why we have to multiply here.
 
-	HeccerVMDumpArray("Compartment operations", pvm, &piCops[0], &hctCops, 0, iCops * sizeof(int), pfile);
+	HeccerVMDumpOperators("Compartment operations", pvm, &piCops[0], &hctCops, 0, iCops * sizeof(int), pfile);
+    }
+
+    //- dump mechanism data
+
+    if (iSelection & HECCER_DUMP_VM_MECHANISM_DATA)
+    {
+	int iMats = pvm->iMats;
+
+	void *pvMats = pvm->pvMats;
+
+/* 	HeccerVMDumpData("Mechanism data", pvm, pvMats, NULL, 0, iMats, pfile); */
     }
 
     //- dump mechanism operations
@@ -279,7 +297,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 	int *piMops = (int *)pvm->pvMops;
 
-	HeccerVMDumpArray("Mechanism operations", pvm, &piMops[0], &hctMops, 0, iMops, pfile);
+	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], &hctMops, 0, iMops, pfile);
     }
 
     //- compartment data : diagonals
@@ -350,7 +368,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 /// ***************************************************************************
 ///
-/// NAME : HeccerVMDumpArray()
+/// NAME : HeccerVMDumpOperators()
 ///
 /// SHORT : print operations in given array according to given info array
 ///
@@ -375,7 +393,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 static
 int
-HeccerVMDumpArray
+HeccerVMDumpOperators
 (char * pcDescription,
  struct VM *pvm,
  int piArray[],
