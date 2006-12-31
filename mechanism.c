@@ -68,16 +68,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
     int iMats = pheccer->inter.iCompartments * 4 * sizeof(double);
 
-/*     //- loop over all mechanisms */
-
-/*     int i; */
-
-/*     for (i = 0 ; i < pheccer->inter.iMechanisms ; i++) */
-/*     { */
-/* 	//t add to operators for this mechanism, depending on previous */
-/* 	//t mechanism, same for operands. */
-/*     } */
-
     //- for backward euler integration
 
     if (pheccer->ho.iOptions & HECCER_OPTION_BACKWARD_EULER)
@@ -532,7 +522,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		pvMats = (void *)&pmats[1];
 
-		//t define variables
+		//- load channel variables
 
 		dChannelConductance = pmops->dMaximalConductance;
 
@@ -626,7 +616,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		pmats->dActivation = dActivation;
 
-		//- gate power (note : also changes units)
+		//- apply gate power, multiply with conductance (note:
+		//- also changes units)
 
 		if (iPower == 1)
 		{
@@ -669,7 +660,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		break;
 	    }
 
-	    	    //- for a conceptual gate (HH alike, with powers)
+	    //- add channel contributions to compartmental currents
 
 	    case HECCER_MOP_UPDATECOMPARTMENTCURRENT:
 	    {

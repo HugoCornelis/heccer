@@ -149,9 +149,6 @@ struct MopsVoltageTableDependence
 
 struct MopsUpdateCompartmentCurrent
 {
-    //t so in principle the following operation is only needed once
-    //t per compartment.  Still have to figure out how.
-
     //m operator : HECCER_MOP_UPDATECOMPARTMENTCURRENT
 
     int iOperator;
