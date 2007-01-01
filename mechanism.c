@@ -45,6 +45,42 @@
 ///
 /// **************************************************************************
 
+#define SETMOP_COMPARTMENT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+
+#define SETMOP_CALLOUT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_CALLOUT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+
+#define SETMOP_CHANNEL(pvMops,iMops,dG,dE) ((pvMops) ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops); pmops->iOperator = HECCER_MOP_CHANNEL; pmops->dReversalPotential = (dE) ; pmops->dMaximalConductance = (dG) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsChannel)))
+
+#define SETMOP_LOADVOLTAGETABLE(pvMops,iMops) ((pvMops) ? ({ struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)(pvMops); pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsVoltageTableDependence)))
+
+#define SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
+
+#define SETMOP_UPDATECOMPARTMENTCURRENT(pvMops,iMops) ((pvMops) ? ({ struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)(pvMops); pmops->iOperator = HECCER_MOP_UPDATECOMPARTMENTCURRENT ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsUpdateCompartmentCurrent)))
+
+#define SETMOP_FINISH(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_FINISH; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+
+
+//d align to 8
+
+//t can be automated by taking an array and diffing casted to char *
+//t pointers to sequent entries ?
+
+#define MAT_ALIGNER8(s) ((((sizeof(s) - 1) >> 3) + 1) << 3)
+
+#define MAT_ALIGNER4(s) ((((sizeof(s) - 1) >> 3) + 1) << 2)
+
+#define MAT_ALIGNER MAT_ALIGNER8
+
+
+#define SETMAT_COMPARTMENT(pvMats,iMats,dL,dI,dC,dD) ((pvMats) ? ({ struct MatsCompartment *pmats = (struct MatsCompartment *)pvMats ; pmats->dLeak = (dL) ; pmats->dInjected = (dI) ; pmats->dCapacity = (dC) ; pmats->dDiagonal = (dD) ; pvMats = (void *)&((struct MatsCompartment *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsCompartment)))
+
+#define SETMAT_CALLOUT(pvMats,iMats,p) ((pvMats) ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pvMats ; pmats->pco = (p) ; pvMats = (void *)&((struct MatsCallout *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsCallout)))
+
+#define SETMAT_CALLOUT(pvMats,iMats,p) ((pvMats) ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pvMats ; pmats->pco = (p) ; pvMats = (void *)&((struct MatsCallout *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsCallout)))
+
+#define SETMAT_POWEREDGATECONCEPT(pvMats,iMats,dA) ((pvMats) ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pvMats ; pmats->dActivation = (dA) ; pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsSingleGateConcept)))
+
+
 int HeccerMechanismCompile(struct Heccer *pheccer)
 {
     //- set default result : ok
@@ -112,8 +148,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	{
 	    //- fill in compartment operation
 
-#define	SETMOP_COMPARTMENT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
-
 	    SETMOP_COMPARTMENT(pvMops, iMops);
 
 	    //- get intermediary number for the current compartment
@@ -141,32 +175,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    //t and SETMAT_COMPARTMENT_FINISH
 	    //t between those two, we compile in the mechanisms.
 
-/* #define	SETMAT_COMPARTMENT(pdMats,iMats,dLR,dI,dCR,dDL) ((pdMats) ? ({(pdMats)[(iMats)++] = dLR ; (pdMats)[(iMats)++] = dI ; (pdMats)[(iMats)++] = dCR ; (pdMats)[(iMats)++] = dDL ; }) : ((iMats) += 4)) */
-
-/* 	    SETMAT_COMPARTMENT((double *)pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iIntermediary]); */
-
-	    struct MatsCompartment *pmatsc = (struct MatsCompartment *)pvMats;
-
-	    if (pmatsc)
-	    {
-		pmatsc->dLeak = dEm / dRm;
-		pmatsc->dInjected = dInject;
-		pmatsc->dCapacity = dt / dCm;
-
-		//! note : pdDiagonals was computed with schedule numbers.
-		//! perhaps it is better to change that for consistency
-		//! reasons overhere, and to avoid confusion.
-
-		pmatsc->dDiagonal = pheccer->vm.pdDiagonals[iSchedule];
-
-		pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
-	    }
-	    else
-	    {
-		//! align to 8
-
-		iMats += (((sizeof(struct MatsCompartment) - 1) >> 3) + 1) << 3;
-	    }
+	    SETMAT_COMPARTMENT(pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
 	    //- loop over mechanisms for this compartment
 
@@ -190,36 +199,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		case MATH_TYPE_CallOut_conductance_current:
 		{
-#define	SETMOP_CALLOUT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_CALLOUT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+		    //- get type specific data
 
 		    SETMOP_CALLOUT(pvMops, iMops);
 
-		    //- get type specific data
+		    SETMAT_CALLOUT(pvMats, iMats, (struct Callout *)pmc);
 
-		    struct MatsCallout *pcall = (struct MatsCallout *)pvMats;
-
-		    if (pcall)
-		    {
-			//- fill in the pointer to the intermediary
-
-			pcall->pco = (struct Callout *)pmc;
-
-			//- go to next type specific data
-
-#ifndef HECCER_SIZED_MATH_STRUCTURES
-
-			pmc = (struct MathComponent *)&((struct Callout *)pmc)[1];
-
-#endif
-
-			pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
-		    }
-		    else
-		    {
-			//! align to 8
-
-			iMats += (((sizeof(struct MatsCallout) - 1) >> 3) + 1) << 3;
-		    }
 		    break;
 		}
 
@@ -231,8 +216,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
-#define	SETMOP_CHANNEL(pvMops,iMops,dG,dE) ((pvMops) ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops); pmops->iOperator = HECCER_MOP_CHANNEL; pmops->dReversalPotential = (dE) ; pmops->dMaximalConductance = (dG) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsChannel)))
-
 		    SETMOP_CHANNEL(pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
 
 		    //- tabulate the channel
@@ -243,41 +226,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedActivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
 
-#define	SETMOP_LOADVOLTAGETABLE(pvMops,iMops) ((pvMops) ? ({ struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)(pvMops); pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsVoltageTableDependence)))
-
 		    SETMOP_LOADVOLTAGETABLE(pvMops, iMops);
-
-#define	SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
 
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower);
 
-/* #define	SETMAT_POWEREDGATECONCEPT(pdMats,iMats,dActivation) ((pdMats) ? ({(pdMats)[(iMats)++] = dActivation ; }) : ((iMats) += 1)) */
-
-/* 	    SETMAT_POWEREDGATECONCEPT((double *)pvMats, iMats, 0); */
-
-		    //t define the mechanism operators and data
-
-		    struct MatsSingleGateConcept *pgate1 = (struct MatsSingleGateConcept *)pvMats;
-
-		    if (pgate1)
-		    {
-			pgate1->dActivation = 0;
-
-#ifndef HECCER_SIZED_MATH_STRUCTURES
-
-			pmc = (struct MathComponent *)&((struct ChannelActInact *)pmc)[1];
-
-#endif
-			//t fill in data stuctures
-
-			pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1];
-		    }
-		    else
-		    {
-			//! align to 8
-
-			iMats += (((sizeof(struct MatsSingleGateConcept) - 1) >> 3) + 1) << 3;
-		    }
+		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, 0);
 
 		    //- tabulate inactivation, Genesis Y
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
@@ -287,33 +240,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower);
 
-/* 	    SETMAT_POWEREDGATECONCEPT((double *)pvMats, iMats, 0); */
-
-		    //t define the mechanism operators and data
-
-		    struct MatsSingleGateConcept *pgate2 = (struct MatsSingleGateConcept *)pvMats;
-
-		    if (pgate2)
-		    {
-			pgate2->dActivation = 0;
-
-#ifndef HECCER_SIZED_MATH_STRUCTURES
-
-			pmc = (struct MathComponent *)&((struct ChannelActInact *)pmc)[1];
-
-#endif
-			//t fill in data stuctures
-
-			pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1];
-		    }
-		    else
-		    {
-			//! align to 8
-
-			iMats += (((sizeof(struct MatsSingleGateConcept) - 1) >> 3) + 1) << 3;
-		    }
-
-#define	SETMOP_UPDATECOMPARTMENTCURRENT(pvMops,iMops) ((pvMops) ? ({ struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)(pvMops); pmops->iOperator = HECCER_MOP_UPDATECOMPARTMENTCURRENT ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsUpdateCompartmentCurrent)))
+		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, 0);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(pvMops, iMops);
 
@@ -336,13 +263,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		}
 		}
 
-#ifdef HECCER_SIZED_MATH_STRUCTURES
+/* #ifdef HECCER_SIZED_MATH_STRUCTURES */
 
-		//- go to next mechanism data
+/* 		//- go to next mechanism data */
 
-		pmc = (struct MathComponent *)&(((char *)pmc)[pmc->iSize]);
+/* 		pmc = (struct MathComponent *)&(((char *)pmc)[pmc->iSize]); */
 
-#endif
+/* #endif */
 	    }
 	}
 
@@ -356,8 +283,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	}
 
 	//- finish all operations
-
-#define	SETMOP_FINISH(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_FINISH; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
 
 	SETMOP_FINISH(pvMops, iMops);
 

@@ -593,8 +593,8 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
     //- last row done separately
 
-    //! should try to incorporate this in the next loop
-    //! I have the feeling the loop is coded in the wrong way.
+    //t should try to incorporate this in the next loop
+    //t I have the feeling the loop is coded in the wrong way.
 
 /*     SOLVE_ROW(dResult, dResult / dDiagonal); */
 
