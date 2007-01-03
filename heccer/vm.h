@@ -63,8 +63,9 @@ struct VM
 
     double *pdResults;
 
-    //! pdVm is accessible from outside, so should be moved to a
-    //! separate place ?
+    //t pdVm is accessible from outside, so should be moved to a
+    //t separate place ?
+    //t will become clear when addressing gets in place.
 
     int iVms;
 
@@ -78,13 +79,27 @@ struct VM
 
     //m mechanism data
 
-    //t data type unspecified
+    //t same as for pdVms applies, see above.
 
     int iMats;
 
     void *pvMats;
 
 };
+
+
+#define SETMOP_FINISH(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_FINISH; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+
+//t can be automated by taking an array and diffing casted to char *
+//t pointers to sequent entries ?
+
+#define ALIGNER8(s) ((((sizeof(s) - 1) >> 3) + 1) << 3)
+
+#define ALIGNER4(s) ((((sizeof(s) - 1) >> 3) + 1) << 2)
+
+//d mats are aligned to 8 bytes
+
+#define MAT_ALIGNER ALIGNER8
 
 
 struct MatsCompartment
@@ -94,6 +109,11 @@ struct MatsCompartment
     double dCapacity;
     double dDiagonal;
 };
+
+
+#define SETMOP_COMPARTMENT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+
+#define SETMAT_COMPARTMENT(pvMats,iMats,dL,dI,dC,dD) ((pvMats) ? ({ struct MatsCompartment *pmats = (struct MatsCompartment *)pvMats ; pmats->dLeak = (dL) ; pmats->dInjected = (dI) ; pmats->dCapacity = (dC) ; pmats->dDiagonal = (dD) ; pvMats = (void *)&((struct MatsCompartment *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsCompartment)))
 
 
 struct MatsCallout
@@ -108,6 +128,10 @@ struct MatsCallout
 
     struct Callout *pco;
 };
+
+#define SETMOP_CALLOUT(pvMops,iMops) ((pvMops) ? ({ ((int *)pvMops)[0] = HECCER_MOP_CALLOUT; (pvMops) = (void *)&((int *)pvMops)[1]; 1; }) : ({ (iMops) += sizeof(int); }) )
+
+#define SETMAT_CALLOUT(pvMats,iMats,p) ((pvMats) ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pvMats ; pmats->pco = (p) ; pvMats = (void *)&((struct MatsCallout *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsCallout)))
 
 
 struct MopsChannel
@@ -128,12 +152,15 @@ struct MopsChannel
 };
 
 
-struct MatsChannel
-{
-    //m total channel conductance
+/* struct MatsChannel */
+/* { */
+/*     //m total channel conductance */
 
-    double dConductance;
-};
+/*     double dConductance; */
+/* }; */
+
+
+#define SETMOP_CHANNEL(pvMops,iMops,dG,dE) ((pvMops) ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops); pmops->iOperator = HECCER_MOP_CHANNEL; pmops->dReversalPotential = (dE) ; pmops->dMaximalConductance = (dG) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsChannel)))
 
 
 struct MopsVoltageTableDependence
@@ -146,6 +173,8 @@ struct MopsVoltageTableDependence
     int iOperator;
 };
 
+#define SETMOP_LOADVOLTAGETABLE(pvMops,iMops) ((pvMops) ? ({ struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)(pvMops); pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsVoltageTableDependence)))
+
 
 struct MopsUpdateCompartmentCurrent
 {
@@ -153,6 +182,8 @@ struct MopsUpdateCompartmentCurrent
 
     int iOperator;
 };
+
+#define SETMOP_UPDATECOMPARTMENTCURRENT(pvMops,iMops) ((pvMops) ? ({ struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)(pvMops); pmops->iOperator = HECCER_MOP_UPDATECOMPARTMENTCURRENT ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsUpdateCompartmentCurrent)))
 
 
 struct MopsSingleGateConcept
@@ -170,6 +201,8 @@ struct MopsSingleGateConcept
     int iPower;
 };
 
+#define SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
+
 
 struct MatsSingleGateConcept
 {
@@ -177,6 +210,8 @@ struct MatsSingleGateConcept
 
     double dActivation;
 };
+
+#define SETMAT_POWEREDGATECONCEPT(pvMats,iMats,dA) ((pvMats) ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pvMats ; pmats->dActivation = (dA) ; pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsSingleGateConcept)))
 
 
 //d operations for compartments
