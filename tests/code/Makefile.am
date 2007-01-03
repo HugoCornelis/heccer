@@ -30,7 +30,7 @@ check_PROGRAMS = \
 	fork4p1 \
 	fork4p2 \
 	fork4p3 \
-	singlea-na \
+	singlea-naf \
 	singlep \
 	table-ka \
 	table-naf \
@@ -76,9 +76,9 @@ fork4p3_DEPENDENCIES = ../../libheccer.a main.c
 
 fork4p3_LDADD = -L../.. -lheccer -lm
 
-singlea_na_DEPENDENCIES = ../../libheccer.a main.c
+singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 
-singlea_na_LDADD = -L../.. -lheccer -lm
+singlea_naf_LDADD = -L../.. -lheccer -lm
 
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 

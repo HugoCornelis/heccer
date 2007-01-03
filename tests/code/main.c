@@ -51,6 +51,10 @@
 #define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
 #endif
 
+#ifndef HECCER_TEST_TIME_STEP
+#define HECCER_TEST_TIME_STEP (2e-5)
+#endif
+
 
 int main(int argc, char *argv[])
 {
@@ -65,6 +69,8 @@ int main(int argc, char *argv[])
     struct Heccer *pheccer = HeccerNewP2(&inter);
 
     //t need sensible API to set options I guess.
+
+    pheccer->dStep = HECCER_TEST_TIME_STEP;
 
     pheccer->ho.dIntervalStart = HECCER_TEST_INTERVAL_DEFAULT_START;
 

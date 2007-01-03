@@ -1,9 +1,9 @@
-setclock 0 2e-5
+setclock 0 6e-6
 create compartment c
 setfield c \
 	Cm 4.57537e-11 \
 	Em -0.08 \
-	initVm -0.068 \
+	initVm -0.028 \
 	Ra 360502 \
 	Rm 3.58441e8
 create tabchannel c/naf
@@ -48,10 +48,19 @@ addmsg c/naf c CHANNEL Gk Ek
 create hsolve h
 setmethod h 11
 setfield h \
+	calcmode 0 \
 	chanmode 4 \
 	path /c
 call h SETUP
 reset
+
+function plot
+
+	create xform /form
+	create xgraph /form/graph
+	addmsg /h /form/graph PLOT vm[0] *voltage *red
+	xshow /form
+end
 
 function showfields
 

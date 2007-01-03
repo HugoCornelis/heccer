@@ -20,7 +20,15 @@
 #include "../../heccer/heccer.h"
 
 
-#define HECCER_TEST_STEPS 1
+#define HECCER_TEST_STEPS 1000
+#define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
+				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
+				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
+				    | HECCER_DUMP_VM_MECHANISM_DATA \
+				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
+				    | HECCER_DUMP_VM_SUMMARY \
+	)
+#define HECCER_TEST_TIME_STEP (6e-6)
 
 
 struct Compartment compSoma =
@@ -57,7 +65,7 @@ struct Compartment compSoma =
 
 /*     double dInitVm; */
 
-    -0.068,
+    -0.028,
 
 /*     double dInject;		 */
 
@@ -107,7 +115,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0,
+	    0.7612305421,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -185,7 +193,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0,
+	    0.0009203489029,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
