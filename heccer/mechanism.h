@@ -187,6 +187,10 @@ struct GateKinetik
 
 struct GateConcept
 {
+    //m initial value, commonly forward over backward steady states
+
+    double dInitState;
+
     //m corresponding index in tables, set to -1 for initialization.
 
     int iTable;

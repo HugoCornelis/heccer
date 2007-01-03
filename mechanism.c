@@ -194,7 +194,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower);
 
-		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, 0);
+		    //! at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, pcai->pgcActivation.gc.dInitState);
 
 		    //- tabulate inactivation, Genesis Y
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
@@ -204,7 +206,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower);
 
-		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, 0);
+		    //! at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, pcai->pgcInactivation.gc.dInitState);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(pvMops, iMops);
 
