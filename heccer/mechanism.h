@@ -189,7 +189,7 @@ struct GateConcept
 {
     //m initial value, commonly forward over backward steady states
 
-    double dInitState;
+    double dInitActivation;
 
     //m corresponding index in tables, set to -1 for initialization.
 
