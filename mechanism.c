@@ -133,6 +133,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- fill in compartment constants
 
+	    //! note : pdDiagonals was computed with schedule numbers.
+
 	    //t these need an extra check, probably wrong.
 
 	    //t perhaps need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START
