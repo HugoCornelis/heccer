@@ -180,7 +180,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
-		    SETMOP_CHANNEL(pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
+		    SETMOP_INITIALIZECHANNEL(pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
 
 		    //- tabulate the channel
 
@@ -397,7 +397,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //- for a new membrane potential
 
-	    case HECCER_MOP_CHANNEL:
+	    case HECCER_MOP_INITIALIZECHANNEL:
 	    {
 		//- go to next operator
 
@@ -405,17 +405,28 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		piMop = (int *)&pmops[1];
 
-/* 		//- go to next type specific data */
-
-/* 		struct MatsChannel * pmats = (struct MatsChannel *)pvMats; */
-
-/* 		pvMats = (void *)&pmats[1]; */
-
 		//- load channel variables
 
 		dChannelConductance = pmops->dMaximalConductance;
 
 		dReversalPotential = pmops->dReversalPotential;
+
+		break;
+	    }
+
+	    //- to compute a channel's conductance
+
+	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
+	    {
+		//- store the current conductance
+
+		struct MatsChannel * pmats = (struct MatsChannel *)pvMats;
+
+		pmats->dChannelConductance = dChannelConductance;
+
+		//- go to next type specific data
+
+		pvMats = (void *)&pmats[1];
 
 		break;
 	    }

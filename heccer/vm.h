@@ -136,7 +136,7 @@ struct MatsCallout
 
 struct MopsChannel
 {
-    //m operation : HECCER_MOP_CHANNEL
+    //m operation : HECCER_MOP_INITIALIZECHANNEL
 
     int iOperator;
 
@@ -152,15 +152,24 @@ struct MopsChannel
 };
 
 
-/* struct MatsChannel */
-/* { */
-/*     //m total channel conductance */
-
-/*     double dConductance; */
-/* }; */
+#define SETMOP_INITIALIZECHANNEL(pvMops,iMops,dG,dE) ((pvMops) ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops); pmops->iOperator = HECCER_MOP_INITIALIZECHANNEL; pmops->dReversalPotential = (dE) ; pmops->dMaximalConductance = (dG) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsChannel)))
 
 
-#define SETMOP_CHANNEL(pvMops,iMops,dG,dE) ((pvMops) ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops); pmops->iOperator = HECCER_MOP_CHANNEL; pmops->dReversalPotential = (dE) ; pmops->dMaximalConductance = (dG) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsChannel)))
+struct MopsStoreChannelConductance
+{
+    //m operator : HECCER_MOP_STORECHANNELCONDUCTANCE
+
+    int iOperator;
+};
+
+struct MatsChannel
+{
+    //m single channel conductance
+
+    double dChannelConductance;
+};
+
+#define SETMOP_STORECHANNELCONDUCTANCE(pvMops,iMops) ((pvMops) ? ({ struct MopsStoreChannelConductance *pmops = (struct MopsStoreChannelConductance *)(pvMops); pmops->iOperator = HECCER_MOP_STORECHANNELCONDUCTANCE ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsStoreChannelConductance)))
 
 
 struct MopsVoltageTableDependence
@@ -243,9 +252,10 @@ struct MatsSingleGateConcept
 
 #define HECCER_MOP_CALLOUT 10
 
-#define HECCER_MOP_CHANNEL 20
+#define HECCER_MOP_INITIALIZECHANNEL 20
 #define HECCER_MOP_LOADVOLTAGETABLE 21
 #define HECCER_MOP_CONCEPTGATE 22
+#define HECCER_MOP_STORECHANNELCONDUCTANCE 23
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
 
