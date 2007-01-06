@@ -43,6 +43,10 @@
 #define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES 3000
 #endif
 
+#ifndef HECCER_TEST_REPORTING_GRANULARITY
+#define HECCER_TEST_REPORTING_GRANULARITY 1
+#endif
+
 #ifndef HECCER_TEST_STEPS
 #define HECCER_TEST_STEPS 10
 #endif
@@ -102,6 +106,10 @@ int main(int argc, char *argv[])
 
     HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
 
+    //v final report needed ?
+
+    int iFinalReport = 0;
+
     //- a couple of times
 
     int i;
@@ -114,6 +122,24 @@ int main(int argc, char *argv[])
 
 	//- dump
 
+	if (i % HECCER_TEST_REPORTING_GRANULARITY == 0)
+	{
+	    fprintf(stdout, "-------\n");
+
+	    fprintf(stdout, "Iteration %i\n", i);
+
+	    HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
+	}
+	else
+	{
+	    iFinalReport = 1;
+	}
+    }
+
+    //- add a final report if necessary
+
+    if (iFinalReport)
+    {
 	fprintf(stdout, "-------\n");
 
 	fprintf(stdout, "Iteration %i\n", i);
