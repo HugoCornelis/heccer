@@ -209,6 +209,10 @@ sub main
 		    {
 			# terminate the previous command
 
+			#t could be that the hard_close() call is needed because
+			#t neurospaces uses readline, not sure needs investigation,
+			#t perhaps.
+
 			$exp->hard_close();
 		    }
 
@@ -412,6 +416,10 @@ Total of $test_count tests (encountered $error_count error(s) so far)");
     if ($exp)
     {
 	# terminate the command
+
+	#t could be that the hard_close() call is needed because
+	#t neurospaces uses readline, not sure needs investigation,
+	#t perhaps.
 
 	$exp->hard_close();
     }
