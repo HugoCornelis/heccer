@@ -223,6 +223,43 @@ struct MatsSingleGateConcept
 #define SETMAT_POWEREDGATECONCEPT(pvMats,iMats,dA) ((pvMats) ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pvMats ; pmats->dActivation = (dA) ; pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsSingleGateConcept)))
 
 
+struct MopsExponentialDecay
+{
+    //m operator : HECCER_MOP_EXPONENTIALDECAY
+
+    int iOperator;
+
+    //m equation's index, that contributes the current
+
+    int iEquation;
+
+    //m beta
+
+    double dBeta;
+
+    //m steady state
+
+    double dSteadyState;
+
+    //m tau
+
+    double dTau;
+
+};
+
+
+struct MatsExponentialDecay
+{
+    //m resulting state
+
+    double dState;
+};
+
+#define SETMOP_EXPONENTIALDECAY(pvMops,iMops,iE,dB,dS,dT) ((pvMops) ? ({ struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)(pvMops); pmops->iOperator = HECCER_MOP_EXPONENTIALDECAY; pmops->iEquation = (iE) ; pmops->dBeta = (dB) ; pmops->dSteadyState = (dS) ; pmops->dTau = (dT) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsExponentialDecay)))
+     
+#define SETMAT_EXPONENTIALDECAY(pvMats,iMats,dS) ((pvMats) ? ({ struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pvMats ; pmats->dState = (dS) ; pvMats = (void *)&((struct MatsExponentialDecay *)pvMats)[1] ; 1 ;}) : (iMats += MAT_ALIGNER(struct MatsExponentialDecay)))
+
+
 //d operations for compartments
 
 #define HECCER_COP_FORWARD_ELIMINATION		1
@@ -256,6 +293,7 @@ struct MatsSingleGateConcept
 #define HECCER_MOP_LOADVOLTAGETABLE 21
 #define HECCER_MOP_CONCEPTGATE 22
 #define HECCER_MOP_STORECHANNELCONDUCTANCE 23
+#define HECCER_MOP_EXPONENTIALDECAY 24
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
 

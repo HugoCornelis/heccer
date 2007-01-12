@@ -17,6 +17,7 @@ releases:
         major: active
         micro: ''
         minor: 3
+    4: {}
   passive:
     '':
       '':

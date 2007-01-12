@@ -14,6 +14,7 @@ Makefile.in$
 ^tests/code/fork4p1$
 ^tests/code/fork4p2$
 ^tests/code/fork4p3$
+^tests/code/pool1$
 ^tests/code/singlea-naf$
 ^tests/code/singlep$
 ^tests/code/table-ka$

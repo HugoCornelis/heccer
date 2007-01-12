@@ -47,18 +47,30 @@ struct ChannelSpringMass
 
 //s expential decaying ion concentration
 
-#define MECHANISM_TYPE_Concen 2
+#define MECHANISM_TYPE_ExponentialDecay 2
 
-struct Concen
+struct ExponentialDecay
 {
     //m administration overhead
 
     struct MathComponent mc;
 
+    //m initial value
+
+    double dInitValue;
+
     //m descriptive values, alphabetical order
 
-    double dB;
-    double dBase;
+    //m beta
+
+    double dBeta;
+
+    //m steady state
+
+    double dSteadyState;
+
+    //m tau
+
     double dTau;
 };
 
@@ -325,6 +337,11 @@ struct TabulatedHHChannel
 
 
 struct Heccer;
+
+
+//d access a math component, and lookup the next component.
+
+#define RETREIVE_MATH_COMPONENT(pmcSource,pmcTarget,math_type) ({ (pmcTarget) = math_type(pmcSource) ; (pmcSource) = (struct MathComponent *)&(pmcTarget)[1] ; })
 
 
 //f prototypes

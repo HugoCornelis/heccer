@@ -167,9 +167,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		{
 		    //- get type specific data
 
+		    struct Callout *pcall = (struct Callout *)pmc;
+
+		    RETREIVE_MATH_COMPONENT(pmc,pcall,(struct Callout *));
+
 		    SETMOP_CALLOUT(pvMops, iMops);
 
-		    SETMAT_CALLOUT(pvMats, iMats, (struct Callout *)pmc);
+		    SETMAT_CALLOUT(pvMats, iMats, pcall);
 
 		    break;
 		}
@@ -181,6 +185,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- get type specific data
 
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
+
+		    RETREIVE_MATH_COMPONENT(pmc,pcai,(struct ChannelActInact *));
 
 		    SETMOP_INITIALIZECHANNEL(pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
 
@@ -222,6 +228,29 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    break;
 		}
+
+		case MECHANISM_TYPE_ExponentialDecay:
+		{
+		    //- get type specific data
+
+		    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)pmc;
+
+		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
+
+		    //t index of equation that contributes the current
+
+		    int iEquationIndex = -1;
+
+		    SETMOP_EXPONENTIALDECAY(pvMops, iMops, iEquationIndex, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / 2 * pexdec->dTau);
+
+		    SETMAT_EXPONENTIALDECAY(pvMats, iMats, pexdec->dInitValue);
+
+//t here can compute the flux, but only when needed (for output or dependents).
+
+/* 		    SETMOP_FLUX(pvMops, iMops); */
+
+		    break;
+		}
 		default:
 		{
 		    //t HeccerError(number, message, varargs);
@@ -232,14 +261,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 		}
-
-/* #ifdef HECCER_SIZED_MATH_STRUCTURES */
-
-/* 		//- go to next mechanism data */
-
-/* 		pmc = (struct MathComponent *)&(((char *)pmc)[pmc->iSize]); */
-
-/* #endif */
 	    }
 	}
 
@@ -583,6 +604,53 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		//- compute current for matrix right side
 
 		dCurrent += dChannelConductance * dReversalPotential;
+
+		break;
+	    }
+
+	    //- compute exponential decay, mostly an ion concentration
+
+	    case HECCER_MOP_EXPONENTIALDECAY:
+	    {
+		//- go to next operator
+
+		struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		double dBeta = pmops->dBeta;
+
+		double dSteadyState = pmops->dSteadyState;
+
+		double dTau = pmops->dTau;
+
+		double dState = pmats->dState;
+
+		double dExternal = 0; //COMES_FROM_CHANNEL_VIA_INDEX;
+
+		//t optimize dTau further
+
+		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau;
+
+		break;
+	    }
+	    default:
+	    {
+		//t HeccerError(number, message, varargs);
+
+		fprintf
+		    (stderr,
+		     "Heccer the hecc : unknown mechanism operation (%i)\n", piMop[0]);
+
+		//! the best we can do is advance the pointer with one
+
+		piMop = &piMop[1];
 
 		break;
 	    }
