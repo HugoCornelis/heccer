@@ -197,6 +197,13 @@ releases:
         major: passive
         micro: ''
         minor: 9
+  pools:
+    1:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: pools
+        micro: ''
+        minor: 1
   tabulation:
     '':
       '':
