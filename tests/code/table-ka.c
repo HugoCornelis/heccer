@@ -98,6 +98,10 @@ struct ChannelActInact caiKA =
 
     4.184786349e-07,
 
+    //m contributes to this concentration pool, -1 for none
+
+    -1,
+
     //m activation description
 
     {

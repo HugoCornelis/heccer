@@ -222,6 +222,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
 
+		    //t incorporate the pool index
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulatedActivation && iTabulatedInactivation;

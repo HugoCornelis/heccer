@@ -114,7 +114,7 @@ my $error_count = 0;
 $SIG{'INT'}
     = sub
       {
-	  report_exit();
+	  report_exit(2);
       };
 
 
@@ -424,7 +424,7 @@ Total of $test_count tests (encountered $error_count error(s) so far)");
 	$exp->hard_close();
     }
 
-    report_exit();
+    report_exit(0);
 }
 
 
@@ -458,6 +458,8 @@ options :
 
 sub report_exit
 {
+    my $exit_code = shift;
+
     # if there were errors
 
     if ($error_count)
@@ -468,16 +470,16 @@ sub report_exit
 
 	# exit with failure
 
-	exit 1;
+	exit $exit_code || 1;
     }
 
     # else
 
     else
     {
-	# exit with success
+	# exit, possibly success
 
-	exit 0;
+	exit $exit_code;
     }
 }
 

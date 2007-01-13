@@ -204,6 +204,7 @@ releases:
         major: pools
         micro: ''
         minor: 1
+    2: {}
   tabulation:
     '':
       '':

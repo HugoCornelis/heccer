@@ -106,6 +106,10 @@ struct ChannelActInact caiCaT =
 
     1.394928884e-08,
 
+    //m contributes to this concentration pool
+
+    1,
+
     //m activation description
 
     {
@@ -309,7 +313,7 @@ struct Intermediary inter =
 
     //m number of mechanisms
 
-    1,
+    2,
 
     //m mechanism data
 

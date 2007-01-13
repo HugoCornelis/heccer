@@ -262,6 +262,10 @@ struct ChannelActInact
 
     double dMaximalConductance;
 
+    //m contributes to this concentration pool, -1 for none
+
+    int iPool;
+
     //m activation description
 
     struct PoweredGateConcept pgcActivation;
@@ -269,70 +273,6 @@ struct ChannelActInact
     //m inactivation description
 
     struct PoweredGateConcept pgcInactivation;
-};
-
-
-//s HH alike channel
-
-#define MECHANISM_TYPE_TabulatedHHChannel 8
-
-struct TabulatedHHChannel
-{
-    //m administration overhead
-
-    struct MathComponent mc;
-
-    //m first set of descriptive values, alphabetical order
-
-    double dEk;
-    double dGbar;
-
-    double dXPower;
-    double dYPower;
-    double dZPower;
-
-    /*m1-6 point into element hierarchy tabchannel structs */
-
-    struct table_struct *ipX_A;
-    struct table_struct *ipX_B;
-    struct table_struct *ipY_A;
-    struct table_struct *ipY_B;
-    struct table_struct *ipZ_A;
-    struct table_struct *ipZ_B;
-
-#ifdef USE_NO_TABLE_STRUCT
-
-    /*m number of intervals */
-
-    double dXDivs;
-
-    /*m1-2 table range */
-
-    double dXMin;
-    double dXMax;
-
-    /*m horizontal scaling factor */
-
-    double dXScale;
-
-    /*m allocated table or NULL */
-
-    double *pdX;
-
-    double dYDivs;
-    double dYMin;
-    double dYMax;
-    double dYScale;
-    double *pdY;
-
-    double dZDivs;
-    double dZMin;
-    double dZMax;
-    double dZScale;
-    double *pdZ;
-
-#endif
-
 };
 
 
