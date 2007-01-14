@@ -205,6 +205,12 @@ releases:
         micro: ''
         minor: 1
     2: {}
+    3:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: pools
+        micro: ''
+        minor: 3
   tabulation:
     '':
       '':
