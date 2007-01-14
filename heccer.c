@@ -140,6 +140,10 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
     iResult = iResult && HeccerMechanismCompile(pheccer);
 
+    //- link mechanisms
+
+    iResult = iResult && HeccerMechanismLink(pheccer);
+
     //t perhaps should discretize channels overhere ?
 
     //- return result

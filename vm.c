@@ -85,10 +85,12 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_CALLOUT,		"HECCER_MOP_CALLOUT",			1 * sizeof(int),	-1,	NULL, },
     {	HECCER_MOP_COMPARTMENT,		"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),	-1,	NULL, },
     {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),	2,     NULL, },
-    {	HECCER_MOP_EXPONENTIALDECAY,	"HECCER_MOP_EXPONENTIALDECAY",		1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_MOP_EXPONENTIALDECAY,	"HECCER_MOP_EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),	-1,	" %g %g %g", },
     {	HECCER_MOP_FINISH,		"HECCER_MOP_FINISH",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_MOP_FLUXPOOL,		"HECCER_MOP_FLUXPOOL",			sizeof(struct MopsFluxPool),	1,	NULL, },
     {	HECCER_MOP_INITIALIZECHANNEL,	"HECCER_MOP_INITIALIZECHANNEL",		sizeof(struct MopsChannel),	1,	" %g %g", },
     {	HECCER_MOP_LOADVOLTAGETABLE,	"HECCER_MOP_LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),	-1,	NULL, },
+    {	HECCER_MOP_REGISTERCHANNELCURRENT, "HECCER_MOP_REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),	-1,	NULL, },
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, "HECCER_MOP_UPDATECOMPARTMENTCURRENT", sizeof(struct MopsUpdateCompartmentCurrent),	-1,	NULL, },
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };

@@ -55,6 +55,10 @@ struct ExponentialDecay
 
     struct MathComponent mc;
 
+    //m flux contributor index, -1 for not initialized
+
+    int iFluxContributor;
+
     //m initial value
 
     double dInitValue;
@@ -287,6 +291,8 @@ struct Heccer;
 //f prototypes
 
 int HeccerMechanismCompile(struct Heccer *pheccer);
+
+int HeccerMechanismLink(struct Heccer *pheccer);
 
 int HeccerMechanismSolveCN(struct Heccer *pheccer);
 

@@ -55,6 +55,7 @@ addmsg c/cat c/p I_Ca Ik
 create hsolve h
 setmethod h 11
 setfield h \
+	calcmode 0 \
 	chanmode 4 \
 	path /c
 call h SETUP

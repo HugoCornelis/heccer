@@ -104,6 +104,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	iMats = 0;
 
+	//v actual concentration number
+
+	int iConcentrations = 0;
+
 	//- loop over all compartments via their schedule number
 
 	int iSchedule;
@@ -222,7 +226,20 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
 
-		    //t incorporate the pool index
+		    //- register pool index
+
+		    //t for reasons of easy initialization, this should be a check for zero.
+		    //t this means that I have to offset all mechanisms with 1
+		    //t (mmm, the hines solver did the same, but for other reasons).
+
+		    if (pcai->iPool != -1)
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(pvMops, iMops);
+
+/* 			SETMOP_FLUXPOOL(pvMops, iMops, pcai->iPool); */
+
+			SETMOP_FLUXPOOL(pvMops, iMops, iConcentrations);
+		    }
 
 		    //- register result from tabulation for outcome of this function
 
@@ -239,17 +256,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
 
-		    //t index of equation that contributes the current
-
-		    int iEquationIndex = -1;
-
-		    SETMOP_EXPONENTIALDECAY(pvMops, iMops, iEquationIndex, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / 2 * pexdec->dTau);
+		    SETMOP_EXPONENTIALDECAY(pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / 2 * pexdec->dTau);
 
 		    SETMAT_EXPONENTIALDECAY(pvMats, iMats, pexdec->dInitValue);
 
-//t here can compute the flux, but only when needed (for output or dependents).
+		    //- register the mechanism index as the concentration pool identifier
 
-/* 		    SETMOP_FLUX(pvMops, iMops); */
+		    if (!pheccer->vm.pvMops)
+		    {
+			pexdec->iFluxContributor = iConcentrations;
+
+			iConcentrations++;
+		    }
 
 		    break;
 		}
@@ -296,7 +314,252 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    pvMats = pheccer->vm.pvMats;
 
 	    pheccer->vm.iMats = iMats;
+
+	    pheccer->vm.pdFluxes = (double *)calloc(iConcentrations, sizeof(double));
+
+	    pheccer->vm.iFluxes = iConcentrations;
 	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerMechanismLink()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Link mechanism operations.
+///
+///	Link mechanism operations:
+///
+///	HECCER_MOP_FLUXPOOL: mechanism index to flux index.
+///
+/// **************************************************************************
+
+int HeccerMechanismLink(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    int *piMop = (int *)pheccer->vm.pvMops;
+
+    void *pvMats = pheccer->vm.pvMats;
+
+    //v actual concentration number
+
+    int iConcentrations = 0;
+
+    //t loop over mechanism operators
+
+    //t     if HECCER_MOP_FLUXPOOL
+    //t         mechanism index to flux index
+
+    //- loop over mechanism operators
+
+    while (piMop[0] == HECCER_MOP_COMPARTMENT)
+    {
+	//- go to next operator
+
+	piMop = &piMop[1];
+
+	//- get compartment mechanism data
+
+	struct MatsCompartment *pmatsc
+	    = (struct MatsCompartment *)pvMats;
+
+	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+
+	//- loop over mechanism operators
+
+	while (piMop[0] > HECCER_MOP_COMPARTMENT_BARRIER)
+	{
+	    //- look at next mechanism
+
+	    switch (piMop[0])
+	    {
+		//- for a call out
+
+	    case HECCER_MOP_CALLOUT:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		//- go to next type specific data
+
+		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+
+		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+
+		break;
+	    }
+
+	    //- for single channel initialization
+
+	    case HECCER_MOP_INITIALIZECHANNEL:
+	    {
+		//- go to next operator
+
+		struct MopsChannel *pmops = (struct MopsChannel *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- to compute a channel's conductance
+
+	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		//- store the current conductance
+
+		struct MatsChannel * pmats = (struct MatsChannel *)pvMats;
+
+		//- go to next type specific data
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- for a new membrane potential
+
+	    case HECCER_MOP_LOADVOLTAGETABLE:
+	    {
+		//- go to next operator
+
+		struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for a conceptual gate (HH alike, with powers)
+
+	    case HECCER_MOP_CONCEPTGATE:
+	    {
+		//- go to next operator
+
+		struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- register single channel contribution
+
+	    case HECCER_MOP_REGISTERCHANNELCURRENT:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		break;
+	    }
+
+	    //- add channel contribution to compartmental currents
+
+	    case HECCER_MOP_UPDATECOMPARTMENTCURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- compute exponential decay, mostly an ion concentration
+
+	    case HECCER_MOP_EXPONENTIALDECAY:
+	    {
+		//- go to next operator
+
+		struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- go to next concentration pool
+
+		iConcentrations++;
+
+		break;
+	    }
+
+	    //- register current contribution to a pool
+
+	    case HECCER_MOP_FLUXPOOL:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		break;
+	    }
+	    default:
+	    {
+		//t HeccerError(number, message, varargs);
+
+		fprintf
+		    (stderr,
+		     "Heccer the hecc : unknown mechanism operation (%i)\n", piMop[0]);
+
+		//! the best we can do is advance the pointer with one
+
+		piMop = &piMop[1];
+
+		break;
+	    }
+	    }
+	}
+    }
+
+    //- check sanity of operator array
+
+    if (piMop[0] != HECCER_MOP_FINISH)
+    {
+	//t add something like HeccerError(number, message, varargs);
+
+	fprintf
+	    (stderr,
+	     "Heccer the hecc : piMop[0] is %i, should be %i\n",
+	     piMop[0],
+	     HECCER_MOP_FINISH);
+
+	//t depending on options, bail out
+
+	//t set status : illegal mop hecc.
     }
 
     //- return result
@@ -335,7 +598,13 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     void *pvMats = pheccer->vm.pvMats;
 
+    double *pdFluxes = pheccer->vm.pdFluxes;
+
     double *pdResults = &pheccer->vm.pdResults[0];
+
+    //v actual concentration number
+
+    int iConcentrations = 0;
 
     //- loop over mechanism operators
 
@@ -374,6 +643,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	while (piMop[0] > HECCER_MOP_COMPARTMENT_BARRIER)
 	{
+	    //v single channel current (if applicable)
+
+	    double dSingleChannelCurrent;
+
 	    //- look at next mechanism
 
 /* 	//t mechanisms could go here (preferred cause it groups the */
@@ -424,7 +697,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		break;
 	    }
 
-	    //- for a new membrane potential
+	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
 	    {
@@ -447,6 +720,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
 	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
 		//- store the current conductance
 
 		struct MatsChannel * pmats = (struct MatsChannel *)pvMats;
@@ -584,12 +861,25 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    *(int *)0 = 0;
 		}
 
-		//- add to current
+		break;
+	    }
+
+	    //- register single channel contribution
+
+	    case HECCER_MOP_REGISTERCHANNELCURRENT:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		//- compute conductance for matrix left side
+
+		dSingleChannelCurrent = dChannelConductance * (dReversalPotential - dVm);
 
 		break;
 	    }
 
-	    //- add channel contributions to compartmental currents
+	    //- add channel contribution to compartmental currents
 
 	    case HECCER_MOP_UPDATECOMPARTMENTCURRENT:
 	    {
@@ -634,11 +924,36 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		double dState = pmats->dState;
 
-		double dExternal = 0; //COMES_FROM_CHANNEL_VIA_INDEX;
+		//- fetch external contribution
 
-		//t optimize dTau further
+		double dExternal = pdFluxes[iConcentrations];
+
+		//- exponential decay
 
 		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau;
+
+		//- go to next concentration pool
+
+		iConcentrations++;
+
+		break;
+	    }
+
+	    //- register current contribution to a pool
+
+	    case HECCER_MOP_FLUXPOOL:
+	    {
+		//- go to next operator
+
+		//- go to next operator
+
+		struct MopsFluxPool *pmops = (struct MopsFluxPool *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- register contribution
+
+		pdFluxes[pmops->iPool] += dSingleChannelCurrent;
 
 		break;
 	    }
