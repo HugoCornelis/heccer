@@ -470,7 +470,11 @@ sub report_exit
 
 	# exit with failure
 
-	exit $exit_code || 1;
+	$exit_code ||= 1;
+
+	print "$0: exit_code $exit_code\n";
+
+	exit $exit_code;
     }
 
     # else

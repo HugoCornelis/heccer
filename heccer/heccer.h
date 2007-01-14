@@ -185,7 +185,8 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 #define HECCER_DUMP_VM_COMPARTMENT_OPERATIONS			(1 << 18)
 #define HECCER_DUMP_VM_MECHANISM_DATA				(1 << 19)
 #define HECCER_DUMP_VM_MECHANISM_OPERATIONS			(1 << 20)
-#define HECCER_DUMP_VM_SUMMARY					(1 << 21)
+#define HECCER_DUMP_VM_CHANNEL_POOL_FLUXES			(1 << 21)
+#define HECCER_DUMP_VM_SUMMARY					(1 << 22)
 
 
 int HeccerHecc(struct Heccer *pheccer);

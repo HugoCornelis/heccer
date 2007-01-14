@@ -361,11 +361,6 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
     int iConcentrations = 0;
 
-    //t loop over mechanism operators
-
-    //t     if HECCER_MOP_FLUXPOOL
-    //t         mechanism index to flux index
-
     //- loop over mechanism operators
 
     while (piMop[0] == HECCER_MOP_COMPARTMENT)
@@ -523,7 +518,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	    {
 		//- go to next operator
 
-		piMop = &piMop[1];
+		struct MopsFluxPool *pmops = (struct MopsFluxPool *)piMop;
+
+		piMop = (int *)&pmops[1];
 
 		break;
 	    }
@@ -601,6 +598,18 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
     double *pdFluxes = pheccer->vm.pdFluxes;
 
     double *pdResults = &pheccer->vm.pdResults[0];
+
+    //- zero out all fluxes
+
+    //t should check how this can be replaced with regular operators,
+    //t and if so, if it gives an additional performance gain.
+
+    int i;
+
+    for (i = 0 ; i < pheccer->vm.iFluxes ; i++)
+    {
+	pheccer->vm.pdFluxes[i] = 0.0;
+    }
 
     //v actual concentration number
 
@@ -943,8 +952,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    case HECCER_MOP_FLUXPOOL:
 	    {
-		//- go to next operator
-
 		//- go to next operator
 
 		struct MopsFluxPool *pmops = (struct MopsFluxPool *)piMop;

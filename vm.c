@@ -303,6 +303,18 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], &hctMops, 0, iMops, pfile);
     }
 
+    //- dump channel to pool fluxes
+
+    if (iSelection & HECCER_DUMP_VM_CHANNEL_POOL_FLUXES)
+    {
+	int i;
+
+	for (i = 0 ; i < pvm->iFluxes ; i++)
+	{
+	    fprintf(pfile, "VM Fluxes (pdFluxes[%i]) : (%g)\n", i, pvm->pdFluxes[i]);
+	}
+    }
+
     //- compartment data : diagonals
 
     if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX)
@@ -451,7 +463,7 @@ HeccerVMDumpOperators
 	    {
 		if (phciCurrent->pcFormat)
 		{
-		    //t so only for two doubles ...
+		    //t so only for five doubles ...
 
 		    char pc[100];
 		    int j;
@@ -460,7 +472,7 @@ HeccerVMDumpOperators
 		    {
 			double *pd = (double *)&piArray[(i + j) / sizeof(int)];
 
-			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1]);
+			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
 
 			j += sizeof(double) + sizeof(double);
 		    }
@@ -499,7 +511,7 @@ HeccerVMDumpOperators
 	    {
 		if (phciCurrent->pcFormat)
 		{
-		    //t so only for two doubles ...
+		    //t so only for five doubles ...
 
 		    char pc[100];
 		    int j;
@@ -508,7 +520,7 @@ HeccerVMDumpOperators
 		    {
 			double *pd = (double *)&piArray[(i + j) / sizeof(int)];
 
-			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1]);
+			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
 
 			j += sizeof(double) + sizeof(double);
 		    }
