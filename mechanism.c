@@ -953,6 +953,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- register contribution
 
+		//t still needs a reset per time step
+
 		pdFluxes[pmops->iPool] += dSingleChannelCurrent;
 
 		break;
