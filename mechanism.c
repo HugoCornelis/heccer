@@ -256,7 +256,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
 
-		    SETMOP_EXPONENTIALDECAY(pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / 2 * pexdec->dTau);
+		    SETMOP_EXPONENTIALDECAY(pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau));
 
 		    SETMAT_EXPONENTIALDECAY(pvMats, iMats, pexdec->dInitValue);
 

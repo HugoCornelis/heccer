@@ -7,5 +7,6 @@ directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-a
 directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-antonio-1/sim
 directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-antonio-1/shell
 directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-antonio-1/sys
-set args single.g
+break do_chip_hh4ni_update
+set args pool1.g
 echo .gdbinit: Done .gdbinit\n

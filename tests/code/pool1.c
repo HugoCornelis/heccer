@@ -31,7 +31,7 @@
 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
 				    | HECCER_DUMP_VM_SUMMARY \
 	)
-#define HECCER_TEST_TIME_STEP (6e-6)
+#define HECCER_TEST_TIME_STEP (2e-5)
 
 
 struct Compartment compSoma =
