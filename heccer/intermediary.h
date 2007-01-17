@@ -57,6 +57,10 @@ struct Intermediary
 
     void * pvMechanism;
 
+    //m mechanism index, initialize to NULL
+
+    struct MathComponent **ppmcIndex;
+
     //m compartment 2 first mechanism number
 
     int *piC2m;

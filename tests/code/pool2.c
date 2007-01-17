@@ -32,7 +32,7 @@
 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
 				    | HECCER_DUMP_VM_SUMMARY \
 	)
-#define HECCER_TEST_TIME_STEP (2e-5)
+#define HECCER_TEST_TIME_STEP (1e-6)
 
 
 struct Compartment pcomp[] =
@@ -583,9 +583,13 @@ struct Intermediary inter =
 
     //m number of mechanisms
 
-    2,
+    4,
 
     //m mechanism data
+
+    NULL,
+
+    //m mechanism index, initialize to NULL
 
     NULL,
 
@@ -602,7 +606,7 @@ int main(int argc, char *argv[])
     //! I add 32, to avoid alignment issues, not sure how to do this
     //! in a clean, portable and error free way.
 
-    void *pvMechanism = calloc(1, sizeof(*pcaiCaT) + sizeof(*pexdecCa) + 32);
+    void *pvMechanism = calloc(1, 2 * sizeof(*pcaiCaT) + 2 * sizeof(*pexdecCa) + 32);
 
     struct ChannelActInact *pcai0 = (struct ChannelActInact *)pvMechanism;
 

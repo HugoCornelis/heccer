@@ -144,6 +144,10 @@ struct Intermediary inter =
 
     NULL,
 
+    //m mechanism index, initialize to NULL
+
+    NULL,
+
     //m compartment 2 first mechanism number
 
     piC2m,

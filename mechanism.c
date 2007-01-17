@@ -26,6 +26,117 @@
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerMechanismBuildIndex()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Index intermediary mechanism structures.
+///
+///	The index can afterwards be used for lookups, see
+///	HeccerMechanismLookup().
+///
+/// **************************************************************************
+
+int HeccerMechanismBuildIndex(struct Heccer *pheccer)
+{
+    //- set default result : success
+
+    int iResult = TRUE;
+
+    //- set default result : start of mechanisms
+
+    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism;
+
+    //- allocate the index
+
+    struct MathComponent **ppmcIndex
+	= (struct MathComponent **)calloc(pheccer->inter.iMechanisms, sizeof(struct MathComponent *));
+
+    if (!ppmcIndex)
+    {
+	return(FALSE);
+    }
+
+    pheccer->inter.ppmcIndex = ppmcIndex;
+
+    //- loop over all mechanisms
+
+    int i;
+
+    for (i = 0 ; i < pheccer->inter.iMechanisms ; i++)
+    {
+	//- initialize the index
+
+	ppmcIndex[i] = pmc;
+
+	//- look at mechanism type
+
+	int iType = pmc->iType;
+
+	switch (iType)
+	{
+	    //- for a callout
+
+	case MATH_TYPE_CallOut_conductance_current:
+	{
+	    //- get type specific data
+
+	    struct Callout *pcall = (struct Callout *)pmc;
+
+	    RETREIVE_MATH_COMPONENT(pmc,pcall,(struct Callout *));
+
+	    break;
+	}
+
+	//- for an regular channel with activation and inactivation
+
+	case MECHANISM_TYPE_ChannelActInact:
+	{
+	    //- get type specific data
+
+	    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
+
+	    RETREIVE_MATH_COMPONENT(pmc,pcai,(struct ChannelActInact *));
+
+	    break;
+	}
+
+	case MECHANISM_TYPE_ExponentialDecay:
+	{
+	    //- get type specific data
+
+	    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)pmc;
+
+	    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
+
+	    break;
+	}
+	default:
+	{
+	    //t HeccerError(number, message, varargs);
+
+	    fprintf
+		(stderr,
+		 "Heccer the hecc : unknown pmc->iType (%i)\n", iType);
+	    break;
+	}
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerMechanismCompile()
 ///
 /// ARGS.:
@@ -50,6 +161,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
     //- set default result : ok
 
     int iResult = TRUE;
+
+    //- first build the mechanism index
+
+    if (!HeccerMechanismBuildIndex(pheccer))
+    {
+	return(FALSE);
+    }
 
     //v time step
 
@@ -149,11 +267,27 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- loop over mechanisms for this compartment
 
-	    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism;
-
 	    int iMechanism;
 
 	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
+
+	    if (iStart > pheccer->inter.iMechanisms)
+	    {
+		//t HeccerError(number, message, varargs);
+
+		fprintf
+		    (stderr,
+		     "Heccer the hecc : trying to fetch mechanism number %i, which is out of range\n",
+		     iStart);
+
+		//- return error
+
+		return(FALSE);
+	    }
+
+	    //- lookup the start of the mechanisms for this compartment
+
+	    struct MathComponent *pmc = HeccerMechanismLookup(pheccer, iStart);
 
 	    for (iMechanism = iStart ;
 		 iMechanism < pheccer->inter.piC2m[iIntermediary] ;
@@ -262,12 +396,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- register the mechanism index as the concentration pool identifier
 
-		    if (!pheccer->vm.pvMops)
+		    //t not sure if I need this test for all cases, doesnot hurt either.
+
+/* 		    if (!pheccer->vm.pvMops) */
 		    {
 			pexdec->iFluxContributor = iConcentrations;
 
-			iConcentrations++;
 		    }
+
+		    //- increment concentration index
+
+		    iConcentrations++;
 
 		    break;
 		}
@@ -277,7 +416,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    fprintf
 			(stderr,
-			 "Heccer the hecc : unknown pvMat->iType (%i)\n", iType);
+			 "Heccer the hecc : unknown pmc->iType (%i)\n", iType);
 		    break;
 		}
 		}
@@ -291,6 +430,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    fprintf
 		(stderr,
 		 "Heccer the hecc : mechanisms found after last compartment's mechanism\n");
+
+	    return(FALSE);
 	}
 
 	//- finish all operations
@@ -562,6 +703,39 @@ int HeccerMechanismLink(struct Heccer *pheccer)
     //- return result
 
     return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerMechanismLookup()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iMechanism: mechanism number to lookup.
+///
+/// RTN..: struct MathComponent *
+///
+///	mechanism structure, NULL for failure.
+///
+/// DESCR: Lookup the mechanism with the given number.
+///
+///	First call HeccerMechanismBuildIndex().
+///
+/// **************************************************************************
+
+struct MathComponent *
+HeccerMechanismLookup(struct Heccer *pheccer, int iMechanism)
+{
+    //- set default result : using the index
+
+    struct MathComponent *pmcResult
+	= pheccer->inter.ppmcIndex[iMechanism];
+
+    //- return result
+
+    return(pmcResult);
 }
 
 
@@ -959,8 +1133,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		piMop = (int *)&pmops[1];
 
 		//- register contribution
-
-		//t still needs a reset per time step
 
 		pdFluxes[pmops->iPool] += dSingleChannelCurrent;
 

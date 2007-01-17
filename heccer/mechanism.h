@@ -281,9 +281,14 @@ struct Heccer;
 
 //f prototypes
 
+int HeccerMechanismBuildIndex(struct Heccer *pheccer);
+
 int HeccerMechanismCompile(struct Heccer *pheccer);
 
 int HeccerMechanismLink(struct Heccer *pheccer);
+
+struct MathComponent *
+HeccerMechanismLookup(struct Heccer *pheccer, int iMechanism);
 
 int HeccerMechanismSolveCN(struct Heccer *pheccer);
 
