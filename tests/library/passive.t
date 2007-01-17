@@ -10970,6 +10970,7 @@ VM Membrane Potentials (pdVms[9]) : (-0.0404163)
 			       },
 			      ],
        description => "passive model testing",
+       name => 'passive.t',
       };
 
 

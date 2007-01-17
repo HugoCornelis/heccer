@@ -418,6 +418,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0617904)
 			       },
 			      ],
        description => "pool integration",
+       name => 'pools.t',
       };
 
 

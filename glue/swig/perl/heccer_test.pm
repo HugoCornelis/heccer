@@ -15,6 +15,8 @@ $| = 1;
 BEGIN
 {
     push @INC, '.';
+
+    push @INC, '/usr/local/glue/swig/perl';
 }
 
 
@@ -32,9 +34,34 @@ use Data::Dumper;
 
     print Dumper(\%{"main::"});
 
+    print "Found these methods for the intermediary:\n";
+
     print Dumper(\%{"Heccer::Intermediary::"});
 
+    print "Found these methods for compartments:\n";
+
     print Dumper(\%{"Heccer::Compartment::"});
+
+    print "Found these methods for channels:\n";
+
+    print Dumper(\%{"Heccer::ChannelActInact::"});
+
+    print "Found these methods for gates:\n";
+
+    print Dumper(\%{"Heccer::GateConcept::"});
+
+    print "Found these methods for gate kinetics:\n";
+
+    print Dumper(\%{"Heccer::GateKinetic::"});
+
+    print "Found these methods for gates with powers:\n";
+
+    print Dumper(\%{"Heccer::PoweredGateConcept::"});
+
+    print "Found these methods for exponential decay equations:\n";
+
+    print Dumper(\%{"Heccer::ExponentialDecay::"});
+
 }
 
 # construct soma compartment
@@ -105,7 +132,7 @@ $heccer->HeccerDumpV();
 
 # a couple of times
 
-foreach (0 .. 9)
+foreach (0 .. 2)
 {
     # step
 

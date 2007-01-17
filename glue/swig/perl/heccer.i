@@ -1,4 +1,3 @@
-/* File : example.i */
 /* -*- C-mode -*- */
 
 /* swig -perl5 -makedefault -module Heccer heccer.i */
@@ -34,6 +33,7 @@
 #include "heccer/intermediary.h"
 #include "heccer/heccer.h"
 #include "heccer/mathcomponent.h"
+#include "heccer/mechanism.h"
 %}
 
 %inline %{
@@ -65,4 +65,5 @@ int int_get(int *a, int i)
 %include "heccer/intermediary.h"
 %include "heccer/heccer.h"
 %include "heccer/mathcomponent.h"
+%include "heccer/mechanism.h"
 

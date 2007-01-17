@@ -89,6 +89,7 @@ BEGIN
 
 
 use Data::Comparator qw(data_comparator);
+use Data::Transformator;
 
 use Expect;
 
@@ -124,6 +125,8 @@ sub main
 
     my $test_modules = test_library_construct();
 
+    $test_modules = test_library_expand($test_modules);
+
     my $test_count = 0;
 
     # the initial error report is empty
@@ -136,14 +139,9 @@ sub main
 
     my $test_startup;
 
-    foreach my $test_module (@$test_modules)
+    foreach my $module_definition (@$test_modules)
     {
-	if ($test_module !~ /$option_regex_selector/i)
-	{
-	    next;
-	}
-
-	my $module_definition = do $test_module;
+	my $module_name = $module_definition->{name};
 
 	report_message(2, 1, "Running tests of module $module_definition->{description}");
 
@@ -355,13 +353,13 @@ sub main
 
 		    $error_report->{global}->{error_count} = $error_count;
 
-		    $error_report->{modules}->{$test_module}->{$error_count}->{$command_definition_description}->{description} = $command_test->{description};
-		    $error_report->{modules}->{$test_module}->{$error_count}->{error} = $error;
+		    $error_report->{modules}->{$module_name}->{$error_count}->{$command_definition_description}->{description} = $command_test->{description};
+		    $error_report->{modules}->{$module_name}->{$error_count}->{error} = $error;
 
 
 		    if ($option_verbose)
 		    {
-			$error_report->{modules}->{$test_module}->{$error_count}->{$command_definition_description}->{report}
+			$error_report->{modules}->{$module_name}->{$error_count}->{$command_definition_description}->{report}
 			    = $before_match;
 		    }
 		}
@@ -392,8 +390,8 @@ sub main
 
 			$error_report->{global}->{error_count} = $error_count;
 
-			$error_report->{modules}->{$test_module}->{$error_count}->{$command_definition_description}->{description} = $command_test->{description};
-			$error_report->{modules}->{$test_module}->{$error_count}->{error} = $reparation_error;
+			$error_report->{modules}->{$module_name}->{$error_count}->{$command_definition_description}->{description} = $command_test->{description};
+			$error_report->{modules}->{$module_name}->{$error_count}->{error} = $reparation_error;
 		    }
 		}
 
@@ -564,6 +562,134 @@ sub test_library_construct
 	  ];
 
     return $test_modules;
+}
+
+
+sub test_library_expand
+{
+    my $library = shift;
+
+    my $result = [];
+
+    # parse all modules
+
+    foreach my $test_module (@$library)
+    {
+	if ($test_module !~ /$option_regex_selector/i)
+	{
+	    next;
+	}
+
+	my $module_definition = do $test_module;
+
+	if (!$module_definition->{disabled})
+	{
+	    push @$result, $module_definition;
+	}
+    }
+
+    # sort modules
+
+    #t first need to transform: select command_definitions, flatten
+    #t out, keep the module names (for referencing errors).
+
+    my $transformator
+	= Data::Transformator->new
+	    (
+             apply_identity_transformation => 0,
+	     name => 'test-module-selector',
+	     contents => $result,
+	     separator => '`',
+	     array_filter =>
+	     sub
+	     {
+		 my ($context, $component) = @_;
+
+		 # never filter for the first two component in the path
+
+		 my $depth = $context->{array};
+		 $depth = $#$depth;
+
+		 if ($depth < 2)
+		 {
+		     return 1;
+		 }
+
+		 # extract the data
+
+		 $context->{path} =~ m|^[^/]*/([^/]*)/([^/]*)|;
+
+		 my $content = Data::Transformator::_context_get_current_content($context);
+
+		 # push it onto the result
+
+		 my $result = Data::Transformator::_context_get_main_result($context);
+
+		 if (!$result->{content})
+		 {
+		     $result->{content} = [];
+		 }
+
+		 push @{$result->{content}}, $content;
+
+		 # add the module name
+
+		 my $module_name = $context->{array}->[1]->{content}->{name};
+
+		 $content->{module_name} = $module_name;
+
+		 # result is known, everything gets filtered
+
+		 0;
+	     },
+	    );
+
+    my $tests = $transformator->transform();
+
+    $tests
+	= [
+	   sort
+	   {
+	       my $module1 = $a;
+	       my $module2 = $b;
+
+# 	       my $command1 = $module1->{command_definitions}->[0]->{command};
+# 	       my $command2 = $module2->{command_definitions}->[0]->{command};
+
+# 	       my $command1_arguments = $module1->{command_definitions}->[0]->{arguments};
+# 	       my $command2_arguments = $module2->{command_definitions}->[0]->{arguments};
+
+	       my $command1 = $module1->{command};
+	       my $command2 = $module2->{command};
+
+	       my $command1_arguments = $module1->{arguments} || [];
+	       my $command2_arguments = $module2->{arguments} || [];
+
+	       my $command1_string = join ' ', $command1, @$command1_arguments;
+	       my $command2_string = join ' ', $command2, @$command2_arguments;
+
+	       my $comparison = $command1_string cmp $command2_string;
+
+	       if ($module1->{tester_head})
+	       {
+		   $comparison = -1;
+	       }
+	       elsif ($module2->{tester_head})
+	       {
+		   $comparison = 1;
+	       }
+
+	       $comparison;
+	   }
+	   @$tests,
+	  ];
+
+    #t Need to figure out how to deal with the library reparation and
+    #t preparation.
+
+    # return result
+
+    return $result;
 }
 
 

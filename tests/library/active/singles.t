@@ -372,6 +372,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.00351931)
 			       },
 			      ],
        description => "active single compartment testing",
+       name => 'singles.t',
       };
 
 

@@ -153,7 +153,7 @@ struct SpikeGenerator
 
 //s transition model for a gate concept
 
-struct GateKinetik
+struct GateKinetic
 {
     //! need parameters as follows:
 
@@ -213,20 +213,11 @@ struct GateConcept
 
     //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-    struct GateKinetik gkForward;
+    struct GateKinetic gkForward;
 
     //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-    struct GateKinetik gkBackward;
-
-/*     //m equilibrium value, range 0 -- 1 */
-
-/*     double dEquilibrium; */
-
-/*     //m time constant to reach the above */
-
-/*     double dTau; */
-
+    struct GateKinetic gkBackward;
 };
 
 //s gate with a power

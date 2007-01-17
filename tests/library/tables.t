@@ -1043,6 +1043,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0680146)
 			       },
 			      ],
        description => "Gate tabulation",
+       name => 'tables.t',
       };
 
 
