@@ -340,7 +340,7 @@ struct ChannelActInact pcaiCaT[] =
 
 	//m contributes to this concentration pool
 
-	1,
+	3,
 
 	//m activation description
 
@@ -577,7 +577,7 @@ struct Intermediary inter =
 {
     //m compartment array
 
-    1,
+    2,
 
     pcomp,
 
