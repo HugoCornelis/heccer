@@ -35,13 +35,13 @@ struct Compartment comp[] =
 
 	-1,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -100,13 +100,13 @@ struct Compartment comp[] =
 
 	0,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -165,13 +165,13 @@ struct Compartment comp[] =
 
 	1,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -230,13 +230,13 @@ struct Compartment comp[] =
 
 	2,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -295,13 +295,13 @@ struct Compartment comp[] =
 
 	3,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -360,13 +360,13 @@ struct Compartment comp[] =
 
 	4,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -425,13 +425,13 @@ struct Compartment comp[] =
 
 	5,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -490,13 +490,13 @@ struct Compartment comp[] =
 
 	6,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -555,13 +555,13 @@ struct Compartment comp[] =
 
 	7,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -620,13 +620,13 @@ struct Compartment comp[] =
 
 	8,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 

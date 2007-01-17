@@ -49,13 +49,13 @@ struct Compartment compSoma =
 
     -1,
 
-    //m first mechanism
+/*     //m first mechanism */
 
-    NULL,
+/*     NULL, */
 
-    //m number of mechanisms
+/*     //m number of mechanisms */
 
-    0,
+/*     0, */
 
     //m descriptive values, alphabetical order
 

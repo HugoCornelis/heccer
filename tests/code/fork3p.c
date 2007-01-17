@@ -35,61 +35,13 @@ struct Compartment comp[] =
 
 	-1,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
 
-	0,
-
-	//m descriptive values, alphabetical order
-
-/*     double dCm; */
-
-	4.57537e-11, // unscaled 0.0164,
-
-/*     double dEm; */
-
-	-0.08,
-
-/*     double dInitVm; */
-
-	-0.068,
-
-/*     double dInject;		 */
-
-	0,
-
-/*     double dRa; */
-
-	360502, // unscaled 2.5,
-
-/*     double dRm; */
-
-	3.58441e+08, // unscaled 1
-    },
-
-    {
-	//m administrative overhead
-
-	{
-	    //m type of structure
-
-	    MATH_TYPE_Compartment,
-	},
-
-	//m index of parent compartment, -1 for none
-
-	0,
-
-	//m first mechanism
-
-	NULL,
-
-	//m number of mechanisms
-
-	0,
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 
@@ -131,13 +83,61 @@ struct Compartment comp[] =
 
 	0,
 
-	//m first mechanism
+/* 	//m first mechanism */
 
-	NULL,
+/* 	NULL, */
 
-	//m number of mechanisms
+/* 	//m number of mechanisms */
+
+/* 	0, */
+
+	//m descriptive values, alphabetical order
+
+/*     double dCm; */
+
+	4.57537e-11, // unscaled 0.0164,
+
+/*     double dEm; */
+
+	-0.08,
+
+/*     double dInitVm; */
+
+	-0.068,
+
+/*     double dInject;		 */
 
 	0,
+
+/*     double dRa; */
+
+	360502, // unscaled 2.5,
+
+/*     double dRm; */
+
+	3.58441e+08, // unscaled 1
+    },
+
+    {
+	//m administrative overhead
+
+	{
+	    //m type of structure
+
+	    MATH_TYPE_Compartment,
+	},
+
+	//m index of parent compartment, -1 for none
+
+	0,
+
+/* 	//m first mechanism */
+
+/* 	NULL, */
+
+/* 	//m number of mechanisms */
+
+/* 	0, */
 
 	//m descriptive values, alphabetical order
 

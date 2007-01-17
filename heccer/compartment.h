@@ -38,13 +38,13 @@ struct Compartment
 
     int iParent;
 
-    //m first mechanism
+/*     //m first mechanism */
 
-    struct MathComponent *pmcMechanisms;
+/*     struct MathComponent *pmcMechanisms; */
 
-    //m number of mechanisms
+/*     //m number of mechanisms */
 
-    int iMechanisms;
+/*     int iMechanisms; */
 
     //m descriptive values, alphabetical order
 

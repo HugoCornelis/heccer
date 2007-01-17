@@ -18,8 +18,6 @@
 
 AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
-CFLAGS = -O0
-
 check_PROGRAMS = \
 	c1c2p1 \
 	c1c2p2 \
@@ -31,6 +29,7 @@ check_PROGRAMS = \
 	fork4p2 \
 	fork4p3 \
 	pool1 \
+	pool2 \
 	singlea-naf \
 	singlep \
 	table-ka \
@@ -81,6 +80,10 @@ pool1_DEPENDENCIES = ../../libheccer.a main.c
 
 pool1_LDADD = -L../.. -lheccer -lm
 
+pool2_DEPENDENCIES = ../../libheccer.a main.c
+
+pool2_LDADD = -L../.. -lheccer -lm
+
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 
 singlea_naf_LDADD = -L../.. -lheccer -lm
@@ -106,8 +109,6 @@ triplep_DEPENDENCIES = ../../libheccer.a main.c
 triplep_LDADD = -L../.. -lheccer -lm
 
 #t automake does not allow to pass in arguments for tests ?
-
-#TESTS = $(srcdir)/tests/run
 
 check_SCRIPTS = $(srcdir)/../run
 

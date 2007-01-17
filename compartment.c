@@ -424,12 +424,12 @@ HeccerCompartmentDump
 	fprintf(pfile, "Compartment (iParent) : (%i)\n", pcomp->iParent);
     }
 
-    //m number of mechanisms
+/*     //m number of mechanisms */
 
-    if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE)
-    {
-	fprintf(pfile, "Compartment (iMechanisms) : (%i)\n", pcomp->iMechanisms);
-    }
+/*     if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE) */
+/*     { */
+/* 	fprintf(pfile, "Compartment (iMechanisms) : (%i)\n", pcomp->iMechanisms); */
+/*     } */
 
     //m descriptive values, alphabetical order
 
