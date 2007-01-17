@@ -55,10 +55,6 @@ struct ExponentialDecay
 
     struct MathComponent mc;
 
-    //m flux contributor index, -1 for not initialized
-
-    int iFluxContributor;
-
     //m initial value
 
     double dInitValue;

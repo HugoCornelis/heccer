@@ -394,16 +394,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMAT_EXPONENTIALDECAY(pvMats, iMats, pexdec->dInitValue);
 
-		    //- register the mechanism index as the concentration pool identifier
-
-		    //t not sure if I need this test for all cases, doesnot hurt either.
-
-/* 		    if (!pheccer->vm.pvMops) */
-		    {
-			pexdec->iFluxContributor = iConcentrations;
-
-		    }
-
 		    //- increment concentration index
 
 		    iConcentrations++;

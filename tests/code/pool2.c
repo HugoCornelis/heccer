@@ -512,10 +512,6 @@ struct ExponentialDecay pexdecCa[] =
 	    MECHANISM_TYPE_ExponentialDecay,
 	},
 
-	//m flux contributor index, -1 for not initialized
-
-	-1,
-
 	//m initial value
 
 	4e-5,
@@ -541,10 +537,6 @@ struct ExponentialDecay pexdecCa[] =
 
 	    MECHANISM_TYPE_ExponentialDecay,
 	},
-
-	//m flux contributor index, -1 for not initialized
-
-	-1,
 
 	//m initial value
 
