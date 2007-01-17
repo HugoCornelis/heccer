@@ -18,6 +18,10 @@
 
 AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
 
+# ease debugging
+
+CFLAGS=-O0
+
 check_PROGRAMS = \
 	c1c2p1 \
 	c1c2p2 \
