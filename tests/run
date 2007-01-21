@@ -141,6 +141,11 @@ sub main
 
     foreach my $module_definition (@$test_modules)
     {
+	if ($module_definition->{disabled})
+	{
+	    next;
+	}
+
 	my $module_name = $module_definition->{name};
 
 	report_message(2, 1, "Running tests of module $module_definition->{description}");
@@ -151,6 +156,11 @@ sub main
 
 	foreach my $command_definition (@$command_definitions)
 	{
+	    if ($command_definition->{disabled})
+	    {
+		next;
+	    }
+
 	    my $description = $command_definition->{description};
 
 	    # give some diagnostics

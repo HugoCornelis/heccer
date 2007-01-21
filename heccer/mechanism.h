@@ -72,6 +72,10 @@ struct ExponentialDecay
     //m tau
 
     double dTau;
+
+    //m mechansims influenced by this component
+
+    int piOthers[10];
 };
 
 
