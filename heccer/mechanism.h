@@ -270,6 +270,69 @@ struct ChannelActInact
     struct PoweredGateConcept pgcInactivation;
 };
 
+//s activator concept, mostly related to concentration pools
+
+struct Activator
+{
+    //m basal level, A in EDS1994
+
+    double dBasalLevel;
+
+    //m time constant, B in EDS1994
+
+    double dTau;
+};
+
+//s gate with a power
+
+struct PoweredActivatorConcept
+{
+    //m power, for a standard heccer, something between 1 and 4 or so.
+
+    int iPower;
+
+    //m activator definition
+
+    struct Activator ac;
+};
+
+//s HH alike channel, activation and concentration dependent
+
+#define MECHANISM_TYPE_ChannelActConc 8
+
+struct ChannelActConc
+{
+    //m administration overhead
+
+    struct MathComponent mc;
+
+    //m first set of descriptive values, alphabetical order
+
+    //m reversal potential
+
+    double dReversalPotential;
+
+    //m maximal conductance when all channels are permissive
+
+    double dMaximalConductance;
+
+    //m contributes to this concentration pool, -1 for none
+
+    int iPool;
+
+    //m potential dependence description
+
+    struct PoweredGateConcept pgc;
+
+    //m is activated by this mechanism (concentration pool), must be filled in
+
+    int iActivator;
+
+    //m activator dependence description
+
+    struct PoweredActivatorConcept pac;
+};
+
 
 struct Heccer;
 

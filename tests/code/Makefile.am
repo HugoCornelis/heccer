@@ -32,6 +32,7 @@ check_PROGRAMS = \
 	fork4p1 \
 	fork4p2 \
 	fork4p3 \
+	pool-feedback \
 	pool1 \
 	pool2 \
 	singlea-naf \
@@ -87,6 +88,10 @@ pool1_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 
 pool2_LDADD = -L../.. -lheccer -lm
+
+pool_feedback_DEPENDENCIES = ../../libheccer.a main.c
+
+pool_feedback_LDADD = -L../.. -lheccer -lm
 
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 
