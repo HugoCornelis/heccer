@@ -107,6 +107,21 @@ int HeccerMechanismBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a channel with a potential and a concentration dependence
+
+	case MECHANISM_TYPE_ChannelActConc:
+	{
+	    //- get type specific data
+
+	    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc;
+
+	    RETREIVE_MATH_COMPONENT(pmc,pcac,(struct ChannelActConc *));
+
+	    break;
+	}
+
+	//- for an exponential decaying variable
+
 	case MECHANISM_TYPE_ExponentialDecay:
 	{
 	    //- get type specific data
@@ -316,7 +331,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 
-		//- for an regular channel with activation and inactivation
+		//- for a regular channel with activation and inactivation
 
 		case MECHANISM_TYPE_ChannelActInact:
 		{
@@ -381,6 +396,79 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    break;
 		}
+
+		//- for a channel with a potential and a concentration dependence
+
+		case MECHANISM_TYPE_ChannelActConc:
+		{
+		    //- get type specific data
+
+		    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc;
+
+		    RETREIVE_MATH_COMPONENT(pmc,pcac,(struct ChannelActConc *));
+
+		    SETMOP_INITIALIZECHANNEL(pvMops, iMops, pcac->dMaximalConductance, pcac->dReversalPotential);
+
+		    //- tabulate the membrane dependence
+
+		    //- tabulate membrane dependence, Genesis X
+		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+
+		    int iTabulatedMembraneDependence
+			= HeccerDiscretizeGateConcept(pheccer, &pcac->pgc.gc);
+
+		    SETMOP_LOADVOLTAGETABLE(pvMops, iMops);
+
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower);
+
+		    //! at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, pcac->pgc.gc.dInitActivation);
+
+		    //- tabulate concentration dependence, Genesis Z
+		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+
+		    int iTabulatedBasalActivator
+			= HeccerDiscretizeBasalActivator(pheccer, &pcac->pac.ac);
+
+		    //! gate computations are just fetching things from tables, and
+		    //! multiplying the conductances, so it is not relevant if these
+		    //! computations are done for membrane potential dependent gates or
+		    //! concentration dependent gates.
+
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower);
+
+		    //! at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(pvMats, iMats, pcac->pac.ac.dInitActivation);
+
+		    SETMOP_UPDATECOMPARTMENTCURRENT(pvMops, iMops);
+
+		    //t retabulate cannot be done yet, do not know yet how many tables
+
+		    //- register pool index
+
+		    //t for reasons of easy initialization, this should be a check for zero.
+		    //t this means that I have to offset all mechanisms with 1
+		    //t (mmm, the hines solver did the same, but for other reasons).
+
+		    if (pcac->iPool != -1)
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(pvMops, iMops);
+
+/* 			SETMOP_FLUXPOOL(pvMops, iMops, pcai->iPool); */
+
+			SETMOP_FLUXPOOL(pvMops, iMops, iConcentrations);
+		    }
+
+		    //- register result from tabulation for outcome of this function
+
+		    iResult = iResult && iTabulatedMembraneDependence && iTabulatedBasalActivator;
+
+		    break;
+		}
+
+		//- for an exponential decaying variable
 
 		case MECHANISM_TYPE_ExponentialDecay:
 		{

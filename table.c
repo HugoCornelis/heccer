@@ -36,6 +36,134 @@ HeccerTabulatedGateNew(struct Heccer *pheccer, double dStart, double dEnd, int i
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerBasalActivatorTabulate()
+///
+/// ARGS.:
+///
+///	pac.....: a basal activator gate concept.
+///	pheccer.: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+///	phtg....: a filled heccer tabulated gate.
+///
+/// DESCR: Fill the tables with a discretization of the basal
+/// activator gate kinetics.
+///
+/// **************************************************************************
+
+int
+HeccerBasalActivatorTabulate
+(struct Activator *pac, struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- get access to the tabulated gate structure
+
+    int iIndex = pac->iTable;
+
+    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
+
+    //- get step size
+
+    double dStep = phtg->hi.dStep;
+
+    //- loop over all entries in the table
+
+    int i;
+    double dx;
+
+    for (dx = phtg->hi.dStart, i = 0 ; i <= phtg->iEntries ; i++, dx += dStep)
+    {
+	//- compute steady state
+
+	double dEquilibrium = 1 / (1 + (pac->dBasalLevel / dx));
+
+	//- fill in forward and backward table
+
+	//t perhaps the table names should be redefined ?
+
+	//! time step normalization done elsewhere
+
+	phtg->pdForward[i] = dEquilibrium / pac->dTau;
+
+	phtg->pdBackward[i] = 1 / pac->dTau;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerDiscretizeBasalActivator()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	pac.......: basal activator concept description.
+///
+/// RTN..: int : success of operation.
+///
+/// DESCR: Discretize the given basal activator concept.
+///
+/// **************************************************************************
+
+int
+HeccerDiscretizeBasalActivator
+(struct Heccer *pheccer, struct Activator *pac)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- if already registered
+
+    if (pac->iTable != -1)
+    {
+	return(TRUE);
+    }
+
+    //- allocate structures
+
+    double dStart = pheccer->ho.dBasalActivatorStart;
+    double dEnd = pheccer->ho.dBasalActivatorEnd;
+    int iEntries = pheccer->ho.iIntervalEntries;
+
+    //t integrate these into the options
+
+    dStart = 0.00004;
+    dEnd = 0.300;
+
+    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+
+    if (i == -1)
+    {
+	return(FALSE);
+    }
+
+    //- register the index
+
+    pac->iTable = i;
+
+    //- fill the table with the discretized gate kinetics
+
+    iResult = iResult && HeccerBasalActivatorTabulate(pac, pheccer);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerDiscretizeGateConcept()
 ///
 /// ARGS.:
@@ -43,73 +171,14 @@ HeccerTabulatedGateNew(struct Heccer *pheccer, double dStart, double dEnd, int i
 ///	pheccer...: a heccer.
 ///	pgc.......: gate concept description.
 ///
-/// RTN..: int
-///
-///	tabulated gate index, -1 for failure.
+/// RTN..: int : success of operation.
 ///
 /// DESCR: Discretize the given gate concept.
 ///
 ///	Note that for a single gate, this function sets up the forward
 ///	and backward kinetic discretization.
 ///
-/// NOTE:
-///
-///	This function should be the main entry point for a tabulated
-///	gate registry.
-///
 /// **************************************************************************
-
-static
-int
-HeccerTabulatedGateNew(struct Heccer *pheccer, double dStart, double dEnd, int iEntries)
-{
-    if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
-    {
-	return(-1);
-    }
-
-#define HECCER_STATIC_TABULATED_GATES
-#ifdef HECCER_STATIC_TABULATED_GATES
-
-    //- set result : from pool
-
-    struct HeccerTabulatedGate *phtg = NULL;
-
-    phtg = &pheccer->tgt.phtg[pheccer->tgt.iTabulatedGateCount];
-
-#else
-
-    //- set result : allocate a new tabulated gate
-
-    struct HeccerTabulatedGate *phtg = calloc(1, sizeof(*phtg));
-
-#endif
-
-    //- increment registry count
-
-    pheccer->tgt.iTabulatedGateCount++;
-
-    //- initialize interval discretizer
-
-    phtg->hi.dStart = dStart;
-    phtg->hi.dEnd = dEnd;
-    phtg->hi.dStep = (phtg->hi.dEnd - phtg->hi.dStart) / iEntries;
-
-    //- initialize discrete function entries
-
-    phtg->iEntries = iEntries;
-    phtg->pdForward = calloc(phtg->iEntries + 1, sizeof(*phtg->pdForward));
-    phtg->pdBackward = calloc(phtg->iEntries + 1, sizeof(*phtg->pdBackward));
-
-    //- initialize the tao
-
-    phtg->htao.iShape = 0;
-
-    //- return result
-
-    return(pheccer->tgt.iTabulatedGateCount - 1);
-}
-
 
 int
 HeccerDiscretizeGateConcept
@@ -146,10 +215,6 @@ HeccerDiscretizeGateConcept
     //- fill the table with the discretized gate kinetics
 
     iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer);
-
-    //- register the table and table descriptor
-
-    iResult = iResult && HeccerTabulatedGateRegister(pheccer, pgc);
 
     //- return result
 
@@ -420,41 +485,72 @@ HeccerTablesDump
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerTabulatedGateRegister()
+/// SHORT: HeccerTabulatedGateNew()
 ///
 /// ARGS.:
 ///
-///	pheccer.: a compartment.
-///	pgc.....: a gate concept, with table index filled in.
+///	pheccer...: a heccer.
+///	dStart....: start value for table.
+///	dEnd......: end value for table.
+///	iEntries..: number of entries in the table.
 ///
 /// RTN..: int
 ///
-///	success of operation.
+///	tabulated gate index, -1 for failure.
 ///
-/// DESCR: Register the given tabulated gate.
+/// DESCR: Allocate a new table.
 ///
 /// **************************************************************************
 
+static
 int
-HeccerTabulatedGateRegister(struct Heccer *pheccer, struct GateConcept *pgc)
+HeccerTabulatedGateNew(struct Heccer *pheccer, double dStart, double dEnd, int iEntries)
 {
-    //- set default result
+    if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
+    {
+	return(-1);
+    }
 
-    int iResult = TRUE;
-
-    //- get access to the tabulated gate structure
-
-    int iIndex = pgc->iTable;
-
-    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
-
+#define HECCER_STATIC_TABULATED_GATES
 #ifdef HECCER_STATIC_TABULATED_GATES
 
-    //! code removed ...
+    //- set result : from pool
+
+    struct HeccerTabulatedGate *phtg = NULL;
+
+    phtg = &pheccer->tgt.phtg[pheccer->tgt.iTabulatedGateCount];
+
+#else
+
+    //- set result : allocate a new tabulated gate
+
+    struct HeccerTabulatedGate *phtg = calloc(1, sizeof(*phtg));
 
 #endif
 
+    //- increment registry count
+
+    pheccer->tgt.iTabulatedGateCount++;
+
+    //- initialize interval discretizer
+
+    phtg->hi.dStart = dStart;
+    phtg->hi.dEnd = dEnd;
+    phtg->hi.dStep = (phtg->hi.dEnd - phtg->hi.dStart) / iEntries;
+
+    //- initialize discrete function entries
+
+    phtg->iEntries = iEntries;
+    phtg->pdForward = calloc(phtg->iEntries + 1, sizeof(*phtg->pdForward));
+    phtg->pdBackward = calloc(phtg->iEntries + 1, sizeof(*phtg->pdBackward));
+
+    //- initialize the tao
+
+    phtg->htao.iShape = 0;
+
     //- return result
 
-    return(iResult);
+    return(pheccer->tgt.iTabulatedGateCount - 1);
 }
+
+

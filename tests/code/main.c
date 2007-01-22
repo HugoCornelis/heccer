@@ -80,6 +80,12 @@ int main(int argc, char *argv[])
 
     pheccer->ho.dIntervalEnd = HECCER_TEST_INTERVAL_DEFAULT_END;
 
+    //t should set test defaults for basal activator tables.
+
+/*     pheccer->ho.dBasalActivatorStart = HECCER_TEST_INTERVAL_DEFAULT_START; */
+
+/*     pheccer->ho.dBasalActivatorEnd = HECCER_TEST_INTERVAL_DEFAULT_END; */
+
     pheccer->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
 
     //- build indices for optimization

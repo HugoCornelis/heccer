@@ -204,6 +204,10 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     fprintf(pfile, "Heccer Options (dIntervalEnd) : (%g)\n", pheccer->ho.dIntervalEnd);
 
+    fprintf(pfile, "Heccer Options (dBasalActivatorStart) : (%g)\n", pheccer->ho.dBasalActivatorStart);
+
+    fprintf(pfile, "Heccer Options (dBasalActivatorEnd) : (%g)\n", pheccer->ho.dBasalActivatorEnd);
+
     fprintf(pfile, "Heccer Options (iIntervalEntries) : (%i)\n", pheccer->ho.iIntervalEntries);
 
     //- simulation time
@@ -476,6 +480,10 @@ struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep)
 
     pheccerResult->ho.dIntervalStart = HECCER_INTERVAL_DEFAULT_START;
     pheccerResult->ho.dIntervalEnd = HECCER_INTERVAL_DEFAULT_END;
+
+    pheccerResult->ho.dBasalActivatorStart = HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START;
+    pheccerResult->ho.dBasalActivatorEnd = HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END;
+
     pheccerResult->ho.iIntervalEntries = HECCER_INTERVAL_DEFAULT_ENTRIES;
 
     //- set new status

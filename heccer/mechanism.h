@@ -274,6 +274,14 @@ struct ChannelActInact
 
 struct Activator
 {
+    //m initial value, commonly steady state
+
+    double dInitActivation;
+
+    //m corresponding index in tables, set to -1 for initialization.
+
+    int iTable;
+
     //m basal level, A in EDS1994
 
     double dBasalLevel;

@@ -48,15 +48,23 @@ struct HeccerOptions
 
     int iOptions;
 
-    //m discretized gate, interval start
+    //m discretized gate, membrane, interval start
 
     double dIntervalStart;
 
-    //m discretized gate, interval end
+    //m discretized gate, membrane, interval end
 
     double dIntervalEnd;
 
-    //m discretized gate, number of entries
+    //m discretized gate, basal activator, interval start
+
+    double dBasalActivatorStart;
+
+    //m discretized gate, concentration, interval end
+
+    double dBasalActivatorEnd;
+
+    //m discretized gate, membrane, number of entries
 
     int iIntervalEntries;
 };
@@ -80,6 +88,14 @@ struct HeccerOptions
 //d discretized gate, interval end
 
 #define HECCER_INTERVAL_DEFAULT_END			(0.05)
+
+//d basal activator gate, interval end
+
+#define HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START	(0.00004)
+
+//d basal activator gate, interval end
+
+#define HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END	(0.300)
 
 //d discretized gate, number of entries
 

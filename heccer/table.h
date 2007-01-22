@@ -105,6 +105,14 @@ struct Heccer;
 //f prototypes
 
 int
+HeccerBasalActivatorTabulate
+(struct Activator *pac, struct Heccer *pheccer);
+
+int
+HeccerDiscretizeBasalActivator
+(struct Heccer *pheccer, struct Activator *pac);
+
+int
 HeccerDiscretizeGateConcept
 (struct Heccer *pheccer, struct GateConcept *pgc);
 

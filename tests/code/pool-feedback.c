@@ -47,7 +47,7 @@ struct Compartment comp =
 
     //m index of parent compartment, -1 for none
 
-    0,
+    -1,
 
 /* 	//m first mechanism */
 
@@ -411,6 +411,14 @@ struct ChannelActConc cacKC =
 	//m activator definition
 
 	{
+	    //m initial value, commonly steady state
+
+	    4.0e-3,
+
+	    //m corresponding index in tables, set to -1 for initialization.
+
+	    -1,
+
 	    //m basal level, A in EDS1994
 
 	    4.0e-3,

@@ -447,6 +447,19 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 
 	if (pcomp->iParent != -1)
 	{
+	    if (pcomp->iParent == i
+		|| pcomp->iParent >= iCompartments)
+	    {
+		//t HeccerError(number, message, varargs);
+
+		fprintf
+		    (stderr,
+		     "Heccer the hecc : "
+		     "the compartment does not describe a valid tree structure"
+		     " at compartment (%i)\n",
+		     i);
+	    }
+
 /* 	    //- register parent compartment index */
 
 /* 	    piParents[i] = pcomp->iParent; */
