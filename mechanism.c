@@ -353,7 +353,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower);
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -365,7 +365,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedInactivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
 
-		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower);
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -419,7 +419,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower);
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -436,7 +436,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //! computations are done for membrane potential dependent gates or
 		    //! concentration dependent gates.
 
-		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower);
+		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -1037,6 +1037,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		int iTable = pmops->iTableIndex;
 
+		double *pdState = pmops->pdState;
+
 		double dActivation = pmats->dActivation;
 
 		//- fetch tables
@@ -1048,26 +1050,53 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		double *pdForward = phtg->pdForward;
 		double *pdBackward = phtg->pdBackward;
 
-		//- discretize and offset membrane potential
+		double dState;
 
-		//t move this to load membrane potential
-		//t need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+		//- for a concentration dependent gate
 
-		int iVm = (dVm - phtg->hi.dStart) / phtg->hi.dStep;
+		//t two cases: gate is dependent on membrane potential,
+		//t or gate is dependent on an internally solved variable.
+		//t
+		//t so I actually only need an offset into mats, which
+		//t is supposedly given by the mechanism number +
+		//t subnumber
 
-		if (iVm < 0)
+		if (pdState)
 		{
-		    iVm = 0;
+		    //- state is concentration
+
+		    dState = 0.0;
 		}
-		else if (iVm >= phtg->iEntries)
+
+		//- else is a membrane dependent gate
+
+		else
 		{
-		    iVm = phtg->iEntries - 1;
+		    //- state is membrane potential
+
+		    //t move this to load membrane potential
+		    //t need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+
+		    dState = dVm;
+		}
+
+		//- discretize and offset the state
+
+		int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
+
+		if (iIndex < 0)
+		{
+		    iIndex = 0;
+		}
+		else if (iIndex >= phtg->iEntries)
+		{
+		    iIndex = phtg->iEntries - 1;
 		}
 
 		//- fetch forward and backward gate rates
 
-		double dForward = pdForward[iVm];
-		double dBackward = pdBackward[iVm];
+		double dForward = pdForward[iIndex];
+		double dBackward = pdBackward[iIndex];
 
 		//t move to channel rearrangements
 

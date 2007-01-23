@@ -213,9 +213,13 @@ struct MopsSingleGateConcept
     //m power to apply
 
     int iPower;
+
+    //m possible solved dependence
+
+    double *pdState;
 };
 
-#define SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator = HECCER_MOP_CONCEPTGATE; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
+#define SETMOP_POWEREDGATECONCEPT(pvMops,iMops,iT,iP,pdS) ((pvMops) ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); pmops->iOperator = HECCER_MOP_CONCEPTGATE ; pmops->iTableIndex = (iT) ; pmops->iPower = (iP) ; pmops->pdState = (pdS) ; (pvMops) = (void *)&pmops[1]; 1; }) : ((iMops) += sizeof(struct MopsSingleGateConcept)))
 
 
 struct MatsSingleGateConcept
