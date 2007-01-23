@@ -474,7 +474,7 @@ HeccerVMDumpOperators
 
 			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
 
-			j += sizeof(double) + sizeof(double);
+			j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
 		    }
 
 		    fprintf(pfile, "%s", pc);
@@ -522,7 +522,7 @@ HeccerVMDumpOperators
 
 			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
 
-			j += sizeof(double) + sizeof(double);
+			j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
 		    }
 
 		    fprintf(pfile, "%s", pc);
