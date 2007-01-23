@@ -214,7 +214,7 @@ struct MopsSingleGateConcept
 
     int iPower;
 
-    //m possible solved dependence
+    //m possibly solved dependence
 
     double *pdState;
 };

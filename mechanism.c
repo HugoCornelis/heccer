@@ -436,6 +436,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //! computations are done for membrane potential dependent gates or
 		    //! concentration dependent gates.
 
+		    //t lookup and add solved dependence
+
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
