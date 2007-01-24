@@ -332,7 +332,11 @@ struct ChannelActConc
 
     struct PoweredGateConcept pgc;
 
-    //m is activated by this mechanism (concentration pool), must be filled in
+    //m is activated by this concentration pool, must be filled in
+
+    //t needs to be moved inside struct Activator
+
+    //t needs to be mechanism number instead of concentration pool number
 
     int iActivator;
 

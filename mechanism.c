@@ -435,11 +435,22 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //! computations are done for membrane potential dependent gates or
 		    //! concentration dependent gates.
 
-		    //t lookup and add solved dependence, depends on iConcentrations
+		    //t need to convert iActivator into a concentration index
 
-		    //t not pdFluxes, but the concentration itself is required.
+		    double *pdState
+			= pheccer->vm.ppdConcentrations ? pheccer->vm.ppdConcentrations[pcac->iActivator] : NULL;
 
-		    double *pdState = pheccer->vm.pdFluxes ? &pheccer->vm.pdFluxes[iConcentrations] : NULL;
+		    if (pheccer->vm.ppdConcentrations
+			&& !pdState)
+		    {
+			//t HeccerError(number, message, varargs);
+
+			fprintf
+			    (stderr,
+			     "Heccer the hecc : a gate is concentration dependent,"
+			     " but the concentration cannot be found"
+			     " (mechanism %i, concentration %i)\n", iMechanism, pcac->iActivator);
+		    }
 
 		    SETMOP_POWEREDGATECONCEPT(pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower,pdState);
 
@@ -484,6 +495,20 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
 
 		    SETMOP_EXPONENTIALDECAY(pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau));
+
+		    //- keep concentration index
+
+		    //t mmm, this is definitely in the wrong place:
+		    //t 1. should go after the setmat operation
+		    //t 2. is dependent on the size of the struct MatsExponentialDecay
+
+		    //t so, if this is wrong, let's code it in the wrong way too,
+		    //t dzjee, I must have had a bad day.
+
+		    struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pvMats;
+
+		    (double *)pheccer->vm.ppdConcentrations
+			&& (pheccer->vm.ppdConcentrations[iConcentrations] = &pmats->dState);
 
 		    SETMAT_EXPONENTIALDECAY(pvMats, iMats, pexdec->dInitValue);
 
@@ -542,6 +567,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    pheccer->vm.pdFluxes = (double *)calloc(iConcentrations, sizeof(double));
 
 	    pheccer->vm.iFluxes = iConcentrations;
+
+	    pheccer->vm.ppdConcentrations = (double **)calloc(iConcentrations, sizeof(double *));
+
+	    pheccer->vm.iConcentrations = iConcentrations;
 	}
     }
 
@@ -1068,12 +1097,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		if (pdState)
 		{
-		    //- state is concentration
+		    //- state is coming from a solved mechanism variable
 
-		    dState = 0.0;
+		    dState = *pdState;
 		}
 
-		//- else is a membrane dependent gate
+		//- else is a membrane potential dependent gate
 
 		else
 		{

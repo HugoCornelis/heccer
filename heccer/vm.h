@@ -90,6 +90,12 @@ struct VM
     int iFluxes;
 
     double *pdFluxes;
+
+    //m concentrations link pools and channels
+
+    int iConcentrations;
+
+    double **ppdConcentrations;
 };
 
 

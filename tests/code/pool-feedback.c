@@ -397,9 +397,13 @@ struct ChannelActConc cacKC =
 	},
     },
 
-    //m is activated by this mechanism (concentration pool), must be filled in
+    //m is activated by this concentration pool, must be filled in
 
-    1,
+    //t needs to be moved inside struct Activator
+
+    //t needs to be mechanism number instead of concentration pool number
+
+    0,
 
     //m activator dependence description
 
