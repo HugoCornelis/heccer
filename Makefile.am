@@ -77,3 +77,11 @@ dist-hook:
 
 test: check
 
+html-upload-prepare:
+	rm -fr html/htdocs/neurospaces_project/heccer/
+	mkdir html/htdocs/neurospaces_project/heccer
+	tar cfh - tests/html | ( cd html/htdocs/neurospaces_project/heccer && tar vxf - )
+
+html-upload: html-upload-prepare
+	scp -pr html/htdocs/* hcornelis@shell.sourceforge.net:/home/groups/n/ne/neurospaces/htdocs/
+
