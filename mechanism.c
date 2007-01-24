@@ -188,18 +188,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
     double dt;
 
-    //- initialize number of operators and operands
+    //v number of operators and operands
 
-    int iMops = pheccer->inter.iCompartments * sizeof(int);
-
-    //! Em/Rm
-    //! injected current
-    //! dt/cm
-    //! diagonal
-    //!
-    //! injected current needs a separate entry for interfacing.
-
-    int iMats = pheccer->inter.iCompartments * 4 * sizeof(double);
+    int iMops;
+    int iMats;
 
     //- for backward euler integration
 
@@ -250,6 +242,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    //- fill in compartment operation
 
 	    SETMOP_COMPARTMENT(pvMops, iMops);
+
+	    //! Em/Rm
+	    //! injected current
+	    //! dt/cm
+	    //! diagonal
+	    //!
+	    //! injected current needs a separate entry for interfacing.
 
 	    //- get intermediary number for the current compartment
 
