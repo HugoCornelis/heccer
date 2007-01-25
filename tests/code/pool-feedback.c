@@ -99,11 +99,11 @@ struct ChannelActInact caiCaT =
 
     //m reversal potential
 
-    0.1375262439,
+    0.14702148735523224,
 
     //m maximal conductance when all channels are permissive
 
-    1.394928884e-08,
+    1.7546722963501793e-09,
 
     //m contributes to this concentration pool
 
@@ -121,7 +121,7 @@ struct ChannelActInact caiCaT =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.9889635316,
+	    0.03891870645,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -199,7 +199,7 @@ struct ChannelActInact caiCaT =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.002659210635,
+	    0.08260212813,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -331,7 +331,7 @@ struct ChannelActConc cacKC =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.03891870645,
+	    0.063531859768213905,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -417,7 +417,7 @@ struct ChannelActConc cacKC =
 	{
 	    //m initial value, commonly steady state
 
-	    4.0e-3,
+	    0.0099009900989999993,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -477,17 +477,17 @@ int main(int argc, char *argv[])
 
     void *pvMechanism = calloc(1, sizeof(caiCaT) + sizeof(exdecCa) + sizeof(cacKC) + 32);
 
-    struct ChannelActInact *pcai = (struct ChannelActInact *)pvMechanism;
+    struct ChannelActConc *pcac = (struct ChannelActConc *)pvMechanism;
 
-    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&pcai[1];
+    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&pcac[1];
 
-    struct ChannelActConc *pcac = (struct ChannelActConc *)&pexdec[1];
+    struct ChannelActInact *pcai = (struct ChannelActInact *)&pexdec[1];
 
-    *pcai = caiCaT;
+    *pcac = cacKC;
 
     *pexdec = exdecCa;
 
-    *pcac = cacKC;
+    *pcai = caiCaT;
 
     //- link the intermediary
 

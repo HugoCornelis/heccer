@@ -69,9 +69,14 @@ struct Intermediary
 
 //f prototypes
 
+int HeccerIntermediaryBuildIndex(struct Heccer *pheccer);
+
 int
 HeccerIntermediaryDump
 (struct Intermediary *pinter, FILE *pfile, int iSelection);
+
+struct MathComponent *
+HeccerIntermediaryLookup(struct Heccer *pheccer, int iMechanism);
 
 
 #endif
