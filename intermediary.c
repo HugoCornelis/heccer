@@ -49,12 +49,12 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
     //- set default result : start of mechanisms
 
-    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism;
+    struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pmc;
 
     //- allocate the index
 
     struct MathComponent **ppmcIndex
-	= (struct MathComponent **)calloc(pheccer->inter.iMechanisms, sizeof(struct MathComponent *));
+	= (struct MathComponent **)calloc(pheccer->inter.iMathComponents, sizeof(struct MathComponent *));
 
     if (!ppmcIndex)
     {
@@ -67,7 +67,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
     int i;
 
-    for (i = 0 ; i < pheccer->inter.iMechanisms ; i++)
+    for (i = 0 ; i < pheccer->inter.iMathComponents ; i++)
     {
 	//- initialize the index
 
@@ -211,25 +211,25 @@ HeccerIntermediaryDump
 /// ARGS.:
 ///
 ///	pheccer...: a heccer.
-///	iMechanism: mechanism number to lookup.
+///	i.........: math component number to lookup.
 ///
 /// RTN..: struct MathComponent *
 ///
-///	mechanism structure, NULL for failure.
+///	math component structure, NULL for failure.
 ///
-/// DESCR: Lookup the intermediary structure with the given number.
+/// DESCR: Lookup the math component structure with the given number.
 ///
 ///	First call HeccerIntermediaryBuildIndex().
 ///
 /// **************************************************************************
 
 struct MathComponent *
-HeccerIntermediaryLookup(struct Heccer *pheccer, int iMechanism)
+HeccerIntermediaryLookup(struct Heccer *pheccer, int i)
 {
     //- set default result : using the index
 
     struct MathComponent *pmcResult
-	= pheccer->inter.ppmcIndex[iMechanism];
+	= pheccer->inter.ppmcIndex[i];
 
     //- return result
 

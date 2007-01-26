@@ -281,7 +281,7 @@ struct Intermediary inter =
 
     //m mechanism data
 
-    &caiKA,
+    &caiKA.mc,
 
     //m mechanism index, initialize to NULL
 

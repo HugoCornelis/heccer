@@ -397,14 +397,6 @@ struct ChannelActConc cacKC =
 	},
     },
 
-    //m is activated by this concentration pool, must be filled in
-
-    //t needs to be moved inside struct Activator
-
-    //t needs to be mechanism number instead of concentration pool number
-
-    0,
-
     //m activator dependence description
 
     {
@@ -430,6 +422,10 @@ struct ChannelActConc cacKC =
 	    //m time constant, B in EDS1994
 
 	    0.010,
+
+	    //m is activated by the output of this mechanism, must be filled in
+
+	    1,
 	},
     },
 };
@@ -475,9 +471,9 @@ int main(int argc, char *argv[])
     //! I add 32, to avoid alignment issues, not sure how to do this
     //! in a clean, portable and error free way.
 
-    void *pvMechanism = calloc(1, sizeof(caiCaT) + sizeof(exdecCa) + sizeof(cacKC) + 32);
+    void *pmc = calloc(1, sizeof(caiCaT) + sizeof(exdecCa) + sizeof(cacKC) + 32);
 
-    struct ChannelActConc *pcac = (struct ChannelActConc *)pvMechanism;
+    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc;
 
     struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&pcac[1];
 
@@ -491,7 +487,7 @@ int main(int argc, char *argv[])
 
     //- link the intermediary
 
-    inter.pvMechanism = pvMechanism;
+    inter.pmc = pmc;
 
     //- do the simulation
 

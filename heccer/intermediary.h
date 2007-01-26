@@ -51,13 +51,13 @@ struct Intermediary
 
     //m number of mechanisms
 
-    int iMechanisms;
+    int iMathComponents;
 
-    //m mechanism data
+    //m math component data
 
-    void * pvMechanism;
+    struct MathComponent *pmc;
 
-    //m mechanism index, initialize to NULL
+    //m math component index, initialize to NULL
 
     struct MathComponent **ppmcIndex;
 
@@ -76,7 +76,7 @@ HeccerIntermediaryDump
 (struct Intermediary *pinter, FILE *pfile, int iSelection);
 
 struct MathComponent *
-HeccerIntermediaryLookup(struct Heccer *pheccer, int iMechanism);
+HeccerIntermediaryLookup(struct Heccer *pheccer, int i);
 
 
 #endif

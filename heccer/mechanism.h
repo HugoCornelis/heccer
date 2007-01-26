@@ -289,6 +289,10 @@ struct Activator
     //m time constant, B in EDS1994
 
     double dTau;
+
+    //m is activated by the output of this mechanism, must be filled in
+
+    int iActivator;
 };
 
 //s gate with a power
@@ -331,14 +335,6 @@ struct ChannelActConc
     //m potential dependence description
 
     struct PoweredGateConcept pgc;
-
-    //m is activated by this concentration pool, must be filled in
-
-    //t needs to be moved inside struct Activator
-
-    //t needs to be mechanism number instead of concentration pool number
-
-    int iActivator;
 
     //m activator dependence description
 

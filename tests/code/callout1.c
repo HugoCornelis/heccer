@@ -143,7 +143,7 @@ struct Intermediary inter =
 
     //m mechanism data
 
-    &callSoma,
+    &callSoma.mc,
 
     //m mechanism index, initialize to NULL
 

@@ -598,9 +598,9 @@ int main(int argc, char *argv[])
     //! I add 32, to avoid alignment issues, not sure how to do this
     //! in a clean, portable and error free way.
 
-    void *pvMechanism = calloc(1, 2 * sizeof(*pcaiCaT) + 2 * sizeof(*pexdecCa) + 32);
+    void *pmc = calloc(1, 2 * sizeof(*pcaiCaT) + 2 * sizeof(*pexdecCa) + 32);
 
-    struct ChannelActInact *pcai0 = (struct ChannelActInact *)pvMechanism;
+    struct ChannelActInact *pcai0 = (struct ChannelActInact *)pmc;
 
     struct ExponentialDecay *pexdec0 = (struct ExponentialDecay *)&pcai0[1];
 
@@ -618,7 +618,7 @@ int main(int argc, char *argv[])
 
     //- link the intermediary
 
-    inter.pvMechanism = pvMechanism;
+    inter.pmc = pmc;
 
     //- do the simulation
 

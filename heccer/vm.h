@@ -71,7 +71,17 @@ struct VM
 
     double *pdVms;
 
+    //m math component number to mat number convertor
+
+    int *piMC2Mat;
+
+    //m math component number to mop number convertor
+
+    int *piMC2Mop;
+
     //m mechanism operations
+
+    int iMopNumber;
 
     int iMops;
 
@@ -80,6 +90,8 @@ struct VM
     //m mechanism addressables
 
     //t same as for pdVms applies, see above.
+
+    int iMatNumber;
 
     int iMats;
 
@@ -109,14 +121,18 @@ struct VM
     ((pvMops)							\
      ? ({							\
 	     ((int *)pvMops)[0] = HECCER_MOP_FINISH;		\
-	     (pvMops) = (void *)&((int *)pvMops)[1]; 1;		\
+	     ppvMopsIndex[iMopNumber++] = pvMops;		\
+	     (pvMops) = (void *)&((int *)pvMops)[1];		\
+	     1;							\
 	 })							\
      : (							\
 	 (ppvMopsIndex)						\
 	 ? ({							\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;	\
+		 iMopNumber++;					\
+		 (iMops) += sizeof(int);			\
+		 1;						\
 	     })							\
-	 : ({ iMopNumber++; (iMops) += sizeof(int); 1; }) ) )
+	 : ({ iMopNumber++; 1; }) ) )
 
 //t can be automated by taking an array and diffing casted to char *
 //t pointers to sequent entries ?
@@ -143,13 +159,18 @@ struct MatsCompartment
     ((pvMops)								\
      ? ({								\
 	     ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT;		\
-	     (pvMops) = (void *)&((int *)pvMops)[1]; 1; })		\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&((int *)pvMops)[1];			\
+	     1;								\
+	 })								\
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
+		 iMopNumber++;						\
+		 (iMops) += sizeof(int);				\
+		 1;							\
 	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(int); 1; }) ) )
+	 : ({ iMopNumber++; 1; }) ) )
 
 #define SETMAT_COMPARTMENT(ppvMatsIndex,iMatNumber,pvMats,iMats,dL,dI,dC,dD) \
     ((pvMats)								\
@@ -157,14 +178,18 @@ struct MatsCompartment
 	     pmats->dLeak = (dL) ; pmats->dInjected = (dI) ;		\
 	     pmats->dCapacity = (dC) ;					\
 	     pmats->dDiagonal = (dD) ;					\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsCompartment *)pvMats)[1] ;	\
-	     1 ;})							\
+	     1 ;							\
+	 })								\
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 ppvMatsIndex[iMatNumber++] = pvMats; 1;		\
+		 iMatNumber++;						\
+		 (iMats) += MAT_ALIGNER(struct MatsCompartment);	\
+		 1;							\
 	     })								\
-	 : ({ iMatNumber++; (iMats) += MAT_ALIGNER(struct MatsCompartment); 1; }) ) )
+	 : ({ iMatNumber++; 1; }) ) )
 
 
 struct MatsCallout
@@ -180,30 +205,38 @@ struct MatsCallout
     struct Callout *pco;
 };
 
-#define SETMOP_CALLOUT(ppvMopsIndex,iMopNumber,pvMops,iMops)	\
+#define SETMOP_CALLOUT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops)	\
     ((pvMops)							\
      ? ({ ((int *)pvMops)[0] = HECCER_MOP_CALLOUT;		\
+	     ppvMopsIndex[iMopNumber++] = pvMops;		\
 	     (pvMops) = (void *)&((int *)pvMops)[1];		\
-	     1; })						\
+	     1;							\
+	 })							\
      : (							\
 	 (ppvMopsIndex)						\
 	 ? ({							\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;	\
+		 piMC2Mop[iMathComponent] = iMopNumber++;	\
+		 (iMops) += sizeof(int);			\
+		 1;						\
 	     })							\
-	 : ({ iMopNumber++; (iMops) += sizeof(int); 1; }) ) )
+	 : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_CALLOUT(ppvMatsIndex,iMatNumber,pvMats,iMats,p)		\
+#define SETMAT_CALLOUT(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,p)		\
     ((pvMats)								\
      ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pvMats ;	\
 	     pmats->pco = (p) ;						\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsCallout *)pvMats)[1] ;	\
-	     1 ;})							\
+	     1 ;							\
+	 })								\
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 ppvMatsIndex[iMatNumber++] = pvMats; 1;		\
+		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 (iMats) += MAT_ALIGNER(struct MatsCallout);		\
+		 1;							\
 	     })								\
-	 : ({ iMatNumber++; (iMats) += MAT_ALIGNER(struct MatsCallout); 1; }) ) )
+	 : ({ iMatNumber++; 1; }) ) )
 
 
 struct MopsChannel
@@ -224,20 +257,24 @@ struct MopsChannel
 };
 
 
-#define SETMOP_INITIALIZECHANNEL(ppvMopsIndex,iMopNumber,pvMops,iMops,dG,dE) \
+#define SETMOP_INITIALIZECHANNEL(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,dE) \
     ((pvMops)								\
      ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNEL;		\
 	     pmops->dReversalPotential = (dE) ;				\
 	     pmops->dMaximalConductance = (dG) ;			\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
+	     1;								\
+	 })								\
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
+		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 (iMops) += sizeof(struct MopsChannel);			\
+		 1;							\
 	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsChannel); 1; }) ) )
+	 : ({ iMopNumber++; 1; }) ) )
 
 
 struct MopsStoreChannelConductance
@@ -254,18 +291,21 @@ struct MatsChannel
     double dChannelConductance;
 };
 
-#define SETMOP_STORECHANNELCONDUCTANCE(ppvMopsIndex,iMopNumber,pvMops,iMops) \
+#define SETMOP_STORECHANNELCONDUCTANCE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops) \
     ((pvMops)								\
      ? ({ struct MopsStoreChannelConductance *pmops = (struct MopsStoreChannelConductance *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_STORECHANNELCONDUCTANCE ;	\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
-     : (								\
-	 (ppvMopsIndex)							\
-	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
-	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsStoreChannelConductance); 1; }) ) )
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsStoreChannelConductance); \
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
 
 
 struct MopsVoltageTableDependence
@@ -278,18 +318,21 @@ struct MopsVoltageTableDependence
     int iOperator;
 };
 
-#define SETMOP_LOADVOLTAGETABLE(ppvMopsIndex,iMopNumber,pvMops,iMops)	\
+#define SETMOP_LOADVOLTAGETABLE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops)	\
     ((pvMops)								\
      ? ({ struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ;		\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsVoltageTableDependence); \
+		     1;							\
 		 })							\
-	     : ({ iMopNumber++; (iMops) += sizeof(struct MopsVoltageTableDependence); 1; }) ) )
+	     : ({ iMopNumber++; 1; }) ) )
 
 
 struct MopsUpdateCompartmentCurrent
@@ -299,18 +342,21 @@ struct MopsUpdateCompartmentCurrent
     int iOperator;
 };
 
-#define SETMOP_UPDATECOMPARTMENTCURRENT(ppvMopsIndex,iMopNumber,pvMops,iMops) \
+#define SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops) \
     ((pvMops)								\
      ? ({ struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_UPDATECOMPARTMENTCURRENT ;	\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
-     : (								\
-	 (ppvMopsIndex)							\
-	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
-	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsUpdateCompartmentCurrent); 1; }) ) )
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsUpdateCompartmentCurrent); \
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
 
 
 struct MopsSingleGateConcept
@@ -332,21 +378,24 @@ struct MopsSingleGateConcept
     double *pdState;
 };
 
-#define SETMOP_POWEREDGATECONCEPT(ppvMopsIndex,iMopNumber,pvMops,iMops,iT,iP,pdS) \
+#define SETMOP_POWEREDGATECONCEPT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iT,iP,pdS) \
     ((pvMops)								\
      ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_CONCEPTGATE ;		\
 	     pmops->iTableIndex = (iT) ;				\
 	     pmops->iPower = (iP) ;					\
 	     pmops->pdState = (pdS) ;					\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
-     : (								\
-	 (ppvMopsIndex)							\
-	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
-	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsSingleGateConcept); 1; }) ) )
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsSingleGateConcept);	\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
 
 
 struct MatsSingleGateConcept
@@ -356,18 +405,22 @@ struct MatsSingleGateConcept
     double dActivation;
 };
 
-#define SETMAT_POWEREDGATECONCEPT(ppvMatsIndex,iMatNumber,pvMats,iMats,dA) \
+#define SETMAT_POWEREDGATECONCEPT(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dA) \
     ((pvMats)								\
      ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pvMats ; \
 	     pmats->dActivation = (dA) ;				\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1] ; \
-	     1 ;})							\
+	     1 ;							\
+	 })								\
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 ppvMatsIndex[iMatNumber++] = pvMats; 1;		\
+		 piMC2Mat[iMathComponent] = iMatNumber++;			\
+		 (iMats) += MAT_ALIGNER(struct MatsSingleGateConcept);	\
+		 1;							\
 	     })								\
-	 : ({ iMatNumber++; (iMats) += MAT_ALIGNER(struct MatsSingleGateConcept); 1; }) ) )
+	 : ({ iMatNumber++; 1; }) ) )
 
 
 struct MopsExponentialDecay
@@ -398,34 +451,41 @@ struct MatsExponentialDecay
     double dState;
 };
 
-#define SETMOP_EXPONENTIALDECAY(ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT)	\
+#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT)	\
     ((pvMops)								\
      ? ({ struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_EXPONENTIALDECAY;		\
 	     pmops->dBeta = (dB) ;					\
 	     pmops->dSteadyState = (dS) ;				\
 	     pmops->dTau = (dT) ;					\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
-     : (								\
-	 (ppvMopsIndex)							\
-	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
-	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsExponentialDecay); 1; }) ) )
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsExponentialDecay);	\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_EXPONENTIALDECAY(ppvMatsIndex,iMatNumber,pvMats,iMats,dS) \
+#define SETMAT_EXPONENTIALDECAY(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dS) \
     ((pvMats)								\
      ? ({ struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pvMats ; \
 	     pmats->dState = (dS) ;					\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsExponentialDecay *)pvMats)[1] ; \
-	     1 ;})							\
+	     1;								\
+	 })								\
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 ppvMatsIndex[iMatNumber++] = pvMats; 1;		\
+		 piMC2Mat[iMathComponent] = iMatNumber++;			\
+		 (iMats) += MAT_ALIGNER(struct MatsExponentialDecay);	\
+		 1;							\
 	     })								\
-	 : ({ iMatNumber++; (iMats) += MAT_ALIGNER(struct MatsExponentialDecay); 1; }) ) )
+	 : ({ iMatNumber++; 1; }) ) )
 
 
 struct MopsFluxPool
@@ -446,32 +506,38 @@ struct MatsFluxPool
     double dFlux;
 };
 
-#define SETMOP_FLUXPOOL(ppvMopsIndex,iMopNumber,pvMops,iMops,iP)	\
+#define SETMOP_FLUXPOOL(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iP)	\
     ((pvMops)								\
      ? ({ struct MopsFluxPool *pmops = (struct MopsFluxPool *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_FLUXPOOL;			\
 	     pmops->iPool = (iP) ;					\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
-     : (								\
-	 (ppvMopsIndex)							\
-	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
-	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsFluxPool); 1; }) ) )
-     
-#define SETMAT_FLUXPOOL(ppvMatsIndex,iMatNumber,pvMats,iMats,dF)	\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsFluxPool);		\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+
+#define SETMAT_FLUXPOOL(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dF)	\
     ((pvMats)								\
      ? ({ struct MatsFluxPool *pmats = (struct MatsFluxPool *)pvMats ;	\
 	     pmats->dFlux = (dF) ;					\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsFluxPool *)pvMats)[1] ;	\
-	     1 ;})							\
-     : (								\
-	 (ppvMatsIndex)							\
-	 ? ({								\
-		 ppvMatsIndex[iMatNumber++] = pvMats; 1;		\
-	     })								\
-	 : ({ iMatNumber++; (iMats) += MAT_ALIGNER(struct MatsFluxPool); 1; }) ) )
+	     1;								\
+	 }) : (								\
+	     (ppvMatsIndex)						\
+	     ? ({							\
+		     piMC2Mat[iMathComponent] = iMatNumber++;		\
+		     (iMats) += MAT_ALIGNER(struct MatsFluxPool);	\
+		     1;							\
+		 })							\
+	     : ({ iMatNumber++; 1; }) ) )
 
 
 struct MopsRegisterChannelCurrent
@@ -481,18 +547,21 @@ struct MopsRegisterChannelCurrent
     int iOperator;
 };
 
-#define SETMOP_REGISTERCHANNELCURRENT(ppvMopsIndex,iMopNumber,pvMops,iMops) \
+#define SETMOP_REGISTERCHANNELCURRENT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops) \
     ((pvMops)								\
      ? ({ struct MopsRegisterChannelCurrent *pmops = (struct MopsRegisterChannelCurrent *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_REGISTERCHANNELCURRENT ;	\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
-	     1; })							\
-     : (								\
-	 (ppvMopsIndex)							\
-	 ? ({								\
-		 ppvMopsIndex[iMopNumber++] = pvMops; 1;		\
-	     })								\
-	 : ({ iMopNumber++; (iMops) += sizeof(struct MopsRegisterChannelCurrent); 1; }) ) )
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsRegisterChannelCurrent); \
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
 
 
 //d operations for compartments

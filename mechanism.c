@@ -223,6 +223,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
     void *pvMats = NULL;
     void **ppvMopsIndex = NULL;
     void **ppvMatsIndex = NULL;
+    int *piMC2Mop = NULL;
+    int *piMC2Mat = NULL;
 
     for (iCountIndexCompile = 0 ; iCountIndexCompile < 3 ; iCountIndexCompile++)
     {
@@ -287,17 +289,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- loop over mechanisms for this compartment
 
-	    int iMechanism;
+	    int iMathComponent;
 
 	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
 
-	    if (iStart > pheccer->inter.iMechanisms)
+	    if (iStart > pheccer->inter.iMathComponents)
 	    {
 		//t HeccerError(number, message, varargs);
 
 		fprintf
 		    (stderr,
-		     "Heccer the hecc : trying to fetch mechanism number %i, which is out of range\n",
+		     "Heccer the hecc : trying to fetch math component number %i, which is out of range\n",
 		     iStart);
 
 		//- return error
@@ -309,9 +311,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    struct MathComponent *pmc = HeccerIntermediaryLookup(pheccer, iStart);
 
-	    for (iMechanism = iStart ;
-		 iMechanism < pheccer->inter.piC2m[iIntermediary] ;
-		 iMechanism++)
+	    for (iMathComponent = iStart ;
+		 iMathComponent < pheccer->inter.piC2m[iIntermediary] ;
+		 iMathComponent++)
 	    {
 		//- look at mechanism type
 
@@ -329,9 +331,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pcall,(struct Callout *));
 
-		    SETMOP_CALLOUT(ppvMopsIndex, iMopNumber, pvMops, iMops);
+		    SETMOP_CALLOUT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMAT_CALLOUT(ppvMatsIndex, iMatNumber, pvMats, iMats, pcall);
+		    SETMAT_CALLOUT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcall);
 
 		    break;
 		}
@@ -346,7 +348,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pcai,(struct ChannelActInact *));
 
-		    SETMOP_INITIALIZECHANNEL(ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
+		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
 
 		    //- tabulate the channel
 
@@ -356,13 +358,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedActivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
 
-		    SETMOP_LOADVOLTAGETABLE(ppvMopsIndex, iMopNumber, pvMops, iMops);
+		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcActivation.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcActivation.gc.dInitActivation);
 
 		    //- tabulate inactivation, Genesis Y
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
@@ -370,13 +372,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedInactivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
 
-		    SETMOP_POWEREDGATECONCEPT(ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcInactivation.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcInactivation.gc.dInitActivation);
 
-		    SETMOP_UPDATECOMPARTMENTCURRENT(ppvMopsIndex, iMopNumber, pvMops, iMops);
+		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
 
@@ -388,11 +390,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (pcai->iPool != -1)
 		    {
-			SETMOP_REGISTERCHANNELCURRENT(ppvMopsIndex, iMopNumber, pvMops, iMops);
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-/* 			SETMOP_FLUXPOOL(ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->iPool); */
+/* 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->iPool); */
 
-			SETMOP_FLUXPOOL(ppvMopsIndex, iMopNumber, pvMops, iMops, iConcentrations);
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iConcentrations);
 		    }
 
 		    //- register result from tabulation for outcome of this function
@@ -412,7 +414,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pcac,(struct ChannelActConc *));
 
-		    SETMOP_INITIALIZECHANNEL(ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pcac->dReversalPotential);
+		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pcac->dReversalPotential);
 
 		    //- tabulate the membrane dependence
 
@@ -422,13 +424,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedMembraneDependence
 			= HeccerDiscretizeGateConcept(pheccer, &pcac->pgc.gc);
 
-		    SETMOP_LOADVOLTAGETABLE(ppvMopsIndex, iMopNumber, pvMops, iMops);
+		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pgc.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pgc.gc.dInitActivation);
 
 		    //- tabulate concentration dependence, Genesis Z
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
@@ -443,8 +445,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //t need to convert iActivator into a concentration index
 
-		    double *pdState
-			= pheccer->vm.ppdConcentrations ? pheccer->vm.ppdConcentrations[pcac->iActivator] : NULL;
+		    //- get math component number
+
+		    int iMathComponentActivator = pcac->pac.ac.iActivator;
+
+		    //- convert math component to mat number, convert mat number to mat addressable
+
+		    double *pdMatsActivator = piMC2Mat ? (double *)ppvMatsIndex[piMC2Mat[iMathComponentActivator]] : NULL;
+
+		    double *pdState = pdMatsActivator;
+/* 			= pheccer->vm.ppdConcentrations ? pheccer->vm.ppdConcentrations[iMathComponentActivator] : NULL; */
 
 		    if (pheccer->vm.ppdConcentrations
 			&& !pdState)
@@ -455,16 +465,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			    (stderr,
 			     "Heccer the hecc : a gate is concentration dependent,"
 			     " but the concentration cannot be found"
-			     " (mechanism %i, concentration %i)\n", iMechanism, pcac->iActivator);
+			     " (mechanism %i, concentration %i)\n", iMathComponent, pcac->pac.ac.iActivator);
 		    }
 
-		    SETMOP_POWEREDGATECONCEPT(ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower,pdState);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower,pdState);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pac.ac.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pac.ac.dInitActivation);
 
-		    SETMOP_UPDATECOMPARTMENTCURRENT(ppvMopsIndex, iMopNumber, pvMops, iMops);
+		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
 		    //t retabulate cannot be done yet, do not know yet how many tables
 
@@ -476,11 +486,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (pcac->iPool != -1)
 		    {
-			SETMOP_REGISTERCHANNELCURRENT(ppvMopsIndex, iMopNumber, pvMops, iMops);
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-/* 			SETMOP_FLUXPOOL(ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->iPool); */
+/* 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->iPool); */
 
-			SETMOP_FLUXPOOL(ppvMopsIndex, iMopNumber, pvMops, iMops, iConcentrations);
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iConcentrations);
 		    }
 
 		    //- register result from tabulation for outcome of this function
@@ -500,7 +510,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
 
-		    SETMOP_EXPONENTIALDECAY(ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau));
+		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau));
 
 		    //- keep concentration index
 
@@ -516,7 +526,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    (double *)pheccer->vm.ppdConcentrations
 			&& (pheccer->vm.ppdConcentrations[iConcentrations] = &pmats->dState);
 
-		    SETMAT_EXPONENTIALDECAY(ppvMatsIndex, iMatNumber, pvMats, iMats, pexdec->dInitValue);
+		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pexdec->dInitValue);
 
 		    //- increment concentration index
 
@@ -568,9 +578,25 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    pheccer->vm.iConcentrations = iConcentrations;
 
+	    pheccer->vm.iMopNumber = iMopNumber;
+
 	    pheccer->vm.ppvMopsIndex = (void **)calloc(iMopNumber + 1, sizeof(void *));
 
+	    ppvMopsIndex = pheccer->vm.ppvMopsIndex;
+
+	    pheccer->vm.iMatNumber = iMatNumber;
+
 	    pheccer->vm.ppvMatsIndex = (void **)calloc(iMatNumber + 1, sizeof(void *));
+
+	    ppvMatsIndex = pheccer->vm.ppvMatsIndex;
+
+	    pheccer->vm.piMC2Mat = (int *)calloc(pheccer->inter.iMathComponents + 1, sizeof(int *));
+
+	    piMC2Mat = pheccer->vm.piMC2Mat;
+
+	    pheccer->vm.piMC2Mop = (int *)calloc(pheccer->inter.iMathComponents + 1, sizeof(int *));
+
+	    piMC2Mop = pheccer->vm.piMC2Mop;
 	}
 
 	//- if we were indexing during the previous loop
@@ -583,46 +609,34 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    pvMops = pheccer->vm.pvMops;
 
-	    if (pheccer->vm.iMops != iMops)
-	    {
-		iMiscount = 1;
-	    }
+	    pheccer->vm.iMops = iMops;
 
 	    pheccer->vm.pvMats = (void *)calloc(iMats, 1);
 
 	    pvMats = pheccer->vm.pvMats;
 
-	    if (pheccer->vm.iMats != iMats)
-	    {
-		iMiscount = 2;
-	    }
+	    pheccer->vm.iMats = iMats;
 
 	    pheccer->vm.pdFluxes = (double *)calloc(iConcentrations, sizeof(double));
 
-	    if (pheccer->vm.iFluxes != iConcentrations)
-	    {
-		iMiscount = 3;
-	    }
+	    pheccer->vm.iFluxes = iConcentrations;
 
 	    pheccer->vm.ppdConcentrations = (double **)calloc(iConcentrations, sizeof(double *));
 
-	    if (pheccer->vm.iConcentrations != iConcentrations)
-	    {
-		iMiscount = 4;
-	    }
+	    pheccer->vm.iConcentrations = iConcentrations;
 	}
     }
 
-    if (iMiscount)
-    {
-	//t HeccerError(number, message, varargs);
+/*     if (iMiscount) */
+/*     { */
+/* 	//t HeccerError(number, message, varargs); */
 
-	fprintf
-	    (stderr,
-	     "Heccer the hecc : miscount is %i\n", iMiscount);
+/* 	fprintf */
+/* 	    (stderr, */
+/* 	     "Heccer the hecc : miscount is %i\n", iMiscount); */
 
-	return(FALSE);
-    }
+/* 	return(FALSE); */
+/*     } */
 
     //- return result
 
