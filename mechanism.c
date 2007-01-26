@@ -439,18 +439,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //! computations are done for membrane potential dependent gates or
 		    //! concentration dependent gates.
 
-		    //t need to convert iActivator into a concentration index
-
 		    //- get math component number
 
 		    int iMathComponentActivator = pcac->pac.ac.iActivator;
 
 		    //- convert math component to mat number, convert mat number to mat addressable
 
-		    double *pdMatsActivator = piMC2Mat ? (double *)ppvMatsIndex[piMC2Mat[iMathComponentActivator]] : NULL;
+		    int iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator] : -1;
 
-		    double *pdState = pdMatsActivator;
-/* 			= pheccer->vm.ppdConcentrations ? pheccer->vm.ppdConcentrations[iMathComponentActivator] : NULL; */
+		    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+		    double *pdState = (double *)iMatsActivator;
 
 		    if (pheccer->vm.ppdConcentrations
 			&& !pdState)
@@ -759,6 +758,37 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
 
 		pvMats = (void *)&pmats[1];
+
+		//- get possibly solved dependence
+
+		double *pdState = pmops->pdState;
+
+		//- if still an index
+
+		if (pdState)
+		{
+		    //- convert index to pointer
+
+		    int iMatsActivator = (int)pdState;
+
+		    if (iMatsActivator == -1)
+		    {
+			//t HeccerError(number, message, varargs);
+
+			fprintf
+			    (stderr,
+			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
+			     &piMop[-1] - (int *)pheccer->vm.pvMops);
+
+			return(FALSE);
+		    }
+
+		    double *pdMatsActivator = (double *)pheccer->vm.ppvMatsIndex[iMatsActivator];
+
+		    //- store solved dependence
+
+		    pmops->pdState = pdMatsActivator;
+		}
 
 		break;
 	    }
