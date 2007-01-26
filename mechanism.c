@@ -208,10 +208,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	dt = pheccer->dStep / 2.0;
     }
 
-    //v miscount guard
-
-    int iMiscount = 0;
-
     //- first count, then index, next compile the following block
 
     int iMopNumber;
@@ -626,17 +622,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    pheccer->vm.iConcentrations = iConcentrations;
 	}
     }
-
-/*     if (iMiscount) */
-/*     { */
-/* 	//t HeccerError(number, message, varargs); */
-
-/* 	fprintf */
-/* 	    (stderr, */
-/* 	     "Heccer the hecc : miscount is %i\n", iMiscount); */
-
-/* 	return(FALSE); */
-/*     } */
 
     //- return result
 
