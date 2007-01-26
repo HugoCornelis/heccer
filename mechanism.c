@@ -566,10 +566,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	{
 	    //- prepare for indexing : set counter and allocate indexes
 
-	    pheccer->vm.iMops = iMops;
-
-	    pheccer->vm.iMats = iMats;
-
 	    pheccer->vm.iFluxes = iConcentrations;
 
 	    pheccer->vm.iConcentrations = iConcentrations;

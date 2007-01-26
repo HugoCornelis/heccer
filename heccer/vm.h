@@ -481,7 +481,7 @@ struct MatsExponentialDecay
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent] = iMatNumber++;			\
+		 piMC2Mat[iMathComponent] = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsExponentialDecay);	\
 		 1;							\
 	     })								\
