@@ -118,11 +118,11 @@ if ($?)
 
 # rebuild and test the distribution
 
-system "./build-dist";
+system "./test-dist";
 
 if ($?)
 {
-    die "$0: ./build-dist failed";
+    die "$0: ./test-dist failed";
 }
 
 # update release numbers for subsequent manual builds

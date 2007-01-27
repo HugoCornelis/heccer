@@ -138,6 +138,11 @@ if ($minor eq '\+')
 	   {
 	       !$releases->{$major}->{$_}->{'pre-release'}
 	   }
+	   grep
+	   {
+	       $releases->{$major}->{$_}
+		   && %{$releases->{$major}->{$_}}
+	   }
 	   keys %{$releases->{$major}},
 	  ];
 
@@ -230,6 +235,8 @@ print "Creating a release for ($label)\n";
 
 # add the record
 
+#t perhaps should convert the pre-release entry to an array ?
+
 if (exists $releases->{$major}->{$minor}->{$micro}
     && $micro ne 'pre-release')
 {
@@ -238,9 +245,9 @@ if (exists $releases->{$major}->{$minor}->{$micro}
 
 $releases->{$major}->{$minor}->{$micro} = $record;
 
-# remove the corresponding pre-release record (if any)
+# # remove the corresponding pre-release record (if any)
 
-delete $releases->{$major}->{$minor}->{'pre-release'};
+# delete $releases->{$major}->{$minor}->{'pre-release'};
 
 # link the new releases with the database
 
