@@ -66,7 +66,7 @@ my $email = $ARGV[5] || '';
 my $config
     = {
        files => [
-		 './build-dist',
+		 './test-dist',
 		 './configure.ac',
 		 './glue/configure.ac',
 		 './glue/swig/perl/configure.ac',
