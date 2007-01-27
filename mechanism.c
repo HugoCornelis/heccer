@@ -24,129 +24,6 @@
 #include "heccer/heccer.h"
 
 
-/* /// ************************************************************************** */
-/* /// */
-/* /// SHORT: HeccerMechanismBuildIndex() */
-/* /// */
-/* /// ARGS.: */
-/* /// */
-/* ///	pheccer...: a heccer. */
-/* /// */
-/* /// RTN..: int */
-/* /// */
-/* ///	success of operation. */
-/* /// */
-/* /// DESCR: Index mechanism structures. */
-/* /// */
-/* /// ************************************************************************** */
-
-/* int HeccerMechanismBuildIndex(struct Heccer *pheccer) */
-/* { */
-/*     //- set default result : success */
-
-/*     int iResult = TRUE; */
-
-/*     //- set default result : start of mechanisms */
-
-/*     struct MathComponent *pmc = (struct MathComponent *)pheccer->inter.pvMechanism; */
-
-/*     //- allocate the index */
-
-/*     struct MathComponent **ppmcIndex */
-/* 	= (struct MathComponent **)calloc(pheccer->inter.iMechanisms, sizeof(struct MathComponent *)); */
-
-/*     if (!ppmcIndex) */
-/*     { */
-/* 	return(FALSE); */
-/*     } */
-
-/*     pheccer->inter.ppmcIndex = ppmcIndex; */
-
-/*     //- loop over all mechanisms */
-
-/*     int i; */
-
-/*     for (i = 0 ; i < pheccer->inter.iMechanisms ; i++) */
-/*     { */
-/* 	//- initialize the index */
-
-/* 	ppmcIndex[i] = pmc; */
-
-/* 	//- look at mechanism type */
-
-/* 	int iType = pmc->iType; */
-
-/* 	switch (iType) */
-/* 	{ */
-/* 	    //- for a callout */
-
-/* 	case MATH_TYPE_CallOut_conductance_current: */
-/* 	{ */
-/* 	    //- get type specific data */
-
-/* 	    struct Callout *pcall = (struct Callout *)pmc; */
-
-/* 	    RETREIVE_MATH_COMPONENT(pmc,pcall,(struct Callout *)); */
-
-/* 	    break; */
-/* 	} */
-
-/* 	//- for an regular channel with activation and inactivation */
-
-/* 	case MECHANISM_TYPE_ChannelActInact: */
-/* 	{ */
-/* 	    //- get type specific data */
-
-/* 	    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc; */
-
-/* 	    RETREIVE_MATH_COMPONENT(pmc,pcai,(struct ChannelActInact *)); */
-
-/* 	    break; */
-/* 	} */
-
-/* 	//- for a channel with a potential and a concentration dependence */
-
-/* 	case MECHANISM_TYPE_ChannelActConc: */
-/* 	{ */
-/* 	    //- get type specific data */
-
-/* 	    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc; */
-
-/* 	    RETREIVE_MATH_COMPONENT(pmc,pcac,(struct ChannelActConc *)); */
-
-/* 	    break; */
-/* 	} */
-
-/* 	//- for an exponential decaying variable */
-
-/* 	case MECHANISM_TYPE_ExponentialDecay: */
-/* 	{ */
-/* 	    //- get type specific data */
-
-/* 	    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)pmc; */
-
-/* 	    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *)); */
-
-/* 	    break; */
-/* 	} */
-/* 	default: */
-/* 	{ */
-/* 	    //t HeccerError(number, message, varargs); */
-
-/* 	    fprintf */
-/* 		(stderr, */
-/* 		 "Heccer the hecc : unknown pmc->iType (%i)\n", iType); */
-/* 	    break; */
-/* 	} */
-/* 	} */
-/*     } */
-
-/*     //- return result */
-
-/*     return(iResult); */
-/* } */
-
-
 /// **************************************************************************
 ///
 /// SHORT: HeccerMechanismCompile()
@@ -986,9 +863,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //- look at next mechanism
 
-/* 	//t mechanisms could go here (preferred cause it groups the */
-/* 	//t mechanism data for the leak). */
-
 	    switch (piMop[0])
 	    {
 		//- for a call out
@@ -1129,13 +1003,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		double dState;
 
 		//- for a concentration dependent gate
-
-		//t two cases: gate is dependent on membrane potential,
-		//t or gate is dependent on an internally solved variable.
-		//t
-		//t so I actually only need an offset into mats, which
-		//t is supposedly given by the mechanism number +
-		//t subnumber
 
 		if (pdState)
 		{
@@ -1456,6 +1323,10 @@ int HeccerMechanismSort(struct Heccer *pheccer)
     //t qsort mechanisms per compartment
 
     //t sort on Ek, see adaptive time step paper and hsolve implementation.
+
+    //t the concentration should come at the end of the mechanisms for
+    //t each compartment, or look for another solution for the
+    //t currently broken concentration count.
 
     //- return result
 
