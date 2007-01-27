@@ -2,6 +2,8 @@ Makefile$
 Makefile.in$
 ^Heccer
 ^docs/various.txt$
+^doxy$
+^doxygen
 ^glue/swig/perl/Heccer.pm$
 ^glue/swig/perl/heccer_wrap.c$
 ^html/
