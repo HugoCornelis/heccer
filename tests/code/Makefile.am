@@ -16,7 +16,7 @@
 ##############################################################################
 
 
-AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations
+AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
 
 # ease debugging
 
