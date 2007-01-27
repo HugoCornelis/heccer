@@ -57,7 +57,7 @@ addmsg c2/cat c2/p I_Ca Ik
 
 create tabchannel c2/kc
 setfield c2/kc \
-	Ek -0.085 \
+	Ek 85 \
 	Gbar 2.80747571e-07 \
 	Ik 0.0 \
 	Gk 0.0 \

@@ -1125,6 +1125,499 @@ VM Membrane Potentials (pdVms[1]) : (-0.0348529)
 						 ],
 				description => "pool integration, two compartments, two pools",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/pool-feedback',
+				command_tests => [
+						  {
+						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop ?",
+						   read => [ 'Initiated
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.068)
+-------
+Iteration 0
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (1e-06)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0679742)
+-------
+Iteration 100
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000101)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0652054)
+-------
+Iteration 200
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000201)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0618936)
+-------
+Iteration 300
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000301)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0577962)
+-------
+Iteration 400
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000401)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0525038)
+-------
+Iteration 500
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000501)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0452724)
+-------
+Iteration 600
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000601)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0347434)
+-------
+Iteration 700
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000701)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0187337)
+-------
+Iteration 800
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000801)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (0.00483287)
+-------
+Iteration 900
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.000901)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (0.0356522)
+-------
+Iteration 1000
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer (dTime) : (0.001)
+Heccer (dStep) : (1e-06)
+Heccer (pvService) : ((nil))
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (4)
+Compartment operations
+-----
+00000 :: 4			HECCER_COP_FINISH
+00001 :: 4			HECCER_COP_FINISH
+Mechanism operations
+-----
+00000 :: 1			HECCER_MOP_COMPARTMENT
+00001 :: 20 85 2.80748e-07			HECCER_MOP_INITIALIZECHANNEL 85 2.80748e-07
+00006 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00007 :: 22    0    1    0			HECCER_MOP_CONCEPTGATE    0    1    0
+00011 :: 22    1    2 134739616			HECCER_MOP_CONCEPTGATE    1    2 134739616
+00015 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00016 :: 24 9412.39 4e-05 1.005			HECCER_MOP_EXPONENTIALDECAY 9412.39 4e-05 1.005
+00023 :: 20 0.147021 1.75467e-09			HECCER_MOP_INITIALIZECHANNEL 0.147021 1.75467e-09
+00028 :: 21			HECCER_MOP_LOADVOLTAGETABLE
+00029 :: 22    2    1    0			HECCER_MOP_CONCEPTGATE    2    1    0
+00033 :: 22    3    1    0			HECCER_MOP_CONCEPTGATE    3    1    0
+00037 :: 30			HECCER_MOP_UPDATECOMPARTMENTCURRENT
+00038 :: 26			HECCER_MOP_REGISTERCHANNELCURRENT
+00039 :: 25    1			HECCER_MOP_FLUXPOOL    1
+00041 :: 2			HECCER_MOP_FINISH
+VM Fluxes (pdFluxes[0]) : (0)
+VM Diagonals (pdDiagonals[0]) : (1.00001)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (0.0708423)
+', ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "pool integration, one compartment, one pool with a feedback loop",
+			       },
 			      ],
        description => "pool integration",
        name => 'pools.t',
