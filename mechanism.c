@@ -110,10 +110,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	iMats = 0;
 
-	//v actual concentration number
-
-	int iConcentrations = 0;
-
 	//- loop over all compartments via their schedule number
 
 	int iSchedule;
@@ -265,9 +261,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-/* 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->iPool); */
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iConcentrations);
+			//! initial flux is assumed to be zero, always
+
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
 		    }
 
 		    //- register result from tabulation for outcome of this function
@@ -277,7 +276,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 
-		//- for a channel with a potential and a concentration dependence
+		//- for a channel with a potential and an external dependence
 
 		case MECHANISM_TYPE_ChannelActConc:
 		{
@@ -328,19 +327,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    double *pdState = (double *)iMatsActivator;
 
-		    if (pheccer->vm.ppdConcentrations
-			&& !pdState)
-		    {
-			//t HeccerError(number, message, varargs);
-
-			fprintf
-			    (stderr,
-			     "Heccer the hecc : a gate is concentration dependent,"
-			     " but the concentration cannot be found"
-			     " (mechanism %i, concentration %i)\n", iMathComponent, pcac->pac.ac.iActivator);
-		    }
-
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower,pdState);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower, pdState);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -360,9 +347,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-/* 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->iPool); */
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iConcentrations);
+			//! initial flux is assumed to be zero, always
+
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
 		    }
 
 		    //- register result from tabulation for outcome of this function
@@ -382,27 +372,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
 
-		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau));
+		    //- get math component number
 
-		    //- keep concentration index
+		    int iMathComponentExternal = pexdec->iExternal;
 
-		    //t mmm, this is definitely in the wrong place:
-		    //t 1. should go after the setmat operation
-		    //t 2. is dependent on the size of the struct MatsExponentialDecay
+		    //- convert math component to mat number, convert mat number to mat addressable
 
-		    //t so, if this is wrong, let's code it in the wrong way too,
-		    //t dzjee, I must have had a bad day.
+		    int iMatsExternal = piMC2Mat ? piMC2Mat[iMathComponentExternal] : -1;
 
-		    struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pvMats;
+		    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
 
-		    (double *)pheccer->vm.ppdConcentrations
-			&& (pheccer->vm.ppdConcentrations[iConcentrations] = &pmats->dState);
+		    double *pdExternal = (double *)iMatsExternal;
+
+		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), pdExternal);
 
 		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pexdec->dInitValue);
-
-		    //- increment concentration index
-
-		    iConcentrations++;
 
 		    break;
 		}
@@ -440,12 +424,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	if (iCountIndexCompile == 0)
 	{
-	    //- prepare for indexing : set counter and allocate indexes
-
-	    pheccer->vm.iFluxes = iConcentrations;
-
-	    pheccer->vm.iConcentrations = iConcentrations;
-
 	    pheccer->vm.iMopNumber = iMopNumber;
 
 	    pheccer->vm.ppvMopsIndex = (void **)calloc(iMopNumber + 1, sizeof(void *));
@@ -484,14 +462,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    pvMats = pheccer->vm.pvMats;
 
 	    pheccer->vm.iMats = iMats;
-
-	    pheccer->vm.pdFluxes = (double *)calloc(iConcentrations, sizeof(double));
-
-	    pheccer->vm.iFluxes = iConcentrations;
-
-	    pheccer->vm.ppdConcentrations = (double **)calloc(iConcentrations, sizeof(double *));
-
-	    pheccer->vm.iConcentrations = iConcentrations;
 	}
     }
 
@@ -530,10 +500,6 @@ int HeccerMechanismLink(struct Heccer *pheccer)
     int *piMop = (int *)pheccer->vm.pvMops;
 
     void *pvMats = pheccer->vm.pvMats;
-
-    //v actual concentration number
-
-    int iConcentrations = 0;
 
     //- loop over mechanism operators
 
@@ -710,9 +676,36 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		pvMats = (void *)&pmats[1];
 
-		//- go to next concentration pool
+		//- get possibly solved external flux contribution
 
-		iConcentrations++;
+		double *pdExternal = pmops->pdExternal;
+
+		//- if still an index
+
+		if (pdExternal)
+		{
+		    //- convert index to pointer
+
+		    int iExternal = (int)pdExternal;
+
+		    if (iExternal == -1)
+		    {
+			//t HeccerError(number, message, varargs);
+
+			fprintf
+			    (stderr,
+			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
+			     &piMop[-1] - (int *)pheccer->vm.pvMops);
+
+			return(FALSE);
+		    }
+
+		    double *pdFlux = (double *)pheccer->vm.ppvMatsIndex[iExternal];
+
+		    //- store solved external flux contribution
+
+		    pmops->pdExternal = pdFlux;
+		}
 
 		break;
 	    }
@@ -726,6 +719,12 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		struct MopsFluxPool *pmops = (struct MopsFluxPool *)piMop;
 
 		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+
+		pvMats = (void *)&pmats[1];
 
 		break;
 	    }
@@ -800,25 +799,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     void *pvMats = pheccer->vm.pvMats;
 
-    double *pdFluxes = pheccer->vm.pdFluxes;
-
     double *pdResults = &pheccer->vm.pdResults[0];
-
-    //- zero out all fluxes
-
-    //t should check how this can be replaced with regular operators,
-    //t and if so, if it gives an additional performance gain.
-
-    int i;
-
-    for (i = 0 ; i < pheccer->vm.iFluxes ; i++)
-    {
-	pheccer->vm.pdFluxes[i] = 0.0;
-    }
-
-    //v actual concentration number
-
-    int iConcentrations = 0;
 
     //- loop over mechanism operators
 
@@ -1159,15 +1140,18 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- fetch external contribution
 
-		double dExternal = pdFluxes[iConcentrations];
+		double *pdExternal = pmops->pdExternal;
+
+		double dExternal = 0.0;
+
+		if (pdExternal)
+		{
+		    dExternal = *pdExternal;
+		}
 
 		//- exponential decay
 
 		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau;
-
-		//- go to next concentration pool
-
-		iConcentrations++;
 
 		break;
 	    }
@@ -1182,9 +1166,15 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		piMop = (int *)&pmops[1];
 
+		//- go to next type specific data
+
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
 		//- register contribution
 
-		pdFluxes[pmops->iPool] += dSingleChannelCurrent;
+		pmats->dFlux = dSingleChannelCurrent;
 
 		break;
 	    }

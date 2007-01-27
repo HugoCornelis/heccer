@@ -73,9 +73,9 @@ struct ExponentialDecay
 
     double dTau;
 
-    //m mechansims influenced by this component
+    //m external contribution delivered by this intermediary
 
-    int piOthers[10];
+    int iExternal;
 };
 
 

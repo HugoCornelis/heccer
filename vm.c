@@ -84,8 +84,8 @@ static struct HeccerCommandInfo phciMops[] =
 {
     {	HECCER_MOP_CALLOUT,		"HECCER_MOP_CALLOUT",			1 * sizeof(int),	-1,	NULL, },
     {	HECCER_MOP_COMPARTMENT,		"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),	2,     NULL, },
-    {	HECCER_MOP_EXPONENTIALDECAY,	"HECCER_MOP_EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),	-1,	" %g %g %g", },
+    {	HECCER_MOP_CONCEPTGATE,		"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),	2,     NULL, },  //t add pointer, use pcFormat to do this
+    {	HECCER_MOP_EXPONENTIALDECAY,	"HECCER_MOP_EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),	-1,	" %g %g %g %p", },
     {	HECCER_MOP_FINISH,		"HECCER_MOP_FINISH",			1 * sizeof(int),	-1,	NULL, },
     {	HECCER_MOP_FLUXPOOL,		"HECCER_MOP_FLUXPOOL",			sizeof(struct MopsFluxPool),	1,	NULL, },
     {	HECCER_MOP_INITIALIZECHANNEL,	"HECCER_MOP_INITIALIZECHANNEL",		sizeof(struct MopsChannel),	1,	" %g %g", },
@@ -303,17 +303,17 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], &hctMops, 0, iMops, pfile);
     }
 
-    //- dump channel to pool fluxes
+/*     //- dump channel to pool fluxes */
 
-    if (iSelection & HECCER_DUMP_VM_CHANNEL_POOL_FLUXES)
-    {
-	int i;
+/*     if (iSelection & HECCER_DUMP_VM_CHANNEL_POOL_FLUXES) */
+/*     { */
+/* 	int i; */
 
-	for (i = 0 ; i < pvm->iFluxes ; i++)
-	{
-	    fprintf(pfile, "VM Fluxes (pdFluxes[%i]) : (%g)\n", i, pvm->pdFluxes[i]);
-	}
-    }
+/* 	for (i = 0 ; i < pvm->iFluxes ; i++) */
+/* 	{ */
+/* 	    fprintf(pfile, "VM Fluxes (pdFluxes[%i]) : (%g)\n", i, pvm->pdFluxes[i]); */
+/* 	} */
+/*     } */
 
     //- compartment data : diagonals
 

@@ -103,17 +103,17 @@ struct VM
 
     void **ppvMatsIndex;
 
-    //m fluxes link channels and pools
+/*     //m fluxes link channels and pools */
 
-    int iFluxes;
+/*     int iFluxes; */
 
-    double *pdFluxes;
+/*     double *pdFluxes; */
 
-    //m concentrations link pools and channels
+/*     //m concentrations link pools and channels */
 
-    int iConcentrations;
+/*     int iConcentrations; */
 
-    double **ppdConcentrations;
+/*     double **ppdConcentrations; */
 };
 
 
@@ -441,6 +441,9 @@ struct MopsExponentialDecay
 
     double dTau;
 
+    //m possibly solved external flux contribution
+
+    double *pdExternal;
 };
 
 
@@ -451,13 +454,14 @@ struct MatsExponentialDecay
     double dState;
 };
 
-#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT)	\
+#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT,pdE)	\
     ((pvMops)								\
      ? ({ struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_EXPONENTIALDECAY;		\
 	     pmops->dBeta = (dB) ;					\
 	     pmops->dSteadyState = (dS) ;				\
 	     pmops->dTau = (dT) ;					\
+	     pmops->pdExternal = (pdE) ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
@@ -494,9 +498,9 @@ struct MopsFluxPool
 
     int iOperator;
 
-    //m pool index
+/*     //m pool index */
 
-    int iPool;
+/*     int iPool; */
 };
 
 struct MatsFluxPool
@@ -506,11 +510,11 @@ struct MatsFluxPool
     double dFlux;
 };
 
-#define SETMOP_FLUXPOOL(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iP)	\
+#define SETMOP_FLUXPOOL(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops/* ,iP */)	\
     ((pvMops)								\
      ? ({ struct MopsFluxPool *pmops = (struct MopsFluxPool *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_FLUXPOOL;			\
-	     pmops->iPool = (iP) ;					\
+	     /* pmops->iPool = (iP) ; */					\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
