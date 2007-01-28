@@ -149,6 +149,7 @@ HeccerVMDumpOperators
 (char * pcDescription,
  struct VM *pvm,
  int piArray[],
+ double *pdOperands,
  struct HeccerCommandTable *phct,
  int iStart,
  int iEnd,
@@ -278,7 +279,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 	//! cops are allocated as integers, dump array expects char's,
 	//! so that is why we have to multiply here.
 
-	HeccerVMDumpOperators("Compartment operations", pvm, &piCops[0], &hctCops, 0, iCops * sizeof(int), pfile);
+	HeccerVMDumpOperators("Compartment operations", pvm, &piCops[0], NULL, &hctCops, 0, iCops * sizeof(int), pfile);
     }
 
     //- dump mechanism data
@@ -300,7 +301,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 	int *piMops = (int *)pvm->pvMops;
 
-	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], &hctMops, 0, iMops, pfile);
+	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], pvm->pvMats, &hctMops, 0, iMops, pfile);
     }
 
 /*     //- dump channel to pool fluxes */
@@ -411,7 +412,8 @@ int
 HeccerVMDumpOperators
 (char * pcDescription,
  struct VM *pvm,
- int piArray[],
+ int piOperators[],
+ double *pdOperands,
  struct HeccerCommandTable *phct,
  int iStart,
  int iEnd,
@@ -443,7 +445,7 @@ HeccerVMDumpOperators
 
 	//- get current command
 
-	iCommand = piArray[i / sizeof(int)];
+	iCommand = piOperators[i / sizeof(int)];
 
 	//- lookup info for current operand
 
@@ -470,7 +472,7 @@ HeccerVMDumpOperators
 
 		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
 		    {
-			double *pd = (double *)&piArray[(i + j) / sizeof(int)];
+			double *pd = (double *)&piOperators[(i + j) / sizeof(int)];
 
 			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
 
@@ -491,7 +493,7 @@ HeccerVMDumpOperators
 
 			//- get current operand
 
-			iOperand = piArray[(i + j) / sizeof(int)];
+			iOperand = piOperators[(i + j) / sizeof(int)];
 
 			fprintf(pfile, " %4i", iOperand);
 		    }
@@ -518,7 +520,7 @@ HeccerVMDumpOperators
 
 		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
 		    {
-			double *pd = (double *)&piArray[(i + j) / sizeof(int)];
+			double *pd = (double *)&piOperators[(i + j) / sizeof(int)];
 
 			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
 
@@ -539,12 +541,16 @@ HeccerVMDumpOperators
 
 			//- get current operand
 
-			iOperand = piArray[(i + j) / sizeof(int)];
+			iOperand = piOperators[(i + j) / sizeof(int)];
 
 			fprintf(pfile, " %4i", iOperand);
 		    }
 		}
 	    }
+	}
+	else
+	{
+	    fprintf(pfile, " Error: %4i command not found in command table", iCommand);
 	}
 
 	//- terminate line

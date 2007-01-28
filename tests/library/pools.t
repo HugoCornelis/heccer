@@ -1092,7 +1092,7 @@ VM Membrane Potentials (pdVms[1]) : (-0.0348529)
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/pool-feedback1',
+				command => 'tests/code/pool1-feedback1',
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop ?",
@@ -1573,7 +1573,7 @@ VM Membrane Potentials (pdVms[0]) : (0.0708423)
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/pool-feedback2',
+				command => 'tests/code/pool1-feedback2',
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop, reversed order ?",

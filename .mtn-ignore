@@ -17,8 +17,8 @@ Makefile.in$
 ^tests/code/fork4p1$
 ^tests/code/fork4p2$
 ^tests/code/fork4p3$
-^tests/code/pool-feedback1$
-^tests/code/pool-feedback2$
+^tests/code/pool1-feedback1$
+^tests/code/pool1-feedback2$
 ^tests/code/pool1$
 ^tests/code/pool2$
 ^tests/code/singlea-naf$
