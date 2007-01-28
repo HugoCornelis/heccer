@@ -41,6 +41,10 @@ struct HeccerCommandInfo
     //m sprintf format string
 
     char *pcFormat;
+
+    //m number of secondary operands
+
+    int iSecondaries;
 };
 
 
@@ -83,8 +87,8 @@ static struct HeccerCommandTable hctCops =
 static struct HeccerCommandInfo phciMops[] =
 {
     {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			-1,	NULL, },  //t add pointer, use pcFormat to do this
+    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					-1,	NULL, 4, },
+    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			2,	" %i %i %g", },
     {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g %g", },
     {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL, },
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL, },
@@ -459,62 +463,6 @@ HeccerVMDumpOperators
 
 	if (phciCurrent)
 	{
-/* 	    //- if operand length is valid */
-
-/* 	    if (phciCurrent->iLength >= 2) */
-/* 	    { */
-/* 		if (phciCurrent->pcFormat) */
-/* 		{ */
-/* 		    //t so only for five doubles ... */
-
-/* 		    char pc[100]; */
-/* 		    int j; */
-
-/* 		    for (j = sizeof(int) ; j < phciCurrent->iLength ;) */
-/* 		    { */
-/* 			void *pv = (void *)&piOperators[(i + j) / sizeof(int)]; */
-
-/* 			if (phciCurrent->iFormatterType == 0) */
-/* 			{ */
-/* 			    double *pd = (double *)pv; */
-
-/* 			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]); */
-
-/* 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double); */
-/* 			} */
-/* 			else if (phciCurrent->iFormatterType == 1) */
-/* 			{ */
-/* 			    double *pd = (double *)pv; */
-
-/* 			    double **ppd = (double **)&pd[3]; */
-
-/* 			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], **ppd); */
-
-/* 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *); */
-/* 			} */
-/* 		    } */
-
-/* 		    fprintf(pfile, "%s", pc); */
-/* 		} */
-/* 		else */
-/* 		{ */
-/* 		    //- print operands numerically */
-
-/* 		    int j; */
-
-/* 		    for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int)) */
-/* 		    { */
-/* 			int iOperand; */
-
-/* 			//- get current operand */
-
-/* 			iOperand = piOperators[(i + j) / sizeof(int)]; */
-
-/* 			fprintf(pfile, " %4i", iOperand); */
-/* 		    } */
-/* 		} */
-/* 	    } */
-
 	    //- print name of operator
 
 	    fprintf
@@ -555,6 +503,23 @@ HeccerVMDumpOperators
 
 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
 			}
+			else if (phciCurrent->iFormatterType == 2)
+			{
+			    int *pi = (int *)pv;
+
+			    double **ppd = (double **)&pi[2];
+
+			    if (*ppd)
+			    {
+				sprintf(pc, " %i %i (%g)", pi[0], pi[1], **ppd);
+			    }
+			    else
+			    {
+				sprintf(pc, " %i %i (nil)", pi[0], pi[1], NULL);
+			    }
+
+			    j += sizeof(int) + sizeof(int) + sizeof(double *);
+			}
 		    }
 
 		    fprintf(pfile, "%s", pc);
@@ -575,6 +540,13 @@ HeccerVMDumpOperators
 
 			fprintf(pfile, " %4i", iOperand);
 		    }
+		}
+
+		//- if a secondary operands array is given
+
+		if (pdOperands)
+		{
+		    
 		}
 	    }
 	}
