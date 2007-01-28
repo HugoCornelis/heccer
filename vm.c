@@ -62,12 +62,12 @@ struct HeccerCommandTable
 
 static struct HeccerCommandInfo phciCops[] =
 {
-    {	HECCER_COP_FORWARD_ELIMINATION,		"HECCER_COP_FORWARD_ELIMINATION",	2 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"HECCER_COP_BACKWARD_SUBSTITUTION",	2 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_FINISH_ROW,			"HECCER_COP_FINISH_ROW",		1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_FINISH,			"HECCER_COP_FINISH",			1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_SET_DIAGONAL,		"HECCER_COP_SET_DIAGONAL",		1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_NEXT_ROW,			"HECCER_COP_NEXT_ROW",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FORWARD_ELIMINATION,		"FORWARD_ELIMINATION",		2 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"BACKWARD_SUBSTITUTION",	2 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FINISH_ROW,			"FINISH_ROW",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FINISH,			"FINISH",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_SET_DIAGONAL,		"SET_DIAGONAL",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_NEXT_ROW,			"NEXT_ROW",			1 * sizeof(int),	-1,	NULL, },
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
@@ -82,16 +82,16 @@ static struct HeccerCommandTable hctCops =
 
 static struct HeccerCommandInfo phciMops[] =
 {
-    {	HECCER_MOP_CALLOUT,			"HECCER_MOP_CALLOUT",			1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_COMPARTMENT,			"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_CONCEPTGATE,			"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),			-1,	NULL, },  //t add pointer, use pcFormat to do this
-    {	HECCER_MOP_EXPONENTIALDECAY,		"HECCER_MOP_EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g %g", },
-    {	HECCER_MOP_FINISH,			"HECCER_MOP_FINISH",			1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_FLUXPOOL,			"HECCER_MOP_FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL, },
-    {	HECCER_MOP_INITIALIZECHANNEL,		"HECCER_MOP_INITIALIZECHANNEL",		sizeof(struct MopsChannel),				0,	" %g %g", },
-    {	HECCER_MOP_LOADVOLTAGETABLE,		"HECCER_MOP_LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL, },
-    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"HECCER_MOP_REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL, },
-    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"HECCER_MOP_UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL, },
+    {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					-1,	NULL, },
+    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					-1,	NULL, },
+    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			-1,	NULL, },  //t add pointer, use pcFormat to do this
+    {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g %g", },
+    {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL, },
+    {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL, },
+    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsChannel),				0,	" %g %g", },
+    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL, },
+    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL, },
+    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL, },
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
@@ -459,67 +459,67 @@ HeccerVMDumpOperators
 
 	if (phciCurrent)
 	{
-	    //- if operand length is valid
+/* 	    //- if operand length is valid */
 
-	    if (phciCurrent->iLength >= 2)
-	    {
-		if (phciCurrent->pcFormat)
-		{
-		    //t so only for five doubles ...
+/* 	    if (phciCurrent->iLength >= 2) */
+/* 	    { */
+/* 		if (phciCurrent->pcFormat) */
+/* 		{ */
+/* 		    //t so only for five doubles ... */
 
-		    char pc[100];
-		    int j;
+/* 		    char pc[100]; */
+/* 		    int j; */
 
-		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
-		    {
-			void *pv = (void *)&piOperators[(i + j) / sizeof(int)];
+/* 		    for (j = sizeof(int) ; j < phciCurrent->iLength ;) */
+/* 		    { */
+/* 			void *pv = (void *)&piOperators[(i + j) / sizeof(int)]; */
 
-			if (phciCurrent->iFormatterType == 0)
-			{
-			    double *pd = (double *)pv;
+/* 			if (phciCurrent->iFormatterType == 0) */
+/* 			{ */
+/* 			    double *pd = (double *)pv; */
 
-			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
+/* 			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]); */
 
-			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
-			}
-			else if (phciCurrent->iFormatterType == 1)
-			{
-			    double *pd = (double *)pv;
+/* 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double); */
+/* 			} */
+/* 			else if (phciCurrent->iFormatterType == 1) */
+/* 			{ */
+/* 			    double *pd = (double *)pv; */
 
-			    double **ppd = (double **)&pd[3];
+/* 			    double **ppd = (double **)&pd[3]; */
 
-			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], **ppd);
+/* 			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], **ppd); */
 
-			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
-			}
-		    }
+/* 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *); */
+/* 			} */
+/* 		    } */
 
-		    fprintf(pfile, "%s", pc);
-		}
-		else
-		{
-		    //- print operands numerically
+/* 		    fprintf(pfile, "%s", pc); */
+/* 		} */
+/* 		else */
+/* 		{ */
+/* 		    //- print operands numerically */
 
-		    int j;
+/* 		    int j; */
 
-		    for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int))
-		    {
-			int iOperand;
+/* 		    for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int)) */
+/* 		    { */
+/* 			int iOperand; */
 
-			//- get current operand
+/* 			//- get current operand */
 
-			iOperand = piOperators[(i + j) / sizeof(int)];
+/* 			iOperand = piOperators[(i + j) / sizeof(int)]; */
 
-			fprintf(pfile, " %4i", iOperand);
-		    }
-		}
-	    }
+/* 			fprintf(pfile, " %4i", iOperand); */
+/* 		    } */
+/* 		} */
+/* 	    } */
 
 	    //- print name of operator
 
 	    fprintf
 		(pfile,
-		 "\t\t\t%s",
+		 "\t%s",
 		 phciCurrent->pcName);
 
 	    //- if operand length is valid
