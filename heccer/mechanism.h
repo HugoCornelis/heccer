@@ -257,7 +257,7 @@ struct ChannelActInact
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
@@ -328,7 +328,7 @@ struct ChannelActConc
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 

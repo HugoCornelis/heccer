@@ -107,7 +107,7 @@ struct ChannelActInact caiCaT =
 
     1.394928884e-08,
 
-    //m contributes to this concentration pool
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     1,
 

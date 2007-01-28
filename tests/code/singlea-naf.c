@@ -104,7 +104,7 @@ struct ChannelActInact caiNaF =
 
     0.0002092393115,
 
-    //m contributes to this concentration pool, -1 for none
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     -1,
 

@@ -1086,7 +1086,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		piMop = &piMop[1];
 
-		//- compute conductance for matrix left side
+		//- compute single channel current
 
 		dSingleChannelCurrent = dChannelConductance * (dReversalPotential - dVm);
 
@@ -1140,16 +1140,30 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- fetch external contribution
 
+		//! so after the channel mat comes the flux mat.  This
+		//! is a hack ... which could be solved, by having an
+		//! intermediary that linearizes and specifies
+		//! _all_ the equations (so including fluxes).
+
+		//t In other words, the test 'if (pcac->iPool != -1)'
+		//t should be removed and the removal should be
+		//t counterbalanced by the neccessary specifications
+		//t for a flux in the intermediary.  Then, these
+		//t specification are compiled to HECCER_MOP_FLUXPOOL
+		//t byte code.
+
+		//t needs a careful check again.
+
 		double *pdExternal = pmops->pdExternal;
 
 		double dExternal = 0.0;
 
 		if (pdExternal)
 		{
-		    dExternal = *pdExternal;
+		    dExternal = pdExternal[0];
 		}
 
-		//- exponential decay
+		//- exponential decay with possibly external influx
 
 		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau;
 
