@@ -34,6 +34,10 @@ struct HeccerCommandInfo
 
     int iLength;
 
+    //m type of formatter, -1 means none, zero means all doubles
+
+    int iFormatterType;
+
     //m sprintf format string
 
     char *pcFormat;
@@ -58,13 +62,13 @@ struct HeccerCommandTable
 
 static struct HeccerCommandInfo phciCops[] =
 {
-    {	HECCER_COP_FORWARD_ELIMINATION,		"HECCER_COP_FORWARD_ELIMINATION",	2 * sizeof(int),	NULL, },
-    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"HECCER_COP_BACKWARD_SUBSTITUTION",	2 * sizeof(int),	NULL, },
-    {	HECCER_COP_FINISH_ROW,			"HECCER_COP_FINISH_ROW",		1 * sizeof(int),	NULL, },
-    {	HECCER_COP_FINISH,			"HECCER_COP_FINISH",			1 * sizeof(int),	NULL, },
-    {	HECCER_COP_SET_DIAGONAL,		"HECCER_COP_SET_DIAGONAL",		1 * sizeof(int),	NULL, },
-    {	HECCER_COP_NEXT_ROW,			"HECCER_COP_NEXT_ROW",			1 * sizeof(int),	NULL, },
-    {    -1,	NULL,	-1,	NULL,	},
+    {	HECCER_COP_FORWARD_ELIMINATION,		"HECCER_COP_FORWARD_ELIMINATION",	2 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"HECCER_COP_BACKWARD_SUBSTITUTION",	2 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FINISH_ROW,			"HECCER_COP_FINISH_ROW",		1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_FINISH,			"HECCER_COP_FINISH",			1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_SET_DIAGONAL,		"HECCER_COP_SET_DIAGONAL",		1 * sizeof(int),	-1,	NULL, },
+    {	HECCER_COP_NEXT_ROW,			"HECCER_COP_NEXT_ROW",			1 * sizeof(int),	-1,	NULL, },
+    {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
 
@@ -78,17 +82,17 @@ static struct HeccerCommandTable hctCops =
 
 static struct HeccerCommandInfo phciMops[] =
 {
-    {	HECCER_MOP_CALLOUT,			"HECCER_MOP_CALLOUT",			1 * sizeof(int),					NULL, },
-    {	HECCER_MOP_COMPARTMENT,			"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),					NULL, },
-    {	HECCER_MOP_CONCEPTGATE,			"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),			NULL, },  //t add pointer, use pcFormat to do this
-    {	HECCER_MOP_EXPONENTIALDECAY,		"HECCER_MOP_EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			" %g %g %g %p", },
-    {	HECCER_MOP_FINISH,			"HECCER_MOP_FINISH",			1 * sizeof(int),					NULL, },
-    {	HECCER_MOP_FLUXPOOL,			"HECCER_MOP_FLUXPOOL",			sizeof(struct MopsFluxPool),				NULL, },
-    {	HECCER_MOP_INITIALIZECHANNEL,		"HECCER_MOP_INITIALIZECHANNEL",		sizeof(struct MopsChannel),				" %g %g", },
-    {	HECCER_MOP_LOADVOLTAGETABLE,		"HECCER_MOP_LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		NULL, },
-    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"HECCER_MOP_REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		NULL, },
-    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"HECCER_MOP_UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		NULL, },
-    {    -1,	NULL,	-1,	NULL,	},
+    {	HECCER_MOP_CALLOUT,			"HECCER_MOP_CALLOUT",			1 * sizeof(int),					-1,	NULL, },
+    {	HECCER_MOP_COMPARTMENT,			"HECCER_MOP_COMPARTMENT",		1 * sizeof(int),					-1,	NULL, },
+    {	HECCER_MOP_CONCEPTGATE,			"HECCER_MOP_CONCEPTGATE",		sizeof(struct MopsSingleGateConcept),			-1,	NULL, },  //t add pointer, use pcFormat to do this
+    {	HECCER_MOP_EXPONENTIALDECAY,		"HECCER_MOP_EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g %g", },
+    {	HECCER_MOP_FINISH,			"HECCER_MOP_FINISH",			1 * sizeof(int),					-1,	NULL, },
+    {	HECCER_MOP_FLUXPOOL,			"HECCER_MOP_FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL, },
+    {	HECCER_MOP_INITIALIZECHANNEL,		"HECCER_MOP_INITIALIZECHANNEL",		sizeof(struct MopsChannel),				0,	" %g %g", },
+    {	HECCER_MOP_LOADVOLTAGETABLE,		"HECCER_MOP_LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL, },
+    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"HECCER_MOP_REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL, },
+    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"HECCER_MOP_UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL, },
+    {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
 
@@ -468,11 +472,26 @@ HeccerVMDumpOperators
 
 		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
 		    {
-			double *pd = (double *)&piOperators[(i + j) / sizeof(int)];
+			void *pv = (void *)&piOperators[(i + j) / sizeof(int)];
 
-			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
+			if (phciCurrent->iFormatterType == 0)
+			{
+			    double *pd = (double *)pv;
 
-			j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
+			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
+
+			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
+			}
+			else if (phciCurrent->iFormatterType == 1)
+			{
+			    double *pd = (double *)pv;
+
+			    double **ppd = (double **)&pd[3];
+
+			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], **ppd);
+
+			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
+			}
 		    }
 
 		    fprintf(pfile, "%s", pc);
@@ -516,11 +535,26 @@ HeccerVMDumpOperators
 
 		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
 		    {
-			double *pd = (double *)&piOperators[(i + j) / sizeof(int)];
+			void *pv = (void *)&piOperators[(i + j) / sizeof(int)];
 
-			sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
+			if (phciCurrent->iFormatterType == 0)
+			{
+			    double *pd = (double *)pv;
 
-			j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
+			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
+
+			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
+			}
+			else if (phciCurrent->iFormatterType == 1)
+			{
+			    double *pd = (double *)pv;
+
+			    double **ppd = (double **)&pd[3];
+
+			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], **ppd);
+
+			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
+			}
 		    }
 
 		    fprintf(pfile, "%s", pc);
