@@ -41,8 +41,6 @@ HeccerMDFlowEnumeratorL
 
 static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments);
 
-static int HeccerMDInitialize(struct Heccer *pheccer, int iCompartments);
-
 static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 
 
@@ -337,65 +335,6 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerMDInitialize()
-///
-/// ARGS.:
-///
-///	pheccer........: a heccer.
-///	iCompartments..: number of compartments.
-///
-/// RTN..: int
-///
-///	success of operation.
-///
-/// DESCR: Initialize minimum degree indexing arrays.
-///
-/// **************************************************************************
-
-static int HeccerMDInitialize(struct Heccer *pheccer, int iCompartments)
-{
-    //- set default result : ok
-
-    int iResult = TRUE;
-
-    struct MinimumDegree *pmd = &pheccer->indexers.md;
-
-    //- allocate structural analyzers
-
-/*     int *piParents = (int *)calloc(iCompartments, sizeof(int)); */
-
-    int *piChildren = (int *)calloc(iCompartments, sizeof(int));
-
-    int **ppiChildren = (int **)calloc(iCompartments, sizeof(int));
-
-    //- allocate unordered to minimum
-
-    int *piForward = (int *)calloc(iCompartments, sizeof(int));
-
-    //- allocate minimum to unordered
-
-    int *piBackward = (int *)calloc(iCompartments, sizeof(int));
-
-    //- set pointers
-
-/*     pmd->piParents = piParents; */
-
-    pmd->piChildren = piChildren;
-
-    pmd->ppiChildren = ppiChildren;
-
-    pmd->piForward = piForward;
-
-    pmd->piBackward = piBackward;
-
-    //- return result
-
-    return(/* piParents &&  */piChildren && ppiChildren && piForward && piBackward);
-}
-
-
-/// **************************************************************************
-///
 /// SHORT: HeccerMDStructuralyze()
 ///
 /// ARGS.:
@@ -559,10 +498,6 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
     {
 	return(TRUE);
     }
-
-/*     //- initialize minimum degree indexing arrays */
-
-/*     iResult = iResult && HeccerMDInitialize(pheccer, pheccer->inter.iCompartments); */
 
     //- build structural indices
 
