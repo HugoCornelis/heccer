@@ -1153,6 +1153,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau;
 
+		//- save state
+
+		pmats->dState = dState;
+
 		break;
 	    }
 

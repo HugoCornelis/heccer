@@ -292,6 +292,10 @@ struct ExponentialDecay exdecCa =
     //m tau
 
     0.00010,
+
+    //m external contribution delivered by this intermediary
+
+    0,
 };
 
 
