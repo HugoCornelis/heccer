@@ -16,6 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <string.h>
+
 #include "heccer/heccer.h"
 #include "heccer/vm.h"
 
@@ -42,9 +44,13 @@ struct HeccerCommandInfo
 
     char *pcFormat;
 
-    //m number of secondary operands
+    //m number of secondary operands, expressed in doubles
 
     int iSecondaries;
+
+    //m sizeof secondaries
+
+    int iSecondariesSize;
 };
 
 
@@ -86,16 +92,16 @@ static struct HeccerCommandTable hctCops =
 
 static struct HeccerCommandInfo phciMops[] =
 {
-    {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					-1,	NULL, 4, },
-    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			2,	" %i %i %g", },
-    {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g %g", },
-    {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL, },
-    {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL, },
-    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsChannel),				0,	" %g %g", },
-    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL, },
-    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL, },
-    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL, },
+    {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					-1,	NULL,			0,	sizeof(struct MatsCallout),	},
+    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					-1,	NULL,			4,	sizeof(struct MatsCompartment),	},
+    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			2,	" %i %i (%g)",		1,	sizeof(struct MatsSingleGateConcept),	},
+    {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g (%g)",	1,	sizeof(struct MatsExponentialDecay),	},
+    {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL,			0,	0,	},
+    {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL,			1,	sizeof(struct MatsFluxPool),	},
+    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsChannel),				0,	" %g %g",		0,	0,	},
+    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL,			0,	0,	},
+    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
+    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
@@ -153,7 +159,7 @@ HeccerVMDumpOperators
 (char * pcDescription,
  struct VM *pvm,
  int piArray[],
- double *pdOperands,
+ void *pvOperands,
  struct HeccerCommandTable *phct,
  int iStart,
  int iEnd,
@@ -417,7 +423,7 @@ HeccerVMDumpOperators
 (char * pcDescription,
  struct VM *pvm,
  int piOperators[],
- double *pdOperands,
+ void *pvOperands,
  struct HeccerCommandTable *phct,
  int iStart,
  int iEnd,
@@ -444,6 +450,9 @@ HeccerVMDumpOperators
 
     for (i = iStart; i < iEnd; )
     {
+	char pcOutput1[500];
+	char pcOutput2[500];
+
 	int iCommand;
 	struct HeccerCommandInfo *phciCurrent = NULL;
 
@@ -455,9 +464,15 @@ HeccerVMDumpOperators
 
 	phciCurrent = HeccerCommandInfoLookup(phct, iCommand);
 
-	//- print numerical info
+	//- print counter
 
-	fprintf(pfile, "%5.5i :: %i", i / sizeof(int), iCommand);
+	sprintf(pcOutput1, "%5.5i ::", i / sizeof(int));
+
+/* 	//- print numerical info */
+
+/* 	fprintf(pcOutput2, " %i", iCommand); */
+
+/* 	strcat(pcOutput1, pcOutput2); */
 
 	//- if found
 
@@ -465,10 +480,9 @@ HeccerVMDumpOperators
 	{
 	    //- print name of operator
 
-	    fprintf
-		(pfile,
-		 "\t%s",
-		 phciCurrent->pcName);
+	    sprintf(pcOutput2, " %s", phciCurrent->pcName);
+
+	    strcat(pcOutput1, pcOutput2);
 
 	    //- if operand length is valid
 
@@ -522,7 +536,9 @@ HeccerVMDumpOperators
 			}
 		    }
 
-		    fprintf(pfile, "%s", pc);
+		    sprintf(pcOutput2, "%s", pc);
+
+		    strcat(pcOutput1, pcOutput2);
 		}
 		else
 		{
@@ -538,15 +554,35 @@ HeccerVMDumpOperators
 
 			iOperand = piOperators[(i + j) / sizeof(int)];
 
-			fprintf(pfile, " %4i", iOperand);
+			sprintf(pcOutput2, " %4i", iOperand);
+
+			strcat(pcOutput1, pcOutput2);
 		    }
 		}
 
 		//- if a secondary operands array is given
 
-		if (pdOperands)
+		if (pvOperands)
 		{
-		    
+		    if (phciCurrent->iSecondaries)
+		    {
+			sprintf(pcOutput2, "\t\t\t\t\t\t\t");
+
+			strcat(pcOutput1, pcOutput2);
+
+			double *pdOperands = (double *)pvOperands;
+
+			int iSecondary;
+
+			for (iSecondary = 0; iSecondary < phciCurrent->iSecondaries; iSecondary++)
+			{
+			    sprintf(pcOutput2, " %g", pdOperands[iSecondary]);
+
+			    strcat(pcOutput1, pcOutput2);
+			}
+		    }
+
+		    pvOperands = (void *)&((char *)pvOperands)[phciCurrent->iSecondariesSize];
 		}
 	    }
 	}
@@ -557,7 +593,7 @@ HeccerVMDumpOperators
 
 	//- terminate line
 
-	fprintf(pfile, "\n");
+	fprintf(pfile, "%s\n", pcOutput1);
 
 	//- add size of operands
 

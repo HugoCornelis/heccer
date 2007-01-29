@@ -251,17 +251,17 @@ Tabulated gate 1, backward (iEntry 48) : (73162.3)
 Tabulated gate 1, backward (iEntry 49) : (86431.1)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 20	INITIALIZECHANNEL 0.045 0.000209239
-00006 :: 21	LOADVOLTAGETABLE
-00007 :: 22	CONCEPTGATE 0 3 (nil)
-00011 :: 22	CONCEPTGATE 1 1 (nil)
-00015 :: 30	UPDATECOMPARTMENTCURRENT
-00016 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00006 :: LOADVOLTAGETABLE
+00007 :: CONCEPTGATE 0 3 (nil)							 1.00061
+00011 :: CONCEPTGATE 1 1 (nil)							 0
+00015 :: UPDATECOMPARTMENTCURRENT
+00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -504,17 +504,17 @@ Tabulated gate 1, backward (iEntry 48) : (73162.3)
 Tabulated gate 1, backward (iEntry 49) : (86431.1)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 20	INITIALIZECHANNEL 0.045 0.000209239
-00006 :: 21	LOADVOLTAGETABLE
-00007 :: 22	CONCEPTGATE 0 3 (nil)
-00011 :: 22	CONCEPTGATE 1 1 (nil)
-00015 :: 30	UPDATECOMPARTMENTCURRENT
-00016 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00006 :: LOADVOLTAGETABLE
+00007 :: CONCEPTGATE 0 3 (nil)							 1.00061
+00011 :: CONCEPTGATE 1 1 (nil)							 0.00096515
+00015 :: UPDATECOMPARTMENTCURRENT
+00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -770,17 +770,17 @@ Tabulated gate 1, backward (iEntry 48) : (1295.66)
 Tabulated gate 1, backward (iEntry 49) : (1296.79)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 20	INITIALIZECHANNEL -0.085 4.18479e-07
-00006 :: 21	LOADVOLTAGETABLE
-00007 :: 22	CONCEPTGATE 0 4 (nil)
-00011 :: 22	CONCEPTGATE 1 1 (nil)
-00015 :: 30	UPDATECOMPARTMENTCURRENT
-00016 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: INITIALIZECHANNEL -0.085 4.18479e-07
+00006 :: LOADVOLTAGETABLE
+00007 :: CONCEPTGATE 0 4 (nil)							 1.00061
+00011 :: CONCEPTGATE 1 1 (nil)							 0
+00015 :: UPDATECOMPARTMENTCURRENT
+00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -1023,17 +1023,17 @@ Tabulated gate 1, backward (iEntry 48) : (1295.66)
 Tabulated gate 1, backward (iEntry 49) : (1296.79)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 20	INITIALIZECHANNEL -0.085 4.18479e-07
-00006 :: 21	LOADVOLTAGETABLE
-00007 :: 22	CONCEPTGATE 0 4 (nil)
-00011 :: 22	CONCEPTGATE 1 1 (nil)
-00015 :: 30	UPDATECOMPARTMENTCURRENT
-00016 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: INITIALIZECHANNEL -0.085 4.18479e-07
+00006 :: LOADVOLTAGETABLE
+00007 :: CONCEPTGATE 0 4 (nil)							 1.00061
+00011 :: CONCEPTGATE 1 1 (nil)							 0.000752919
+00015 :: UPDATECOMPARTMENTCURRENT
+00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)

@@ -41,13 +41,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -82,13 +82,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -123,13 +123,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -164,13 +164,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -205,13 +205,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -246,13 +246,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -287,13 +287,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -328,13 +328,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -369,13 +369,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -410,13 +410,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -451,13 +451,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -503,13 +503,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -544,13 +544,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -585,13 +585,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -626,13 +626,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -667,13 +667,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -708,13 +708,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -749,13 +749,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -790,13 +790,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -831,13 +831,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -872,13 +872,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -913,13 +913,13 @@ MinimumDegree (piBackward[0]) : (0)
 Tables (iTabulatedGateCount) : (0)
 Compartment operations
 -----
-00000 :: 4	FINISH
-00001 :: 4	FINISH
+00000 :: FINISH
+00001 :: FINISH
 Mechanism operations
 -----
-00000 :: 1	COMPARTMENT
-00001 :: 10	CALLOUT
-00002 :: 2	FINISH
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: CALLOUT
+00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)

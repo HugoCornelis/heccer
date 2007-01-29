@@ -284,6 +284,8 @@ struct MopsStoreChannelConductance
     int iOperator;
 };
 
+//t needs to be renamed to MatsStoreChannelConductance
+
 struct MatsChannel
 {
     //m single channel conductance
@@ -514,7 +516,7 @@ struct MatsFluxPool
     ((pvMops)								\
      ? ({ struct MopsFluxPool *pmops = (struct MopsFluxPool *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_FLUXPOOL;			\
-	     /* pmops->iPool = (iP) ; */					\
+	     /* pmops->iPool = (iP) ; */				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
