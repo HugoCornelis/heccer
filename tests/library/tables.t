@@ -258,8 +258,8 @@ Mechanism operations
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
 00001 :: INITIALIZECHANNEL 0.045 0.000209239
 00006 :: LOADVOLTAGETABLE
-00007 :: CONCEPTGATE 0 3 (nil)							 1.00061
-00011 :: CONCEPTGATE 1 1 (nil)							 0
+00007 :: CONCEPTGATE 0 3 (nil)							 0.0078961
+00011 :: CONCEPTGATE 1 1 (nil)							 0.264184
 00015 :: UPDATECOMPARTMENTCURRENT
 00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
@@ -511,14 +511,14 @@ Mechanism operations
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
 00001 :: INITIALIZECHANNEL 0.045 0.000209239
 00006 :: LOADVOLTAGETABLE
-00007 :: CONCEPTGATE 0 3 (nil)							 1.00061
-00011 :: CONCEPTGATE 1 1 (nil)							 0.00096515
+00007 :: CONCEPTGATE 0 3 (nil)							 0.00755189
+00011 :: CONCEPTGATE 1 1 (nil)							 0.264388
 00015 :: UPDATECOMPARTMENTCURRENT
 00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.0680146)
+VM Membrane Potentials (pdVms[0]) : (-0.0680134)
 ', ],
 						   timeout => 18,
 						   write => undef,
@@ -777,8 +777,8 @@ Mechanism operations
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
 00001 :: INITIALIZECHANNEL -0.085 4.18479e-07
 00006 :: LOADVOLTAGETABLE
-00007 :: CONCEPTGATE 0 4 (nil)							 1.00061
-00011 :: CONCEPTGATE 1 1 (nil)							 0
+00007 :: CONCEPTGATE 0 4 (nil)							 0.0837136
+00011 :: CONCEPTGATE 1 1 (nil)							 0.747485
 00015 :: UPDATECOMPARTMENTCURRENT
 00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
@@ -1030,14 +1030,14 @@ Mechanism operations
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
 00001 :: INITIALIZECHANNEL -0.085 4.18479e-07
 00006 :: LOADVOLTAGETABLE
-00007 :: CONCEPTGATE 0 4 (nil)							 1.00061
-00011 :: CONCEPTGATE 1 1 (nil)							 0.000752919
+00007 :: CONCEPTGATE 0 4 (nil)							 0.0835874
+00011 :: CONCEPTGATE 1 1 (nil)							 0.747502
 00015 :: UPDATECOMPARTMENTCURRENT
 00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.0680146)
+VM Membrane Potentials (pdVms[0]) : (-0.0680147)
 ', ],
 						   timeout => 18,
 						   write => undef,

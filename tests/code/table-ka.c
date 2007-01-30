@@ -114,7 +114,7 @@ struct ChannelActInact caiKA =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0,
+	    0.08371356085,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -192,7 +192,7 @@ struct ChannelActInact caiKA =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0,
+	    0.7474853827,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 

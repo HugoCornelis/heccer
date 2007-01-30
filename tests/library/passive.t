@@ -499,7 +499,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -560,7 +560,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -621,7 +621,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -682,7 +682,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -743,7 +743,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -804,7 +804,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -865,7 +865,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -926,7 +926,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -987,7 +987,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -1048,7 +1048,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -1109,7 +1109,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -1199,8 +1199,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1284,8 +1284,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1369,8 +1369,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1454,8 +1454,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1539,8 +1539,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1624,8 +1624,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1709,8 +1709,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1794,8 +1794,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1879,8 +1879,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -1964,8 +1964,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -2049,8 +2049,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -2147,8 +2147,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2232,8 +2232,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2317,8 +2317,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2402,8 +2402,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2487,8 +2487,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2572,8 +2572,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2657,8 +2657,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2742,8 +2742,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2827,8 +2827,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2912,8 +2912,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -2997,8 +2997,8 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00003 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3111,9 +3111,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3220,9 +3220,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3329,9 +3329,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3438,9 +3438,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3547,9 +3547,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3656,9 +3656,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3765,9 +3765,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3874,9 +3874,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -3983,9 +3983,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -4092,9 +4092,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -4201,9 +4201,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -4322,9 +4322,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -4430,9 +4430,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -4538,9 +4538,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -4646,9 +4646,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -4754,9 +4754,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -4862,9 +4862,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -4970,9 +4970,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -5078,9 +5078,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -5186,9 +5186,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -5294,9 +5294,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -5402,9 +5402,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.21315
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (2.21315)
@@ -5523,9 +5523,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -5631,9 +5631,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -5739,9 +5739,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -5847,9 +5847,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -5955,9 +5955,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6063,9 +6063,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6171,9 +6171,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6279,9 +6279,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6387,9 +6387,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6495,9 +6495,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6603,9 +6603,9 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
-00002 :: COMPARTMENT							 218562 1.60688 -2.23189e-10 0
-00003 :: COMPARTMENT							 1.60688 -2.23189e-10 0 218562
+00001 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00002 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
+00003 :: COMPARTMENT							 -2.23189e-10 0 218562 2.81942
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6693,7 +6693,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6754,7 +6754,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6815,7 +6815,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6876,7 +6876,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6937,7 +6937,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -6998,7 +6998,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -7059,7 +7059,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -7120,7 +7120,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -7181,7 +7181,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -7242,7 +7242,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -7303,7 +7303,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.60688
-00001 :: COMPARTMENT							 0 218562 1.60688 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.60688
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.60688)
 VM Diagonals (pdDiagonals[1]) : (1.60688)
@@ -7377,7 +7377,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7438,7 +7438,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7499,7 +7499,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7560,7 +7560,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7621,7 +7621,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7682,7 +7682,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7743,7 +7743,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7804,7 +7804,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7865,7 +7865,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7926,7 +7926,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -7987,7 +7987,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 3.24851
-00001 :: COMPARTMENT							 0 1.73752e+06 3.24851 -2.23189e-10
+00001 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00002 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (3.24851)
 VM Diagonals (pdDiagonals[1]) : (1.28342)
@@ -8189,15 +8189,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -8442,15 +8442,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -8695,15 +8695,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -8948,15 +8948,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -9201,15 +9201,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -9454,15 +9454,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -9707,15 +9707,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -9960,15 +9960,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -10213,15 +10213,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -10466,15 +10466,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
@@ -10719,15 +10719,15 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -8.20896e-12 0 1.98078e+06 4.81827
-00001 :: COMPARTMENT							 0 1.98078e+06 4.81827 -5.48125e-12
-00002 :: COMPARTMENT							 1.98078e+06 4.81827 -5.48125e-12 0
-00003 :: COMPARTMENT							 4.81827 -5.48125e-12 0 2.96651e+06
-00004 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
-00005 :: COMPARTMENT							 0 2.96651e+06 13.426 -2.85213e-12
-00006 :: COMPARTMENT							 2.96651e+06 13.426 -2.85213e-12 0
-00007 :: COMPARTMENT							 13.426 -2.85213e-12 0 5.70106e+06
-00008 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
-00009 :: COMPARTMENT							 0 5.70106e+06 47.4699 -3.64139e-12
+00001 :: COMPARTMENT							 -5.48125e-12 0 2.96651e+06 13.426
+00002 :: COMPARTMENT							 -2.85213e-12 0 5.70106e+06 47.4699
+00003 :: COMPARTMENT							 -3.64139e-12 0 4.46537e+06 46.7046
+00004 :: COMPARTMENT							 -6.20396e-12 0 2.62093e+06 20.2012
+00005 :: COMPARTMENT							 -3.03544e-12 0 5.35677e+06 53.3701
+00006 :: COMPARTMENT							 -4.95637e-12 0 3.28066e+06 33.9933
+00007 :: COMPARTMENT							 -1.61832e-11 0 1.00476e+06 5.18436
+00008 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 4.81797
+00009 :: COMPARTMENT							 -2.23189e-10 1e-08 218562 1.28342
 00010 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (4.81827)
 VM Diagonals (pdDiagonals[1]) : (13.426)
