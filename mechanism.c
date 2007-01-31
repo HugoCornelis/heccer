@@ -1149,7 +1149,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		//t should be removed and the removal should be
 		//t counterbalanced by the neccessary specifications
 		//t for a flux in the intermediary.  Then, these
-		//t specification are compiled to HECCER_MOP_FLUXPOOL
+		//t specifications are compiled to HECCER_MOP_FLUXPOOL
 		//t byte code.
 
 		//t needs a careful check again.

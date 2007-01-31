@@ -518,7 +518,7 @@ struct ExponentialDecay pexdecCa[] =
 
 	//m beta
 
-	9412391936.0,
+	7.579027046e+10,
 
 	//m steady state
 
@@ -556,7 +556,7 @@ struct ExponentialDecay pexdecCa[] =
 
 	//m tau
 
-	0.00010,
+	0.00020,
 
 	//m external contribution delivered by this intermediary
 

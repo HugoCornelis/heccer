@@ -47,7 +47,7 @@ addmsg c1 c1/cat VOLTAGE Vm
 addmsg c1/cat c1 CHANNEL Gk Ek
 create Ca_concen c1/p
 setfield c1/p \
-	tau 0.00010 \
+	tau 0.00020 \
 	B 9412391936 \
 	Ca_base 4e-05 \
 	thick 2e-07
