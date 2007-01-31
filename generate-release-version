@@ -136,7 +136,10 @@ if ($minor eq '\+')
 	   }
 	   grep
 	   {
+	       # filter out release that only have a 'pre-release' tag
+
 	       !$releases->{$major}->{$_}->{'pre-release'}
+		   or scalar keys %{$releases->{$major}->{$_}} ne 1
 	   }
 	   grep
 	   {
