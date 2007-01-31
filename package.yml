@@ -231,6 +231,11 @@ releases:
         micro: ''
         minor: 7
     8:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: pools
+        micro: ''
+        minor: 8
       pre-release:
         email: hugo.cornelis@gmail.com
         major: pools
