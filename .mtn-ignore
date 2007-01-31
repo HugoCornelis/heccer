@@ -27,6 +27,7 @@ Makefile.in$
 ^tests/code/table-naf$
 ^tests/code/tensizesp$
 ^tests/code/triplep$
+^tests/code/version$
 ^tests/html/
 aclocal.m4$
 autoscan.log$

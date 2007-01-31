@@ -254,6 +254,29 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 ///
 /// ARGS.:
 ///
+/// RTN..: char *
+///
+///	Version identifier.
+///
+/// DESCR: Obtain version identifier.
+///
+/// **************************************************************************
+
+char * HeccerGetVersion(void)
+{
+    // $Format: "    static char *pcVersion=\"${label}\";"$
+    static char *pcVersion="pools-8";
+
+    return(pcVersion);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerHecc()
+///
+/// ARGS.:
+///
 ///	pheccer...: a heccer.
 ///
 /// RTN..: int

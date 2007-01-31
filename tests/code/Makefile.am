@@ -41,7 +41,8 @@ check_PROGRAMS = \
 	table-ka \
 	table-naf \
 	tensizesp \
-	triplep
+	triplep \
+	version
 
 noinst_HEADERS = \
 	main.c
@@ -84,6 +85,8 @@ tensizesp_DEPENDENCIES = ../../libheccer.a main.c
 tensizesp_LDADD = -L../.. -lheccer -lm
 triplep_DEPENDENCIES = ../../libheccer.a main.c
 triplep_LDADD = -L../.. -lheccer -lm
+version_DEPENDENCIES = ../../libheccer.a
+version_LDADD = -L../.. -lheccer -lm
 
 #t automake does not allow to pass in arguments for tests ?
 

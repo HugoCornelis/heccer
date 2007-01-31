@@ -66,11 +66,13 @@ my $email = $ARGV[5] || '';
 my $config
     = {
        files => [
-		 './test-dist',
 		 './configure.ac',
+		 './heccer.c',
 		 './glue/configure.ac',
 		 './glue/swig/perl/configure.ac',
+		 './test-dist',
 		 './tests/code/configure.ac',
+		 './tests/library/version.t',
 		],
        labels => {
 		  package => $package,

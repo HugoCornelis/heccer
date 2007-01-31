@@ -205,6 +205,8 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 #define HECCER_DUMP_VM_SUMMARY					(1 << 22)
 
 
+char * HeccerGetVersion(void);
+
 int HeccerHecc(struct Heccer *pheccer);
 
 int HeccerHeccs(struct Heccer *pheccer, double dTime);
