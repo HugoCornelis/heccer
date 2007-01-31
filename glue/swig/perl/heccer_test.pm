@@ -34,6 +34,14 @@ use Data::Dumper;
 
     print Dumper(\%{"main::"});
 
+    print "Found these methods for the heccer:\n";
+
+    print Dumper(\%{"Heccer::"});
+
+    print "Found these methods for the heccer struct:\n";
+
+    print Dumper(\%{"Heccer::Heccer::"});
+
     print "Found these methods for the intermediary:\n";
 
     print Dumper(\%{"Heccer::Intermediary::"});
