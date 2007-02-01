@@ -180,9 +180,10 @@ release-expand is a keyword expander for arbitrary source code.
 It is intended to be used before building a distribution, to expand
 keywords, and optionally before a commit to a repository under version
 control, to remove keywords.  The advantage is that it is programming
-language independent, and allows for user extension.  The idea is
-taken from the user extensible keyword expansion mechanism that was
-implemented in the prcs version control system.
+language independent, there is one single clear definition of each
+keyword, and it allows for user extension.  The idea is taken from the
+user extensible keyword expansion mechanism that was implemented in
+the prcs version control system.
 
 =head1 USAGE
 
