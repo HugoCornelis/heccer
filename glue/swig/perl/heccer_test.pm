@@ -34,39 +34,39 @@ use Data::Dumper;
 
     print Dumper(\%{"main::"});
 
-    print "Found these methods for the heccer:\n";
+    print "Found these methods for Heccer::\n";
 
     print Dumper(\%{"Heccer::"});
 
-    print "Found these methods for the heccer struct:\n";
+    print "Found these methods for Heccer::Heccer::\n";
 
     print Dumper(\%{"Heccer::Heccer::"});
 
-    print "Found these methods for the intermediary:\n";
+    print "Found these methods for Heccer::Intermediary::\n";
 
     print Dumper(\%{"Heccer::Intermediary::"});
 
-    print "Found these methods for compartments:\n";
+    print "Found these methods for Heccer::Compartment::\n";
 
     print Dumper(\%{"Heccer::Compartment::"});
 
-    print "Found these methods for channels:\n";
+    print "Found these methods for Heccer::ChannelActInact::\n";
 
     print Dumper(\%{"Heccer::ChannelActInact::"});
 
-    print "Found these methods for gates:\n";
+    print "Found these methods for Heccer::GateConcept::\n";
 
     print Dumper(\%{"Heccer::GateConcept::"});
 
-    print "Found these methods for gate kinetics:\n";
+    print "Found these methods for Heccer::GateKinetic::\n";
 
     print Dumper(\%{"Heccer::GateKinetic::"});
 
-    print "Found these methods for gates with powers:\n";
+    print "Found these methods for Heccer::PoweredGateConcept::\n";
 
     print Dumper(\%{"Heccer::PoweredGateConcept::"});
 
-    print "Found these methods for exponential decay equations:\n";
+    print "Found these methods for Heccer::ExponentialDecay::\n";
 
     print Dumper(\%{"Heccer::ExponentialDecay::"});
 
@@ -77,6 +77,13 @@ use Data::Dumper;
 my $soma = Heccer::Compartment->new();
 
 my $mc = $soma->swig_mc_get();
+
+
+#t I would like to be able to use MATH_TYPE_Compartment here.
+#t
+#t MATH_TYPE_Compartment because of strict subs
+#t Heccer::MATH_TYPE_Compartment because of strict subs
+#t Heccerc::MATH_TYPE_Compartment fails because it returns 0 instead of 1.
 
 $mc->swig_iType_set(1);
 
