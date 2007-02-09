@@ -40,7 +40,7 @@ my $heccer_mapping
 							     {
 								 my $compartment = $value->[$compartment_index];
 
-								 SwiggableHeccer::comp_set($result, $compartment_index, $compartment);
+								 SwiggableHeccer::comp_set($result, $compartment_index, $compartment->{compartment});
 							     }
 
 							     return $result;
@@ -76,6 +76,8 @@ my $heccer_mapping
 sub new
 {
     my $package = shift;
+
+    my $subpackage = shift;
 
     my $type = shift;
 
@@ -158,8 +160,6 @@ sub new
 {
     my $package = shift;
 
-    my $settings = shift;
-
     my $result = Heccer::Component->new($package, 'compartment', @_, );
 
     if (ref $result)
@@ -179,9 +179,7 @@ sub new
 {
     my $package = shift;
 
-    my $settings = shift;
-
-    my $result = Heccer::Component->new($package, 'compartment', @_, );
+    my $result = Heccer::Component->new($package, 'intermediary', @_, );
 
     if (ref $result)
     {

@@ -21,15 +21,22 @@ BEGIN
 }
 
 
+$SIG{__DIE__}
+    = sub {
+	use Carp;
+
+	confess @_;
+    };
+
+
+use Data::Dumper;
+
 use Heccer;
 
 use SwiggableHeccer;
 
 
 print "hello there\n";
-
-
-use Data::Dumper;
 
 
 {
