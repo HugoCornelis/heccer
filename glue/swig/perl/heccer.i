@@ -1,4 +1,4 @@
-/* -*- C-mode -*- */
+/* -*- C -*- */
 
 /* swig -perl5 -makedefault -module Heccer heccer.i */
 /* gcc -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`  */
@@ -43,9 +43,11 @@
 /*     pim->piC2m = piC2m; */
 /* } */
 
+/// integer array handling
+
 int *int_array(int size)
 {
-   return (int *) malloc(sizeof(int)*size);
+   return (int *) malloc(sizeof(int) * size);
 }
 void int_destroy(int *a)
 {
@@ -58,6 +60,25 @@ void int_set(int *a, int i, int val)
 int int_get(int *a, int i)
 {
    return a[i];
+}
+
+/// compartment array handling
+
+struct Compartment *comp_array(int size)
+{
+   return (struct Compartment *)malloc(sizeof(struct Compartment) * size);
+}
+void comp_destroy(struct Compartment *a)
+{
+   free(a);
+}
+void comp_set(struct Compartment *a, int i, struct Compartment *val)
+{
+   a[i] = *val;
+}
+struct Compartment *comp_get(struct Compartment *a, int i)
+{
+   return &a[i];
 }
 %}
 
