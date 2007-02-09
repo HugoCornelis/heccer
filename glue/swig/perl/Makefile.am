@@ -34,7 +34,7 @@ perldir = $(prefix)/glue/swig/perl
 
 swig_DATA = heccer.i
 
-perl_DATA = heccer_test.pm SwiggableHeccer.pm SwiggableHeccer.so
+perl_DATA = heccer_test.pm Heccer.pm SwiggableHeccer.pm SwiggableHeccer.so
 
 BUILT_SOURCES = \
 	SwiggableHeccer.pm \
