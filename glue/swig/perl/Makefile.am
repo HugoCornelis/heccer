@@ -34,28 +34,28 @@ perldir = $(prefix)/glue/swig/perl
 
 swig_DATA = heccer.i
 
-perl_DATA = heccer_test.pm Heccer.pm Heccer.so
+perl_DATA = heccer_test.pm SwiggableHeccer.pm SwiggableHeccer.so
 
 BUILT_SOURCES = \
-	Heccer.pm \
-	heccer_wrap.c
+	SwiggableHeccer.pm \
+	swiggable_heccer_wrap.c
 
-Heccer.pm heccer_wrap.c: $(swig_DATA)
-	swig -I$(srcdir)/../../.. -perl5 -makedefault -module Heccer -o heccer_wrap.c $(srcdir)/heccer.i
+SwiggableHeccer.pm swiggable_heccer_wrap.c: $(swig_DATA)
+	swig -I$(srcdir)/../../.. -perl5 -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
 
-heccer_wrap.o: heccer_wrap.c
-	gcc -I$(srcdir)/../../.. -ffloat-store -D__NO_MATH_INLINES -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
+swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
+	gcc -I$(srcdir)/../../.. -ffloat-store -D__NO_MATH_INLINES -c swiggable_heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
 
-Heccer.so: heccer_wrap.o
-	gcc -shared heccer_wrap.o -L../../.. -lheccer -o Heccer.so
+SwiggableHeccer.so: swiggable_heccer_wrap.o
+	gcc -shared swiggable_heccer_wrap.o -L../../.. -lheccer -o SwiggableHeccer.so
 
-all: Heccer.so
+all: SwiggableHeccer.so
 
 CLEANFILES = \
-	Heccer.pm \
-	heccer_wrap.c \
-	heccer_wrap.o \
-	Heccer.so
+	SwiggableHeccer.pm \
+	swiggable_heccer_wrap.c \
+	swiggable_heccer_wrap.o \
+	SwiggableHeccer.so
 
 TESTS = heccer_test.pm
 
@@ -63,7 +63,7 @@ test: check
 
 ## following http://www.geocities.com/foetsch/python/swig_linux.htm
 
-#BUILT_SOURCES = $(srcdir)/heccer_wrap.c
+#BUILT_SOURCES = $(srcdir)/swiggable_heccer_wrap.c
 #SWIG_SOURCES = heccer.i
 
 ## other sources

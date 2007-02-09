@@ -4,7 +4,7 @@
 /* gcc -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`  */
 /* gcc -shared heccer_wrap.o -L. -lheccer -o heccer.so */
 
-%module Heccer
+%module SwiggableHeccer
 
 /* %typemap(ruby,in) (int size, int *ary) { */
 /*    int i; */

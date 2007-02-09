@@ -20,7 +20,7 @@ BEGIN
 }
 
 
-use Heccer;
+use SwiggableHeccer;
 
 
 print "hello there\n";
@@ -34,41 +34,41 @@ use Data::Dumper;
 
     print Dumper(\%{"main::"});
 
-    print "Found these methods for Heccer::\n";
+    print "Found these methods for SwiggableHeccer::\n";
 
-    print Dumper(\%{"Heccer::"});
+    print Dumper(\%{"SwiggableHeccer::"});
 
-    print "Found these methods for Heccer::Heccer::\n";
+    print "Found these methods for SwiggableHeccer::Heccer::\n";
 
-    print Dumper(\%{"Heccer::Heccer::"});
+    print Dumper(\%{"SwiggableHeccer::Heccer::"});
 
-    print "Found these methods for Heccer::Intermediary::\n";
+    print "Found these methods for SwiggableHeccer::Intermediary::\n";
 
-    print Dumper(\%{"Heccer::Intermediary::"});
+    print Dumper(\%{"SwiggableHeccer::Intermediary::"});
 
-    print "Found these methods for Heccer::Compartment::\n";
+    print "Found these methods for SwiggableHeccer::Compartment::\n";
 
-    print Dumper(\%{"Heccer::Compartment::"});
+    print Dumper(\%{"SwiggableHeccer::Compartment::"});
 
-    print "Found these methods for Heccer::ChannelActInact::\n";
+    print "Found these methods for SwiggableHeccer::ChannelActInact::\n";
 
-    print Dumper(\%{"Heccer::ChannelActInact::"});
+    print Dumper(\%{"SwiggableHeccer::ChannelActInact::"});
 
-    print "Found these methods for Heccer::GateConcept::\n";
+    print "Found these methods for SwiggableHeccer::GateConcept::\n";
 
-    print Dumper(\%{"Heccer::GateConcept::"});
+    print Dumper(\%{"SwiggableHeccer::GateConcept::"});
 
-    print "Found these methods for Heccer::GateKinetic::\n";
+    print "Found these methods for SwiggableHeccer::GateKinetic::\n";
 
-    print Dumper(\%{"Heccer::GateKinetic::"});
+    print Dumper(\%{"SwiggableHeccer::GateKinetic::"});
 
-    print "Found these methods for Heccer::PoweredGateConcept::\n";
+    print "Found these methods for SwiggableHeccer::PoweredGateConcept::\n";
 
-    print Dumper(\%{"Heccer::PoweredGateConcept::"});
+    print Dumper(\%{"SwiggableHeccer::PoweredGateConcept::"});
 
-    print "Found these methods for Heccer::ExponentialDecay::\n";
+    print "Found these methods for SwiggableHeccer::ExponentialDecay::\n";
 
-    print Dumper(\%{"Heccer::ExponentialDecay::"});
+    print Dumper(\%{"SwiggableHeccer::ExponentialDecay::"});
 
 }
 
@@ -79,7 +79,7 @@ sub singlep
 
     # construct soma compartment
 
-    my $soma = Heccer::Compartment->new();
+    my $soma = SwiggableHeccer::Compartment->new();
 
     my $mc = $soma->swig_mc_get();
 
@@ -87,7 +87,7 @@ sub singlep
     #t I would like to be able to use MATH_TYPE_Compartment here.
     #t
     #t MATH_TYPE_Compartment because of strict subs
-    #t Heccer::MATH_TYPE_Compartment because of strict subs
+    #t SwiggableHeccer::MATH_TYPE_Compartment because of strict subs
     #t Heccerc::MATH_TYPE_Compartment fails because it returns 0 instead of 1.
 
     $mc->swig_iType_set(1);
@@ -100,7 +100,7 @@ sub singlep
     $soma->swig_dRm_set(3.58441e+08);
     $soma->swig_iParent_set(-1);
 
-    my $intermediary = Heccer::Intermediary->new();
+    my $intermediary = SwiggableHeccer::Intermediary->new();
 
     $intermediary->swig_iCompartments_set(1);
 
@@ -108,7 +108,7 @@ sub singlep
 
     my $pi = $intermediary->swig_piC2m_get();
 
-    my $piC2m = Heccer::int_array(2);
+    my $piC2m = SwiggableHeccer::int_array(2);
 
     #t get rid of count by implementing a push, needs current.
 
@@ -116,15 +116,15 @@ sub singlep
 
     my $count = 0;
 
-    map { Heccer::int_set($piC2m, $count++, $_) } @$comp2mech;
+    map { SwiggableHeccer::int_set($piC2m, $count++, $_) } @$comp2mech;
 
-    # Heccer::piC2m_set($intermediary, $piC2m, );
+    # SwiggableHeccer::piC2m_set($intermediary, $piC2m, );
 
     $intermediary->swig_piC2m_set( $piC2m );
 
     # instantiate a heccer with an initialized intermediary
 
-    my $heccer = Heccer::HeccerNewP2($intermediary);
+    my $heccer = SwiggableHeccer::HeccerNewP2($intermediary);
 
     # build indices for optimization
 
@@ -169,7 +169,7 @@ sub c1c2p2
 
     # construct soma compartment
 
-    my $soma = Heccer::Compartment->new();
+    my $soma = SwiggableHeccer::Compartment->new();
 
     my $mc_soma = $soma->swig_mc_get();
 
@@ -177,7 +177,7 @@ sub c1c2p2
     #t I would like to be able to use MATH_TYPE_Compartment here.
     #t
     #t MATH_TYPE_Compartment because of strict subs
-    #t Heccer::MATH_TYPE_Compartment because of strict subs
+    #t SwiggableHeccer::MATH_TYPE_Compartment because of strict subs
     #t Heccerc::MATH_TYPE_Compartment fails because it returns 0 instead of 1.
 
     $mc_soma->swig_iType_set(1);
@@ -191,7 +191,7 @@ sub c1c2p2
     $soma->swig_iParent_set(-1);
 
 
-    my $main = Heccer::Compartment->new();
+    my $main = SwiggableHeccer::Compartment->new();
 
     my $mc_main = $main->swig_mc_get();
 
@@ -199,7 +199,7 @@ sub c1c2p2
     #t I would like to be able to use MATH_TYPE_Compartment here.
     #t
     #t MATH_TYPE_Compartment because of strict subs
-    #t Heccer::MATH_TYPE_Compartment because of strict subs
+    #t SwiggableHeccer::MATH_TYPE_Compartment because of strict subs
     #t Heccerc::MATH_TYPE_Compartment fails because it returns 0 instead of 1.
 
     $mc_main->swig_iType_set(1);
@@ -212,21 +212,21 @@ sub c1c2p2
     $main->swig_dRm_set(8.548598272e9);
     $main->swig_iParent_set(0);
 
-    my $intermediary = Heccer::Intermediary->new();
+    my $intermediary = SwiggableHeccer::Intermediary->new();
 
     $intermediary->swig_iCompartments_set(2);
 
-    my $comp_array = Heccer::comp_array(2);
+    my $comp_array = SwiggableHeccer::comp_array(2);
 
-    Heccer::comp_set($comp_array, 0, $soma);
+    SwiggableHeccer::comp_set($comp_array, 0, $soma);
 
-    Heccer::comp_set($comp_array, 1, $main);
+    SwiggableHeccer::comp_set($comp_array, 1, $main);
 
     $intermediary->swig_pcomp_set($comp_array);
 
     my $pi = $intermediary->swig_piC2m_get();
 
-    my $piC2m = Heccer::int_array(2);
+    my $piC2m = SwiggableHeccer::int_array(2);
 
     #t get rid of count by implementing a push, needs current.
 
@@ -234,15 +234,15 @@ sub c1c2p2
 
     my $count = 0;
 
-    map { Heccer::int_set($piC2m, $count++, $_) } @$comp2mech;
+    map { SwiggableHeccer::int_set($piC2m, $count++, $_) } @$comp2mech;
 
-    # Heccer::piC2m_set($intermediary, $piC2m, );
+    # SwiggableHeccer::piC2m_set($intermediary, $piC2m, );
 
     $intermediary->swig_piC2m_set( $piC2m );
 
     # instantiate a heccer with an initialized intermediary
 
-    my $heccer = Heccer::HeccerNewP2($intermediary);
+    my $heccer = SwiggableHeccer::HeccerNewP2($intermediary);
 
     # build indices for optimization
 
