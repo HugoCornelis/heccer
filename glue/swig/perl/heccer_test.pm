@@ -1,4 +1,3 @@
-#!/usr/bin/perl -w -d:ptkdb
 #!/usr/bin/perl -w
 #!/usr/bin/perl -w -d:ptkdb
 #
@@ -37,50 +36,6 @@ use SwiggableHeccer;
 
 
 print "hello there\n";
-
-
-{
-    no strict "refs";
-
-    print Dumper(\%{"main::"});
-
-    print "Found these methods for SwiggableHeccer::\n";
-
-    print Dumper(\%{"SwiggableHeccer::"});
-
-    print "Found these methods for SwiggableHeccer::Heccer::\n";
-
-    print Dumper(\%{"SwiggableHeccer::Heccer::"});
-
-    print "Found these methods for SwiggableHeccer::Intermediary::\n";
-
-    print Dumper(\%{"SwiggableHeccer::Intermediary::"});
-
-    print "Found these methods for SwiggableHeccer::Compartment::\n";
-
-    print Dumper(\%{"SwiggableHeccer::Compartment::"});
-
-    print "Found these methods for SwiggableHeccer::ChannelActInact::\n";
-
-    print Dumper(\%{"SwiggableHeccer::ChannelActInact::"});
-
-    print "Found these methods for SwiggableHeccer::GateConcept::\n";
-
-    print Dumper(\%{"SwiggableHeccer::GateConcept::"});
-
-    print "Found these methods for SwiggableHeccer::GateKinetic::\n";
-
-    print Dumper(\%{"SwiggableHeccer::GateKinetic::"});
-
-    print "Found these methods for SwiggableHeccer::PoweredGateConcept::\n";
-
-    print Dumper(\%{"SwiggableHeccer::PoweredGateConcept::"});
-
-    print "Found these methods for SwiggableHeccer::ExponentialDecay::\n";
-
-    print Dumper(\%{"SwiggableHeccer::ExponentialDecay::"});
-
-}
 
 
 sub c1c2p2
@@ -476,3 +431,5 @@ c1c2p2();
 
 
 print "Perl script finished\n";
+
+
