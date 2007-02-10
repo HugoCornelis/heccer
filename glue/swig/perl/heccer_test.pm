@@ -84,7 +84,7 @@ sub c1c2p2
 
     # instantiate a heccer with an initialized intermediary
 
-    my $heccer = SwiggableHeccer::HeccerNewP2($intermediary);
+    my $heccer = SwiggableHeccer::HeccerNewP2($intermediary->{intermediary});
 
     # build indices for optimization
 

@@ -44,7 +44,7 @@ SwiggableHeccer.pm swiggable_heccer_wrap.c: $(swig_DATA)
 	swig -I$(srcdir)/../../.. -perl5 -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc -I$(srcdir)/../../.. -ffloat-store -D__NO_MATH_INLINES -c swiggable_heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
+	gcc -I$(srcdir)/../../.. -ffloat-store -D__NO_MATH_INLINES -g -O0 -c swiggable_heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
 
 SwiggableHeccer.so: swiggable_heccer_wrap.o
 	gcc -shared swiggable_heccer_wrap.o -L../../.. -lheccer -o SwiggableHeccer.so

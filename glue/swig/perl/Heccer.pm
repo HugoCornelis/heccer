@@ -36,7 +36,7 @@ my $heccer_mapping
 
 							     my $result = SwiggableHeccer::comp_array($#$value + 1);
 
-							     foreach my $compartment_index (0 .. @$value)
+							     foreach my $compartment_index (0 .. $#$value)
 							     {
 								 my $compartment = $value->[$compartment_index];
 
@@ -48,7 +48,7 @@ my $heccer_mapping
 							},
 					comp2mech => {
 						      target => 'piC2m',
-						      convertors =>
+						      convertor =>
 						      sub
 						      {
 							  my $target = shift;
@@ -57,7 +57,7 @@ my $heccer_mapping
 
 							  my $result = SwiggableHeccer::int_array($#$value + 1);
 
-							  foreach my $compartment_index (0 .. @$value)
+							  foreach my $compartment_index (0 .. $#$value)
 							  {
 							      my $compartment_start = $value->[$compartment_index];
 
@@ -129,7 +129,7 @@ sub new
 	{
 	    # translate the target
 
-	    $target = $translator->{$target};
+	    $target = $translator->{target};
 
 	    # translate the value
 
