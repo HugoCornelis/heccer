@@ -151,45 +151,77 @@ sub new
 }
 
 
-#t all the components can be created automatically from the heccer
-#t mapping
+# construct factory method for each Heccer component
 
-package Heccer::Compartment;
+foreach my $component (keys %$heccer_mapping)
+{
+    my $Component = ucfirst $component;
+
+    my $code = "
+package Heccer::$Component;
 
 sub new
 {
-    my $package = shift;
+    my \$package = shift;
 
-    my $result = Heccer::Component->new($package, 'compartment', @_, );
+    my \$result = Heccer::Component->new(\$package, '$component', \@_, );
 
-    if (ref $result)
+    if (ref \$result)
     {
-	return bless $result, $package;
+	return bless \$result, \$package;
     }
     else
     {
-	return $result;
+	return \$result;
     }
 }
 
+";
 
-package Heccer::Intermediary;
+    my $result = eval $code;
 
-sub new
-{
-    my $package = shift;
-
-    my $result = Heccer::Component->new($package, 'intermediary', @_, );
-
-    if (ref $result)
+    if ($@)
     {
-	return bless $result, $package;
-    }
-    else
-    {
-	return $result;
+	die "In Heccer.pm: error constructing $component factory methods: $@";
     }
 }
+
+# package Heccer::Compartment;
+
+# sub new
+# {
+#     my $package = shift;
+
+#     my $result = Heccer::Component->new($package, 'compartment', @_, );
+
+#     if (ref $result)
+#     {
+# 	return bless $result, $package;
+#     }
+#     else
+#     {
+# 	return $result;
+#     }
+# }
+
+
+# package Heccer::Intermediary;
+
+# sub new
+# {
+#     my $package = shift;
+
+#     my $result = Heccer::Component->new($package, 'intermediary', @_, );
+
+#     if (ref $result)
+#     {
+# 	return bless $result, $package;
+#     }
+#     else
+#     {
+# 	return $result;
+#     }
+# }
 
 
 1;
