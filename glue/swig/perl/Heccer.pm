@@ -186,43 +186,6 @@ sub new
     }
 }
 
-# package Heccer::Compartment;
-
-# sub new
-# {
-#     my $package = shift;
-
-#     my $result = Heccer::Component->new($package, 'compartment', @_, );
-
-#     if (ref $result)
-#     {
-# 	return bless $result, $package;
-#     }
-#     else
-#     {
-# 	return $result;
-#     }
-# }
-
-
-# package Heccer::Intermediary;
-
-# sub new
-# {
-#     my $package = shift;
-
-#     my $result = Heccer::Component->new($package, 'intermediary', @_, );
-
-#     if (ref $result)
-#     {
-# 	return bless $result, $package;
-#     }
-#     else
-#     {
-# 	return $result;
-#     }
-# }
-
 
 1;
 
