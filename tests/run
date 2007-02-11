@@ -59,11 +59,14 @@ BEGIN
 
     print "$0: core_directory is $core_directory\n";
 
-    # add to include paths
+    # add to tests directory to include paths
 
-    my $tests_directory = "${core_directory}tests/library";
+    if (!exists $config->{tests_directory})
+    {
+	$config->{tests_directory} = "${core_directory}tests/library";
+    }
 
-    unshift @INC, $tests_directory;
+    unshift @INC, $config->{tests_directory};
 
     # find the perl modules directory
 
@@ -617,7 +620,7 @@ sub test_library_construct
 	   {
 	       chomp; $_;
 	   }
-	   `find $core_directory/tests/library -name "*.t"`,
+	   `find $config->{tests_directory} -name "*.t"`,
 	  ];
 
     return $test_modules;
@@ -709,6 +712,9 @@ sub test_library_expand
 		 0;
 	     },
 	    );
+
+    #t note that this can return undef for boundary conditions,
+    #t e.g. when no test definitions are found.
 
     my $tests = $transformator->transform();
 
