@@ -71,13 +71,13 @@ my $compartments
 
 my $intermediary
     = Heccer::Intermediary->new
-    (
-     {
-      comp2mech => [ 0, -1],
-      compartments => $compartments,
-      iCompartments => 1,
-     },
-    );
+      (
+       {
+	comp2mech => [ 0, -1],
+	compartments => $compartments,
+	iCompartments => 1,
+       },
+      );
 
 # instantiate a heccer with an initialized intermediary
 
