@@ -1,0 +1,160 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb -w
+#
+##
+## Heccer : a compartmental solver that implements efficient Crank-Nicolson
+## integration for neuronal models.
+##
+
+##############################################################################
+##'
+##' Heccer : testbed C implementation
+##'
+##' Copyright (C) 2006-2007 Hugo Cornelis
+##'
+##' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##############################################################################
+
+
+
+use strict;
+
+
+$| = 1;
+
+
+BEGIN
+{
+    # during tests
+
+    push @INC, '../../glue/swig/perl';
+
+    # after installation
+
+    push @INC, '/usr/local/glue/swig/perl';
+}
+
+
+$SIG{__DIE__}
+    = sub {
+	use Carp;
+
+	confess @_;
+    };
+
+
+use Data::Dumper;
+
+use Heccer;
+
+
+# initialize compartments
+
+my $compartments
+    = [
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 4.57537e-11,
+	 dEm => -0.08,
+	 dInitVm => -0.068,
+	 dInject => 1e-8,
+	 dRa => 360502,
+	 dRm => 3.58441e+08,
+	 iParent => -1,
+	},
+       ),
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 4.57537e-11,
+	 dEm => -0.08,
+	 dInitVm => -0.068,
+	 dInject => 0,
+	 dRa => 360502,
+	 dRm => 3.58441e+08,
+	 iParent => 0,
+	},
+       ),
+      ];
+
+# initialize intermediary
+
+my $intermediary
+    = Heccer::Intermediary->new
+      (
+       {
+	comp2mech => [ 0, 0, -1],
+	compartments => $compartments,
+	iCompartments => 2,
+       },
+      );
+
+# initialize options
+
+my $options
+    = Heccer::Options->new
+      (
+       {
+	dIntervalStart => -0.1,
+	dIntervalEnd => 0.05,
+	dBasalActivatorStart => 4e-5,
+	dBasalActivatorEnd => 0.3,
+	iIntervalEntries => 3000,
+       },
+      );
+
+# instantiate heccer
+
+my $heccer
+    = Heccer->new
+      (
+       {
+	dStep => 2e-5,
+	intermediary => $intermediary,
+	options => $options,
+       },
+      );
+
+# build indices for optimization, compile to byte code
+
+$heccer->compile();
+
+# initiate values
+
+$heccer->initiate();
+
+# initial dump
+
+print "Initiated\n";
+
+$heccer->dump();
+
+# a couple of times
+
+my $final_report = 0;
+
+foreach (0 .. 9)
+{
+    # step
+
+    $heccer->hecc();
+
+    # dump
+
+    print "-------\n";
+
+    print "Iteration $_\n";
+
+    $heccer->dump();
+}
+
+if ($final_report)
+{
+    $heccer->dump();
+}
+
+
