@@ -50,8 +50,8 @@ use Data::Dumper;
 
 use Heccer;
 
-use SwiggableHeccer;
 
+# initialize compartments
 
 my $compartments
     = [
@@ -69,6 +69,8 @@ my $compartments
        ),
       ];
 
+# initialize intermediary
+
 my $intermediary
     = Heccer::Intermediary->new
       (
@@ -79,27 +81,45 @@ my $intermediary
        },
       );
 
-# instantiate a heccer with an initialized intermediary
+# initialize options
 
-my $heccer = SwiggableHeccer::HeccerNewP2($intermediary->{intermediary});
+my $options
+    = Heccer::Options->new
+      (
+       {
+	dIntervalStart => -0.1,
+	dIntervalEnd => 0.05,
+	dBasalActivatorStart => 4e-5,
+	dBasalActivatorEnd => 0.3,
+	iIntervalEntries => 3000,
+       },
+      );
 
-# build indices for optimization
+# instantiate heccer
 
-$heccer->HeccerCompileP2();
+my $heccer
+    = Heccer->new
+      (
+       {
+	dStep => 2e-5,
+	intermediary => $intermediary,
+	options => $options,
+       },
+      );
 
-# compile to byte code
+# build indices for optimization, compile to byte code
 
-$heccer->HeccerCompileP3();
+$heccer->compile();
 
 # initiate values
 
-$heccer->HeccerInitiate();
+$heccer->initiate();
 
 # initial dump
 
 print "Initiated\n";
 
-$heccer->HeccerDumpV();
+$heccer->dump();
 
 # a couple of times
 
@@ -109,7 +129,7 @@ foreach (0 .. 9)
 {
     # step
 
-    $heccer->HeccerHecc();
+    $heccer->hecc();
 
     # dump
 
@@ -117,12 +137,12 @@ foreach (0 .. 9)
 
     print "Iteration $_\n";
 
-    $heccer->HeccerDumpV();
+    $heccer->dump();
 }
 
 if ($final_report)
 {
-    $heccer->HeccerDumpV();
+    $heccer->dump();
 }
 
 

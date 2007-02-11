@@ -5,6 +5,90 @@
 package Heccer;
 
 
+sub compile
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $status = $self->{heccer}->swig_iStatus_get();
+
+    $self->compile2();
+}
+
+
+sub compile2
+{
+    my $self = shift;
+
+    $self->{heccer}->HeccerCompileP2();
+
+    $self->compile3();
+}
+
+
+sub compile3
+{
+    my $self = shift;
+
+    $self->{heccer}->HeccerCompileP3();
+}
+
+
+sub dump
+{
+    my $self = shift;
+
+    my $selection = shift;
+
+    #t use selection
+
+    $self->{heccer}->HeccerDumpV();
+}
+
+
+sub hecc
+{
+    my $self = shift;
+
+    $self->{heccer}->HeccerHecc();
+}
+
+
+sub initiate
+{
+    my $self = shift;
+
+    $self->{heccer}->HeccerInitiate();
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $settings = shift;
+
+    my $result = Heccer::Heccer::new($package, $settings, @_, );
+
+    if (ref $result)
+    {
+	bless $result, $package;
+
+	# if there was an intermediary
+
+	if ($settings->{intermediary})
+	{
+	    # set status: HECCER_STATUS_PHASE_2
+
+	    $result->{heccer}->swig_iStatus_set(20);
+	}
+    }
+
+    return $result;
+}
+
+
 package Heccer::Component;
 
 
@@ -20,10 +104,22 @@ use SwiggableHeccer;
 my $heccer_mapping
     = {
        compartment => {
-		       type_number => 1,
 		       internal_name => 'Compartment',
+		       type_number => 1,
 		      },
+       heccer => {
+		  internal_name => 'Heccer',
+		  translators => {
+				  intermediary => {
+						   target => 'inter',
+						  },
+				  options => {
+					      target => 'ho',
+					     },
+				 },
+		 },
        intermediary => {
+			internal_name => 'Intermediary',
 			translators => {
 					compartments => {
 							 target => 'pcomp',
@@ -68,8 +164,10 @@ my $heccer_mapping
 						      },
 						     },
 				       },
-			internal_name => 'Intermediary',
 		       },
+       options => {
+		   internal_name => 'HeccerOptions',
+		  },
       };
 
 
@@ -135,7 +233,24 @@ sub new
 
 	    my $convertor = $translator->{convertor};
 
-	    $value = &$convertor($target, $value);;
+	    # for a custom value convertor
+
+	    if ($convertor)
+	    {
+		# call custom value convertor
+
+		$value = &$convertor($target, $value);;
+	    }
+
+	    # else
+
+	    else
+	    {
+		# default is dereference via the setting name, which
+		# presumably gives the heccer internal structure
+
+		$value = $value->{$setting};
+	    }
 	}
 
 	# set the heccer internal target
