@@ -156,8 +156,8 @@ my $test
 
 						   #! note that inspection with the debugger reveals that after intermediary initialization the capacitance
 						   #! of the next to last compartment is different between tensizesp.c and tensizesp.  I am slightly more
-						   #! confident in gcc's IEEE semantic compliance, than in perl's.  Not sure though.  This difference is 'rounded away'
-						   #! and visible in the output.
+						   #! confident in gcc's IEEE semantic compliance, than in perl's.  Not sure though.  This difference is
+						   #! 'rounded away' and not visible in the tests output.
 
 						   read => [ `cat $::config->{core_directory}/tests/library/strings/tensizep.txt`, ],
 						   timeout => 8,
