@@ -29,6 +29,7 @@
 /* } */
 
 %{
+#include "heccer/callout.h"
 #include "heccer/compartment.h"
 #include "heccer/intermediary.h"
 #include "heccer/heccer.h"
@@ -44,6 +45,8 @@
 /* } */
 
 /// integer array handling
+
+//t use array generics, see carray.i
 
 int *int_array(int size)
 {
@@ -82,6 +85,7 @@ struct Compartment *comp_get(struct Compartment *a, int i)
 }
 %}
 
+%include "heccer/callout.h"
 %include "heccer/compartment.h"
 %include "heccer/intermediary.h"
 %include "heccer/heccer.h"

@@ -103,10 +103,39 @@ use SwiggableHeccer;
 
 my $heccer_mapping
     = {
+       callout => {
+		   internal_name => 'Callout',
+		   translators => {
+				   external_function => {
+							 target => 'pef',
+							 convertor =>
+							 sub
+							 {
+							     my $target = shift;
+
+							     my $value = shift;
+
+							     return $value;
+							 },
+							},
+				   external_results => {
+							target => 'per',
+						       },
+				   internal_results => {
+							target => 'pir',
+						       },
+				  },
+		   type_number => ( 0x8000 | 2 ),
+		  },
        compartment => {
 		       internal_name => 'Compartment',
 		       type_number => 1,
 		      },
+#        external_function => {
+# 			    },
+       external_results => {
+			    internal_name => 'ExternalResults',
+			   },
        heccer => {
 		  internal_name => 'Heccer',
 		  translators => {
@@ -165,6 +194,9 @@ my $heccer_mapping
 						     },
 				       },
 		       },
+       internal_results => {
+			    internal_name => 'InternalResults',
+			   },
        options => {
 		   internal_name => 'HeccerOptions',
 		  },
@@ -266,11 +298,41 @@ sub new
 }
 
 
+sub identifier_xml_to_perl
+{
+    my $identifier = shift;
+
+    my $result = $identifier;
+
+    $result =~ s/([A-Z]{2,})([A-Z])/_\L$1\E$2/g;
+
+    $result =~ s/([A-Z])(?![A-Z])/_\l$1/g;
+
+    return $result;
+}
+
+
+sub identifier_perl_to_xml
+{
+    my $identifier = shift;
+
+    my $result = $identifier;
+
+    $result =~ s/^([a-z])/\u$1/;
+
+    $result =~ s/_([a-z0-9])/\u$1/g;
+
+    return $result;
+}
+
+
 # construct factory method for each Heccer component
 
 foreach my $component (keys %$heccer_mapping)
 {
-    my $Component = ucfirst $component;
+    my $Component = identifier_perl_to_xml($component);
+
+    print "For $component -> $Component\n";
 
     my $code = "
 package Heccer::$Component;

@@ -1,0 +1,343 @@
+#!/usr/bin/perl -d:ptkdb -w
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb -w
+#
+##
+## Heccer : a compartmental solver that implements efficient Crank-Nicolson
+## integration for neuronal models.
+##
+
+##############################################################################
+##'
+##' Heccer : testbed C implementation
+##'
+##' Copyright (C) 2006-2007 Hugo Cornelis
+##'
+##' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##############################################################################
+
+
+#t callbacks and swig are still a problem, solutions for python seem
+#t more easy that for perl.
+#t see http://search.cpan.org/src/JHPB/X11-Wcl-0.3/examples/
+
+
+use strict;
+
+
+$| = 1;
+
+
+BEGIN
+{
+    # during tests
+
+    push @INC, '../glue/swig/perl';
+
+    # after installation
+
+    push @INC, '/usr/local/glue/swig/perl';
+}
+
+
+$SIG{__DIE__}
+    = sub {
+	use Carp;
+
+	confess @_;
+    };
+
+
+use Data::Dumper;
+
+use Heccer;
+
+use Inline (
+	    C => '
+
+#include "heccer/callout.h"
+#include "heccer/heccer.h"
+
+int pefSoma(struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per)
+{
+    //- set default result
+
+    int iResult = 0;
+
+    //- initialize
+
+    per->dConductance = 0.0;
+    per->dCurrent = 0.0;
+
+    //t do something to compute the current and conductance, using pco->pvAlien
+
+    //t fill in the conductance and current in the external results
+
+    //- give some feedback for testing purposes
+
+    fprintf(stdout, "The pefSoma callout says that it is computing current and conductance externally\n");
+    fprintf(stdout, "The pefSoma callout is advancing to time %g\n", pheccer->dTime);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+',
+	    CCFLAGS => '-g2',
+);
+
+
+# initialize compartments
+
+my $compartments
+    = [
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 4.57537e-11,
+	 dEm => -0.08,
+	 dInitVm => -0.068,
+	 dInject => 0,
+	 dRa => 360502,
+	 dRm => 3.58441e+08,
+	 iParent => -1,
+	},
+       ),
+      ];
+
+# initialize mechanism
+
+my $callout
+    = Heccer::Callout->new
+      (
+       {
+	external_function => \&pefSoma,
+# 	sub
+# 	{
+# 	    my $self = shift;
+
+# 	    my $heccer = shift;
+
+# 	    my $ir = shift;
+
+# 	    my $er = shift;
+
+# 	    $er->{dConductance} = 0.0;
+# 	    $er->{dCurrent} = 0.0;
+
+# 	    printf "The pefSoma callout says that it is computing current and conductance externally\n";
+# 	    printf "The pefSoma callout is advancing to time %g\n", pheccer->dTime;
+
+# 	    my $result = 0;
+
+# 	    return $result;
+# 	},
+	external_results => Heccer::ExternalResults->new(
+							 {
+							  dConductance => 10.0,
+							  dCurrent => 10.0,
+							 },
+							),
+	internal_results => Heccer::InternalResults->new(
+							 {
+							  dVm => 0.0,
+							 },
+							),
+       },
+      );
+
+# initialize intermediary
+
+my $intermediary
+    = Heccer::Intermediary->new
+      (
+       {
+	comp2mech => [ 1, -1],
+	compartments => $compartments,
+	iCompartments => 1,
+       },
+      );
+
+# initialize options
+
+my $options
+    = Heccer::Options->new
+      (
+       {
+	dIntervalStart => -0.1,
+	dIntervalEnd => 0.05,
+	dBasalActivatorStart => 4e-5,
+	dBasalActivatorEnd => 0.3,
+	iIntervalEntries => 3000,
+       },
+      );
+
+# instantiate heccer
+
+my $heccer
+    = Heccer->new
+      (
+       {
+	dStep => 2e-5,
+	intermediary => $intermediary,
+	options => $options,
+       },
+      );
+
+# build indices for optimization, compile to byte code
+
+$heccer->compile();
+
+# initiate values
+
+$heccer->initiate();
+
+# initial dump
+
+print "Initiated\n";
+
+$heccer->dump();
+
+# a couple of times
+
+my $final_report = 0;
+
+foreach (0 .. 9)
+{
+    # step
+
+    $heccer->hecc();
+
+    # dump
+
+    print "-------\n";
+
+    print "Iteration $_\n";
+
+    $heccer->dump();
+}
+
+if ($final_report)
+{
+    $heccer->dump();
+}
+
+
+__DATA__
+
+struct InternalResults pirSoma =
+{
+    //m membrane potential for this compartment
+
+    0.0,
+};
+
+
+struct ExternalResults perSoma =
+{
+    //m external conductance, this is just an example
+
+    10.0,
+
+    //m external current, another example
+
+    10.0,
+};
+
+
+ExternalFunction pefSoma;
+
+
+struct Callout callSoma =
+{
+    {
+	//m type of structure
+
+	MATH_TYPE_CallOut_conductance_current,
+    },
+
+    //m external alien data
+
+    NULL,
+
+    //m internal results
+
+    &pirSoma,
+
+    //m external results
+
+    &perSoma,
+
+    //m external function
+
+    pefSoma,
+};
+
+
+int piC2m[] =
+{
+    1,
+    -1,
+};
+
+
+struct Intermediary inter =
+{
+    //m compartment array
+
+    1,
+
+    &compSoma,
+
+    //m mechanism index
+
+    1,
+
+    //m mechanism data
+
+    &callSoma.mc,
+
+    //m mechanism index, initialize to NULL
+
+    NULL,
+
+    //m compartment 2 first mechanism number
+
+    piC2m,
+};
+
+
+int pefSoma(struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per)
+{
+    //- set default result
+
+    int iResult = 0;
+
+    //- initialize
+
+    per->dConductance = 0.0;
+    per->dCurrent = 0.0;
+
+    //t do something to compute the current and conductance, using pco->pvAlien
+
+    //t fill in the conductance and current in the external results
+
+    //- give some feedback for testing purposes
+
+    fprintf(stdout, "The pefSoma callout says that it is computing current and conductance externally\n");
+    fprintf(stdout, "The pefSoma callout is advancing to time %g\n", pheccer->dTime);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+#include "main.c"
+
+

@@ -1,0 +1,9 @@
+-*- outline -*-
+
+* swig interface
+** implement callouts
+#t callbacks and swig are still a problem, solutions for python seem
+#t more easy that for perl.
+#t see http://search.cpan.org/src/JHPB/X11-Wcl-0.3/examples/
+
+
