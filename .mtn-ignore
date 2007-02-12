@@ -6,6 +6,7 @@ Makefile.in$
 ^doxygen
 ^glue/swig/perl/SwiggableHeccer.pm$
 ^glue/swig/perl/swiggable_heccer_wrap.c$
+^heccer-.*pre-release/
 ^html/
 ^installed
 ^tests/code/c1c2p1$
