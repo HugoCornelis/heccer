@@ -14,6 +14,14 @@ $| = 1;
 
 BEGIN
 {
+    if ($ENV{srcdir})
+    {
+	print "Found ENV{srcdir} ($ENV{srcdir}), using for finding perl modules\n";
+
+	push @INC, "$ENV{srcdir}";
+
+    }
+
     push @INC, '.';
 
     push @INC, '/usr/local/glue/swig/perl';
