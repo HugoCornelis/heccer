@@ -385,15 +385,41 @@ options :
 
 		if (@$model)
 		{
-		    $html .= $cgi->h4("Startup command : " . (join ' ', @$model));
+		    # output source code
+
+		    my $source_information = output_source($file, $model);
+
+		    my $source_anchor = $source_information->{result_anchor};
+
+		    my $command .= "<a href=\"$source_anchor\">" . (join ' ', @$model) . "</a>";
+
+		    $html .= $cgi->h4("Startup command : " . $command);
 
 		    if (! scalar grep { /^[^-]/ } @$model [ 1 .. $#$model ] )
 		    {
 			$html .= "(No model has been loaded for the following set of commands.)";
 		    }
 		}
+		else
+		{
+		    #t embedded perl code
 
-		#t output a link to the source code
+# 		{
+# 		    use PPI;
+# 		    use PPI::HTML;
+
+# 		    # Load your Perl file
+# 		    my $Document = PPI::Document->load( 'script.pl' );
+
+# 		    # Create a reusable syntax highlighter
+# 		    my $Highlight = PPI::HTML->new( line_numbers => 1 );
+
+# 		    # Spit out the HTML
+# 		    print $Highlight->html( $Document );
+
+# 		}
+
+		}
 
 		$html .= $cgi->hr();
 
@@ -469,7 +495,7 @@ options :
 		$command_definition_count++;
 	    }
 
-	    # write output
+	    # write output of command definitions
 
 	    output_content
 		(
@@ -572,21 +598,98 @@ sub output_content
 
     my $output_file = "$outputs_dir/$filename";
 
-    my $output_dir = $output_file;
-
-    $output_dir =~ s/(.*)\/.*/$1/;
+    output_prepare($output_file);
 
     # write output
-
-    #! note : -p assumes GNU mkdir
-
-    `mkdir -p $output_dir`;
 
     my $file = IO::File->new(">$output_file");
 
     print $file $result;
 
     $file->close();
+
+    return $result;
+}
+
+
+sub output_prepare
+{
+    my $file_location = shift;
+
+    my $output_dir = $file_location;
+
+    $output_dir =~ s/(.*)\/.*/$1/;
+
+    #! note : -p assumes GNU mkdir
+
+    `mkdir -p $output_dir`;
+}
+
+
+sub output_source
+{
+    my $test_definition_file = shift;
+
+    my $source = shift;
+
+    my $result = {};
+
+    # profile the tester source
+
+    my $source_text_file = $config->{core_directory} . $source->[0];
+
+    my $source_profile = `file $source_text_file`;
+
+    if ($source_profile =~ /ELF.*executable/)
+    {
+	$source_text_file .= ".c";
+
+	$result->{source_type} = "cpp";
+    }
+    elsif ($source_profile =~ /perl/)
+    {
+	$result->{source_type} = "perl";
+    }
+    else
+    {
+	die "source_type for $source_text_file cannot be determined";
+    }
+
+    # set result: where to find the source text
+
+    $result->{source_text_file} = $source_text_file;
+
+    # slurp source text
+
+    $result->{source_text} = `cat "$source_text_file"`;
+
+    # define an output text location
+
+    $result->{result_text_file} = "$outputs_dir/$source_text_file.source.html";
+
+    #! this does not look good to me, it is a reversed parent
+    #! directory removal, there must be something wrong with the data
+    #! flow design here.
+
+    #! I guess it is somehow related to the global configuration in $config ...
+
+    $result->{result_text_file} =~ s(html/\.\./tests)(html);
+
+    output_prepare($result->{result_text_file});
+
+    system "source-highlight 2>&1 --src-lang $result->{source_type} --out-format html --input \"$source_text_file\" --output $result->{result_text_file} ";
+
+    #! oh boy ...
+
+    $result->{result_anchor} = $result->{result_text_file};
+
+    my $parents = ( $test_definition_file =~ tr(/)(/));
+
+    $parents = "../" x ($parents);
+
+    $result->{result_anchor} =~ s(html/)(html/$parents);
+
+    # return result: source information
 
     return $result;
 }

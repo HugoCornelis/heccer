@@ -1,0 +1,16 @@
+$files = {
+           '_<./tests_2_html' => [
+                                   {
+                                     'expr' => undef,
+                                     'value' => '1',
+                                     'text' => '    $result->{source_text} = `cat "$source_text_file"`;
+',
+                                     'fname' => './tests_2_html',
+                                     'type' => 'user',
+                                     'line' => '658'
+                                   }
+                                 ]
+         };
+$expr_list = [];
+$eval_saved_text = undef;
+$main_win_geometry = '1109x935+483+0';
