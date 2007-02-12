@@ -1,4 +1,3 @@
-_Inline
 Makefile$
 Makefile.in$
 ^Heccer
@@ -18,9 +17,9 @@ Makefile.in$
 ^tests/code/fork4p1$
 ^tests/code/fork4p2$
 ^tests/code/fork4p3$
+^tests/code/pool1$
 ^tests/code/pool1-feedback1$
 ^tests/code/pool1-feedback2$
-^tests/code/pool1$
 ^tests/code/pool2$
 ^tests/code/singlea-naf$
 ^tests/code/singlep$
@@ -30,6 +29,7 @@ Makefile.in$
 ^tests/code/triplep$
 ^tests/code/version$
 ^tests/html/
+_Inline
 aclocal.m4$
 autoscan.log$
 config.h$
