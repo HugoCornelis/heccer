@@ -23,7 +23,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/singlep',
+				command => 'tests/glue/swig/perl/singlep',
 				command_tests => [
 						  {
 						   description => "Is a single passive compartment solved correctly ?",
@@ -37,7 +37,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/doublep',
+				command => 'tests/glue/swig/perl/doublep',
 				command_tests => [
 						  {
 						   description => "Are two passive compartments solved correctly ?",
@@ -51,7 +51,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/triplep',
+				command => 'tests/glue/swig/perl/triplep',
 				command_tests => [
 						  {
 						   description => "Are three passive compartments solved correctly ?",
@@ -65,7 +65,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/fork3p',
+				command => 'tests/glue/swig/perl/fork3p',
 				command_tests => [
 						  {
 						   description => "Is a fork of three passive compartments solved correctly ?",
@@ -79,7 +79,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/fork4p1',
+				command => 'tests/glue/swig/perl/fork4p1',
 				command_tests => [
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, first alternative ?",
@@ -93,7 +93,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/fork4p2',
+				command => 'tests/glue/swig/perl/fork4p2',
 				command_tests => [
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, second alternative ?",
@@ -107,7 +107,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/fork4p3',
+				command => 'tests/glue/swig/perl/fork4p3',
 				command_tests => [
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, third alternative ?",
@@ -121,7 +121,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/c1c2p1',
+				command => 'tests/glue/swig/perl/c1c2p1',
 				command_tests => [
 						  {
 						   description => "Are two passive compartments with injected current solved correctly ?",
@@ -135,7 +135,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/c1c2p2',
+				command => 'tests/glue/swig/perl/c1c2p2',
 				command_tests => [
 						  {
 						   description => "Are two passive compartments with asymetric properties and injected current solved correctly ?",
@@ -149,7 +149,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/perl/tensizesp',
+				command => 'tests/glue/swig/perl/tensizesp',
 				command_tests => [
 						  {
 						   description => "Are ten passive compartments with different properties and injected current solved correctly ?",

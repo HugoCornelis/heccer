@@ -90,9 +90,9 @@ version_LDADD = -L../.. -lheccer -lm
 
 #t automake does not allow to pass in arguments for tests ?
 
-check_SCRIPTS = $(srcdir)/../run
+#check_SCRIPTS = $(srcdir)/../run
 
-TESTS = $(srcdir)/../run
+#TESTS = $(srcdir)/../run
 
-test: check
+#test: check
 

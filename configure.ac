@@ -52,6 +52,7 @@ AC_CHECK_FUNCS([localeconv strchr])
 AC_CONFIG_FILES([Makefile
                  glue/Makefile
                  glue/swig/perl/Makefile
+                 tests/Makefile
                  tests/code/Makefile
 		 tests/glue/Makefile])
 AC_OUTPUT

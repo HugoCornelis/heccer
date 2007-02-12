@@ -30,7 +30,7 @@ BEGIN
 {
     # during tests
 
-    push @INC, '../../glue/swig/perl';
+    push @INC, '../glue/swig/perl';
 
     # after installation
 
@@ -88,6 +88,18 @@ my $compartments
 	 dInject => 0,
 	 dRa => 360502,
 	 dRm => 3.58441e+08,
+	 iParent => 1,
+	},
+       ),
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 4.57537e-11,
+	 dEm => -0.08,
+	 dInitVm => -0.068,
+	 dInject => 0,
+	 dRa => 360502,
+	 dRm => 3.58441e+08,
 	 iParent => 0,
 	},
        ),
@@ -99,9 +111,9 @@ my $intermediary
     = Heccer::Intermediary->new
       (
        {
-	comp2mech => [ 0, 0, 0, -1],
+	comp2mech => [ 0, 0, 0, 0, -1],
 	compartments => $compartments,
-	iCompartments => 3,
+	iCompartments => 4,
        },
       );
 
