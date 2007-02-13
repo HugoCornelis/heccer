@@ -141,27 +141,11 @@ my $heccer_mapping
 					   internal_name => 'ChannelActInact',
 					   translators => {
 							   activation => {
-									  convertor =>
-									  sub
-									  {
-									      my $target = shift;
-
-									      my $value = shift;
-
-									      return Heccer::PoweredGateConcept->new($value)->{powered_gate_concept};
-									  },
+									  source => 'powered_gate_concept',
 									  target => 'pgcActivation',
 									 },
 							   inactivation => {
-									    convertor =>
-									    sub
-									    {
-										my $target = shift;
-
-										my $value = shift;
-
-										return Heccer::PoweredGateConcept->new($value)->{powered_gate_concept};
-									    },
+									    source => 'powered_gate_concept',
 									    target => 'pgcInactivation',
 									   },
 							  },
@@ -180,27 +164,11 @@ my $heccer_mapping
 			internal_name => 'GateConcept',
 			translators => {
 					backward => {
-						     convertor =>
-						     sub
-						     {
-							 my $target = shift;
-
-							 my $value = shift;
-
-							 return Heccer::GateKinetic->new($value)->{gate_kinetic};
-						     },
+						     source => 'gate_kinetic',
 						     target => 'gkBackward',
 						    },
 					forward => {
-						    convertor =>
-						    sub
-						    {
-							my $target = shift;
-
-							my $value = shift;
-
-							return Heccer::GateKinetic->new($value)->{gate_kinetic};
-						    },
+						    source => 'gate_kinetic',
 						    target => 'gkForward',
 						   },
 				       },
@@ -299,15 +267,7 @@ my $heccer_mapping
 				internal_name => 'PoweredGateConcept',
 				translators => {
 						gate_concept => {
-								 convertor =>
-								 sub
-								 {
-								     my $target = shift;
-
-								     my $value = shift;
-
-								     return Heccer::GateConcept->new($value)->{gate_concept};
-								 },
+								 source => 'gate_concept',
 								 target => 'gc',
 								},
 					       },
@@ -375,15 +335,32 @@ sub new
 
 	    # translate the value
 
-	    my $convertor = $translator->{convertor};
-
 	    # for a custom value convertor
 
-	    if ($convertor)
+	    if ($translator->{convertor})
 	    {
 		# call custom value convertor
 
+		my $convertor = $translator->{convertor};
+
 		$value = &$convertor($target, $value);;
+	    }
+
+	    # for a simple source to target translator
+
+	    elsif ($translator->{source})
+	    {
+		# get the factory method for the target object
+
+		my $source = $translator->{source};
+
+		my $factory_source = "Heccer::" . identifier_perl_to_xml($source);
+
+		# translate the source structure to a target object
+
+		$value = $factory_source->new($value);
+
+		$value = $value->{$source};
 	    }
 
 	    # else
