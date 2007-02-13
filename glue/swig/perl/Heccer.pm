@@ -41,9 +41,19 @@ sub dump
 
     my $selection = shift;
 
-    #t use selection
+    #t not sure how it could be possible to use $file, but anyway,
+    #t placeholder for the idea.
 
-    $self->{heccer}->HeccerDumpV();
+    my $file = shift;
+
+    if (!defined $selection)
+    {
+	$self->{heccer}->HeccerDumpV();
+    }
+    else
+    {
+	$self->{heccer}->HeccerDump($file, $selection);
+    }
 }
 
 

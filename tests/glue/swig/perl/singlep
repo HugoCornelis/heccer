@@ -19,11 +19,7 @@
 ##############################################################################
 
 
-
 use strict;
-
-
-$| = 1;
 
 
 BEGIN
@@ -42,15 +38,13 @@ BEGIN
 }
 
 
-$SIG{__DIE__}
-    = sub {
-	use Carp;
+BEGIN
+{
+    # for main
 
-	confess @_;
-    };
+    push @INC, './glue/swig/perl';
+}
 
-
-use Data::Dumper;
 
 use Heccer;
 
@@ -75,7 +69,7 @@ my $compartments
 
 # initialize intermediary
 
-my $intermediary
+our $intermediary
     = Heccer::Intermediary->new
       (
        {
@@ -85,68 +79,7 @@ my $intermediary
        },
       );
 
-# initialize options
 
-my $options
-    = Heccer::Options->new
-      (
-       {
-	dIntervalStart => -0.1,
-	dIntervalEnd => 0.05,
-	dBasalActivatorStart => 4e-5,
-	dBasalActivatorEnd => 0.3,
-	iIntervalEntries => 3000,
-       },
-      );
-
-# instantiate heccer
-
-my $heccer
-    = Heccer->new
-      (
-       {
-	dStep => 2e-5,
-	intermediary => $intermediary,
-	options => $options,
-       },
-      );
-
-# build indices for optimization, compile to byte code
-
-$heccer->compile();
-
-# initiate values
-
-$heccer->initiate();
-
-# initial dump
-
-print "Initiated\n";
-
-$heccer->dump();
-
-# a couple of times
-
-my $final_report = 0;
-
-foreach (0 .. 9)
-{
-    # step
-
-    $heccer->hecc();
-
-    # dump
-
-    print "-------\n";
-
-    print "Iteration $_\n";
-
-    $heccer->dump();
-}
-
-if ($final_report)
-{
-    $heccer->dump();
-}
+require 'main';
 
 

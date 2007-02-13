@@ -1,0 +1,149 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb -w
+#
+##
+## Heccer : a compartmental solver that implements efficient Crank-Nicolson
+## integration for neuronal models.
+##
+
+##############################################################################
+##'
+##' Heccer : testbed C implementation
+##'
+##' Copyright (C) 2006-2007 Hugo Cornelis
+##'
+##' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##############################################################################
+
+
+use strict;
+
+
+$| = 1;
+
+
+BEGIN
+{
+    # during tests
+
+    push @INC, '../glue/swig/perl';
+
+    # during distcheck
+
+    push @INC, '../../glue/swig/perl';
+
+    # after installation
+
+    push @INC, '/usr/local/glue/swig/perl';
+}
+
+
+$SIG{__DIE__}
+    = sub {
+	use Carp;
+
+	confess @_;
+    };
+
+
+use Data::Dumper;
+
+use Heccer;
+
+
+our $config;
+
+$config->{defaults}
+    = {
+       basal_activator_end => 0.3,
+       basal_activator_start => 4e-5,
+       interval_default_end => (0.05),
+       interval_default_entries => 3000,
+       interval_default_start => (-0.1),
+       reporting_granularity => 1,
+       steps => 10,
+       tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
+       time_step => (2e-5),
+      };
+
+# initialize options
+
+my $options
+    = Heccer::Options->new
+      (
+       {
+	dBasalActivatorEnd => $config->{settings}->{basal_activator_end} || $config->{defaults}->{basal_activator_end},
+	dBasalActivatorStart => $config->{settings}->{basal_activator_start} || $config->{defaults}->{basal_activator_start},
+	dIntervalEnd => $config->{settings}->{interval_default_end} || $config->{defaults}->{interval_default_end},
+	dIntervalStart => $config->{settings}->{interval_default_start} || $config->{defaults}->{interval_default_start},
+	iIntervalEntries => $config->{settings}->{interval_default_entries} || $config->{defaults}->{interval_default_entries},
+       },
+      );
+
+# instantiate heccer
+
+our $intermediary;
+
+my $heccer
+    = Heccer->new
+      (
+       {
+	dStep => $config->{settings}->{time_step} || $config->{defaults}->{time_step},
+	intermediary => $intermediary,
+	options => $options,
+       },
+      );
+
+# build indices for optimization, compile to byte code
+
+$heccer->compile();
+
+# initiate values
+
+$heccer->initiate();
+
+# initial dump
+
+print "Initiated\n";
+
+$heccer->dump($config->{settings}->{tested_things} || $config->{defaults}->{tested_things});
+
+# a couple of times
+
+my $final_report = 0;
+
+foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps}) - 1)
+{
+    # step
+
+    $heccer->hecc();
+
+    if (($i % ($config->{settings}->{reporting_granularity} || $config->{defaults}->{reporting_granularity})) == 0)
+    {
+	# dump
+
+	print "-------\n";
+
+	print "Iteration $i\n";
+
+	$heccer->dump($config->{settings}->{tested_things} || $config->{defaults}->{tested_things});
+    }
+    else
+    {
+	$final_report = 1;
+    }
+}
+
+if ($final_report)
+{
+    $heccer->dump();
+}
+
+
+1;
+
+
+
