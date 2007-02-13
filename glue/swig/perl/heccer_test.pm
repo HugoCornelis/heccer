@@ -16,7 +16,7 @@ BEGIN
 {
     if ($ENV{srcdir})
     {
-	print "Found ENV{srcdir} ($ENV{srcdir}), using for finding perl modules\n";
+	print "Found ENV{srcdir} ($ENV{srcdir}), using it for finding perl modules\n";
 
 	push @INC, "$ENV{srcdir}";
 

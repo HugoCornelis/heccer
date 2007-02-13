@@ -165,6 +165,10 @@ my $test
 						  },
 						 ],
 				description => "ten passive compartments with different properties and injected current",
+
+				#! perl is slow, timeout needed for this one on some machines
+
+				timeout => 10,
 			       },
 			      ],
        description => "passive model testing",

@@ -32,6 +32,10 @@ BEGIN
 
     push @INC, '../glue/swig/perl';
 
+    # during distcheck
+
+    push @INC, '../../glue/swig/perl';
+
     # after installation
 
     push @INC, '/usr/local/glue/swig/perl';

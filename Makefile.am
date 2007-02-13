@@ -64,8 +64,9 @@ dist-hook:
 	test -d $(distdir)/tests/library || mkdir $(distdir)/tests/library
 	cp -R $(srcdir)/tests/run $(distdir)/tests/run
 	cp -R $(srcdir)/tests/tests_2_html $(distdir)/tests/tests_2_html
-	cp -R $(srcdir)/tests/library $(distdir)/tests/library
+	cp -R $(srcdir)/tests/library $(distdir)/tests
 	cp -R $(srcdir)/tests/code/tests.config $(distdir)/tests/code/tests.config
+	cp -R $(srcdir)/tests/tests.config $(distdir)/tests/tests.config
 	cp -R $(srcdir)/tests.config $(distdir)
 	cp -R $(srcdir)/perl $(distdir)
 

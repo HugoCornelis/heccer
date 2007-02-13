@@ -49,6 +49,9 @@ BEGIN
     else
     {
 	$core_directory = "$ENV{srcdir}/$config->{core_directory}";
+
+	$core_directory = $config->{core_directory};
+
     }
 
     # remove parent and current directories
@@ -193,13 +196,21 @@ sub main
 	    }
 	    else
 	    {
+		# a command can come from the _build directory
+		# or from the sources for a script
+
+		my $test_command
+		    = -f $built_exe_directory . $command
+			? $built_exe_directory . $command
+			    : $core_directory . $command;
+
 		# if there are differences between how to run this
 		# command and the one already running
 
 		my $new_command_definition
 		    = {
 		       arguments => $command_definition->{arguments},
-		       command => $built_exe_directory . $command,
+		       command => $test_command,
 		      };
 
 		my $differences
