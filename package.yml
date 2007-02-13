@@ -253,6 +253,13 @@ releases:
         major: pools
         micro: ''
         minor: 9
+  swig:
+    1:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: swig
+        micro: ''
+        minor: 1
   tabulation:
     '':
       '':
