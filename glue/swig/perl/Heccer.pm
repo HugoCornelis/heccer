@@ -91,7 +91,7 @@ sub new
 	{
 	    # set status: HECCER_STATUS_PHASE_2
 
-	    $result->{heccer}->swig_iStatus_set(20);
+	    $result->{heccer}->swig_iStatus_set($SwiggableHeccer::HECCER_STATUS_PHASE_2);
 	}
     }
 
@@ -117,7 +117,6 @@ my $heccer_mapping
 		   internal_name => 'Callout',
 		   translators => {
 				   external_function => {
-							 target => 'pef',
 							 convertor =>
 							 sub
 							 {
@@ -127,6 +126,7 @@ my $heccer_mapping
 
 							     return $value;
 							 },
+							 target => 'pef',
 							},
 				   external_results => {
 							target => 'per',
@@ -135,17 +135,79 @@ my $heccer_mapping
 							target => 'pir',
 						       },
 				  },
-		   type_number => ( 0x8000 | 2 ),
+		   type_number => $SwiggableHeccer::MATH_TYPE_CallOut_conductance_current,
 		  },
+       channel_activation_inactivation => {
+					   internal_name => 'ChannelActInact',
+					   translators => {
+							   activation => {
+									  convertor =>
+									  sub
+									  {
+									      my $target = shift;
+
+									      my $value = shift;
+
+									      return Heccer::PoweredGateConcept->new($value)->{powered_gate_concept};
+									  },
+									  target => 'pgcActivation',
+									 },
+							   inactivation => {
+									    convertor =>
+									    sub
+									    {
+										my $target = shift;
+
+										my $value = shift;
+
+										return Heccer::PoweredGateConcept->new($value)->{powered_gate_concept};
+									    },
+									    target => 'pgcInactivation',
+									   },
+							  },
+					   type_number => $SwiggableHeccer::MECHANISM_TYPE_ChannelActInact,
+					  },
        compartment => {
 		       internal_name => 'Compartment',
-		       type_number => 1,
+		       type_number => $SwiggableHeccer::MATH_TYPE_Compartment,
 		      },
 #        external_function => {
 # 			    },
        external_results => {
 			    internal_name => 'ExternalResults',
 			   },
+       gate_concept => {
+			internal_name => 'GateConcept',
+			translators => {
+					backward => {
+						     convertor =>
+						     sub
+						     {
+							 my $target = shift;
+
+							 my $value = shift;
+
+							 return Heccer::GateKinetic->new($value)->{gate_kinetic};
+						     },
+						     target => 'gkBackward',
+						    },
+					forward => {
+						    convertor =>
+						    sub
+						    {
+							my $target = shift;
+
+							my $value = shift;
+
+							return Heccer::GateKinetic->new($value)->{gate_kinetic};
+						    },
+						    target => 'gkForward',
+						   },
+				       },
+		       },
+       gate_kinetic => {
+			internal_name => 'GateKinetic',
+		       },
        heccer => {
 		  internal_name => 'Heccer',
 		  translators => {
@@ -161,7 +223,6 @@ my $heccer_mapping
 			internal_name => 'Intermediary',
 			translators => {
 					compartments => {
-							 target => 'pcomp',
 							 convertor =>
 							 sub
 							 {
@@ -180,9 +241,9 @@ my $heccer_mapping
 
 							     return $result;
 							 },
+							 target => 'pcomp',
 							},
 					comp2mech => {
-						      target => 'piC2m',
 						      convertor =>
 						      sub
 						      {
@@ -201,7 +262,31 @@ my $heccer_mapping
 
 							  return $result;
 						      },
+						      target => 'piC2m',
 						     },
+					mechanisms => {
+# 						       convertor =>
+# 						       sub
+# 						       {
+# 							   my $target = shift;
+
+# 							   my $value = shift;
+
+# 							   my $result = SwiggableHeccer::mechanism_array($#$value + 1);
+
+# 							   foreach my $mechanism_index (0 .. $#$value)
+# 							   {
+# 							       my $mechanism = $value->[$mechanism_index];
+
+# 							       SwiggableHeccer::mechanism_set($result, $mechanism_index, $mechanism->{compartment});
+# 							   }
+
+# 							   $result = SwiggableHeccer::mechanism_array_convert($result);
+
+# 							   return $result;
+# 						       },
+# 						       target => 'pmc',
+						      },
 				       },
 		       },
        internal_results => {
@@ -210,6 +295,23 @@ my $heccer_mapping
        options => {
 		   internal_name => 'HeccerOptions',
 		  },
+       powered_gate_concept => {
+				internal_name => 'PoweredGateConcept',
+				translators => {
+						gate_concept => {
+								 convertor =>
+								 sub
+								 {
+								     my $target = shift;
+
+								     my $value = shift;
+
+								     return Heccer::GateConcept->new($value)->{gate_concept};
+								 },
+								 target => 'gc',
+								},
+					       },
+			       },
       };
 
 
@@ -295,11 +397,23 @@ sub new
 	    }
 	}
 
-	# set the heccer internal target
+	# if there was a target
 
-	my $subname = "swig_${target}_set";
+	if (defined $target)
+	{
+	    # set the heccer internal target
 
-	$self->{$type}->$subname($value);
+	    my $subname = "swig_${target}_set";
+
+	    $self->{$type}->$subname($value);
+	}
+
+	# else
+
+	else
+	{
+	    # the convertor has done the necessary setting, void here
+	}
     }
 
     # return result
@@ -342,7 +456,7 @@ foreach my $component (keys %$heccer_mapping)
 {
     my $Component = identifier_perl_to_xml($component);
 
-    print "For $component -> $Component\n";
+#     print "For $component -> $Component\n";
 
     my $code = "
 package Heccer::$Component;

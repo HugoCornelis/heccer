@@ -1,0 +1,155 @@
+#!/usr/bin/perl -d:ptkdb -w
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb -w
+#
+##
+## Heccer : a compartmental solver that implements efficient Crank-Nicolson
+## integration for neuronal models.
+##
+
+##############################################################################
+##'
+##' Heccer : testbed C implementation
+##'
+##' Copyright (C) 2006-2007 Hugo Cornelis
+##'
+##' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##############################################################################
+
+
+use strict;
+
+
+BEGIN
+{
+    # during tests
+
+    push @INC, '../glue/swig/perl';
+
+    # during distcheck
+
+    push @INC, '../../glue/swig/perl';
+
+    # after installation
+
+    push @INC, '/usr/local/glue/swig/perl';
+}
+
+
+BEGIN
+{
+    # for main during tests
+
+    push @INC, './glue/swig/perl';
+
+    # for main during distcheck
+
+    push @INC, '../../tests/glue/swig/perl';
+}
+
+
+use Heccer;
+
+
+# initialize compartments
+
+my $compartments
+    = [
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 4.57537e-11,
+	 dEm => -0.08,
+	 dInitVm => -0.068,
+	 dInject => 0,
+	 dRa => 360502,
+	 dRm => 3.58441e+08,
+	 iParent => -1,
+	},
+       ),
+      ];
+
+my $channel
+    = Heccer::ChannelActivationInactivation->new
+      (
+       {
+	dReversalPotential => -0.085,
+	dMaximalConductance => 4.184786349e-07,
+	iPool => -1,
+	activation => {
+		       iPower => 4,
+		       gate_concept => {
+					dInitActivation => 0.08371356085,
+					forward => {
+						    dMultiplier => 1.40e3,
+						    dMembraneDependence => 0.0,
+						    iNominator => -1.0,
+						    dDeNominatorOffset => 1.0,
+						    dMembraneOffset => 0.027,
+						    dTauDenormalizer => -12.0e-3,
+						   },
+					backward => {
+						     dMultiplier => 0.49e3,
+						     dMembraneDependence => 0.0,
+						     iNominator => -1.0,
+						     dDeNominatorOffset => 1.0,
+						     dMembraneOffset => 30.0e-3,
+						     dTauDenormalizer => 4.0e-3,
+						    },
+				       },
+		      },
+	inactivation => {
+			 iPower => 1,
+			 gate_concept => {
+					  dInitActivation => 0.7474853827,
+					  forward => {
+						      dMultiplier => 0.0175e3,
+						      dMembraneDependence => 0.0,
+						      iNominator => -1.0,
+						      dDeNominatorOffset => 1.0,
+						      dMembraneOffset => 50.0e-3,
+						      dTauDenormalizer => 8.0e-3,
+						     },
+					  backward => {
+						       dMultiplier => 1.3e3,
+						       dMembraneDependence => 0.0,
+						       iNominator => -1.0,
+						       dDeNominatorOffset => 1.0,
+						       dMembraneOffset => 13.0e-3,
+						       dTauDenormalizer => -10.0e-3,
+						      },
+					 },
+			},
+       },
+      );
+
+# initialize intermediary
+
+our $intermediary
+    = Heccer::Intermediary->new
+      (
+       {
+	comp2mech => [ 0, -1],
+	compartments => $compartments,
+	iCompartments => 1,
+       },
+      );
+
+
+our $config
+    = {
+       settings => {
+		    interval_default_end => (0.05),
+		    interval_default_entries => 50,
+		    interval_default_start => (-0.1),
+		    steps => 1,
+		   },
+      };
+
+
+require 'main';
+
+
