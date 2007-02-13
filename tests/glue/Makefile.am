@@ -33,6 +33,7 @@ noinst_SCRIPTS = \
 	$(srcdir)/swig/perl/fork4p1 \
 	$(srcdir)/swig/perl/fork4p2 \
 	$(srcdir)/swig/perl/fork4p3 \
+	$(srcdir)/swig/perl/main \
 	$(srcdir)/swig/perl/singlep \
 	$(srcdir)/swig/perl/tensizesp \
 	$(srcdir)/swig/perl/triplep
@@ -50,6 +51,7 @@ dist-hook:
 	cp $(srcdir)/swig/perl/fork4p1 $(distdir)/swig/perl
 	cp $(srcdir)/swig/perl/fork4p2 $(distdir)/swig/perl
 	cp $(srcdir)/swig/perl/fork4p3 $(distdir)/swig/perl
+	cp $(srcdir)/swig/perl/main $(distdir)/swig/perl
 	cp $(srcdir)/swig/perl/singlep $(distdir)/swig/perl
 	cp $(srcdir)/swig/perl/tensizesp $(distdir)/swig/perl
 	cp $(srcdir)/swig/perl/triplep $(distdir)/swig/perl
