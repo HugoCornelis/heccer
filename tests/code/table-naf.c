@@ -85,7 +85,7 @@ struct ChannelActInact caiNaF =
     {
 	//m type of structure
 
-	MECHANISM_TYPE_ChannelActInact,
+	MATH_TYPE_ChannelActInact,
     },
 
     //m first set of descriptive values, alphabetical order

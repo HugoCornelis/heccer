@@ -94,7 +94,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	//- for an regular channel with activation and inactivation
 
-	case MECHANISM_TYPE_ChannelActInact:
+	case MATH_TYPE_ChannelActInact:
 	{
 	    //- get type specific data
 
@@ -107,7 +107,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	//- for a channel with a potential and a concentration dependence
 
-	case MECHANISM_TYPE_ChannelActConc:
+	case MATH_TYPE_ChannelActConc:
 	{
 	    //- get type specific data
 
@@ -120,7 +120,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	//- for an exponential decaying variable
 
-	case MECHANISM_TYPE_ExponentialDecay:
+	case MATH_TYPE_ExponentialDecay:
 	{
 	    //- get type specific data
 

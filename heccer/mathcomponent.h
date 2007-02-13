@@ -48,15 +48,16 @@ struct MathComponent
 };
 
 
-#define MATH_TYPE_Compartment			1
+#define MATH_TYPE_ChannelActConc 8
+#define MATH_TYPE_ChannelActInact 7
+#define MATH_TYPE_ChannelSpringMass 9
+#define MATH_TYPE_Compartment 1
+#define MATH_TYPE_ExponentialDecay 2
+#define MATH_TYPE_GHK 3
+#define MATH_TYPE_MGBlocker 4
+#define MATH_TYPE_Nernst 5
+#define MATH_TYPE_SpikeGenerator 6
 
-#define MATH_TYPE_ChannelSpringMass		102
-#define MATH_TYPE_Concen			103
-#define MATH_TYPE_GHK				104
-#define MATH_TYPE_MGBlocker			105
-#define MATH_TYPE_Nernst			106
-#define MATH_TYPE_SpikeGenerator		107
-#define MATH_TYPE_TabulatedHHChannel		108
 
 #define MATH_TYPE_CallOut_flag			0x8000
 

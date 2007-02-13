@@ -1,9 +1,5 @@
 -*- outline -*-
 
-* cleanup constants
-MATH_TYPE_* and MECHANISM_TYPE_* overlap in semantics.
-The first one should be used for the intermediary, the second one removed ?
-
 * swig interface
 ** implement callouts
 #t callbacks and swig are still a problem, solutions for python seem

@@ -92,7 +92,7 @@ struct ChannelActInact caiCaT =
     {
 	//m type of structure
 
-	MECHANISM_TYPE_ChannelActInact,
+	MATH_TYPE_ChannelActInact,
     },
 
     //m first set of descriptive values, alphabetical order
@@ -274,7 +274,7 @@ struct ExponentialDecay exdecCa =
     {
 	//m type of structure
 
-	MECHANISM_TYPE_ExponentialDecay,
+	MATH_TYPE_ExponentialDecay,
     },
 
     //m initial value
@@ -306,7 +306,7 @@ struct ChannelActConc cacKC =
     {
 	//m type of structure
 
-	MECHANISM_TYPE_ChannelActConc,
+	MATH_TYPE_ChannelActConc,
     },
 
     //m first set of descriptive values, alphabetical order

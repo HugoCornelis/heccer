@@ -165,7 +165,7 @@ my $heccer_mapping
 									    target => 'pgcInactivation',
 									   },
 							  },
-					   type_number => $SwiggableHeccer::MECHANISM_TYPE_ChannelActInact,
+					   type_number => $SwiggableHeccer::MATH_TYPE_ChannelActInact,
 					  },
        compartment => {
 		       internal_name => 'Compartment',

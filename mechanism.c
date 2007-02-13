@@ -209,7 +209,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		//- for a regular channel with activation and inactivation
 
-		case MECHANISM_TYPE_ChannelActInact:
+		case MATH_TYPE_ChannelActInact:
 		{
 		    //- get type specific data
 
@@ -278,7 +278,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		//- for a channel with a potential and an external dependence
 
-		case MECHANISM_TYPE_ChannelActConc:
+		case MATH_TYPE_ChannelActConc:
 		{
 		    //- get type specific data
 
@@ -364,7 +364,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		//- for an exponential decaying variable
 
-		case MECHANISM_TYPE_ExponentialDecay:
+		case MATH_TYPE_ExponentialDecay:
 		{
 		    //- get type specific data
 

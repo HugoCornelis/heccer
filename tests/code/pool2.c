@@ -145,7 +145,7 @@ struct ChannelActInact pcaiCaT[] =
 	{
 	    //m type of structure
 
-	    MECHANISM_TYPE_ChannelActInact,
+	    MATH_TYPE_ChannelActInact,
 	},
 
 	//m first set of descriptive values, alphabetical order
@@ -325,7 +325,7 @@ struct ChannelActInact pcaiCaT[] =
 	{
 	    //m type of structure
 
-	    MECHANISM_TYPE_ChannelActInact,
+	    MATH_TYPE_ChannelActInact,
 	},
 
 	//m first set of descriptive values, alphabetical order
@@ -509,7 +509,7 @@ struct ExponentialDecay pexdecCa[] =
 	{
 	    //m type of structure
 
-	    MECHANISM_TYPE_ExponentialDecay,
+	    MATH_TYPE_ExponentialDecay,
 	},
 
 	//m initial value
@@ -539,7 +539,7 @@ struct ExponentialDecay pexdecCa[] =
 	{
 	    //m type of structure
 
-	    MECHANISM_TYPE_ExponentialDecay,
+	    MATH_TYPE_ExponentialDecay,
 	},
 
 	//m initial value

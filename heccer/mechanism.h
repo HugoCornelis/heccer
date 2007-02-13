@@ -27,8 +27,6 @@
 
 //s spring mass channel (synaptic channel)
 
-#define MECHANISM_TYPE_ChannelSpringMass 1
-
 struct ChannelSpringMass
 {
     //m administration overhead
@@ -46,8 +44,6 @@ struct ChannelSpringMass
 
 
 //s expential decaying ion concentration
-
-#define MECHANISM_TYPE_ExponentialDecay 2
 
 struct ExponentialDecay
 {
@@ -81,8 +77,6 @@ struct ExponentialDecay
 
 //s GHK, not sure if correct, use at own risk
 
-#define MECHANISM_TYPE_GHK 3
-
 struct GHK
 {
     //m administration overhead
@@ -100,8 +94,6 @@ struct GHK
 
 //s channel magnesium blocking
 
-#define MECHANISM_TYPE_MGBlocker 4
-
 struct MGBlocker
 {
     //m administration overhead
@@ -118,8 +110,6 @@ struct MGBlocker
 
 //s variable channel nernst potential
 
-#define MECHANISM_TYPE_Nernst 5
-
 struct Nernst
 {
     //m administration overhead
@@ -135,8 +125,6 @@ struct Nernst
 
 
 //s spike generator
-
-#define MECHANISM_TYPE_SpikeGenerator 6
 
 struct SpikeGenerator
 {
@@ -239,8 +227,6 @@ struct PoweredGateConcept
 
 //s HH alike channel, activation and inactivation
 
-#define MECHANISM_TYPE_ChannelActInact 7
-
 struct ChannelActInact
 {
     //m administration overhead
@@ -309,8 +295,6 @@ struct PoweredActivatorConcept
 };
 
 //s HH alike channel, activation and concentration dependent
-
-#define MECHANISM_TYPE_ChannelActConc 8
 
 struct ChannelActConc
 {
