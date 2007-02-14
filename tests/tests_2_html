@@ -673,7 +673,7 @@ sub output_source
 
     #! I guess it is somehow related to the global configuration in $config ...
 
-    $result->{result_text_file} =~ s(html/\.\./tests)(html);
+    $result->{result_text_file} =~ s(/\.\./tests)();
 
     output_prepare($result->{result_text_file});
 

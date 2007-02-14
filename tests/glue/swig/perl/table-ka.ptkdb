@@ -1,0 +1,16 @@
+$files = {
+           '_<../glue/swig/perl/Heccer.pm' => [
+                                                {
+                                                  'expr' => undef,
+                                                  'value' => '1',
+                                                  'text' => '							 return Heccer::GateKinetic->new($value)->{gate_kinetic};
+',
+                                                  'fname' => '../glue/swig/perl/Heccer.pm',
+                                                  'type' => 'user',
+                                                  'line' => '190'
+                                                }
+                                              ]
+         };
+$expr_list = [];
+$eval_saved_text = undef;
+$main_win_geometry = '1182x1114+410+0';
