@@ -160,15 +160,11 @@ my $test
 						   #! 'rounded away' and not visible in the tests output.
 
 						   read => [ `cat $::config->{core_directory}/tests/library/strings/tensizep.txt`, ],
-						   timeout => 8,
+						   timeout => 18,
 						   write => undef,
 						  },
 						 ],
 				description => "ten passive compartments with different properties and injected current",
-
-				#! perl is slow, timeout needed for this one on some machines
-
-				timeout => 10,
 			       },
 			      ],
        description => "passive model testing",
