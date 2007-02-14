@@ -640,7 +640,8 @@ sub output_source
 
     my $source_profile = `file $source_text_file`;
 
-    if ($source_profile =~ /ELF.*executable/)
+    if ($source_profile =~ /ELF.*executable/
+	|| $source_profile =~ /ERROR/)
     {
 	$source_text_file .= ".c";
 
