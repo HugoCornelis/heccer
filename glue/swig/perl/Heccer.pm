@@ -204,6 +204,13 @@ my $heccer_mapping
 							     {
 								 my $compartment = $value->[$compartment_index];
 
+								 my $ref = ref $compartment;
+
+								 if ($ref =~ /^HASH/)
+								 {
+								     $compartment = Heccer::Compartment->new($compartment);
+								 }
+
 								 SwiggableHeccer::comp_set($result, $compartment_index, $compartment->{compartment});
 							     }
 
