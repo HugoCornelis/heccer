@@ -85,15 +85,7 @@ struct Intermediary inter =
 
     &compSoma,
 
-    //m number of mechanisms
-
-    0,
-
-    //m mechanism data
-
-    NULL,
-
-    //m mechanism index, initialize to NULL
+    //m all other mathematical components
 
     NULL,
 

@@ -39,17 +39,9 @@ struct MechanismIndex;
 #endif
 
 
-//s heccer main structure
-
-struct Intermediary
+struct MathComponentArray
 {
-    //m compartment array
-
-    int iCompartments;
-
-    struct Compartment *pcomp;
-
-    //m number of mechanisms
+    //m number of math components
 
     int iMathComponents;
 
@@ -60,6 +52,22 @@ struct Intermediary
     //m math component index, initialize to NULL
 
     struct MathComponent **ppmcIndex;
+};
+
+
+//s heccer main structure
+
+struct Intermediary
+{
+    //m compartment array
+
+    int iCompartments;
+
+    struct Compartment *pcomp;
+
+    //m all other mathematical components
+
+    struct MathComponentArray *pmca;
 
     //m compartment 2 first mechanism number
 

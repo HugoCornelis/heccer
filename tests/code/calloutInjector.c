@@ -144,6 +144,23 @@ int piC2m[] =
 };
 
 
+struct MathComponentArray mca =
+{
+    //m number of math components
+
+    1,
+
+    //m math component data
+
+    &callSoma.mc,
+
+    //m math component index, initialize to NULL
+
+    NULL,
+
+};
+
+
 struct Intermediary inter =
 {
     //m compartment array
@@ -152,17 +169,9 @@ struct Intermediary inter =
 
     &compSoma,
 
-    //m number of mechanisms
+    //m all other mathematical components
 
-    1,
-
-    //m mechanism data
-
-    &callSoma.mc,
-
-    //m mechanism index, initialize to NULL
-
-    NULL,
+    &mca,
 
     //m compartment 2 first mechanism number
 

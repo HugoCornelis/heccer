@@ -162,7 +162,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
 
-	    if (iStart > pheccer->inter.iMathComponents)
+	    if (pheccer->inter.pmca && iStart > pheccer->inter.pmca->iMathComponents)
 	    {
 		//t HeccerError(number, message, varargs);
 
@@ -436,13 +436,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    ppvMatsIndex = pheccer->vm.ppvMatsIndex;
 
-	    pheccer->vm.piMC2Mat = (int *)calloc(pheccer->inter.iMathComponents + 1, sizeof(int *));
+	    if (pheccer->inter.pmca)
+	    {
+		//! note that this one does not index compartments, only the mechanism math components.
 
-	    piMC2Mat = pheccer->vm.piMC2Mat;
+		pheccer->vm.piMC2Mat = (int *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(int *));
 
-	    pheccer->vm.piMC2Mop = (int *)calloc(pheccer->inter.iMathComponents + 1, sizeof(int *));
+		piMC2Mat = pheccer->vm.piMC2Mat;
 
-	    piMC2Mop = pheccer->vm.piMC2Mop;
+		pheccer->vm.piMC2Mop = (int *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(int *));
+
+		piMC2Mop = pheccer->vm.piMC2Mop;
+	    }
 	}
 
 	//- if we were indexing during the previous loop

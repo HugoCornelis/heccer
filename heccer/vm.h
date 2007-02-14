@@ -73,6 +73,8 @@ struct VM
 
     //m math component number to mat number convertor
 
+    //! note that this one does not index compartments, only the mechanism math components.
+
     int *piMC2Mat;
 
     //m math component number to mop number convertor
