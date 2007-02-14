@@ -265,7 +265,7 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 char * HeccerGetVersion(void)
 {
     // $Format: "    static char *pcVersion=\"${label}\";"$
-    static char *pcVersion="swig-3";
+    static char *pcVersion="swig-4";
 
     return(pcVersion);
 }

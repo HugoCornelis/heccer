@@ -272,6 +272,12 @@ releases:
         major: swig
         micro: ''
         minor: 3
+    4:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: swig
+        micro: ''
+        minor: 4
   tabulation:
     '':
       '':
