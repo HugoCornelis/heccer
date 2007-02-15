@@ -1,0 +1,261 @@
+#!/usr/bin/perl -w
+#!/usr/bin/perl -d:ptkdb -w
+#
+##
+## Heccer : a compartmental solver that implements efficient Crank-Nicolson
+## integration for neuronal models.
+##
+
+##############################################################################
+##'
+##' Heccer : testbed C implementation
+##'
+##' Copyright (C) 2006-2007 Hugo Cornelis
+##'
+##' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+##'
+##############################################################################
+
+
+use strict;
+
+
+BEGIN
+{
+    # during tests
+
+    push @INC, '../glue/swig/perl';
+
+    # during distcheck
+
+    push @INC, '../../glue/swig/perl';
+
+    # after installation
+
+    push @INC, '/usr/local/glue/swig/perl';
+}
+
+
+BEGIN
+{
+    # for main during tests
+
+    push @INC, './glue/swig/perl';
+
+    # for main during distcheck
+
+    push @INC, '../../tests/glue/swig/perl';
+}
+
+
+use Heccer;
+
+
+# initialize compartments
+
+my $compartments
+    = [
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 4.57537e-11,
+	 dEm => -0.08,
+	 dInitVm => -0.028,
+	 dInject => 0,
+	 dRa => 360502,
+	 dRm => 3.58441e+08,
+	},
+       ),
+       Heccer::Compartment->new
+       (
+	{
+	 dCm => 5.755329373e-12,
+	 dEm => -0.08,
+	 dInitVm => -0.068,
+	 dInject => 0,
+	 dRa => 772813.4375,
+	 dRm => 8.548598272e9,
+	 iParent => 0,
+	},
+       ),
+      ];
+
+my $channel1
+    = Heccer::ChannelActivationInactivation->new
+      (
+       {
+	dReversalPotential => 0.1375262439,
+	dMaximalConductance => 1.394928884e-08,
+	iPool => 1,
+	activation => {
+		       iPower => 1,
+		       gate_concept => {
+					dInitActivation => 0.9889635316,
+					forward => {
+						    dMultiplier => 2.6e3,
+						    dMembraneDependence => 0.0,
+						    iNominator => -1.0,
+						    dDeNominatorOffset => 1.0,
+						    dMembraneOffset => 0.021,
+						    dTauDenormalizer => -8e-3,
+						   },
+					backward => {
+						     dMultiplier => 0.18e3,
+						     dMembraneDependence => 0.0,
+						     iNominator => -1.0,
+						     dDeNominatorOffset => 1.0,
+						     dMembraneOffset => 0.04,
+						     dTauDenormalizer => 4e-3,
+						    },
+				       },
+		      },
+	inactivation => {
+			 iPower => 1,
+			 gate_concept => {
+					  dInitActivation => 0.002659210635,
+					  forward => {
+						      dMultiplier => 0.0025e3,
+						      dMembraneDependence => 0.0,
+						      iNominator => -1.0,
+						      dDeNominatorOffset => 1.0,
+						      dMembraneOffset => 0.04,
+						      dTauDenormalizer => 8e-3,
+						     },
+					  backward => {
+						       dMultiplier => 0.19e3,
+						       dMembraneDependence => 0.0,
+						       iNominator => -1.0,
+						       dDeNominatorOffset => 1.0,
+						       dMembraneOffset => 0.05,
+						       dTauDenormalizer => -10.0e-3,
+						      },
+					 },
+			},
+       },
+      );
+
+my $pool1
+    = Heccer::ExponentialDecay->new
+      (
+       {
+	dInitValue => 4e-5,
+	dBeta => 7.579027046e+10,
+	dSteadyState => 4e-05,
+	dTau => 0.00010,
+	iExternal => 0,
+       },
+      );
+
+my $channel2
+    = Heccer::ChannelActivationInactivation->new
+      (
+       {
+	dReversalPotential => 0.1470214874,
+	dMaximalConductance => 1.754672296e-09,
+	iPool => 3,
+	activation => {
+		       iPower => 1,
+		       gate_concept => {
+					dInitActivation => 0.03891870645,
+					forward => {
+						    dMultiplier => 2.6e3,
+						    dMembraneDependence => 0.0,
+						    iNominator => -1.0,
+						    dDeNominatorOffset => 1.0,
+						    dMembraneOffset => 0.021,
+						    dTauDenormalizer => -8e-3,
+						   },
+					backward => {
+						     dMultiplier => 0.18e3,
+						     dMembraneDependence => 0.0,
+						     iNominator => -1.0,
+						     dDeNominatorOffset => 1.0,
+						     dMembraneOffset => 0.04,
+						     dTauDenormalizer => 4e-3,
+						    },
+				       },
+		      },
+	inactivation => {
+			 iPower => 1,
+			 gate_concept => {
+					  dInitActivation => 0.08260212813,
+					  forward => {
+						      dMultiplier => 0.0025e3,
+						      dMembraneDependence => 0.0,
+						      iNominator => -1.0,
+						      dDeNominatorOffset => 1.0,
+						      dMembraneOffset => 0.04,
+						      dTauDenormalizer => 8e-3,
+						     },
+					  backward => {
+						       dMultiplier => 0.19e3,
+						       dMembraneDependence => 0.0,
+						       iNominator => -1.0,
+						       dDeNominatorOffset => 1.0,
+						       dMembraneOffset => 0.05,
+						       dTauDenormalizer => -10.0e-3,
+						      },
+					 },
+			},
+       },
+      );
+
+my $pool2
+    = Heccer::ExponentialDecay->new
+      (
+       {
+	dInitValue => 4e-5,
+	dBeta => 9412391936.0,
+	dSteadyState => 4e-05,
+	dTau => 0.00020,
+	iExternal => 2,
+       },
+      );
+
+# initialize the math component array
+
+my $math_components
+    = [
+       $channel1,
+       $pool1,
+       $channel2,
+       $pool2,
+      ];
+
+# initialize intermediary
+
+our $intermediary
+    = Heccer::Intermediary->new
+      (
+       {
+	comp2mech => [ 2, 4, -1],
+	compartments => $compartments,
+	iCompartments => 2,
+	math_components => $math_components,
+       },
+      );
+
+
+our $config
+    = {
+       settings => {
+		    reporting_granularity => 100,
+		    steps => 1000,
+		    tested_things =>  (
+				       $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_MATRIX
+					| $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_DATA
+					| $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
+					| $SwiggableHeccer::HECCER_DUMP_VM_MECHANISM_DATA
+					| $SwiggableHeccer::HECCER_DUMP_VM_MECHANISM_OPERATIONS
+					| $SwiggableHeccer::HECCER_DUMP_VM_SUMMARY
+				      ),
+		    time_step => (1e-6),
+		   },
+      };
+
+
+require 'main';
+
+

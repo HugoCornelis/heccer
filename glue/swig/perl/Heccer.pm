@@ -113,6 +113,12 @@ use SwiggableHeccer;
 
 my $heccer_mapping
     = {
+       activator => {
+		     internal_name => 'Activator',
+		     constructor_settings => {
+					      iTable => -1,
+					     },
+		    },
        callout => {
 		   internal_name => 'Callout',
 		   translators => {
@@ -137,6 +143,23 @@ my $heccer_mapping
 				  },
 		   type_number => $SwiggableHeccer::MATH_TYPE_CallOut_conductance_current,
 		  },
+       channel_activation_concentration => {
+					    constructor_settings => {
+								     iPool => -1,
+								    },
+					    internal_name => 'ChannelActConc',
+					    translators => {
+							    activation => {
+									   source => 'powered_gate_concept',
+									   target => 'pgc',
+									  },
+							    powered_activator => {
+										  source => 'powered_activator_concept',
+										  target => 'pac',
+										 },
+							   },
+					    type_number => $SwiggableHeccer::MATH_TYPE_ChannelActConc,
+					   },
        channel_activation_inactivation => {
 					   constructor_settings => {
 								    iPool => -1,
@@ -161,6 +184,13 @@ my $heccer_mapping
 		       internal_name => 'Compartment',
 		       type_number => $SwiggableHeccer::MATH_TYPE_Compartment,
 		      },
+       exponential_decay => {
+			     constructor_settings => {
+						      iExternal => -1,
+						     },
+			     internal_name => 'ExponentialDecay',
+			     type_number => $SwiggableHeccer::MATH_TYPE_ExponentialDecay,
+			    },
 #        external_function => {
 # 			    },
        external_results => {
@@ -300,6 +330,15 @@ my $heccer_mapping
        options => {
 		   internal_name => 'HeccerOptions',
 		  },
+       powered_activator_concept => {
+				     internal_name => 'PoweredActivatorConcept',
+				     translators => {
+						     activator => {
+								   source => 'activator',
+								   target => 'ac',
+								  },
+						    },
+				    },
        powered_gate_concept => {
 				internal_name => 'PoweredGateConcept',
 				translators => {

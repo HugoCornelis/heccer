@@ -15,7 +15,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/pool1',
+				command => 'tests/glue/swig/perl/pool1',
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, single pool case ?",
@@ -29,7 +29,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/pool2',
+				command => 'tests/glue/swig/perl/pool2',
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, two compartments, two pools case ?",
@@ -43,7 +43,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/pool1-feedback1',
+				command => 'tests/glue/swig/perl/pool1-feedback1',
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop ?",
@@ -57,7 +57,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/pool1-feedback2',
+				command => 'tests/glue/swig/perl/pool1-feedback2',
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop, reversed order ?",
