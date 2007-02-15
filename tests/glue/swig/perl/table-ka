@@ -126,15 +126,23 @@ my $channel
        },
       );
 
+# initialize the math component array
+
+my $math_components
+    = [
+       $channel,
+      ];
+
 # initialize intermediary
 
 our $intermediary
     = Heccer::Intermediary->new
       (
        {
-	comp2mech => [ 0, -1],
+	comp2mech => [ 1, -1],
 	compartments => $compartments,
 	iCompartments => 1,
+	math_components => $math_components,
        },
       );
 

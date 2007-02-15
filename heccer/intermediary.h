@@ -39,22 +39,6 @@ struct MechanismIndex;
 #endif
 
 
-struct MathComponentArray
-{
-    //m number of math components
-
-    int iMathComponents;
-
-    //m math component data
-
-    struct MathComponent *pmc;
-
-    //m math component index, initialize to NULL
-
-    struct MathComponent **ppmcIndex;
-};
-
-
 //s heccer main structure
 
 struct Intermediary

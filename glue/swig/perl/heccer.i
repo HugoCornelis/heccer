@@ -50,39 +50,58 @@
 
 int *int_array(int size)
 {
-   return (int *) malloc(sizeof(int) * size);
+    return (int *) malloc(sizeof(int) * size);
 }
 void int_destroy(int *a)
 {
-   free(a);
+    free(a);
 }
 void int_set(int *a, int i, int val)
 {
-   a[i] = val;
+    a[i] = val;
 }
 int int_get(int *a, int i)
 {
-   return a[i];
+    return a[i];
 }
 
 /// compartment array handling
 
 struct Compartment *comp_array(int size)
 {
-   return (struct Compartment *)malloc(sizeof(struct Compartment) * size);
+    return (struct Compartment *)malloc(sizeof(struct Compartment) * size);
 }
 void comp_destroy(struct Compartment *a)
 {
-   free(a);
+    free(a);
 }
 void comp_set(struct Compartment *a, int i, struct Compartment *val)
 {
-   a[i] = *val;
+    a[i] = *val;
 }
 struct Compartment *comp_get(struct Compartment *a, int i)
 {
-   return &a[i];
+    return &a[i];
 }
+
+/* /// math component array handling */
+
+/* struct MathComponent *math_component_array(int size) */
+/* { */
+/*     return (struct MathComponent *)malloc(sizeof(struct MathComponent) * size); */
+/* } */
+/* void math_component_destroy(struct MathComponent *a) */
+/* { */
+/*     free(a); */
+/* } */
+/* void math_component_set(struct MathComponent *a, int i, struct MathComponent *val) */
+/* { */
+/*     a[i] = *val; */
+/* } */
+/* struct MathComponent *math_component_get(struct MathComponent *a, int i) */
+/* { */
+/*     return NULL; */
+/* } */
 %}
 
 %include "heccer/callout.h"

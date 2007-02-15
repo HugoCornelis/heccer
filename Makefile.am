@@ -32,6 +32,7 @@ libheccer_a_SOURCES = \
 	heccer.c \
 	indexers.c \
 	intermediary.c \
+	mathcomponent.c \
 	mechanism.c \
 	minimumdegree.c \
 	table.c \

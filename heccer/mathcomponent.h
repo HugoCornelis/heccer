@@ -64,6 +64,39 @@ struct MathComponent
 #define MATH_TYPE_CallOut_conductance_current	( 0x8000 | 2 )
 
 
+struct MathComponentArray
+{
+    //m number of math components
+
+    int iMathComponents;
+
+    //m math component data
+
+    struct MathComponent *pmc;
+
+    //m math component index, initialize to NULL
+
+    struct MathComponent **ppmcIndex;
+
+    //m cursor for iterations
+
+    int iCursor;
+
+    struct MathComponent *pmcCursor;
+};
+
+
+int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes);
+
+/* int MathComponentArrayCursorInitialize(struct MathComponentArray *pmca); */
+
+/* int MathComponentArrayCursorNext(struct MathComponentArray *pmca); */
+
+int
+MathComponentArraySetAdvance
+(struct MathComponentArray *pmca, struct MathComponent *pmc);
+
+
 #endif
 
 

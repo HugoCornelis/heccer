@@ -239,34 +239,55 @@ my $heccer_mapping
 						      },
 						      target => 'piC2m',
 						     },
-					mechanisms => {
-# 						       convertor =>
-# 						       sub
-# 						       {
-# 							   my $target = shift;
+					math_components => {
+							    convertor =>
+							    sub
+							    {
+								my $target = shift;
 
-# 							   my $value = shift;
+								my $value = shift;
 
-# 							   my $result = SwiggableHeccer::mechanism_array($#$value + 1);
+								my $result = Heccer::MathComponentArray->new( { iMathComponents => 0, } );
 
-# 							   foreach my $mechanism_index (0 .. $#$value)
-# 							   {
-# 							       my $mechanism = $value->[$mechanism_index];
+								my $types = SwiggableHeccer::int_array($#$value + 1);
 
-# 							       SwiggableHeccer::mechanism_set($result, $mechanism_index, $mechanism->{compartment});
-# 							   }
+								foreach my $math_component_index (0 .. $#$value)
+								{
+								    #! sure that if this confesses, the user is going to go a long way to figure out why
 
-# 							   $result = SwiggableHeccer::mechanism_array_convert($result);
+								    my $type = $value->[$math_component_index]->heccer_object()->swig_mc_get()->swig_iType_get();
 
-# 							   return $result;
-# 						       },
-# 						       target => 'pmc',
-						      },
+								    SwiggableHeccer::int_set($types, $math_component_index, $type);
+								}
+
+								SwiggableHeccer::int_set($types, $#$value + 1, -1);
+
+								$result->heccer_object()->MathComponentArrayCallocData($types);
+
+								foreach my $math_component_index (0 .. $#$value)
+								{
+								    my $mc = $value->[$math_component_index]->heccer_object()->swig_mc_get();
+
+								    $result->heccer_object()->MathComponentArraySetAdvance($mc);
+								}
+
+								# the math_component array will be set in the intermediary at C level,
+								# so perl should not touch it anymore.
+
+								$result->heccer_object()->DISOWN();
+
+								return $result->heccer_object();
+							    },
+							    target => 'pmca',
+							   },
 				       },
 		       },
        internal_results => {
 			    internal_name => 'InternalResults',
 			   },
+       math_component_array => {
+				internal_name => 'MathComponentArray',
+			       },
        options => {
 		   internal_name => 'HeccerOptions',
 		  },
@@ -460,6 +481,17 @@ sub new
 	return \$result;
     }
 }
+
+
+sub heccer_object
+{
+    my \$self = shift;
+
+    my \$result = \$self->{$component};
+
+    return \$result;
+}
+
 
 ";
 
