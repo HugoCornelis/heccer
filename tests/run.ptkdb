@@ -1,0 +1,16 @@
+$files = {
+           '_<././run' => [
+                            {
+                              'expr' => undef,
+                              'value' => '1',
+                              'text' => '			    ($matched_pattern_position,
+',
+                              'fname' => '././run',
+                              'type' => 'user',
+                              'line' => '355'
+                            }
+                          ]
+         };
+$expr_list = [];
+$eval_saved_text = undef;
+$main_win_geometry = '800x600+781+0';

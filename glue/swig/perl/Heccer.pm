@@ -138,6 +138,9 @@ my $heccer_mapping
 		   type_number => $SwiggableHeccer::MATH_TYPE_CallOut_conductance_current,
 		  },
        channel_activation_inactivation => {
+					   constructor_settings => {
+								    iPool => -1,
+								   },
 					   internal_name => 'ChannelActInact',
 					   translators => {
 							   activation => {
@@ -152,6 +155,9 @@ my $heccer_mapping
 					   type_number => $SwiggableHeccer::MATH_TYPE_ChannelActInact,
 					  },
        compartment => {
+		       constructor_settings => {
+						iParent => -1,
+					       },
 		       internal_name => 'Compartment',
 		       type_number => $SwiggableHeccer::MATH_TYPE_Compartment,
 		      },
@@ -161,6 +167,9 @@ my $heccer_mapping
 			    internal_name => 'ExternalResults',
 			   },
        gate_concept => {
+			constructor_settings => {
+						 iTable => -1,
+						},
 			internal_name => 'GateConcept',
 			translators => {
 					backward => {
@@ -340,6 +349,34 @@ sub new
 	$mc->swig_iType_set($type_number);
     }
 
+    # base initialization done
+
+    #! implicit assumption that this is a Heccer::Component, but can be overriden
+
+    bless $self, $package;
+
+    # apply constructor settings
+
+    $self->settings($type, $heccer_mapping->{$type}->{constructor_settings});
+
+    # apply user settings
+
+    $self->settings($type, $settings);
+
+    # return result
+
+    return $self;
+}
+
+
+sub settings
+{
+    my $self = shift;
+
+    my $type = shift;
+
+    my $settings = shift;
+
     # just apply all the settings, the missing ones are under
     # control of heccer
 
@@ -420,10 +457,6 @@ sub new
 	    # the convertor has done the necessary setting, void here
 	}
     }
-
-    # return result
-
-    bless $self, $package;
 }
 
 

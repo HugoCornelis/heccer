@@ -15,7 +15,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/table-naf',
+				command => 'tests/glue/swig/perl/table-naf',
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple sodium gates ?",
@@ -29,7 +29,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/table-ka',
+				command => 'tests/glue/swig/perl/table-ka',
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple potassium gates ?",
