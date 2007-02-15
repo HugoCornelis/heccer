@@ -1,0 +1,16 @@
+$files = {
+           '_<glue/swig/perl/active/singlea-naf' => [
+                                                      {
+                                                        'expr' => undef,
+                                                        'value' => '1',
+                                                        'text' => 'require \'main\';
+',
+                                                        'fname' => 'glue/swig/perl/active/singlea-naf',
+                                                        'type' => 'user',
+                                                        'line' => '166'
+                                                      }
+                                                    ]
+         };
+$expr_list = [];
+$eval_saved_text = undef;
+$main_win_geometry = '1266x1114+326+0';

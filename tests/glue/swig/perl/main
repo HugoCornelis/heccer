@@ -139,7 +139,7 @@ foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps
 
 if ($final_report)
 {
-    $heccer->dump();
+    $heccer->dump($config->{settings}->{tested_things} || $config->{defaults}->{tested_things});
 }
 
 

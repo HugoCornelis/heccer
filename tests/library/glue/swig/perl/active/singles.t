@@ -15,7 +15,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/singlea-naf',
+				command => 'tests/glue/swig/perl/active/singlea-naf',
 				command_tests => [
 						  {
 						   description => "Is a single compartment with a naf conductance solved correctly ?",
