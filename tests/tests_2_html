@@ -248,6 +248,31 @@ options :
 
     my $directories = [ sort split '\n', `find $tests_dir -type d`, ];
 
+    my $directory_2_files
+	= {
+	   map
+	   {
+	       my $directory = $_;
+
+	       $directory => [
+			      sort
+			      map { s/\.t$//; $_ }
+			      grep { /\.t$/ }
+			      split '\n', `find $directory -maxdepth 1 -type f`,
+			     ],
+	   }
+	   @$directories,
+	  };
+
+    $directories
+	= [
+	   grep
+	   {
+	       @{$directory_2_files->{$_}}
+	   }
+	   @$directories,
+	  ];
+
     # produce an index file for the main directory
 
     #! so main.html contains all the tests per directory ...
@@ -258,8 +283,9 @@ options :
 	   map
 	   {
 	       {
-		   source => $_,
-		       target => "$_/main.html",
+		   files => @{$directory_2_files->{$_}} . " test definition file(s)",
+		       source => $_,
+			   target => "$_/main.html",
 		   };
 	   }
 	   @$directories,
