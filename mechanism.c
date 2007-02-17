@@ -1337,10 +1337,6 @@ int HeccerMechanismSort(struct Heccer *pheccer)
 
     //t sort on Ek, see adaptive time step paper and hsolve implementation.
 
-    //t the concentration should come at the end of the mechanisms for
-    //t each compartment, or look for another solution for the
-    //t currently broken concentration count.
-
     //- return result
 
     return(iResult);
