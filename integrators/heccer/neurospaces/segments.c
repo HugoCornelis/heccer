@@ -21,6 +21,9 @@
 
 #include "heccer/compartment.h"
 #include "heccer/intermediary.h"
+#include "heccer/neurospaces/heccer.h"
+#include "heccer/neurospaces/segments.h"
+#include "heccer/service.h"
 
 
 static int 
@@ -106,13 +109,25 @@ solver_segmentprocessor
 }
 
 
-static int cellsolver_getsegments
-(struct PidinStack *ppist,
- struct symtab_HSolveListElement *phsle)
+static int cellsolver_getsegments(struct TranslationService *pts)
 {
-    struct symtab_Cell *pcell = (struct symtab_Cell *)phsle;
+    //- allocate pidin stack pointing to root
 
-    int iSegments = SymbolCountSegments(phsle, ppist);
+    struct PidinStack *ppistRoot = pts->ptsd->ppistRoot;
+
+    struct symtab_HSolveListElement *phsleRoot = pts->ptsd->phsleRoot;
+
+    //- get model context to solve
+
+    struct PidinStack *ppistModel
+	= SymbolPrincipalSerial2Context(phsleRoot, ppistRoot, pts->ptsd->iModel);
+
+    //- lookup symbol
+
+    struct symtab_HSolveListElement *phsleModel
+	= PidinStackLookupTopSymbol(ppistModel);
+
+    int iSegments = SymbolCountSegments(phsleModel, ppistModel);
 
     int i;
 
@@ -128,7 +143,8 @@ static int cellsolver_getsegments
 
     //- register solved segments in cell
 
-    SymbolTraverseSegments(phsle, ppist, solver_segmentprocessor, NULL, pinter);
+    SymbolTraverseSegments
+	(phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter);
 
     //- link the segments together using the parent link
 
@@ -138,12 +154,15 @@ static int cellsolver_getsegments
 }
 
 
-struct ServiceData;
-
-int HeccerNeurospacesSegments2Compartments(struct ServiceData *psd)
+int HeccerNeurospacesSegments2Compartments(struct TranslationService *pts)
 {
-    //t set the service function pointer to cellsolver_getsegments()
+    //- set the service function pointer to cellsolver_getsegments()
 
+    pts->segments_inspector = cellsolver_getsegments;
+
+    //- return result
+
+    return(1);
 }
 
 

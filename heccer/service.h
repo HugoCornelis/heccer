@@ -1,0 +1,50 @@
+//
+// Heccer : a compartmental solver that implements efficient Crank-Nicolson
+// integration for neuronal models.
+//
+
+//////////////////////////////////////////////////////////////////////////////
+//'
+//' Heccer : testbed C implementation
+//'
+//' Copyright (C) 2006-2007 Hugo Cornelis
+//'
+//' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
+//'
+//' coding ............	Hugo Cornelis, hugo.cornelis@gmail.com
+//'
+//////////////////////////////////////////////////////////////////////////////
+
+
+#ifndef HECCER_SERVICE_H
+#define HECCER_SERVICE_H
+
+
+struct TranslationService;
+
+struct TranslationServiceData;
+
+
+typedef int (*SegmentsInspector)(struct TranslationService *pts);
+
+struct TranslationService
+{
+    //m service specific data
+
+    struct TranslationServiceData *ptsd;
+
+    //t guess need to map this to the biological level as defined by
+    //t Neurospaces, not done yet.
+
+    //t additionally need to map this to the 'spatial and temporal
+    //t accuracy level'.  Not sure how to do that yet.
+
+    //m initializes segment intermediary
+
+    SegmentsInspector segments_inspector;
+};
+
+
+#endif
+
+

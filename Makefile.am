@@ -46,6 +46,7 @@ nobase_include_HEADERS = \
 	heccer/intermediary.h \
 	heccer/mathcomponent.h \
 	heccer/mechanism.h \
+	heccer/service.h \
 	heccer/table.h \
 	heccer/vm.h
 

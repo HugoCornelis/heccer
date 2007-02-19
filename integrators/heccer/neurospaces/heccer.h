@@ -16,11 +16,30 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef HECCER_NEUROSPACES_SEGMENTS_H
-#define HECCER_NEUROSPACES_SEGMENTS_H
+#ifndef HECCER_NEUROSPACES_HECCER_H
+#define HECCER_NEUROSPACES_HECCER_H
 
 
-int HeccerNeurospacesSegments2Compartments(struct TranslationService *pts);
+#include <neurospaces/neurospaces.h>
+
+
+//s translator specific service data
+
+struct TranslationServiceData
+{
+    //m root symbol in neurospaces
+
+    struct PidinStack *ppistRoot;
+
+    struct symtab_HSolveListElement *phsleRoot;
+
+    //m the model to be solved by this instantiation
+
+    int iModel;
+};
+
+
+struct Heccer *HeccerConstruct(struct Neurospaces *pneuro, char *pcModel);
 
 
 #endif

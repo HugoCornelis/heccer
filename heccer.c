@@ -220,7 +220,7 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     //- identification service : translates serials to math components
 
-    fprintf(pfile, "Heccer (pvService) : (%p)\n", pheccer->pvService);
+    fprintf(pfile, "Heccer (pvService) : (%p)\n", pheccer->pts);
 
     //- dump intermediary
 
@@ -441,14 +441,14 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNew(void *pvService)
+struct Heccer *HeccerNew(struct TranslationService *pts)
 {
     //- set result : initialized heccer
 
     struct Heccer *pheccerResult
 	= HeccerNewP1
 	  (
-	      pvService,
+	      pts,
 	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
 	      2e-5
 	      );
@@ -477,7 +477,7 @@ struct Heccer *HeccerNew(void *pvService)
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep)
+struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double dStep)
 {
     //- set result : a new heccer
 
@@ -491,7 +491,7 @@ struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep)
 
     //- set naming service
 
-    pheccerResult->pvService = pvService;
+    pheccerResult->pts = pts;
 
     //- set options and time step
 

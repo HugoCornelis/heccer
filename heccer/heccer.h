@@ -28,6 +28,7 @@ struct Heccer;
 
 #include "intermediary.h"
 #include "indexers.h"
+#include "service.h"
 #include "table.h"
 #include "vm.h"
 
@@ -122,9 +123,19 @@ struct Heccer
 
     double dStep;
 
-    //m identification service : translates serials to math components
+    //m identification service : translates serials to math components.
 
-    void * pvService;
+    //! so to use this feature: define your translation service, and
+    //! set it during the construction of your heccer.
+
+    //! wouldn't be surprised that I need several layers of services,
+    //! will see if that has repercussion at this low level or not.
+    //!
+    //! for the moment we have a function layer, which is fixed, and
+    //! a data layer, which is opaque.  The function layer defines the
+    //! real interface.
+
+    struct TranslationService *pts;
 
     //m intermediary
 
@@ -213,9 +224,9 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime);
 
 int HeccerInitiate(struct Heccer *pheccer);
 
-struct Heccer *HeccerNew(void *pvService);
+struct Heccer *HeccerNew(struct TranslationService *pts);
 
-struct Heccer *HeccerNewP1(void *pvService, int iOptions, double dStep);
+struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double dStep);
 
 struct Heccer *HeccerNewP2(struct Intermediary *pinter);
 
