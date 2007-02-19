@@ -407,7 +407,11 @@ HeccerCompartmentDump
 
     //- administrative overhead
 
-#ifdef HECCER_SOURCE_NEUROSPACES
+    //! this makes testing quite hard, needs careful thought
+
+#ifdef lkjlkslkjasdf
+
+HECCER_SOURCE_NEUROSPACES
 
     fprintf(pfile, "Compartment (mc.iSerial, mc.iType) : (%i, %i)\n", pcomp->mc.iSerial, pcomp->mc.iType);
 

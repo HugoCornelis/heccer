@@ -20,6 +20,9 @@
 #define HECCER_INTERMEDIARY_H
 
 
+#include "../config.h"
+
+
 #include <stdio.h>
 
 
@@ -56,6 +59,16 @@ struct Intermediary
     //m compartment 2 first mechanism number
 
     int *piC2m;
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+    //m identification of the originator, mostly a cell or cell
+    //m population, but perhaps just a segment vector
+
+    int iSerial;
+
+#endif
+
 };
 
 

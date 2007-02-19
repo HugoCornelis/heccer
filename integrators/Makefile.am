@@ -18,15 +18,17 @@
 
 SUBDIRS = 
 
-AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
+AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES -DPRE_PROTO_TRAVERSAL
 
 CFLAGS = -O0
 
 pkglib_LIBRARIES = libneurospaces.a
 
 libneurospaces_a_SOURCES = \
-	heccer/neurospaces/neurospaces.c
+	heccer/neurospaces/heccer.c \
+	heccer/neurospaces/segments.c
 
 nobase_include_HEADERS = \
-	heccer/neurospaces/neurospaces.h
+	heccer/neurospaces/heccer.h \
+	heccer/neurospaces/segments.h
 

@@ -34,6 +34,20 @@ AC_PROG_RANLIB
 
 # Checks for libraries.
 AC_CHECK_LIB([heccer], [main])
+AC_ARG_ENABLE(neurospaces, AS_HELP_STRING([--without-neurospaces   don't use neurospaces as modeling component]) )
+
+if test x"$with_neurospaces" == "xno" ; then
+
+    echo "NOT using Neurospaces as modeling component"
+
+else
+
+    echo "Using Neurospaces as modeling component"
+
+    AC_DEFINE(HECCER_SOURCE_NEUROSPACES, 1, [use neurospaces as modeling component])
+
+fi
+
 
 # Checks for header files.
 AC_HEADER_STDC

@@ -20,10 +20,17 @@
 #define HECCER_MATHCOMPONENT_H
 
 
+#include "../config.h"
+
+
 /*s a math component starts with ... */
 
 struct MathComponent
 {
+
+    //m type of structure
+
+    int iType;
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
@@ -40,10 +47,6 @@ struct MathComponent
     int iSize;
 
 #endif
-
-    //m type of structure
-
-    int iType;
 
 };
 

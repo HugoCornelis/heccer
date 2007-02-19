@@ -48,6 +48,9 @@
 /* Define to 1 if the system has the type `_Bool'. */
 #undef HAVE__BOOL
 
+/* use neurospaces as modeling component */
+#undef HECCER_SOURCE_NEUROSPACES
+
 /* Name of package */
 #undef PACKAGE
 
