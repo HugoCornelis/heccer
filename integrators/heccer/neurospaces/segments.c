@@ -16,6 +16,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <neurospaces/pidinstack.h>
 #include <neurospaces/treespacetraversal.h>
 
@@ -26,10 +29,20 @@
 #include "heccer/service.h"
 
 
-static int 
-solver_segmentprocessor
-(struct TreespaceTraversal *ptstr,
- void *pvUserdata)
+static
+int
+solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationService *pts);
+
+static int cellsolver_linksegments(struct Heccer *pheccer);
+
+static int cellsolver_setupmechanisms(struct Heccer *pheccer);
+
+
+static
+int
+solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
 
@@ -169,6 +182,17 @@ solver_segmentprocessor
 	//- increment number of solved segments
 
 	pinter->iCompartments++;
+
+	if (iResult == TSTR_PROCESSOR_ABORT)
+	{
+	    fprintf
+		(stderr,
+		 "Heccer the hecc : "
+		 "compartment array translation failed at compartment (compartment %i, serial %i)\n",
+		 pinter->iCompartments,
+		 pinter->pcomp[iSegment].mc.iSerial);
+	}
+
     }
 
     //- return result
@@ -179,6 +203,10 @@ solver_segmentprocessor
 
 static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationService *pts)
 {
+    //- set default result : ok
+
+    int iResult = TRUE;
+
     //- allocate pidin stack pointing to root
 
     struct PidinStack *ppistRoot = pts->ptsd->ppistRoot;
@@ -210,16 +238,117 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 
     //- register solved segments in cell
 
-    SymbolTraverseSegments
-	(phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter);
+    if (SymbolTraverseSegments
+	(phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter) == -1)
+    {
+	iResult = FALSE;
+    }
 
-    //t link the segments together using the parent link
+    //t should use SolverInfoPrincipalSerial2SegmentSerial() for this
 
-    //t probably also have to index the segments on serial ?
+    //- link the segments together using the parent link
 
-    //t produce a piC2m array: all zeros for now
+    iResult = iResult && cellsolver_linksegments(pheccer);
 
-    return(0);
+    //- produce a piC2m array: all zeros for now
+
+    iResult = iResult && cellsolver_setupmechanisms(pheccer);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static int cellsolver_linksegments(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //! this can never fail: multiple parent and multiple root
+    //! diagnosis is left to the minimum degree logic.
+
+    //- loop over all compartments
+
+    struct Intermediary *pinter = &pheccer->inter;
+
+    int iCompartment;
+
+    for (iCompartment = 0 ; iCompartment < pinter->iCompartments ; iCompartment++)
+    {
+	//- get current compartment
+
+	struct Compartment *pcomp = &pinter->pcomp[iCompartment];
+
+	//- get parent serial
+
+	int iParent = pcomp->iParent;
+
+	if (iParent != -1)
+	{
+	    //- search all compartments
+
+	    int i;
+
+	    for (i = 0 ; i < pinter->iCompartments ; i++)
+	    {
+		//- get current compartment
+
+		struct Compartment *pcompParent = &pinter->pcomp[i];
+
+		//- if is parent
+
+		if (pcompParent->mc.iSerial == iParent)
+		{
+		    //- ok, stop searching loop
+
+		    break;
+		}
+	    }
+
+	    //- set current compartment parent index
+
+	    if (i < pinter->iCompartments)
+	    {
+		pcomp->iParent = i;
+	    }
+	    else
+	    {
+		fprintf
+		    (stderr,
+		     "Heccer the hecc : "
+		     "compartment (compartment %i, serial %i) parent linking failed for parent serial %i\n",
+		     iCompartment,
+		     pcomp->mc.iSerial,
+		     iParent);
+
+		iResult = FALSE;
+	    }
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static int cellsolver_setupmechanisms(struct Heccer *pheccer)
+{
+    //- allocate
+
+    struct Intermediary *pinter = &pheccer->inter;
+
+    pinter->piC2m = (int *)calloc(pinter->iCompartments + 1, sizeof(int));
+
+    //- sign end of array
+
+    pinter->piC2m[pinter->iCompartments] = -1;
+
+    //- return result
+
+    return(pinter->piC2m != NULL);
 }
 
 
