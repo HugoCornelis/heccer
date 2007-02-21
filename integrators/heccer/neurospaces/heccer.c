@@ -16,14 +16,18 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <neurospaces/importedfile.h>
+#include <neurospaces/parsersupport.h>
 #include <neurospaces/pidinstack.h>
 
 #include "heccer/heccer.h"
 #include "heccer/neurospaces/heccer.h"
 
 
-struct Heccer *HeccerConstruct(struct Neurospaces *pneuro, char *pcModel)
+struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
 {
+    struct Neurospaces *pneuro = (struct Neurospaces *)pvNeurospaces;
+
     //- set default result : failure
 
     struct Heccer *pheccerResult = NULL;
@@ -58,6 +62,18 @@ struct Heccer *HeccerConstruct(struct Neurospaces *pneuro, char *pcModel)
 
     PidinStackSetRooted(ppistRoot);
 
+    //! gosh, I had to do the same hack when integrating neurospaces
+    //! with genesis2/hsolve.
+
+    struct ParserContext *pacRoot = pneuro->pacRootContext;
+
+    struct ImportedFile *pifRoot
+	= ParserContextGetImportedFile(pacRoot);
+
+    ImportedFileSetRootImport(pifRoot);
+
+    //- update caches
+
     struct symtab_HSolveListElement *phsleRoot
 	= PidinStackLookupTopSymbol(ppistRoot);
 
@@ -66,6 +82,8 @@ struct Heccer *HeccerConstruct(struct Neurospaces *pneuro, char *pcModel)
     ptsd->phsleRoot = phsleRoot;
 
     //- set model
+
+    PidinStackLookupTopSymbol(ppistModel);
 
     ptsd->iModel = PidinStackToSerial(ppistModel);
 

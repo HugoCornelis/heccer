@@ -316,6 +316,8 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 	//t this can happen if the intermediary structure is wrong,
 	//t e.g. out of bound parent index or cycles
 
+	//t also happens for multiple segments without a parent
+
 	//t add something like HeccerError(number, message, varargs);
 
 	//! segv
@@ -394,7 +396,7 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 		fprintf
 		    (stderr,
 		     "Heccer the hecc : "
-		     "the compartment does not describe a valid tree structure"
+		     "the compartment array does not describe a valid tree structure"
 		     " at compartment (%i)\n",
 		     i);
 	    }

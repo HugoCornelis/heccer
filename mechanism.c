@@ -405,7 +405,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	//- sanity : is next compartment's mechanism invalid ?
 
-	if (pheccer->inter.piC2m[iSchedule] != -1)
+	//! so pheccer->inter.piC2m can be NULL if no compartments have been found.
+
+	if (pheccer->inter.piC2m
+	    && pheccer->inter.piC2m[iSchedule] != -1)
 	{
 	    //t HeccerError(number, message, varargs);
 

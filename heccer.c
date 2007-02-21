@@ -45,7 +45,17 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     int iResult = FALSE;
 
-    //t build up intermediary using the available service
+    //- get access to the translation service
+
+    struct TranslationService *pts = pheccer->pts;
+
+    struct TranslationServiceData *ptsd = pts->ptsd;
+
+    //- build up intermediary using the available service
+
+    SegmentsInspector si = pts->segments_inspector;
+
+    int iSegments = si(pheccer, pts);
 
     //t 1. need compartment stream
     //t 2. need mechanism stream

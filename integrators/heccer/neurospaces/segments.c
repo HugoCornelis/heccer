@@ -41,7 +41,7 @@ solver_segmentprocessor
 
     //- if segment
 
-    if (InstanceOfSegment(phsle))
+    if (instanceof_segment(phsle))
     {
 	//- get pointer to intermediary
 
@@ -64,38 +64,106 @@ solver_segmentprocessor
 
 	//- register parameters
 
-	pinter->pcomp[iSegment].dCm
+	//t check for error returns, abort traversal if necessary
+
+	double dCm
 	    = SymbolParameterResolveScaledValue(phsle, "CM", ptstr->ppist);
 
-	pinter->pcomp[iSegment].dEm
+	if (dCm == FLT_MAX)
+	{
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	double dEm
 	    = SymbolParameterResolveValue(phsle, "ELEAK", ptstr->ppist);
 
-	pinter->pcomp[iSegment].dInitVm
+	if (dEm == FLT_MAX)
+	{
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	double dInitVm
 	    = SymbolParameterResolveValue(phsle, "Vm_init", ptstr->ppist);
 
-	pinter->pcomp[iSegment].dInject
+	if (dInitVm == FLT_MAX)
+	{
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	double dInject
 	    = SymbolParameterResolveValue(phsle, "INJECT", ptstr->ppist);
 
-	pinter->pcomp[iSegment].dRa
+	if (dInject == FLT_MAX)
+	{
+	    dInject = 0.0;
+	}
+
+	double dRa
 	    = SymbolParameterResolveScaledValue(phsle, "RA", ptstr->ppist);
 
-	pinter->pcomp[iSegment].dRm
+	if (dRa == FLT_MAX)
+	{
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	double dRm
 	    = SymbolParameterResolveScaledValue(phsle, "RM", ptstr->ppist);
+
+	if (dRm == FLT_MAX)
+	{
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	pinter->pcomp[iSegment].dCm = dCm;
+	pinter->pcomp[iSegment].dEm = dEm;
+	pinter->pcomp[iSegment].dInitVm = dInitVm;
+	pinter->pcomp[iSegment].dInject = dInject;
+	pinter->pcomp[iSegment].dRa = dRa;
+	pinter->pcomp[iSegment].dRm = dRm;
 
 	//- register serial of parent
 
 	{
 	    struct symtab_Parameters *pparParent
-		= SymbolFindParameter(phsle, "SOMATOPETAL", ptstr->ppist);
+		= SymbolFindParameter(phsle, "PARENT", ptstr->ppist);
 
-	    struct PidinStack *ppistParent
-		= ParameterResolveToPidinStack(pparParent, ptstr->ppist);
+	    if (pparParent)
+	    {
+		//t I can just subtract the cell's segment ID ?
 
-	    int iParent = PidinStackToSerial(ppistParent);
+		struct PidinStack *ppistParent
+		    = ParameterResolveToPidinStack(pparParent, ptstr->ppist);
 
-	    //t I can just subtract the cell's segment ID ?
+		//! cannot give an error return, but anyway
 
-	    pinter->pcomp[iSegment].iParent = iParent;
+		if (ppistParent)
+		{
+		    PidinStackLookupTopSymbol(ppistParent);
+
+		    int iParent = PidinStackToSerial(ppistParent);
+
+		    //t check for error
+
+		    if (iParent != INT_MAX)
+		    {
+			pinter->pcomp[iSegment].iParent = iParent;
+		    }
+		    else
+		    {
+			//! parent does not exist
+
+			iResult = TSTR_PROCESSOR_ABORT;
+		    }
+		}
+		else
+		{
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+	    }
+	    else
+	    {
+		pinter->pcomp[iSegment].iParent = -1;
+	    }
 	}
 
 	//- increment number of solved segments
@@ -109,7 +177,7 @@ solver_segmentprocessor
 }
 
 
-static int cellsolver_getsegments(struct TranslationService *pts)
+static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationService *pts)
 {
     //- allocate pidin stack pointing to root
 
@@ -133,8 +201,7 @@ static int cellsolver_getsegments(struct TranslationService *pts)
 
     //- allocate intermediary for segments to solve
 
-    struct Intermediary *pinter
-	= (struct Intermediary *)calloc(1, sizeof(struct Intermediary));
+    struct Intermediary *pinter = &pheccer->inter;
 
     pinter->iCompartments = 0; //iSegments;
 
@@ -146,9 +213,11 @@ static int cellsolver_getsegments(struct TranslationService *pts)
     SymbolTraverseSegments
 	(phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter);
 
-    //- link the segments together using the parent link
+    //t link the segments together using the parent link
 
     //t probably also have to index the segments on serial ?
+
+    //t produce a piC2m array: all zeros for now
 
     return(0);
 }

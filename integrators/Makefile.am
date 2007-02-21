@@ -22,9 +22,9 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-stor
 
 CFLAGS = -O0
 
-pkglib_LIBRARIES = libneurospaces.a
+pkglib_LIBRARIES = libhneurospaces.a
 
-libneurospaces_a_SOURCES = \
+libhneurospaces_a_SOURCES = \
 	heccer/neurospaces/heccer.c \
 	heccer/neurospaces/segments.c
 

@@ -6,6 +6,23 @@
 
 %module SwiggableHeccer
 
+/* %typemap(in) struct Neurospaces * { */
+
+/*     //- cast to _p_Neurospaces */
+
+/*     if (SvOK($input)) */
+/*     { */
+/* 	$1 = SvRV($input); */
+/*     } */
+/* } */
+
+/* %typemap(out) struct Neurospaces * { */
+
+/*     //- cast to _p_Neurospaces */
+
+/*     $1 = $input; */
+/* } */
+
 /* %typemap(ruby,in) (int size, int *ary) { */
 /*    int i; */
 /*    if (!rb_obj_is_kind_of($input,rb_cArray)) */
@@ -35,6 +52,13 @@
 #include "heccer/heccer.h"
 #include "heccer/mathcomponent.h"
 #include "heccer/mechanism.h"
+
+//t so this should depend on the configuration
+
+#include "integrators/heccer/neurospaces/heccer.h"
+
+/* #include "/usr/local/include/neurospaces/neurospaces.h" */
+
 %}
 
 %inline %{
@@ -110,4 +134,11 @@ struct Compartment *comp_get(struct Compartment *a, int i)
 %include "heccer/heccer.h"
 %include "heccer/mathcomponent.h"
 %include "heccer/mechanism.h"
+
+//t so this should depend on the configuration
+
+%include "integrators/heccer/neurospaces/heccer.h"
+
+/* %include "/usr/local/include/neurospaces/neurospaces.h" */
+
 

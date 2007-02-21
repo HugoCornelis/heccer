@@ -20,6 +20,8 @@
 #define HECCER_NEUROSPACES_HECCER_H
 
 
+#define PRE_PROTO_TRAVERSAL 1
+
 #include <neurospaces/neurospaces.h>
 
 
@@ -39,7 +41,7 @@ struct TranslationServiceData
 };
 
 
-struct Heccer *HeccerConstruct(struct Neurospaces *pneuro, char *pcModel);
+struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel);
 
 
 #endif
