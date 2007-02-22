@@ -54,22 +54,11 @@ use Data::Dumper;
 use Heccer;
 
 
+# initialize options
+
 our $config;
 
-$config->{defaults}
-    = {
-       basal_activator_end => 0.3,
-       basal_activator_start => 4e-5,
-       interval_default_end => (0.05),
-       interval_default_entries => 3000,
-       interval_default_start => (-0.1),
-       reporting_granularity => 1,
-       steps => 10,
-       tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
-       time_step => (2e-5),
-      };
-
-# initialize options
+$config->{defaults} = { %$Heccer::config, };
 
 my $options
     = Heccer::Options->new

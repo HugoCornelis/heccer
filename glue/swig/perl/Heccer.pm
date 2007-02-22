@@ -5,6 +5,33 @@
 package Heccer;
 
 
+# a default config at your convenience, not obligation to use it
+
+our $config
+    = {
+       basal_activator_end => 0.3,
+       basal_activator_start => 4e-5,
+       interval_default_end => (0.05),
+       interval_default_entries => 3000,
+       interval_default_start => (-0.1),
+       reporting_granularity => 1,
+       steps => 10,
+       tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
+       time_step => (2e-5),
+      };
+
+sub advance
+{
+    my $self = shift;
+
+    my $time = shift;
+
+    my $result = $self->{heccer}->HeccerHeccs($time);
+
+    return $result;
+}
+
+
 sub compile
 {
     my $self = shift;
@@ -13,7 +40,20 @@ sub compile
 
     my $status = $self->{heccer}->swig_iStatus_get();
 
+    if ($status le SwiggableHeccer::HECCER_STATUS_PHASE_1)
+    {
+	$self->compile1();
+    }
+
     $self->compile2();
+}
+
+
+sub compile1
+{
+    my $self = shift;
+
+    $self->{heccer}->HeccerCompileP1();
 }
 
 
@@ -79,7 +119,20 @@ sub new
 
     my $settings = shift;
 
-    my $result = Heccer::Heccer::new($package, $settings, @_, );
+    my $constructor = $settings->{constructor} || "Heccer::Heccer::new";
+
+    my $result;
+
+    if ($settings->{service_name} eq 'neurospaces')
+    {
+	$result = $package->new_neurospaces($settings, @_, );
+    }
+    else
+    {
+	no strict "refs";
+
+	$result = &$constructor($package, $settings, @_, );
+    }
 
     if (ref $result)
     {
@@ -96,6 +149,35 @@ sub new
     }
 
     return $result;
+}
+
+
+#t the need for an additional adapter is really lame ...
+
+sub new_neurospaces
+{
+    my $package = shift;
+
+    my $settings = shift;
+
+    my $others = { @_, };
+
+    #! note that the constructor setting is entirely ignored
+
+    my $result
+	= {
+	   heccer => SwiggableHeccer::HeccerConstruct($settings->{service_backend}, $settings->{modelname}),
+	  };
+
+    # return result
+
+    return $result;
+}
+
+
+sub step
+{
+    return hecc(@_);
 }
 
 
