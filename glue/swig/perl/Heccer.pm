@@ -48,7 +48,7 @@ sub compile
 
     my $status = $self->{heccer}->swig_iStatus_get();
 
-    if ($status le SwiggableHeccer::HECCER_STATUS_PHASE_1)
+    if ($status le $SwiggableHeccer::HECCER_STATUS_PHASE_1)
     {
 	$self->compile1();
     }
@@ -131,7 +131,8 @@ sub new
 
     my $result;
 
-    if ($settings->{service_name} eq 'neurospaces')
+    if (exists $settings->{service_name}
+	&& $settings->{service_name} eq 'neurospaces')
     {
 	$result = $package->new_neurospaces($settings, @_, );
     }
