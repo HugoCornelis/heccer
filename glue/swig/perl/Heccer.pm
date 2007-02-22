@@ -32,6 +32,14 @@ sub advance
 }
 
 
+sub backend
+{
+    my $self = shift;
+
+    return $self->{heccer};
+}
+
+
 sub compile
 {
     my $self = shift;
@@ -164,10 +172,16 @@ sub new_neurospaces
 
     #! note that the constructor setting is entirely ignored
 
+    my $service_backend = $settings->{service_backend}->backend();
+
+    my $modelname = $settings->{modelname};
+
     my $result
 	= {
-	   heccer => SwiggableHeccer::HeccerConstruct($settings->{service_backend}, $settings->{modelname}),
+	   heccer => SwiggableHeccer::HeccerConstruct($service_backend, $modelname),
 	  };
+
+    bless $result, $package;
 
     # return result
 
