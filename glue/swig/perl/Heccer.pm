@@ -50,10 +50,13 @@ sub compile
 
     if ($status le $SwiggableHeccer::HECCER_STATUS_PHASE_1)
     {
-	$self->compile1();
+	if (!$self->compile1())
+	{
+	    return 0;
+	}
     }
 
-    $self->compile2();
+    return $self->compile2();
 }
 
 
@@ -61,7 +64,7 @@ sub compile1
 {
     my $self = shift;
 
-    $self->{heccer}->HeccerCompileP1();
+    return $self->{heccer}->HeccerCompileP1();
 }
 
 
@@ -69,9 +72,9 @@ sub compile2
 {
     my $self = shift;
 
-    $self->{heccer}->HeccerCompileP2();
+    return $self->{heccer}->HeccerCompileP2()
 
-    $self->compile3();
+	&& $self->compile3();
 }
 
 
@@ -79,7 +82,7 @@ sub compile3
 {
     my $self = shift;
 
-    $self->{heccer}->HeccerCompileP3();
+    return $self->{heccer}->HeccerCompileP3();
 }
 
 

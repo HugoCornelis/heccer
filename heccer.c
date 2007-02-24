@@ -61,6 +61,19 @@ int HeccerCompileP1(struct Heccer *pheccer)
     //t 2. need mechanism stream
     //t 3. need pool stream
 
+    //- set new status
+
+    if (iResult)
+    {
+	pheccerResult->iStatus = HECCER_STATUS_PHASE_2;
+    }
+    else
+    {
+	//t do something sensible here
+
+	//t HeccerError()
+    }
+
     //- return result
 
     return(iResult);
