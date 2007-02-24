@@ -65,7 +65,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     if (iResult)
     {
-	pheccerResult->iStatus = HECCER_STATUS_PHASE_2;
+	pheccer->iStatus = HECCER_STATUS_PHASE_2;
     }
     else
     {
