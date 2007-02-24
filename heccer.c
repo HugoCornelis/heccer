@@ -41,9 +41,9 @@
 
 int HeccerCompileP1(struct Heccer *pheccer)
 {
-    //- set default result : not ok
+    //- set default result : ok
 
-    int iResult = FALSE;
+    int iResult = TRUE;
 
     //- get access to the translation service
 
@@ -55,7 +55,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     SegmentsInspector si = pts->segments_inspector;
 
-    int iSegments = si(pheccer, pts);
+    iResult = iResult && si(pheccer, pts);
 
     //t 1. need compartment stream
     //t 2. need mechanism stream

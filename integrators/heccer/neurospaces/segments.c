@@ -218,41 +218,48 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
     struct PidinStack *ppistModel
 	= SymbolPrincipalSerial2Context(phsleRoot, ppistRoot, pts->ptsd->iModel);
 
-    //- lookup symbol
+    if (ppistModel)
+    {
+	//- lookup symbol
 
-    struct symtab_HSolveListElement *phsleModel
-	= PidinStackLookupTopSymbol(ppistModel);
+	struct symtab_HSolveListElement *phsleModel
+	    = PidinStackLookupTopSymbol(ppistModel);
 
-    int iSegments = SymbolCountSegments(phsleModel, ppistModel);
+	int iSegments = SymbolCountSegments(phsleModel, ppistModel);
 
-    int i;
+	int i;
 
-    //- allocate intermediary for segments to solve
+	//- allocate intermediary for segments to solve
 
-    struct Intermediary *pinter = &pheccer->inter;
+	struct Intermediary *pinter = &pheccer->inter;
 
-    pinter->iCompartments = 0; //iSegments;
+	pinter->iCompartments = 0; //iSegments;
 
-    pinter->pcomp
-	= (struct Compartment *)calloc(iSegments, sizeof(struct Compartment));
+	pinter->pcomp
+	    = (struct Compartment *)calloc(iSegments, sizeof(struct Compartment));
 
-    //- register solved segments in cell
+	//- register solved segments in cell
 
-    if (SymbolTraverseSegments
-	(phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter) == -1)
+	if (SymbolTraverseSegments
+	    (phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter) == -1)
+	{
+	    iResult = FALSE;
+	}
+
+	//t should use SolverInfoPrincipalSerial2SegmentSerial() for this
+
+	//- link the segments together using the parent link
+
+	iResult = iResult && cellsolver_linksegments(pheccer);
+
+	//- produce a piC2m array: all zeros for now
+
+	iResult = iResult && cellsolver_setupmechanisms(pheccer);
+    }
+    else
     {
 	iResult = FALSE;
     }
-
-    //t should use SolverInfoPrincipalSerial2SegmentSerial() for this
-
-    //- link the segments together using the parent link
-
-    iResult = iResult && cellsolver_linksegments(pheccer);
-
-    //- produce a piC2m array: all zeros for now
-
-    iResult = iResult && cellsolver_setupmechanisms(pheccer);
 
     //- return result
 
