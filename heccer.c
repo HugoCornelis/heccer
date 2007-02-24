@@ -57,9 +57,11 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     iResult = iResult && si(pheccer, pts);
 
-    //t 1. need compartment stream
-    //t 2. need mechanism stream
-    //t 3. need pool stream
+    //t need mechanism stream
+
+    //t MechanismInspector mi = pts->mechanisms_inspector;
+
+    //t iResult = iResult && mi(pheccer, pts);
 
     //- set new status
 
