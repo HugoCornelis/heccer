@@ -151,8 +151,8 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes)
 ///
 /// NOTE.:
 ///
-///	Protection for overflows by checking the cursor with the
-///	number of math components.
+///	There is no protection for overflows by checking the cursor
+///	with the number of math components.
 ///
 /// **************************************************************************
 
