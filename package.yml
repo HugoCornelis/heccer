@@ -18,6 +18,13 @@ releases:
         micro: ''
         minor: 3
     4: {}
+  integration:
+    1:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: integration
+        micro: ''
+        minor: 1
   passive:
     '':
       '':

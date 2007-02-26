@@ -11,7 +11,7 @@ use strict;
 
 {
     # $Format: "system 'mkdir --parents \"/tmp/${package}/${label}\"'"$
-system 'mkdir --parents "/tmp/heccer/swig-8-pre-release"'
+system 'mkdir --parents "/tmp/heccer/integration-1"'
 }
 
 if ($?)
@@ -22,7 +22,7 @@ if ($?)
 
 {
     # $Format: "system \"cp '${package}-${label}.tar.gz' '/tmp/${package}/${label}'\""$
-system "cp 'heccer-swig-8-pre-release.tar.gz' '/tmp/heccer/swig-8-pre-release'"
+system "cp 'heccer-integration-1.tar.gz' '/tmp/heccer/integration-1'"
 }
 
 if ($?)
@@ -33,7 +33,7 @@ if ($?)
 
 {
     # $Format: "chdir \"/tmp/${package}/${label}\""$
-chdir "/tmp/heccer/swig-8-pre-release"
+chdir "/tmp/heccer/integration-1"
 }
 
 if ($?)
@@ -44,7 +44,7 @@ if ($?)
 
 {
     # $Format: "system \"tar xfz '${package}-${label}.tar.gz'\""$
-system "tar xfz 'heccer-swig-8-pre-release.tar.gz'"
+system "tar xfz 'heccer-integration-1.tar.gz'"
 }
 
 if ($?)
@@ -55,7 +55,7 @@ if ($?)
 
 {
     # $Format: "chdir \"${package}-${label}\""$
-chdir "heccer-swig-8-pre-release"
+chdir "heccer-integration-1"
 }
 
 if ($?)
