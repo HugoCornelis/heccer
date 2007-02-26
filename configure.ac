@@ -23,7 +23,7 @@ AC_PREREQ(2.59)
 AC_INIT(heccer, integration-2, hugo\.cornelis\@gmail\.com)
 
 AC_CONFIG_SRCDIR([compartment.c])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADER([heccer/config.h])
 
 dnl dnl all subdirs
 

@@ -22,8 +22,7 @@ AC_PREREQ(2.59)
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
 AC_INIT(heccer, integration-2, hugo\.cornelis\@gmail\.com)
 
-AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_SRCDIR([singlep.c])
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
 AM_INIT_AUTOMAKE(heccer, integration-2)

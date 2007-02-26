@@ -18,7 +18,7 @@
 
 SUBDIRS = . integrators glue tests
 
-AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
+AM_CFLAGS=-gdwarf-2 -g3 -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
 
 CFLAGS = -O0
 

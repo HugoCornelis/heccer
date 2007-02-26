@@ -20,9 +20,6 @@
 #define HECCER_MATHCOMPONENT_H
 
 
-#include "../config.h"
-
-
 /*s a math component starts with ... */
 
 struct MathComponent

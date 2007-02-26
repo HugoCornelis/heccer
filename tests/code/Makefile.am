@@ -16,7 +16,9 @@
 ##############################################################################
 
 
-AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
+#t note the use of builddir without '/' suffixed.
+
+AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-store -I$(srcdir)/.. -I$(builddir)../.. -include heccer/config.h -DPRE_PROTO_TRAVERSAL -D__NO_MATH_INLINES
 
 # ease debugging
 

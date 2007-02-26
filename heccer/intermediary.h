@@ -20,9 +20,6 @@
 #define HECCER_INTERMEDIARY_H
 
 
-#include "../config.h"
-
-
 #include <stdio.h>
 
 
