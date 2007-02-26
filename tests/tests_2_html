@@ -704,7 +704,7 @@ sub output_source
 
     output_prepare($result->{result_text_file});
 
-    system "source-highlight 2>&1 --src-lang $result->{source_type} --out-format html --input \"$source_text_file\" --output $result->{result_text_file} ";
+    system "source-highlight 2>&1 --line-number-ref --src-lang $result->{source_type} --out-format html --input \"$source_text_file\" --output $result->{result_text_file} ";
 
     #! oh boy ...
 
