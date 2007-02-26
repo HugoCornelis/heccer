@@ -38,6 +38,8 @@ sub read_cmd_line
 	    "
 $0: insert labels in a set of files.
 
+$0 <options> package major minor micro label email
+
 options :
     help            print usage information.
     remove          remove labels instead of insert.
