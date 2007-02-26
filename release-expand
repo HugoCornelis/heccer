@@ -59,12 +59,12 @@ my $config = do './release-expand.config';
 
 # get the package info
 
-my $package = $ARGV[0] || '';
-my $major = $ARGV[1] || '';
-my $minor = $ARGV[2] || '';
-my $micro = $ARGV[3] || '';
-my $label = $ARGV[4] || '';
-my $email = $ARGV[5] || '';
+my $package = defined $ARGV[0] ? $ARGV[0] : '';
+my $major = defined $ARGV[1] ? $ARGV[1] : '';
+my $minor = defined $ARGV[2] ? $ARGV[2] : '';
+my $micro = defined $ARGV[3] ? $ARGV[3] : '';
+my $label = defined $ARGV[4] ? $ARGV[4] : '';
+my $email = defined $ARGV[5] ? $ARGV[5] : '';
 
 # set default keyword values
 
