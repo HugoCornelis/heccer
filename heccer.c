@@ -1,3 +1,5 @@
+static char *pcVersionTime="(07/02/21) Wednesday, February 21, 2007 12:29:15 hugo";
+
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
 // integration for neuronal models.
@@ -578,3 +580,9 @@ struct Heccer *HeccerNewP2(struct Intermediary *pinter)
 }
 
 
+// Local variables:
+// eval: (add-hook 'write-file-hooks 'time-stamp)
+// time-stamp-start: "pcVersionTime="
+// time-stamp-format: "\"(%02y/%02m/%02d) %a, %b %d, %y %02H:%02M:%02S %u\";"
+// time-stamp-end: "$"
+// End:
