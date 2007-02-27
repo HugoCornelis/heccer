@@ -96,7 +96,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	    struct Callout *pcall = (struct Callout *)pmc;
 
-	    RETREIVE_MATH_COMPONENT(pmc,pcall,(struct Callout *));
+	    pmc = MathComponentNext(&pcall->mc);
 
 	    break;
 	}
@@ -109,7 +109,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
-	    RETREIVE_MATH_COMPONENT(pmc,pcai,(struct ChannelActInact *));
+	    pmc = MathComponentNext(&pcai->mc);
 
 	    break;
 	}
@@ -122,7 +122,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc;
 
-	    RETREIVE_MATH_COMPONENT(pmc,pcac,(struct ChannelActConc *));
+	    pmc = MathComponentNext(&pcac->mc);
 
 	    break;
 	}
@@ -135,7 +135,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)pmc;
 
-	    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
+	    pmc = MathComponentNext(&pexdec->mc);
 
 	    break;
 	}

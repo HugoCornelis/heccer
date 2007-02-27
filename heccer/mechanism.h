@@ -329,11 +329,6 @@ struct ChannelActConc
 struct Heccer;
 
 
-//d access a math component, and lookup the next component.
-
-#define RETREIVE_MATH_COMPONENT(pmcSource,pmcTarget,math_type) ({ (pmcTarget) = math_type(pmcSource) ; (pmcSource) = (struct MathComponent *)&(pmcTarget)[1] ; })
-
-
 //f prototypes
 
 int HeccerMechanismCompile(struct Heccer *pheccer);

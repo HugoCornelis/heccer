@@ -86,6 +86,14 @@ struct MathComponentArray
 };
 
 
+struct MathComponentInfo
+{
+    int iType;
+
+    int iChars;
+};
+
+
 int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes);
 
 /* int MathComponentArrayCursorInitialize(struct MathComponentArray *pmca); */
@@ -95,6 +103,10 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes);
 int
 MathComponentArraySetAdvance
 (struct MathComponentArray *pmca, struct MathComponent *pmc);
+
+struct MathComponentInfo * MathComponentInfoLookup(int iType);
+
+struct MathComponent *MathComponentNext(struct MathComponent *pmc);
 
 
 #endif

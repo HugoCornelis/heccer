@@ -24,41 +24,13 @@
 #include "heccer/mechanism.h"
 
 
-struct sizes
+static struct MathComponentInfo pmci[] =
 {
-    int iType;
-
-    int iChars;
-};
-
-
-struct sizes ssMathComponentSizes[] =
-{
-    MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[1]) - ((char *)&((struct ChannelActConc *)0)[0]),
-    MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[1]) - ((char *)&((struct ChannelActInact *)0)[0]),
-    MATH_TYPE_ExponentialDecay,		((char *)&((struct ExponentialDecay *)0)[1]) - ((char *)&((struct ExponentialDecay *)0)[0]),
+    MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[2]) - ((char *)&((struct ChannelActConc *)0)[0]),
+    MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[2]) - ((char *)&((struct ChannelActInact *)0)[0]),
+    MATH_TYPE_ExponentialDecay,		((char *)&((struct ExponentialDecay *)0)[2]) - ((char *)&((struct ExponentialDecay *)0)[0]),
     -1,	-1,
 };
-
-
-static int lookup(int iType)
-{
-    int iResult = 0;
-
-    int j;
-
-    for (j = 0 ; ssMathComponentSizes[j].iType > 0 ; j++)
-    {
-	if (ssMathComponentSizes[j].iType == iType)
-	{
-	    iResult = ssMathComponentSizes[j].iChars;
-
-	    break;
-	}
-    }
-
-    return iResult;
-}
 
 
 /// **************************************************************************
@@ -99,14 +71,16 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes)
     {
 	//- lookup the type int the size table
 
-	int iChars = lookup(iTypes[i]);
+	struct MathComponentInfo *pmci = MathComponentInfoLookup(iTypes[i]);
 
-	if (iChars <= 0)
+	if (!pmci)
 	{
 	    return(0);
 	}
 
 	//- increment size to allocate
+
+	int iChars = pmci->iChars;
 
 	iSize += iChars;
     }
@@ -169,12 +143,14 @@ MathComponentArraySetAdvance
 
     int iType = pmc->iType;
 
-    int iChars = lookup(iType);
+    struct MathComponentInfo *pmci = MathComponentInfoLookup(iType);
 
-    if (iChars <= 0)
+    if (!pmci)
     {
 	return(0);
     }
+
+    int iChars = pmci->iChars;
 
     //- copy the math component to the current cursor position
 
@@ -189,6 +165,104 @@ MathComponentArraySetAdvance
     //- return result
 
     return(1);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: MathComponentInfoLookup()
+///
+/// ARGS.:
+///
+///	iType.: math component type.
+///
+/// RTN..: struct MathComponentInfo *
+///
+///	Math component info, respecting compilation options.
+///
+/// DESCR: Lookup math component type, respecting compilation options.
+///
+/// NOTE.:
+///
+///	This function is for the purpose of constructing
+///	intermediaries from C level.  The info returned depends on
+///	compilation options.  See the test code for an example of its
+///	use.
+///
+/// **************************************************************************
+
+struct MathComponentInfo * MathComponentInfoLookup(int iType)
+{
+    //- set default result : failure
+
+    struct MathComponentInfo *pmciResult = NULL;
+
+    //- loop & search
+
+    int j;
+
+    for (j = 0 ; pmci[j].iType > 0 ; j++)
+    {
+	//- if found, set result
+
+	if (pmci[j].iType == iType)
+	{
+	    pmciResult = &pmci[j];
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return pmciResult;
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: MathComponentNext()
+///
+/// ARGS.:
+///
+///	pmc....: math component in the array.
+///
+/// RTN..: struct MathComponent *
+///
+///	Next math component, NULL for failure.
+///
+/// DESCR: Access a math component, and lookup the next component.
+///
+/// NOTE.:
+///
+///	There is no protection for overflows by checking the cursor
+///	with the number of math components.
+///
+/// **************************************************************************
+
+struct MathComponent * MathComponentNext(struct MathComponent *pmc)
+{
+    //- set default result : next math component
+
+    //- determine size to copy
+
+    int iType = pmc->iType;
+
+    struct MathComponentInfo *pmci = MathComponentInfoLookup(iType);
+
+    if (!pmci)
+    {
+	return(0);
+    }
+
+    int iChars = pmci->iChars;
+
+    struct MathComponent *pmcResult
+	= (struct MathComponent *)&((char *)pmc)[iChars];
+
+    //- return result
+
+    return(pmcResult);
 }
 
 

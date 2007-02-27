@@ -20,6 +20,7 @@
 
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
+#include "../../heccer/mathcomponent.h"
 
 
 #define HECCER_TEST_REPORTING_GRANULARITY 100
@@ -345,18 +346,23 @@ struct Intermediary inter =
 
 int main(int argc, char *argv[])
 {
+    //- determine intermediary size, and allocate
+
+    struct MathComponentInfo *pmciCaT = MathComponentInfoLookup(caiCaT.mc.iType);
+
+    struct MathComponentInfo *pmciCa = MathComponentInfoLookup(exdecCa.mc.iType);
+
+    int iChars = pmciCaT->iChars + pmciCa->iChars;
+
+    void *pmc = calloc(sizeof(char), iChars);
+
     //- prepare the mechanism intermediary
-
-    //! I add 32, to avoid alignment issues, not sure how to do this
-    //! in a clean, portable and error free way.
-
-    void *pmc = calloc(1, sizeof(caiCaT) + sizeof(exdecCa) + 32);
 
     struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
     *pcai = caiCaT;
 
-    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&pcai[1];
+    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&((char *)pcai)[pmciCaT->iChars];
 
     *pexdec = exdecCa;
 

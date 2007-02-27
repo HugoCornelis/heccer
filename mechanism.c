@@ -198,7 +198,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct Callout *pcall = (struct Callout *)pmc;
 
-		    RETREIVE_MATH_COMPONENT(pmc,pcall,(struct Callout *));
+		    pmc = MathComponentNext(&pcall->mc);
 
 		    SETMOP_CALLOUT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -215,7 +215,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
-		    RETREIVE_MATH_COMPONENT(pmc,pcai,(struct ChannelActInact *));
+		    pmc = MathComponentNext(&pcai->mc);
 
 		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
 
@@ -284,7 +284,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc;
 
-		    RETREIVE_MATH_COMPONENT(pmc,pcac,(struct ChannelActConc *));
+		    pmc = MathComponentNext(&pcac->mc);
 
 		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pcac->dReversalPotential);
 
@@ -370,7 +370,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)pmc;
 
-		    RETREIVE_MATH_COMPONENT(pmc,pexdec,(struct ExponentialDecay *));
+		    pmc = MathComponentNext(&pexdec->mc);
 
 		    //- get math component number
 

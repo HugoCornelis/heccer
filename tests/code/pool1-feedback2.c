@@ -479,22 +479,29 @@ struct Intermediary inter =
 
 int main(int argc, char *argv[])
 {
+    //- determine intermediary size, and allocate
+
+    struct MathComponentInfo *pmciCaT = MathComponentInfoLookup(caiCaT.mc.iType);
+
+    struct MathComponentInfo *pmciCa = MathComponentInfoLookup(exdecCa.mc.iType);
+
+    struct MathComponentInfo *pmciKC = MathComponentInfoLookup(cacKC.mc.iType);
+
+    int iChars = pmciCaT->iChars + pmciCa->iChars + pmciKC->iChars;
+
+    void *pmc = calloc(sizeof(char), iChars);
+
     //- prepare the mechanism intermediary
-
-    //! I add 32, to avoid alignment issues, not sure how to do this
-    //! in a clean, portable and error free way.
-
-    void *pmc = calloc(1, sizeof(caiCaT) + sizeof(exdecCa) + sizeof(cacKC) + 32);
 
     struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
-    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&pcai[1];
-
-    struct ChannelActConc *pcac = (struct ChannelActConc *)&pexdec[1];
-
     *pcai = caiCaT;
 
+    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&((char *)pcai)[pmciCaT->iChars];
+
     *pexdec = exdecCa;
+
+    struct ChannelActConc *pcac = (struct ChannelActConc *)&((char *)pexdec)[pmciCa->iChars];
 
     *pcac = cacKC;
 

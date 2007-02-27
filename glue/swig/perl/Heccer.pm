@@ -388,7 +388,7 @@ my $heccer_mapping
 
 								my $result = Heccer::MathComponentArray->new( { iMathComponents => 0, } );
 
-								my $types = SwiggableHeccer::int_array($#$value + 1);
+								my $types = SwiggableHeccer::int_array($#$value + 2);
 
 								foreach my $math_component_index (0 .. $#$value)
 								{

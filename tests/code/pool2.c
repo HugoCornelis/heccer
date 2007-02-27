@@ -610,26 +610,31 @@ struct Intermediary inter =
 
 int main(int argc, char *argv[])
 {
+    //- determine intermediary size, and allocate
+
+    struct MathComponentInfo *pmciCa = MathComponentInfoLookup(pexdecCa[0].mc.iType);
+
+    struct MathComponentInfo *pmciCaT = MathComponentInfoLookup(pcaiCaT[0].mc.iType);
+
+    int iChars = 2 * pmciCaT->iChars + 2 * pmciCa->iChars;
+
+    void *pmc = calloc(sizeof(char), iChars);
+
     //- prepare the mechanism intermediary
-
-    //! I add 32, to avoid alignment issues, not sure how to do this
-    //! in a clean, portable and error free way.
-
-    void *pmc = calloc(1, 2 * sizeof(*pcaiCaT) + 2 * sizeof(*pexdecCa) + 32);
 
     struct ChannelActInact *pcai0 = (struct ChannelActInact *)pmc;
 
-    struct ExponentialDecay *pexdec0 = (struct ExponentialDecay *)&pcai0[1];
-
-    struct ChannelActInact *pcai1 = (struct ChannelActInact *)&pexdec0[1];
-
-    struct ExponentialDecay *pexdec1 = (struct ExponentialDecay *)&pcai1[1];
-
     *pcai0 = pcaiCaT[0];
+
+    struct ExponentialDecay *pexdec0 = (struct ExponentialDecay *)&((char *)pcai0)[pmciCaT->iChars];
 
     *pexdec0 = pexdecCa[0];
 
+    struct ChannelActInact *pcai1 = (struct ChannelActInact *)&((char *)pexdec0)[pmciCa->iChars];
+
     *pcai1 = pcaiCaT[1];
+
+    struct ExponentialDecay *pexdec1 = (struct ExponentialDecay *)&((char *)pcai1)[pmciCaT->iChars];
 
     *pexdec1 = pexdecCa[1];
 
