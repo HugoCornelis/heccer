@@ -27,7 +27,7 @@ struct TranslationService;
 struct TranslationServiceData;
 
 
-typedef int (*SegmentsInspector)(struct Heccer *pheccer, struct TranslationService *pts);
+typedef int (*ComponentInspector)(struct Heccer *pheccer, struct TranslationService *pts);
 
 struct TranslationService
 {
@@ -43,7 +43,11 @@ struct TranslationService
 
     //m initializes segment intermediary
 
-    SegmentsInspector segments_inspector;
+    ComponentInspector segments_inspector;
+
+    //m initializes mechanism intermediary
+
+    ComponentInspector mechanisms_inspector;
 };
 
 

@@ -28,9 +28,11 @@ pkglib_LIBRARIES = libhneurospaces.a
 
 libhneurospaces_a_SOURCES = \
 	heccer/neurospaces/heccer.c \
+	heccer/neurospaces/mechanisms.c \
 	heccer/neurospaces/segments.c
 
 nobase_include_HEADERS = \
 	heccer/neurospaces/heccer.h \
+	heccer/neurospaces/mechanisms.h \
 	heccer/neurospaces/segments.h
 

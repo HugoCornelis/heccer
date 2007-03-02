@@ -193,7 +193,9 @@ int HeccerDumpV(struct Heccer *pheccer);
 
 int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 
-#define HECCER_DUMP_ALL 0xffffffff
+#define HECCER_DUMP_ALL (0xffffffff & ~HECCER_DUMP_SERVICE)
+
+#define HECCER_DUMP_SERVICE					(1 << 7)
 
 #define HECCER_DUMP_INDEXERS_SUMMARY				(1 << 8)
 #define HECCER_DUMP_INDEXERS_STRUCTURE				(1 << 9)

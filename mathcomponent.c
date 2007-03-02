@@ -244,7 +244,7 @@ struct MathComponent * MathComponentNext(struct MathComponent *pmc)
 {
     //- set default result : next math component
 
-    //- determine size to copy
+    //- determine size
 
     int iType = pmc->iType;
 

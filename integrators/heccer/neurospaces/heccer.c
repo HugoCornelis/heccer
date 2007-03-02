@@ -21,6 +21,7 @@
 #include <neurospaces/pidinstack.h>
 
 #include "heccer/heccer.h"
+#include "heccer/neurospaces/segments.h"
 #include "heccer/neurospaces/heccer.h"
 
 
@@ -88,6 +89,14 @@ struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
     ptsd->iModel = PidinStackToSerial(ppistModel);
 
     if (!HeccerNeurospacesSegments2Compartments(pts))
+    {
+	//! don't care about memory leak right now, consider this
+	//! right now as a fatal crash
+
+	return(NULL);
+    }
+
+    if (!HeccerNeurospacesMechanisms2MathComponents(pts))
     {
 	//! don't care about memory leak right now, consider this
 	//! right now as a fatal crash

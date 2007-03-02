@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/02/21) Wednesday, February 21, 2007 12:29:15 hugo";
+static char *pcVersionTime="(07/03/02) Friday, March 2, 2007 17:02:44 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -55,7 +55,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     //- build up intermediary using the available service
 
-    SegmentsInspector si = pts->segments_inspector;
+    ComponentInspector si = pts->segments_inspector;
 
     iResult = iResult && si(pheccer, pts);
 
@@ -247,7 +247,10 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     //- identification service : translates serials to math components
 
-    fprintf(pfile, "Heccer (pvService) : (%p)\n", pheccer->pts);
+    if (iSelection & HECCER_DUMP_SERVICE)
+    {
+	fprintf(pfile, "Heccer (pvService) : (%p)\n", pheccer->pts);
+    }
 
     //- dump intermediary
 
