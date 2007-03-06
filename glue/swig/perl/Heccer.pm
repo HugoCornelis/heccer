@@ -5,6 +5,9 @@
 package Heccer;
 
 
+use strict;
+
+
 # a default config at your convenience, not obligation to use it
 
 our $config
@@ -377,17 +380,17 @@ my $heccer_mapping
        heccer => {
 		  constructor_settings => {
 					   dStep => 2e-5,
-# 					   options => {
-# 						       dBasalActivatorEnd => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END,
-# 						       dBasalActivatorStart => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START,
-# 						       dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
-# 						       dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
-# 						       iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
+					   options => {
+						       dBasalActivatorEnd => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END,
+						       dBasalActivatorStart => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START,
+						       dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
+						       dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
+						       iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
 
-# 						       #t the default at C level is wrong, needs a careful check.
+						       #t the default at C level is wrong, needs a careful check.
 
-# # 						       iOptions => $SwiggableHeccer::HECCER_OPTION_BRANCHES_FIRST_SCHEDULING,
-# 						      },
+# 						       iOptions => $SwiggableHeccer::HECCER_OPTION_BRANCHES_FIRST_SCHEDULING,
+						      },
 					  },
 		  internal_name => 'Heccer',
 		  translators => {
@@ -403,7 +406,7 @@ my $heccer_mapping
 				  service_name => {
 						  },
 				  options => {
-# 					      source => 'options',
+					      source => 'options',
 					      target => 'ho',
 					     },
 				 },
@@ -656,19 +659,38 @@ sub settings
 
 	    # for a simple source to target translator
 
+	    #! so the constructor_settings entry applies this hook too,
+	    #! and perhaps already created the object
+
 	    elsif ($translator->{source})
 	    {
-		# get the factory method for the target object
+		# if still needs translation
 
-		my $source = $translator->{source};
+		if (!exists $value->{$translator->{source}})
+		{
+		    # get the factory method for the target object
 
-		my $factory_source = "Heccer::" . identifier_perl_to_xml($source);
+		    my $source = $translator->{source};
 
-		# translate the source structure to a target object
+		    my $factory_source = "Heccer::" . identifier_perl_to_xml($source);
 
-		$value = $factory_source->new($value);
+		    # translate the source structure to a target object
 
-		$value = $value->{$source};
+		    $value = $factory_source->new($value);
+
+		    # fetch the target object
+
+		    $value = $value->{$source};
+		}
+
+		# else the constructor_settings has already constructed the target object
+
+		else
+		{
+		    # fetch the target object
+
+		    $value = $value->{$setting};
+		}
 	    }
 
 	    # else
