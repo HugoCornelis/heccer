@@ -136,21 +136,25 @@ sub new
 
     my $settings = shift;
 
+    #! note that ignored settings are ignore because of an empty translator.
+
     my $result = Heccer::Heccer::new($package, $settings, @_, );
 
     if (ref $result)
     {
 	bless $result, $package;
 
-	if (exists $settings->{service_name})
+	my $model_source = $settings->{model_source};
+
+	if (exists $model_source->{service_name})
 	{
-	    my $service_name = $settings->{service_name};
+	    my $service_name = $model_source->{service_name};
 
 	    if ($service_name eq 'neurospaces')
 	    {
-		my $service_backend = $settings->{service_backend}->backend();
+		my $service_backend = $model_source->{service_backend}->backend();
 
-		my $modelname = $settings->{modelname};
+		my $modelname = $model_source->{modelname};
 
 		my $heccer_backend = $result->backend();
 
@@ -399,11 +403,7 @@ my $heccer_mapping
 				  intermediary => {
 						   target => 'inter',
 						  },
-				  modelname => {
-					       },
-				  service_backend => {
-						     },
-				  service_name => {
+				  model_source => {
 						  },
 				  options => {
 					      source => 'options',
