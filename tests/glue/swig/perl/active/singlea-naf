@@ -149,14 +149,14 @@ our $config
        settings => {
 		    reporting_granularity => 100,
 		    steps => 1000,
-		    tested_things =>  (
-				       $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_MATRIX
-					| $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_DATA
-					| $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
-					| $SwiggableHeccer::HECCER_DUMP_VM_MECHANISM_DATA
-					| $SwiggableHeccer::HECCER_DUMP_VM_MECHANISM_OPERATIONS
-					| $SwiggableHeccer::HECCER_DUMP_VM_SUMMARY
-				      ),
+		    tested_things => (
+				      $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_MATRIX
+				      | $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_DATA
+				      | $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
+				      | $SwiggableHeccer::HECCER_DUMP_VM_MECHANISM_DATA
+				      | $SwiggableHeccer::HECCER_DUMP_VM_MECHANISM_OPERATIONS
+				      | $SwiggableHeccer::HECCER_DUMP_VM_SUMMARY
+				     ),
 		    time_step => (6e-6),
 		   },
       };

@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/03/02) Friday, March 2, 2007 17:02:44 hugo";
+static char *pcVersionTime="(07/03/02) Friday, March 2, 2007 20:58:54 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -59,11 +59,9 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     iResult = iResult && si(pheccer, pts);
 
-    //t need mechanism stream
+    ComponentInspector mi = pts->mechanisms_inspector;
 
-    //t MechanismInspector mi = pts->mechanisms_inspector;
-
-    //t iResult = iResult && mi(pheccer, pts);
+    iResult = iResult && mi(pheccer, pts);
 
     //- set new status
 

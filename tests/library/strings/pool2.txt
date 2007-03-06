@@ -581,7 +581,7 @@ VM Axial Resistances (pdResults[3]) : (1.01417)
 VM Membrane Potentials (pdVms[0]) : (-0.034617)
 VM Membrane Potentials (pdVms[1]) : (-0.0346292)
 -------
-Iteration 1000
+Final Iteration
 Heccer (iStatus) : (20)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)

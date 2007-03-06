@@ -100,6 +100,14 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes);
 
 /* int MathComponentArrayCursorNext(struct MathComponentArray *pmca); */
 
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+int
+MathComponentArrayLookupSerial
+(struct MathComponentArray *pmca, int iSerial);
+
+#endif
+
 int
 MathComponentArraySetAdvance
 (struct MathComponentArray *pmca, struct MathComponent *pmc);

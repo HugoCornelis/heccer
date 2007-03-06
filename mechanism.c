@@ -1080,6 +1080,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		}
 		else
 		{
+		    //t HeccerError(number, message, varargs);
+
+		    fprintf
+			(stderr,
+			 "Heccer the hecc : invalid gate power (%i)\n", iPower);
+
 		    *(int *)0 = 0;
 		}
 

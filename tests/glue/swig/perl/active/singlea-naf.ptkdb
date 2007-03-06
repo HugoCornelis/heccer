@@ -1,4 +1,15 @@
 $files = {
+           '_<glue/swig/perl/main' => [
+                                        {
+                                          'expr' => undef,
+                                          'value' => '1',
+                                          'text' => 'my $heccer
+',
+                                          'fname' => 'glue/swig/perl/main',
+                                          'type' => 'user',
+                                          'line' => '79'
+                                        }
+                                      ],
            '_<glue/swig/perl/active/singlea-naf' => [
                                                       {
                                                         'expr' => undef,
@@ -7,7 +18,7 @@ $files = {
 ',
                                                         'fname' => 'glue/swig/perl/active/singlea-naf',
                                                         'type' => 'user',
-                                                        'line' => '166'
+                                                        'line' => 166
                                                       }
                                                     ]
          };

@@ -25,13 +25,15 @@
 #include "heccer/neurospaces/heccer.h"
 
 
-struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
+int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
 {
+    //- the service core is neurospaces
+
     struct Neurospaces *pneuro = (struct Neurospaces *)pvNeurospaces;
 
-    //- set default result : failure
+    //- set default result : ok
 
-    struct Heccer *pheccerResult = NULL;
+    int iResult = 1;
 
     //- lookup the model
 
@@ -39,10 +41,12 @@ struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
 
     if (!ppistModel)
     {
-	return(NULL);
+	fprintf(stderr, "HeccerConstruct: cannot parse model name %s\n", pcModel);
+
+	return(FALSE);
     }
 
-    //- allocate the service structures
+    //- allocate the translation service structures
 
     struct TranslationServiceData *ptsd
 	= (struct TranslationServiceData *)calloc(1, sizeof(struct TranslationServiceData));
@@ -58,7 +62,9 @@ struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
 
     if (!ppistRoot)
     {
-	return(0);
+	fprintf(stderr, "HeccerConstruct: cannot allocate a root context for %s\n", pcModel);
+
+	return(FALSE);
     }
 
     PidinStackSetRooted(ppistRoot);
@@ -88,12 +94,24 @@ struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
 
     ptsd->iModel = PidinStackToSerial(ppistModel);
 
+    if (ptsd->iModel == INT_MAX)
+    {
+	//! don't care about memory leak right now, consider this
+	//! right now as a fatal crash
+
+	fprintf(stderr, "HeccerConstruct: cannot find model %s\n", pcModel);
+
+	return(FALSE);
+    }
+
     if (!HeccerNeurospacesSegments2Compartments(pts))
     {
 	//! don't care about memory leak right now, consider this
 	//! right now as a fatal crash
 
-	return(NULL);
+	fprintf(stderr, "HeccerConstruct: compartment initialization failed for %s\n", pcModel);
+
+	return(FALSE);
     }
 
     if (!HeccerNeurospacesMechanisms2MathComponents(pts))
@@ -101,15 +119,21 @@ struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
 	//! don't care about memory leak right now, consider this
 	//! right now as a fatal crash
 
-	return(NULL);
+	fprintf(stderr, "HeccerConstruct: mechanism initialization failed for %s\n", pcModel);
+
+	return(FALSE);
     }
 
-    //- allocate the heccer for this service
+/*     //- allocate the heccer for this service */
 
-    //! so the service for heccer is an encoding for the service to
-    //! the user, this is the way it should be I guess.
+/*     //! so the service for heccer is an encoding for the service to */
+/*     //! the user, this is the way it should be I guess. */
 
-    pheccerResult = HeccerNew(pts);
+/*     pheccer = HeccerNew(pts); */
+
+     //- set service structures
+
+    pheccer->pts = pts;
 
     //t compile1 constructs the intermediary ?
 
@@ -119,7 +143,7 @@ struct Heccer *HeccerConstruct(void *pvNeurospaces, char *pcModel)
 
     //- return result
 
-    return(pheccerResult);
+    return(iResult);
 }
 
 

@@ -14,9 +14,12 @@ our $config
        interval_default_end => (0.05),
        interval_default_entries => 3000,
        interval_default_start => (-0.1),
-       reporting_granularity => 1,
+       reporting => {
+		     file => undef,
+		     granularity => 1,
+		     tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
+		    },
        steps => 10,
-       tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
        time_step => (2e-5),
       };
 
@@ -90,12 +93,12 @@ sub dump
 {
     my $self = shift;
 
-    my $selection = shift;
-
     #t not sure how it could be possible to use $file, but anyway,
     #t placeholder for the idea.
 
     my $file = shift;
+
+    my $selection = shift;
 
     if (!defined $selection)
     {
@@ -130,25 +133,41 @@ sub new
 
     my $settings = shift;
 
-    my $constructor = $settings->{constructor} || "Heccer::Heccer::new";
-
-    my $result;
-
-    if (exists $settings->{service_name}
-	&& $settings->{service_name} eq 'neurospaces')
-    {
-	$result = $package->new_neurospaces($settings, @_, );
-    }
-    else
-    {
-	no strict "refs";
-
-	$result = &$constructor($package, $settings, @_, );
-    }
+    my $result = Heccer::Heccer::new($package, $settings, @_, );
 
     if (ref $result)
     {
 	bless $result, $package;
+
+	if (exists $settings->{service_name})
+	{
+	    my $service_name = $settings->{service_name};
+
+	    if ($service_name eq 'neurospaces')
+	    {
+		my $service_backend = $settings->{service_backend}->backend();
+
+		my $modelname = $settings->{modelname};
+
+		my $heccer_backend = $result->backend();
+
+		my $success = SwiggableHeccer::HeccerConstruct($heccer_backend, $service_backend, $modelname);
+
+		if (!$success)
+		{
+		    return "HeccerConstruct failed";
+		}
+	    }
+	    else
+	    {
+		# no other services supported
+
+		return "Heccer does only know neurospaces as a service.
+If you need a different service, you have to install
+the appropriate integrator plugin for Heccer, and let the perl
+package know how to call the integrator.";
+	    }
+	}
 
 	# if there was an intermediary
 
@@ -164,30 +183,70 @@ sub new
 }
 
 
-#t the need for an additional adapter is really lame ...
-
-sub new_neurospaces
+sub report
 {
-    my $package = shift;
+    #t call ->dump() with dump options in this object.
 
-    my $settings = shift;
+    my $self = shift;
 
-    my $others = { @_, };
+    my $options = shift;
 
-    #! note that the constructor setting is entirely ignored
+    my $result = 1;
 
-    my $service_backend = $settings->{service_backend}->backend();
+    if ($options->{verbose})
+    {
+	my $header;
 
-    my $modelname = $settings->{modelname};
+	my $steps = $options->{steps};
 
-    my $result
-	= {
-	   heccer => SwiggableHeccer::HeccerConstruct($service_backend, $modelname),
-	  };
+	my $reporting = $self->{configuration}->{reporting};
 
-    bless $result, $package;
+	if (!defined $steps)
+	{
+	    $header = "Initiated\n";
+	}
+	else
+	{
+	    if ($steps eq -1)
+	    {
+		if ($self->{final_report})
+		{
+		    $header = "-------\nFinal Iteration\n";
+		}
+	    }
+	    else
+	    {
+		my $reporting_granularity = $reporting->{granularity} || 1;
 
-    # return result
+		if (($steps % $reporting_granularity) == 0)
+		{
+		    $header = "-------\nIteration $steps\n";
+		}
+		else
+		{
+		    $self->{final_report} = 1;
+		}
+	    }
+	}
+
+	if ($header)
+	{
+	    my $file = $reporting->{file};
+
+	    if (defined $file)
+	    {
+		print $file $header;
+	    }
+	    else
+	    {
+		print $header;
+	    }
+
+	    my $tested_things = $reporting->{tested_things} || $SwiggableHeccer::HECCER_DUMP_ALL;
+
+	    $result = $self->dump($file, $tested_things);
+	}
+    }
 
     return $result;
 }
@@ -316,12 +375,35 @@ my $heccer_mapping
 			internal_name => 'GateKinetic',
 		       },
        heccer => {
+		  constructor_settings => {
+					   dStep => 2e-5,
+# 					   options => {
+# 						       dBasalActivatorEnd => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END,
+# 						       dBasalActivatorStart => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START,
+# 						       dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
+# 						       dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
+# 						       iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
+
+# 						       #t the default at C level is wrong, needs a careful check.
+
+# # 						       iOptions => $SwiggableHeccer::HECCER_OPTION_BRANCHES_FIRST_SCHEDULING,
+# 						      },
+					  },
 		  internal_name => 'Heccer',
 		  translators => {
+				  configuration => {
+						   },
 				  intermediary => {
 						   target => 'inter',
 						  },
+				  modelname => {
+					       },
+				  service_backend => {
+						     },
+				  service_name => {
+						  },
 				  options => {
+# 					      source => 'options',
 					      target => 'ho',
 					     },
 				 },
@@ -428,6 +510,17 @@ my $heccer_mapping
 				internal_name => 'MathComponentArray',
 			       },
        options => {
+		   constructor_settings => {
+					    dBasalActivatorEnd => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END,
+					    dBasalActivatorStart => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START,
+					    dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
+					    dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
+					    iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
+
+					    #t the default at C level is wrong, needs a careful check.
+
+# 					    iOptions => $SwiggableHeccer::HECCER_OPTION_BRANCHES_FIRST_SCHEDULING,
+					   },
 		   internal_name => 'HeccerOptions',
 		  },
        powered_activator_concept => {
@@ -527,6 +620,17 @@ sub settings
 
 	my $value = $settings->{$setting};
 
+# 	if (ref $value eq 'HASH')
+# 	{
+# 	    no strict "refs";
+
+# 	    my $Component = identifier_perl_to_xml($target);
+
+# 	    my $constructor = "Heccer::${Component}::new";
+
+# 	    $value = &$constructor($Component, $value);
+# 	}
+
 	# if there is a translator for this setting
 
 	my $translator = $heccer_mapping->{$type}->{translators}->{$setting};
@@ -593,9 +697,19 @@ sub settings
 
 	else
 	{
-	    # the convertor has done the necessary setting, void here
+	    # the convertor has done the necessary setting, or a void
+
+	    #! see e.g. configuration, module_name and service_name for the heccer entry
+
+	    # but it is useful to keep the original
+
+	    #! allows to set runtime configuration options
+
+	    $self->{$setting} = $settings->{$setting};
 	}
     }
+
+    return $self;
 }
 
 

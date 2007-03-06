@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     {
 	fprintf(stdout, "-------\n");
 
-	fprintf(stdout, "Iteration %i\n", i);
+	fprintf(stdout, "Final Iteration\n", i);
 
 	HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
     }

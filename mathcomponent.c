@@ -85,28 +85,94 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes)
 	iSize += iChars;
     }
 
-    //- allocate memory
+    //- if we need to allocate something
 
-    pmca->pmc = (struct MathComponent *)calloc(iSize, sizeof(char));
+    if (iSize)
+    {
+	//- allocate memory
 
-    //- set cursor for filling the mathcomponent array
+	pmca->pmc = (struct MathComponent *)calloc(iSize, sizeof(char));
 
-    pmca->iCursor = 0;
+	//- set cursor for filling the mathcomponent array
 
-    pmca->pmcCursor = pmca->pmc;
+	pmca->iCursor = 0;
 
-    //- set the number of math components
+	pmca->pmcCursor = pmca->pmc;
 
-    pmca->iMathComponents = i;
+	//- set the number of math components
 
-    //- clear out the index
+	pmca->iMathComponents = i;
 
-    pmca->ppmcIndex = NULL;
+	//- clear out the index
+
+	pmca->ppmcIndex = NULL;
+    }
 
     //- return result : ok
 
     return(1);
 }
+
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+/// **************************************************************************
+///
+/// SHORT: MathComponentArrayLookupSerial()
+///
+/// ARGS.:
+///
+///	pmca....: math component array.
+///	iSerial.: serial to search.
+///
+/// RTN..: int
+///
+///	index of matching math component, -1 for not found.
+///
+/// DESCR: Look up a math component by serial.
+///
+/// **************************************************************************
+
+int
+MathComponentArrayLookupSerial
+(struct MathComponentArray *pmca, int iSerial)
+{
+    //- set default result : not found
+
+    int iResult = -1;
+
+    //- loop over all mathcomponents
+
+    struct MathComponent * pmc = pmca->pmc;
+
+    int iMathComponent;
+
+    for (iMathComponent = 0 ; iMathComponent < pmca->iMathComponents ; iMathComponent++)
+    {
+	//- if serials match
+
+	if (pmc->iSerial == iSerial)
+	{
+	    //- set result : current index
+
+	    iResult = iMathComponent;
+
+	    //- break searching loop
+
+	    break;
+	}
+
+	//- advance to the next math component
+
+	pmc = MathComponentNext(pmc);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+#endif
 
 
 /// **************************************************************************

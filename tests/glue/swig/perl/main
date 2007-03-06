@@ -80,6 +80,12 @@ my $heccer
     = Heccer->new
       (
        {
+	configuration => {
+			  reporting => {
+					granularity => $config->{settings}->{reporting_granularity} || $config->{defaults}->{reporting_granularity},
+					tested_things => $config->{settings}->{tested_things} || $config->{defaults}->{tested_things},
+				       },
+			 },
 	dStep => $config->{settings}->{time_step} || $config->{defaults}->{time_step},
 	intermediary => $intermediary,
 	options => $options,
@@ -96,9 +102,7 @@ $heccer->initiate();
 
 # initial dump
 
-print "Initiated\n";
-
-$heccer->dump($config->{settings}->{tested_things} || $config->{defaults}->{tested_things});
+$heccer->report( { steps => undef, verbose => 1, }, );
 
 # a couple of times
 
@@ -110,30 +114,14 @@ foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps
 
     $heccer->hecc();
 
-    if (($i % ($config->{settings}->{reporting_granularity} || $config->{defaults}->{reporting_granularity})) == 0)
-    {
-	# dump
+    # report
 
-	print "-------\n";
-
-	print "Iteration $i\n";
-
-	$heccer->dump($config->{settings}->{tested_things} || $config->{defaults}->{tested_things});
-    }
-    else
-    {
-	$final_report = 1;
-    }
+    $heccer->report( { steps => $i, verbose => 1, }, );
 }
 
-if ($final_report)
-{
-    print "-------\n";
+# final report
 
-    print "Iteration " . ($config->{settings}->{steps} || $config->{defaults}->{steps}) . "\n";
-
-    $heccer->dump($config->{settings}->{tested_things} || $config->{defaults}->{tested_things});
-}
+$heccer->report( { steps => -1, verbose => 1, }, );
 
 
 1;

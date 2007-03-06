@@ -40,15 +40,15 @@ struct MathComponentData
 
     int iCompartment;
 
+    //m compartment 2 mechanism convertor
+
+    int *piC2m;
+
     //m current compartment
 
     struct symtab_HSolveListElement *phsleCompartment;
 
     struct PidinStack *ppistCompartment;
-
-    //m number of math components
-
-    int iMathComponents;
 
     //m array of all math component types
 
@@ -179,8 +179,14 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
     if (instanceof_conceptual_gate(phsle))
     {
-	if (pmcd->iStatus == 1)
+	if (pmcd->iStatus == 1
+	    || pmcd->iStatus == 4)
 	{
+	    struct PoweredGateConcept * ppgc
+		= pmcd->iStatus == 1
+		  ? &pcai->pgcActivation
+		  : &pcai->pgcInactivation;
+
 	    //- get power
 
 	    struct symtab_Parameters * pparPower
@@ -195,7 +201,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    int iPower = ParameterResolveValue(pparPower, ptstr->ppist);
 
-	    pcai->pgcActivation.iPower = iPower;
+	    ppgc->iPower = iPower;
 
 	    //- get initial state
 
@@ -211,7 +217,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dInitActivation = ParameterResolveValue(pparStateInit, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.dInitActivation = dInitActivation;
+	    ppgc->gc.dInitActivation = dInitActivation;
 	}
 	else
 	{
@@ -225,13 +231,31 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
     else if (instanceof_gate_kinetic(phsle))
     {
-	//- if forward
+	//! 2: forward, act
+	//! 3: backward, act
+	//! 5: forward, inact
+	//! 6: backward, inact
 
-	if (pmcd->iStatus == 2)
+	if (pmcd->iStatus == 2
+	    || pmcd->iStatus == 3
+	    || pmcd->iStatus == 5
+	    || pmcd->iStatus == 6)
 	{
-	    //- initial table index
+	    struct PoweredGateConcept * ppgc
+		= (pmcd->iStatus == 2
+		   || pmcd->iStatus == 3
+		   ? &pcai->pgcActivation
+		   : &pcai->pgcInactivation);
 
-	    pcai->pgcActivation.gc.iTable = -1;
+	    struct GateKinetic *pgk
+		= (pmcd->iStatus == 2
+		   || pmcd->iStatus == 5
+		   ? &ppgc->gc.gkForward
+		   : &ppgc->gc.gkBackward);
+
+	    //- initialize table index
+
+	    ppgc->gc.iTable = -1;
 
 	    //- get Multiplier = 35.0e3
 
@@ -247,7 +271,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dMultiplier = ParameterResolveValue(pparMultiplier, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.gkForward.dMultiplier = dMultiplier;
+	    pgk->dMultiplier = dMultiplier;
 
 	    //- get MembraneDependence = 0.0
 
@@ -263,7 +287,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dMembraneDependence = ParameterResolveValue(pparMembraneDependence, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.gkForward.dMembraneDependence = dMembraneDependence;
+	    pgk->dMembraneDependence = dMembraneDependence;
 
 	    //- get Nominator = -1.0
 
@@ -279,7 +303,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    int iNominator = ParameterResolveValue(pparNominator, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.gkForward.iNominator = iNominator;
+	    pgk->iNominator = iNominator;
 
 	    //- get DeNominatorOffset = 0.0
 
@@ -295,7 +319,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dDeNominatorOffset = ParameterResolveValue(pparDeNominatorOffset, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.gkForward.dDeNominatorOffset = dDeNominatorOffset;
+	    pgk->dDeNominatorOffset = dDeNominatorOffset;
 
 	    //- get MembraneOffset = 5.0e-3
 
@@ -311,7 +335,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dMembraneOffset = ParameterResolveValue(pparMembraneOffset, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.gkForward.dMembraneOffset = dMembraneOffset;
+	    pgk->dMembraneOffset = dMembraneOffset;
 
 	    //- get TauDenormalizer = -10.0e-3
 
@@ -327,111 +351,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dTauDenormalizer = ParameterResolveValue(pparTauDenormalizer, ptstr->ppist);
 
-	    pcai->pgcActivation.gc.gkForward.dTauDenormalizer = dTauDenormalizer;
-
-	}
-
-	//- if backward
-
-	else if (pmcd->iStatus == 3)
-	{
-	    pcai->pgcActivation.gc.iTable = -1;
-
-	    //- get Multiplier = 7.0e3
-
-	    struct symtab_Parameters * pparMultiplier
-		= SymbolGetParameter(phsle, "Multiplier", ptstr->ppist);
-
-	    if (!pparMultiplier)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMultiplier = ParameterResolveValue(pparMultiplier, ptstr->ppist);
-
-	    pcai->pgcActivation.gc.gkBackward.dMultiplier = dMultiplier;
-
-	    //- get MembraneDependence = 0.0
-
-	    struct symtab_Parameters * pparMembraneDependence
-		= SymbolGetParameter(phsle, "MembraneDependence", ptstr->ppist);
-
-	    if (!pparMembraneDependence)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMembraneDependence = ParameterResolveValue(pparMembraneDependence, ptstr->ppist);
-
-	    pcai->pgcActivation.gc.gkBackward.dMembraneDependence = dMembraneDependence;
-
-	    //- get Nominator = -1.0
-
-	    struct symtab_Parameters * pparNominator
-		= SymbolGetParameter(phsle, "Nominator", ptstr->ppist);
-
-	    if (!pparNominator)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    int iNominator = ParameterResolveValue(pparNominator, ptstr->ppist);
-
-	    pcai->pgcActivation.gc.gkBackward.iNominator = iNominator;
-
-	    //- get DeNominatorOffset = 0.0
-
-	    struct symtab_Parameters * pparDeNominatorOffset
-		= SymbolGetParameter(phsle, "DeNominatorOffset", ptstr->ppist);
-
-	    if (!pparDeNominatorOffset)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dDeNominatorOffset = ParameterResolveValue(pparDeNominatorOffset, ptstr->ppist);
-
-	    pcai->pgcActivation.gc.gkBackward.dDeNominatorOffset = dDeNominatorOffset;
-
-	    //- get MembraneOffset = 65.0e-3
-
-	    struct symtab_Parameters * pparMembraneOffset
-		= SymbolGetParameter(phsle, "MembraneOffset", ptstr->ppist);
-
-	    if (!pparMembraneOffset)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMembraneOffset = ParameterResolveValue(pparMembraneOffset, ptstr->ppist);
-
-	    pcai->pgcActivation.gc.gkBackward.dMembraneOffset = dMembraneOffset;
-
-	    //- get TauDenormalizer = 20.0e-3
-
-	    struct symtab_Parameters * pparTauDenormalizer
-		= SymbolGetParameter(phsle, "TauDenormalizer", ptstr->ppist);
-
-	    if (!pparTauDenormalizer)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dTauDenormalizer = ParameterResolveValue(pparTauDenormalizer, ptstr->ppist);
-
-	    pcai->pgcActivation.gc.gkBackward.dTauDenormalizer = dTauDenormalizer;
+	    pgk->dTauDenormalizer = dTauDenormalizer;
 
 	}
 	else
@@ -715,6 +635,41 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 static
 int
+solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- if segment
+
+    if (instanceof_segment(phsle))
+    {
+	//- fill in compartment to mechanism convertor
+
+	pmcd->piC2m[pmcd->iCompartment] = pmcd->iCurrentType;
+
+	//- increment compartment counter
+
+	pmcd->iCompartment++;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static
+int
 solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
@@ -737,17 +692,45 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     struct MathComponent * pmc = pmcd->pmc;
 
-    //- get type of math component
+    int iType;
 
-    int iType = pmcd->piTypes[pmcd->iCurrentType];
+    //- if structure only
 
-    //- register the type in the math component array
+    if (instanceof_group(phsle)
+	|| instanceof_segment(phsle)
+	|| instanceof_v_segment(phsle))
+    {
+	//- ok, skip
 
-    pmc->iType = iType;
+	iType = -2;
+    }
 
-    //- register serial
+    //- if gate and related
 
-    pmc->iSerial = ptstr->iSerialPrincipal;
+    else if (instanceof_gate_kinetic(phsle)
+	     || instanceof_conceptual_gate(phsle))
+    {
+	//- ok, skip
+
+	iType = -2;
+    }
+
+    //- else
+
+    else
+    {
+	//- get type of math component
+
+	iType = pmcd->piTypes[pmcd->iCurrentType];
+
+	//- register the type in the math component array
+
+	pmc->iType = iType;
+
+	//- register serial
+
+	pmc->iSerial = ptstr->iSerialPrincipal;
+    }
 
     //- depending on the type
 
@@ -838,7 +821,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    //- if traverse channel descendants
 
-	    struct TreespaceTraversal *ptstr
+	    struct TreespaceTraversal * ptstrChannel
 		= TstrNew
 		  (ptstr->ppist,
 		   NULL,
@@ -850,7 +833,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		   NULL,
 		   NULL);
 
-	    iResult = TstrGo(ptstr,phsle);
+	    iResult = TstrGo(ptstrChannel, phsle);
 
 	    if (iResult)
 	    {
@@ -865,7 +848,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    TstrDelete(ptstr);
+	    TstrDelete(ptstrChannel);
 
 	    //- advance to the next math component
 
@@ -993,6 +976,18 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	break;
     }
+
+    //- for skipped components
+
+    case -2:
+    {
+	//- nothing registered, nothing done
+
+	break;
+    }
+
+    //- otherwise
+
     default:
     {
 	//- type consistency error
@@ -1019,8 +1014,6 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     int iResult = TSTR_PROCESSOR_SUCCESS;
 
-    //t probably can do bookkeeping here for ->piC2m[]
-
     //- get actual symbol
 
     struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
@@ -1037,13 +1030,25 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     int iType = INT_MAX;
 
-    //- if gate and related
+    //- if structure only
 
-    if (instanceof_gate_kinetic(phsle))
+    if (instanceof_group(phsle)
+	|| instanceof_segment(phsle)
+	|| instanceof_v_segment(phsle))
     {
 	//- ok, skip
 
-	iType = -1;
+	iType = -2;
+    }
+
+    //- if gate and related
+
+    else if (instanceof_gate_kinetic(phsle)
+	     || instanceof_conceptual_gate(phsle))
+    {
+	//- ok, skip
+
+	iType = -2;
     }
 
     //- pool
@@ -1151,15 +1156,15 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	    0,
 
+	    //m compartment 2 mechanism convertor
+
+	    NULL,
+
 	    //m current compartment
 
 	    NULL,
 
 	    NULL,
-
-	    //m number of math components
-
-	    0,
 
 	    //m array of all math component types
 
@@ -1205,6 +1210,10 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	mcd.piTypes = (int *)calloc(iDescendants, sizeof(int));
 
+	//- set compartment 2 mechanism convertor
+
+	mcd.piC2m = pheccer->inter.piC2m;
+
 	//- traverse solved components, register types
 
 	struct TreespaceTraversal *ptstr
@@ -1221,38 +1230,58 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	if (mcd.iStatus > 0)
 	{
-	    //- register type terminator
+	    //- if there were mechanisms found
 
-	    if (MathComponentDataTypeRegister(&mcd, -1))
+	    if (mcd.iCurrentType > 0)
 	    {
-		//- allocate math component array
+		//- register type terminator
 
-		struct MathComponentArray * pmca
-		    = (struct MathComponentArray *)calloc(1, sizeof(struct MathComponentArray));
-
-		if (pmca)
+		if (MathComponentDataTypeRegister(&mcd, -1))
 		{
-		    if (MathComponentArrayCallocData(pmca, mcd.piTypes))
+		    //- allocate math component array
+
+		    struct MathComponentArray * pmca
+			= (struct MathComponentArray *)calloc(1, sizeof(struct MathComponentArray));
+
+		    if (pmca)
 		    {
-			//- register math component array with the intermediary
-
-			pheccer->inter.pmca = pmca;
-
-			//- traverse solved components, initialize intermediary
-
-			mcd.iCurrentType = 0;
-
-			//t not sure if recycling is still allowed ...
-
-			ptstr->pfProcesor = solver_mathcomponent_processor;
-
-			iResult = TstrGo(ptstr, phsleModel);
-
-			//- do a consistency check on the types encountered during the two traversals
-
-			if (mcd.piTypes[mcd.iCurrentType] != -1)
+			if (MathComponentArrayCallocData(pmca, mcd.piTypes))
 			{
-			    mcd.iStatus = STATUS_CONSISTENCY;
+			    //- register math component array with the intermediary
+
+			    pheccer->inter.pmca = pmca;
+
+			    //- traverse solved components, initialize intermediary
+
+			    mcd.iCurrentType = 0;
+
+			    mcd.pmc = pmca->pmc;
+
+			    //t not sure if recycling is still allowed ...
+
+			    ptstr->iStatus = TSTR_STATUS_NEW;
+			    ptstr->pfProcesor = solver_mathcomponent_processor;
+			    ptstr->pfFinalizer = solver_mathcomponent_finalizer;
+			    ptstr->pvFinalizer = (void *)&mcd;
+
+			    iResult = TstrGo(ptstr, phsleModel);
+
+			    //- register number of math components
+
+			    pmca->iMathComponents = mcd.iCurrentType;
+
+			    //- do a consistency check on the types encountered during the two traversals
+
+			    if (mcd.piTypes[mcd.iCurrentType] != -1)
+			    {
+				mcd.iStatus = STATUS_CONSISTENCY;
+
+				iResult = FALSE;
+			    }
+			}
+			else
+			{
+			    mcd.iStatus = STATUS_MEMORY;
 
 			    iResult = FALSE;
 			}
@@ -1271,12 +1300,6 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 		    iResult = FALSE;
 		}
 	    }
-	    else
-	    {
-		mcd.iStatus = STATUS_MEMORY;
-
-		iResult = FALSE;
-	    }
 	}
 
 	//- delete treespace traversal
@@ -1289,10 +1312,6 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	//- link the mathcomponents together
 
 	iResult = iResult && cellsolver_linkmathcomponents(pheccer);
-
-/* 	//- produce a piC2m array */
-
-/* 	iResult = iResult && cellsolver_setupmechanisms(pheccer); */
     }
     else
     {
@@ -1311,29 +1330,91 @@ static int cellsolver_linkmathcomponents(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
-    //! this can never fail: multiple parent and multiple root
-    //! diagnosis is left to the minimum degree logic.
-
-    //- loop over all compartments
+    //- if there are no math components
 
     struct Intermediary *pinter = &pheccer->inter;
+
+    struct MathComponentArray * pmca = pinter->pmca;
+
+    if (!pmca)
+    {
+	//- linking is trivial
+
+	return(TRUE);
+    }
+
+    //- loop over all mathcomponents
+
+    struct MathComponent * pmc = pmca->pmc;
+
+    int iMathComponent;
+
+    for (iMathComponent = 0 ; iMathComponent < pmca->iMathComponents ; iMathComponent++)
+    {
+	//- get type of math component
+
+	int iType = pmc->iType;
+
+	switch (iType)
+	{
+	case MATH_TYPE_ChannelActInact:
+	{
+	    struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
+
+	    int iPoolSerial = pcai->iPool;
+
+	    int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+	    pcai->iPool = iPoolIndex;
+
+	    break;
+	}
+	case MATH_TYPE_ChannelActConc:
+	{
+	    struct ChannelActConc * pcac = (struct ChannelActConc *)pmc;
+
+	    int iPoolSerial = pcac->iPool;
+
+	    int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+	    pcac->iPool = iPoolIndex;
+
+	    //t iActivator
+
+	    break;
+	}
+	case MATH_TYPE_ExponentialDecay:
+	{
+	    struct ExponentialDecay * pexdec = (struct ExponentialDecay *)pmc;
+
+	    int iExternalSerial = pexdec->iExternal;
+
+	    int iExternalIndex = MathComponentArrayLookupSerial(pmca, iExternalSerial);
+
+	    pexdec->iExternal = iExternalIndex;
+
+	    break;
+	}
+	default:
+	{
+	    iResult = FALSE;
+
+	    break;
+	}
+	}
+
+	if (iResult)
+	{
+	    //- advance to the next math component
+
+	    pmc = MathComponentNext(pmc);
+	}
+    }
 
     //- return result
 
     return(iResult);
 }
-
-
-/* static int cellsolver_setupmechanisms(struct Heccer *pheccer) */
-/* { */
-/*     //t here have to correct, I guess, not sure. */
-
-/*     struct Intermediary *pinter = &pheccer->inter; */
-
-/*     //- return result */
-
-/*     return(pinter->piC2m != NULL); */
-/* } */
 
 
 int HeccerNeurospacesMechanisms2MathComponents(struct TranslationService *pts)
