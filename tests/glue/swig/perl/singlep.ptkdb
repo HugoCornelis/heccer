@@ -1,0 +1,27 @@
+$files = {
+           '_<glue/swig/perl/main' => [
+                                        {
+                                          'expr' => undef,
+                                          'value' => '1',
+                                          'text' => 'my $heccer
+',
+                                          'fname' => 'glue/swig/perl/main',
+                                          'type' => 'user',
+                                          'line' => '79'
+                                        }
+                                      ],
+           '_<glue/swig/perl/singlep' => [
+                                           {
+                                             'expr' => undef,
+                                             'value' => '1',
+                                             'text' => 'require \'main\';
+',
+                                             'fname' => 'glue/swig/perl/singlep',
+                                             'type' => 'user',
+                                             'line' => '88'
+                                           }
+                                         ]
+         };
+$expr_list = [];
+$eval_saved_text = undef;
+$main_win_geometry = '1592x1114+0+0';

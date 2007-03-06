@@ -1,0 +1,16 @@
+$files = {
+           '_<./glue/swig/perl/table-naf' => [
+                                               {
+                                                 'expr' => undef,
+                                                 'value' => '1',
+                                                 'text' => 'require \'main\';
+',
+                                                 'fname' => './glue/swig/perl/table-naf',
+                                                 'type' => 'user',
+                                                 'line' => '159'
+                                               }
+                                             ]
+         };
+$expr_list = [];
+$eval_saved_text = undef;
+$main_win_geometry = '1592x1114+0+0';
