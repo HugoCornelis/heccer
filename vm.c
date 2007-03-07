@@ -513,7 +513,14 @@ HeccerVMDumpOperators
 
 			    double **ppd = (double **)&pd[3];
 
-			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], **ppd);
+			    if (*ppd)
+			    {
+				sprintf(pc, " %g %g %g (%g)", pd[0], pd[1], pd[2], **ppd);
+			    }
+			    else
+			    {
+				sprintf(pc, " %g %g %g (nil)", pd[0], pd[1], pd[2], **ppd);
+			    }
 
 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
 			}

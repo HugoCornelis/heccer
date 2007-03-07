@@ -88,6 +88,10 @@ MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType);
 
 static
 int
+solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
 solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct TranslationService *pts);
@@ -189,35 +193,25 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    //- get power
 
-	    struct symtab_Parameters * pparPower
-		= SymbolGetParameter(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
 
-	    if (!pparPower)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    int iPower = ParameterResolveValue(pparPower, ptstr->ppist);
+	    int iPower = dPower;
 
 	    ppgc->iPower = iPower;
 
 	    //- get initial state
 
-	    struct symtab_Parameters * pparStateInit
-		= SymbolGetParameter(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
 
-	    if (!pparStateInit)
+	    ppgc->gc.dInitActivation = dInitActivation;
+
+	    if (dPower == FLT_MAX
+		|| dInitActivation == FLT_MAX)
 	    {
 		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
-
-	    double dInitActivation = ParameterResolveValue(pparStateInit, ptstr->ppist);
-
-	    ppgc->gc.dInitActivation = dInitActivation;
 	}
 	else
 	{
@@ -259,100 +253,53 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    //- get Multiplier = 35.0e3
 
-	    struct symtab_Parameters * pparMultiplier
-		= SymbolGetParameter(phsle, "Multiplier", ptstr->ppist);
-
-	    if (!pparMultiplier)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMultiplier = ParameterResolveValue(pparMultiplier, ptstr->ppist);
+	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
 
 	    pgk->dMultiplier = dMultiplier;
 
 	    //- get MembraneDependence = 0.0
 
-	    struct symtab_Parameters * pparMembraneDependence
-		= SymbolGetParameter(phsle, "MembraneDependence", ptstr->ppist);
-
-	    if (!pparMembraneDependence)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMembraneDependence = ParameterResolveValue(pparMembraneDependence, ptstr->ppist);
+	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
 
 	    pgk->dMembraneDependence = dMembraneDependence;
 
 	    //- get Nominator = -1.0
 
-	    struct symtab_Parameters * pparNominator
-		= SymbolGetParameter(phsle, "Nominator", ptstr->ppist);
+	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
 
-	    if (!pparNominator)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    int iNominator = ParameterResolveValue(pparNominator, ptstr->ppist);
+	    int iNominator = dNominator;
 
 	    pgk->iNominator = iNominator;
 
 	    //- get DeNominatorOffset = 0.0
 
-	    struct symtab_Parameters * pparDeNominatorOffset
-		= SymbolGetParameter(phsle, "DeNominatorOffset", ptstr->ppist);
-
-	    if (!pparDeNominatorOffset)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dDeNominatorOffset = ParameterResolveValue(pparDeNominatorOffset, ptstr->ppist);
+	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
 
 	    pgk->dDeNominatorOffset = dDeNominatorOffset;
 
 	    //- get MembraneOffset = 5.0e-3
 
-	    struct symtab_Parameters * pparMembraneOffset
-		= SymbolGetParameter(phsle, "MembraneOffset", ptstr->ppist);
-
-	    if (!pparMembraneOffset)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMembraneOffset = ParameterResolveValue(pparMembraneOffset, ptstr->ppist);
+	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
 
 	    pgk->dMembraneOffset = dMembraneOffset;
 
 	    //- get TauDenormalizer = -10.0e-3
 
-	    struct symtab_Parameters * pparTauDenormalizer
-		= SymbolGetParameter(phsle, "TauDenormalizer", ptstr->ppist);
+	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
 
-	    if (!pparTauDenormalizer)
+	    pgk->dTauDenormalizer = dTauDenormalizer;
+
+	    if (dMultiplier == FLT_MAX
+		|| dMembraneDependence == FLT_MAX
+		|| dNominator == FLT_MAX
+		|| dDeNominatorOffset == FLT_MAX
+		|| dMembraneOffset == FLT_MAX
+		|| dTauDenormalizer == FLT_MAX)
 	    {
 		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
-
-	    double dTauDenormalizer = ParameterResolveValue(pparTauDenormalizer, ptstr->ppist);
-
-	    pgk->dTauDenormalizer = dTauDenormalizer;
-
 	}
 	else
 	{
@@ -422,35 +369,25 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    //- get power
 
-	    struct symtab_Parameters * pparPower
-		= SymbolGetParameter(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
 
-	    if (!pparPower)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    int iPower = ParameterResolveValue(pparPower, ptstr->ppist);
+	    int iPower = dPower;
 
 	    pcac->pgc.iPower = iPower;
 
 	    //- get initial state
 
-	    struct symtab_Parameters * pparStateInit
-		= SymbolGetParameter(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
 
-	    if (!pparStateInit)
+	    pcac->pgc.gc.dInitActivation = dInitActivation;
+
+	    if (dPower == FLT_MAX
+		|| dInitActivation == FLT_MAX)
 	    {
 		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
-
-	    double dInitActivation = ParameterResolveValue(pparStateInit, ptstr->ppist);
-
-	    pcac->pgc.gc.dInitActivation = dInitActivation;
 	}
 	else
 	{
@@ -470,100 +407,53 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	{
 	    //- get Multiplier = 35.0e3
 
-	    struct symtab_Parameters * pparMultiplier
-		= SymbolGetParameter(phsle, "Multiplier", ptstr->ppist);
-
-	    if (!pparMultiplier)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMultiplier = ParameterResolveValue(pparMultiplier, ptstr->ppist);
+	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
 
 	    pcac->pgc.gc.gkForward.dMultiplier = dMultiplier;
 
 	    //- get MembraneDependence = 0.0
 
-	    struct symtab_Parameters * pparMembraneDependence
-		= SymbolGetParameter(phsle, "MembraneDependence", ptstr->ppist);
-
-	    if (!pparMembraneDependence)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMembraneDependence = ParameterResolveValue(pparMembraneDependence, ptstr->ppist);
+	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
 
 	    pcac->pgc.gc.gkForward.dMembraneDependence = dMembraneDependence;
 
 	    //- get Nominator = -1.0
 
-	    struct symtab_Parameters * pparNominator
-		= SymbolGetParameter(phsle, "Nominator", ptstr->ppist);
+	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
 
-	    if (!pparNominator)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    int iNominator = ParameterResolveValue(pparNominator, ptstr->ppist);
+	    int iNominator = dNominator;
 
 	    pcac->pgc.gc.gkForward.iNominator = iNominator;
 
 	    //- get DeNominatorOffset = 0.0
 
-	    struct symtab_Parameters * pparDeNominatorOffset
-		= SymbolGetParameter(phsle, "DeNominatorOffset", ptstr->ppist);
-
-	    if (!pparDeNominatorOffset)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dDeNominatorOffset = ParameterResolveValue(pparDeNominatorOffset, ptstr->ppist);
+	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
 
 	    pcac->pgc.gc.gkForward.dDeNominatorOffset = dDeNominatorOffset;
 
 	    //- get MembraneOffset = 5.0e-3
 
-	    struct symtab_Parameters * pparMembraneOffset
-		= SymbolGetParameter(phsle, "MembraneOffset", ptstr->ppist);
-
-	    if (!pparMembraneOffset)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    double dMembraneOffset = ParameterResolveValue(pparMembraneOffset, ptstr->ppist);
+	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
 
 	    pcac->pgc.gc.gkForward.dMembraneOffset = dMembraneOffset;
 
 	    //- get TauDenormalizer = -10.0e-3
 
-	    struct symtab_Parameters * pparTauDenormalizer
-		= SymbolGetParameter(phsle, "TauDenormalizer", ptstr->ppist);
+	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
 
-	    if (!pparTauDenormalizer)
+	    pcac->pgc.gc.gkForward.dTauDenormalizer = dTauDenormalizer;
+
+	    if (dMultiplier == FLT_MAX
+		|| dMembraneDependence == FLT_MAX
+		|| dNominator == FLT_MAX
+		|| dDeNominatorOffset == FLT_MAX
+		|| dMembraneOffset == FLT_MAX
+		|| dTauDenormalizer == FLT_MAX)
 	    {
 		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
-
-	    double dTauDenormalizer = ParameterResolveValue(pparTauDenormalizer, ptstr->ppist);
-
-	    pcac->pgc.gc.gkForward.dTauDenormalizer = dTauDenormalizer;
-
 	}
 	else
 	{
@@ -743,31 +633,19 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     {
 	//- get maximal conductance
 
-	struct symtab_Parameters * pparMaximalConductance
-	    = SymbolGetParameter(phsle, "GMAX", ptstr->ppist);
-
-	if (!pparMaximalConductance)
-	{
-	    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	double dMaximalConductance = ParameterResolveScaledValue(pparMaximalConductance, ptstr->ppist);
+	double dMaximalConductance = SymbolParameterResolveScaledValue(phsle, "GMAX", ptstr->ppist);
 
 	//- get reversal potential
 
-	struct symtab_Parameters * pparReversalPotential
-	    = SymbolGetParameter(phsle, "Ek", ptstr->ppist);
+	double dReversalPotential = SymbolParameterResolveValue(phsle, "Ek", ptstr->ppist);
 
-	if (!pparReversalPotential)
+	if (dMaximalConductance == FLT_MAX
+	    || dReversalPotential == FLT_MAX)
 	{
 	    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
-
-	double dReversalPotential = ParameterResolveValue(pparReversalPotential, ptstr->ppist);
 
 	//- set values
 
@@ -778,6 +656,32 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcai->dMaximalConductance = dMaximalConductance;
 
 	    pcai->dReversalPotential = dReversalPotential;
+
+	    //t must be output instead of input ?
+
+	    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+	    struct symtab_IOList *piolPool0
+		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
+
+	    if (piolPool0)
+	    {
+		//t this is a hack to get things to work right now,
+		//t see TODOs in neurospaces
+
+		//t this hack will not work when components are grouped or so
+
+		int iSerialDifference
+		    = piolPool0->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
+
+		//t perhaps must be a + ?, but I guess not
+
+		pcai->iPool = ptstr->iSerialPrincipal - iSerialDifference;
+	    }
+	    else
+	    {
+		pcai->iPool = -1;
+	    }
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
 	{
@@ -787,20 +691,31 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcac->dReversalPotential = dReversalPotential;
 
+	    //t must be output instead of input ?
+
+	    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
 	    struct symtab_IOList *piolPool0
 		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
 
-	    //t this is a hack to get things to work right now,
-	    //t see TODOs in neurospaces
+	    if (piolPool0)
+	    {
+		//t this is a hack to get things to work right now,
+		//t see TODOs in neurospaces
 
-	    //t this hack will not work when components are grouped or so
+		//t this hack will not work when components are grouped or so
 
-	    int iSerialDifference
-		= piolPool0->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
+		int iSerialDifference
+		    = piolPool0->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
-	    //t perhaps must be a + ?, but I guess not
+		//t perhaps must be a + ?, but I guess not
 
-	    pcac->iPool = ptstr->iSerialPrincipal - iSerialDifference;
+		pcac->iPool = ptstr->iSerialPrincipal - iSerialDifference;
+	    }
+	    else
+	    {
+		pcac->iPool = -1;
+	    }
 	}
 	else
 	{
@@ -830,12 +745,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		   ? solver_channel_activation_inactivation_processor
 		   : solver_channel_activation_concentration_processor,
 		   (void *)pmcd,
-		   NULL,
-		   NULL);
+		   ptstr->pfFinalizer,
+		   ptstr->pvFinalizer);
 
 	    iResult = TstrGo(ptstrChannel, phsle);
 
-	    if (iResult)
+	    if (iResult == 1)
 	    {
 		pmcd->iStatus = iStatus;
 
@@ -870,59 +785,29 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- get initial value
 
-	struct symtab_Parameters * pparInitValue
-	    = SymbolGetParameter(phsle, "concen_init", ptstr->ppist);
-
-	if (!pparInitValue)
-	{
-	    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	double dInitValue = ParameterResolveValue(pparInitValue, ptstr->ppist);
+	double dInitValue = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
 
 	//- get beta
 
-	struct symtab_Parameters * pparBeta
-	    = SymbolGetParameter(phsle, "BETA", ptstr->ppist);
-
-	if (!pparBeta)
-	{
-	    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	double dBeta = ParameterResolveValue(pparBeta, ptstr->ppist);
+	double dBeta = SymbolParameterResolveScaledValue(phsle, "BETA", ptstr->ppist);
 
 	//- get steady state
 
-	struct symtab_Parameters * pparSteadyState
-	    = SymbolGetParameter(phsle, "BASE", ptstr->ppist);
-
-	if (!pparSteadyState)
-	{
-	    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	double dSteadyState = ParameterResolveValue(pparSteadyState, ptstr->ppist);
+	double dSteadyState = SymbolParameterResolveValue(phsle, "BASE", ptstr->ppist);
 
 	//- get tau
 
-	struct symtab_Parameters * pparTau
-	    = SymbolGetParameter(phsle, "TAU", ptstr->ppist);
+	double dTau = SymbolParameterResolveValue(phsle, "TAU", ptstr->ppist);
 
-	if (!pparTau)
+	if (dInitValue == FLT_MAX
+	    || dBeta == FLT_MAX
+	    || dSteadyState == FLT_MAX
+	    || dTau == FLT_MAX)
 	{
 	    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
-
-	double dTau = ParameterResolveValue(pparTau, ptstr->ppist);
 
 	//- set values
 
@@ -933,12 +818,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- find contributing channels
 
-	int iInput;
+	int iInput = 0;
 
 	struct symtab_IOList *piolExternal
-	    = SymbolResolveInput(phsle, ptstr->ppist, "Ik", 0);
+	    = SymbolResolveInput(phsle, ptstr->ppist, "Ik", iInput);
 
-	for (iInput = 0 ; piolExternal ; iInput++)
+	while (piolExternal)
 	{
 	    //t this is a hack to get things to work right now,
 	    //t see TODOs in neurospaces
@@ -953,6 +838,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pexdec->iExternal = ptstr->iSerialPrincipal - iSerialDifference;
 
 	    //- next contributing channel
+
+	    iInput++;
 
 	    piolExternal = SymbolResolveInput(phsle, ptstr->ppist, "Ik", iInput);
 
