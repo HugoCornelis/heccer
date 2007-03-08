@@ -371,6 +371,11 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	//- increment the status to indicate what component we have processed
 
 	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 7)
+	{
+	    pmcd->iStatus = 1;
+	}
     }
 
     //- return result
@@ -433,6 +438,34 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 	}
+	else if (pmcd->iStatus == 4)
+	{
+	    //- initial table index
+
+	    pcac->pac.ac.iTable = -1;
+
+	    //- get power
+
+	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+
+	    int iPower = dPower;
+
+	    pcac->pac.iPower = iPower;
+
+	    //- get initial state
+
+	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+
+	    pcac->pac.ac.dInitActivation = dInitActivation;
+
+	    if (dPower == FLT_MAX
+		|| dInitActivation == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
 	else
 	{
 	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
@@ -445,21 +478,37 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
     else if (instanceof_gate_kinetic(phsle))
     {
-	//- if forward
+	//! 2: forward, act
+	//! 3: backward, act
+	//! 5: forward, inact
+	//! 6: backward, inact
 
-	if (pmcd->iStatus == 2)
+	if (pmcd->iStatus == 2
+	    || pmcd->iStatus == 3)
 	{
+	    struct PoweredGateConcept * ppgc = &pcac->pgc;
+
+	    struct GateKinetic *pgk
+		= (pmcd->iStatus == 2
+		   || pmcd->iStatus == 3
+		   ? &ppgc->gc.gkForward
+		   : &ppgc->gc.gkBackward);
+
+	    //- initialize table index
+
+	    ppgc->gc.iTable = -1;
+
 	    //- get Multiplier = 35.0e3
 
 	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
 
-	    pcac->pgc.gc.gkForward.dMultiplier = dMultiplier;
+	    pgk->dMultiplier = dMultiplier;
 
 	    //- get MembraneDependence = 0.0
 
 	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
 
-	    pcac->pgc.gc.gkForward.dMembraneDependence = dMembraneDependence;
+	    pgk->dMembraneDependence = dMembraneDependence;
 
 	    //- get Nominator = -1.0
 
@@ -467,25 +516,25 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    int iNominator = dNominator;
 
-	    pcac->pgc.gc.gkForward.iNominator = iNominator;
+	    pgk->iNominator = iNominator;
 
 	    //- get DeNominatorOffset = 0.0
 
 	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
 
-	    pcac->pgc.gc.gkForward.dDeNominatorOffset = dDeNominatorOffset;
+	    pgk->dDeNominatorOffset = dDeNominatorOffset;
 
 	    //- get MembraneOffset = 5.0e-3
 
 	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
 
-	    pcac->pgc.gc.gkForward.dMembraneOffset = dMembraneOffset;
+	    pgk->dMembraneOffset = dMembraneOffset;
 
 	    //- get TauDenormalizer = -10.0e-3
 
 	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
 
-	    pcac->pgc.gc.gkForward.dTauDenormalizer = dTauDenormalizer;
+	    pgk->dTauDenormalizer = dTauDenormalizer;
 
 	    if (dMultiplier == FLT_MAX
 		|| dMembraneDependence == FLT_MAX
@@ -507,41 +556,41 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	}
     }
 
-/*     //- if activator */
+    //- if activator
 
-/*     else if (instanceof_activator(phsle)) */
-/*     { */
-/* 	//- if forward */
+    else if (instanceof_concentration_gate_kinetic(phsle))
+    {
+	//- if forward
 
-/* 	if (pmcd->iStatus == 3) */
-/* 	{ */
-/*     //m initial value, commonly steady state */
+	if (pmcd->iStatus == 5)
+	{
+	    //- basal level, A in EDS1994
 
-/*     double dInitActivation; */
+	    double dBasalLevel = SymbolParameterResolveValue(phsle, "Base", ptstr->ppist);
 
-/*     //m corresponding index in tables, set to -1 for initialization. */
+	    pcac->pac.ac.dBasalLevel = dBasalLevel;
 
-/*     int iTable; */
+	    //- time constant, B in EDS1994
 
-/*     //m basal level, A in EDS1994 */
+	    double dTau = SymbolParameterResolveValue(phsle, "Tau", ptstr->ppist);
 
-/*     double dBasalLevel; */
+	    pcac->pac.ac.dTau = dTau;
 
-/*     //m time constant, B in EDS1994 */
+	    if (dBasalLevel == FLT_MAX
+		|| dTau == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
-/*     double dTau; */
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
 
-/*     //m is activated by the output of this mechanism, must be filled in */
-
-/*     int iActivator; */
-/* 	} */
-/* 	else */
-/* 	{ */
-/* 	    pmcd->iStatus = STATUS_UNKNOWN_TYPE; */
-
-/* 	    iResult = TSTR_PROCESSOR_ABORT; */
-/* 	} */
-/*     } */
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
 
     //- otherwise
 
@@ -559,6 +608,11 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	//- increment the status to indicate what component we have processed
 
 	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 6)
+	{
+	    pmcd->iStatus = 1;
+	}
     }
 
     //- return result
@@ -642,7 +696,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     //- if gate and related
 
     else if (instanceof_gate_kinetic(phsle)
-	     || instanceof_conceptual_gate(phsle))
+	     || instanceof_conceptual_gate(phsle)
+	     || instanceof_concentration_gate_kinetic(phsle))
     {
 	//- ok, skip
 
