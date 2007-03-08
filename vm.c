@@ -519,7 +519,7 @@ HeccerVMDumpOperators
 			    }
 			    else
 			    {
-				sprintf(pc, " %g %g %g (nil)", pd[0], pd[1], pd[2], **ppd);
+				sprintf(pc, " %g %g %g (nil)", pd[0], pd[1], pd[2], NULL);
 			    }
 
 			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
