@@ -619,7 +619,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- register serial
 
-	pmc->iSerial = ptstr->iSerialPrincipal;
+	pmc->iSerial = PidinStackToSerial(ptstr->ppist);
     }
 
     //- depending on the type
@@ -676,7 +676,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 		//t perhaps must be a + ?, but I guess not
 
-		pcai->iPool = ptstr->iSerialPrincipal - iSerialDifference;
+		pcai->iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
 	    }
 	    else
 	    {
@@ -710,7 +710,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 		//t perhaps must be a + ?, but I guess not
 
-		pcac->iPool = ptstr->iSerialPrincipal - iSerialDifference;
+		pcac->iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
 	    }
 	    else
 	    {
@@ -818,6 +818,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- find contributing channels
 
+	pexdec->iExternal = -1;
+
 	int iInput = 0;
 
 	struct symtab_IOList *piolExternal
@@ -833,9 +835,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    int iSerialDifference
 		= piolExternal->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
-	    //t perhaps must be a + ?, but I guess not
-
-	    pexdec->iExternal = ptstr->iSerialPrincipal - iSerialDifference;
+	    pexdec->iExternal = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
 
 	    //- next contributing channel
 
@@ -1250,9 +1250,12 @@ static int cellsolver_linkmathcomponents(struct Heccer *pheccer)
 
 	    int iPoolSerial = pcai->iPool;
 
-	    int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+	    if (iPoolSerial != -1)
+	    {
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
 
-	    pcai->iPool = iPoolIndex;
+		pcai->iPool = iPoolIndex;
+	    }
 
 	    break;
 	}
@@ -1262,9 +1265,12 @@ static int cellsolver_linkmathcomponents(struct Heccer *pheccer)
 
 	    int iPoolSerial = pcac->iPool;
 
-	    int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+	    if (iPoolSerial != -1)
+	    {
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
 
-	    pcac->iPool = iPoolIndex;
+		pcac->iPool = iPoolIndex;
+	    }
 
 	    //t iActivator
 
@@ -1276,10 +1282,12 @@ static int cellsolver_linkmathcomponents(struct Heccer *pheccer)
 
 	    int iExternalSerial = pexdec->iExternal;
 
-	    int iExternalIndex = MathComponentArrayLookupSerial(pmca, iExternalSerial);
+	    if (iExternalSerial != -1)
+	    {
+		int iExternalIndex = MathComponentArrayLookupSerial(pmca, iExternalSerial);
 
-	    pexdec->iExternal = iExternalIndex;
-
+		pexdec->iExternal = iExternalIndex;
+	    }
 	    break;
 	}
 	default:
