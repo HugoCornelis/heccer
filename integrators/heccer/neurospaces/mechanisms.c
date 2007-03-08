@@ -701,31 +701,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcai->dReversalPotential = dReversalPotential;
 
-	    //t must be output instead of input ?
-
-	    //m contributes to this concentration pool, -1 for none, boolean indicator only.
-
-	    struct symtab_IOList *piolPool0
-		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
-
-	    if (piolPool0)
-	    {
-		//t this is a hack to get things to work right now,
-		//t see TODOs in neurospaces
-
-		//t this hack will not work when components are grouped or so
-
-		int iSerialDifference
-		    = piolPool0->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
-
-		//t perhaps must be a + ?, but I guess not
-
-		pcai->iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
-	    }
-	    else
-	    {
-		pcai->iPool = -1;
-	    }
+	    pcai->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
 	{
@@ -735,14 +711,14 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcac->dReversalPotential = dReversalPotential;
 
-	    //t must be output instead of input ?
+	    pcac->iPool = -1;
 
 	    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
-	    struct symtab_IOList *piolPool0
+	    struct symtab_IOList *piolPool
 		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
 
-	    if (piolPool0)
+	    if (piolPool)
 	    {
 		//t this is a hack to get things to work right now,
 		//t see TODOs in neurospaces
@@ -750,15 +726,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		//t this hack will not work when components are grouped or so
 
 		int iSerialDifference
-		    = piolPool0->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
+		    = piolPool->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
-		//t perhaps must be a + ?, but I guess not
-
-		pcac->iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
-	    }
-	    else
-	    {
-		pcac->iPool = -1;
+		pcac->pac.ac.iActivator = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
 	    }
 	}
 	else
@@ -1368,6 +1338,10 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 	{
 	    struct ChannelActConc * pcac = (struct ChannelActConc *)pmc;
 
+	    //- if channel in contributors registry
+
+	    pcac->iPool = GetConnection(pmcd, pmc);
+
 	    int iPoolSerial = pcac->iPool;
 
 	    if (iPoolSerial != -1)
@@ -1377,7 +1351,25 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		pcac->iPool = iPoolIndex;
 	    }
 
-	    //t iActivator
+	    //- translate iActivator
+
+	    if (pcac->pac.ac.iActivator != -1)
+	    {
+		int iActivator = MathComponentArrayLookupSerial(pmca, pcac->pac.ac.iActivator);
+
+		pcac->pac.ac.iActivator = iActivator;
+	    }
+
+	    //- or
+
+	    else
+	    {
+		//- an error
+
+		pmcd->iStatus = STATUS_CONSISTENCY;
+
+		iResult = FALSE;
+	    }
 
 	    break;
 	}
