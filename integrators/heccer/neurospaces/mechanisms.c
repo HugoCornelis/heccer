@@ -69,6 +69,13 @@ struct MathComponentData
     //m operational status: positive is positive, negative is negative (error)
 
     int iStatus;
+
+    //m channels that contribute to a pool
+
+    int iConnectors;
+
+    int **ppiConnectors;
+
 };
 
 
@@ -80,7 +87,10 @@ struct MathComponentData
 #define STATUS_UNRESOLVABLE_PARAMETERS -6
 #define STATUS_MANY_CHANNELS -7
 #define STATUS_UNKNOWN_ERROR -8
+#define STATUS_NON_CHANNEL_OUTPUTS_IK -9
 
+
+static int GetConnection(struct MathComponentData * pmcd, struct MathComponent * pmc);
 
 static
 int
@@ -96,9 +106,43 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct TranslationService *pts);
 
-static int cellsolver_linkmathcomponents(struct Heccer *pheccer);
+static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathComponentData * pmcd);
 
-/* static int cellsolver_setupmechanisms(struct Heccer *pheccer); */
+
+static int GetConnection(struct MathComponentData * pmcd, struct MathComponent * pmc)
+{
+    //- set default result : none
+
+    int iResult = -1;
+
+    //- loop over the contributors
+
+    int iChannelContributors = pmcd->iConnectors;
+
+    int **ppiChannelContributors = pmcd->ppiConnectors;
+
+    int i;
+
+    for (i = 0 ; i < iChannelContributors ; i++)
+    {
+	//- if found
+
+	if (ppiChannelContributors[i][0] == pmc->iSerial)
+	{
+	    //- set result
+
+	    iResult = ppiChannelContributors[i][1];
+
+	    //- break searching loop
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
 
 
 static
@@ -827,6 +871,13 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	while (piolExternal)
 	{
+	    if (!instanceof_channel(&piolExternal->hsle))
+	    {
+		pmcd->iStatus = STATUS_NON_CHANNEL_OUTPUTS_IK;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+
 	    //t this is a hack to get things to work right now,
 	    //t see TODOs in neurospaces
 
@@ -835,7 +886,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    int iSerialDifference
 		= piolExternal->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
-	    pexdec->iExternal = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+	    int iChannel = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+
+	    pexdec->iExternal = iChannel;
+
+	    //- register the channel as a flux contributor
+
+	    pmcd->ppiConnectors[pmcd->iConnectors][0] = iChannel;
+	    pmcd->ppiConnectors[pmcd->iConnectors][1] = PidinStackToSerial(ptstr->ppist);
+
+	    pmcd->iConnectors++;
 
 	    //- next contributing channel
 
@@ -1072,7 +1132,31 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	    //m operational status: positive is positive, negative is negative (error)
 
 	    1,
+
+	    //m channels that contribute to a pool
+
+	    //! to set the iPool boolean indicator
+
+	    0,
+
+	    NULL,
+
 	};
+
+	//t should try to get rid of this allocation somehow
+
+#define MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS 10000
+
+	{
+	    mcd.ppiConnectors = (int **)calloc(MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS, sizeof(int *));
+
+	    int i;
+
+	    for (i = 0 ; i < MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS ; i++)
+	    {
+		mcd.ppiConnectors[i] = (int *)calloc(2, sizeof(int));
+	    }
+	}
 
 	//- get descendants
 
@@ -1189,6 +1273,12 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	    }
 	}
 
+	//t sort the registry
+
+	//- link the mathcomponents together
+
+	iResult = iResult && cellsolver_linkmathcomponents(pheccer, &mcd);
+
 	//- delete treespace traversal
 
 	TstrDelete(ptstr);
@@ -1196,9 +1286,18 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	//t decide if we want to keep piTypes or not, it might
 	//t be useful to keep.
 
-	//- link the mathcomponents together
+	//- delete channel contributors registry
 
-	iResult = iResult && cellsolver_linkmathcomponents(pheccer);
+	{
+	    int i;
+
+	    for (i = 0 ; i < MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS ; i++)
+	    {
+		free(mcd.ppiConnectors[i]);
+	    }
+
+	    free(mcd.ppiConnectors);
+	}
     }
     else
     {
@@ -1211,7 +1310,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 }
 
 
-static int cellsolver_linkmathcomponents(struct Heccer *pheccer)
+static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathComponentData * pmcd)
 {
     //- set default result : ok
 
@@ -1248,10 +1347,16 @@ static int cellsolver_linkmathcomponents(struct Heccer *pheccer)
 	{
 	    struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
 
+	    //- if channel in contributors registry
+
+	    pcai->iPool = GetConnection(pmcd, pmc);
+
 	    int iPoolSerial = pcai->iPool;
 
 	    if (iPoolSerial != -1)
 	    {
+		//- translate the contributee serial
+
 		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
 
 		pcai->iPool = iPoolIndex;
