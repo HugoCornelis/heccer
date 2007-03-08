@@ -961,7 +961,8 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
     //- if gate and related
 
     else if (instanceof_gate_kinetic(phsle)
-	     || instanceof_conceptual_gate(phsle))
+	     || instanceof_conceptual_gate(phsle)
+	     || instanceof_concentration_gate_kinetic(phsle))
     {
 	//- ok, skip
 
