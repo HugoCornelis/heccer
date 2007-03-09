@@ -28,12 +28,8 @@ struct Heccer;
 //f prototypes
 
 void *
-AddressCompartmentVariable
-(struct Heccer *pheccer, int iIntermediary, char *pcField);
-
-void *
-AddressMechanismVariable
-(struct Heccer *pheccer, int iIndex, char *pcField);
+HeccerAddressVariable
+(struct Heccer *pheccer, int iSerial, char *pcType);
 
 
 #endif

@@ -26,6 +26,19 @@ our $config
        time_step => (2e-5),
       };
 
+
+sub addressable
+{
+    my $self = shift;
+
+    my $fieldinfo = shift;
+
+    my $result = $self->{heccer}->HeccerAddressVariable($fieldinfo->{serial}, $fieldinfo->{type});
+
+    return $result;
+}
+
+
 sub advance
 {
     my $self = shift;
