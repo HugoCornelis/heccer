@@ -490,7 +490,6 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
-		   || pmcd->iStatus == 3
 		   ? &ppgc->gc.gkForward
 		   : &ppgc->gc.gkBackward);
 
