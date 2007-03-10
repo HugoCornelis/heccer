@@ -16,18 +16,37 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef HECCER_ADDRESSING_H
-#define HECCER_ADDRESSING_H
+#ifndef HECCER_OUTPUTGENERATOR_H
+#define HECCER_OUTPUTGENERATOR_H
 
 
 #include <stdio.h>
 
-struct Heccer;
 
+struct OutputGenerator
+{
+    //m number of variables
 
-void *
-HeccerAddressVariable
-(struct Heccer *pheccer, int iSerial, char *pcType);
+    int iVariablesAllocated;
+
+    int iVariablesActive;
+
+    //m all variables
+
+    double **ppdVariables;
+
+    //m output file stream
+
+    FILE *pfileOutput;
+};
+
+struct OutputGenerator * OutputGeneratorNew(void);
+
+int
+OutputGeneratorAddVariable
+(struct OutputGenerator * pog, char *pcName, void *pvVariable);
+
+int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc);
 
 
 #endif

@@ -53,6 +53,7 @@
 #include "heccer/heccer.h"
 #include "heccer/mathcomponent.h"
 #include "heccer/mechanism.h"
+#include "heccer/output.h"
 
 //t so this should depend on the configuration
 
@@ -136,6 +137,7 @@ struct Compartment *comp_get(struct Compartment *a, int i)
 %include "heccer/heccer.h"
 %include "heccer/mathcomponent.h"
 %include "heccer/mechanism.h"
+%include "heccer/output.h"
 
 //t so this should depend on the configuration
 
