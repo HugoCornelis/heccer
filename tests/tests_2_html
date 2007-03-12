@@ -218,6 +218,8 @@ sub main
     my $option_help;
     my $option_verbose;
 
+    my $total_tests = 0;
+
     my $result
 	= GetOptions
 	    (
@@ -264,6 +266,8 @@ options :
 	   @$directories,
 	  };
 
+    # filter out empty directories
+
     $directories
 	= [
 	   grep
@@ -272,38 +276,6 @@ options :
 	   }
 	   @$directories,
 	  ];
-
-    # produce an index file for the main directory
-
-    #! so main.html contains all the tests per directory ...
-
-    my $sections
-	= [
-	   sort { $a->{source} cmp $b->{source} }
-	   map
-	   {
-	       {
-		   files => @{$directory_2_files->{$_}} . " test definition file(s)",
-		       source => $_,
-			   target => "$_/main.html",
-		   };
-	   }
-	   @$directories,
-	  ];
-
-    #! ... and a single index.html links to all the directories
-    #! (ie. 'main.html's).
-
-    output_content
-	(
-	 {
-	  cgi => $cgi,
-	  content => html_index($cgi, $sections, ),
-	  filename => "index.html",
-	  header => $option_header,
-	  title => "Main Index",
-	 },
-	);
 
     # loop over all directories
 
@@ -482,6 +454,12 @@ options :
 
 		foreach my $command_test (@$command_tests)
 		{
+		    # increment total count
+
+		    $total_tests++;
+
+		    # convert this test
+
 		    $html .= $cgi->h4("$command_definition_count.$command_test_count. " . $command_test->{description});
 
 		    my $entries = 1;
@@ -539,6 +517,38 @@ options :
 		);
 	}
     }
+
+    # produce an index file for the main directory
+
+    #! so main.html contains all the tests per directory ...
+
+    my $sections
+	= [
+	   sort { $a->{source} cmp $b->{source} }
+	   map
+	   {
+	       {
+		   files => @{$directory_2_files->{$_}} . " test definition file(s)",
+		       source => $_,
+			   target => "$_/main.html",
+		   };
+	   }
+	   @$directories,
+	  ];
+
+    #! ... and a single index.html links to all the directories
+    #! (ie. 'main.html's).
+
+    output_content
+	(
+	 {
+	  cgi => $cgi,
+	  content => html_index($cgi, $sections, ) . "<hr> Total of $total_tests tests",
+	  filename => "index.html",
+	  header => $option_header,
+	  title => "Main Index",
+	 },
+	);
 }
 
 
