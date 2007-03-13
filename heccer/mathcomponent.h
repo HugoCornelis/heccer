@@ -51,6 +51,7 @@ struct MathComponent
 #define MATH_TYPE_ChannelActConc 8
 #define MATH_TYPE_ChannelActInact 7
 #define MATH_TYPE_ChannelSpringMass 9
+#define MATH_TYPE_ChannelSteadyStateTau 10
 #define MATH_TYPE_Compartment 1
 #define MATH_TYPE_ExponentialDecay 2
 #define MATH_TYPE_GHK 3

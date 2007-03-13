@@ -40,6 +40,20 @@ my $test
 						 ],
 				description => "Simple potassium gate tabulation",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/table-kdr',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, delayed rectifier potassium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kdr.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Delayed rectifier potassium gate tabulation",
+			       },
 			      ],
        description => "Gate tabulation",
        name => 'tables.t',

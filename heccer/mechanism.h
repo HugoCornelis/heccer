@@ -260,6 +260,251 @@ struct ChannelActInact
     struct PoweredGateConcept pgcInactivation;
 };
 
+//s gate steady state definition
+
+struct SteadyState
+{
+    //m forward kinetiks
+
+    struct
+    {
+	//m part a
+
+	struct
+	{
+	    //m 1: multiplier
+	
+	    double dMultiplier;
+	
+	    //m 2: multiplier membrane dependence, 0.0 for no dependence
+	
+	    double dMembraneDependence;
+	
+	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
+	
+	    double dMembraneDependenceOffset;
+	
+	    //m 3: choose between nominator or denominator, 1 means nominator, -1
+	    //m means denominator
+	
+	    int iNominator;
+	
+	    //m 4: nominator or denominator offset
+	
+	    double dDeNominatorOffset;
+	
+	    //m 5: membrane offset
+	
+	    double dMembraneOffset;
+	
+	    //m 6: denormalized time constant
+	
+	    double dTauDenormalizer;
+	} a;
+
+	//m part b
+
+	struct
+	{
+	    //m 1: multiplier
+
+	    double dMultiplier;
+
+	    //m 2: multiplier membrane dependence, 0.0 for no dependence
+
+	    double dTauDenormalizer;
+
+	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
+	
+	    double dMembraneDependenceOffset;
+	
+	    //m 3: choose between nominator or denominator, 1 means nominator, -1
+	    //m means denominator, 0 means none
+
+	    int iNominator;
+
+	} b;
+
+    } forward;
+
+    //m backward kinetiks
+
+    struct
+    {
+	//m part a
+
+	struct
+	{
+	    //m 1: multiplier
+	
+	    double dMultiplier;
+	
+	    //m 2: multiplier membrane dependence, 0.0 for no dependence
+	
+	    double dMembraneDependence;
+	
+	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
+	
+	    double dMembraneDependenceOffset;
+	
+	    //m 3: choose between nominator or denominator, 1 means nominator, -1
+	    //m means denominator
+	
+	    int iNominator;
+	
+	    //m 4: nominator or denominator offset
+	
+	    double dDeNominatorOffset;
+	
+	    //m 5: membrane offset
+	
+	    double dMembraneOffset;
+	
+	    //m 6: denormalized time constant
+	
+	    double dTauDenormalizer;
+
+	} a;
+
+	//m part b
+
+	struct
+	{
+	    //m 1: multiplier
+
+	    double dMultiplier;
+
+	    //m 2: multiplier membrane dependence, 0.0 for no dependence
+
+	    double dTauDenormalizer;
+
+	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
+	
+	    double dMembraneDependenceOffset;
+	
+	    //m 3: choose between nominator or denominator, 1 means nominator, -1
+	    //m means denominator, 0 means none
+
+	    int iNominator;
+
+	} b;
+
+    } backward;
+};
+
+//s gate time constant definition
+
+struct TimeConstant
+{
+    //m part a
+
+    struct
+    {
+	//m threshold
+
+	double dThreshold;
+
+	//m low membrane potential target value
+
+	double dLowTarget;
+
+	//m above membrane potential target value
+
+	double dHighTarget;
+
+    } a;
+
+    //m part b
+
+    struct
+    {
+	//m 1: multiplier
+
+	double dMultiplier;
+
+	//m 2: multiplier membrane dependence, 0.0 for no dependence
+
+	double dMembraneDependence;
+
+	//m 2: multiplier membrane dependence offset, 0.0 for no offset
+
+	double dMembraneDependenceOffset;
+
+	//m 3: choose between nominator or denominator, 1 means nominator, -1
+	//m means denominator
+
+	int iNominator;
+
+	//m 4: nominator or denominator offset
+
+	double dDeNominatorOffset;
+
+	//m 5: membrane offset
+
+	double dMembraneOffset;
+
+	//m 6: denormalized time constant
+
+	double dTauDenormalizer;
+
+    } b;
+};
+
+//s HH alike channel, steady state and time constant
+
+struct ChannelSteadyStateTau
+{
+    //m administration overhead
+
+    struct MathComponent mc;
+
+    //m first set of descriptive values, alphabetical order
+
+    //m reversal potential
+
+    double dReversalPotential;
+
+    //m maximal conductance when all channels are permissive
+
+    double dMaximalConductance;
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    int iPool;
+
+    //m forward power
+
+    int iForwardPower;
+
+    //m backward power
+
+    int iBackwardPower;
+
+    //m forward table, -1 for initialization
+
+    int iForwardTable;
+
+    //m backward table, -1 for initialization
+
+    int iBackwardTable;
+
+    //m forward initial value
+
+    double dForwardInitActivation;
+
+    //m backward initial value
+
+    double dBackwardInitActivation;
+
+    //m steady state definition
+
+    struct SteadyState ss;
+
+    //m time constant definition
+
+    struct TimeConstant tc;
+};
+
 //s activator concept, mostly related to concentration pools
 
 struct Activator
