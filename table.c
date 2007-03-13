@@ -363,6 +363,33 @@ HeccerGateConceptTabulate
 		phtg->pdBackward[i] += dCarryOver;
 	    }
 	}
+
+	//- if the gate was specified using steady state / time constant
+
+	if (pgc->iSteadyStateTau)
+	{
+	    double dForward = phtg->pdForward[i];
+	    double dBackward = phtg->pdBackward[i];
+
+	    //t check the MCAD MMGLT macro to see how it deals with
+	    //t relative errors.  The current implementation is magnitude
+	    //t dependent, and obviously completely add hoc.
+
+	    if (fabs(dForward) < 1e-17)
+	    {
+		if (dForward < 0.0)
+		{
+		    dForward = -1e-17;
+		}
+		else
+		{
+		    dForward = 1e-17;
+		}
+	    }
+
+	    phtg->pdForward[i] = dBackward / dForward;
+	    phtg->pdBackward[i] = 1.0 / dForward;
+	}
     }
 
     //- return result
