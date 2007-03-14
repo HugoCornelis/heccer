@@ -364,32 +364,180 @@ HeccerGateConceptTabulate
 	    }
 	}
 
-	//- if the gate was specified using steady state / time constant
+    }
 
-	if (pgc->iSteadyStateTau)
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerChannelSteadyStateTauTabulate()
+///
+/// ARGS.:
+///
+///	pcsst...: a heccer channel with steady state and time constant.
+///	pheccer.: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Fill the tables with a discretization of the gate kinetics.
+///
+/// **************************************************************************
+
+int
+HeccerSteadyStateTauTabulate
+(struct ChannelSteadyStateTau *pcsst, struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- if already registered
+
+    if (pcsst->iForwardTable != -1)
+    {
+	return(TRUE);
+    }
+
+    //- allocate structures
+
+    double dStart = pheccer->ho.dIntervalStart;
+    double dEnd = pheccer->ho.dIntervalEnd;
+    int iEntries = pheccer->ho.iIntervalEntries;
+
+    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+
+    if (i == -1)
+    {
+	return(FALSE);
+    }
+
+    //- register the index
+
+    pcsst->iForwardTable = i;
+
+    int j = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+
+    if (j == -1)
+    {
+	return(FALSE);
+    }
+
+    //- register the index
+
+    pcsst->iBackwardTable = j;
+
+    //- get access to the tabulated gate structures
+
+    int iIndex1 = pcsst->iForwardTable;
+
+    struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
+
+    int iIndex2 = pcsst->iBackwardTable;
+
+    struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
+
+    //- get step size
+
+    double dStep = phtg1->hi.dStep;
+
+    //- loop over all entries in the table
+
+    double dx;
+
+    for (dx = phtg1->hi.dStart, i = 0 ; i <= phtg1->iEntries ; i++, dx += dStep)
+    {
+	double dA
+	    = (pcsst->ss.forward.a.dMultiplier
+	       * (dx + pcsst->ss.forward.a.dMembraneDependence)
+	       / ((exp((dx + pcsst->ss.forward.a.dMembraneOffset)
+		       / pcsst->ss.forward.a.dTauDenormalizer))
+		  + pcsst->ss.forward.a.dDeNominatorOffset));
+
+	double dB
+	    = (pcsst->ss.forward.b.dMultiplier
+	       * (exp( - (dx + pcsst->ss.forward.b.dMembraneDependenceOffset)
+		       / pcsst->ss.forward.b.dTauDenormalizer)));
+
+	double dC
+	    = (pcsst->ss.backward.a.dMultiplier
+	       * (dx + pcsst->ss.backward.a.dMembraneDependenceOffset)
+	       / ((exp((dx + pcsst->ss.backward.a.dMembraneOffset)
+		       / pcsst->ss.backward.a.dTauDenormalizer))
+		  + pcsst->ss.backward.a.dDeNominatorOffset));
+
+	double dD
+	       = (pcsst->ss.backward.b.dMultiplier
+		  * (exp( - (dx + pcsst->ss.backward.b.dMembraneDependenceOffset)
+			  / pcsst->ss.backward.b.dTauDenormalizer)));
+
+	double dForward = (1.0 / (dA + dB));
+
+	double dBackward = (dC / (dC + dD));
+
+	//t check the MCAD MMGLT macro to see how it deals with
+	//t relative errors.  The current implementation is magnitude
+	//t dependent, and obviously completely add hoc.
+
+	if (fabs(dForward) < 1e-17)
 	{
-	    double dForward = phtg->pdForward[i];
-	    double dBackward = phtg->pdBackward[i];
-
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
-
-	    if (fabs(dForward) < 1e-17)
+	    if (dForward < 0.0)
 	    {
-		if (dForward < 0.0)
-		{
-		    dForward = -1e-17;
-		}
-		else
-		{
-		    dForward = 1e-17;
-		}
+		dForward = -1e-17;
 	    }
-
-	    phtg->pdForward[i] = dBackward / dForward;
-	    phtg->pdBackward[i] = 1.0 / dForward;
+	    else
+	    {
+		dForward = 1e-17;
+	    }
 	}
+
+	phtg1->pdForward[i] = dBackward / dForward;
+	phtg1->pdBackward[i] = 1.0 / dForward;
+    }
+
+    for (dx = phtg2->hi.dStart, i = 0 ; i <= phtg2->iEntries ; i++, dx += dStep)
+    {
+	double dForward;
+
+	if (dx < pcsst->tc.a.dThreshold)
+	{
+	    dForward = pcsst->tc.a.dLowTarget;
+	}
+	else
+	{
+	    dForward = pcsst->tc.a.dHighTarget;
+	}
+
+	double dY
+	    = (pcsst->tc.b.dDeNominatorOffset
+	       + (exp((dx + pcsst->tc.b.dMembraneOffset)
+		      / pcsst->tc.b.dTauDenormalizer)));
+
+	double dBackward = (1.0 / dY);
+
+	//t check the MCAD MMGLT macro to see how it deals with
+	//t relative errors.  The current implementation is magnitude
+	//t dependent, and obviously completely add hoc.
+
+	if (fabs(dForward) < 1e-17)
+	{
+	    if (dForward < 0.0)
+	    {
+		dForward = -1e-17;
+	    }
+	    else
+	    {
+		dForward = 1e-17;
+	    }
+	}
+
+	phtg2->pdForward[i] = dBackward / dForward;
+	phtg2->pdBackward[i] = 1.0 / dForward;
     }
 
     //- return result

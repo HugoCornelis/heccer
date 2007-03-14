@@ -191,10 +191,6 @@ struct GateKinetic
 
 struct GateConcept
 {
-    //m 0: alpha, beta for kinetics, 1: for steady state & tau
-
-    int iSteadyStateTau;
-
     //m initial value, commonly forward over backward steady states
 
     double dInitActivation;

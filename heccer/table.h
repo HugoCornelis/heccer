@@ -109,6 +109,10 @@ HeccerBasalActivatorTabulate
 (struct Activator *pac, struct Heccer *pheccer);
 
 int
+HeccerSteadyStateTauTabulate
+(struct ChannelSteadyStateTau *pcsst, struct Heccer *pheccer);
+
+int
 HeccerDiscretizeBasalActivator
 (struct Heccer *pheccer, struct Activator *pac);
 

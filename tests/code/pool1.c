@@ -122,10 +122,6 @@ struct ChannelActInact caiCaT =
 	//m gate definition
 
 	{
-	    //m 0: alpha, beta for kinetics, 1: for steady state & tau
-
-	    0,
-
 	    //m initial value, commonly forward over backward steady states
 
 	    0.9889635316,
@@ -204,10 +200,6 @@ struct ChannelActInact caiCaT =
 	//m gate definition
 
 	{
-	    //m 0: alpha, beta for kinetics, 1: for steady state & tau
-
-	    0,
-
 	    //m initial value, commonly forward over backward steady states
 
 	    0.002659210635,
