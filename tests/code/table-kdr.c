@@ -102,34 +102,34 @@ struct ChannelSteadyStateTau csstKdr =
 
     -1,
 
-    //m forward power
+    //m first power
 
     2,
 
-    //m backward power
+    //m second power
 
     1,
 
-    //m forward table, -1 for initialization
+    //m first table, -1 for initialization
 
     -1,
 
-    //m backward table, -1 for initialization
+    //m second table, -1 for initialization
 
     -1,
 
-    //m forward initial value
+    //m first initial value
 
-    0.08371356085,
+    0.003599440607,
 
-    //m backward initial value
+    //m second initial value
 
-    0.7474853827,
+    0.9999799396,
 
     //m steady state definition
 
     {
-	//m forward kinetiks
+	//m first kinetiks
 
 	{
 	    //m part a
@@ -171,7 +171,7 @@ struct ChannelSteadyStateTau csstKdr =
 	    {
 		//m 1: multiplier
 
-		5.0,
+		5e3,
 
 		//m 2: multiplier membrane dependence, 0.0 for no dependence
 
@@ -189,7 +189,7 @@ struct ChannelSteadyStateTau csstKdr =
 	    },
 	},
 
-	//m backward kinetiks
+	//m second kinetiks
 
 	{
 	    //m part a
@@ -205,7 +205,7 @@ struct ChannelSteadyStateTau csstKdr =
 	
 		//m 2: multiplier membrane dependence offset, 0.0 for no offset
 	
-		-0.08,
+		-0.008,
 	
 		//m 3: choose between nominator or denominator, 1 means nominator, -1
 		//m means denominator
@@ -218,7 +218,7 @@ struct ChannelSteadyStateTau csstKdr =
 	
 		//m 5: membrane offset
 	
-		-0.08,
+		-0.008,
 	
 		//m 6: denormalized time constant
 	
@@ -231,7 +231,7 @@ struct ChannelSteadyStateTau csstKdr =
 	    {
 		//m 1: multiplier
 
-		5.0,
+		5e3,
 
 		//m 2: multiplier membrane dependence, 0.0 for no dependence
 

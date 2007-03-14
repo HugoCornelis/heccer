@@ -260,7 +260,7 @@ struct ChannelActInact
 
 struct SteadyState
 {
-    //m forward kinetiks
+    //m first kinetiks
 
     struct
     {
@@ -321,9 +321,9 @@ struct SteadyState
 
 	} b;
 
-    } forward;
+    } first;
 
-    //m backward kinetiks
+    //m second kinetiks
 
     struct
     {
@@ -385,7 +385,7 @@ struct SteadyState
 
 	} b;
 
-    } backward;
+    } second;
 };
 
 //s gate time constant definition
@@ -468,29 +468,29 @@ struct ChannelSteadyStateTau
 
     int iPool;
 
-    //m forward power
+    //m first power
 
-    int iForwardPower;
+    int iFirstPower;
 
-    //m backward power
+    //m second power
 
-    int iBackwardPower;
+    int iSecondPower;
 
-    //m forward table, -1 for initialization
+    //m first table, -1 for initialization
 
-    int iForwardTable;
+    int iFirstTable;
 
-    //m backward table, -1 for initialization
+    //m second table, -1 for initialization
 
-    int iBackwardTable;
+    int iSecondTable;
 
-    //m forward initial value
+    //m first initial value
 
-    double dForwardInitActivation;
+    double dFirstInitActivation;
 
-    //m backward initial value
+    //m second initial value
 
-    double dBackwardInitActivation;
+    double dSecondInitActivation;
 
     //m steady state definition
 

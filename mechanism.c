@@ -390,6 +390,63 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    break;
 		}
+
+		//- for a channel specified as steady state and tau
+
+		case MATH_TYPE_ChannelSteadyStateTau:
+		{
+		    //- get type specific data
+
+		    struct ChannelSteadyStateTau *pcsst = (struct ChannelSteadyStateTau *)pmc;
+
+		    pmc = MathComponentNext(&pcsst->mc);
+
+		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->dMaximalConductance, pcsst->dReversalPotential);
+
+		    //- tabulate the channel
+
+		    int iTabulated = HeccerSteadyStateTauTabulate(pcsst, pheccer);
+
+		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iFirstTable, pcsst->iFirstPower, NULL);
+
+		    //! at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dFirstInitActivation);
+
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iSecondTable, pcsst->iSecondPower, NULL);
+
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dSecondInitActivation);
+
+		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+		    //t retabulate cannot be done yet, do not know yet how many tables
+
+		    //- register pool index
+
+		    //t for reasons of easy initialization, this should be a check for zero.
+		    //t this means that I have to offset all mechanisms with 1
+		    //t (mmm, the hines solver did the same, but for other reasons).
+
+		    if (pcsst->iPool != -1)
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			//! initial flux is assumed to be zero, always
+
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
+		    }
+
+		    //- register result from tabulation for outcome of this function
+
+		    iResult = iResult && iTabulated;
+
+		    break;
+		}
 		default:
 		{
 		    //t HeccerError(number, message, varargs);

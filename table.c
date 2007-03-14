@@ -387,6 +387,15 @@ HeccerGateConceptTabulate
 ///
 /// DESCR: Fill the tables with a discretization of the gate kinetics.
 ///
+///	First tables with 149 entries are created using the commonly
+///	defined formulas for steady state and time constant (see
+///	EDS1994).  Next the full sized tables are created using the
+///	small tables, by using b-spline interpolation.
+///
+///	This is the way it was done in the Purkinje cell model, but is
+///	only here for reasons of legacy.  This function should
+///	normally not be used.
+///
 /// **************************************************************************
 
 int
@@ -399,7 +408,7 @@ HeccerSteadyStateTauTabulate
 
     //- if already registered
 
-    if (pcsst->iForwardTable != -1)
+    if (pcsst->iFirstTable != -1)
     {
 	return(TRUE);
     }
@@ -419,7 +428,7 @@ HeccerSteadyStateTauTabulate
 
     //- register the index
 
-    pcsst->iForwardTable = i;
+    pcsst->iFirstTable = i;
 
     int j = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
 
@@ -430,51 +439,62 @@ HeccerSteadyStateTauTabulate
 
     //- register the index
 
-    pcsst->iBackwardTable = j;
+    pcsst->iSecondTable = j;
 
     //- get access to the tabulated gate structures
 
-    int iIndex1 = pcsst->iForwardTable;
+    int iIndex1 = pcsst->iFirstTable;
 
     struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
 
-    int iIndex2 = pcsst->iBackwardTable;
+    int iIndex2 = pcsst->iSecondTable;
 
     struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
 
+    //- allocate the small tables
+
+    //t need to change this back ...
+
+    int iSmallTableSize = 20;
+
     //- get step size
 
-    double dStep = phtg1->hi.dStep;
+    double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize - 1);
 
-    //- loop over all entries in the table
+    double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+    double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+    double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+    double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+    //- loop over all entries in the first small table
 
     double dx;
 
-    for (dx = phtg1->hi.dStart, i = 0 ; i <= phtg1->iEntries ; i++, dx += dStep)
+    for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
     {
 	double dA
-	    = (pcsst->ss.forward.a.dMultiplier
-	       * (dx + pcsst->ss.forward.a.dMembraneDependence)
-	       / ((exp((dx + pcsst->ss.forward.a.dMembraneOffset)
-		       / pcsst->ss.forward.a.dTauDenormalizer))
-		  + pcsst->ss.forward.a.dDeNominatorOffset));
+	    = (pcsst->ss.first.a.dMultiplier
+	       * (dx + pcsst->ss.first.a.dMembraneDependenceOffset)
+	       / ((exp((dx + pcsst->ss.first.a.dMembraneOffset)
+		       / pcsst->ss.first.a.dTauDenormalizer))
+		  + pcsst->ss.first.a.dDeNominatorOffset));
 
 	double dB
-	    = (pcsst->ss.forward.b.dMultiplier
-	       * (exp( - (dx + pcsst->ss.forward.b.dMembraneDependenceOffset)
-		       / pcsst->ss.forward.b.dTauDenormalizer)));
+	    = (pcsst->ss.first.b.dMultiplier
+	       * (exp( - (dx + pcsst->ss.first.b.dMembraneDependenceOffset)
+		       / pcsst->ss.first.b.dTauDenormalizer)));
 
 	double dC
-	    = (pcsst->ss.backward.a.dMultiplier
-	       * (dx + pcsst->ss.backward.a.dMembraneDependenceOffset)
-	       / ((exp((dx + pcsst->ss.backward.a.dMembraneOffset)
-		       / pcsst->ss.backward.a.dTauDenormalizer))
-		  + pcsst->ss.backward.a.dDeNominatorOffset));
+	    = (pcsst->ss.second.a.dMultiplier
+	       * (dx + pcsst->ss.second.a.dMembraneDependenceOffset)
+	       / ((exp((dx + pcsst->ss.second.a.dMembraneOffset)
+		       / pcsst->ss.second.a.dTauDenormalizer))
+		  + pcsst->ss.second.a.dDeNominatorOffset));
 
 	double dD
-	       = (pcsst->ss.backward.b.dMultiplier
-		  * (exp( - (dx + pcsst->ss.backward.b.dMembraneDependenceOffset)
-			  / pcsst->ss.backward.b.dTauDenormalizer)));
+	       = (pcsst->ss.second.b.dMultiplier
+		  * (exp( - (dx + pcsst->ss.second.b.dMembraneDependenceOffset)
+			  / pcsst->ss.second.b.dTauDenormalizer)));
 
 	double dForward = (1.0 / (dA + dB));
 
@@ -496,11 +516,11 @@ HeccerSteadyStateTauTabulate
 	    }
 	}
 
-	phtg1->pdForward[i] = dBackward / dForward;
-	phtg1->pdBackward[i] = 1.0 / dForward;
+	pd1[i] = dBackward / dForward;
+	pd2[i] = 1.0 / dForward;
     }
 
-    for (dx = phtg2->hi.dStart, i = 0 ; i <= phtg2->iEntries ; i++, dx += dStep)
+    for (dx = phtg2->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
     {
 	double dForward;
 
@@ -536,9 +556,93 @@ HeccerSteadyStateTauTabulate
 	    }
 	}
 
-	phtg2->pdForward[i] = dBackward / dForward;
-	phtg2->pdBackward[i] = 1.0 / dForward;
+	pd3[i] = dBackward / dForward;
+	pd4[i] = 1.0 / dForward;
     }
+
+    //- loop over all gates
+
+    int iGate = 0;
+
+    double *ppdSources[]
+	= { pd1, pd2, pd3, pd4, };
+    double *ppdDestinations[]
+	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, };
+
+    for (iGate = 0 ; iGate < 4 ; iGate++)
+    {
+	//! modified and optimized for heccer from
+	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
+
+	double dRangeStep = (double)iSmallTableSize / (double)iEntries;
+	double dActual;
+
+	double dNSA = 1.0 / 6.0;
+	double dNSB = 2.0 / 3.0;
+
+	//- loop over the entries of this gate
+
+	double *pdSource = ppdSources[iGate];
+	double *pdDestination = ppdDestinations[iGate];
+
+	int iSource;
+	int iDestination;
+
+	//- fill the destination till the first element that comes from the source
+
+	for (dActual = 0.0, iDestination = 0, iSource = 0 ; iSource <= 1 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    pdDestination[iDestination]
+		= ((dActual - (double)iSource)
+		   * (pdSource[iSource + 1] - pdSource[iSource])
+		   + pdSource[iSource]);
+	}
+
+	//- do the interpolation
+
+	for( ; iSource <= iSmallTableSize - 2 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    double dSource = dActual - (double)iSource;
+	    double dSource2 = dSource / 2.0;
+	    double dSource4 = dSource * dSource;
+	    double dSource42 = dSource4 / 2.0;
+	    double dSource8 = dSource4 * dSource;
+	    double dSource82 = dSource8 / 2.0;
+
+	    double dWeight1 = - dNSA * dSource8 + dSource42 - dSource2 + dNSA;
+	    double dWeight2 = dSource82 - dSource4 + dNSB;
+	    double dWeight3 = - dSource82 + dSource42 + dSource2 + dNSA;
+	    double dWeight4 = dNSA * dSource8;
+
+	    pdDestination[iDestination]
+		= (dWeight1 * pdSource[iSource - 1]
+		   + dWeight2 * pdSource[iSource]
+		   + dWeight3 * pdSource[iSource + 1] + dWeight4 * pdSource[iSource + 2]);
+	}
+
+	//- fill the destination till the end
+
+	for (; iDestination <= iEntries ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    if (iSource < iSmallTableSize)
+	    {
+		pdDestination[iDestination]
+		    = ((dActual - (double)iSource)
+		       * (pdSource[iSource + 1] - pdSource[iSource]) + pdSource[iSource]);
+	    }
+	    else
+	    {
+		pdDestination[iDestination] = pdSource[iSmallTableSize];
+	    }
+	}
+    }
+
+    //- free allocated memory
+
+    free(pd1);
+    free(pd2);
+    free(pd3);
+    free(pd4);
 
     //- return result
 

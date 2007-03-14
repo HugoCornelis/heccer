@@ -127,6 +127,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a channel given with steady state and time constant
+
+	case MATH_TYPE_ChannelSteadyStateTau:
+	{
+	    //- get type specific data
+
+	    struct ChannelSteadyStateTau *pcsst = (struct ChannelSteadyStateTau *)pmc;
+
+	    pmc = MathComponentNext(&pcsst->mc);
+
+	    break;
+	}
+
 	//- for an exponential decaying variable
 
 	case MATH_TYPE_ExponentialDecay:

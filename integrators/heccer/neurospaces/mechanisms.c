@@ -948,6 +948,28 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	break;
     }
 
+    //- for an exponential
+
+    case MATH_TYPE_ChannelSteadyStateTau:
+    {
+	//- get math component data
+
+	struct ChannelSteadyStateTau *pcsst
+	    = (struct ChannelSteadyStateTau *)pmc;
+
+	//- advance to the next math component
+
+	pmcd->pmc = MathComponentNext(pmcd->pmc);
+
+	pmcd->iCurrentType++;
+
+	//t not implemented
+
+	((int *)0)[0] = 0;
+
+	break;
+    }
+
     //- for skipped components
 
     case -2:
