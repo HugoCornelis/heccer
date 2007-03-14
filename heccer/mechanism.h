@@ -272,18 +272,9 @@ struct SteadyState
 	
 	    double dMultiplier;
 	
-	    //m 2: multiplier membrane dependence, 0.0 for no dependence
-	
-	    double dMembraneDependence;
-	
 	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
 	
 	    double dMembraneDependenceOffset;
-	
-	    //m 3: choose between nominator or denominator, 1 means nominator, -1
-	    //m means denominator
-	
-	    int iNominator;
 	
 	    //m 4: nominator or denominator offset
 	
@@ -314,11 +305,6 @@ struct SteadyState
 	
 	    double dMembraneDependenceOffset;
 	
-	    //m 3: choose between nominator or denominator, 1 means nominator, -1
-	    //m means denominator, 0 means none
-
-	    int iNominator;
-
 	} b;
 
     } first;
@@ -335,18 +321,9 @@ struct SteadyState
 	
 	    double dMultiplier;
 	
-	    //m 2: multiplier membrane dependence, 0.0 for no dependence
-	
-	    double dMembraneDependence;
-	
 	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
 	
 	    double dMembraneDependenceOffset;
-	
-	    //m 3: choose between nominator or denominator, 1 means nominator, -1
-	    //m means denominator
-	
-	    int iNominator;
 	
 	    //m 4: nominator or denominator offset
 	
@@ -378,11 +355,6 @@ struct SteadyState
 	
 	    double dMembraneDependenceOffset;
 	
-	    //m 3: choose between nominator or denominator, 1 means nominator, -1
-	    //m means denominator, 0 means none
-
-	    int iNominator;
-
 	} b;
 
     } second;
@@ -414,23 +386,6 @@ struct TimeConstant
 
     struct
     {
-	//m 1: multiplier
-
-	double dMultiplier;
-
-	//m 2: multiplier membrane dependence, 0.0 for no dependence
-
-	double dMembraneDependence;
-
-	//m 2: multiplier membrane dependence offset, 0.0 for no offset
-
-	double dMembraneDependenceOffset;
-
-	//m 3: choose between nominator or denominator, 1 means nominator, -1
-	//m means denominator
-
-	int iNominator;
-
 	//m 4: nominator or denominator offset
 
 	double dDeNominatorOffset;

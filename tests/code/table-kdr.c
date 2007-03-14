@@ -139,18 +139,9 @@ struct ChannelSteadyStateTau csstKdr =
 	
 		-23.5e3,
 	
-		//m 2: multiplier membrane dependence, 0.0 for no dependence
-	
-		1.0,
-	
 		//m 2: multiplier membrane dependence offset, 0.0 for no offset
 	
 		0.012,
-	
-		//m 3: choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
-	
-		-1.0,
 	
 		//m 4: nominator or denominator offset
 	
@@ -181,11 +172,6 @@ struct ChannelSteadyStateTau csstKdr =
 	
 		0.147,
 	
-		//m 3: choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator, 0 means none
-
-		0.0,
-
 	    },
 	},
 
@@ -199,18 +185,9 @@ struct ChannelSteadyStateTau csstKdr =
 	
 		-23.5e3,
 	
-		//m 2: multiplier membrane dependence, 0.0 for no dependence
-	
-		1.0,
-	
 		//m 2: multiplier membrane dependence offset, 0.0 for no offset
 	
 		-0.008,
-	
-		//m 3: choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
-	
-		-1.0,
 	
 		//m 4: nominator or denominator offset
 	
@@ -241,11 +218,6 @@ struct ChannelSteadyStateTau csstKdr =
 	
 		0.127,
 	
-		//m 3: choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator, 0 means none
-
-		0.0,
-
 	    },
 	},
     },
@@ -273,23 +245,6 @@ struct ChannelSteadyStateTau csstKdr =
 	//m part b
 
 	{
-	    //m 1: multiplier
-
-	    1.0,
-
-	    //m 2: multiplier membrane dependence, 0.0 for no dependence
-
-	    0.0,
-
-	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
-
-	    0.0,
-
-	    //m 3: choose between nominator or denominator, 1 means nominator, -1
-	    //m means denominator
-
-	    -1.0,
-
 	    //m 4: nominator or denominator offset
 
 	    1.0,
