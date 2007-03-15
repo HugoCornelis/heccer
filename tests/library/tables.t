@@ -61,7 +61,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, muscarinic potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kdr.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-km.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
