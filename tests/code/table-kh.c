@@ -77,7 +77,7 @@ struct Compartment compSoma =
 };
 
 
-//v a delayed rectifier potassium channel
+//v a anomalous rectifier potassium channel
 
 struct ChannelPersistentSteadyStateDualTau csstKH =
 {

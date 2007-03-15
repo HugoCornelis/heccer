@@ -77,7 +77,7 @@ struct Compartment compSoma =
 };
 
 
-//v a delayed rectifier potassium channel
+//v a muscarinic potassium channel
 
 struct ChannelPersistentSteadyStateTau csstKM =
 {
