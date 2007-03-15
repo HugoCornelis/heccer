@@ -374,6 +374,255 @@ HeccerGateConceptTabulate
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerChannelPersistentSteadyStateDualTauTabulate()
+///
+/// ARGS.:
+///
+///	pcpsdt..: a channel with steady state and two time constants.
+///	pheccer.: a heccer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Fill the tables with a discretization of the gate kinetics.
+///
+///	First tables with 149 entries are created using the commonly
+///	defined formulas for steady state and time constant (see
+///	EDS1994).  Next the full sized tables are created using the
+///	small tables, by using b-spline interpolation.
+///
+///	This is the way it was done in the Purkinje cell model, but is
+///	only here for reasons of legacy.  This function should
+///	normally not be used.
+///
+/// **************************************************************************
+
+int
+HeccerChannelPersistentSteadyStateDualTauTabulate
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- if already registered
+
+    if (pcpsdt->iFirstTable != -1)
+    {
+	return(TRUE);
+    }
+
+    //- allocate structures
+
+    double dStart = pheccer->ho.dIntervalStart;
+    double dEnd = pheccer->ho.dIntervalEnd;
+    int iEntries = pheccer->ho.iIntervalEntries;
+
+    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+
+    if (i == -1)
+    {
+	return(FALSE);
+    }
+
+    //- register the index
+
+    pcpsdt->iFirstTable = i;
+
+    int j = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+
+    if (j == -1)
+    {
+	return(FALSE);
+    }
+
+    //- register the index
+
+    pcpsdt->iSecondTable = j;
+
+    //- get access to the tabulated gate structures
+
+    int iIndex1 = pcpsdt->iFirstTable;
+
+    struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
+
+    int iIndex2 = pcpsdt->iSecondTable;
+
+    struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
+
+    //- allocate the small tables
+
+    //t need to change this back ...
+
+    int iSmallTableSize = 20;
+
+    //- get step size
+
+    double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
+
+    double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+    double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+    double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+    double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+    //- loop over all entries in the first small table
+
+    double dx;
+
+    for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+    {
+	double dA = pcpsdt->dFirstSteadyState;
+	double dB = pcpsdt->dSecondSteadyState;
+
+	double dC
+	    = (pcpsdt->tau1.dMultiplier
+	       / (pcpsdt->tau1.dDeNominatorOffset
+		  + exp((dx + pcpsdt->tau1.dMembraneOffset)
+			/ pcpsdt->tau1.dTauDenormalizer)));
+
+	double dD
+	    = (pcpsdt->tau2.dMultiplier
+	       / (pcpsdt->tau2.dDeNominatorOffset
+		  + exp((dx + pcpsdt->tau2.dMembraneOffset)
+			/ pcpsdt->tau2.dTauDenormalizer)));
+
+	double dForward1 = dA;
+	double dForward2 = dB;
+	double dBackward1 = dC;
+	double dBackward2 = dD;
+
+	//t check the MCAD MMGLT macro to see how it deals with
+	//t relative errors.  The current implementation is magnitude
+	//t dependent, and obviously completely add hoc.
+
+	if (fabs(dForward1) < 1e-17)
+	{
+	    if (dForward1 < 0.0)
+	    {
+		dForward1 = -1e-17;
+	    }
+	    else
+	    {
+		dForward1 = 1e-17;
+	    }
+	}
+
+	pd1[i] = dBackward1 / dForward1;
+	pd2[i] = 1.0 / dForward1;
+
+	//t check the MCAD MMGLT macro to see how it deals with
+	//t relative errors.  The current implementation is magnitude
+	//t dependent, and obviously completely add hoc.
+
+	if (fabs(dForward2) < 1e-17)
+	{
+	    if (dForward2 < 0.0)
+	    {
+		dForward2 = -1e-17;
+	    }
+	    else
+	    {
+		dForward2 = 1e-17;
+	    }
+	}
+
+	pd3[i] = dBackward2 / dForward2;
+	pd4[i] = 1.0 / dForward2;
+    }
+
+    //- loop over all gates
+
+    int iGate = 0;
+
+    double *ppdSources[]
+	= { pd1, pd2, pd3, pd4, };
+    double *ppdDestinations[]
+	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, };
+
+    for (iGate = 0 ; iGate < 4 ; iGate++)
+    {
+	//! modified and optimized for heccer from
+	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
+
+	double dRangeStep = (double)iSmallTableSize / (double)iEntries;
+	double dActual;
+
+	double dNSA = 1.0 / 6.0;
+	double dNSB = 2.0 / 3.0;
+
+	//- loop over the entries of this gate
+
+	double *pdSource = ppdSources[iGate];
+	double *pdDestination = ppdDestinations[iGate];
+
+	int iSource;
+	int iDestination;
+
+	//- fill the destination till the first element that comes from the source
+
+	for (dActual = 0.0, iDestination = 0, iSource = 0 ; iSource <= 1 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    pdDestination[iDestination]
+		= ((dActual - (double)iSource)
+		   * (pdSource[iSource + 1] - pdSource[iSource])
+		   + pdSource[iSource]);
+	}
+
+	//- do the interpolation
+
+	for( ; iSource <= iSmallTableSize - 2 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    double dSource = dActual - (double)iSource;
+	    double dSource2 = dSource / 2.0;
+	    double dSource4 = dSource * dSource;
+	    double dSource42 = dSource4 / 2.0;
+	    double dSource8 = dSource4 * dSource;
+	    double dSource82 = dSource8 / 2.0;
+
+	    double dWeight1 = - dNSA * dSource8 + dSource42 - dSource2 + dNSA;
+	    double dWeight2 = dSource82 - dSource4 + dNSB;
+	    double dWeight3 = - dSource82 + dSource42 + dSource2 + dNSA;
+	    double dWeight4 = dNSA * dSource8;
+
+	    pdDestination[iDestination]
+		= (dWeight1 * pdSource[iSource - 1]
+		   + dWeight2 * pdSource[iSource]
+		   + dWeight3 * pdSource[iSource + 1] + dWeight4 * pdSource[iSource + 2]);
+	}
+
+	//- fill the destination till the end
+
+	for (; iDestination <= iEntries ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    if (iSource < iSmallTableSize)
+	    {
+		pdDestination[iDestination]
+		    = ((dActual - (double)iSource)
+		       * (pdSource[iSource + 1] - pdSource[iSource]) + pdSource[iSource]);
+	    }
+	    else
+	    {
+		pdDestination[iDestination] = pdSource[iSmallTableSize];
+	    }
+	}
+    }
+
+    //- free allocated memory
+
+    free(pd1);
+    free(pd2);
+    free(pd3);
+    free(pd4);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerChannelPersistentSteadyStateTauTabulate()
 ///
 /// ARGS.:

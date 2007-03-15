@@ -57,6 +57,20 @@ my $test
 			       {
 				arguments => [
 					     ],
+				command => 'tests/code/table-kh',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, anomalous rectifier potassium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kh.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Anomalous rectifier potassium gate tabulation",
+			       },
+			       {
+				arguments => [
+					     ],
 				command => 'tests/code/table-km',
 				command_tests => [
 						  {

@@ -113,6 +113,10 @@ HeccerChannelPersistentSteadyStateTauTabulate
 (struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer);
 
 int
+HeccerChannelPersistentSteadyStateDualTauTabulate
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer);
+
+int
 HeccerChannelSteadyStateSteppedTauTabulate
 (struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer);
 

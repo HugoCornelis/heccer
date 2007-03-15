@@ -50,6 +50,7 @@ struct MathComponent
 
 #define MATH_TYPE_ChannelActConc 8
 #define MATH_TYPE_ChannelActInact 7
+#define MATH_TYPE_ChannelPersistentSteadyStateDualTau 12
 #define MATH_TYPE_ChannelPersistentSteadyStateTau 11
 #define MATH_TYPE_ChannelSpringMass 9
 #define MATH_TYPE_ChannelSteadyStateSteppedTau 10

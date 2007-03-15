@@ -256,6 +256,104 @@ struct ChannelActInact
     struct PoweredGateConcept pgcInactivation;
 };
 
+struct ChannelPersistentSteadyStateDualTau
+{
+    //m administrative overhead
+
+    struct MathComponent mc;
+
+    //m first set of descriptive values, alphabetical order
+
+    //m reversal potential
+
+    double dReversalPotential;
+
+    //m maximal conductance when all channels are permissive
+
+    double dMaximalConductance;
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    int iPool;
+
+    //m first power
+
+    int iFirstPower;
+
+    //m second power
+
+    int iSecondPower;
+
+    //m first gate table, -1 for initialization
+
+    int iFirstTable;
+
+    //m second gate table, -1 for initialization
+
+    int iSecondTable;
+
+    //m first gate initial value
+
+    double dFirstInitActivation;
+
+    //m second gate initial value
+
+    double dSecondInitActivation;
+
+    //m fast component steady state
+
+    double dFirstSteadyState;
+
+    //m slow component steady state
+
+    double dSecondSteadyState;
+
+    //m tau 1
+
+    struct
+    {
+	//m 1: nominator multiplier
+
+	double dMultiplier;
+
+	//m 2: denominator offset
+
+	double dDeNominatorOffset;
+
+	//m 5: membrane offset
+
+	double dMembraneOffset;
+
+	//m 6: denormalized time constant
+
+	double dTauDenormalizer;
+
+    } tau1;
+
+    //m tau 2
+
+    struct
+    {
+	//m 1: nominator multiplier
+
+	double dMultiplier;
+
+	//m 2: denominator offset
+
+	double dDeNominatorOffset;
+
+	//m 5: membrane offset
+
+	double dMembraneOffset;
+
+	//m 6: denormalized time constant
+
+	double dTauDenormalizer;
+
+    } tau2;
+
+};
+
 struct ChannelPersistentSteadyStateTau
 {
     //m administrative overhead

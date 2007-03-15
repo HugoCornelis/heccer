@@ -140,6 +140,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a channel given with steady state and a stepped time constant
+
+	case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
+	{
+	    //- get type specific data
+
+	    struct ChannelPersistentSteadyStateDualTau *pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pmc;
+
+	    pmc = MathComponentNext(&pcpsdt->mc);
+
+	    break;
+	}
+
 	//- for a persistent channel given with steady state and a time constant
 
 	case MATH_TYPE_ChannelPersistentSteadyStateTau:
