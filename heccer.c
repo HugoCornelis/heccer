@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/03/02) Friday, March 2, 2007 20:58:54 hugo";
+static char *pcVersionTime="(07/03/15) Thursday, March 15, 2007 16:01:01 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -234,6 +234,8 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
     fprintf(pfile, "Heccer Options (dBasalActivatorEnd) : (%g)\n", pheccer->ho.dBasalActivatorEnd);
 
     fprintf(pfile, "Heccer Options (iIntervalEntries) : (%i)\n", pheccer->ho.iIntervalEntries);
+
+    fprintf(pfile, "Heccer Options (iSmallTableSize) : (%i)\n", pheccer->ho.iSmallTableSize);
 
     //- simulation time
 
@@ -536,6 +538,8 @@ struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double 
     pheccerResult->ho.dBasalActivatorEnd = HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END;
 
     pheccerResult->ho.iIntervalEntries = HECCER_INTERVAL_DEFAULT_ENTRIES;
+
+    pheccerResult->ho.iSmallTableSize = HECCER_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
 
     //- set new status
 

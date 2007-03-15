@@ -43,6 +43,10 @@
 #define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES 3000
 #endif
 
+#ifndef HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES
+#define HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES 149
+#endif
+
 #ifndef HECCER_TEST_REPORTING_GRANULARITY
 #define HECCER_TEST_REPORTING_GRANULARITY 1
 #endif
@@ -87,6 +91,8 @@ int main(int argc, char *argv[])
 /*     pheccer->ho.dBasalActivatorEnd = HECCER_TEST_INTERVAL_DEFAULT_END; */
 
     pheccer->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
+
+    pheccer->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
 
     //- build indices for optimization
 

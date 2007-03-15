@@ -68,6 +68,10 @@ struct HeccerOptions
     //m discretized gate, membrane, number of entries
 
     int iIntervalEntries;
+
+    //m pre interpolation table size, legacy from genesis tabchans
+
+    int iSmallTableSize;
 };
 
 
@@ -102,6 +106,9 @@ struct HeccerOptions
 
 #define HECCER_INTERVAL_DEFAULT_ENTRIES			3000
 
+//d discretized gate, number of entries before interpolation
+
+#define HECCER_INTERPOL_INTERVAL_DEFAULT_ENTRIES	149
 
 //s heccer main structure
 

@@ -403,6 +403,7 @@ my $heccer_mapping
 						       dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
 						       dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
 						       iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
+						       iSmallTableSize => $SwiggableHeccer::HECCER_INTERPOL_INTERVAL_DEFAULT_ENTRIES,
 
 						       #t the default at C level is wrong, needs a careful check.
 
@@ -532,6 +533,7 @@ my $heccer_mapping
 					    dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
 					    dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
 					    iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
+					    iSmallTableSize => $SwiggableHeccer::HECCER_INTERPOL_INTERVAL_DEFAULT_ENTRIES,
 
 					    #t the default at C level is wrong, needs a careful check.
 

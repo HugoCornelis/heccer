@@ -448,9 +448,9 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
     //- allocate the small tables
 
-    //t need to change this back ...
+    int iSmallTableSize = pheccer->ho.iSmallTableSize;
 
-    int iSmallTableSize = 20;
+    //20;
 
     //- get step size
 
@@ -682,9 +682,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
     //- allocate the small tables
 
-    //t need to change this back ...
-
-    int iSmallTableSize = 20;
+    int iSmallTableSize = pheccer->ho.iSmallTableSize;
 
     //- get step size
 
@@ -904,9 +902,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
     //- allocate the small tables
 
-    //t need to change this back ...
-
-    int iSmallTableSize = 20;
+    int iSmallTableSize = pheccer->ho.iSmallTableSize;
 
     //- get step size
 
