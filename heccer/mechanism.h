@@ -256,9 +256,100 @@ struct ChannelActInact
     struct PoweredGateConcept pgcInactivation;
 };
 
+struct ChannelPersistentSteadyStateTau
+{
+    //m administrative overhead
+
+    struct MathComponent mc;
+
+    //m first set of descriptive values, alphabetical order
+
+    //m reversal potential
+
+    double dReversalPotential;
+
+    //m maximal conductance when all channels are permissive
+
+    double dMaximalConductance;
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    int iPool;
+
+    //m power
+
+    int iPower;
+
+    //m gate table, -1 for initialization
+
+    int iTable;
+
+    //m gate initial value
+
+    double dInitActivation;
+
+    //m steady state definition
+
+    struct
+    {
+	//m 1: nominator
+
+	double dNominator;
+
+	//m 2: denominator multiplier 1
+
+	double dMultiplier1;
+
+	//m 5: membrane offset 1
+
+	double dMembraneOffset1;
+
+	//m 6: denormalized time constant 1
+
+	double dTauDenormalizer1;
+
+	//m 2: denominator multiplier 2
+
+	double dMultiplier2;
+
+	//m 5: membrane offset 2
+
+	double dMembraneOffset2;
+
+	//m 6: denormalized time constant 2
+
+	double dTauDenormalizer2;
+
+    } ss;
+
+    //m time constant definition
+
+    struct
+    {
+	//m 1: nominator
+
+	double dNominator;
+
+	//m 2: denominator offset
+
+	double dDeNominatorOffset;
+
+	//m 5: membrane offset 1
+
+	double dMembraneOffset;
+
+	//m 6: denormalized time constant 1
+
+	double dTauDenormalizer;
+
+    } tc;
+
+};
+
+
 //s gate steady state definition
 
-struct SteadyState
+struct DualSteadyState
 {
     //m first kinetiks
 
@@ -362,7 +453,7 @@ struct SteadyState
 
 //s gate time constant definition
 
-struct TimeConstant
+struct SteppedTimeConstant
 {
     //m part a
 
@@ -403,7 +494,7 @@ struct TimeConstant
 
 //s HH alike channel, steady state and time constant
 
-struct ChannelSteadyStateTau
+struct ChannelSteadyStateSteppedTau
 {
     //m administration overhead
 
@@ -449,11 +540,11 @@ struct ChannelSteadyStateTau
 
     //m steady state definition
 
-    struct SteadyState ss;
+    struct DualSteadyState ss;
 
     //m time constant definition
 
-    struct TimeConstant tc;
+    struct SteppedTimeConstant tc;
 };
 
 //s activator concept, mostly related to concentration pools

@@ -28,7 +28,8 @@ static struct MathComponentInfo pmci[] =
 {
     MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[2]) - ((char *)&((struct ChannelActConc *)0)[0]),
     MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[2]) - ((char *)&((struct ChannelActInact *)0)[0]),
-    MATH_TYPE_ChannelSteadyStateTau,	((char *)&((struct ChannelSteadyStateTau *)0)[2]) - ((char *)&((struct ChannelSteadyStateTau *)0)[0]),
+    MATH_TYPE_ChannelPersistentSteadyStateTau,	((char *)&((struct ChannelPersistentSteadyStateTau *)0)[2]) - ((char *)&((struct ChannelPersistentSteadyStateTau *)0)[0]),
+    MATH_TYPE_ChannelSteadyStateSteppedTau,	((char *)&((struct ChannelSteadyStateSteppedTau *)0)[2]) - ((char *)&((struct ChannelSteadyStateSteppedTau *)0)[0]),
     MATH_TYPE_ExponentialDecay,		((char *)&((struct ExponentialDecay *)0)[2]) - ((char *)&((struct ExponentialDecay *)0)[0]),
     -1,	-1,
 };

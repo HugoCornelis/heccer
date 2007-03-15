@@ -26,6 +26,7 @@ Makefile.in$
 ^tests/code/singlep$
 ^tests/code/table-ka$
 ^tests/code/table-kdr$
+^tests/code/table-km$
 ^tests/code/table-naf$
 ^tests/code/tensizesp$
 ^tests/code/triplep$

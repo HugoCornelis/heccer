@@ -23,6 +23,10 @@
   299:	    create tabchannel Purk_h1
   304:	    create tabchannel Purk_h2
 
+* ChannelSteadyStateSteppedTau
+** check if members have correct names
+According to the Genesis documentation, the time constant comes from
+the first table, the steady state from the second.
 
 * swig interface
 ** implement callouts

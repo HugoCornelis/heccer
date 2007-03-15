@@ -54,6 +54,20 @@ my $test
 						 ],
 				description => "Delayed rectifier potassium gate tabulation",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/table-km',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, muscarinic potassium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kdr.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Muscarinic potassium gate tabulation",
+			       },
 			      ],
        description => "Gate tabulation",
        name => 'tables.t',

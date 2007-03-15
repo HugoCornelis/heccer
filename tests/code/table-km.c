@@ -78,14 +78,14 @@ struct Compartment compSoma =
 
 //v a delayed rectifier potassium channel
 
-struct ChannelSteadyStateSteppedTau csstKdr =
+struct ChannelPersistentSteadyStateTau csstKM =
 {
     //m administrative overhead
 
     {
 	//m type of structure
 
-	MATH_TYPE_ChannelSteadyStateSteppedTau,
+	MATH_TYPE_ChannelPersistentSteadyStateTau,
     },
 
     //m first set of descriptive values, alphabetical order
@@ -96,169 +96,78 @@ struct ChannelSteadyStateSteppedTau csstKdr =
 
     //m maximal conductance when all channels are permissive
 
-    4.184786349e-07,
+    1.115943116e-09,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     -1,
 
-    //m first power
-
-    2,
-
-    //m second power
+    //m power
 
     1,
 
-    //m first table, -1 for initialization
+    //m gate table, -1 for initialization
 
     -1,
 
-    //m second table, -1 for initialization
+    //m gate initial value
 
-    -1,
-
-    //m first initial value
-
-    0.003599440607,
-
-    //m second initial value
-
-    0.9999799396,
+    0.03540844397,
 
     //m steady state definition
 
     {
-	//m first kinetiks
+	//m 1: nominator
 
-	{
-	    //m part a
+	0.2,
 
-	    {
-		//m 1: multiplier
-	
-		-23.5e3,
-	
-		//m 2: multiplier membrane dependence offset, 0.0 for no offset
-	
-		0.012,
-	
-		//m 4: nominator or denominator offset
-	
-		-1.0,
-	
-		//m 5: membrane offset
-	
-		0.012,
-	
-		//m 6: denormalized time constant
-	
-		-12e-3,
+	//m 2: denominator multiplier 1
 
-	    },
+	3.3,
 
-	    //m part b
+	//m 5: membrane offset 1
 
-	    {
-		//m 1: multiplier
+	0.035,
 
-		5e3,
+	//m 6: denormalized time constant 1
 
-		//m 2: multiplier membrane dependence, 0.0 for no dependence
+	0.02,
 
-		0.030,
+	//m 2: denominator multiplier 2
 
-		//m 2: multiplier membrane dependence offset, 0.0 for no offset
-	
-		0.147,
-	
-	    },
-	},
+	1.0,
 
-	//m second kinetiks
+	//m 5: membrane offset 2
 
-	{
-	    //m part a
+	0.035,
 
-	    {
-		//m 1: multiplier
-	
-		-23.5e3,
-	
-		//m 2: multiplier membrane dependence offset, 0.0 for no offset
-	
-		-0.008,
-	
-		//m 4: nominator or denominator offset
-	
-		-1.0,
-	
-		//m 5: membrane offset
-	
-		-0.008,
-	
-		//m 6: denormalized time constant
-	
-		-12e-3,
+	//m 6: denormalized time constant 2
 
-	    },
+	-0.02,
 
-	    //m part b
-
-	    {
-		//m 1: multiplier
-
-		5e3,
-
-		//m 2: multiplier membrane dependence, 0.0 for no dependence
-
-		0.030,
-
-		//m 2: multiplier membrane dependence offset, 0.0 for no offset
-	
-		0.127,
-	
-	    },
-	},
     },
 
     //m time constant definition
 
     {
-	//m part a
+	//m 1: nominator
 
-	{
-	    //m threshold
+	1.0,
 
-	    -0.025,
+	//m 2: denominator offset
 
-	    //m low membrane potential target value
+	1.0,
 
-	    1.2,
+	//m 5: membrane offset 1
 
-	    //m above membrane potential target value
+	0.035,
 
-	    0.010,
+	//m 6: denormalized time constant 1
 
-	},
+	-0.01,
 
-	//m part b
-
-	{
-	    //m 4: nominator or denominator offset
-
-	    1.0,
-
-	    //m 5: membrane offset
-
-	    0.025,
-
-	    //m 6: denormalized time constant
-
-	    0.004,
-
-	},
     },
+
 };
 
 
@@ -277,7 +186,7 @@ struct MathComponentArray mca =
 
     //m math component data
 
-    &csstKdr.mc,
+    &csstKM.mc,
 
     //m math component index, initialize to NULL
 

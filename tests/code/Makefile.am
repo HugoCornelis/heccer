@@ -42,6 +42,7 @@ check_PROGRAMS = \
 	singlep \
 	table-ka \
 	table-kdr \
+	table-km \
 	table-naf \
 	tensizesp \
 	triplep \
@@ -84,6 +85,8 @@ table_ka_DEPENDENCIES = ../../libheccer.a main.c
 table_ka_LDADD = -L../.. -lheccer -lm
 table_kdr_DEPENDENCIES = ../../libheccer.a main.c
 table_kdr_LDADD = -L../.. -lheccer -lm
+table_km_DEPENDENCIES = ../../libheccer.a main.c
+table_km_LDADD = -L../.. -lheccer -lm
 table_naf_DEPENDENCIES = ../../libheccer.a main.c
 table_naf_LDADD = -L../.. -lheccer -lm
 tensizesp_DEPENDENCIES = ../../libheccer.a main.c
