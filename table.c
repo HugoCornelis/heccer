@@ -136,11 +136,6 @@ HeccerDiscretizeBasalActivator
     double dEnd = pheccer->ho.dBasalActivatorEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    //t integrate these into the options
-
-    dStart = 0.00004;
-    dEnd = 0.300;
-
     int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
 
     if (i == -1)
