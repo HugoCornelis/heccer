@@ -1,5 +1,19 @@
 -*- outline -*-
 
+* Revisit the channel definitions to generalize
+The members of the channel structures should be more easily
+understandable, and, as far as possible, be shared between the
+different definitions, such that the procedures below, and their
+associated data structures (in mechanism.h) have one common worker
+algorithm.
+** HeccerBasalActivatorTabulate
+** HeccerChannelPersistentSteadyStateDualTauTabulate
+** HeccerChannelPersistentSteadyStateTauTabulate
+** HeccerChannelSteadyStateSteppedTauTabulate
+** HeccerDiscretizeBasalActivator
+** HeccerDiscretizeGateConcept
+** HeccerGateConceptTabulate
+
 * implement sharing of tables
 
 * channels
