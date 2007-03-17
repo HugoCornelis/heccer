@@ -101,6 +101,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a channel with only activation
+
+	case MATH_TYPE_ChannelAct:
+	{
+	    //- get type specific data
+
+	    struct ChannelAct *pca = (struct ChannelAct *)pmc;
+
+	    pmc = MathComponentNext(&pca->mc);
+
+	    break;
+	}
+
 	//- for an regular channel with activation and inactivation
 
 	case MATH_TYPE_ChannelActInact:

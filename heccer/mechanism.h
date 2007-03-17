@@ -256,6 +256,34 @@ struct ChannelActInact
     struct PoweredGateConcept pgcInactivation;
 };
 
+//s HH alike channel, only activation
+
+struct ChannelAct
+{
+    //m administration overhead
+
+    struct MathComponent mc;
+
+    //m first set of descriptive values, alphabetical order
+
+    //m reversal potential
+
+    double dReversalPotential;
+
+    //m maximal conductance when all channels are permissive
+
+    double dMaximalConductance;
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    int iPool;
+
+    //m activation description
+
+    struct PoweredGateConcept pgcActivation;
+
+};
+
 struct ChannelPersistentSteadyStateDualTau
 {
     //m administrative overhead

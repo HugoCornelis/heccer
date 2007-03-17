@@ -49,6 +49,7 @@ check_PROGRAMS = \
 	table-kh \
 	table-km \
 	table-naf \
+	table-nap \
 	tensizesp \
 	triplep \
 	version
@@ -104,6 +105,8 @@ table_km_DEPENDENCIES = ../../libheccer.a main.c
 table_km_LDADD = -L../.. -lheccer -lm
 table_naf_DEPENDENCIES = ../../libheccer.a main.c
 table_naf_LDADD = -L../.. -lheccer -lm
+table_nap_DEPENDENCIES = ../../libheccer.a main.c
+table_nap_LDADD = -L../.. -lheccer -lm
 tensizesp_DEPENDENCIES = ../../libheccer.a main.c
 tensizesp_LDADD = -L../.. -lheccer -lm
 triplep_DEPENDENCIES = ../../libheccer.a main.c

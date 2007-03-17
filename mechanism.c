@@ -207,6 +207,63 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 
+		//- for a channel with only activation
+
+		case MATH_TYPE_ChannelAct:
+		{
+		    //- get type specific data
+
+		    struct ChannelAct *pca = (struct ChannelAct *)pmc;
+
+		    pmc = MathComponentNext(&pca->mc);
+
+		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->dMaximalConductance, pca->dReversalPotential);
+
+		    //- tabulate the channel
+
+		    //- tabulate activation, Genesis X
+		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+
+		    int iTabulated
+			= HeccerDiscretizeGateConcept(pheccer, &pca->pgcActivation.gc);
+
+		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->pgcActivation.gc.iTable, pca->pgcActivation.iPower,NULL);
+
+		    //! at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pca->pgcActivation.gc.dInitActivation);
+
+		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+		    //t retabulate cannot be done yet, do not know yet how many tables
+
+		    //- register pool index
+
+		    //t for reasons of easy initialization, this should be a check for zero.
+		    //t this means that I have to offset all mechanisms with 1
+		    //t (mmm, the hines solver did the same, but for other reasons).
+
+		    if (pca->iPool != -1)
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			//! initial flux is assumed to be zero, always
+
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
+		    }
+
+		    //- register result from tabulation for outcome of this function
+
+		    iResult = iResult && iTabulated;
+
+		    break;
+		}
+
 		//- for a regular channel with activation and inactivation
 
 		case MATH_TYPE_ChannelActInact:

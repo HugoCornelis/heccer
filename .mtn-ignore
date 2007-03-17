@@ -33,6 +33,7 @@ Makefile.in$
 ^tests/code/table-kh$
 ^tests/code/table-km$
 ^tests/code/table-naf$
+^tests/code/table-nap$
 ^tests/code/tensizesp$
 ^tests/code/triplep$
 ^tests/code/version$

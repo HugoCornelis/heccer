@@ -726,6 +726,11 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     {
 	//- for a channel
 
+    case MATH_TYPE_ChannelAct:
+    {
+	((int *)0)[0] = 0;
+	break;
+    }
     case MATH_TYPE_ChannelActInact:
     case MATH_TYPE_ChannelActConc:
     {

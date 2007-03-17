@@ -1,4 +1,3 @@
-#   (library/gates/nap_activation.ndf (neurospaces/n/29_nap_activa 1.1 644))
 #!/usr/bin/perl -w
 #
 
@@ -138,6 +137,20 @@ my $test
 						  },
 						 ],
 				description => "Simple sodium gate tabulation",
+			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/table-nap',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, persistent sodium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-nap.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Persistent sodium gate tabulation",
 			       },
 			      ],
        description => "Gate tabulation",
