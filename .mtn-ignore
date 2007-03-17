@@ -24,6 +24,7 @@ Makefile.in$
 ^tests/code/pool2$
 ^tests/code/singlea-naf$
 ^tests/code/singlep$
+^tests/code/table-cat$
 ^tests/code/table-ka$
 ^tests/code/table-kdr$
 ^tests/code/table-kh$
