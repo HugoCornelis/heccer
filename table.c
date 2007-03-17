@@ -526,82 +526,14 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 	pd4[i] = 1.0 / dForward2;
     }
 
-    //- loop over all gates
-
-    int iGate = 0;
+    //- interpolate the tables
 
     double *ppdSources[]
-	= { pd1, pd2, pd3, pd4, };
+	= { pd1, pd2, pd3, pd4, NULL, };
     double *ppdDestinations[]
-	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, };
+	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, NULL, };
 
-    for (iGate = 0 ; iGate < 4 ; iGate++)
-    {
-	//! modified and optimized for heccer from
-	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
-
-	double dRangeStep = (double)iSmallTableSize / (double)iEntries;
-	double dActual;
-
-	double dNSA = 1.0 / 6.0;
-	double dNSB = 2.0 / 3.0;
-
-	//- loop over the entries of this gate
-
-	double *pdSource = ppdSources[iGate];
-	double *pdDestination = ppdDestinations[iGate];
-
-	int iSource;
-	int iDestination;
-
-	//- fill the destination till the first element that comes from the source
-
-	for (dActual = 0.0, iDestination = 0, iSource = 0 ; iSource <= 1 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    pdDestination[iDestination]
-		= ((dActual - (double)iSource)
-		   * (pdSource[iSource + 1] - pdSource[iSource])
-		   + pdSource[iSource]);
-	}
-
-	//- do the interpolation
-
-	for( ; iSource <= iSmallTableSize - 2 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    double dSource = dActual - (double)iSource;
-	    double dSource2 = dSource / 2.0;
-	    double dSource4 = dSource * dSource;
-	    double dSource42 = dSource4 / 2.0;
-	    double dSource8 = dSource4 * dSource;
-	    double dSource82 = dSource8 / 2.0;
-
-	    double dWeight1 = - dNSA * dSource8 + dSource42 - dSource2 + dNSA;
-	    double dWeight2 = dSource82 - dSource4 + dNSB;
-	    double dWeight3 = - dSource82 + dSource42 + dSource2 + dNSA;
-	    double dWeight4 = dNSA * dSource8;
-
-	    pdDestination[iDestination]
-		= (dWeight1 * pdSource[iSource - 1]
-		   + dWeight2 * pdSource[iSource]
-		   + dWeight3 * pdSource[iSource + 1] + dWeight4 * pdSource[iSource + 2]);
-	}
-
-	//- fill the destination till the end
-
-	for (; iDestination <= iEntries ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    if (iSource < iSmallTableSize)
-	    {
-		pdDestination[iDestination]
-		    = ((dActual - (double)iSource)
-		       * (pdSource[iSource + 1] - pdSource[iSource]) + pdSource[iSource]);
-	    }
-	    else
-	    {
-		pdDestination[iDestination] = pdSource[iSmallTableSize];
-	    }
-	}
-    }
+    iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
     //- free allocated memory
 
@@ -733,82 +665,14 @@ HeccerChannelPersistentSteadyStateTauTabulate
 	pd2[i] = 1.0 / dForward;
     }
 
-    //- loop over all gates
-
-    int iGate = 0;
+    //- interpolate the tables
 
     double *ppdSources[]
-	= { pd1, pd2, };
+	= { pd1, pd2, NULL, };
     double *ppdDestinations[]
-	= { phtg->pdForward, phtg->pdBackward, };
+	= { phtg->pdForward, phtg->pdBackward, NULL, };
 
-    for (iGate = 0 ; iGate < 2 ; iGate++)
-    {
-	//! modified and optimized for heccer from
-	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
-
-	double dRangeStep = (double)iSmallTableSize / (double)iEntries;
-	double dActual;
-
-	double dNSA = 1.0 / 6.0;
-	double dNSB = 2.0 / 3.0;
-
-	//- loop over the entries of this gate
-
-	double *pdSource = ppdSources[iGate];
-	double *pdDestination = ppdDestinations[iGate];
-
-	int iSource;
-	int iDestination;
-
-	//- fill the destination till the first element that comes from the source
-
-	for (dActual = 0.0, iDestination = 0, iSource = 0 ; iSource <= 1 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    pdDestination[iDestination]
-		= ((dActual - (double)iSource)
-		   * (pdSource[iSource + 1] - pdSource[iSource])
-		   + pdSource[iSource]);
-	}
-
-	//- do the interpolation
-
-	for( ; iSource <= iSmallTableSize - 2 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    double dSource = dActual - (double)iSource;
-	    double dSource2 = dSource / 2.0;
-	    double dSource4 = dSource * dSource;
-	    double dSource42 = dSource4 / 2.0;
-	    double dSource8 = dSource4 * dSource;
-	    double dSource82 = dSource8 / 2.0;
-
-	    double dWeight1 = - dNSA * dSource8 + dSource42 - dSource2 + dNSA;
-	    double dWeight2 = dSource82 - dSource4 + dNSB;
-	    double dWeight3 = - dSource82 + dSource42 + dSource2 + dNSA;
-	    double dWeight4 = dNSA * dSource8;
-
-	    pdDestination[iDestination]
-		= (dWeight1 * pdSource[iSource - 1]
-		   + dWeight2 * pdSource[iSource]
-		   + dWeight3 * pdSource[iSource + 1] + dWeight4 * pdSource[iSource + 2]);
-	}
-
-	//- fill the destination till the end
-
-	for (; iDestination <= iEntries ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    if (iSource < iSmallTableSize)
-	    {
-		pdDestination[iDestination]
-		    = ((dActual - (double)iSource)
-		       * (pdSource[iSource + 1] - pdSource[iSource]) + pdSource[iSource]);
-	    }
-	    else
-	    {
-		pdDestination[iDestination] = pdSource[iSmallTableSize];
-	    }
-	}
-    }
+    iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
     //- free allocated memory
 
@@ -1007,82 +871,14 @@ HeccerChannelSteadyStateSteppedTauTabulate
 	pd4[i] = 1.0 / dForward;
     }
 
-    //- loop over all gates
-
-    int iGate = 0;
+    //- interpolate the tables
 
     double *ppdSources[]
-	= { pd1, pd2, pd3, pd4, };
+	= { pd1, pd2, pd3, pd4, NULL, };
     double *ppdDestinations[]
-	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, };
+	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, NULL, };
 
-    for (iGate = 0 ; iGate < 4 ; iGate++)
-    {
-	//! modified and optimized for heccer from
-	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
-
-	double dRangeStep = (double)iSmallTableSize / (double)iEntries;
-	double dActual;
-
-	double dNSA = 1.0 / 6.0;
-	double dNSB = 2.0 / 3.0;
-
-	//- loop over the entries of this gate
-
-	double *pdSource = ppdSources[iGate];
-	double *pdDestination = ppdDestinations[iGate];
-
-	int iSource;
-	int iDestination;
-
-	//- fill the destination till the first element that comes from the source
-
-	for (dActual = 0.0, iDestination = 0, iSource = 0 ; iSource <= 1 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    pdDestination[iDestination]
-		= ((dActual - (double)iSource)
-		   * (pdSource[iSource + 1] - pdSource[iSource])
-		   + pdSource[iSource]);
-	}
-
-	//- do the interpolation
-
-	for( ; iSource <= iSmallTableSize - 2 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    double dSource = dActual - (double)iSource;
-	    double dSource2 = dSource / 2.0;
-	    double dSource4 = dSource * dSource;
-	    double dSource42 = dSource4 / 2.0;
-	    double dSource8 = dSource4 * dSource;
-	    double dSource82 = dSource8 / 2.0;
-
-	    double dWeight1 = - dNSA * dSource8 + dSource42 - dSource2 + dNSA;
-	    double dWeight2 = dSource82 - dSource4 + dNSB;
-	    double dWeight3 = - dSource82 + dSource42 + dSource2 + dNSA;
-	    double dWeight4 = dNSA * dSource8;
-
-	    pdDestination[iDestination]
-		= (dWeight1 * pdSource[iSource - 1]
-		   + dWeight2 * pdSource[iSource]
-		   + dWeight3 * pdSource[iSource + 1] + dWeight4 * pdSource[iSource + 2]);
-	}
-
-	//- fill the destination till the end
-
-	for (; iDestination <= iEntries ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
-	{
-	    if (iSource < iSmallTableSize)
-	    {
-		pdDestination[iDestination]
-		    = ((dActual - (double)iSource)
-		       * (pdSource[iSource + 1] - pdSource[iSource]) + pdSource[iSource]);
-	    }
-	    else
-	    {
-		pdDestination[iDestination] = pdSource[iSmallTableSize];
-	    }
-	}
-    }
+    iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
     //- free allocated memory
 
@@ -1153,6 +949,118 @@ HeccerTableDump
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
 	    fprintf(pfile, "Tabulated gate %i, backward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdBackward[i]);
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerTableInterpolate()
+///
+/// ARGS.:
+///
+///	ppdSources.......: source tables for interpolation.
+///	ppdDestinations..: destination tables for interpolation.
+///	iSourceSize......: size of source tables.
+///	iDestinationSize.: size of destination tables.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Interpolate given tables, uses bezier curves.
+///
+///	ppdSources and ppdDestinations must be NULL terminated.
+///	ppdDestinations must be preallocated, presumably using
+///	HeccerTabulatedGateNew().
+///
+/// **************************************************************************
+
+int
+HeccerTableInterpolate
+(double *ppdSources[],
+ double *ppdDestinations[],
+ int iSourceSize,
+ int iDestinationSize)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- loop over all gates
+
+    int iGate;
+
+    for (iGate = 0 ; ppdSources[iGate] ; iGate++)
+    {
+	//! modified and optimized for heccer from
+	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
+
+	double dRangeStep = (double)iSourceSize / (double)iDestinationSize;
+	double dActual;
+
+	double dNSA = 1.0 / 6.0;
+	double dNSB = 2.0 / 3.0;
+
+	//- loop over the entries of this gate
+
+	double *pdSource = ppdSources[iGate];
+	double *pdDestination = ppdDestinations[iGate];
+
+	int iSource;
+	int iDestination;
+
+	//- fill the destination till the first element that comes from the source
+
+	for (dActual = 0.0, iDestination = 0, iSource = 0 ; iSource <= 1 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    pdDestination[iDestination]
+		= ((dActual - (double)iSource)
+		   * (pdSource[iSource + 1] - pdSource[iSource])
+		   + pdSource[iSource]);
+	}
+
+	//- do the interpolation
+
+	for( ; iSource <= iSourceSize - 2 ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    double dSource = dActual - (double)iSource;
+	    double dSource2 = dSource / 2.0;
+	    double dSource4 = dSource * dSource;
+	    double dSource42 = dSource4 / 2.0;
+	    double dSource8 = dSource4 * dSource;
+	    double dSource82 = dSource8 / 2.0;
+
+	    double dWeight1 = - dNSA * dSource8 + dSource42 - dSource2 + dNSA;
+	    double dWeight2 = dSource82 - dSource4 + dNSB;
+	    double dWeight3 = - dSource82 + dSource42 + dSource2 + dNSA;
+	    double dWeight4 = dNSA * dSource8;
+
+	    pdDestination[iDestination]
+		= (dWeight1 * pdSource[iSource - 1]
+		   + dWeight2 * pdSource[iSource]
+		   + dWeight3 * pdSource[iSource + 1] + dWeight4 * pdSource[iSource + 2]);
+	}
+
+	//- fill the destination till the end
+
+	for (; iDestination <= iDestinationSize ; dActual += dRangeStep, iSource = (int)dActual, iDestination++)
+	{
+	    if (iSource < iSourceSize)
+	    {
+		pdDestination[iDestination]
+		    = ((dActual - (double)iSource)
+		       * (pdSource[iSource + 1] - pdSource[iSource]) + pdSource[iSource]);
+	    }
+	    else
+	    {
+		pdDestination[iDestination] = pdSource[iSourceSize];
+	    }
 	}
     }
 

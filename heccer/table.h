@@ -137,6 +137,13 @@ HeccerTablesDump
 (struct TabulatedGateTable *ptgt, FILE *pfile, int iSelection);
 
 int
+HeccerTableInterpolate
+(double *ppdSources[],
+ double *ppdDestinations[],
+ int iSourceSize,
+ int iDestinationSize);
+
+int
 HeccerTabulatedGateRegister(struct Heccer *pheccer, struct GateConcept *pgc);
 
 

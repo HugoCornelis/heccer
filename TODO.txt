@@ -1,5 +1,7 @@
 -*- outline -*-
 
+* implement sharing of tables
+
 * channels
 ** Done
 *** table-ka
@@ -18,10 +20,8 @@
   (library/gates/nap_activation.ndf (neurospaces/n/29_nap_activa 1.1 644))
   (library/gates/kdr_steadystate.ndf (neurospaces/n/30_kdr_steady 1.1 644))
   (library/gates/kdr_tau.ndf (neurospaces/n/31_kdr_tau.nd 1.1 644))
-** TODO
-  272:	    create tabchannel Purk_KM
-  299:	    create tabchannel Purk_h1
-  304:	    create tabchannel Purk_h2
+  (library/gates/kh.ndf ())
+  (library/gates/km.ndf ())
 
 * ChannelSteadyStateSteppedTau
 ** check if members have correct names
