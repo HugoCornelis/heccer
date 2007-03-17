@@ -40,6 +40,7 @@ check_PROGRAMS = \
 	pool2 \
 	singlea-naf \
 	singlep \
+	table-cap \
 	table-cat \
 	table-ka \
 	table-kdr \
@@ -83,6 +84,8 @@ singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf_LDADD = -L../.. -lheccer -lm
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 singlep_LDADD = -L../.. -lheccer -lm
+table_cap_DEPENDENCIES = ../../libheccer.a main.c
+table_cap_LDADD = -L../.. -lheccer -lm
 table_cat_DEPENDENCIES = ../../libheccer.a main.c
 table_cat_LDADD = -L../.. -lheccer -lm
 table_ka_DEPENDENCIES = ../../libheccer.a main.c

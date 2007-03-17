@@ -35,6 +35,20 @@ my $test
 			       {
 				arguments => [
 					     ],
+				command => 'tests/code/table-cap',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, persistent calcium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-cap.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Persistent Calcium gate tabulation",
+			       },
+			       {
+				arguments => [
+					     ],
 				command => 'tests/code/table-cat',
 				command_tests => [
 						  {
@@ -44,7 +58,7 @@ my $test
 						   write => undef,
 						  },
 						 ],
-				description => "Calcium t-type tabulation",
+				description => "Calcium t-type gate tabulation",
 			       },
 			       {
 				arguments => [
