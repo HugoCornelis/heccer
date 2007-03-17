@@ -1,7 +1,6 @@
 #   (library/gates/k2_concentration.ndf (neurospaces/n/23_k2_concent 1.1 644))
 #   (library/gates/k2_activation.ndf (neurospaces/n/24_k2_activat 1.1 644))
 #   (library/gates/nap_activation.ndf (neurospaces/n/29_nap_activa 1.1 644))
-# **** cacKC
 #!/usr/bin/perl -w
 #
 
@@ -57,6 +56,20 @@ my $test
 						  },
 						 ],
 				description => "Simple potassium gate tabulation",
+			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/table-kc',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, simple potassium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kc.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Calcium dependent potassium gate tabulation",
 			       },
 			       {
 				arguments => [

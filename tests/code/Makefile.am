@@ -43,6 +43,7 @@ check_PROGRAMS = \
 	table-cap \
 	table-cat \
 	table-ka \
+	table-kc \
 	table-kdr \
 	table-kh \
 	table-km \
@@ -90,6 +91,8 @@ table_cat_DEPENDENCIES = ../../libheccer.a main.c
 table_cat_LDADD = -L../.. -lheccer -lm
 table_ka_DEPENDENCIES = ../../libheccer.a main.c
 table_ka_LDADD = -L../.. -lheccer -lm
+table_kc_DEPENDENCIES = ../../libheccer.a main.c
+table_kc_LDADD = -L../.. -lheccer -lm
 table_kdr_DEPENDENCIES = ../../libheccer.a main.c
 table_kdr_LDADD = -L../.. -lheccer -lm
 table_kh_DEPENDENCIES = ../../libheccer.a main.c
