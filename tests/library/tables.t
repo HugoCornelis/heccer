@@ -1,7 +1,5 @@
 #   (library/gates/k2_concentration.ndf (neurospaces/n/23_k2_concent 1.1 644))
 #   (library/gates/k2_activation.ndf (neurospaces/n/24_k2_activat 1.1 644))
-#   (library/gates/cap_inactivation.ndf (neurospaces/n/27_cap_inacti 1.1 644))
-#   (library/gates/cap_activation.ndf (neurospaces/n/28_cap_activa 1.1 644))
 #   (library/gates/nap_activation.ndf (neurospaces/n/29_nap_activa 1.1 644))
 # **** cacKC
 #!/usr/bin/perl -w
@@ -18,20 +16,6 @@ local $/;
 my $test
     = {
        command_definitions => [
-			       {
-				arguments => [
-					     ],
-				command => 'tests/code/table-naf',
-				command_tests => [
-						  {
-						   description => "Are gates tabulated correctly, simple sodium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-naf.txt`, ],
-						   timeout => 18,
-						   write => undef,
-						  },
-						 ],
-				description => "Simple sodium gate tabulation",
-			       },
 			       {
 				arguments => [
 					     ],
@@ -115,6 +99,20 @@ my $test
 						  },
 						 ],
 				description => "Muscarinic potassium gate tabulation",
+			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/table-naf',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, simple sodium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-naf.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Simple sodium gate tabulation",
 			       },
 			      ],
        description => "Gate tabulation",
