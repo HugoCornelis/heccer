@@ -728,6 +728,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     case MATH_TYPE_ChannelAct:
     {
+	//t segv
+
 	((int *)0)[0] = 0;
 	break;
     }
@@ -970,6 +972,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//t not implemented
 
+	//t segv
+
 	((int *)0)[0] = 0;
 
 	break;
@@ -991,6 +995,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	pmcd->iCurrentType++;
 
 	//t not implemented
+
+	//t segv
 
 	((int *)0)[0] = 0;
 
@@ -1119,6 +1125,12 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	    iType = MATH_TYPE_ChannelActInact;
 	}
+
+	//t check for other types
+	//t MATH_TYPE_ChannelAct: only one gate (nap)
+	//t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
+	//t MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh)
+	//t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr)
 
 	//t check functions in parameters
 
