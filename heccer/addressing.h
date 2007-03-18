@@ -25,9 +25,11 @@
 struct Heccer;
 
 
+#ifdef HECCER_SOURCE_NEUROSPACES
 void *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType);
+#endif
 
 
 #endif

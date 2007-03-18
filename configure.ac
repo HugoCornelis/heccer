@@ -39,6 +39,8 @@ AC_PROG_RANLIB
 # Checks for libraries.
 AC_ARG_ENABLE(neurospaces, AS_HELP_STRING([--without-neurospaces   don't use neurospaces as modeling component]) )
 
+HECCER_INTEGRATORS=
+
 if test x"$with_neurospaces" == "xno" ; then
 
     echo "NOT using Neurospaces as modeling component"
@@ -49,8 +51,10 @@ else
 
     AC_DEFINE(HECCER_SOURCE_NEUROSPACES, 1, [use neurospaces as modeling component])
 
+    HECCER_INTEGRATORS="integrators"
 fi
 
+AC_SUBST(HECCER_INTEGRATORS)
 
 # Checks for header files.
 AC_HEADER_STDC

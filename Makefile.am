@@ -16,7 +16,11 @@
 ##############################################################################
 
 
-SUBDIRS = . integrators glue tests
+SUBDIRS = \
+	. \
+	@HECCER_INTEGRATORS@ \
+	glue \
+	tests
 
 AM_CFLAGS=-gdwarf-2 -g3 -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
 

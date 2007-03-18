@@ -23,6 +23,13 @@
 #include "heccer/heccer.h"
 
 
+#ifdef HECCER_SOURCE_NEUROSPACES
+static
+int
+HeccerAddressCompartmentSerial2Intermediary
+(struct Heccer *pheccer, int iSerial, char *pcField);
+#endif
+
 static
 void *
 HeccerAddressCompartmentVariable
@@ -33,10 +40,12 @@ void *
 HeccerAddressMechanismVariable
 (struct Heccer *pheccer, int iIndex, char *pcField);
 
+#ifdef HECCER_SOURCE_NEUROSPACES
 static
 int
 HeccerAddressSerial2Intermediary
 (struct Heccer *pheccer, int iIndex, char *pcField);
+#endif
 
 
 /// **************************************************************************
@@ -60,6 +69,7 @@ HeccerAddressSerial2Intermediary
 ///
 /// **************************************************************************
 
+#ifdef HECCER_SOURCE_NEUROSPACES
 void *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType)
@@ -91,6 +101,7 @@ HeccerAddressVariable
 
     return(pvResult);
 }
+#endif
 
 
 /// **************************************************************************
@@ -210,6 +221,7 @@ HeccerAddressMechanismVariable
 ///
 /// **************************************************************************
 
+#ifdef HECCER_SOURCE_NEUROSPACES
 static
 int
 HeccerAddressCompartmentSerial2Intermediary
@@ -247,6 +259,7 @@ HeccerAddressCompartmentSerial2Intermediary
 
     return(iResult);
 }
+#endif
 
 
 /// **************************************************************************
@@ -270,6 +283,7 @@ HeccerAddressCompartmentSerial2Intermediary
 ///
 /// **************************************************************************
 
+#ifdef HECCER_SOURCE_NEUROSPACES
 static
 int
 HeccerAddressSerial2Intermediary
@@ -295,5 +309,6 @@ HeccerAddressSerial2Intermediary
 
     return(iResult);
 }
+#endif
 
 
