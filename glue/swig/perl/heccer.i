@@ -46,6 +46,7 @@
 /* } */
 
 %{
+#include "heccer/config.h"
 #include "heccer/addressing.h"
 #include "heccer/callout.h"
 #include "heccer/compartment.h"
@@ -130,6 +131,7 @@ struct Compartment *comp_get(struct Compartment *a, int i)
 /* } */
 %}
 
+%include "heccer/config.h"
 %include "heccer/addressing.h"
 %include "heccer/callout.h"
 %include "heccer/compartment.h"
