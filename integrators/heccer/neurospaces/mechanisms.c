@@ -90,11 +90,19 @@ struct MathComponentData
 #define STATUS_NON_CHANNEL_OUTPUTS_IK -9
 
 
-static int GetConnection(struct MathComponentData * pmcd, struct MathComponent * pmc);
+static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc);
 
 static
 int
 MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType);
+
+static
+int
+solver_channel_activation_concentration_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
+solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static
 int
@@ -108,8 +116,12 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathComponentData * pmcd);
 
+static
+TreespaceTraversalProcessor *
+Type2Processor(int iType);
 
-static int GetConnection(struct MathComponentData * pmcd, struct MathComponent * pmc)
+
+static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc)
 {
     //- set default result : none
 
@@ -811,14 +823,14 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    //- if traverse channel descendants
 
+	    TreespaceTraversalProcessor * pfProcesor = Type2Processor(iType);
+
 	    struct TreespaceTraversal * ptstrChannel
 		= TstrNew
 		  (ptstr->ppist,
 		   NULL,
 		   NULL,
-		   (iType == MATH_TYPE_ChannelActInact)
-		   ? solver_channel_activation_inactivation_processor
-		   : solver_channel_activation_concentration_processor,
+		   pfProcesor,
 		   (void *)pmcd,
 		   ptstr->pfFinalizer,
 		   ptstr->pvFinalizer);
@@ -1435,7 +1447,7 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	    //- if channel in contributors registry
 
-	    pcai->iPool = GetConnection(pmcd, pmc);
+	    pcai->iPool = ConnectionSource2Target(pmcd, pmc);
 
 	    int iPoolSerial = pcai->iPool;
 
@@ -1456,7 +1468,7 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	    //- if channel in contributors registry
 
-	    pcac->iPool = GetConnection(pmcd, pmc);
+	    pcac->iPool = ConnectionSource2Target(pmcd, pmc);
 
 	    int iPoolSerial = pcac->iPool;
 
@@ -1534,6 +1546,51 @@ int HeccerNeurospacesMechanisms2MathComponents(struct TranslationService *pts)
     //- return result
 
     return(1);
+}
+
+
+static
+TreespaceTraversalProcessor *
+Type2Processor(int iType)
+{
+    //- set default result : none
+
+    TreespaceTraversalProcessor *pfResult = NULL;
+
+    if (iType == MATH_TYPE_ChannelActInact)
+    {
+	pfResult = solver_channel_activation_inactivation_processor;
+    }
+    else if (iType == MATH_TYPE_ChannelActConc)
+    {
+	pfResult = solver_channel_activation_concentration_processor;
+    }
+    else if (iType == MATH_TYPE_ChannelSteadyStateSteppedTau)
+    {
+	pfResult = NULL;
+    }
+    else if (iType == MATH_TYPE_ChannelPersistentSteadyStateTau)
+    {
+	pfResult = NULL;
+    }
+    else if (iType == MATH_TYPE_ChannelPersistentSteadyStateDualTau)
+    {
+	pfResult = NULL;
+    }
+    else if (iType == MATH_TYPE_ChannelAct)
+    {
+	pfResult = NULL;
+    }
+    else
+    {
+	//t segv
+
+	((int *)0)[0] = 0;
+    }
+
+    //- return result
+
+    return(pfResult);
 }
 
 
