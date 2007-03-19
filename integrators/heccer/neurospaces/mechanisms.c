@@ -391,189 +391,6 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 static
 int
-solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
-{
-    //- set default result : ok
-
-    int iResult = TSTR_PROCESSOR_SUCCESS;
-
-    //- get actual symbol
-
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
-
-    //- get user data
-
-    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
-
-    //- get current math component
-
-    struct MathComponent * pmc = pmcd->pmc;
-
-    struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
-
-    //- if conceptual gate
-
-    if (instanceof_conceptual_gate(phsle))
-    {
-	if (pmcd->iStatus == 1
-	    || pmcd->iStatus == 4)
-	{
-	    struct PoweredGateConcept * ppgc
-		= pmcd->iStatus == 1
-		  ? &pcai->pgcActivation
-		  : &pcai->pgcInactivation;
-
-	    //- get power
-
-	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
-
-	    int iPower = dPower;
-
-	    ppgc->iPower = iPower;
-
-	    //- get initial state
-
-	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
-
-	    ppgc->gc.dInitActivation = dInitActivation;
-
-	    if (dPower == FLT_MAX
-		|| dInitActivation == FLT_MAX)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-	}
-	else
-	{
-	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-    }
-
-    //- if gate kinetic
-
-    else if (instanceof_gate_kinetic(phsle))
-    {
-	//! 2: forward, act
-	//! 3: backward, act
-	//! 5: forward, inact
-	//! 6: backward, inact
-
-	if (pmcd->iStatus == 2
-	    || pmcd->iStatus == 3
-	    || pmcd->iStatus == 5
-	    || pmcd->iStatus == 6)
-	{
-	    struct PoweredGateConcept * ppgc
-		= (pmcd->iStatus == 2
-		   || pmcd->iStatus == 3
-		   ? &pcai->pgcActivation
-		   : &pcai->pgcInactivation);
-
-	    struct GateKinetic *pgk
-		= (pmcd->iStatus == 2
-		   || pmcd->iStatus == 5
-		   ? &ppgc->gc.gkForward
-		   : &ppgc->gc.gkBackward);
-
-	    //- initialize table index
-
-	    ppgc->gc.iTable = -1;
-
-	    //- get Multiplier = 35.0e3
-
-	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
-
-	    pgk->dMultiplier = dMultiplier;
-
-	    //- get MembraneDependence = 0.0
-
-	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
-
-	    pgk->dMembraneDependence = dMembraneDependence;
-
-	    //- get Nominator = -1.0
-
-	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
-
-	    int iNominator = dNominator;
-
-	    pgk->iNominator = iNominator;
-
-	    //- get DeNominatorOffset = 0.0
-
-	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
-
-	    pgk->dDeNominatorOffset = dDeNominatorOffset;
-
-	    //- get MembraneOffset = 5.0e-3
-
-	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
-
-	    pgk->dMembraneOffset = dMembraneOffset;
-
-	    //- get TauDenormalizer = -10.0e-3
-
-	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
-
-	    pgk->dTauDenormalizer = dTauDenormalizer;
-
-	    if (dMultiplier == FLT_MAX
-		|| dMembraneDependence == FLT_MAX
-		|| dNominator == FLT_MAX
-		|| dDeNominatorOffset == FLT_MAX
-		|| dMembraneOffset == FLT_MAX
-		|| dTauDenormalizer == FLT_MAX)
-	    {
-		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
-
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-	}
-	else
-	{
-	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-    }
-
-    //- otherwise
-
-    else
-    {
-	//- an error
-
-	pmcd->iStatus = STATUS_UNKNOWN_TYPE;
-
-	iResult = TSTR_PROCESSOR_ABORT;
-    }
-
-    //- if no error
-
-    if (pmcd->iStatus > 0)
-    {
-	//- increment the status to indicate what component we have processed
-
-	pmcd->iStatus++;
-
-	if (pmcd->iStatus == 7)
-	{
-	    pmcd->iStatus = 1;
-	}
-    }
-
-    //- return result
-
-    return(iResult);
-}
-
-
-static
-int
 solver_channel_activation_concentration_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
@@ -797,6 +614,189 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	pmcd->iStatus++;
 
 	if (pmcd->iStatus == 6)
+	{
+	    pmcd->iStatus = 1;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static
+int
+solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- get current math component
+
+    struct MathComponent * pmc = pmcd->pmc;
+
+    struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
+
+    //- if conceptual gate
+
+    if (instanceof_conceptual_gate(phsle))
+    {
+	if (pmcd->iStatus == 1
+	    || pmcd->iStatus == 4)
+	{
+	    struct PoweredGateConcept * ppgc
+		= pmcd->iStatus == 1
+		  ? &pcai->pgcActivation
+		  : &pcai->pgcInactivation;
+
+	    //- get power
+
+	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+
+	    int iPower = dPower;
+
+	    ppgc->iPower = iPower;
+
+	    //- get initial state
+
+	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+
+	    ppgc->gc.dInitActivation = dInitActivation;
+
+	    if (dPower == FLT_MAX
+		|| dInitActivation == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- if gate kinetic
+
+    else if (instanceof_gate_kinetic(phsle))
+    {
+	//! 2: forward, act
+	//! 3: backward, act
+	//! 5: forward, inact
+	//! 6: backward, inact
+
+	if (pmcd->iStatus == 2
+	    || pmcd->iStatus == 3
+	    || pmcd->iStatus == 5
+	    || pmcd->iStatus == 6)
+	{
+	    struct PoweredGateConcept * ppgc
+		= (pmcd->iStatus == 2
+		   || pmcd->iStatus == 3
+		   ? &pcai->pgcActivation
+		   : &pcai->pgcInactivation);
+
+	    struct GateKinetic *pgk
+		= (pmcd->iStatus == 2
+		   || pmcd->iStatus == 5
+		   ? &ppgc->gc.gkForward
+		   : &ppgc->gc.gkBackward);
+
+	    //- initialize table index
+
+	    ppgc->gc.iTable = -1;
+
+	    //- get Multiplier = 35.0e3
+
+	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+
+	    pgk->dMultiplier = dMultiplier;
+
+	    //- get MembraneDependence = 0.0
+
+	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
+
+	    pgk->dMembraneDependence = dMembraneDependence;
+
+	    //- get Nominator = -1.0
+
+	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
+
+	    int iNominator = dNominator;
+
+	    pgk->iNominator = iNominator;
+
+	    //- get DeNominatorOffset = 0.0
+
+	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+
+	    pgk->dDeNominatorOffset = dDeNominatorOffset;
+
+	    //- get MembraneOffset = 5.0e-3
+
+	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+
+	    pgk->dMembraneOffset = dMembraneOffset;
+
+	    //- get TauDenormalizer = -10.0e-3
+
+	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+
+	    pgk->dTauDenormalizer = dTauDenormalizer;
+
+	    if (dMultiplier == FLT_MAX
+		|| dMembraneDependence == FLT_MAX
+		|| dNominator == FLT_MAX
+		|| dDeNominatorOffset == FLT_MAX
+		|| dMembraneOffset == FLT_MAX
+		|| dTauDenormalizer == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- otherwise
+
+    else
+    {
+	//- an error
+
+	pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	iResult = TSTR_PROCESSOR_ABORT;
+    }
+
+    //- if no error
+
+    if (pmcd->iStatus > 0)
+    {
+	//- increment the status to indicate what component we have processed
+
+	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 7)
 	{
 	    pmcd->iStatus = 1;
 	}
