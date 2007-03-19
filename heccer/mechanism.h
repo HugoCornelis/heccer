@@ -461,11 +461,11 @@ struct DualSteadyState
 {
     //m first kinetiks
 
-    struct
+    struct dual_steadystate_kinetic
     {
 	//m part a
 
-	struct
+	struct dual_steadystate_kinetic_part_a
 	{
 	    //m 1: multiplier
 	
@@ -490,7 +490,7 @@ struct DualSteadyState
 
 	//m part b
 
-	struct
+	struct dual_steadystate_kinetic_part_b
 	{
 	    //m 1: multiplier
 
@@ -510,53 +510,7 @@ struct DualSteadyState
 
     //m second kinetiks
 
-    struct
-    {
-	//m part a
-
-	struct
-	{
-	    //m 1: multiplier
-	
-	    double dMultiplier;
-	
-	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
-	
-	    double dMembraneDependenceOffset;
-	
-	    //m 4: nominator or denominator offset
-	
-	    double dDeNominatorOffset;
-	
-	    //m 5: membrane offset
-	
-	    double dMembraneOffset;
-	
-	    //m 6: denormalized time constant
-	
-	    double dTauDenormalizer;
-
-	} a;
-
-	//m part b
-
-	struct
-	{
-	    //m 1: multiplier
-
-	    double dMultiplier;
-
-	    //m 2: multiplier membrane dependence, 0.0 for no dependence
-
-	    double dTauDenormalizer;
-
-	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
-	
-	    double dMembraneDependenceOffset;
-	
-	} b;
-
-    } second;
+    struct dual_steadystate_kinetic second;
 };
 
 //s gate time constant definition

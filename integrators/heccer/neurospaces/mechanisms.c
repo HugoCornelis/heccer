@@ -120,6 +120,10 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 static
 int
+solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static
@@ -1176,6 +1180,295 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 static
 int
+solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- get current math component
+
+    struct MathComponent * pmc = pmcd->pmc;
+
+    struct ChannelSteadyStateSteppedTau * pcpsdt
+	= (struct ChannelSteadyStateSteppedTau *)pmc;
+
+    //- if conceptual gate
+
+    if (instanceof_conceptual_gate(phsle))
+    {
+	if (pmcd->iStatus == 1)
+	{
+	    //- initialize table pointer
+
+	    pcpsdt->iFirstTable = -1;
+
+	    //- get power
+
+	    double dFirstPower = SymbolParameterResolveValue(phsle, "iFirstPower", ptstr->ppist);
+	    int iFirstPower = dFirstPower;
+	    pcpsdt->iFirstPower = iFirstPower;
+
+	    //- get initial state
+
+	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, "dFirstInitActivation", ptstr->ppist);
+	    pcpsdt->dFirstInitActivation = dFirstInitActivation;
+
+	    if (dFirstPower == FLT_MAX
+		|| dFirstInitActivation == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else if (pmcd->iStatus == 8)
+	{
+	    //- initialize table pointer
+
+	    pcpsdt->iSecondTable = -1;
+
+	    //- get power
+
+	    double dSecondPower = SymbolParameterResolveValue(phsle, "iSecondPower", ptstr->ppist);
+	    int iSecondPower = dSecondPower;
+	    pcpsdt->iSecondPower = iSecondPower;
+
+	    //- get initial state
+
+	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "dSecondInitActivation", ptstr->ppist);
+	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
+
+	    if (dSecondPower == FLT_MAX
+		|| dSecondInitActivation == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- if gate kinetic
+
+    else if (instanceof_gate_kinetic(phsle))
+    {
+	if (pmcd->iStatus == 2
+	    || pmcd->iStatus == 5)
+	{
+	}
+	else if (pmcd->iStatus == 3
+		 || pmcd->iStatus == 4
+		 || pmcd->iStatus == 6
+		 || pmcd->iStatus == 7)
+	{
+	    struct DualSteadyState * pdtc
+		= &pcpsdt->ss;
+
+	    struct dual_steadystate_kinetic * pdsk
+		= ((pmcd->iStatus == 3
+		   || pmcd->iStatus == 4)
+		   ? &pdtc->first
+		   : &pdtc->second);
+
+	    if (pmcd->iStatus == 3
+		|| pmcd->iStatus == 6)
+	    {
+		struct dual_steadystate_kinetic_part_a * pa = &pdsk->a;
+
+		//- get Multiplier
+
+		double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+
+		pa->dMultiplier = dMultiplier;
+
+		//- get MembraneDependenceOffset
+
+		double dMembraneDependenceOffset = SymbolParameterResolveValue(phsle, "MembraneDependenceOffset", ptstr->ppist);
+
+		pa->dMembraneDependenceOffset = dMembraneDependenceOffset;
+
+		//- get dDeNominatorOffset
+
+		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+
+		pa->dDeNominatorOffset = dDeNominatorOffset;
+
+		//- get MembraneOffset
+
+		double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+
+		pa->dMembraneOffset = dMembraneOffset;
+
+		//- get TauDenormalizer
+
+		double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+
+		pa->dTauDenormalizer = dTauDenormalizer;
+
+		if (dMultiplier == FLT_MAX
+		    || dMembraneDependenceOffset == FLT_MAX
+		    || dDeNominatorOffset == FLT_MAX
+		    || dMembraneOffset == FLT_MAX
+		    || dTauDenormalizer == FLT_MAX)
+		{
+		    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+	    }
+	    else
+	    {
+		struct dual_steadystate_kinetic_part_b * pb = &pdsk->b;
+
+		//- get Multiplier
+
+		double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+
+		pb->dMultiplier = dMultiplier;
+
+		//- get MembraneDependenceOffset
+
+		double dMembraneDependenceOffset = SymbolParameterResolveValue(phsle, "MembraneDependenceOffset", ptstr->ppist);
+
+		pb->dMembraneDependenceOffset = dMembraneDependenceOffset;
+
+		//- get TauDenormalizer
+
+		double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+
+		pb->dTauDenormalizer = dTauDenormalizer;
+
+		if (dMultiplier == FLT_MAX
+		    || dMembraneDependenceOffset == FLT_MAX
+		    || dTauDenormalizer == FLT_MAX)
+		{
+		    pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+	    }
+	}
+	else if (pmcd->iStatus == 9)
+	{
+	    struct SteppedTimeConstant * pdtc
+		= &pcpsdt->tc;
+
+	    //- get threshold
+
+	    double dThreshold = SymbolParameterResolveValue(phsle, "Threshold", ptstr->ppist);
+
+	    pdtc->a.dThreshold = dThreshold;
+
+	    //- get LowTarget
+
+	    double dLowTarget = SymbolParameterResolveValue(phsle, "LowTarget", ptstr->ppist);
+
+	    pdtc->a.dLowTarget = dLowTarget;
+
+	    //- get HighTarget
+
+	    double dHighTarget = SymbolParameterResolveValue(phsle, "HighTarget", ptstr->ppist);
+
+	    pdtc->a.dHighTarget = dHighTarget;
+
+	    if (dThreshold == FLT_MAX
+		|| dLowTarget == FLT_MAX
+		|| dHighTarget == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else if (pmcd->iStatus == 10)
+	{
+	    struct SteppedTimeConstant * pdtc
+		= &pcpsdt->tc;
+
+	    //- get DeNominatorOffset
+
+	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+
+	    pdtc->b.dDeNominatorOffset = dDeNominatorOffset;
+
+	    //- get MembraneOffset
+
+	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+
+	    pdtc->b.dMembraneOffset = dMembraneOffset;
+
+	    //- get TauDenormalizer
+
+	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+
+	    pdtc->b.dTauDenormalizer = dTauDenormalizer;
+
+	    if (dDeNominatorOffset == FLT_MAX
+		|| dMembraneOffset == FLT_MAX
+		|| dTauDenormalizer == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- otherwise
+
+    else
+    {
+	//- an error
+
+	pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	iResult = TSTR_PROCESSOR_ABORT;
+    }
+
+    //- if no error
+
+    if (pmcd->iStatus > 0)
+    {
+	//- increment the status to indicate what component we have processed
+
+	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 4)
+	{
+	    pmcd->iStatus = 1;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+
+static
+int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
@@ -2140,7 +2433,7 @@ Type2Processor(int iType)
     }
     else if (iType == MATH_TYPE_ChannelSteadyStateSteppedTau)
     {
-/* 	pfResult = solver_channel_steadystate_steppedtau_processor; */
+	pfResult = solver_channel_steadystate_steppedtau_processor;
     }
     else if (iType == MATH_TYPE_ChannelPersistentSteadyStateTau)
     {
