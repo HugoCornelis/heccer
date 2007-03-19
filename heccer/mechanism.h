@@ -280,7 +280,7 @@ struct ChannelAct
 
     //m activation description
 
-    struct PoweredGateConcept pgcActivation;
+    struct PoweredGateConcept pgc;
 
 };
 

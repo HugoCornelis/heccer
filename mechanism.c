@@ -225,15 +225,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulated
-			= HeccerDiscretizeGateConcept(pheccer, &pca->pgcActivation.gc);
+			= HeccerDiscretizeGateConcept(pheccer, &pca->pgc.gc);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->pgcActivation.gc.iTable, pca->pgcActivation.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->pgc.gc.iTable, pca->pgc.iPower,NULL);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pca->pgcActivation.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pca->pgc.gc.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
