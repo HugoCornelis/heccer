@@ -338,7 +338,7 @@ struct ChannelPersistentSteadyStateDualTau
 
     //m tau 1
 
-    struct
+    struct dualtaucomponent
     {
 	//m 1: nominator multiplier
 
@@ -360,25 +360,7 @@ struct ChannelPersistentSteadyStateDualTau
 
     //m tau 2
 
-    struct
-    {
-	//m 1: nominator multiplier
-
-	double dMultiplier;
-
-	//m 2: denominator offset
-
-	double dDeNominatorOffset;
-
-	//m 5: membrane offset
-
-	double dMembraneOffset;
-
-	//m 6: denormalized time constant
-
-	double dTauDenormalizer;
-
-    } tau2;
+    struct dualtaucomponent tau2;
 
 };
 

@@ -112,6 +112,10 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 static
 int
+solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static
@@ -810,6 +814,164 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 static
 int
+solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- get current math component
+
+    struct MathComponent * pmc = pmcd->pmc;
+
+    struct ChannelPersistentSteadyStateDualTau * pcpsdt
+	= (struct ChannelPersistentSteadyStateDualTau *)pmc;
+
+    //- if conceptual gate
+
+    if (instanceof_conceptual_gate(phsle))
+    {
+	if (pmcd->iStatus == 1)
+	{
+	    //- initialize table pointers
+
+	    pcpsdt->iFirstTable = -1;
+	    pcpsdt->iSecondTable = -1;
+
+	    //- get powers
+
+	    double dFirstPower = SymbolParameterResolveValue(phsle, "iFirstPower", ptstr->ppist);
+	    int iFirstPower = dFirstPower;
+	    pcpsdt->iFirstPower = iFirstPower;
+
+	    double dSecondPower = SymbolParameterResolveValue(phsle, "iSecondPower", ptstr->ppist);
+	    int iSecondPower = dSecondPower;
+	    pcpsdt->iSecondPower = iSecondPower;
+
+	    //- get initial states
+
+	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, "dFirstInitActivation", ptstr->ppist);
+	    pcpsdt->dFirstInitActivation = dFirstInitActivation;
+
+	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "dSecondInitActivation", ptstr->ppist);
+	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
+
+	    if (dFirstPower == FLT_MAX
+		|| dFirstInitActivation == FLT_MAX
+		|| dSecondPower == FLT_MAX
+		|| dSecondInitActivation == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- if gate kinetic
+
+    else if (instanceof_gate_kinetic(phsle))
+    {
+	//! 2: tau 1
+	//! 3: tau 2
+
+	if (pmcd->iStatus == 2
+	    || pmcd->iStatus == 3)
+	{
+	    struct dualtaucomponent * pdtc
+		= (pmcd->iStatus == 2
+		   ? &pcpsdt->tau1
+		   : &pcpsdt->tau2);
+
+	    //- get Multiplier = 35.0e3
+
+	    double dMultiplier = SymbolParameterResolveValue(phsle, "dMultiplier", ptstr->ppist);
+
+	    pdtc->dMultiplier = dMultiplier;
+
+	    //- get DeNominatorOffset = 0.0
+
+	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "dDeNominatorOffset", ptstr->ppist);
+
+	    pdtc->dDeNominatorOffset = dDeNominatorOffset;
+
+	    //- get MembraneOffset = 5.0e-3
+
+	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "dMembraneOffset", ptstr->ppist);
+
+	    pdtc->dMembraneOffset = dMembraneOffset;
+
+	    //- get TauDenormalizer = -10.0e-3
+
+	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "dTauDenormalizer", ptstr->ppist);
+
+	    pdtc->dTauDenormalizer = dTauDenormalizer;
+
+	    if (dMultiplier == FLT_MAX
+		|| dDeNominatorOffset == FLT_MAX
+		|| dMembraneOffset == FLT_MAX
+		|| dTauDenormalizer == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- otherwise
+
+    else
+    {
+	//- an error
+
+	pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	iResult = TSTR_PROCESSOR_ABORT;
+    }
+
+    //- if no error
+
+    if (pmcd->iStatus > 0)
+    {
+	//- increment the status to indicate what component we have processed
+
+	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 4)
+	{
+	    pmcd->iStatus = 1;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static
+int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
@@ -915,14 +1077,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	//- for a channel
 
     case MATH_TYPE_ChannelAct:
-    {
-	//t segv
-
-	((int *)0)[0] = 0;
-	break;
-    }
-    case MATH_TYPE_ChannelActInact:
     case MATH_TYPE_ChannelActConc:
+    case MATH_TYPE_ChannelActInact:
+    case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
     {
 	//- get maximal conductance
 
@@ -942,7 +1099,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- set values
 
-	if (iType == MATH_TYPE_ChannelActInact)
+	if (iType == MATH_TYPE_ChannelAct)
+	{
+	    struct ChannelAct * pca = (struct ChannelAct *)pmc;
+
+	    pca->dMaximalConductance = dMaximalConductance;
+
+	    pca->dReversalPotential = dReversalPotential;
+
+	    pca->iPool = -1;
+	}
+	else if (iType == MATH_TYPE_ChannelActInact)
 	{
 	    struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
 
@@ -951,6 +1118,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcai->dReversalPotential = dReversalPotential;
 
 	    pcai->iPool = -1;
+	}
+	else if (iType == MATH_TYPE_ChannelPersistentSteadyStateDualTau)
+	{
+	    struct ChannelPersistentSteadyStateDualTau * pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pmc;
+
+	    pcpsdt->dMaximalConductance = dMaximalConductance;
+
+	    pcpsdt->dReversalPotential = dReversalPotential;
+
+	    pcpsdt->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
 	{
@@ -1319,7 +1496,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	    if (strncasecmp(pcName, "nap", strlen("nap")) == 0)
 	    {
-		//t MATH_TYPE_ChannelAct: only one gate (nap)
+		//- MATH_TYPE_ChannelAct: only one gate (nap)
 
 		iType = MATH_TYPE_ChannelAct;
 	    }
@@ -1331,7 +1508,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	    }
 	    else if (strncasecmp(pcName, "kh", strlen("kh")) == 0)
 	    {
-		//t MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh)
+		//- MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh)
 
 		iType = MATH_TYPE_ChannelPersistentSteadyStateDualTau;
 	    }
@@ -1780,7 +1957,7 @@ Type2Processor(int iType)
     }
     else if (iType == MATH_TYPE_ChannelPersistentSteadyStateDualTau)
     {
-/* 	pfResult = solver_channel_persistent_steadystate_dualtau_processor; */
+	pfResult = solver_channel_persistent_steadystate_dualtau_processor;
     }
     else if (iType == MATH_TYPE_ChannelAct)
     {
