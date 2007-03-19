@@ -464,6 +464,8 @@ HeccerVMDumpOperators
 
 	phciCurrent = HeccerCommandInfoLookup(phct, iCommand);
 
+	int iCommandLength = phciCurrent->iLength;
+
 	//- print counter
 
 	sprintf(pcOutput1, "%5.5i ::", i / sizeof(int));
@@ -486,7 +488,7 @@ HeccerVMDumpOperators
 
 	    //- if operand length is valid
 
-	    if (phciCurrent->iLength >= 2)
+	    if (iCommandLength >= 2)
 	    {
 		if (phciCurrent->pcFormat)
 		{
@@ -495,7 +497,7 @@ HeccerVMDumpOperators
 		    char pc[100];
 		    int j;
 
-		    for (j = sizeof(int) ; j < phciCurrent->iLength ;)
+		    for (j = sizeof(int) ; j < iCommandLength ;)
 		    {
 			void *pv = (void *)&piOperators[(i + j) / sizeof(int)];
 
@@ -553,7 +555,7 @@ HeccerVMDumpOperators
 
 		    int j;
 
-		    for (j = sizeof(int) ; j < phciCurrent->iLength ; j += sizeof(int))
+		    for (j = sizeof(int) ; j < iCommandLength ; j += sizeof(int))
 		    {
 			int iOperand;
 
@@ -604,9 +606,9 @@ HeccerVMDumpOperators
 
 	//- add size of operands
 
-	if (phciCurrent && phciCurrent->iLength >= 2)
+	if (phciCurrent && iCommandLength >= 2)
 	{
-	    i += phciCurrent->iLength;
+	    i += iCommandLength;
 	}
 	else
 	{
