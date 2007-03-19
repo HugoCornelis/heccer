@@ -116,6 +116,10 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 static
 int
+solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static
@@ -972,6 +976,206 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 static
 int
+solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- get current math component
+
+    struct MathComponent * pmc = pmcd->pmc;
+
+    struct ChannelPersistentSteadyStateTau * pcpst
+	= (struct ChannelPersistentSteadyStateTau *)pmc;
+
+    //- if conceptual gate
+
+    if (instanceof_conceptual_gate(phsle))
+    {
+	if (pmcd->iStatus == 1)
+	{
+	    //- initialize table pointer
+
+	    pcpst->iTable = -1;
+
+	    //- get power
+
+	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    int iPower = dPower;
+	    pcpst->iPower = iPower;
+
+	    //- get initial states
+
+	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    pcpst->dInitActivation = dInitActivation;
+
+	    if (dPower == FLT_MAX
+		|| dInitActivation == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- if gate kinetic
+
+    else if (instanceof_gate_kinetic(phsle))
+    {
+	if (pmcd->iStatus == 2)
+	{
+	    struct single_steady_state * pss = &pcpst->ss;
+
+	    //- get Nominator
+
+	    double dNominator = SymbolParameterResolveValue(phsle, "dNominator", ptstr->ppist);
+
+	    pss->dNominator = dNominator;
+
+	    //- get Multiplier1
+
+	    double dMultiplier1 = SymbolParameterResolveValue(phsle, "dMultiplier1", ptstr->ppist);
+
+	    pss->dMultiplier1 = dMultiplier1;
+
+	    //- get MembraneOffset1
+
+	    double dMembraneOffset1 = SymbolParameterResolveValue(phsle, "dMembraneOffset1", ptstr->ppist);
+
+	    pss->dMembraneOffset1 = dMembraneOffset1;
+
+	    //- get TauDenormalizer1
+
+	    double dTauDenormalizer1 = SymbolParameterResolveValue(phsle, "dTauDenormalizer1", ptstr->ppist);
+
+	    pss->dTauDenormalizer1 = dTauDenormalizer1;
+
+	    //- get Multiplier2
+
+	    double dMultiplier2 = SymbolParameterResolveValue(phsle, "dMultiplier2", ptstr->ppist);
+
+	    pss->dMultiplier2 = dMultiplier2;
+
+	    //- get MembraneOffset2
+
+	    double dMembraneOffset2 = SymbolParameterResolveValue(phsle, "dMembraneOffset2", ptstr->ppist);
+
+	    pss->dMembraneOffset2 = dMembraneOffset2;
+
+	    //- get TauDenormalizer2
+
+	    double dTauDenormalizer2 = SymbolParameterResolveValue(phsle, "dTauDenormalizer2", ptstr->ppist);
+
+	    pss->dTauDenormalizer2 = dTauDenormalizer2;
+
+	    if (dNominator == FLT_MAX
+		|| dMultiplier1 == FLT_MAX
+		|| dMembraneOffset1 == FLT_MAX
+		|| dTauDenormalizer1 == FLT_MAX
+		|| dMultiplier2 == FLT_MAX
+		|| dMembraneOffset2 == FLT_MAX
+		|| dTauDenormalizer2 == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else if (pmcd->iStatus == 3)
+	{
+	    struct single_time_constant * ptc = &pcpst->tc;
+
+	    //- get Nominator
+
+	    double dNominator = SymbolParameterResolveValue(phsle, "dNominator", ptstr->ppist);
+
+	    ptc->dNominator = dNominator;
+
+	    //- get DeNominatorOffset
+
+	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "dDeNominatorOffset", ptstr->ppist);
+
+	    ptc->dDeNominatorOffset = dDeNominatorOffset;
+
+	    //- get MembraneOffset
+
+	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "dMembraneOffset", ptstr->ppist);
+
+	    ptc->dMembraneOffset = dMembraneOffset;
+
+	    //- get TauDenormalizer
+
+	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "dTauDenormalizer", ptstr->ppist);
+
+	    ptc->dTauDenormalizer = dTauDenormalizer;
+
+	    if (dNominator == FLT_MAX
+		|| dDeNominatorOffset == FLT_MAX
+		|| dMembraneOffset == FLT_MAX
+		|| dTauDenormalizer == FLT_MAX)
+	    {
+		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+	}
+	else
+	{
+	    pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- otherwise
+
+    else
+    {
+	//- an error
+
+	pmcd->iStatus = STATUS_UNKNOWN_TYPE;
+
+	iResult = TSTR_PROCESSOR_ABORT;
+    }
+
+    //- if no error
+
+    if (pmcd->iStatus > 0)
+    {
+	//- increment the status to indicate what component we have processed
+
+	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 4)
+	{
+	    pmcd->iStatus = 1;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static
+int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
@@ -1080,6 +1284,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     case MATH_TYPE_ChannelActConc:
     case MATH_TYPE_ChannelActInact:
     case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
+    case MATH_TYPE_ChannelPersistentSteadyStateTau:
     {
 	//- get maximal conductance
 
@@ -1128,6 +1333,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcpsdt->dReversalPotential = dReversalPotential;
 
 	    pcpsdt->iPool = -1;
+	}
+	else if (iType == MATH_TYPE_ChannelPersistentSteadyStateTau)
+	{
+	    struct ChannelPersistentSteadyStateTau * pcpst = (struct ChannelPersistentSteadyStateTau *)pmc;
+
+	    pcpst->dMaximalConductance = dMaximalConductance;
+
+	    pcpst->dReversalPotential = dReversalPotential;
+
+	    pcpst->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
 	{
@@ -1328,30 +1543,6 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	struct ChannelSteadyStateSteppedTau *pcsst
 	    = (struct ChannelSteadyStateSteppedTau *)pmc;
-
-	//- advance to the next math component
-
-	pmcd->pmc = MathComponentNext(pmcd->pmc);
-
-	pmcd->iCurrentType++;
-
-	//t not implemented
-
-	//t segv
-
-	((int *)0)[0] = 0;
-
-	break;
-    }
-
-    //- for a persistent channel given as steady state and tau
-
-    case MATH_TYPE_ChannelPersistentSteadyStateTau:
-    {
-	//- get math component data
-
-	struct ChannelPersistentSteadyStateTau *pcpst
-	    = (struct ChannelPersistentSteadyStateTau *)pmc;
 
 	//- advance to the next math component
 
@@ -1953,7 +2144,7 @@ Type2Processor(int iType)
     }
     else if (iType == MATH_TYPE_ChannelPersistentSteadyStateTau)
     {
-/* 	pfResult = solver_channel_persistent_steadystate_tau_processor; */
+	pfResult = solver_channel_persistent_steadystate_tau_processor;
     }
     else if (iType == MATH_TYPE_ChannelPersistentSteadyStateDualTau)
     {

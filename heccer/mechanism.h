@@ -398,7 +398,7 @@ struct ChannelPersistentSteadyStateTau
 
     //m steady state definition
 
-    struct
+    struct single_steady_state
     {
 	//m 1: nominator
 
@@ -432,7 +432,7 @@ struct ChannelPersistentSteadyStateTau
 
     //m time constant definition
 
-    struct
+    struct single_time_constant
     {
 	//m 1: nominator
 
