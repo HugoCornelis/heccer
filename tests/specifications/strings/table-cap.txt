@@ -245,9 +245,7 @@ Mechanism operations
 00007 :: CONCEPTGATE 0 1 (nil)							 0.761231
 00011 :: CONCEPTGATE 1 1 (nil)							 0.761231
 00015 :: UPDATECOMPARTMENTCURRENT
-00016 :: REGISTERCHANNELCURRENT
-00017 :: FLUXPOOL							 0
-00018 :: FINISH
+00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.0002)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
@@ -500,9 +498,7 @@ Mechanism operations
 00007 :: CONCEPTGATE 0 1 (nil)							 0.56158
 00011 :: CONCEPTGATE 1 1 (nil)							 0.761237
 00015 :: UPDATECOMPARTMENTCURRENT
-00016 :: REGISTERCHANNELCURRENT
-00017 :: FLUXPOOL							 1.61291e-10
-00018 :: FINISH
+00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.0002)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)

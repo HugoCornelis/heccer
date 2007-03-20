@@ -100,7 +100,7 @@ struct ChannelActInact caiCaP =
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
-    1,
+    -1,
 
     //m activation description
 
