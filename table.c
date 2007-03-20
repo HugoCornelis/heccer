@@ -33,7 +33,7 @@ static
 int
 HeccerTabulatedGateNew
 (struct Heccer *pheccer,
- char *pcParameters,
+ void *pvParameters,
  int iSize,
  double dStart,
  double dEnd,
@@ -1146,7 +1146,7 @@ static
 int
 HeccerTabulatedGateNew
 (struct Heccer *pheccer,
- char *pcParameters,
+ void *pvParameters,
  int iSize,
  double dStart,
  double dEnd,

@@ -85,7 +85,7 @@ struct HeccerTabulatedGate
 
 //d maximum number of tabulated gates
 
-#define HECCER_TABULATED_GATES_MAX 20
+#define HECCER_TABULATED_GATES_MAX 100
 
 struct TabulatedGateTable
 {
