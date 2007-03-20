@@ -159,7 +159,7 @@ my $test
 						   #! confident in gcc's IEEE semantic compliance, than in perl's.  Not sure though.  This difference is
 						   #! 'rounded away' and not visible in the tests output.
 
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/tensizep.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/tensizesp.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },

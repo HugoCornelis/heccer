@@ -153,7 +153,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are ten passive compartments with different properties and injected current solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/tensizep.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/tensizesp.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
