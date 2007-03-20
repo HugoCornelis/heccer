@@ -97,7 +97,7 @@ struct ChannelSteadyStateSteppedTau csstKdr =
 
     //m maximal conductance when all channels are permissive
 
-    4.184786349e-07,
+    1.67392e-05,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 

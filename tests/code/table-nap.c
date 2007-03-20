@@ -96,7 +96,7 @@ struct ChannelAct caNaP =
 
     //m maximal conductance when all channels are permissive
 
-    0.0002092393115,
+    2.789857767e-08,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
