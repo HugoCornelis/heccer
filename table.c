@@ -31,7 +31,13 @@ HeccerTableDump
 
 static
 int
-HeccerTabulatedGateNew(struct Heccer *pheccer, double dStart, double dEnd, int iEntries);
+HeccerTabulatedGateNew
+(struct Heccer *pheccer,
+ char *pcParameters,
+ int iSize,
+ double dStart,
+ double dEnd,
+ int iEntries);
 
 
 /// **************************************************************************
@@ -136,7 +142,7 @@ HeccerDiscretizeBasalActivator
     double dEnd = pheccer->ho.dBasalActivatorEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -196,7 +202,7 @@ HeccerDiscretizeGateConcept
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -414,7 +420,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -425,7 +431,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
     pcpsdt->iFirstTable = i;
 
-    int j = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int j = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (j == -1)
     {
@@ -595,7 +601,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -732,7 +738,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -743,7 +749,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
     pcsst->iFirstTable = i;
 
-    int j = HeccerTabulatedGateNew(pheccer, dStart, dEnd, iEntries);
+    int j = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
 
     if (j == -1)
     {
@@ -1138,7 +1144,13 @@ HeccerTablesDump
 
 static
 int
-HeccerTabulatedGateNew(struct Heccer *pheccer, double dStart, double dEnd, int iEntries)
+HeccerTabulatedGateNew
+(struct Heccer *pheccer,
+ char *pcParameters,
+ int iSize,
+ double dStart,
+ double dEnd,
+ int iEntries)
 {
     if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
     {
