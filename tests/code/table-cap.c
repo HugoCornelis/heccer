@@ -96,7 +96,7 @@ struct ChannelActInact caiCaP =
 
     //m maximal conductance when all channels are permissive
 
-    1.7546722963501793e-09,
+    1.57921e-08,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
