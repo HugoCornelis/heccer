@@ -2002,6 +2002,14 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		iType = MATH_TYPE_ChannelSteadyStateSteppedTau;
 	    }
+	    else if (strncasecmp(pcName, "kc", strlen("kc")) == 0
+		     || strncasecmp(pcName, "k2", strlen("k2")) == 0)
+	    {
+		//t when the concen was not bound, the test above fails.
+		//t need a separate name for the concen gate or so
+
+		iType = MATH_TYPE_ChannelActConc;
+	    }
 	    else
 	    {
 		//- is an activating - inactivating channel
