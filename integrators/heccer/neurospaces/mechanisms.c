@@ -1578,6 +1578,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     case MATH_TYPE_ChannelActInact:
     case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
     case MATH_TYPE_ChannelPersistentSteadyStateTau:
+    case MATH_TYPE_ChannelSteadyStateSteppedTau:
     {
 	//- get maximal conductance
 
@@ -1636,6 +1637,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcpst->dReversalPotential = dReversalPotential;
 
 	    pcpst->iPool = -1;
+	}
+	else if (iType == MATH_TYPE_ChannelSteadyStateSteppedTau)
+	{
+	    struct ChannelSteadyStateSteppedTau * pcsst = (struct ChannelSteadyStateSteppedTau *)pmc;
+
+	    pcsst->dMaximalConductance = dMaximalConductance;
+
+	    pcsst->dReversalPotential = dReversalPotential;
+
+	    pcsst->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
 	{
@@ -1828,30 +1839,6 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	pmcd->pmc = MathComponentNext(pmcd->pmc);
 
 	pmcd->iCurrentType++;
-
-	break;
-    }
-
-    //- for a channel given as steady state and stepped tau
-
-    case MATH_TYPE_ChannelSteadyStateSteppedTau:
-    {
-	//- get math component data
-
-	struct ChannelSteadyStateSteppedTau *pcsst
-	    = (struct ChannelSteadyStateSteppedTau *)pmc;
-
-	//- advance to the next math component
-
-	pmcd->pmc = MathComponentNext(pmcd->pmc);
-
-	pmcd->iCurrentType++;
-
-	//t not implemented
-
-	//t segv
-
-	((int *)0)[0] = 0;
 
 	break;
     }
