@@ -1664,6 +1664,10 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 		pcac->pac.ac.iActivator = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
 	    }
+	    else
+	    {
+		pcac->pac.ac.iActivator = -1;
+	    }
 	}
 	else
 	{
