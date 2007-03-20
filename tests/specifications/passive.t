@@ -23,11 +23,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/singlep',
+				command => 'tests/code/singlep',
 				command_tests => [
 						  {
 						   description => "Is a single passive compartment solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/singlep.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/singlep.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -37,11 +37,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/doublep',
+				command => 'tests/code/doublep',
 				command_tests => [
 						  {
 						   description => "Are two passive compartments solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/doublep.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/doublep.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -51,11 +51,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/triplep',
+				command => 'tests/code/triplep',
 				command_tests => [
 						  {
 						   description => "Are three passive compartments solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/triplep.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/triplep.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -65,11 +65,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/fork3p',
+				command => 'tests/code/fork3p',
 				command_tests => [
 						  {
 						   description => "Is a fork of three passive compartments solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/fork3p.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork3p.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -79,11 +79,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/fork4p1',
+				command => 'tests/code/fork4p1',
 				command_tests => [
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, first alternative ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/fork4p1.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork4p1.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -93,11 +93,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/fork4p2',
+				command => 'tests/code/fork4p2',
 				command_tests => [
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, second alternative ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/fork4p2.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork4p2.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -107,11 +107,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/fork4p3',
+				command => 'tests/code/fork4p3',
 				command_tests => [
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, third alternative ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/fork4p3.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork4p3.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -121,11 +121,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/c1c2p1',
+				command => 'tests/code/c1c2p1',
 				command_tests => [
 						  {
 						   description => "Are two passive compartments with injected current solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/c1c2p1.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/c1c2p1.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -135,11 +135,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/c1c2p2',
+				command => 'tests/code/c1c2p2',
 				command_tests => [
 						  {
 						   description => "Are two passive compartments with asymetric properties and injected current solved correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/c1c2p2.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/c1c2p2.txt`, ],
 						   timeout => 5,
 						   write => undef,
 						  },
@@ -149,17 +149,11 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/glue/swig/perl/tensizesp',
+				command => 'tests/code/tensizesp',
 				command_tests => [
 						  {
 						   description => "Are ten passive compartments with different properties and injected current solved correctly ?",
-
-						   #! note that inspection with the debugger reveals that after intermediary initialization the capacitance
-						   #! of the next to last compartment is different between tensizesp.c and tensizesp.  I am slightly more
-						   #! confident in gcc's IEEE semantic compliance, than in perl's.  Not sure though.  This difference is
-						   #! 'rounded away' and not visible in the tests output.
-
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/tensizep.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/tensizep.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },

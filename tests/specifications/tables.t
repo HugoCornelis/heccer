@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, persistent calcium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-cap.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-cap.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -33,7 +33,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, calcium t-type gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-cat.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-cat.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -47,7 +47,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, K2 potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-k2.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-k2.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -61,7 +61,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-ka.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-ka.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -75,7 +75,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kc.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-kc.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -89,7 +89,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, delayed rectifier potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kdr.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-kdr.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -103,7 +103,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, anomalous rectifier potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-kh.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-kh.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -117,7 +117,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, muscarinic potassium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-km.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-km.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -131,7 +131,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple sodium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-naf.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-naf.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -145,7 +145,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, persistent sodium gates ?",
-						   read => [ `cat $::config->{core_directory}/tests/library/strings/table-nap.txt`, ],
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-nap.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },

@@ -66,7 +66,7 @@ BEGIN
 
     if (!exists $config->{tests_directory})
     {
-	$config->{tests_directory} = "${core_directory}tests/library";
+	$config->{tests_directory} = "${core_directory}tests/specifications";
     }
 
     unshift @INC, $config->{tests_directory};
@@ -622,7 +622,7 @@ sub test_library_construct
 
     my $library = $0;
 
-    $library =~ s/$program_name$/library/;
+    $library =~ s/$program_name$/specifications/;
 
     my $test_modules
 	= [
