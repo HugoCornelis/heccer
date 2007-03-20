@@ -96,7 +96,7 @@ struct ChannelActConc cacK2 =
 
     //m maximal conductance when all channels are permissive
 
-    2.80747571e-07,
+    1.36865e-09,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
