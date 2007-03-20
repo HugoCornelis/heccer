@@ -872,10 +872,20 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "dSecondInitActivation", ptstr->ppist);
 	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
 
+	    //- get steady states
+
+	    double dFirstSteadyState = SymbolParameterResolveValue(phsle, "dFirstSteadyState", ptstr->ppist);
+	    pcpsdt->dFirstSteadyState = dFirstSteadyState;
+
+	    double dSecondSteadyState = SymbolParameterResolveValue(phsle, "dSecondSteadyState", ptstr->ppist);
+	    pcpsdt->dSecondSteadyState = dSecondSteadyState;
+
 	    if (dFirstPower == FLT_MAX
 		|| dFirstInitActivation == FLT_MAX
+		|| dFirstSteadyState == FLT_MAX
 		|| dSecondPower == FLT_MAX
-		|| dSecondInitActivation == FLT_MAX)
+		|| dSecondInitActivation == FLT_MAX
+		|| dSecondSteadyState == FLT_MAX)
 	    {
 		pmcd->iStatus = STATUS_UNRESOLVABLE_PARAMETERS;
 
