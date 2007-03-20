@@ -208,7 +208,7 @@ struct ChannelActConc cacKC =
 
 	    //m is activated by the output of this mechanism, must be filled in
 
-	    1,
+	    -1,
 	},
     },
 };

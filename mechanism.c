@@ -376,13 +376,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iMathComponentActivator = pcac->pac.ac.iActivator;
 
-		    //- convert math component to mat number, convert mat number to mat addressable
+		    double *pdState = NULL;
 
-		    int iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator] : -1;
+		    if (iMathComponentActivator != -1)
+		    {
+			//- convert math component to mat number, convert mat number to mat addressable
 
-		    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+			int iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator] : -1;
 
-		    double *pdState = (double *)iMatsActivator;
+			//! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			pdState = (double *)iMatsActivator;
+		    }
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower, pdState);
 

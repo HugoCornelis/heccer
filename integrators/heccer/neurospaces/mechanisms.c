@@ -2362,16 +2362,16 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		pcac->pac.ac.iActivator = iActivator;
 	    }
 
-	    //- or
+/* 	    //- or */
 
-	    else
-	    {
-		//- an error
+/* 	    else */
+/* 	    { */
+/* 		//- an error */
 
-		pmcd->iStatus = STATUS_CONSISTENCY;
+/* 		pmcd->iStatus = STATUS_CONSISTENCY; */
 
-		iResult = FALSE;
-	    }
+/* 		iResult = FALSE; */
+/* 	    } */
 
 	    break;
 	}

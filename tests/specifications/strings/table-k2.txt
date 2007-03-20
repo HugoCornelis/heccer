@@ -240,7 +240,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 1.0002
-00001 :: INITIALIZECHANNEL 85 2.80748e-07
+00001 :: INITIALIZECHANNEL -0.085 2.80748e-07
 00006 :: LOADVOLTAGETABLE
 00007 :: CONCEPTGATE 0 1 (nil)							 0.0635319
 00011 :: CONCEPTGATE 1 2 (nil)							 0.00990099
@@ -493,7 +493,7 @@ Compartment operations
 Mechanism operations
 -----
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 1.0002
-00001 :: INITIALIZECHANNEL 85 2.80748e-07
+00001 :: INITIALIZECHANNEL -0.085 2.80748e-07
 00006 :: LOADVOLTAGETABLE
 00007 :: CONCEPTGATE 0 1 (nil)							 0.177088
 00011 :: CONCEPTGATE 1 2 (nil)							 0.0102142
@@ -502,4 +502,4 @@ Mechanism operations
 VM Diagonals (pdDiagonals[0]) : (1.0002)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.0664719)
+VM Membrane Potentials (pdVms[0]) : (-0.0680052)
