@@ -92,7 +92,7 @@ struct ChannelActConc cacKC =
 
     //m reversal potential
 
-    85,
+    -0.085,
 
     //m maximal conductance when all channels are permissive
 
