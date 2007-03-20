@@ -1213,13 +1213,13 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    //- get power
 
-	    double dFirstPower = SymbolParameterResolveValue(phsle, "iFirstPower", ptstr->ppist);
+	    double dFirstPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
 	    int iFirstPower = dFirstPower;
 	    pcpsdt->iFirstPower = iFirstPower;
 
 	    //- get initial state
 
-	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, "dFirstInitActivation", ptstr->ppist);
+	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
 	    pcpsdt->dFirstInitActivation = dFirstInitActivation;
 
 	    if (dFirstPower == FLT_MAX
@@ -1238,13 +1238,13 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    //- get power
 
-	    double dSecondPower = SymbolParameterResolveValue(phsle, "iSecondPower", ptstr->ppist);
+	    double dSecondPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
 	    int iSecondPower = dSecondPower;
 	    pcpsdt->iSecondPower = iSecondPower;
 
 	    //- get initial state
 
-	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "dSecondInitActivation", ptstr->ppist);
+	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
 	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
 
 	    if (dSecondPower == FLT_MAX
@@ -1454,7 +1454,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	pmcd->iStatus++;
 
-	if (pmcd->iStatus == 4)
+	if (pmcd->iStatus == 11)
 	{
 	    pmcd->iStatus = 1;
 	}
@@ -2306,6 +2306,27 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	switch (iType)
 	{
+	case MATH_TYPE_ChannelAct:
+	{
+	    struct ChannelAct * pca = (struct ChannelAct *)pmc;
+
+	    //- if channel in contributors registry
+
+	    pca->iPool = ConnectionSource2Target(pmcd, pmc);
+
+	    int iPoolSerial = pca->iPool;
+
+	    if (iPoolSerial != -1)
+	    {
+		//- translate the contributee serial
+
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+		pca->iPool = iPoolIndex;
+	    }
+
+	    break;
+	}
 	case MATH_TYPE_ChannelActInact:
 	{
 	    struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
@@ -2323,6 +2344,69 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
 
 		pcai->iPool = iPoolIndex;
+	    }
+
+	    break;
+	}
+	case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
+	{
+	    struct ChannelPersistentSteadyStateDualTau * pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pmc;
+
+	    //- if channel in contributors registry
+
+	    pcpsdt->iPool = ConnectionSource2Target(pmcd, pmc);
+
+	    int iPoolSerial = pcpsdt->iPool;
+
+	    if (iPoolSerial != -1)
+	    {
+		//- translate the contributee serial
+
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+		pcpsdt->iPool = iPoolIndex;
+	    }
+
+	    break;
+	}
+	case MATH_TYPE_ChannelPersistentSteadyStateTau:
+	{
+	    struct ChannelPersistentSteadyStateTau * pcpst = (struct ChannelPersistentSteadyStateTau *)pmc;
+
+	    //- if channel in contributors registry
+
+	    pcpst->iPool = ConnectionSource2Target(pmcd, pmc);
+
+	    int iPoolSerial = pcpst->iPool;
+
+	    if (iPoolSerial != -1)
+	    {
+		//- translate the contributee serial
+
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+		pcpst->iPool = iPoolIndex;
+	    }
+
+	    break;
+	}
+	case MATH_TYPE_ChannelSteadyStateSteppedTau:
+	{
+	    struct ChannelSteadyStateSteppedTau * pcsst = (struct ChannelSteadyStateSteppedTau *)pmc;
+
+	    //- if channel in contributors registry
+
+	    pcsst->iPool = ConnectionSource2Target(pmcd, pmc);
+
+	    int iPoolSerial = pcsst->iPool;
+
+	    if (iPoolSerial != -1)
+	    {
+		//- translate the contributee serial
+
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+		pcsst->iPool = iPoolIndex;
 	    }
 
 	    break;
