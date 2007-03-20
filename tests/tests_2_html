@@ -63,7 +63,7 @@ BEGIN
 
     if (!exists $config->{tests_directory})
     {
-	$config->{tests_directory} = "${core_directory}tests/library";
+	$config->{tests_directory} = "${core_directory}tests/specifications";
     }
 
     unshift @INC, $config->{tests_directory};
