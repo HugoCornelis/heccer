@@ -28,11 +28,14 @@ BEGIN
 
     if (!defined $config)
     {
-	$config = do "$ENV{srcdir}/tests.config";
+	if ($ENV{srcdir})
+	{
+	    $config = do "$ENV{srcdir}/tests.config";
 
-	# register that we are running from automake
+	    # register that we are running from automake
 
-	$test_mode = 'automake';
+	    $test_mode = 'automake';
+	}
     }
 
     if (!defined $config)
@@ -724,10 +727,10 @@ sub test_library_expand
 	     },
 	    );
 
-    #t note that this can return undef for boundary conditions,
-    #t e.g. when no test definitions are found.
+    #t for an empty array as content, the transformator returns an
+    #t undef, this is a bug that still needs fixing.
 
-    my $tests = $transformator->transform();
+    my $tests = $transformator->transform() || [];
 
     $tests
 	= [
