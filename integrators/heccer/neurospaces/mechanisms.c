@@ -2280,6 +2280,13 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	    free(mcd.ppiConnectors);
 	}
+
+	if (mcd.iStatus < 0)
+	{
+	    fprintf(stderr, "cellsolver_getmathcomponents() returned error code %i\n", mcd.iStatus);
+	    fprintf(stderr, "last processed mathcomponent is %i\n", mcd.iCurrentType);
+	    fprintf(stderr, "external error return is %i\n", iResult);
+	}
     }
     else
     {
