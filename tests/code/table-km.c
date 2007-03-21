@@ -115,60 +115,61 @@ struct ChannelPersistentSteadyStateTau csstKM =
 
     0.03540844397,
 
-    //m steady state definition
-
     {
-	//m 1: nominator
+	//m steady state definition
 
-	0.2,
+	{
+	    //m 1: nominator
 
-	//m 2: denominator multiplier 1
+	    0.2,
 
-	3.3,
+	    //m 2: denominator multiplier 1
 
-	//m 5: membrane offset 1
+	    3.3,
 
-	0.035,
+	    //m 5: membrane offset 1
 
-	//m 6: denormalized time constant 1
+	    0.035,
 
-	0.02,
+	    //m 6: denormalized time constant 1
 
-	//m 2: denominator multiplier 2
+	    0.02,
 
-	1.0,
+	    //m 2: denominator multiplier 2
 
-	//m 5: membrane offset 2
+	    1.0,
 
-	0.035,
+	    //m 5: membrane offset 2
 
-	//m 6: denormalized time constant 2
+	    0.035,
 
-	-0.02,
+	    //m 6: denormalized time constant 2
 
+	    -0.02,
+
+	},
+
+	//m time constant definition
+
+	{
+	    //m 1: nominator
+
+	    1.0,
+
+	    //m 2: denominator offset
+
+	    1.0,
+
+	    //m 5: membrane offset 1
+
+	    0.035,
+
+	    //m 6: denormalized time constant 1
+
+	    -0.01,
+
+	},
     },
-
-    //m time constant definition
-
-    {
-	//m 1: nominator
-
-	1.0,
-
-	//m 2: denominator offset
-
-	1.0,
-
-	//m 5: membrane offset 1
-
-	0.035,
-
-	//m 6: denormalized time constant 1
-
-	-0.01,
-
-    },
-
 };
 
 

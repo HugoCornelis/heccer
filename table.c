@@ -620,7 +620,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, &pcpst->parameters, sizeof(pcpst->parameters), dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -655,16 +655,16 @@ HeccerChannelPersistentSteadyStateTauTabulate
     for (dx = phtg->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
     {
 	double dA
-	    = (pcpst->ss.dNominator
-	       / ( pcpst->ss.dMultiplier1
-		   * ((exp((dx + pcpst->ss.dMembraneOffset1) / pcpst->ss.dTauDenormalizer1)))
-		   + pcpst->ss.dMultiplier2
-		   * (exp ((dx + pcpst->ss.dMembraneOffset2) / pcpst->ss.dTauDenormalizer2))));
+	    = (pcpst->parameters.ss.dNominator
+	       / ( pcpst->parameters.ss.dMultiplier1
+		   * ((exp((dx + pcpst->parameters.ss.dMembraneOffset1) / pcpst->parameters.ss.dTauDenormalizer1)))
+		   + pcpst->parameters.ss.dMultiplier2
+		   * (exp ((dx + pcpst->parameters.ss.dMembraneOffset2) / pcpst->parameters.ss.dTauDenormalizer2))));
 
 	double dB
-	    = (pcpst->tc.dNominator
-	       / (pcpst->tc.dDeNominatorOffset
-		  + (exp((dx + pcpst->tc.dMembraneOffset) / pcpst->tc.dTauDenormalizer))));
+	    = (pcpst->parameters.tc.dNominator
+	       / (pcpst->parameters.tc.dDeNominatorOffset
+		  + (exp((dx + pcpst->parameters.tc.dMembraneOffset) / pcpst->parameters.tc.dTauDenormalizer))));
 
 	double dForward = dA;
 
@@ -757,7 +757,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
+    int i = HeccerTabulatedGateNew(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters), dStart, dEnd, iEntries);
 
     if (i == -1)
     {
@@ -768,7 +768,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
     pcsst->iFirstTable = i;
 
-    int j = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
+    int j = HeccerTabulatedGateNew(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters), dStart, dEnd, iEntries);
 
     if (j == -1)
     {
@@ -809,28 +809,28 @@ HeccerChannelSteadyStateSteppedTauTabulate
     for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
     {
 	double dA
-	    = (pcsst->ss.first.a.dMultiplier
-	       * (dx + pcsst->ss.first.a.dMembraneDependenceOffset)
-	       / ((exp((dx + pcsst->ss.first.a.dMembraneOffset)
-		       / pcsst->ss.first.a.dTauDenormalizer))
-		  + pcsst->ss.first.a.dDeNominatorOffset));
+	    = (pcsst->ss_parameters.first.a.dMultiplier
+	       * (dx + pcsst->ss_parameters.first.a.dMembraneDependenceOffset)
+	       / ((exp((dx + pcsst->ss_parameters.first.a.dMembraneOffset)
+		       / pcsst->ss_parameters.first.a.dTauDenormalizer))
+		  + pcsst->ss_parameters.first.a.dDeNominatorOffset));
 
 	double dB
-	    = (pcsst->ss.first.b.dMultiplier
-	       * (exp( - (dx + pcsst->ss.first.b.dMembraneDependenceOffset)
-		       / pcsst->ss.first.b.dTauDenormalizer)));
+	    = (pcsst->ss_parameters.first.b.dMultiplier
+	       * (exp( - (dx + pcsst->ss_parameters.first.b.dMembraneDependenceOffset)
+		       / pcsst->ss_parameters.first.b.dTauDenormalizer)));
 
 	double dC
-	    = (pcsst->ss.second.a.dMultiplier
-	       * (dx + pcsst->ss.second.a.dMembraneDependenceOffset)
-	       / ((exp((dx + pcsst->ss.second.a.dMembraneOffset)
-		       / pcsst->ss.second.a.dTauDenormalizer))
-		  + pcsst->ss.second.a.dDeNominatorOffset));
+	    = (pcsst->ss_parameters.second.a.dMultiplier
+	       * (dx + pcsst->ss_parameters.second.a.dMembraneDependenceOffset)
+	       / ((exp((dx + pcsst->ss_parameters.second.a.dMembraneOffset)
+		       / pcsst->ss_parameters.second.a.dTauDenormalizer))
+		  + pcsst->ss_parameters.second.a.dDeNominatorOffset));
 
 	double dD
-	       = (pcsst->ss.second.b.dMultiplier
-		  * (exp( - (dx + pcsst->ss.second.b.dMembraneDependenceOffset)
-			  / pcsst->ss.second.b.dTauDenormalizer)));
+	       = (pcsst->ss_parameters.second.b.dMultiplier
+		  * (exp( - (dx + pcsst->ss_parameters.second.b.dMembraneDependenceOffset)
+			  / pcsst->ss_parameters.second.b.dTauDenormalizer)));
 
 	double dForward = (1.0 / (dA + dB));
 
@@ -860,19 +860,19 @@ HeccerChannelSteadyStateSteppedTauTabulate
     {
 	double dForward;
 
-	if (dx < pcsst->tc.a.dThreshold)
+	if (dx < pcsst->tc_parameters.a.dThreshold)
 	{
-	    dForward = pcsst->tc.a.dLowTarget;
+	    dForward = pcsst->tc_parameters.a.dLowTarget;
 	}
 	else
 	{
-	    dForward = pcsst->tc.a.dHighTarget;
+	    dForward = pcsst->tc_parameters.a.dHighTarget;
 	}
 
 	double dY
-	    = (pcsst->tc.b.dDeNominatorOffset
-	       + (exp((dx + pcsst->tc.b.dMembraneOffset)
-		      / pcsst->tc.b.dTauDenormalizer)));
+	    = (pcsst->tc_parameters.b.dDeNominatorOffset
+	       + (exp((dx + pcsst->tc_parameters.b.dMembraneOffset)
+		      / pcsst->tc_parameters.b.dTauDenormalizer)));
 
 	double dBackward = (1.0 / dY);
 
@@ -1218,6 +1218,13 @@ HeccerTabulatedGateNew
     if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
     {
 	return(-1);
+    }
+
+    //! a protection for the case where you accidently forget to dereference
+
+    if (iSize < 10)
+    {
+	((int *)0)[0] = 0;
     }
 
     //- if we have access to the tabulation parameters

@@ -402,68 +402,71 @@ struct ChannelPersistentSteadyStateTau
 
     double dInitActivation;
 
-    //m steady state definition
-
-    struct single_steady_state
+    struct SteadyStateParameters
     {
-	//m 1: nominator
+	//m steady state definition
 
-	double dNominator;
+	struct single_steady_state
+	{
+	    //m 1: nominator
 
-	//m 2: denominator multiplier 1
+	    double dNominator;
 
-	double dMultiplier1;
+	    //m 2: denominator multiplier 1
 
-	//m 5: membrane offset 1
+	    double dMultiplier1;
 
-	double dMembraneOffset1;
+	    //m 5: membrane offset 1
 
-	//m 6: denormalized time constant 1
+	    double dMembraneOffset1;
 
-	double dTauDenormalizer1;
+	    //m 6: denormalized time constant 1
 
-	//m 2: denominator multiplier 2
+	    double dTauDenormalizer1;
 
-	double dMultiplier2;
+	    //m 2: denominator multiplier 2
 
-	//m 5: membrane offset 2
+	    double dMultiplier2;
 
-	double dMembraneOffset2;
+	    //m 5: membrane offset 2
 
-	//m 6: denormalized time constant 2
+	    double dMembraneOffset2;
 
-	double dTauDenormalizer2;
+	    //m 6: denormalized time constant 2
 
-    } ss;
+	    double dTauDenormalizer2;
 
-    //m time constant definition
+	} ss;
 
-    struct single_time_constant
-    {
-	//m 1: nominator
+	//m time constant definition
 
-	double dNominator;
+	struct single_time_constant
+	{
+	    //m 1: nominator
 
-	//m 2: denominator offset
+	    double dNominator;
 
-	double dDeNominatorOffset;
+	    //m 2: denominator offset
 
-	//m 5: membrane offset 1
+	    double dDeNominatorOffset;
 
-	double dMembraneOffset;
+	    //m 5: membrane offset 1
 
-	//m 6: denormalized time constant 1
+	    double dMembraneOffset;
 
-	double dTauDenormalizer;
+	    //m 6: denormalized time constant 1
 
-    } tc;
+	    double dTauDenormalizer;
 
+	} tc;
+
+    } parameters;
 };
 
 
 //s gate steady state definition
 
-struct DualSteadyState
+struct DualSteadyStateParameters
 {
     //m first kinetiks
 
@@ -521,7 +524,7 @@ struct DualSteadyState
 
 //s gate time constant definition
 
-struct SteppedTimeConstant
+struct SteppedTimeConstantParameters
 {
     //m part a
 
@@ -608,11 +611,11 @@ struct ChannelSteadyStateSteppedTau
 
     //m steady state definition
 
-    struct DualSteadyState ss;
+    struct DualSteadyStateParameters ss_parameters;
 
     //m time constant definition
 
-    struct SteppedTimeConstant tc;
+    struct SteppedTimeConstantParameters tc_parameters;
 };
 
 //s activator concept, mostly related to concentration pools

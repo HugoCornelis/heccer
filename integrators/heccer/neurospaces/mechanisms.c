@@ -1054,7 +1054,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
     {
 	if (pmcd->iStatus == 2)
 	{
-	    struct single_steady_state * pss = &pcpst->ss;
+	    struct single_steady_state * pss = &pcpst->parameters.ss;
 
 	    //- get Nominator
 
@@ -1113,7 +1113,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	}
 	else if (pmcd->iStatus == 3)
 	{
-	    struct single_time_constant * ptc = &pcpst->tc;
+	    struct single_time_constant * ptc = &pcpst->parameters.tc;
 
 	    //- get Nominator
 
@@ -1286,8 +1286,8 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		 || pmcd->iStatus == 6
 		 || pmcd->iStatus == 7)
 	{
-	    struct DualSteadyState * pdtc
-		= &pcpsdt->ss;
+	    struct DualSteadyStateParameters * pdtc
+		= &pcpsdt->ss_parameters;
 
 	    struct dual_steadystate_kinetic * pdsk
 		= ((pmcd->iStatus == 3
@@ -1375,8 +1375,8 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	}
 	else if (pmcd->iStatus == 9)
 	{
-	    struct SteppedTimeConstant * pdtc
-		= &pcpsdt->tc;
+	    struct SteppedTimeConstantParameters * pdtc
+		= &pcpsdt->tc_parameters;
 
 	    //- get threshold
 
@@ -1407,8 +1407,8 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	}
 	else if (pmcd->iStatus == 10)
 	{
-	    struct SteppedTimeConstant * pdtc
-		= &pcpsdt->tc;
+	    struct SteppedTimeConstantParameters * pdtc
+		= &pcpsdt->tc_parameters;
 
 	    //- get DeNominatorOffset
 
