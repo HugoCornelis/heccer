@@ -26,13 +26,13 @@
 
 static struct MathComponentInfo pmci[] =
 {
-    MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[2]) - ((char *)&((struct ChannelActConc *)0)[0]),
-    MATH_TYPE_ChannelAct,		((char *)&((struct ChannelAct *)0)[2]) - ((char *)&((struct ChannelAct *)0)[0]),
-    MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[2]) - ((char *)&((struct ChannelActInact *)0)[0]),
-    MATH_TYPE_ChannelPersistentSteadyStateDualTau,	((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[2]) - ((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[0]),
-    MATH_TYPE_ChannelPersistentSteadyStateTau,	((char *)&((struct ChannelPersistentSteadyStateTau *)0)[2]) - ((char *)&((struct ChannelPersistentSteadyStateTau *)0)[0]),
-    MATH_TYPE_ChannelSteadyStateSteppedTau,	((char *)&((struct ChannelSteadyStateSteppedTau *)0)[2]) - ((char *)&((struct ChannelSteadyStateSteppedTau *)0)[0]),
-    MATH_TYPE_ExponentialDecay,		((char *)&((struct ExponentialDecay *)0)[2]) - ((char *)&((struct ExponentialDecay *)0)[0]),
+    MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[1]) - ((char *)&((struct ChannelActConc *)0)[0]),
+    MATH_TYPE_ChannelAct,		((char *)&((struct ChannelAct *)0)[1]) - ((char *)&((struct ChannelAct *)0)[0]),
+    MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[1]) - ((char *)&((struct ChannelActInact *)0)[0]),
+    MATH_TYPE_ChannelPersistentSteadyStateDualTau,	((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[1]) - ((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[0]),
+    MATH_TYPE_ChannelPersistentSteadyStateTau,	((char *)&((struct ChannelPersistentSteadyStateTau *)0)[1]) - ((char *)&((struct ChannelPersistentSteadyStateTau *)0)[0]),
+    MATH_TYPE_ChannelSteadyStateSteppedTau,	((char *)&((struct ChannelSteadyStateSteppedTau *)0)[1]) - ((char *)&((struct ChannelSteadyStateSteppedTau *)0)[0]),
+    MATH_TYPE_ExponentialDecay,		((char *)&((struct ExponentialDecay *)0)[1]) - ((char *)&((struct ExponentialDecay *)0)[0]),
     -1,	-1,
 };
 
