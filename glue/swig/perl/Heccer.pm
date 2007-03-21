@@ -284,12 +284,6 @@ package Heccer::Component;
 use SwiggableHeccer;
 
 
-#t I would like to be able to use MATH_TYPE_Compartment for the type_numbers here.
-#t
-#t MATH_TYPE_Compartment because of strict subs
-#t SwiggableHeccer::MATH_TYPE_Compartment because of strict subs
-#t Heccerc::MATH_TYPE_Compartment fails because it returns 0 instead of 1.
-
 my $heccer_mapping
     = {
        activator => {
