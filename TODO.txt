@@ -1,5 +1,17 @@
 -*- outline -*-
 
+* kh tabulation is wrong
+
+* kh needs to reset maximal conductance for second gate
+
+* get initial values for gates from neurospaces
+** kdr
+** ka
+** kh
+** nap
+** naf
+
+
 * Revisit the channel definitions to generalize
 The members of the channel structures should be more easily
 understandable, and, as far as possible, be shared between the
