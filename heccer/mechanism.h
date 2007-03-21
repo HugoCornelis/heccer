@@ -290,6 +290,36 @@ struct ChannelAct
 
 };
 
+struct DualTauParameters
+{
+    //m fast component steady state
+
+    double dSteadyState;
+
+    //m tau
+
+    struct dualtaucomponent
+    {
+	//m 1: nominator multiplier
+
+	double dMultiplier;
+
+	//m 2: denominator offset
+
+	double dDeNominatorOffset;
+
+	//m 5: membrane offset
+
+	double dMembraneOffset;
+
+	//m 6: denormalized time constant
+
+	double dTauDenormalizer;
+
+    } tau;
+
+};
+
 struct ChannelPersistentSteadyStateDualTau
 {
     //m administrative overhead
@@ -334,39 +364,9 @@ struct ChannelPersistentSteadyStateDualTau
 
     double dSecondInitActivation;
 
-    //m fast component steady state
+    struct DualTauParameters parameters1;
 
-    double dFirstSteadyState;
-
-    //m slow component steady state
-
-    double dSecondSteadyState;
-
-    //m tau 1
-
-    struct dualtaucomponent
-    {
-	//m 1: nominator multiplier
-
-	double dMultiplier;
-
-	//m 2: denominator offset
-
-	double dDeNominatorOffset;
-
-	//m 5: membrane offset
-
-	double dMembraneOffset;
-
-	//m 6: denormalized time constant
-
-	double dTauDenormalizer;
-
-    } tau1;
-
-    //m tau 2
-
-    struct dualtaucomponent tau2;
+    struct DualTauParameters parameters2;
 
 };
 

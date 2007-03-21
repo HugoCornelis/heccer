@@ -127,54 +127,58 @@ struct ChannelPersistentSteadyStateDualTau csstKH =
 
     0.03607778857,
 
-    //m fast component steady state
-
-    0.0076,
-
-    //m slow component steady state
-
-    0.0368,
-
-    //m tau 1
-
     {
-	//m 1: nominator multiplier
+	//m fast component steady state
 
-	0.8,
+	0.0076,
 
-	//m 2: denominator offset
+	//m tau 1
 
-	1.0,
+	{
+	    //m 1: nominator multiplier
 
-	//m 5: membrane offset
+	    0.8,
 
-	0.082,
+	    //m 2: denominator offset
 
-	//m 6: denormalized time constant
+	    1.0,
 
-	0.007,
+	    //m 5: membrane offset
 
+	    0.082,
+
+	    //m 6: denormalized time constant
+
+	    0.007,
+
+	},
     },
 
-    //m tau 2
-
     {
-	//m 1: nominator multiplier
+	//m slow component steady state
 
-	0.2,
+	0.0368,
 
-	//m 2: denominator offset
+	//m tau 2
 
-	1.0,
+	{
+	    //m 1: nominator multiplier
 
-	//m 5: membrane offset
+	    0.2,
 
-	0.082,
+	    //m 2: denominator offset
 
-	//m 6: denormalized time constant
+	    1.0,
 
-	0.007,
+	    //m 5: membrane offset
 
+	    0.082,
+
+	    //m 6: denormalized time constant
+
+	    0.007,
+
+	},
     },
 
 };

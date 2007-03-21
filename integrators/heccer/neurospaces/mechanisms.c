@@ -875,10 +875,10 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    //- get steady states
 
 	    double dFirstSteadyState = SymbolParameterResolveValue(phsle, "dFirstSteadyState", ptstr->ppist);
-	    pcpsdt->dFirstSteadyState = dFirstSteadyState;
+	    pcpsdt->parameters1.dSteadyState = dFirstSteadyState;
 
 	    double dSecondSteadyState = SymbolParameterResolveValue(phsle, "dSecondSteadyState", ptstr->ppist);
-	    pcpsdt->dSecondSteadyState = dSecondSteadyState;
+	    pcpsdt->parameters2.dSteadyState = dSecondSteadyState;
 
 	    if (dFirstPower == FLT_MAX
 		|| dFirstInitActivation == FLT_MAX
@@ -912,8 +912,8 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	{
 	    struct dualtaucomponent * pdtc
 		= (pmcd->iStatus == 2
-		   ? &pcpsdt->tau1
-		   : &pcpsdt->tau2);
+		   ? &pcpsdt->parameters1.tau
+		   : &pcpsdt->parameters2.tau);
 
 	    //- get Multiplier = 35.0e3
 
