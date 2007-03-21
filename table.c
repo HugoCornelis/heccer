@@ -36,6 +36,11 @@ HeccerTabulatedGateCompareParameters
 
 static
 int
+HeccerTabulatedGateLookup
+(struct Heccer *pheccer, void *pv, size_t iSize);
+
+static
+int
 HeccerTabulatedGateNew
 (struct Heccer *pheccer,
  void *pvParameters,
@@ -147,27 +152,33 @@ HeccerDiscretizeBasalActivator
     double dEnd = pheccer->ho.dBasalActivatorEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i
-	= HeccerTabulatedGateNew
-	  (pheccer,
-	   &pac->parameters,
-	   sizeof(pac->parameters),
-	   dStart,
-	   dEnd,
-	   iEntries);
+    //- lookup the table parameters ...
+
+    int i = HeccerTabulatedGateLookup(pheccer, &pac->parameters, sizeof(pac->parameters));
 
     if (i == -1)
     {
-	return(FALSE);
+	//- ... or create a new table for these parameters
+
+	i = HeccerTabulatedGateNew(pheccer, &pac->parameters, sizeof(pac->parameters), dStart, dEnd, iEntries);
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pac->iTable = i;
+
+	//- fill the table with the discretized gate kinetics
+
+	iResult = iResult && HeccerBasalActivatorTabulate(pac, pheccer);
     }
-
-    //- register the index
-
-    pac->iTable = i;
-
-    //- fill the table with the discretized gate kinetics
-
-    iResult = iResult && HeccerBasalActivatorTabulate(pac, pheccer);
+    else
+    {
+	pac->iTable = i;
+    }
 
     //- return result
 
@@ -214,27 +225,33 @@ HeccerDiscretizeGateConcept
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i
-	= HeccerTabulatedGateNew
-	  (pheccer,
-	   &pgc->parameters,
-	   sizeof(pgc->parameters),
-	   dStart,
-	   dEnd,
-	   iEntries);
+    //- lookup the table parameters ...
+
+    int i = HeccerTabulatedGateLookup(pheccer, &pgc->parameters, sizeof(pgc->parameters));
 
     if (i == -1)
     {
-	return(FALSE);
+	//- ... or create a new table for these parameters
+
+	i = HeccerTabulatedGateNew(pheccer, &pgc->parameters, sizeof(pgc->parameters), dStart, dEnd, iEntries);
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pgc->iTable = i;
+
+	//- fill the table with the discretized gate kinetics
+
+	iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer);
     }
-
-    //- register the index
-
-    pgc->iTable = i;
-
-    //- fill the table with the discretized gate kinetics
-
-    iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer);
+    else
+    {
+	pgc->iTable = i;
+    }
 
     //- return result
 
@@ -439,133 +456,191 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1), dStart, dEnd, iEntries);
+    //- lookup the table parameters ...
+
+    int i = HeccerTabulatedGateLookup(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1));
 
     if (i == -1)
     {
-	return(FALSE);
+	//- ... or create a new table for these parameters
+
+	i = HeccerTabulatedGateNew(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1), dStart, dEnd, iEntries);
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pcpsdt->iFirstTable = i;
+
+	//- get access to the tabulated gate structures
+
+	int iIndex1 = pcpsdt->iFirstTable;
+
+	struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
+
+	//- allocate the small tables
+
+	int iSmallTableSize = pheccer->ho.iSmallTableSize;
+
+	//20;
+
+	//- get step size
+
+	double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
+
+	double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+	//- loop over all entries in the first small table
+
+	double dx;
+
+	for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+	{
+	    double dA = pcpsdt->parameters1.dSteadyState;
+
+	    double dC
+		= (pcpsdt->parameters1.tau.dMultiplier
+		   / (pcpsdt->parameters1.tau.dDeNominatorOffset
+		      + exp((dx + pcpsdt->parameters1.tau.dMembraneOffset)
+			    / pcpsdt->parameters1.tau.dTauDenormalizer)));
+
+	    double dForward1 = dA;
+	    double dBackward1 = dC;
+
+	    //t check the MCAD MMGLT macro to see how it deals with
+	    //t relative errors.  The current implementation is magnitude
+	    //t dependent, and obviously completely add hoc.
+
+	    if (fabs(dForward1) < 1e-17)
+	    {
+		if (dForward1 < 0.0)
+		{
+		    dForward1 = -1e-17;
+		}
+		else
+		{
+		    dForward1 = 1e-17;
+		}
+	    }
+
+	    pd1[i] = dBackward1 / dForward1;
+	    pd2[i] = 1.0 / dForward1;
+	}
+
+	//- interpolate the tables
+
+	double *ppdSources[]
+	    = { pd1, pd2, NULL, };
+	double *ppdDestinations[]
+	    = { phtg1->pdForward, phtg1->pdBackward, NULL, };
+
+	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
+
+	//- free allocated memory
+
+	free(pd1);
+	free(pd2);
+    }
+    else
+    {
+	pcpsdt->iFirstTable = i;
     }
 
-    //- register the index
+    //- lookup the table parameters ...
 
-    pcpsdt->iFirstTable = i;
-
-    int j = HeccerTabulatedGateNew(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2), dStart, dEnd, iEntries);
+    int j = HeccerTabulatedGateLookup(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2));
 
     if (j == -1)
     {
-	return(FALSE);
+	//- ... or create a new table for these parameters
+
+	j = HeccerTabulatedGateNew(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2), dStart, dEnd, iEntries);
+
+	if (j == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pcpsdt->iSecondTable = j;
+
+	int iIndex2 = pcpsdt->iSecondTable;
+
+	struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
+
+	//- allocate the small tables
+
+	int iSmallTableSize = pheccer->ho.iSmallTableSize;
+
+	//20;
+
+	//- get step size
+
+	double dSmallStep = (phtg2->hi.dEnd - phtg2->hi.dStart) / (iSmallTableSize);
+
+	double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+	//- loop over all entries in the first small table
+
+	double dx;
+
+	for (dx = phtg2->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+	{
+	    double dB = pcpsdt->parameters2.dSteadyState;
+
+	    double dD
+		= (pcpsdt->parameters2.tau.dMultiplier
+		   / (pcpsdt->parameters2.tau.dDeNominatorOffset
+		      + exp((dx + pcpsdt->parameters2.tau.dMembraneOffset)
+			    / pcpsdt->parameters2.tau.dTauDenormalizer)));
+
+	    double dForward2 = dB;
+	    double dBackward2 = dD;
+
+	    //t check the MCAD MMGLT macro to see how it deals with
+	    //t relative errors.  The current implementation is magnitude
+	    //t dependent, and obviously completely add hoc.
+
+	    if (fabs(dForward2) < 1e-17)
+	    {
+		if (dForward2 < 0.0)
+		{
+		    dForward2 = -1e-17;
+		}
+		else
+		{
+		    dForward2 = 1e-17;
+		}
+	    }
+
+	    pd3[i] = dBackward2 / dForward2;
+	    pd4[i] = 1.0 / dForward2;
+	}
+
+	//- interpolate the tables
+
+	double *ppdSources[]
+	    = { pd3, pd4, NULL, };
+	double *ppdDestinations[]
+	    = { phtg2->pdForward, phtg2->pdBackward, NULL, };
+
+	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
+
+	//- free allocated memory
+
+	free(pd3);
+	free(pd4);
     }
-
-    //- register the index
-
-    pcpsdt->iSecondTable = j;
-
-    //- get access to the tabulated gate structures
-
-    int iIndex1 = pcpsdt->iFirstTable;
-
-    struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
-
-    int iIndex2 = pcpsdt->iSecondTable;
-
-    struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
-
-    //- allocate the small tables
-
-    int iSmallTableSize = pheccer->ho.iSmallTableSize;
-
-    //20;
-
-    //- get step size
-
-    double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
-
-    double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-
-    //- loop over all entries in the first small table
-
-    double dx;
-
-    for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+    else
     {
-	double dA = pcpsdt->parameters1.dSteadyState;
-	double dB = pcpsdt->parameters2.dSteadyState;
-
-	double dC
-	    = (pcpsdt->parameters1.tau.dMultiplier
-	       / (pcpsdt->parameters1.tau.dDeNominatorOffset
-		  + exp((dx + pcpsdt->parameters1.tau.dMembraneOffset)
-			/ pcpsdt->parameters1.tau.dTauDenormalizer)));
-
-	double dD
-	    = (pcpsdt->parameters2.tau.dMultiplier
-	       / (pcpsdt->parameters2.tau.dDeNominatorOffset
-		  + exp((dx + pcpsdt->parameters2.tau.dMembraneOffset)
-			/ pcpsdt->parameters2.tau.dTauDenormalizer)));
-
-	double dForward1 = dA;
-	double dForward2 = dB;
-	double dBackward1 = dC;
-	double dBackward2 = dD;
-
-	//t check the MCAD MMGLT macro to see how it deals with
-	//t relative errors.  The current implementation is magnitude
-	//t dependent, and obviously completely add hoc.
-
-	if (fabs(dForward1) < 1e-17)
-	{
-	    if (dForward1 < 0.0)
-	    {
-		dForward1 = -1e-17;
-	    }
-	    else
-	    {
-		dForward1 = 1e-17;
-	    }
-	}
-
-	pd1[i] = dBackward1 / dForward1;
-	pd2[i] = 1.0 / dForward1;
-
-	//t check the MCAD MMGLT macro to see how it deals with
-	//t relative errors.  The current implementation is magnitude
-	//t dependent, and obviously completely add hoc.
-
-	if (fabs(dForward2) < 1e-17)
-	{
-	    if (dForward2 < 0.0)
-	    {
-		dForward2 = -1e-17;
-	    }
-	    else
-	    {
-		dForward2 = 1e-17;
-	    }
-	}
-
-	pd3[i] = dBackward2 / dForward2;
-	pd4[i] = 1.0 / dForward2;
+	pcpsdt->iSecondTable = j;
     }
-
-    //- interpolate the tables
-
-    double *ppdSources[]
-	= { pd1, pd2, pd3, pd4, NULL, };
-    double *ppdDestinations[]
-	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, NULL, };
-
-    iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
-
-    //- free allocated memory
-
-    free(pd1);
-    free(pd2);
-    free(pd3);
-    free(pd4);
 
     //- return result
 
@@ -620,89 +695,102 @@ HeccerChannelPersistentSteadyStateTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, &pcpst->parameters, sizeof(pcpst->parameters), dStart, dEnd, iEntries);
+    //- lookup the table parameters ...
+
+    int i = HeccerTabulatedGateLookup(pheccer, &pcpst->parameters, sizeof(pcpst->parameters));
 
     if (i == -1)
     {
-	return(FALSE);
-    }
+	//- ... or create a new table for these parameters
 
-    //- register the index
+	i = HeccerTabulatedGateNew(pheccer, &pcpst->parameters, sizeof(pcpst->parameters), dStart, dEnd, iEntries);
 
-    pcpst->iTable = i;
-
-    //- get access to the tabulated gate structures
-
-    int iIndex = pcpst->iTable;
-
-    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
-
-    //- allocate the small tables
-
-    int iSmallTableSize = pheccer->ho.iSmallTableSize;
-
-    //- get step size
-
-    double dSmallStep = (phtg->hi.dEnd - phtg->hi.dStart) / (iSmallTableSize);
-
-    double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-
-    //- loop over all entries in the first small table
-
-    double dx;
-
-    for (dx = phtg->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
-    {
-	double dA
-	    = (pcpst->parameters.ss.dNominator
-	       / ( pcpst->parameters.ss.dMultiplier1
-		   * ((exp((dx + pcpst->parameters.ss.dMembraneOffset1) / pcpst->parameters.ss.dTauDenormalizer1)))
-		   + pcpst->parameters.ss.dMultiplier2
-		   * (exp ((dx + pcpst->parameters.ss.dMembraneOffset2) / pcpst->parameters.ss.dTauDenormalizer2))));
-
-	double dB
-	    = (pcpst->parameters.tc.dNominator
-	       / (pcpst->parameters.tc.dDeNominatorOffset
-		  + (exp((dx + pcpst->parameters.tc.dMembraneOffset) / pcpst->parameters.tc.dTauDenormalizer))));
-
-	double dForward = dA;
-
-	double dBackward = dB;
-
-	//t check the MCAD MMGLT macro to see how it deals with
-	//t relative errors.  The current implementation is magnitude
-	//t dependent, and obviously completely add hoc.
-
-	if (fabs(dForward) < 1e-17)
+	if (i == -1)
 	{
-	    if (dForward < 0.0)
-	    {
-		dForward = -1e-17;
-	    }
-	    else
-	    {
-		dForward = 1e-17;
-	    }
+	    return(FALSE);
 	}
 
-	pd1[i] = dBackward / dForward;
-	pd2[i] = 1.0 / dForward;
+	//- register the index
+
+	pcpst->iTable = i;
+
+	//- get access to the tabulated gate structures
+
+	int iIndex = pcpst->iTable;
+
+	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
+
+	//- allocate the small tables
+
+	int iSmallTableSize = pheccer->ho.iSmallTableSize;
+
+	//- get step size
+
+	double dSmallStep = (phtg->hi.dEnd - phtg->hi.dStart) / (iSmallTableSize);
+
+	double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+	//- loop over all entries in the first small table
+
+	double dx;
+
+	for (dx = phtg->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+	{
+	    double dA
+		= (pcpst->parameters.ss.dNominator
+		   / ( pcpst->parameters.ss.dMultiplier1
+		       * ((exp((dx + pcpst->parameters.ss.dMembraneOffset1) / pcpst->parameters.ss.dTauDenormalizer1)))
+		       + pcpst->parameters.ss.dMultiplier2
+		       * (exp ((dx + pcpst->parameters.ss.dMembraneOffset2) / pcpst->parameters.ss.dTauDenormalizer2))));
+
+	    double dB
+		= (pcpst->parameters.tc.dNominator
+		   / (pcpst->parameters.tc.dDeNominatorOffset
+		      + (exp((dx + pcpst->parameters.tc.dMembraneOffset) / pcpst->parameters.tc.dTauDenormalizer))));
+
+	    double dForward = dA;
+
+	    double dBackward = dB;
+
+	    //t check the MCAD MMGLT macro to see how it deals with
+	    //t relative errors.  The current implementation is magnitude
+	    //t dependent, and obviously completely add hoc.
+
+	    if (fabs(dForward) < 1e-17)
+	    {
+		if (dForward < 0.0)
+		{
+		    dForward = -1e-17;
+		}
+		else
+		{
+		    dForward = 1e-17;
+		}
+	    }
+
+	    pd1[i] = dBackward / dForward;
+	    pd2[i] = 1.0 / dForward;
+	}
+
+	//- interpolate the tables
+
+	double *ppdSources[]
+	    = { pd1, pd2, NULL, };
+	double *ppdDestinations[]
+	    = { phtg->pdForward, phtg->pdBackward, NULL, };
+
+	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
+
+	//- free allocated memory
+
+	free(pd1);
+	free(pd2);
     }
-
-    //- interpolate the tables
-
-    double *ppdSources[]
-	= { pd1, pd2, NULL, };
-    double *ppdDestinations[]
-	= { phtg->pdForward, phtg->pdBackward, NULL, };
-
-    iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
-
-    //- free allocated memory
-
-    free(pd1);
-    free(pd2);
+    else
+    {
+	pcpst->iTable = i;
+    }
 
     //- return result
 
@@ -757,160 +845,213 @@ HeccerChannelSteadyStateSteppedTauTabulate
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters), dStart, dEnd, iEntries);
+    //- lookup the table parameters ...
+
+    int i = HeccerTabulatedGateLookup(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters));
 
     if (i == -1)
     {
-	return(FALSE);
+	//- ... or create a new table for these parameters
+
+	i = HeccerTabulatedGateNew(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters), dStart, dEnd, iEntries);
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pcsst->iFirstTable = i;
+
+	//- get access to the tabulated gate structures
+
+	int iIndex1 = pcsst->iFirstTable;
+
+	struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
+
+	//- allocate the small tables
+
+	int iSmallTableSize = pheccer->ho.iSmallTableSize;
+
+	//- get step size
+
+	double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
+
+	double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+	//- loop over all entries in the first small table
+
+	double dx;
+
+	for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+	{
+	    double dA
+		= (pcsst->ss_parameters.first.a.dMultiplier
+		   * (dx + pcsst->ss_parameters.first.a.dMembraneDependenceOffset)
+		   / ((exp((dx + pcsst->ss_parameters.first.a.dMembraneOffset)
+			   / pcsst->ss_parameters.first.a.dTauDenormalizer))
+		      + pcsst->ss_parameters.first.a.dDeNominatorOffset));
+
+	    double dB
+		= (pcsst->ss_parameters.first.b.dMultiplier
+		   * (exp( - (dx + pcsst->ss_parameters.first.b.dMembraneDependenceOffset)
+			   / pcsst->ss_parameters.first.b.dTauDenormalizer)));
+
+	    double dC
+		= (pcsst->ss_parameters.second.a.dMultiplier
+		   * (dx + pcsst->ss_parameters.second.a.dMembraneDependenceOffset)
+		   / ((exp((dx + pcsst->ss_parameters.second.a.dMembraneOffset)
+			   / pcsst->ss_parameters.second.a.dTauDenormalizer))
+		      + pcsst->ss_parameters.second.a.dDeNominatorOffset));
+
+	    double dD
+		= (pcsst->ss_parameters.second.b.dMultiplier
+		   * (exp( - (dx + pcsst->ss_parameters.second.b.dMembraneDependenceOffset)
+			   / pcsst->ss_parameters.second.b.dTauDenormalizer)));
+
+	    double dForward = (1.0 / (dA + dB));
+
+	    double dBackward = (dC / (dC + dD));
+
+	    //t check the MCAD MMGLT macro to see how it deals with
+	    //t relative errors.  The current implementation is magnitude
+	    //t dependent, and obviously completely add hoc.
+
+	    if (fabs(dForward) < 1e-17)
+	    {
+		if (dForward < 0.0)
+		{
+		    dForward = -1e-17;
+		}
+		else
+		{
+		    dForward = 1e-17;
+		}
+	    }
+
+	    pd1[i] = dBackward / dForward;
+	    pd2[i] = 1.0 / dForward;
+	}
+
+	//- interpolate the tables
+
+	double *ppdSources[]
+	    = { pd1, pd2, NULL, };
+	double *ppdDestinations[]
+	    = { phtg1->pdForward, phtg1->pdBackward, NULL, };
+
+	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
+
+	//- free allocated memory
+
+	free(pd1);
+	free(pd2);
+    }
+    else
+    {
+	pcsst->iFirstTable = i;
     }
 
-    //- register the index
+    //- lookup the table parameters ...
 
-    pcsst->iFirstTable = i;
-
-    int j = HeccerTabulatedGateNew(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters), dStart, dEnd, iEntries);
+    int j = HeccerTabulatedGateLookup(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters));
 
     if (j == -1)
     {
-	return(FALSE);
-    }
+	//- ... or create a new table for these parameters
 
-    //- register the index
+	j = HeccerTabulatedGateNew(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters), dStart, dEnd, iEntries);
 
-    pcsst->iSecondTable = j;
-
-    //- get access to the tabulated gate structures
-
-    int iIndex1 = pcsst->iFirstTable;
-
-    struct HeccerTabulatedGate *phtg1 = &pheccer->tgt.phtg[iIndex1];
-
-    int iIndex2 = pcsst->iSecondTable;
-
-    struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
-
-    //- allocate the small tables
-
-    int iSmallTableSize = pheccer->ho.iSmallTableSize;
-
-    //- get step size
-
-    double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
-
-    double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-    double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-
-    //- loop over all entries in the first small table
-
-    double dx;
-
-    for (dx = phtg1->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
-    {
-	double dA
-	    = (pcsst->ss_parameters.first.a.dMultiplier
-	       * (dx + pcsst->ss_parameters.first.a.dMembraneDependenceOffset)
-	       / ((exp((dx + pcsst->ss_parameters.first.a.dMembraneOffset)
-		       / pcsst->ss_parameters.first.a.dTauDenormalizer))
-		  + pcsst->ss_parameters.first.a.dDeNominatorOffset));
-
-	double dB
-	    = (pcsst->ss_parameters.first.b.dMultiplier
-	       * (exp( - (dx + pcsst->ss_parameters.first.b.dMembraneDependenceOffset)
-		       / pcsst->ss_parameters.first.b.dTauDenormalizer)));
-
-	double dC
-	    = (pcsst->ss_parameters.second.a.dMultiplier
-	       * (dx + pcsst->ss_parameters.second.a.dMembraneDependenceOffset)
-	       / ((exp((dx + pcsst->ss_parameters.second.a.dMembraneOffset)
-		       / pcsst->ss_parameters.second.a.dTauDenormalizer))
-		  + pcsst->ss_parameters.second.a.dDeNominatorOffset));
-
-	double dD
-	       = (pcsst->ss_parameters.second.b.dMultiplier
-		  * (exp( - (dx + pcsst->ss_parameters.second.b.dMembraneDependenceOffset)
-			  / pcsst->ss_parameters.second.b.dTauDenormalizer)));
-
-	double dForward = (1.0 / (dA + dB));
-
-	double dBackward = (dC / (dC + dD));
-
-	//t check the MCAD MMGLT macro to see how it deals with
-	//t relative errors.  The current implementation is magnitude
-	//t dependent, and obviously completely add hoc.
-
-	if (fabs(dForward) < 1e-17)
+	if (j == -1)
 	{
-	    if (dForward < 0.0)
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pcsst->iSecondTable = j;
+
+	//- get access to the tabulated gate structures
+
+	int iIndex2 = pcsst->iSecondTable;
+
+	struct HeccerTabulatedGate *phtg2 = &pheccer->tgt.phtg[iIndex2];
+
+	//- allocate the small tables
+
+	int iSmallTableSize = pheccer->ho.iSmallTableSize;
+
+	//- get step size
+
+	double dSmallStep = (phtg2->hi.dEnd - phtg2->hi.dStart) / (iSmallTableSize);
+
+	double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+
+	//- loop over all entries in the first small table
+
+	double dx;
+
+	for (dx = phtg2->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+	{
+	    double dForward;
+
+	    if (dx < pcsst->tc_parameters.a.dThreshold)
 	    {
-		dForward = -1e-17;
+		dForward = pcsst->tc_parameters.a.dLowTarget;
 	    }
 	    else
 	    {
-		dForward = 1e-17;
+		dForward = pcsst->tc_parameters.a.dHighTarget;
 	    }
+
+	    double dY
+		= (pcsst->tc_parameters.b.dDeNominatorOffset
+		   + (exp((dx + pcsst->tc_parameters.b.dMembraneOffset)
+			  / pcsst->tc_parameters.b.dTauDenormalizer)));
+
+	    double dBackward = (1.0 / dY);
+
+	    //t check the MCAD MMGLT macro to see how it deals with
+	    //t relative errors.  The current implementation is magnitude
+	    //t dependent, and obviously completely add hoc.
+
+	    if (fabs(dForward) < 1e-17)
+	    {
+		if (dForward < 0.0)
+		{
+		    dForward = -1e-17;
+		}
+		else
+		{
+		    dForward = 1e-17;
+		}
+	    }
+
+	    pd3[i] = dBackward / dForward;
+	    pd4[i] = 1.0 / dForward;
 	}
 
-	pd1[i] = dBackward / dForward;
-	pd2[i] = 1.0 / dForward;
-    }
+	//- interpolate the tables
 
-    for (dx = phtg2->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
+	double *ppdSources[]
+	    = { pd3, pd4, NULL, };
+	double *ppdDestinations[]
+	    = { phtg2->pdForward, phtg2->pdBackward, NULL, };
+
+	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
+
+	//- free allocated memory
+
+	free(pd3);
+	free(pd4);
+    }
+    else
     {
-	double dForward;
-
-	if (dx < pcsst->tc_parameters.a.dThreshold)
-	{
-	    dForward = pcsst->tc_parameters.a.dLowTarget;
-	}
-	else
-	{
-	    dForward = pcsst->tc_parameters.a.dHighTarget;
-	}
-
-	double dY
-	    = (pcsst->tc_parameters.b.dDeNominatorOffset
-	       + (exp((dx + pcsst->tc_parameters.b.dMembraneOffset)
-		      / pcsst->tc_parameters.b.dTauDenormalizer)));
-
-	double dBackward = (1.0 / dY);
-
-	//t check the MCAD MMGLT macro to see how it deals with
-	//t relative errors.  The current implementation is magnitude
-	//t dependent, and obviously completely add hoc.
-
-	if (fabs(dForward) < 1e-17)
-	{
-	    if (dForward < 0.0)
-	    {
-		dForward = -1e-17;
-	    }
-	    else
-	    {
-		dForward = 1e-17;
-	    }
-	}
-
-	pd3[i] = dBackward / dForward;
-	pd4[i] = 1.0 / dForward;
+	pcsst->iSecondTable = j;
     }
-
-    //- interpolate the tables
-
-    double *ppdSources[]
-	= { pd1, pd2, pd3, pd4, NULL, };
-    double *ppdDestinations[]
-	= { phtg1->pdForward, phtg1->pdBackward, phtg2->pdForward, phtg2->pdBackward, NULL, };
-
-    iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
-
-    //- free allocated memory
-
-    free(pd1);
-    free(pd2);
-    free(pd3);
-    free(pd4);
 
     //- return result
 
@@ -1186,6 +1327,70 @@ HeccerTabulatedGateCompareParameters
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerTabulatedGateLookup()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	pv........: table parameter block.
+///	iSize.....: size of parameter block.
+///
+/// RTN..: int
+///
+///	tabulated gate index, -1 for failure.
+///
+/// DESCR: Allocate a new table.
+///
+/// **************************************************************************
+
+static
+int
+HeccerTabulatedGateLookup
+(struct Heccer *pheccer, void *pv, size_t iSize)
+{
+    //- set default result : not found
+
+    int iResult = -1;
+
+    //! a protection for the case where you accidently forget to dereference
+
+    if (iSize < 10)
+    {
+	((int *)0)[0] = 0;
+    }
+
+    //- loop over all tables
+
+    int i;
+
+    for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++)
+    {
+	//- get pointer to current table
+
+	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[i];
+
+	//- if match
+
+	if (HeccerTabulatedGateCompareParameters(phtg, pv, iSize) == 0)
+	{
+	    //- set table index
+
+	    iResult = i;
+
+	    //- break searching loop
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerTabulatedGateNew()
 ///
 /// ARGS.:
@@ -1218,55 +1423,6 @@ HeccerTabulatedGateNew
     if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
     {
 	return(-1);
-    }
-
-    //! a protection for the case where you accidently forget to dereference
-
-    if (iSize < 10)
-    {
-	((int *)0)[0] = 0;
-    }
-
-    //- if we have access to the tabulation parameters
-
-    if (pvParameters && iSize != -1)
-    {
-	//- find the table in the existing tables
-
-	int iTable = -1;
-
-	//- loop over all tables
-
-	int i;
-
-	for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++)
-	{
-	    //- get pointer to current table
-
-	    phtg = &pheccer->tgt.phtg[i];
-
-	    //- if match
-
-	    if (HeccerTabulatedGateCompareParameters(phtg, pvParameters, iSize) == 0)
-	    {
-		//- set table index
-
-		iTable = i;
-
-		//- break searching loop
-
-		break;
-	    }
-	}
-
-	//- if we found a matching table
-
-	if (iTable != -1)
-	{
-	    //- use this index, no further tabulation necessary
-
-	    return(iTable);
-	}
     }
 
 #define HECCER_STATIC_TABULATED_GATES
