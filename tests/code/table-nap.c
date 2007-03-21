@@ -120,62 +120,64 @@ struct ChannelAct caNaP =
 
 	    -1,
 
-	    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
-
 	    {
-		//m multiplier
+		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-		200.0e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    200.0e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		1.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    1.0,
 
-		-0.018,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    -0.018,
 
-		-16.0e-3,
-	    },
+		    //m denormalized time constant
 
-	    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+		    -16.0e-3,
+		},
 
-	    {
-		//m multiplier
+		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-		25.0e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    25.0e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		1.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    1.0,
 
-		0.058,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    0.058,
 
-		8.0e-3,
+		    //m denormalized time constant
+
+		    8.0e-3,
+		},
 	    },
 	},
     },

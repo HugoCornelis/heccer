@@ -1,26 +1,15 @@
 $files = {
-           '_<glue/swig/perl/main' => [
-                                        {
-                                          'expr' => undef,
-                                          'value' => '1',
-                                          'text' => 'my $heccer
+           '_</usr/local/glue/swig/perl/Heccer.pm' => [
+                                                        {
+                                                          'expr' => undef,
+                                                          'value' => '1',
+                                                          'text' => '    $self->settings($type, $settings);
 ',
-                                          'fname' => 'glue/swig/perl/main',
-                                          'type' => 'user',
-                                          'line' => '79'
-                                        }
-                                      ],
-           '_<glue/swig/perl/active/singlea-naf' => [
-                                                      {
-                                                        'expr' => undef,
-                                                        'value' => '1',
-                                                        'text' => 'require \'main\';
-',
-                                                        'fname' => 'glue/swig/perl/active/singlea-naf',
-                                                        'type' => 'user',
-                                                        'line' => 166
-                                                      }
-                                                    ]
+                                                          'fname' => '/usr/local/glue/swig/perl/Heccer.pm',
+                                                          'type' => 'user',
+                                                          'line' => '623'
+                                                        }
+                                                      ]
          };
 $expr_list = [];
 $eval_saved_text = undef;

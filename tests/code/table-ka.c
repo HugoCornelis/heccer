@@ -120,62 +120,64 @@ struct ChannelActInact caiKA =
 
 	    -1,
 
-	    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
-
 	    {
-		//m multiplier
+		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-		1.40e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    1.40e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		1.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    1.0,
 
-		0.027,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    0.027,
 
-		-12.0e-3,
-	    },
+		    //m denormalized time constant
 
-	    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+		    -12.0e-3,
+		},
 
-	    {
-		//m multiplier
+		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-		0.49e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    0.49e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		1.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    1.0,
 
-		30.0e-3,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    30.0e-3,
 
-		4.0e-3,
+		    //m denormalized time constant
+
+		    4.0e-3,
+		},
 	    },
 	},
     },
@@ -198,62 +200,64 @@ struct ChannelActInact caiKA =
 
 	    -1,
 
-	    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
-
 	    {
-		//m multiplier
+		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-		0.0175e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    0.0175e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		1.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    1.0,
 
-		50.0e-3,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    50.0e-3,
 
-		8.0e-3,
-	    },
+		    //m denormalized time constant
 
-	    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+		    8.0e-3,
+		},
 
-	    {
-		//m multiplier
+		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-		1.3e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    1.3e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		1.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    1.0,
 
-		13.0e-3,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    13.0e-3,
 
-		-10.0e-3,
+		    //m denormalized time constant
+
+		    -10.0e-3,
+		},
 	    },
 	},
     },

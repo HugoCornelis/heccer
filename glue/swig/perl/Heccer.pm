@@ -293,11 +293,20 @@ use SwiggableHeccer;
 my $heccer_mapping
     = {
        activator => {
-		     internal_name => 'Activator',
 		     constructor_settings => {
 					      iTable => -1,
 					     },
+		     internal_name => 'Activator',
+		     translators => {
+				     parameters => {
+						    source => 'activator_parameters',
+						    target => 'parameters',
+						   },
+				    },
 		    },
+       activator_parameters => {
+				internal_name => 'ActivatorParameters',
+			       },
        callout => {
 		   internal_name => 'Callout',
 		   translators => {
@@ -381,14 +390,23 @@ my $heccer_mapping
 						},
 			internal_name => 'GateConcept',
 			translators => {
-					backward => {
-						     source => 'gate_kinetic',
-						     target => 'gkBackward',
-						    },
-					forward => {
-						    source => 'gate_kinetic',
-						    target => 'gkForward',
-						   },
+					parameters => {
+						       source => 'gate_concept_parameters',
+						       target => 'parameters',
+						      },
+				       },
+		       },
+       gate_concept_parameters => {
+				   internal_name => 'GateConceptParameters',
+				   translators => {
+						   backward => {
+								source => 'gate_kinetic',
+								target => 'gkBackward',
+							       },
+						   forward => {
+							       source => 'gate_kinetic',
+							       target => 'gkForward',
+							      },
 				       },
 		       },
        gate_kinetic => {

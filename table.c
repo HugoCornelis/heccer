@@ -31,10 +31,15 @@ HeccerTableDump
 
 static
 int
+HeccerTabulatedGateCompareParameters
+(struct HeccerTabulatedGate *phtg, void *pv, size_t iSize);
+
+static
+int
 HeccerTabulatedGateNew
 (struct Heccer *pheccer,
  void *pvParameters,
- int iSize,
+ size_t iSize,
  double dStart,
  double dEnd,
  int iEntries);
@@ -87,7 +92,7 @@ HeccerBasalActivatorTabulate
     {
 	//- compute steady state
 
-	double dEquilibrium = 1 / (1 + (pac->dBasalLevel / dx));
+	double dEquilibrium = 1 / (1 + (pac->parameters.dBasalLevel / dx));
 
 	//- fill in forward and backward table
 
@@ -95,9 +100,9 @@ HeccerBasalActivatorTabulate
 
 	//! time step normalization done elsewhere
 
-	phtg->pdForward[i] = dEquilibrium / pac->dTau;
+	phtg->pdForward[i] = dEquilibrium / pac->parameters.dTau;
 
-	phtg->pdBackward[i] = 1 / pac->dTau;
+	phtg->pdBackward[i] = 1 / pac->parameters.dTau;
     }
 
     //- return result
@@ -142,7 +147,14 @@ HeccerDiscretizeBasalActivator
     double dEnd = pheccer->ho.dBasalActivatorEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
+    int i
+	= HeccerTabulatedGateNew
+	  (pheccer,
+	   &pac->parameters,
+	   sizeof(pac->parameters),
+	   dStart,
+	   dEnd,
+	   iEntries);
 
     if (i == -1)
     {
@@ -202,7 +214,14 @@ HeccerDiscretizeGateConcept
     double dEnd = pheccer->ho.dIntervalEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
-    int i = HeccerTabulatedGateNew(pheccer, NULL, -1, dStart, dEnd, iEntries);
+    int i
+	= HeccerTabulatedGateNew
+	  (pheccer,
+	   &pgc->parameters,
+	   sizeof(pgc->parameters),
+	   dStart,
+	   dEnd,
+	   iEntries);
 
     if (i == -1)
     {
@@ -273,12 +292,12 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdForward)
 	{
-	    double dMultiplier = pgc->gkForward.dMultiplier;
-	    double dMembraneDependence = pgc->gkForward.dMembraneDependence;
-	    int iNominator = pgc->gkForward.iNominator;
-	    double dDeNominatorOffset = pgc->gkForward.dDeNominatorOffset;
-	    double dMembraneOffset = pgc->gkForward.dMembraneOffset;
-	    double dTauDenormalizer = pgc->gkForward.dTauDenormalizer;
+	    double dMultiplier = pgc->parameters.gkForward.dMultiplier;
+	    double dMembraneDependence = pgc->parameters.gkForward.dMembraneDependence;
+	    int iNominator = pgc->parameters.gkForward.iNominator;
+	    double dDeNominatorOffset = pgc->parameters.gkForward.dDeNominatorOffset;
+	    double dMembraneOffset = pgc->parameters.gkForward.dMembraneOffset;
+	    double dTauDenormalizer = pgc->parameters.gkForward.dTauDenormalizer;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
@@ -321,12 +340,12 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdForward && phtg->pdBackward)
 	{
-	    double dMultiplier = pgc->gkBackward.dMultiplier;
-	    double dMembraneDependence = pgc->gkBackward.dMembraneDependence;
-	    int iNominator = pgc->gkBackward.iNominator;
-	    double dDeNominatorOffset = pgc->gkBackward.dDeNominatorOffset;
-	    double dMembraneOffset = pgc->gkBackward.dMembraneOffset;
-	    double dTauDenormalizer = pgc->gkBackward.dTauDenormalizer;
+	    double dMultiplier = pgc->parameters.gkBackward.dMultiplier;
+	    double dMembraneDependence = pgc->parameters.gkBackward.dMembraneDependence;
+	    int iNominator = pgc->parameters.gkBackward.iNominator;
+	    double dDeNominatorOffset = pgc->parameters.gkBackward.dDeNominatorOffset;
+	    double dMembraneOffset = pgc->parameters.gkBackward.dMembraneOffset;
+	    double dTauDenormalizer = pgc->parameters.gkBackward.dTauDenormalizer;
 
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {
@@ -1125,6 +1144,48 @@ HeccerTablesDump
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerTabulatedGateCompareParameters()
+///
+/// ARGS.:
+///
+///	phtg..: an initialized gate table.
+///	pv....: parameters to use for comparison.
+///	iSize.: size of parameter block.
+///
+/// RTN..: int
+///
+///	See memcmp() manual.
+///
+/// DESCR:
+///
+///	Compare parameters for a candidate gate with the parameters
+///	of an existing table.
+///
+/// **************************************************************************
+
+static
+int
+HeccerTabulatedGateCompareParameters
+(struct HeccerTabulatedGate *phtg, void *pv, size_t iSize)
+{
+    //- set default result : match
+
+    int iResult = 0;
+
+    //- set result : compare memory regions, using smallest size
+
+    iSize = iSize < phtg->iSizeParameters ? iSize : phtg->iSizeParameters;
+
+    iResult = memcmp(phtg->pvParameters, pv, iSize);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerTabulatedGateNew()
 ///
 /// ARGS.:
@@ -1147,14 +1208,58 @@ int
 HeccerTabulatedGateNew
 (struct Heccer *pheccer,
  void *pvParameters,
- int iSize,
+ size_t iSize,
  double dStart,
  double dEnd,
  int iEntries)
 {
+    struct HeccerTabulatedGate *phtg = NULL;
+
     if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
     {
 	return(-1);
+    }
+
+    //- if we have access to the tabulation parameters
+
+    if (pvParameters && iSize != -1)
+    {
+	//- find the table in the existing tables
+
+	int iTable = -1;
+
+	//- loop over all tables
+
+	int i;
+
+	for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++)
+	{
+	    //- get pointer to current table
+
+	    phtg = &pheccer->tgt.phtg[i];
+
+	    //- if match
+
+	    if (HeccerTabulatedGateCompareParameters(phtg, pvParameters, iSize) == 0)
+	    {
+		//- set table index
+
+		iTable = i;
+
+		//- break searching loop
+
+		break;
+	    }
+	}
+
+	//- if we found a matching table
+
+	if (iTable != -1)
+	{
+	    //- use this index, no further tabulation necessary
+
+	    return(iTable);
+	}
     }
 
 #define HECCER_STATIC_TABULATED_GATES
@@ -1162,21 +1267,24 @@ HeccerTabulatedGateNew
 
     //- set result : from pool
 
-    struct HeccerTabulatedGate *phtg = NULL;
-
     phtg = &pheccer->tgt.phtg[pheccer->tgt.iTabulatedGateCount];
 
 #else
 
     //- set result : allocate a new tabulated gate
 
-    struct HeccerTabulatedGate *phtg = calloc(1, sizeof(*phtg));
+    phtg = calloc(1, sizeof(*phtg));
 
 #endif
 
     //- increment registry count
 
     pheccer->tgt.iTabulatedGateCount++;
+
+    //- initialize tabulation parameters
+
+    phtg->iSizeParameters = iSize;
+    phtg->pvParameters = pvParameters;
 
     //- initialize interval discretizer
 

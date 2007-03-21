@@ -120,62 +120,64 @@ struct ChannelActConc cacKC =
 
 	    -1,
 
-	    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
-
 	    {
-		//m multiplier
+		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-		7.5e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    7.5e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		0.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    0.0,
 
-		0.0,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    0.0,
 
-		1e12,
-	    },
+		    //m denormalized time constant
 
-	    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+		    1e12,
+		},
 
-	    {
-		//m multiplier
+		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-		0.11e3,
+		{
+		    //m multiplier
 
-		//m multiplier membrane dependence, 0.0 for no dependence
+		    0.11e3,
 
-		0.0,
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		//m choose between nominator or denominator, 1 means nominator, -1
-		//m means denominator
+		    0.0,
 
-		-1.0,
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-		//m nominator or denominator offset
+		    -1.0,
 
-		0.0,
+		    //m nominator or denominator offset
 
-		//m membrane offset
+		    0.0,
 
-		-0.035,
+		    //m membrane offset
 
-		//m denormalized time constant
+		    -0.035,
 
-		14.9e-3,
+		    //m denormalized time constant
+
+		    14.9e-3,
+		},
 	    },
 	},
     },
@@ -198,17 +200,19 @@ struct ChannelActConc cacKC =
 
 	    -1,
 
-	    //m basal level, A in EDS1994
-
-	    4.0e-3,
-
-	    //m time constant, B in EDS1994
-
-	    0.010,
-
 	    //m is activated by the output of this mechanism, must be filled in
 
 	    -1,
+
+	    {
+		//m basal level, A in EDS1994
+
+		4.0e-3,
+
+		//m time constant, B in EDS1994
+
+		0.010,
+	    },
 	},
     },
 };

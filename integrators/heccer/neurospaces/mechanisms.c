@@ -305,8 +305,8 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
-		   ? &ppgc->gc.gkForward
-		   : &ppgc->gc.gkBackward);
+		   ? &ppgc->gc.parameters.gkForward
+		   : &ppgc->gc.parameters.gkBackward);
 
 	    //- initialize table index
 
@@ -507,8 +507,8 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
-		   ? &ppgc->gc.gkForward
-		   : &ppgc->gc.gkBackward);
+		   ? &ppgc->gc.parameters.gkForward
+		   : &ppgc->gc.parameters.gkBackward);
 
 	    //- initialize table index
 
@@ -584,13 +584,13 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    double dBasalLevel = SymbolParameterResolveValue(phsle, "Base", ptstr->ppist);
 
-	    pcac->pac.ac.dBasalLevel = dBasalLevel;
+	    pcac->pac.ac.parameters.dBasalLevel = dBasalLevel;
 
 	    //- time constant, B in EDS1994
 
 	    double dTau = SymbolParameterResolveValue(phsle, "Tau", ptstr->ppist);
 
-	    pcac->pac.ac.dTau = dTau;
+	    pcac->pac.ac.parameters.dTau = dTau;
 
 	    if (dBasalLevel == FLT_MAX
 		|| dTau == FLT_MAX)
@@ -724,8 +724,8 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
 		   || pmcd->iStatus == 5
-		   ? &ppgc->gc.gkForward
-		   : &ppgc->gc.gkBackward);
+		   ? &ppgc->gc.parameters.gkForward
+		   : &ppgc->gc.parameters.gkBackward);
 
 	    //- initialize table index
 

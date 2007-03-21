@@ -189,6 +189,18 @@ struct GateKinetic
 
 //s channel gate concept
 
+struct GateConceptParameters
+{
+    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
+
+    struct GateKinetic gkForward;
+
+    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+
+    struct GateKinetic gkBackward;
+
+};
+
 struct GateConcept
 {
     //m initial value, commonly forward over backward steady states
@@ -199,13 +211,7 @@ struct GateConcept
 
     int iTable;
 
-    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
-
-    struct GateKinetic gkForward;
-
-    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
-
-    struct GateKinetic gkBackward;
+    struct GateConceptParameters parameters;
 };
 
 //s gate with a power
@@ -611,6 +617,18 @@ struct ChannelSteadyStateSteppedTau
 
 //s activator concept, mostly related to concentration pools
 
+struct ActivatorParameters
+{
+    //m basal level, A in EDS1994
+
+    double dBasalLevel;
+
+    //m time constant, B in EDS1994
+
+    double dTau;
+
+};
+
 struct Activator
 {
     //m initial value, commonly steady state
@@ -621,17 +639,11 @@ struct Activator
 
     int iTable;
 
-    //m basal level, A in EDS1994
-
-    double dBasalLevel;
-
-    //m time constant, B in EDS1994
-
-    double dTau;
-
     //m is activated by the output of this mechanism, must be filled in
 
     int iActivator;
+
+    struct ActivatorParameters parameters;
 };
 
 //s gate with a power

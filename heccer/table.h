@@ -20,6 +20,8 @@
 #define HECCER_TABLE_H
 
 
+#include <string.h>
+
 #include "mechanism.h"
 
 
@@ -59,6 +61,12 @@ struct HeccerTableApproximationOptions
 
 struct HeccerTabulatedGate
 {
+    //m original source parameters
+
+    void *pvParameters;
+
+    size_t iSizeParameters;
+
     //m interval of the tables
 
     struct HeccerInterval hi;
