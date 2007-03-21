@@ -1906,11 +1906,20 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     int iType = INT_MAX;
 
+    //- if on the algorithm axis
+
+    if (instanceof_algorithm_symbol(phsle))
+    {
+	//- ok, skip
+
+	iType = -2;
+    }
+
     //- if structure only
 
-    if (instanceof_group(phsle)
-	|| instanceof_segment(phsle)
-	|| instanceof_v_segment(phsle))
+    else if (instanceof_group(phsle)
+	     || instanceof_segment(phsle)
+	     || instanceof_v_segment(phsle))
     {
 	//- ok, skip
 
