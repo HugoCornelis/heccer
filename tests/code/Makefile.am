@@ -42,6 +42,8 @@ check_PROGRAMS = \
 	singlep \
 	table-cap \
 	table-cat \
+	table-dual-kdr \
+	table-dual-km \
 	table-k2 \
 	table-ka \
 	table-kc \
@@ -91,6 +93,10 @@ table_cap_DEPENDENCIES = ../../libheccer.a main.c
 table_cap_LDADD = -L../.. -lheccer -lm
 table_cat_DEPENDENCIES = ../../libheccer.a main.c
 table_cat_LDADD = -L../.. -lheccer -lm
+table_dual_kdr_DEPENDENCIES = ../../libheccer.a main.c
+table_dual_kdr_LDADD = -L../.. -lheccer -lm
+table_dual_km_DEPENDENCIES = ../../libheccer.a main.c
+table_dual_km_LDADD = -L../.. -lheccer -lm
 table_k2_DEPENDENCIES = ../../libheccer.a main.c
 table_k2_LDADD = -L../.. -lheccer -lm
 table_ka_DEPENDENCIES = ../../libheccer.a main.c

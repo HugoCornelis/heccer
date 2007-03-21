@@ -26,6 +26,8 @@ Makefile.in$
 ^tests/code/singlep$
 ^tests/code/table-cap$
 ^tests/code/table-cat$
+^tests/code/table-dual-kdr$
+^tests/code/table-dual-km$
 ^tests/code/table-k2$
 ^tests/code/table-ka$
 ^tests/code/table-kc$
