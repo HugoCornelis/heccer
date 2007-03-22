@@ -242,6 +242,70 @@ struct MatsCallout
 	 : ({ iMatNumber++; 1; }) ) )
 
 
+struct MopsInternalNernst
+{
+    //m operator : HECCER_MOP_INTERNALNERNST
+
+    int iOperator;
+
+    //m constant
+
+    double dConstant;
+
+    //m external concentration
+
+    double dExternal;
+
+    //m variable internal concentration
+
+    double *pdInternal;
+};
+
+
+struct MatsInternalNernst
+{
+    //m nernst potential
+
+    double dPotential;
+};
+
+#define SETMOP_INTERNALNERNST(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dC,dE,pdI)	\
+    ((pvMops)								\
+     ? ({ struct MopsInternalNernst *pmops = (struct MopsInternalNernst *)(pvMops);	\
+	     pmops->iOperator = HECCER_MOP_INTERNALNERNST;		\
+	     pmops->dConstant = (dC) ;					\
+	     pmops->dExternal = (dE) ;					\
+	     pmops->pdInternal = (pdI) ;				\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsInternalNernst);	\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+     
+#define SETMAT_INTERNALNERNST(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dP) \
+    ((pvMats)								\
+     ? ({ struct MatsInternalNernst *pmats = (struct MatsInternalNernst *)pvMats ; \
+	     pmats->dPotential = (dP) ;					\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
+	     pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1] ; \
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMatsIndex)							\
+	 ? ({								\
+		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 (iMats) += MAT_ALIGNER(struct MatsInternalNernst);	\
+		 1;							\
+	     })								\
+	 : ({ iMatNumber++; 1; }) ) )
+
+
 struct MopsChannel
 {
     //m operation : HECCER_MOP_INITIALIZECHANNEL
@@ -613,8 +677,10 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_EXPONENTIALDECAY 24
 #define HECCER_MOP_FLUXPOOL 25
 #define HECCER_MOP_REGISTERCHANNELCURRENT 26
+#define HECCER_MOP_INTERNALNERNST 27
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
+
 
 //d all operators for mechanisms have an opcode larger than ...
 

@@ -16,6 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <math.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -203,6 +205,40 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    SETMOP_CALLOUT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
 		    SETMAT_CALLOUT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcall);
+
+		    break;
+		}
+
+		//- for a nernst operation with internal variable concentration
+
+		case MATH_TYPE_InternalNernst:
+		{
+		    //- get type specific data
+
+		    struct InternalNernst * pin = (struct InternalNernst *)pmc;
+
+		    pmc = MathComponentNext(&pin->mc);
+
+		    //- get math component number
+
+		    int iMathComponentActivator = pin->iInternal;
+
+		    double *pdState = NULL;
+
+		    if (iMathComponentActivator != -1)
+		    {
+			//- convert math component to mat number, convert mat number to mat addressable
+
+			int iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator] : -1;
+
+			//! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			pdState = (double *)iMatsActivator;
+		    }
+
+		    SETMOP_INTERNALNERNST(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pin->dConstant, pin->dExternal, pdState);
+
+		    SETMAT_INTERNALNERNST(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pin->dInitPotential);
 
 		    break;
 		}
@@ -799,6 +835,56 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		break;
 	    }
 
+	    //- for a nernst operation with internal variable concentration
+
+	    case HECCER_MOP_INTERNALNERNST:
+	    {
+		//- go to next operator
+
+		struct MopsInternalNernst *pmops = (struct MopsInternalNernst *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+
+		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+
+		double *pdInternal = pmops->pdInternal;
+
+		//- if still an index
+
+		if (pdInternal)
+		{
+		    //- convert index to pointer
+
+		    int iInternal = (int)pdInternal;
+
+		    if (iInternal == -1)
+		    {
+			//t HeccerError(number, message, varargs);
+
+			fprintf
+			    (stderr,
+			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
+			     &piMop[-1] - (int *)pheccer->vm.pvMops);
+
+			return(FALSE);
+		    }
+
+		    //t I guess this can go wrong, not sure
+
+		    double *pdConcentration = (double *)pheccer->vm.ppvMatsIndex[iInternal];
+
+		    //- store solved external flux contribution
+
+		    pmops->pdInternal = pdConcentration;
+		}
+
+		break;
+	    }
+
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
@@ -1148,6 +1234,48 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		dCurrent += per->dCurrent;
 
 		//t check signaling
+
+		break;
+	    }
+
+	    //- for a nernst operation with internal variable concentration
+
+	    case HECCER_MOP_INTERNALNERNST:
+	    {
+		//- go to next operator
+
+		struct MopsInternalNernst *pmops = (struct MopsInternalNernst *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+
+		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+
+		//- fetch variables
+
+		double dExternal = pmops->dExternal;
+
+		double dConstant = pmops->dConstant;
+
+		double dInternal = 0.0;
+
+		if (pmops->pdInternal)
+		{
+		    dInternal = *pmops->pdInternal;
+		}
+
+		//- computer nernst potential
+
+		//t produces invalid things if pdInternal is not set.
+
+		double dPotential = log(dExternal / dInternal) * dConstant;
+
+		//- store result
+
+		pnernst->dPotential = dPotential;
 
 		break;
 	    }

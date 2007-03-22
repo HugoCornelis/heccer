@@ -102,6 +102,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
+    {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			3,	" %g %g",		1,	sizeof(struct MatsInternalNernst),	},
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
@@ -453,16 +454,14 @@ HeccerVMDumpOperators
 	char pcOutput1[500];
 	char pcOutput2[500];
 
-	int iCommand;
-	struct HeccerCommandInfo *phciCurrent = NULL;
-
 	//- get current command
 
-	iCommand = piOperators[i / sizeof(int)];
+	int iCommand = piOperators[i / sizeof(int)];
 
 	//- lookup info for current operand
 
-	phciCurrent = HeccerCommandInfoLookup(phct, iCommand);
+	struct HeccerCommandInfo *phciCurrent
+	    = HeccerCommandInfoLookup(phct, iCommand);
 
 	int iCommandLength = phciCurrent->iLength;
 
@@ -544,6 +543,32 @@ HeccerVMDumpOperators
 			    else
 			    {
 				sprintf(pc, " %i %i (nil)", pi[0], pi[1], NULL);
+			    }
+			}
+			else if (phciCurrent->iFormatterType == 3)
+			{
+			    double *pd = (double *)pv;
+
+			    sprintf(pc, " %g %g", pd[0], pd[1]);
+
+			    double **ppd = (double **)&pd[2];
+
+			    int k;
+
+			    char pc2[100];
+
+			    for (k = 0 ; k < 1 ; k++)
+			    {
+				if (ppd[k])
+				{
+				    sprintf(pc2, " (%g)", *ppd[k]);
+				}
+				else
+				{
+				    sprintf(pc2, " (nil)");
+				}
+
+				strcat(pc, pc2);
 			    }
 			}
 		    }

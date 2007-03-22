@@ -110,9 +110,9 @@ struct MGBlocker
 };
 
 
-//s variable channel nernst potential
+//s nernst potential: constant
 
-struct Nernst
+struct ConstantNernst
 {
     //m administration overhead
 
@@ -123,6 +123,58 @@ struct Nernst
     double dCin;
     double dConstant;
     double dCout;
+};
+
+
+//s nernst potential: external variable
+
+struct ExternalNernst
+{
+    //m administration overhead
+
+    struct MathComponent mc;
+
+    //m nernst constant
+
+    double dConstant;
+
+    //m constant internal concentration
+
+    double dInternal;
+
+    //m link to external concentration
+
+    int iExternal;
+
+    //m initial nernst potential
+
+    double dInitPotential;
+};
+
+
+//s nernst potential: internal variable
+
+struct InternalNernst
+{
+    //m administration overhead
+
+    struct MathComponent mc;
+
+    //m nernst constant
+
+    double dConstant;
+
+    //m link to internal concentration
+
+    int iInternal;
+
+    //m constant external concentration
+
+    double dExternal;
+
+    //m initial nernst potential
+
+    double dInitPotential;
 };
 
 

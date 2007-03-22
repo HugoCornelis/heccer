@@ -101,6 +101,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a nernst operation with internal variable concentration
+
+	case MATH_TYPE_InternalNernst:
+	{
+	    //- get type specific data
+
+	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
+
+	    pmc = MathComponentNext(&pin->mc);
+
+	    break;
+	}
+
 	//- for a channel with only activation
 
 	case MATH_TYPE_ChannelAct:

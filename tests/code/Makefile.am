@@ -37,6 +37,7 @@ check_PROGRAMS = \
 	pool1-contributors2 \
 	pool1-feedback1 \
 	pool1-feedback2 \
+	pool1-nernst \
 	pool1 \
 	pool2 \
 	singlea-naf \
@@ -86,6 +87,8 @@ pool1_feedback1_DEPENDENCIES = ../../libheccer.a main.c
 pool1_feedback1_LDADD = -L../.. -lheccer -lm
 pool1_feedback2_DEPENDENCIES = ../../libheccer.a main.c
 pool1_feedback2_LDADD = -L../.. -lheccer -lm
+pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
+pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
