@@ -8,7 +8,7 @@ setfield c \
 	Rm 3.58441e8
 create tabchannel c/h1
 setfield c/h1 \
-	Ek -0.085 \
+	Ek -0.030 \
 	Gbar 8.369573479e-09 \
 	Ik 0.0 \
 	Gk 0.0 \
@@ -17,7 +17,7 @@ setfield c/h1 \
 	Zpower 0.0
 create tabchannel c/h2
 setfield c/h2 \
-	Ek -0.085 \
+	Ek -0.030 \
 	Gbar 8.369573479e-09 \
 	Ik 0.0 \
 	Gk 0.0 \
