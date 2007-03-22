@@ -92,7 +92,7 @@ my $channel1
 	activation => {
 		       iPower => 1,
 		       gate_concept => {
-					dInitActivation => 0.9889635316,
+					dInitActivation => 0.038918706451336625,
 					parameters => {
 						       forward => {
 								   dMultiplier => 2.6e3,
@@ -116,7 +116,7 @@ my $channel1
 	inactivation => {
 			 iPower => 1,
 			 gate_concept => {
-					  dInitActivation => 0.002659210635,
+					  dInitActivation => 0.082602128127539254,
 					  parameters => {
 							 forward => {
 								     dMultiplier => 0.0025e3,
@@ -162,7 +162,7 @@ my $channel2
 	activation => {
 		       iPower => 1,
 		       gate_concept => {
-					dInitActivation => 0.03891870645,
+					dInitActivation => 0.038918706451336625,
 					parameters => {
 						       forward => {
 								   dMultiplier => 2.6e3,
@@ -186,7 +186,7 @@ my $channel2
 	inactivation => {
 			 iPower => 1,
 			 gate_concept => {
-					  dInitActivation => 0.08260212813,
+					  dInitActivation => 0.082602128127539254,
 					  parameters => {
 							 forward => {
 								     dMultiplier => 0.0025e3,
