@@ -18,13 +18,13 @@ my $test
 				command => 'tests/code/table-cap',
 				command_tests => [
 						  {
-						   description => "Are gates tabulated correctly, persistent calcium gates ?",
+						   description => "Are gates tabulated correctly, p type calcium gates ?",
 						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-cap.txt`, ],
 						   timeout => 18,
 						   write => undef,
 						  },
 						 ],
-				description => "Persistent Calcium gate tabulation",
+				description => "p type calcium gate tabulation",
 			       },
 			       {
 				arguments => [
