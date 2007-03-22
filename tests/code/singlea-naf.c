@@ -120,7 +120,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.7612305421,
+	    0.0078406449371415214,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -200,7 +200,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0009203489029,
+	    0.26397776926502026,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
