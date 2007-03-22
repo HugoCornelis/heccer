@@ -132,6 +132,8 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     if (!pog->pfileOutput)
     {
+	//t file name taken from options
+
 	pog->pfileOutput = fopen("/tmp/OutputGenerator", "w");
 
 	if (!pog->pfileOutput)
@@ -144,7 +146,11 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     if (pc)
     {
-	fprintf(pog->pfileOutput, "%s:", pc);
+	//t choose between yaml style and xplot style using options
+
+	fprintf(pog->pfileOutput, "%s", pc);
+
+/* 	fprintf(pog->pfileOutput, "%s:", pc); */
     }
 
     //- write out all the variables
