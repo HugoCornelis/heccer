@@ -114,7 +114,7 @@ struct ChannelActInact caiCaP =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.7612305421,
+	    0.001391094927,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -194,7 +194,7 @@ struct ChannelActInact caiCaP =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.7612305421,
+	    0.9868968318,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 

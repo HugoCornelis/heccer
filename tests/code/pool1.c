@@ -86,7 +86,7 @@ struct Compartment compSoma =
 };
 
 
-//v a simple fast sodium channel
+//v a simple fast calcium channel
 
 struct ChannelActInact caiCaT =
 {
