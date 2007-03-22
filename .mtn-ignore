@@ -19,6 +19,7 @@ Makefile.in$
 ^tests/code/fork4p2$
 ^tests/code/fork4p3$
 ^tests/code/pool1$
+^tests/code/pool1-contributors2$
 ^tests/code/pool1-feedback1$
 ^tests/code/pool1-feedback2$
 ^tests/code/pool2$

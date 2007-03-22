@@ -34,6 +34,7 @@ check_PROGRAMS = \
 	fork4p1 \
 	fork4p2 \
 	fork4p3 \
+	pool1-contributors2 \
 	pool1-feedback1 \
 	pool1-feedback2 \
 	pool1 \
@@ -79,6 +80,8 @@ fork4p3_DEPENDENCIES = ../../libheccer.a main.c
 fork4p3_LDADD = -L../.. -lheccer -lm
 pool1_DEPENDENCIES = ../../libheccer.a main.c
 pool1_LDADD = -L../.. -lheccer -lm
+pool1_contributors2_DEPENDENCIES = ../../libheccer.a main.c
+pool1_contributors2_LDADD = -L../.. -lheccer -lm
 pool1_feedback1_DEPENDENCIES = ../../libheccer.a main.c
 pool1_feedback1_LDADD = -L../.. -lheccer -lm
 pool1_feedback2_DEPENDENCIES = ../../libheccer.a main.c

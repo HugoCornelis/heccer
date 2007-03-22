@@ -68,6 +68,20 @@ my $test
 						 ],
 				description => "pool integration, one compartment, one pool with a feedback loop, reversed order",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/pool1-contributors2',
+				command_tests => [
+						  {
+						   description => "Is a pool integrated correctly, one compartment, one pool feed by two channels ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1-contributors2.txt`, ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "pool integration, one compartment, one pool feed by two channels",
+			       },
 			      ],
        description => "pool integration",
        name => 'pools.t',
