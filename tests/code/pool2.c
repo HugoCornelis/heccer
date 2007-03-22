@@ -536,9 +536,14 @@ struct ExponentialDecay pexdecCa[] =
 
 	0.00010,
 
-	//m external contribution delivered by this intermediary
+	//m external contribution delivered by these intermediaries
 
-	0,
+	{
+	    0,
+	    -1,
+	    -1,
+	    -1,
+	},
     },
 
     {
@@ -566,9 +571,14 @@ struct ExponentialDecay pexdecCa[] =
 
 	0.00020,
 
-	//m external contribution delivered by this intermediary
+	//m external contribution delivered by these intermediaries
 
-	2,
+	{
+	    2,
+	    -1,
+	    -1,
+	    -1,
+	},
     }
 };
 

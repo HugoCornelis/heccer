@@ -495,36 +495,41 @@ HeccerVMDumpOperators
 		    //t so only for five doubles ...
 
 		    char pc[100];
-		    int j;
 
-		    for (j = sizeof(int) ; j < iCommandLength ;)
 		    {
-			void *pv = (void *)&piOperators[(i + j) / sizeof(int)];
+			void *pv = (void *)&piOperators[i / sizeof(int) + 1];
 
 			if (phciCurrent->iFormatterType == 0)
 			{
 			    double *pd = (double *)pv;
 
 			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
-
-			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double);
 			}
 			else if (phciCurrent->iFormatterType == 1)
 			{
 			    double *pd = (double *)pv;
 
+			    sprintf(pc, " %g %g %g\n\t\t\t", pd[0], pd[1], pd[2]);
+
 			    double **ppd = (double **)&pd[3];
 
-			    if (*ppd)
-			    {
-				sprintf(pc, " %g %g %g (%g)", pd[0], pd[1], pd[2], **ppd);
-			    }
-			    else
-			    {
-				sprintf(pc, " %g %g %g (nil)", pd[0], pd[1], pd[2], NULL);
-			    }
+			    int k;
 
-			    j += sizeof(double) + sizeof(double) + sizeof(double) + sizeof(double *);
+			    char pc2[100];
+
+			    for (k = 0 ; k < EXPONENTIALDECAY_CONTRIBUTORS ; k++)
+			    {
+				if (ppd[k])
+				{
+				    sprintf(pc2, " (%g)", *ppd[k]);
+				}
+				else
+				{
+				    sprintf(pc2, " (nil)");
+				}
+
+				strcat(pc, pc2);
+			    }
 			}
 			else if (phciCurrent->iFormatterType == 2)
 			{
@@ -540,8 +545,6 @@ HeccerVMDumpOperators
 			    {
 				sprintf(pc, " %i %i (nil)", pi[0], pi[1], NULL);
 			    }
-
-			    j += sizeof(int) + sizeof(int) + sizeof(double *);
 			}
 		    }
 

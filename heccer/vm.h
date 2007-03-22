@@ -35,6 +35,7 @@ struct VM;
 
 
 #include "callout.h"
+#include "mechanism.h"
 
 
 //s vm related (name subject to change)
@@ -447,7 +448,7 @@ struct MopsExponentialDecay
 
     //m possibly solved external flux contribution
 
-    double *pdExternal;
+    double *ppdExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 };
 
 
@@ -458,14 +459,18 @@ struct MatsExponentialDecay
     double dState;
 };
 
-#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT,pdE)	\
+#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT,ppdE)	\
     ((pvMops)								\
      ? ({ struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_EXPONENTIALDECAY;		\
 	     pmops->dBeta = (dB) ;					\
 	     pmops->dSteadyState = (dS) ;				\
 	     pmops->dTau = (dT) ;					\
-	     pmops->pdExternal = (pdE) ;				\
+	     int i;							\
+	     for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)	\
+	     {								\
+		 pmops->ppdExternal[i] = (ppdE)[i] ;			\
+	     }								\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\

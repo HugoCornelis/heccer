@@ -69,9 +69,11 @@ struct ExponentialDecay
 
     double dTau;
 
-    //m external contribution delivered by this intermediary
+    //m external contribution delivered by these intermediaries
 
-    int iExternal;
+#define EXPONENTIALDECAY_CONTRIBUTORS 4
+
+    int piExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 };
 
 

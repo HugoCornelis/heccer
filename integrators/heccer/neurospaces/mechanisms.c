@@ -1800,7 +1800,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- find contributing channels
 
-	pexdec->iExternal = -1;
+	int i;
+
+	for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
+	{
+	    pexdec->piExternal[i] = -1;
+	}
 
 	int iInput = 0;
 
@@ -1826,7 +1831,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    int iChannel = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
 
-	    pexdec->iExternal = iChannel;
+	    pexdec->piExternal[iInput] = iChannel;
 
 	    //- register the channel as a flux contributor
 
@@ -2489,13 +2494,18 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 	{
 	    struct ExponentialDecay * pexdec = (struct ExponentialDecay *)pmc;
 
-	    int iExternalSerial = pexdec->iExternal;
+	    int i;
 
-	    if (iExternalSerial != -1)
+	    for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
 	    {
-		int iExternalIndex = MathComponentArrayLookupSerial(pmca, iExternalSerial);
+		int iExternalSerial = pexdec->piExternal[i];
 
-		pexdec->iExternal = iExternalIndex;
+		if (iExternalSerial != -1)
+		{
+		    int iExternalIndex = MathComponentArrayLookupSerial(pmca, iExternalSerial);
+
+		    pexdec->piExternal[i] = iExternalIndex;
+		}
 	    }
 	    break;
 	}

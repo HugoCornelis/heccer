@@ -434,19 +434,33 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pexdec->mc);
 
-		    //- get math component number
+		    double *ppdExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 
-		    int iMathComponentExternal = pexdec->iExternal;
+		    int i;
 
-		    //- convert math component to mat number, convert mat number to mat addressable
+		    for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
+		    {
+			//- get math component number
 
-		    int iMatsExternal = piMC2Mat ? piMC2Mat[iMathComponentExternal] : -1;
+			int iContributor = pexdec->piExternal[i];
 
-		    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+			if (iContributor != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
 
-		    double *pdExternal = (double *)iMatsExternal;
+			    int iMatsExternal = piMC2Mat ? piMC2Mat[iContributor] : -1;
 
-		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), pdExternal);
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    ppdExternal[i] = (double *)iMatsExternal;
+			}
+			else
+			{
+			    ppdExternal[i] = NULL;
+			}
+		    }
+
+		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), ppdExternal);
 
 		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pexdec->dInitValue);
 
@@ -920,35 +934,40 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		pvMats = (void *)&pmats[1];
 
-		//- get possibly solved external flux contribution
+		//- get possibly solved external flux contributions
 
-		double *pdExternal = pmops->pdExternal;
+		int i;
 
-		//- if still an index
-
-		if (pdExternal)
+		for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
 		{
-		    //- convert index to pointer
+		    double *pdExternal = pmops->ppdExternal[i];
 
-		    int iExternal = (int)pdExternal;
+		    //- if still an index
 
-		    if (iExternal == -1)
+		    if (pdExternal)
 		    {
-			//t HeccerError(number, message, varargs);
+			//- convert index to pointer
 
-			fprintf
-			    (stderr,
-			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
-			     &piMop[-1] - (int *)pheccer->vm.pvMops);
+			int iExternal = (int)pdExternal;
 
-			return(FALSE);
+			if (iExternal == -1)
+			{
+			    //t HeccerError(number, message, varargs);
+
+			    fprintf
+				(stderr,
+				 "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
+				 &piMop[-1] - (int *)pheccer->vm.pvMops);
+
+			    return(FALSE);
+			}
+
+			double *pdFlux = (double *)pheccer->vm.ppvMatsIndex[iExternal];
+
+			//- store solved external flux contribution
+
+			pmops->ppdExternal[i] = pdFlux;
 		    }
-
-		    double *pdFlux = (double *)pheccer->vm.ppvMatsIndex[iExternal];
-
-		    //- store solved external flux contribution
-
-		    pmops->pdExternal = pdFlux;
 		}
 
 		break;
@@ -1404,13 +1423,18 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//t needs a careful check again.
 
-		double *pdExternal = pmops->pdExternal;
-
 		double dExternal = 0.0;
 
-		if (pdExternal)
+		int i;
+
+		for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
 		{
-		    dExternal = pdExternal[0];
+		    double *pdExternal = pmops->ppdExternal[i];
+
+		    if (pdExternal)
+		    {
+			dExternal += pdExternal[0];
+		    }
 		}
 
 		//- exponential decay with possibly external influx

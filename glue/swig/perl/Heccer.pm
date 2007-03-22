@@ -368,9 +368,39 @@ my $heccer_mapping
 		      },
        exponential_decay => {
 			     constructor_settings => {
-						      iExternal => -1,
+						      piExternal => [
+								     map { -1, } 1 .. $SwiggableHeccer::EXPONENTIALDECAY_CONTRIBUTORS,
+								    ],
 						     },
 			     internal_name => 'ExponentialDecay',
+			     translators => {
+					     piExternal => {
+							    convertor =>
+							    sub
+							    {
+								my $target = shift;
+
+								my $value = shift;
+
+								my $result = SwiggableHeccer::int_array($SwiggableHeccer::EXPONENTIALDECAY_CONTRIBUTORS);
+
+								foreach my $external_index (0 .. $SwiggableHeccer::EXPONENTIALDECAY_CONTRIBUTORS - 1)
+								{
+								    my $external = $value->[$external_index];
+
+								    if (!defined $external)
+								    {
+									$external = -1;
+								    }
+
+								    SwiggableHeccer::int_set($result, $external_index, $external);
+								}
+
+								return $result;
+							    },
+							    target => 'piExternal',
+							   },
+					    },
 			     type_number => $SwiggableHeccer::MATH_TYPE_ExponentialDecay,
 			    },
 #        external_function => {

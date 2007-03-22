@@ -136,7 +136,9 @@ my $pool
 	dBeta => 7.579027046e+10,
 	dSteadyState => 4e-05,
 	dTau => 0.00010,
-	iExternal => 0,
+	piExternal => [
+		       0,
+		      ],
        },
       );
 

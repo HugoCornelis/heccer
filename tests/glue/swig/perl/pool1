@@ -50,6 +50,14 @@ BEGIN
 }
 
 
+$SIG{__DIE__}
+    = sub {
+	use Carp;
+
+	confess @_;
+    };
+
+
 use Heccer;
 
 
@@ -136,7 +144,9 @@ my $pool
 	dBeta => 9412391936.0,
 	dSteadyState => 4e-05,
 	dTau => 0.00010,
-	iExternal => 0,
+	piExternal => [
+		       0,
+		      ],
        },
       );
 

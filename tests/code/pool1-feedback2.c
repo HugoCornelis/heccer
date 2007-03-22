@@ -296,9 +296,14 @@ struct ExponentialDecay exdecCa =
 
     0.00010,
 
-    //m external contribution delivered by this intermediary
+    //m external contribution delivered by these intermediaries
 
-    0,
+    {
+	0,
+	-1,
+	-1,
+	-1,
+    },
 };
 
 
