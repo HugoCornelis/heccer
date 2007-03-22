@@ -121,11 +121,11 @@ struct ChannelPersistentSteadyStateDualTau csstKH =
 
     //m first gate initial value
 
-    0.1443111543,
+    0.024046282305781597,
 
     //m second gate initial value
 
-    0.03607778857,
+    0.096185129223126414,
 
     {
 	//m fast component steady state
