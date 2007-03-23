@@ -60,7 +60,7 @@ static struct MathComponentInfo pmci[] =
 ///
 /// **************************************************************************
 
-int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes)
+int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *piTypes)
 {
     //- set default result : not ok
 
@@ -72,11 +72,11 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *iTypes)
 
     int i;
 
-    for (i = 0 ; iTypes[i] > 0 ; i++)
+    for (i = 0 ; piTypes[i] > 0 ; i++)
     {
 	//- lookup the type int the size table
 
-	struct MathComponentInfo *pmci = MathComponentInfoLookup(iTypes[i]);
+	struct MathComponentInfo *pmci = MathComponentInfoLookup(piTypes[i]);
 
 	if (!pmci)
 	{

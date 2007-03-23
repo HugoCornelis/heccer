@@ -1903,7 +1903,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    struct symtab_HSolveListElement *phslePool
 		= SymbolResolveParameterFunctionalInput
-		  (phsle, ptstr->ppist, "Ek", "concen", 0);
+		  (phsle, ptstr->ppist, "Ek", "Cin", 0);
 
 	    //- if found
 
