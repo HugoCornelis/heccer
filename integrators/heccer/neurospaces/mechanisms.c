@@ -149,6 +149,10 @@ Type2Processor(int iType);
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc)
 {
+    //t I think this function can be removed completely, because the
+    //t connectivity can be translated directly from the model in
+    //t neurospaces, no need for this indirection.
+
     //- set default result : none
 
     int iResult = -1;
@@ -1817,6 +1821,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pmcd->pmc = MathComponentNext(pmcd->pmc);
 
 	    pmcd->iCurrentType++;
+
+	    pmc = pmcd->pmc;
 	}
 
 	//- if there is a nernst function
@@ -1826,6 +1832,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	if (SymbolHasNernstEk(phsle, ptstr->ppist))
 	{
 	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
+
+	    int iNernst = PidinStackToSerial(ptstr->ppist) + iFunctions;
+
+	    iNernst = ADDRESSING_NEUROSPACES_2_HECCER(iNernst);
+
+	    //- set type and serial
+
+	    pin->mc.iType = MATH_TYPE_InternalNernst;
+	    pin->mc.iSerial = iNernst;
 
 	    //- get Ek parameter
 
@@ -1927,10 +1942,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		    = phslePool->smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
 		int iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
-		int iNernst = PidinStackToSerial(ptstr->ppist) + iFunctions;
 
 		iPool = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
-		iNernst = ADDRESSING_NEUROSPACES_2_HECCER(iNernst);
 
 		pin->iInternal = iPool;
 
@@ -1957,6 +1970,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pmcd->pmc = MathComponentNext(pmcd->pmc);
 
 	    pmcd->iCurrentType++;
+
+	    pmc = pmcd->pmc;
 
 	    iFunctions++;
 	}
@@ -2074,6 +2089,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	pmcd->pmc = MathComponentNext(pmcd->pmc);
 
 	pmcd->iCurrentType++;
+
+	pmc = pmcd->pmc;
 
 	break;
     }
@@ -2590,6 +2607,17 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		pca->iPool = iPoolIndex;
 	    }
 
+	    //- if solved reversal potential
+
+	    if (pca->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pca->iReversalPotential);
+
+		pca->iReversalPotential = iReversalPotential;
+	    }
+
 	    break;
 	}
 	case MATH_TYPE_ChannelActInact:
@@ -2609,6 +2637,17 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
 
 		pcai->iPool = iPoolIndex;
+	    }
+
+	    //- if solved reversal potential
+
+	    if (pcai->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcai->iReversalPotential);
+
+		pcai->iReversalPotential = iReversalPotential;
 	    }
 
 	    break;
@@ -2632,6 +2671,17 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		pcpsdt->iPool = iPoolIndex;
 	    }
 
+	    //- if solved reversal potential
+
+	    if (pcpsdt->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcpsdt->iReversalPotential);
+
+		pcpsdt->iReversalPotential = iReversalPotential;
+	    }
+
 	    break;
 	}
 	case MATH_TYPE_ChannelPersistentSteadyStateTau:
@@ -2653,6 +2703,17 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		pcpst->iPool = iPoolIndex;
 	    }
 
+	    //- if solved reversal potential
+
+	    if (pcpst->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcpst->iReversalPotential);
+
+		pcpst->iReversalPotential = iReversalPotential;
+	    }
+
 	    break;
 	}
 	case MATH_TYPE_ChannelSteadyStateSteppedTau:
@@ -2672,6 +2733,17 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
 
 		pcsst->iPool = iPoolIndex;
+	    }
+
+	    //- if solved reversal potential
+
+	    if (pcsst->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcsst->iReversalPotential);
+
+		pcsst->iReversalPotential = iReversalPotential;
 	    }
 
 	    break;
@@ -2712,6 +2784,36 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 /* 		iResult = FALSE; */
 /* 	    } */
+
+	    //- if solved reversal potential
+
+	    if (pcac->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcac->iReversalPotential);
+
+		pcac->iReversalPotential = iReversalPotential;
+	    }
+
+	    break;
+	}
+	case MATH_TYPE_InternalNernst:
+	{
+	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
+
+	    //- if solved internal concentration
+
+	    //! must not be -1
+
+	    if (pin->iInternal != -1)
+	    {
+		//- translate the serial to an index
+
+		int iInternal = MathComponentArrayLookupSerial(pmca, pin->iInternal);
+
+		pin->iInternal = iInternal;
+	    }
 
 	    break;
 	}
