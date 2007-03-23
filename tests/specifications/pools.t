@@ -82,6 +82,20 @@ my $test
 						 ],
 				description => "pool integration, one compartment, one pool feed by two channels",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/pool1-nernst',
+				command_tests => [
+						  {
+						   description => "Is the concentration dependent nernst potential calculated correctly ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1-nernst.txt`, ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "concentration dependent nernst potential calculation",
+			       },
 			      ],
        description => "pool integration",
        name => 'pools.t',

@@ -133,12 +133,11 @@ function showfields
 // 	showfield c/cap Ik
 // 	showfield c/cap Gk
 
-	showfield c/cat X
-	showfield c/cat Y
-	showfield c/cat Ek
+	showfield c/cat X Y Ek
 
-	showfield c/cat Ik
-	showfield c/cat Gk
+	showfield c/cat Ik Gk
+
+	showfield c/n Cin E
 
 	showfield c Vm
 end

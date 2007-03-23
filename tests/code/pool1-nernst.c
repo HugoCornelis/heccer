@@ -102,11 +102,11 @@ struct ChannelActInact caiCaT =
 
     //m reversal potential
 
-    0.1375262439,
+    0.1470214874,
 
     //m maximal conductance when all channels are permissive
 
-    1.394928884e-08,
+    1.754672296e-09,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
@@ -333,6 +333,9 @@ struct InternalNernst inCa =
 
     2.4000,
 
+    //m initial nernst potential
+
+    0.1470214874,
 };
 
 
