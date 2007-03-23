@@ -1625,6 +1625,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pca->dReversalPotential = dReversalPotential;
 
+	    pca->iReversalPotential = -1;
+
 	    pca->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelActInact)
@@ -1634,6 +1636,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcai->dMaximalConductance = dMaximalConductance;
 
 	    pcai->dReversalPotential = dReversalPotential;
+
+	    pcai->iReversalPotential = -1;
 
 	    pcai->iPool = -1;
 	}
@@ -1645,6 +1649,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcpsdt->dReversalPotential = dReversalPotential;
 
+	    pcpsdt->iReversalPotential = -1;
+
 	    pcpsdt->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelPersistentSteadyStateTau)
@@ -1654,6 +1660,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcpst->dMaximalConductance = dMaximalConductance;
 
 	    pcpst->dReversalPotential = dReversalPotential;
+
+	    pcpst->iReversalPotential = -1;
 
 	    pcpst->iPool = -1;
 	}
@@ -1665,6 +1673,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcsst->dReversalPotential = dReversalPotential;
 
+	    pcsst->iReversalPotential = -1;
+
 	    pcsst->iPool = -1;
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
@@ -1674,6 +1684,8 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcac->dMaximalConductance = dMaximalConductance;
 
 	    pcac->dReversalPotential = dReversalPotential;
+
+	    pcac->iReversalPotential = -1;
 
 	    pcac->iPool = -1;
 

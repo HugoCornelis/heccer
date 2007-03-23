@@ -328,6 +328,7 @@ my $heccer_mapping
        channel_activation_concentration => {
 					    constructor_settings => {
 								     iPool => -1,
+								     iReversalPotential => -1,
 								    },
 					    internal_name => 'ChannelActConc',
 					    translators => {
@@ -345,6 +346,7 @@ my $heccer_mapping
        channel_activation_inactivation => {
 					   constructor_settings => {
 								    iPool => -1,
+								    iReversalPotential => -1,
 								   },
 					   internal_name => 'ChannelActInact',
 					   translators => {
