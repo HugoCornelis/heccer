@@ -23,8 +23,8 @@
 #include "../../heccer/mathcomponent.h"
 
 
-#define HECCER_TEST_REPORTING_GRANULARITY 100
-#define HECCER_TEST_STEPS 1000
+#define HECCER_TEST_REPORTING_GRANULARITY 100000
+#define HECCER_TEST_STEPS 1000000
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
 				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
 				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
@@ -33,7 +33,7 @@
 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
 				    | HECCER_DUMP_VM_SUMMARY \
 	)
-#define HECCER_TEST_TIME_STEP (1e-6)
+#define HECCER_TEST_TIME_STEP (1e-11)
 
 
 struct Compartment comp =
@@ -74,7 +74,7 @@ struct Compartment comp =
 
 /*     double dInject;		 */
 
-    0,
+    1e-9,
 
 /*     double dRa; */
 

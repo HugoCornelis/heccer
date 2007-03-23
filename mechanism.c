@@ -1114,7 +1114,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		    //- store solved nernst potential
 
-		    pmops->pdReversalPotential = pdReversalPotential;
+		    pmops->pdReversalPotential = pdNernst;
 		}
 
 		break;

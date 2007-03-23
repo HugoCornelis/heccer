@@ -96,8 +96,22 @@ my $test
 						 ],
 				description => "concentration dependent nernst potential calculation",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/channel1-nernst1',
+				command_tests => [
+						  {
+						   description => "Is the solved nernst potential applied for channel reversal potentials ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/channel1-nernst1.txt`, ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "solved nernst potential application for channel reversal potentials",
+			       },
 			      ],
-       description => "pool integration",
+       description => "pool integration & related",
        name => 'pools.t',
       };
 

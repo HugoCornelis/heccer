@@ -1,11 +1,12 @@
-setclock 0 1e-6
+setclock 0 1e-11
 create compartment c
 setfield c \
 	Cm 5.755329373e-12 \
 	Em -0.08 \
 	initVm -0.068 \
 	Ra 772813.4375 \
-	Rm 8.548598272e9
+	Rm 8.548598272e9 \
+	inject 1e-9
 
 // create tabchannel c/cap
 // setfield c/cap \
@@ -101,30 +102,30 @@ setfield c/n Cin {CCaI} Cout {CCaO} valency {2} \
      scale {1.0} T {37}
 addmsg c/p c/n CIN Ca
 // addmsg c/n c/cap EK E
-// addmsg c/n c/cat EK E
+addmsg c/n c/cat EK E
 
-// create hsolve h
-// setmethod h 11
-// setfield h \
-// 	calcmode 0 \
-// 	chanmode 4 \
-// 	path /c
-// call h SETUP
+create hsolve h
+setmethod h 11
+setfield h \
+	calcmode 0 \
+	chanmode 4 \
+	path /c
+call h SETUP
 reset
 
 function showfields
 
-// 	showfield h \
-// 		chip[4] \
-// 		chip[5] \
-// 		givals[5] \
-// 		givals[4] \
-// 		givals[3] \
-// 		conc[0] \
-// 		flux[0] \
-// 		results[0] \
-// 		results[1] \
-// 		vm[0]
+	showfield h \
+		chip[4] \
+		chip[5] \
+		givals[5] \
+		givals[4] \
+		givals[3] \
+		conc[0] \
+		flux[0] \
+		results[0] \
+		results[1] \
+		vm[0]
 
 // 	showfield c/cap X
 // 	showfield c/cap Y
@@ -133,26 +134,27 @@ function showfields
 // 	showfield c/cap Ik
 // 	showfield c/cap Gk
 
-	showfield c/cat X Y Ek
+// 	showfield c/cat X Y Ek
 
-	showfield c/cat Ik Gk
+// 	showfield c/cat Ik Gk
 
-	showfield c/n Cin E
+// 	showfield c/n Cin E
 
-	showfield c Vm
+// 	showfield c Vm
 end
 
-// // echo {findsolvefield /h c/cap X}
-// // echo {findsolvefield /h c/cap Y}
-// // echo {findsolvefield /h c/cap Ek}
+// echo {findsolvefield /h c/cap X}
+// echo {findsolvefield /h c/cap Y}
+// echo {findsolvefield /h c/cap Ek}
 
-// // echo {findsolvefield /h c/cap Ik}
-// // echo {findsolvefield /h c/cap Gk}
+// echo {findsolvefield /h c/cap Ik}
+// echo {findsolvefield /h c/cap Gk}
 
-// echo {findsolvefield /h c/cat X}
-// echo {findsolvefield /h c/cat Y}
-// echo {findsolvefield /h c/cat Ek}
+echo {findsolvefield /h c/cat X}
+echo {findsolvefield /h c/cat Y}
 
-// echo {findsolvefield /h c/cat Ik}
-// echo {findsolvefield /h c/cat Gk}
+echo {findsolvefield /h c/cat Ik}
+echo {findsolvefield /h c/cat Gk}
+echo {findsolvefield /h c/cat Ek}
 
+echo {findsolvefield /h c Vm}
