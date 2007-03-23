@@ -1,16 +1,9 @@
 -*- outline -*-
 
-* kh tabulation is wrong
-
-* kh needs to reset maximal conductance for second gate
-
-* get initial values for gates from neurospaces
-** kdr
-** ka
-** kh
-** nap
-** naf
-
+* Revisit the compartments mops and mats
+Needs update of all tests (also in ssp).
+** mats: inject
+** mops: all the others
 
 * Revisit the channel definitions to generalize
 The members of the channel structures should be more easily
@@ -25,29 +18,6 @@ algorithm.
 ** HeccerDiscretizeBasalActivator
 ** HeccerDiscretizeGateConcept
 ** HeccerGateConceptTabulate
-
-* implement sharing of tables
-
-* channels
-** Done
-*** table-ka
-*** table-kdr
-*** table-naf
-*** pool1-feedback1
-**** caiCaT
-**** cacKC
-** Done in neurospaces
-  (library/gates/k2_concentration.ndf (neurospaces/n/23_k2_concent 1.1 644))
-  (library/gates/k2_activation.ndf (neurospaces/n/24_k2_activat 1.1 644))
-  (library/gates/ka_inactivation.ndf (neurospaces/n/25_ka_inactiv 1.1 644))
-  (library/gates/ka_activation.ndf (neurospaces/n/26_ka_activat 1.1 644))
-  (library/gates/cap_inactivation.ndf (neurospaces/n/27_cap_inacti 1.1 644))
-  (library/gates/cap_activation.ndf (neurospaces/n/28_cap_activa 1.1 644))
-  (library/gates/nap_activation.ndf (neurospaces/n/29_nap_activa 1.1 644))
-  (library/gates/kdr_steadystate.ndf (neurospaces/n/30_kdr_steady 1.1 644))
-  (library/gates/kdr_tau.ndf (neurospaces/n/31_kdr_tau.nd 1.1 644))
-  (library/gates/kh.ndf ())
-  (library/gates/km.ndf ())
 
 * ChannelSteadyStateSteppedTau
 ** check if members have correct names
