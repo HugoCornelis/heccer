@@ -14,6 +14,7 @@ Makefile.in$
 ^tests/code/callout1$
 ^tests/code/calloutInjector$
 ^tests/code/channel1-nernst1$
+^tests/code/channel2-nernst1$
 ^tests/code/doublep$
 ^tests/code/fork3p$
 ^tests/code/fork4p1$
