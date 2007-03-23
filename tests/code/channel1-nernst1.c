@@ -106,7 +106,7 @@ struct ChannelActInact caiCaT =
 
     //m get reversal potential from this intermediary, -1 for none
 
-    2,
+    1,
 
     //m maximal conductance when all channels are permissive
 
@@ -278,6 +278,34 @@ struct ChannelActInact caiCaT =
 };
 
 
+struct InternalNernst inCa =
+{
+    //m administrative overhead
+
+    {
+	//m type of structure
+
+	MATH_TYPE_InternalNernst,
+    },
+
+    //m nernst constant
+
+    0.0125,
+
+    //m link to internal concentration
+
+    2,
+
+    //m constant external concentration
+
+    2.4000,
+
+    //m initial nernst potential
+
+    0.1470214874,
+};
+
+
 struct ExponentialDecay exdecCa =
 {
     //m administrative overhead
@@ -312,34 +340,6 @@ struct ExponentialDecay exdecCa =
 	-1,
 	-1,
     },
-};
-
-
-struct InternalNernst inCa =
-{
-    //m administrative overhead
-
-    {
-	//m type of structure
-
-	MATH_TYPE_InternalNernst,
-    },
-
-    //m nernst constant
-
-    0.0125,
-
-    //m link to internal concentration
-
-    1,
-
-    //m constant external concentration
-
-    2.4000,
-
-    //m initial nernst potential
-
-    0.1470214874,
 };
 
 
@@ -405,13 +405,23 @@ int main(int argc, char *argv[])
 
     *pcai = caiCaT;
 
-    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&((char *)pcai)[pmciCaT->iChars];
+    struct InternalNernst *pin = (struct InternalNernst *)&((char *)pcai)[pmciCaT->iChars];
+
+    *pin = inCa;
+
+    struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&((char *)pin)[pmciNernst->iChars];
 
     *pexdec = exdecCa;
 
-    struct InternalNernst *pin = (struct InternalNernst *)&((char *)pexdec)[pmciCa->iChars];
+    //! other order:
 
-    *pin = inCa;
+/*     struct ExponentialDecay *pexdec = (struct ExponentialDecay *)&((char *)pcai)[pmciCaT->iChars]; */
+
+/*     *pexdec = exdecCa; */
+
+/*     struct InternalNernst *pin = (struct InternalNernst *)&((char *)pexdec)[pmciCa->iChars]; */
+
+/*     *pin = inCa; */
 
     //- link the intermediary
 
