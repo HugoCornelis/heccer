@@ -31,6 +31,7 @@ check_PROGRAMS = \
 	calloutInjector \
 	channel1-nernst1 \
 	channel2-nernst1 \
+	channel2-nernst2 \
 	doublep \
 	fork3p \
 	fork4p1 \
@@ -74,6 +75,8 @@ channel1_nernst1_LDADD = -L../.. -lheccer -lm
 channel1_nernst1_DEPENDENCIES = ../../libheccer.a main.c
 channel2_nernst1_LDADD = -L../.. -lheccer -lm
 channel2_nernst1_DEPENDENCIES = ../../libheccer.a main.c
+channel2_nernst2_LDADD = -L../.. -lheccer -lm
+channel2_nernst2_DEPENDENCIES = ../../libheccer.a main.c
 calloutInjector_LDADD = -L../.. -lheccer -lm
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 doublep_LDADD = -L../.. -lheccer -lm

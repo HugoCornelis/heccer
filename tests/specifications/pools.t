@@ -124,6 +124,20 @@ my $test
 						 ],
 				description => "solved nernst potential application for two channel reversal potentials",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/channel2-nernst2',
+				command_tests => [
+						  {
+						   description => "Are two solved nernst potential applied for two channel reversal potentials ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/channel2-nernst2.txt`, ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "two solved nernst potential application for two channel reversal potentials",
+			       },
 			      ],
        description => "pool integration & related",
        name => 'pools.t',
