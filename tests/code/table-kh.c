@@ -95,6 +95,10 @@ struct ChannelPersistentSteadyStateDualTau csstKH =
 
     -0.03,
 
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
+
     //m maximal conductance when all channels are permissive
 
     8.36958e-09,

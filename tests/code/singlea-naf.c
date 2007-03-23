@@ -100,6 +100,10 @@ struct ChannelActInact caiNaF =
 
     0.045,
 
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
+
     //m maximal conductance when all channels are permissive
 
     0.0002092393115,

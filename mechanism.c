@@ -253,7 +253,36 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pca->mc);
 
-		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->dMaximalConductance, pca->dReversalPotential);
+		    //- for a constant reversal potential
+
+		    if (pca->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->dMaximalConductance, pca->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pca->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->dMaximalConductance, pdReversalPotential);
+		    }
 
 		    //- tabulate the channel
 
@@ -310,7 +339,36 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pcai->mc);
 
-		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
+		    //- for a constant reversal potential
+
+		    if (pcai->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pcai->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcai->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pdReversalPotential);
+		    }
 
 		    //- tabulate the channel
 
@@ -379,7 +437,36 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pcac->mc);
 
-		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pcac->dReversalPotential);
+		    //- for a constant reversal potential
+
+		    if (pcac->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pcac->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcac->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pdReversalPotential);
+		    }
 
 		    //- tabulate the membrane dependence
 
@@ -513,7 +600,36 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pcsst->mc);
 
-		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->dMaximalConductance, pcsst->dReversalPotential);
+		    //- for a constant reversal potential
+
+		    if (pcsst->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->dMaximalConductance, pcsst->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcsst->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->dMaximalConductance, pdReversalPotential);
+		    }
 
 		    //- tabulate the channel
 
@@ -570,7 +686,36 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pcpsdt->mc);
 
-		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->dMaximalConductance, pcpsdt->dReversalPotential);
+		    //- for a constant reversal potential
+
+		    if (pcpsdt->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->dMaximalConductance, pcpsdt->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcpsdt->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->dMaximalConductance, pdReversalPotential);
+		    }
 
 		    //- tabulate the channel
 
@@ -633,7 +778,36 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pcpst->mc);
 
-		    SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->dMaximalConductance, pcpst->dReversalPotential);
+		    //- for a constant reversal potential
+
+		    if (pcpst->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->dMaximalConductance, pcpst->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcpst->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->dMaximalConductance, pdReversalPotential);
+		    }
 
 		    //- tabulate the channel
 

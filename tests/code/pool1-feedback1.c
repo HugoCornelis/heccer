@@ -100,6 +100,10 @@ struct ChannelActInact caiCaT =
 
     0.14702148735523224,
 
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
+
     //m maximal conductance when all channels are permissive
 
     1.7546722963501793e-09,
@@ -322,6 +326,10 @@ struct ChannelActConc cacKC =
     //m initial reversal potential
 
     85,
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
 
     //m maximal conductance when all channels are permissive
 

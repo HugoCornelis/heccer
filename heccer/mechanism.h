@@ -299,6 +299,10 @@ struct ChannelActInact
 
     double dReversalPotential;
 
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
+
     //m maximal conductance when all channels are permissive
 
     double dMaximalConductance;
@@ -306,10 +310,6 @@ struct ChannelActInact
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
-
-/*     //m get reversal potential from this intermediary, -1 for none */
-
-/*     int iReversalPotential; */
 
     //m activation description
 
@@ -333,6 +333,10 @@ struct ChannelAct
     //m initial reversal potential
 
     double dReversalPotential;
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
 
     //m maximal conductance when all channels are permissive
 
@@ -390,6 +394,10 @@ struct ChannelPersistentSteadyStateDualTau
 
     double dReversalPotential;
 
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
+
     //m maximal conductance when all channels are permissive
 
     double dMaximalConductance;
@@ -439,6 +447,10 @@ struct ChannelPersistentSteadyStateTau
     //m initial reversal potential
 
     double dReversalPotential;
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
 
     //m maximal conductance when all channels are permissive
 
@@ -635,6 +647,10 @@ struct ChannelSteadyStateSteppedTau
 
     double dReversalPotential;
 
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
+
     //m maximal conductance when all channels are permissive
 
     double dMaximalConductance;
@@ -733,6 +749,10 @@ struct ChannelActConc
     //m initial reversal potential
 
     double dReversalPotential;
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
 
     //m maximal conductance when all channels are permissive
 
