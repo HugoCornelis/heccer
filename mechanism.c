@@ -891,7 +891,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	    {
 		//- go to next operator
 
-		struct MopsChannel *pmops = (struct MopsChannel *)piMop;
+		struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)piMop;
 
 		piMop = (int *)&pmops[1];
 
@@ -908,7 +908,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- store the current conductance
 
-		struct MatsChannel * pmats = (struct MatsChannel *)pvMats;
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
 
 		//- go to next type specific data
 
@@ -1286,7 +1286,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	    {
 		//- go to next operator
 
-		struct MopsChannel *pmops = (struct MopsChannel *)piMop;
+		struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)piMop;
 
 		piMop = (int *)&pmops[1];
 
@@ -1309,7 +1309,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- store the current conductance
 
-		struct MatsChannel * pmats = (struct MatsChannel *)pvMats;
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
 
 		pmats->dChannelConductance = dChannelConductance;
 

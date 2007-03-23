@@ -142,7 +142,7 @@ struct ChannelPersistentSteadyStateTau pcsstKM[] =
 
 	//m first set of descriptive values, alphabetical order
 
-	//m reversal potential
+	//m initial reversal potential
 
 	-0.085,
 
@@ -234,7 +234,7 @@ struct ChannelPersistentSteadyStateTau pcsstKM[] =
 
 	//m first set of descriptive values, alphabetical order
 
-	//m reversal potential
+	//m initial reversal potential
 
 	-0.085,
 

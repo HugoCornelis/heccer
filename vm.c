@@ -98,7 +98,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g (%g)",	1,	sizeof(struct MatsExponentialDecay),	},
     {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL,			0,	0,	},
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL,			1,	sizeof(struct MatsFluxPool),	},
-    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsChannel),				0,	" %g %g",		0,	0,	},
+    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsInitializeChannel),			0,	" %g %g",		0,	0,	},
     {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},

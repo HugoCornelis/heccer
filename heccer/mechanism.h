@@ -295,7 +295,7 @@ struct ChannelActInact
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 
@@ -306,6 +306,10 @@ struct ChannelActInact
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
+
+/*     //m get reversal potential from this intermediary, -1 for none */
+
+/*     int iReversalPotential; */
 
     //m activation description
 
@@ -326,7 +330,7 @@ struct ChannelAct
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 
@@ -382,7 +386,7 @@ struct ChannelPersistentSteadyStateDualTau
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 
@@ -432,7 +436,7 @@ struct ChannelPersistentSteadyStateTau
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 
@@ -627,7 +631,7 @@ struct ChannelSteadyStateSteppedTau
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 
@@ -726,7 +730,7 @@ struct ChannelActConc
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 

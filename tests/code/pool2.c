@@ -150,7 +150,7 @@ struct ChannelActInact pcaiCaT[] =
 
 	//m first set of descriptive values, alphabetical order
 
-	//m reversal potential
+	//m initial reversal potential
 
 	0.1375262439,
 
@@ -334,7 +334,7 @@ struct ChannelActInact pcaiCaT[] =
 
 	//m first set of descriptive values, alphabetical order
 
-	//m reversal potential
+	//m initial reversal potential
 
 	0.1470214874,
 

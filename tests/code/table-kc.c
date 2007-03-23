@@ -90,7 +90,7 @@ struct ChannelActConc cacKC =
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     -0.085,
 

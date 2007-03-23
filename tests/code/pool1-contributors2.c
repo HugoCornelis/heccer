@@ -100,7 +100,7 @@ struct ChannelActInact caiCaP =
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     0.1470214874,
 
@@ -286,7 +286,7 @@ struct ChannelActInact caiCaT =
 
     //m first set of descriptive values, alphabetical order
 
-    //m reversal potential
+    //m initial reversal potential
 
     0.1470214874,
 

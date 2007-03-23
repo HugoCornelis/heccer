@@ -306,27 +306,25 @@ struct MatsInternalNernst
 	 : ({ iMatNumber++; 1; }) ) )
 
 
-struct MopsChannel
+struct MopsInitializeChannel
 {
     //m operation : HECCER_MOP_INITIALIZECHANNEL
 
     int iOperator;
 
-    //m reversal potential
+    //m initial reversal potential
 
     double dReversalPotential;
 
     //m maximal channel conductance
 
     double dMaximalConductance;
-
-    //! note : more specific things follow, notable gate operations
 };
 
 
 #define SETMOP_INITIALIZECHANNEL(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,dE) \
     ((pvMops)								\
-     ? ({ struct MopsChannel *pmops = (struct MopsChannel *)(pvMops);	\
+     ? ({ struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNEL;		\
 	     pmops->dReversalPotential = (dE) ;				\
 	     pmops->dMaximalConductance = (dG) ;			\
@@ -338,7 +336,7 @@ struct MopsChannel
 	 (ppvMopsIndex)							\
 	 ? ({								\
 		 piMC2Mop[iMathComponent] = iMopNumber++;		\
-		 (iMops) += sizeof(struct MopsChannel);			\
+		 (iMops) += sizeof(struct MopsInitializeChannel);			\
 		 1;							\
 	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
@@ -353,7 +351,7 @@ struct MopsStoreChannelConductance
 
 //t needs to be renamed to MatsStoreChannelConductance
 
-struct MatsChannel
+struct MatsStoreChannelConductance
 {
     //m single channel conductance
 
