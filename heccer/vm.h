@@ -312,7 +312,7 @@ struct MopsInitializeChannel
 
     int iOperator;
 
-    //m initial reversal potential
+    //m constant reversal potential
 
     double dReversalPotential;
 
@@ -336,7 +336,43 @@ struct MopsInitializeChannel
 	 (ppvMopsIndex)							\
 	 ? ({								\
 		 piMC2Mop[iMathComponent] = iMopNumber++;		\
-		 (iMops) += sizeof(struct MopsInitializeChannel);			\
+		 (iMops) += sizeof(struct MopsInitializeChannel);	\
+		 1;							\
+	     })								\
+	 : ({ iMopNumber++; 1; }) ) )
+
+
+struct MopsInitializeChannelEk
+{
+    //m operation : HECCER_MOP_INITIALIZECHANNELEK
+
+    int iOperator;
+
+    //m variable reversal potential
+
+    double *pdReversalPotential;
+
+    //m maximal channel conductance
+
+    double dMaximalConductance;
+};
+
+
+#define SETMOP_INITIALIZECHANNELEK(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,pdE) \
+    ((pvMops)								\
+     ? ({ struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)(pvMops);	\
+	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNELEK;		\
+	     pmops->pdReversalPotential = (pdE) ;			\
+	     pmops->dMaximalConductance = (dG) ;			\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMopsIndex)							\
+	 ? ({								\
+		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 (iMops) += sizeof(struct MopsInitializeChannelEk);	\
 		 1;							\
 	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
@@ -676,6 +712,7 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_FLUXPOOL 25
 #define HECCER_MOP_REGISTERCHANNELCURRENT 26
 #define HECCER_MOP_INTERNALNERNST 27
+#define HECCER_MOP_INITIALIZECHANNELEK 28
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
 

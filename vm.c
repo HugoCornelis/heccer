@@ -99,6 +99,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL,			0,	0,	},
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL,			1,	sizeof(struct MatsFluxPool),	},
     {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsInitializeChannel),			0,	" %g %g",		0,	0,	},
+    {	HECCER_MOP_INITIALIZECHANNELEK,		"INITIALIZECHANNELEK",		sizeof(struct MopsInitializeChannelEk),			4,	" (%g) %g",		0,	0,	},
     {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
@@ -570,6 +571,27 @@ HeccerVMDumpOperators
 
 				strcat(pc, pc2);
 			    }
+			}
+			else if (phciCurrent->iFormatterType == 4)
+			{
+			    double **ppd = (double **)pv;
+
+			    if (ppd[0])
+			    {
+				sprintf(pc, " (%g)", *ppd[0]);
+			    }
+			    else
+			    {
+				sprintf(pc, "(nil)");
+			    }
+
+			    double *pd = (double *)&ppd[1];
+
+			    char pc2[100];
+
+			    sprintf(pc2, " %g", pd[0]);
+
+			    strcat(pc, pc2);
 			}
 		    }
 

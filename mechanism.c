@@ -851,6 +851,8 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
 
+		//- get index of internal concentration
+
 		double *pdInternal = pmops->pdInternal;
 
 		//- if still an index
@@ -877,7 +879,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		    double *pdConcentration = (double *)pheccer->vm.ppvMatsIndex[iInternal];
 
-		    //- store solved external flux contribution
+		    //- store solved internal concentration
 
 		    pmops->pdInternal = pdConcentration;
 		}
@@ -894,6 +896,52 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)piMop;
 
 		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for single channel initialization with variable reversal potential
+
+	    case HECCER_MOP_INITIALIZECHANNELEK:
+	    {
+		//- go to next operator
+
+		struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- get index of reversal potential
+
+		double *pdReversalPotential = pmops->pdReversalPotential;
+
+		//- if still an index
+
+		if (pdReversalPotential)
+		{
+		    //- convert index to pointer
+
+		    int iReversalPotential = (int)pdReversalPotential;
+
+		    if (iReversalPotential == -1)
+		    {
+			//t HeccerError(number, message, varargs);
+
+			fprintf
+			    (stderr,
+			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
+			     &piMop[-1] - (int *)pheccer->vm.pvMops);
+
+			return(FALSE);
+		    }
+
+		    //t I guess this can go wrong, not sure
+
+		    double *pdNernst = (double *)pheccer->vm.ppvMatsIndex[iReversalPotential];
+
+		    //- store solved nernst potential
+
+		    pmops->pdReversalPotential = pdReversalPotential;
+		}
 
 		break;
 	    }
@@ -1295,6 +1343,25 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		dChannelConductance = pmops->dMaximalConductance;
 
 		dReversalPotential = pmops->dReversalPotential;
+
+		break;
+	    }
+
+	    //- for single channel initialization with variable reversal potential
+
+	    case HECCER_MOP_INITIALIZECHANNELEK:
+	    {
+		//- go to next operator
+
+		struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- load channel variables
+
+		dChannelConductance = pmops->dMaximalConductance;
+
+		dReversalPotential = pmops->pdReversalPotential[0];
 
 		break;
 	    }
