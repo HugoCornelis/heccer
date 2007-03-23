@@ -26,6 +26,21 @@ struct Heccer;
 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
+
+//d number of function allowed per symbol as a shift operand
+
+#define NEUROSPACES_2_HECCER_MAX_FUNCTIONS 2
+
+#define ADDRESSING_NEUROSPACES_2_HECCER(iNeuro) ((iNeuro) << NEUROSPACES_2_HECCER_MAX_FUNCTIONS)
+
+#define ADDRESSING_HECCER_2_NEUROSPACES(iHeccer) ((iHeccer) >> NEUROSPACES_2_HECCER_MAX_FUNCTIONS)
+
+//t should add defines for assigning function IDs.
+//t
+//t note that this would be solved automatically if
+//t neurospaces would do full traversals.
+
+
 void *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType);

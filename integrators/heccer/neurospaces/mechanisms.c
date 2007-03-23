@@ -21,9 +21,11 @@
 #include <string.h>
 #include <strings.h>
 
+#include <neurospaces/function.h>
 #include <neurospaces/pidinstack.h>
 #include <neurospaces/treespacetraversal.h>
 
+#include "heccer/addressing.h"
 #include "heccer/compartment.h"
 #include "heccer/intermediary.h"
 #include "heccer/mathcomponent.h"
@@ -90,6 +92,8 @@ struct MathComponentData
 #define STATUS_MANY_CHANNELS -7
 #define STATUS_UNKNOWN_ERROR -8
 #define STATUS_NON_CHANNEL_OUTPUTS_IK -9
+#define STATUS_CONSTANT_NERNST -10
+#define STATUS_NON_POOL_FOR_NERNST -11
 
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc);
@@ -1614,7 +1618,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- register serial
 
-	pmc->iSerial = PidinStackToSerial(ptstr->ppist);
+	int iNeurospaces = PidinStackToSerial(ptstr->ppist);
+
+	pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
     }
 
     //- depending on the type
@@ -1646,6 +1652,20 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
+	//- determine link with math component that computes the
+	//- reversal potential, if any
+
+	int iReversalPotential = -1;
+
+	if (SymbolHasNernstEk(phsle, ptstr->ppist))
+	{
+	    //- currently the nernst intermediary always comes after the channel
+
+	    //! this can be dependent on the other functions present, notably mgblocking.
+
+	    iReversalPotential = pmc->iSerial + 1;
+	}
+
 	//- set values
 
 	if (iType == MATH_TYPE_ChannelAct)
@@ -1656,7 +1676,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pca->dReversalPotential = dReversalPotential;
 
-	    pca->iReversalPotential = -1;
+	    pca->iReversalPotential = iReversalPotential;
 
 	    pca->iPool = -1;
 	}
@@ -1668,7 +1688,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcai->dReversalPotential = dReversalPotential;
 
-	    pcai->iReversalPotential = -1;
+	    pcai->iReversalPotential = iReversalPotential;
 
 	    pcai->iPool = -1;
 	}
@@ -1680,7 +1700,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcpsdt->dReversalPotential = dReversalPotential;
 
-	    pcpsdt->iReversalPotential = -1;
+	    pcpsdt->iReversalPotential = iReversalPotential;
 
 	    pcpsdt->iPool = -1;
 	}
@@ -1692,7 +1712,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcpst->dReversalPotential = dReversalPotential;
 
-	    pcpst->iReversalPotential = -1;
+	    pcpst->iReversalPotential = iReversalPotential;
 
 	    pcpst->iPool = -1;
 	}
@@ -1704,7 +1724,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcsst->dReversalPotential = dReversalPotential;
 
-	    pcsst->iReversalPotential = -1;
+	    pcsst->iReversalPotential = iReversalPotential;
 
 	    pcsst->iPool = -1;
 	}
@@ -1716,7 +1736,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcac->dReversalPotential = dReversalPotential;
 
-	    pcac->iReversalPotential = -1;
+	    pcac->iReversalPotential = iReversalPotential;
 
 	    pcac->iPool = -1;
 
@@ -1730,12 +1750,14 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		//t this is a hack to get things to work right now,
 		//t see TODOs in neurospaces
 
-		//t this hack will not work when components are grouped or so
+		//t this hack will not work when components are in different groups or so
 
 		int iSerialDifference
 		    = piolPool->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
-		pcac->pac.ac.iActivator = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+		int iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+
+		pcac->pac.ac.iActivator = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
 	    }
 	    else
 	    {
@@ -1796,6 +1818,151 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pmcd->iCurrentType++;
 	}
+
+	//- if there is a nernst function
+
+	int iFunctions = 1;
+
+	if (SymbolHasNernstEk(phsle, ptstr->ppist))
+	{
+	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
+
+	    //- get Ek parameter
+
+	    struct symtab_Parameters *pparEk
+		= SymbolGetParameter(phsle, "Ek", ptstr->ppist);
+
+	    //- get nernst function
+
+	    struct symtab_Function *pfunNernst
+		= ParameterGetFunction(pparEk);
+
+	    //- fetch parameters
+
+	    struct symtab_Parameters *pparCIn
+		= FunctionGetParameter(pfunNernst, "Cin");
+	    struct symtab_Parameters *pparCOut
+		= FunctionGetParameter(pfunNernst, "Cout");
+	    struct symtab_Parameters *pparValency
+		= FunctionGetParameter(pfunNernst, "valency");
+	    struct symtab_Parameters *pparT
+		= FunctionGetParameter(pfunNernst, "T");
+
+	    if (!pparCIn
+		|| !pparCOut
+		|| !pparValency
+		|| !pparT)
+	    {
+		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
+
+		iResult = TSTR_PROCESSOR_ABORT;
+
+		break;
+	    }
+
+	    //- calculate parameter values
+
+	    double dCIn = ParameterResolveValue(pparCIn, ptstr->ppist);
+	    double dCOut = ParameterResolveValue(pparCOut, ptstr->ppist);
+	    double dValency = ParameterResolveValue(pparValency, ptstr->ppist);
+	    double dT = ParameterResolveValue(pparT, ptstr->ppist);
+
+	    if (dCIn == FLT_MAX
+		|| dCOut == FLT_MAX
+		|| dValency == FLT_MAX
+		|| dT == FLT_MAX)
+	    {
+		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
+
+		iResult = TSTR_PROCESSOR_ABORT;
+
+		break;
+	    }
+
+/* SI units */
+#define GAS_CONSTANT	8.314			/* (V * C)/(deg K * mol) */
+#define FARADAY		9.6487e4			/* C / mol */
+#define ZERO_CELSIUS	273.15			/* deg */
+#define R_OVER_F        8.6171458e-5		/* volt/deg */
+#define F_OVER_R        1.1605364e4		/* deg/volt */
+
+	    //- calculate (genesis style) nernst constant
+
+	    double dConstant = R_OVER_F * (dT + ZERO_CELSIUS) / dValency;
+
+	    //- fill in values
+
+	    pin->dConstant = dConstant;
+	    pin->dExternal = dCOut;
+
+	    //! neurospaces contains support to evaluate simple functions
+
+	    pin->dInitPotential = SymbolParameterResolveValue(phsle, "Ek", ptstr->ppist);
+
+	    //- find concentration that determines the nernst potential
+
+	    struct symtab_HSolveListElement *phslePool
+		= SymbolResolveParameterFunctionalInput
+		  (phsle, ptstr->ppist, "Ek", "concen", 0);
+
+	    //- if found
+
+	    if (phslePool)
+	    {
+		if (!instanceof_pool(phslePool))
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_NON_POOL_FOR_NERNST);
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+
+		    break;
+		}
+
+		//t this is a hack to get things to work right now,
+		//t see TODOs in neurospaces
+
+		//t this hack will not work when components are in different groups or so
+
+		int iSerialDifference
+		    = phslePool->smapPrincipal.iParent - phsle->smapPrincipal.iParent;
+
+		int iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+		int iNernst = PidinStackToSerial(ptstr->ppist) + iFunctions;
+
+		iPool = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
+		iNernst = ADDRESSING_NEUROSPACES_2_HECCER(iNernst);
+
+		pin->iInternal = iPool;
+
+		//- register the channel as a flux contributor
+
+		pmcd->ppiConnectors[pmcd->iConnectors][0] = iPool;
+		pmcd->ppiConnectors[pmcd->iConnectors][1] = iNernst;
+
+		pmcd->iConnectors++;
+	    }
+	    else
+	    {
+		//t fallback to constant nernst, requires changes in the typer
+
+		MathComponentDataStatusSet(pmcd, STATUS_CONSTANT_NERNST);
+
+		iResult = TSTR_PROCESSOR_ABORT;
+
+		break;
+	    }
+
+	    //- advance to the next math component
+
+	    pmcd->pmc = MathComponentNext(pmcd->pmc);
+
+	    pmcd->iCurrentType++;
+
+	    iFunctions++;
+	}
+
+	//t mgblocking
+
 	break;
     }
 
@@ -1864,19 +2031,23 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		//t this is a hack to get things to work right now,
 		//t see TODOs in neurospaces
 
-		//t this hack will not work when components are grouped or so
+		//t this hack will not work when components are in different groups or so
 
 		int iSerialDifference
 		    = piolExternal->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
 
 		int iChannel = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+		int iPool = PidinStackToSerial(ptstr->ppist);
+
+		iChannel = ADDRESSING_NEUROSPACES_2_HECCER(iChannel);
+		iPool = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
 
 		pexdec->piExternal[iInput] = iChannel;
 
 		//- register the channel as a flux contributor
 
 		pmcd->ppiConnectors[pmcd->iConnectors][0] = iChannel;
-		pmcd->ppiConnectors[pmcd->iConnectors][1] = PidinStackToSerial(ptstr->ppist);
+		pmcd->ppiConnectors[pmcd->iConnectors][1] = iPool;
 
 		pmcd->iConnectors++;
 	    }
@@ -2082,9 +2253,23 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	    }
 	}
 
-	//t check functions in parameters
+	//- if the channel has a nernst function
 
-	//t MATH_TYPE_Nernst
+	//t need a separate loop for registering the type or so.
+
+	if (SymbolHasNernstEk(phsle, ptstr->ppist))
+	{
+	    if (!MathComponentDataTypeRegister(pmcd, iType))
+	    {
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+
+	    //t differentiate between internal and external nernst,
+	    //t possibly also differentiate with constant nernst
+
+	    iType = MATH_TYPE_InternalNernst;
+	}
+
 	//t MATH_TYPE_MGBlocker
 
 	//t check for attachments (synchans)

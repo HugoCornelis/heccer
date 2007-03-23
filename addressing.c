@@ -78,6 +78,8 @@ HeccerAddressVariable
 
     void *pvResult = NULL;
 
+    iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
+
     int iIntermediary = HeccerAddressSerial2Intermediary(pheccer, iSerial, pcType);
 
     if (iIntermediary != -1)

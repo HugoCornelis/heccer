@@ -22,6 +22,7 @@
 #include <neurospaces/pidinstack.h>
 #include <neurospaces/treespacetraversal.h>
 
+#include "heccer/addressing.h"
 #include "heccer/compartment.h"
 #include "heccer/intermediary.h"
 #include "heccer/neurospaces/heccer.h"
@@ -72,8 +73,11 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	//! note: assumes pp define HECCER_SOURCE_NEUROSPACES
 
-	pinter->pcomp[iSegment].mc.iSerial
-	    = PidinStackToSerial(ptstr->ppist);
+	int iSerial = PidinStackToSerial(ptstr->ppist);
+
+	iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
+
+	pinter->pcomp[iSegment].mc.iSerial = iSerial;
 
 	//- register parameters
 
@@ -159,6 +163,8 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		    if (iParent != INT_MAX)
 		    {
+			iParent = ADDRESSING_NEUROSPACES_2_HECCER(iParent);
+
 			pinter->pcomp[iSegment].iParent = iParent;
 		    }
 		    else
