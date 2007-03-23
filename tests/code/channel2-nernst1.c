@@ -484,7 +484,7 @@ struct ExponentialDecay exdecCa =
 
     //m beta
 
-    9412391936.0,
+    7.579027046e+10,
 
     //m steady state
 
@@ -517,7 +517,7 @@ struct InternalNernst inCa =
 
     //m nernst constant
 
-    0.0125,
+    0.013363,
 
     //m link to internal concentration
 

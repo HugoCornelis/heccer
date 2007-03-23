@@ -1833,9 +1833,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	{
 	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
 
-	    int iNernst = PidinStackToSerial(ptstr->ppist) + iFunctions;
+	    int iNernst = PidinStackToSerial(ptstr->ppist);
 
-	    iNernst = ADDRESSING_NEUROSPACES_2_HECCER(iNernst);
+	    iNernst = ADDRESSING_NEUROSPACES_2_HECCER(iNernst) + iFunctions;
 
 	    //- set type and serial
 
