@@ -32,7 +32,7 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 0
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
 			 (0) (0) (nil) (nil)							 4e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
@@ -74,8 +74,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.66137e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21291e-12) (4.66137e-12) (nil) (nil)							 4.0055e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21291e-12) (4.66137e-12) (nil) (nil)							 4.0443e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -116,8 +116,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.67115e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21251e-12) (4.67115e-12) (nil) (nil)							 4.35166e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21251e-12) (4.67115e-12) (nil) (nil)							 6.8316e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -158,8 +158,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.70344e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21229e-12) (4.70344e-12) (nil) (nil)							 4.48047e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21229e-12) (4.70344e-12) (nil) (nil)							 7.86887e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -200,8 +200,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.7452e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21226e-12) (4.7452e-12) (nil) (nil)							 4.53018e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21226e-12) (4.7452e-12) (nil) (nil)							 8.26913e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -242,8 +242,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.7883e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21241e-12) (4.7883e-12) (nil) (nil)							 4.55095e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21241e-12) (4.7883e-12) (nil) (nil)							 8.43639e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -284,8 +284,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.83126e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21274e-12) (4.83126e-12) (nil) (nil)							 4.56124e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21274e-12) (4.83126e-12) (nil) (nil)							 8.51924e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -326,8 +326,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.87787e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21325e-12) (4.87787e-12) (nil) (nil)							 4.56769e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21325e-12) (4.87787e-12) (nil) (nil)							 8.57117e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -368,8 +368,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.92141e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21393e-12) (4.92141e-12) (nil) (nil)							 4.5728e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21393e-12) (4.92141e-12) (nil) (nil)							 8.61227e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -410,8 +410,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 4.96987e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21481e-12) (4.96987e-12) (nil) (nil)							 4.57751e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21481e-12) (4.96987e-12) (nil) (nil)							 8.65019e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -452,8 +452,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 5.01807e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21586e-12) (5.01807e-12) (nil) (nil)							 4.58209e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21586e-12) (5.01807e-12) (nil) (nil)							 8.68713e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)
@@ -494,8 +494,8 @@ Mechanism operations
 00032 :: UPDATECOMPARTMENTCURRENT
 00033 :: REGISTERCHANNELCURRENT
 00034 :: FLUXPOOL							 5.06324e-12
-00035 :: EXPONENTIALDECAY 9412.39 4e-05 1.005
-			 (1.21707e-12) (5.06324e-12) (nil) (nil)							 4.58667e-05
+00035 :: EXPONENTIALDECAY 75790.3 4e-05 1.005
+			 (1.21707e-12) (5.06324e-12) (nil) (nil)							 8.72401e-05
 00046 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00001)
 VM Axial Resistances (pdResults[0]) : (0)

@@ -484,7 +484,7 @@ struct ExponentialDecay exdecCa =
 
     //m beta
 
-    9412391936.0,
+    7.57903e+10,
 
     //m steady state
 
