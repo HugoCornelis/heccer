@@ -22,6 +22,7 @@
 
 #include "heccer/addressing.h"
 #include "heccer/heccer.h"
+#include "heccer/mathcomponent.h"
 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -311,16 +312,14 @@ HeccerAddressMechanismSerial2Intermediary
 
     int iResult = -1;
 
-    //- loop over the compartment intermediary
+    //- loop over the math components intermediary
+
+    struct MathComponent *pmc = pheccer->inter.pmca->pmc;
 
     int i;
 
     for (i = 0; i < pheccer->inter.pmca->iMathComponents ; i++)
     {
-	//- get math component
-
-	struct MathComponent *pmc = pheccer->inter.pmca->pmc;
-
 	//- if serial matches
 
 	if (pmc->iSerial == iSerial)
@@ -333,6 +332,10 @@ HeccerAddressMechanismSerial2Intermediary
 
 	    break;
 	}
+
+	//- go to next math component
+
+	pmc = MathComponentNext(pmc);
     }
 
     //- return result
