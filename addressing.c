@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -199,6 +200,21 @@ HeccerAddressMechanismVariable
 
     void *pvResult = NULL;
 
+    //t map the field to an operator: -1, -2, -3 etc.
+    //t subtract the operator from iMat
+
+    //- get mat number
+
+    int iMat = pheccer->vm.piMC2Mat[iIndex];
+
+    //- set result
+
+    printf("mat number for %i is %i\n", iIndex, iMat);
+
+    //! note that this is implicitly assumed to be a pointer to double.
+
+    pvResult = pheccer->vm.ppvMatsIndex[iMat];
+
     //- return result
 
     return(pvResult);
@@ -207,7 +223,7 @@ HeccerAddressMechanismVariable
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerAddressSerial2Intermediary()
+/// SHORT: HeccerAddressCompartmentSerial2Intermediary()
 ///
 /// ARGS.:
 ///
@@ -239,13 +255,75 @@ HeccerAddressCompartmentSerial2Intermediary
 
     for (i = 0; i < pheccer->inter.iCompartments ; i++)
     {
-	//- set current compartment
+	//- get current compartment
 
 	struct Compartment *pcomp = &pheccer->inter.pcomp[i];
 
 	//- if serial matches
 
 	if (pcomp->mc.iSerial == iSerial)
+	{
+	    //t check if the field type is 'compatible' with the math component
+
+	    //- set result : current index
+
+	    iResult = i;
+
+	    //- break searching loop
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+#endif
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerAddressMechanismSerial2Intermediary()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iSerial...: identification number.
+///	pcField...: name of requested variable.
+///
+/// RTN..: int
+///
+///	index into the intermediary, -1 for not found.
+///
+/// DESCR: Lookup the index of the given serial.
+///
+/// **************************************************************************
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+static
+int
+HeccerAddressMechanismSerial2Intermediary
+(struct Heccer *pheccer, int iSerial, char *pcField)
+{
+
+    //- set default result : not found
+
+    int iResult = -1;
+
+    //- loop over the compartment intermediary
+
+    int i;
+
+    for (i = 0; i < pheccer->inter.pmca->iMathComponents ; i++)
+    {
+	//- get math component
+
+	struct MathComponent *pmc = pheccer->inter.pmca->pmc;
+
+	//- if serial matches
+
+	if (pmc->iSerial == iSerial)
 	{
 	    //- set result : current index
 
@@ -304,7 +382,7 @@ HeccerAddressSerial2Intermediary
     }
     else
     {
-	//t fill in this part
+	iResult = HeccerAddressMechanismSerial2Intermediary(pheccer, iSerial, pcField);
     }
 
     //- return result
