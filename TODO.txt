@@ -1,5 +1,9 @@
 -*- outline -*-
 
+* configure
+Check for the neurospaces.h file, then set the variable to compile the
+neurospaces integrator (or not).
+
 * Revisit the compartments mops and mats
 Needs update of all tests (also in ssp).
 ** mats: inject
