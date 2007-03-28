@@ -20,6 +20,10 @@
 #include "../../heccer/heccer.h"
 
 
+/* #define HECCER_TEST_REPORTING_GRANULARITY 100000 */
+/* #define HECCER_TEST_STEPS 1000 */
+
+
 struct Compartment compSoma =
 {
     //m administrative overhead

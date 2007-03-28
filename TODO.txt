@@ -1,5 +1,20 @@
 -*- outline -*-
 
+* integrators
+rename to 'interfaces', to stress the loose coupling.
+
+* addressing
+Last mechanism can not have more than one output, see addressing.c
+TODO developer comments.
+
+* perl glue
+comp2mech entry should default to -1 terminated array of all zeros,
+when there are no mechanisms.
+
+* intermediary concy checker
+** number of entries in comp2mech
+** values of comp2mech entries
+
 * configure
 Check for the neurospaces.h file, then set the variable to compile the
 neurospaces integrator (or not).

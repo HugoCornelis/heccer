@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -201,12 +202,50 @@ HeccerAddressMechanismVariable
 
     void *pvResult = NULL;
 
-    //t map the field to an operator: -1, -2, -3 etc.
-    //t subtract the operator from iMat
-
     //- get mat number
 
     int iMat = pheccer->vm.piMC2Mat[iIndex];
+
+    //- lookup the field operand (negative offset for now)
+
+    struct field_2_operator
+    {
+	char *pcField;
+	int iOperand;
+    };
+
+    struct field_2_operator pF2P[] =
+    {
+	{	"Ca",		0, },
+	{	"state_x",	-1, },
+	{	"state_y",	0, },
+	{	NULL,		INT_MAX, },
+    };
+
+    int iField;
+
+    for (iField = 0 ; pF2P[iField].pcField ; iField++)
+    {
+	if (strcmp(pcField, pF2P[iField].pcField) == 0)
+	{
+	    break;
+	}
+    }
+
+    //- if not found
+
+    int iOperand = pF2P[iField].iOperand;
+
+    if (iOperand == INT_MAX)
+    {
+	//- return failure
+
+	return(NULL);
+    }
+
+    //- apply the operand
+
+    iMat -= iOperand;
 
     //- set result
 
@@ -320,13 +359,13 @@ HeccerAddressMechanismSerial2Intermediary
 
     for (i = 0; i < pheccer->inter.pmca->iMathComponents ; i++)
     {
-	//- if serial matches
+	//- if serial range matches
 
-	if (pmc->iSerial == iSerial)
+	if (pmc->iSerial > iSerial)
 	{
-	    //- set result : current index
+	    //- set result : previous index
 
-	    iResult = i;
+	    iResult = i - 1;
 
 	    //- break searching loop
 
@@ -336,6 +375,20 @@ HeccerAddressMechanismSerial2Intermediary
 	//- go to next math component
 
 	pmc = MathComponentNext(pmc);
+    }
+
+    if (i == pheccer->inter.pmca->iMathComponents)
+    {
+	//t can go wrong when e.g. a request is made for a gate of the
+	//t last channel
+	//t need to register the serial of the cell, before a serious
+	//t solution can be implemented for that case.
+
+	return(-1);
+    }
+    else
+    {
+	return(iResult);
     }
 
     //- return result
