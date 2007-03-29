@@ -242,8 +242,8 @@ Mechanism operations
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 1.0002
 00001 :: INITIALIZECHANNEL 0.147021 1.75467e-09
 00006 :: LOADVOLTAGETABLE
-00007 :: CONCEPTGATE 0 1 (nil)							 0.0389187
-00011 :: CONCEPTGATE 1 1 (nil)							 0.0826021
+00007 :: CONCEPTGATE 0 1 (nil)							 0.0394782
+00011 :: CONCEPTGATE 1 1 (nil)							 0.0821138
 00015 :: UPDATECOMPARTMENTCURRENT
 00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.0002)
@@ -495,11 +495,11 @@ Mechanism operations
 00000 :: COMPARTMENT							 -9.35826e-12 0 1.73752e+06 1.0002
 00001 :: INITIALIZECHANNEL 0.147021 1.75467e-09
 00006 :: LOADVOLTAGETABLE
-00007 :: CONCEPTGATE 0 1 (nil)							 0.0388878
-00011 :: CONCEPTGATE 1 1 (nil)							 0.0826095
+00007 :: CONCEPTGATE 0 1 (nil)							 0.0394452
+00011 :: CONCEPTGATE 1 1 (nil)							 0.0821214
 00015 :: UPDATECOMPARTMENTCURRENT
 00016 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.0002)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.0680007)
+VM Membrane Potentials (pdVms[0]) : (-0.0680006)

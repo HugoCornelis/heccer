@@ -1,15 +1,15 @@
 setclock 0 2e-5
 create compartment c
 setfield c \
-	Cm 4.57537e-11 \
+	Cm 5.755329373e-12 \
 	Em -0.08 \
-	initVm -0.028 \
-	Ra 360502 \
-	Rm 3.58441e8
+	initVm -0.068 \
+	Ra 772813.4375 \
+	Rm 8.548598272e9
 create tabchannel c/cat
 setfield c/cat \
-	Ek 0.1375262439 \
-	Gbar 1.394928884e-08 \
+	Ek 0.14702148735523224 \
+	Gbar 1.7546722963501793e-09 \
 	Ik 0.0 \
 	Gk 0.0 \
 	Xpower 1.0 \
