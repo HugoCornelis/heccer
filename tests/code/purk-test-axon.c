@@ -830,10 +830,12 @@ int main(int argc, char *argv[])
 
     void *pmc = calloc(sizeof(char), iChars);
 
-    pmc	= MathComponentCopyNext(pmc, &caiCaT.mc);
-    pmc = MathComponentCopyNext(pmc, &csstKdr.mc);
-    pmc = MathComponentCopyNext(pmc, &caNaP.mc);
-    pmc = MathComponentCopyNext(pmc, &caiNaF.mc);
+    struct MathComponent *pmcTarget = pmc;
+
+    pmcTarget = MathComponentCopyNext(pmcTarget, &caiCaT.mc);
+    pmcTarget = MathComponentCopyNext(pmcTarget, &csstKdr.mc);
+    pmcTarget = MathComponentCopyNext(pmcTarget, &caNaP.mc);
+    pmcTarget = MathComponentCopyNext(pmcTarget, &caiNaF.mc);
 
     //- link the intermediary
 
