@@ -27,6 +27,7 @@ Makefile.in$
 ^tests/code/pool1-feedback2$
 ^tests/code/pool1-nernst$
 ^tests/code/pool2$
+^tests/code/purk-test-axon$
 ^tests/code/singlea-naf$
 ^tests/code/singlep$
 ^tests/code/table-cap$

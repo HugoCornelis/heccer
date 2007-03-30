@@ -1660,6 +1660,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dForward = pheccer->dStep * dForward;
 
+/* 		printf("forward %g, backward %g\n", dForward, dBackward); */
+
 		//- compute gate activation state
 
 		dActivation = (dActivation * (2.0 - dBackward) + dForward) / dBackward;

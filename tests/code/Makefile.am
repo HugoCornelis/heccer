@@ -43,6 +43,7 @@ check_PROGRAMS = \
 	pool1-nernst \
 	pool1 \
 	pool2 \
+	purk-test-axon \
 	singlea-naf \
 	singlep \
 	table-cap \
@@ -100,6 +101,8 @@ pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
 pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
+purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
+purk_test_axon_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf_LDADD = -L../.. -lheccer -lm
 singlep_DEPENDENCIES = ../../libheccer.a main.c

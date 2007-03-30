@@ -116,6 +116,10 @@ int
 MathComponentArraySetAdvance
 (struct MathComponentArray *pmca, struct MathComponent *pmc);
 
+struct MathComponent *
+MathComponentCopyNext
+(struct MathComponent *pmcTarget, struct MathComponent *pmcSource);
+
 struct MathComponentInfo * MathComponentInfoLookup(int iType);
 
 struct MathComponent *MathComponentNext(struct MathComponent *pmc);

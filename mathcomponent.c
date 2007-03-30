@@ -241,6 +241,67 @@ MathComponentArraySetAdvance
 
 /// **************************************************************************
 ///
+/// SHORT: MathComponentCopyNext()
+///
+/// ARGS.:
+///
+///	pmcTarget.: math component target.
+///	pmcSource.: math component source.
+///
+/// RTN..: struct MathComponent *
+///
+///	Next math component in the array, NULL for failure.
+///
+/// DESCR: Copy a math component, advance to the next math component.
+///
+///	The original content of pmcTarget is completely ignored and
+///	overwritten.
+///
+/// TODO:
+///
+///	This need an additional helper function that takes an ///
+///	non-linear array of math components and linearizes them in
+///	memory.
+///
+/// **************************************************************************
+
+struct MathComponent *
+MathComponentCopyNext
+(struct MathComponent *pmcTarget, struct MathComponent *pmcSource)
+{
+    //- set default result : failure
+
+    struct MathComponent *pmcResult = NULL;
+
+    //- determine size to copy
+
+    int iType = pmcSource->iType;
+
+    struct MathComponentInfo *pmci = MathComponentInfoLookup(iType);
+
+    if (!pmci)
+    {
+	return(NULL);
+    }
+
+    int iChars = pmci->iChars;
+
+    //- copy the math component to the current cursor position
+
+    memcpy(pmcTarget, pmcSource, iChars);
+
+    //- set result
+
+    pmcResult = MathComponentNext(pmcTarget);
+
+    //- return result
+
+    return(pmcResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: MathComponentInfoLookup()
 ///
 /// ARGS.:

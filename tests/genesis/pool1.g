@@ -72,3 +72,29 @@ function showfields
 		vm[0]
 end
 
+function showtables
+
+	int i
+
+	for (i = 0 ; i < 3001 ; i = i + 1)
+
+		echo {i} {getfield /c/cat X_A->table[{i}]}
+	end
+
+	for (i = 0 ; i < 3001 ; i = i + 1)
+
+		echo {i} {getfield /c/cat X_B->table[{i}]}
+	end
+
+	for (i = 0 ; i < 3001 ; i = i + 1)
+
+		echo {i} {getfield /c/cat Y_A->table[{i}]}
+	end
+
+	for (i = 0 ; i < 3001 ; i = i + 1)
+
+		echo {i} {getfield /c/cat Y_B->table[{i}]}
+	end
+
+end
+

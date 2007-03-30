@@ -249,7 +249,9 @@ HeccerAddressMechanismVariable
 
     //- set result
 
-    printf("mat number for %i is %i\n", iIndex, iMat);
+    int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
+
+    printf("mat number for %i is %i at offset %i\n", iIndex, iMat, iOffset);
 
     //! note that this is implicitly assumed to be a pointer to double.
 
