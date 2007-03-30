@@ -20,6 +20,11 @@
 #include <stdlib.h>
 
 
+//d accessible from the outside if needed
+
+struct Heccer *pheccer = NULL;
+
+
 //o To use this file :
 //o
 //o set the variable 'inter' to an intermediary representation,
@@ -29,7 +34,6 @@
 //o sensible default value.
 //o #include this file, compile, run and parse the output.
 //o
-
 
 #ifndef HECCER_TEST_INTERVAL_DEFAULT_START
 #define HECCER_TEST_INTERVAL_DEFAULT_START (-0.1)
@@ -74,7 +78,7 @@ int main(int argc, char *argv[])
 
     //- instantiate a heccer with an initialized intermediary
 
-    struct Heccer *pheccer = HeccerNewP2(&inter);
+    pheccer = HeccerNewP2(&inter);
 
     //t need sensible API to set options I guess.
 

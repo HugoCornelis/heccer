@@ -33,16 +33,6 @@ HeccerAddressCompartmentSerial2Intermediary
 (struct Heccer *pheccer, int iSerial, char *pcField);
 #endif
 
-static
-void *
-HeccerAddressCompartmentVariable
-(struct Heccer *pheccer, int iIntermediary, char *pcField);
-
-static
-void *
-HeccerAddressMechanismVariable
-(struct Heccer *pheccer, int iIndex, char *pcField);
-
 #ifdef HECCER_SOURCE_NEUROSPACES
 static
 int
@@ -127,7 +117,6 @@ HeccerAddressVariable
 ///
 /// **************************************************************************
 
-static
 void *
 HeccerAddressCompartmentVariable
 (struct Heccer *pheccer, int iIntermediary, char *pcField)
@@ -193,7 +182,6 @@ HeccerAddressCompartmentVariable
 ///
 /// **************************************************************************
 
-static
 void *
 HeccerAddressMechanismVariable
 (struct Heccer *pheccer, int iIndex, char *pcField)
@@ -245,7 +233,7 @@ HeccerAddressMechanismVariable
 
     //- apply the operand
 
-    iMat -= iOperand;
+    iMat += iOperand;
 
     //- set result
 

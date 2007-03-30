@@ -77,9 +77,9 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
     struct ImportedFile *pifRoot
 	= ParserContextGetImportedFile(pacRoot);
 
-/*     //! depending on how the linking is done, there can be multiple */
-/*     //! instances of neurospaces around.  The following is a hack to */
-/*     //! enforce the singleton (a bit) */
+    //! depending on how the linking is done, there can be multiple
+    //! instances of neurospaces around.  The following is a hack to
+    //! enforce the singleton (a bit)
 
 /*     fprintf(stdout, "HeccerConstruct(): root import is %p\n", ImportedFileGetRootImport()); */
 

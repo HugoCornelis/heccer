@@ -18,6 +18,7 @@
 
 #include <malloc.h>
 
+#include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
 
@@ -43,6 +44,15 @@ struct Compartment compSoma =
 	//m type of structure
 
 	MATH_TYPE_Compartment,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(1000),
+
+#endif
+
     },
 
     //m index of parent compartment, -1 for none
@@ -93,6 +103,15 @@ struct ChannelActInact caiCaT =
 	//m type of structure
 
 	MATH_TYPE_ChannelActInact,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(2000),
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -285,6 +304,15 @@ struct ChannelSteadyStateSteppedTau csstKdr =
 	//m type of structure
 
 	MATH_TYPE_ChannelSteadyStateSteppedTau,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(3000),
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -475,6 +503,15 @@ struct ChannelAct caNaP =
 	//m type of structure
 
 	MATH_TYPE_ChannelAct,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(4000),
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -588,6 +625,15 @@ struct ChannelActInact caiNaF =
 	//m type of structure
 
 	MATH_TYPE_ChannelActInact,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(5000),
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -809,7 +855,26 @@ struct Intermediary inter =
     //m compartment 2 first mechanism number
 
     piC2m,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+    //m identification of the originator, mostly a cell or cell
+    //m population, but perhaps just a segment vector
+
+    //m start range
+
+    1000,
+
+    //m end range
+
+    9000,
+
+#endif
+
 };
+
+
+extern struct Heccer *pheccer;
 
 
 int main(int argc, char *argv[])
@@ -845,9 +910,123 @@ int main(int argc, char *argv[])
 
     simulate(argc,argv);
 
-    //- address a variable
+#ifdef HECCER_SOURCE_NEUROSPACES
 
-    
+    //- address variables via the external ids
+
+    double *pdVmExternal = HeccerAddressVariable(pheccer, 1000, "Vm");
+
+    double *pdCaTXExternal = HeccerAddressVariable(pheccer, 2000, "state_x");
+
+    double *pdCaTYExternal = HeccerAddressVariable(pheccer, 2000, "state_y");
+
+    double *pdKdrXExternal = HeccerAddressVariable(pheccer, 3000, "state_x");
+
+    double *pdKdrYExternal = HeccerAddressVariable(pheccer, 3000, "state_y");
+
+    double *pdNaPXExternal = HeccerAddressVariable(pheccer, 4000, "state_x");
+
+    double *pdNaFXExternal = HeccerAddressVariable(pheccer, 5000, "state_x");
+
+    double *pdNaFYExternal = HeccerAddressVariable(pheccer, 5000, "state_y");
+
+#endif
+
+    //- address variables via the internal indices
+
+    double *pdVmInternal = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");
+
+    double *pdCaTXInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_x");
+
+    double *pdCaTYInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_y");
+
+    double *pdKdrXInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_x");
+
+    double *pdKdrYInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_y");
+
+    double *pdNaPXInternal = HeccerAddressMechanismVariable(pheccer, 2, "state_x");
+
+    double *pdNaFXInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_x");
+
+    double *pdNaFYInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_y");
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+    if (pdVmInternal != pdVmExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdCaTXInternal != pdCaTXExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdCaTYInternal != pdCaTYExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdKdrXInternal != pdKdrXExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdKdrYInternal != pdKdrYExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdNaPXInternal != pdNaPXExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdNaFXInternal != pdNaFXExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+    if (pdNaFYInternal != pdNaFYExternal)
+    {
+	//! just a segv
+
+	((int *)0)[0] = 0;
+    }
+
+#endif
+
+    fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
+
+    fprintf(stdout, "CaT state x is %g\n", pdCaTXInternal[0]);
+
+    fprintf(stdout, "CaT state y is %g\n", pdCaTYInternal[0]);
+
+    fprintf(stdout, "Kdr state x is %g\n", pdKdrXInternal[0]);
+
+    fprintf(stdout, "Kdr state y is %g\n", pdKdrYInternal[0]);
+
+    fprintf(stdout, "NaP state x is %g\n", pdNaPXInternal[0]);
+
+    fprintf(stdout, "NaF state x is %g\n", pdNaFXInternal[0]);
+
+    fprintf(stdout, "NaF state y is %g\n", pdNaFYInternal[0]);
+
+
 }
 
 

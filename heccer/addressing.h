@@ -46,6 +46,14 @@ HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType);
 #endif
 
+void *
+HeccerAddressCompartmentVariable
+(struct Heccer *pheccer, int iIntermediary, char *pcField);
+
+void *
+HeccerAddressMechanismVariable
+(struct Heccer *pheccer, int iIndex, char *pcField);
+
 
 #endif
 

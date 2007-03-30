@@ -62,7 +62,13 @@ struct Intermediary
     //m identification of the originator, mostly a cell or cell
     //m population, but perhaps just a segment vector
 
-    int iSerial;
+    //m start range
+
+    int iSerialStart;
+
+    //m end range
+
+    int iSerialEnd;
 
 #endif
 
