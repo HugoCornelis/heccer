@@ -2,6 +2,8 @@
 
 * integrators
 rename to 'interfaces', to stress the loose coupling.
+** Heccer.pm mentions 'intergrator plugin'
+Needs to be adapted.
 
 * addressing
 Last mechanism can not have more than one output, see addressing.c

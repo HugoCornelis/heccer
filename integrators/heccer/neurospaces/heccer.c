@@ -98,7 +98,8 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
 
     //- set model
 
-    PidinStackLookupTopSymbol(ppistModel);
+    struct symtab_HSolveListElement *phsleModel
+	= PidinStackLookupTopSymbol(ppistModel);
 
     ptsd->iModel = PidinStackToSerial(ppistModel);
 
@@ -132,18 +133,17 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
 	return(FALSE);
     }
 
-/*     //- allocate the heccer for this service */
-
-/*     //! so the service for heccer is an encoding for the service to */
-/*     //! the user, this is the way it should be I guess. */
-
-/*     pheccer = HeccerNew(pts); */
-
-     //- set service structures
+    //- set service structures
 
     pheccer->pts = pts;
 
-    //t compile1 constructs the intermediary ?
+    //- initialize the range of the intermediary, for the addressing
+    //- function
+
+    pheccer->inter.iSerialStart = ptsd->iModel;
+
+    pheccer->inter.iSerialEnd
+	= ptsd->iModel + SymbolGetPrincipalNumOfSuccessors(phsleModel);
 
     //- free allocated data
 

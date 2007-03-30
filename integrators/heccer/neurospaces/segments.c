@@ -38,7 +38,7 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 
 static int cellsolver_linksegments(struct Heccer *pheccer);
 
-static int cellsolver_setupmechanisms(struct Heccer *pheccer);
+static int cellsolver_setupcomp2mech(struct Heccer *pheccer);
 
 
 static
@@ -260,7 +260,7 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 
 	//- produce a piC2m array: all zeros for now
 
-	iResult = iResult && cellsolver_setupmechanisms(pheccer);
+	iResult = iResult && cellsolver_setupcomp2mech(pheccer);
     }
     else
     {
@@ -347,7 +347,7 @@ static int cellsolver_linksegments(struct Heccer *pheccer)
 }
 
 
-static int cellsolver_setupmechanisms(struct Heccer *pheccer)
+static int cellsolver_setupcomp2mech(struct Heccer *pheccer)
 {
     //- allocate
 
