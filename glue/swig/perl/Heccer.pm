@@ -135,6 +135,14 @@ sub hecc
 }
 
 
+sub finish
+{
+    my $self = shift;
+
+    #! that is ok.
+}
+
+
 sub initiate
 {
     my $self = shift;
@@ -912,6 +920,18 @@ sub backend
     my $self = shift;
 
     return $self->{backend};
+}
+
+
+sub finish
+{
+    my $self = shift;
+
+    # close files, free memory
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorFinish();
 }
 
 

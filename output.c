@@ -24,42 +24,7 @@
 #include "heccer/output.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: OutputGeneratorNew()
-///
-/// ARGS.:
-///
-/// RTN..: struct OutputGenerator *
-///
-///	Output generator, NULL for failure.
-///
-/// DESCR: Output generator.
-///
-/// **************************************************************************
-
-struct OutputGenerator * OutputGeneratorNew(void)
-{
-    //- set default result : failure
-
-    struct OutputGenerator * pogResult = NULL;
-
-    //- allocate output generator
-
-    pogResult = (struct OutputGenerator *)calloc(1, sizeof(struct OutputGenerator));
-
-    //- allocate output variables
-
 #define ALLOCATE_VARIABLES 10000
-
-    pogResult->ppdVariables = (double **)calloc(ALLOCATE_VARIABLES, sizeof(double *));
-
-    pogResult->iVariablesAllocated = ALLOCATE_VARIABLES;
-
-    //- return result
-
-    return(pogResult);
-}
 
 
 /// **************************************************************************
@@ -167,6 +132,92 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
     //- return result
 
     return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: OutputGeneratorFinish()
+///
+/// ARGS.:
+///
+///	pog...: output generator.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Close files, destruct the output generator.
+///
+/// **************************************************************************
+
+int OutputGeneratorFinish(struct OutputGenerator * pog)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+    //- if file
+
+    if (pog->pfileOutput)
+    {
+	//- close file
+
+	if (fclose(pog->pfileOutput) == EOF)
+	{
+	    iResult = 0;
+	}
+    }
+
+    //- free allocated memory
+
+    free(pog->ppdVariables);
+
+    //! prevent accidental misuse
+
+    pog->iVariablesAllocated = -9238;
+
+    free(pog);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: OutputGeneratorNew()
+///
+/// ARGS.:
+///
+/// RTN..: struct OutputGenerator *
+///
+///	Output generator, NULL for failure.
+///
+/// DESCR: Output generator.
+///
+/// **************************************************************************
+
+struct OutputGenerator * OutputGeneratorNew(void)
+{
+    //- set default result : failure
+
+    struct OutputGenerator * pogResult = NULL;
+
+    //- allocate output generator
+
+    pogResult = (struct OutputGenerator *)calloc(1, sizeof(struct OutputGenerator));
+
+    //- allocate output variables
+
+    pogResult->ppdVariables = (double **)calloc(ALLOCATE_VARIABLES, sizeof(double *));
+
+    pogResult->iVariablesAllocated = ALLOCATE_VARIABLES;
+
+    //- return result
+
+    return(pogResult);
 }
 
 

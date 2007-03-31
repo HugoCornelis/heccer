@@ -40,13 +40,15 @@ struct OutputGenerator
     FILE *pfileOutput;
 };
 
-struct OutputGenerator * OutputGeneratorNew(void);
-
 int
 OutputGeneratorAddVariable
 (struct OutputGenerator * pog, char *pcName, void *pvVariable);
 
 int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc);
+
+int OutputGeneratorFinish(struct OutputGenerator * pog);
+
+struct OutputGenerator * OutputGeneratorNew(void);
 
 
 #endif
