@@ -1664,6 +1664,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- compute gate activation state
 
+/* 		dActivation = (dActivation * (2.0 - dBackward) + dForward) / dBackward; */
+
 		dActivation = dForward / dBackward + dActivation * 2.0 / dBackward - dActivation;
 
 		//- and store it for the next cycle
@@ -1810,7 +1812,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- exponential decay with possibly external influx
 
-		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau;
+/* 		dState = dSteadyState + ((dState - dSteadyState) * (2.0 - dTau) + (dExternal * dBeta)) / dTau; */
+
+		dState = (dSteadyState * dTau * 2.0 + dState * 2.0 + dExternal * dBeta - dSteadyState * 2.0) / dTau - dState;
 
 		//- save state
 
