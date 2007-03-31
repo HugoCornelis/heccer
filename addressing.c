@@ -73,6 +73,18 @@ HeccerAddressVariable
 
     iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
 
+    //- if serial not within range
+
+    if (iSerial < pheccer->inter.iSerialStart
+	|| iSerial > pheccer->inter.iSerialEnd)
+    {
+	//- return failure
+
+	return(NULL);
+    }
+
+    //- convert the serial to an intermediary index
+
     int iIntermediary = HeccerAddressSerial2Intermediary(pheccer, iSerial, pcType);
 
     if (iIntermediary != -1)
@@ -90,6 +102,21 @@ HeccerAddressVariable
 	{
 	    pvResult = HeccerAddressMechanismVariable(pheccer, iIntermediary, pcType);
 	}
+    }
+    else
+    {
+	//! this cannot be, internal error
+
+	//t HeccerError(number, message, varargs);
+
+	fprintf
+	    (stderr,
+	     "Heccer the hecc : trying to address something that should exist, but cannot find it (internal serial %i\n",
+	     iSerial);
+
+	//- return error
+
+	return(NULL);
     }
 
     //- return result
@@ -349,14 +376,10 @@ HeccerAddressMechanismSerial2Intermediary
 
     for (i = 0; i < pheccer->inter.pmca->iMathComponents ; i++)
     {
-	//- if serial range matches
+	//- if searched serial lower than current serial
 
 	if (pmc->iSerial > iSerial)
 	{
-	    //- set result : previous index
-
-	    iResult = i - 1;
-
 	    //- break searching loop
 
 	    break;
@@ -367,19 +390,9 @@ HeccerAddressMechanismSerial2Intermediary
 	pmc = MathComponentNext(pmc);
     }
 
-    if (i == pheccer->inter.pmca->iMathComponents)
-    {
-	//t can go wrong when e.g. a request is made for a gate of the
-	//t last channel
-	//t need to register the serial of the cell, before a serious
-	//t solution can be implemented for that case.
+    //- set result : previous index
 
-	return(-1);
-    }
-    else
-    {
-	return(iResult);
-    }
+    iResult = i - 1;
 
     //- return result
 

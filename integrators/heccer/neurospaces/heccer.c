@@ -20,6 +20,7 @@
 #include <neurospaces/parsersupport.h>
 #include <neurospaces/pidinstack.h>
 
+#include "heccer/addressing.h"
 #include "heccer/heccer.h"
 #include "heccer/neurospaces/segments.h"
 #include "heccer/neurospaces/heccer.h"
@@ -140,10 +141,12 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
     //- initialize the range of the intermediary, for the addressing
     //- function
 
-    pheccer->inter.iSerialStart = ptsd->iModel;
+    //! note: closed interval, would probably be better to use a halve
+    //! open interval.
 
-    pheccer->inter.iSerialEnd
-	= ptsd->iModel + SymbolGetPrincipalNumOfSuccessors(phsleModel);
+    pheccer->inter.iSerialStart = ADDRESSING_NEUROSPACES_2_HECCER(ptsd->iModel);
+
+    pheccer->inter.iSerialEnd = ADDRESSING_NEUROSPACES_2_HECCER(ptsd->iModel + SymbolGetPrincipalNumOfSuccessors(phsleModel));
 
     //- free allocated data
 

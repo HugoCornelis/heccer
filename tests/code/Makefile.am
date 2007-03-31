@@ -25,6 +25,7 @@ AM_CFLAGS=-gdwarf-2 -g3 -Wmissing-prototypes -Wmissing-declarations -ffloat-stor
 CFLAGS=-O0
 
 check_PROGRAMS = \
+	addressing-purk-test-axon \
 	c1c2p1 \
 	c1c2p2 \
 	callout1 \
@@ -37,13 +38,12 @@ check_PROGRAMS = \
 	fork4p1 \
 	fork4p2 \
 	fork4p3 \
+	pool1 \
 	pool1-contributors2 \
 	pool1-feedback1 \
 	pool1-feedback2 \
 	pool1-nernst \
-	pool1 \
 	pool2 \
-	purk-test-axon \
 	singlea-naf \
 	singlep \
 	table-cap \
@@ -65,6 +65,8 @@ check_PROGRAMS = \
 noinst_HEADERS = \
 	main.c
 
+addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
+addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c
 c1c2p1_LDADD = -L../.. -lheccer -lm
 c1c2p2_DEPENDENCIES = ../../libheccer.a main.c
@@ -72,13 +74,13 @@ c1c2p2_LDADD = -L../.. -lheccer -lm
 callout1_DEPENDENCIES = ../../libheccer.a main.c
 callout1_LDADD = -L../.. -lheccer -lm
 calloutInjector_DEPENDENCIES = ../../libheccer.a main.c
-channel1_nernst1_LDADD = -L../.. -lheccer -lm
-channel1_nernst1_DEPENDENCIES = ../../libheccer.a main.c
-channel2_nernst1_LDADD = -L../.. -lheccer -lm
-channel2_nernst1_DEPENDENCIES = ../../libheccer.a main.c
-channel2_nernst2_LDADD = -L../.. -lheccer -lm
-channel2_nernst2_DEPENDENCIES = ../../libheccer.a main.c
 calloutInjector_LDADD = -L../.. -lheccer -lm
+channel1_nernst1_DEPENDENCIES = ../../libheccer.a main.c
+channel1_nernst1_LDADD = -L../.. -lheccer -lm
+channel2_nernst1_DEPENDENCIES = ../../libheccer.a main.c
+channel2_nernst1_LDADD = -L../.. -lheccer -lm
+channel2_nernst2_DEPENDENCIES = ../../libheccer.a main.c
+channel2_nernst2_LDADD = -L../.. -lheccer -lm
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 doublep_LDADD = -L../.. -lheccer -lm
 fork3p_DEPENDENCIES = ../../libheccer.a main.c
@@ -101,8 +103,6 @@ pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
 pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
-purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
-purk_test_axon_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf_LDADD = -L../.. -lheccer -lm
 singlep_DEPENDENCIES = ../../libheccer.a main.c

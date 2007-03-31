@@ -118,9 +118,9 @@ int main(int argc, char *argv[])
 
 /*     fprintf(stdout, "-------\n"); */
 
-    fprintf(stdout, "Initiated\n");
+    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Initiated\n");
 
-    HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
+    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
 
     //v final report needed ?
 
@@ -140,11 +140,11 @@ int main(int argc, char *argv[])
 
 	if (i % HECCER_TEST_REPORTING_GRANULARITY == 0)
 	{
-	    fprintf(stdout, "-------\n");
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
 
-	    fprintf(stdout, "Iteration %i\n", i);
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Iteration %i\n", i);
 
-	    HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
+	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
 	}
 	else
 	{
@@ -156,11 +156,11 @@ int main(int argc, char *argv[])
 
     if (iFinalReport)
     {
-	fprintf(stdout, "-------\n");
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
 
-	fprintf(stdout, "Final Iteration\n", i);
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Final Iteration\n", i);
 
-	HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
+	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
     }
 
     //- return result

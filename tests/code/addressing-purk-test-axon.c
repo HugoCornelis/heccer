@@ -17,6 +17,7 @@
 
 
 #include <malloc.h>
+#include <stdlib.h>
 
 #include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
@@ -25,6 +26,7 @@
 
 #define HECCER_TEST_REPORTING_GRANULARITY 100
 #define HECCER_TEST_STEPS 0
+/* #define HECCER_TEST_TESTED_THINGS (0) */
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
 				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
 				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
@@ -863,11 +865,11 @@ struct Intermediary inter =
 
     //m start range
 
-    1000,
+    ADDRESSING_NEUROSPACES_2_HECCER(1000),
 
     //m end range
 
-    9000,
+    ADDRESSING_NEUROSPACES_2_HECCER(9000),
 
 #endif
 
@@ -1027,6 +1029,13 @@ int main(int argc, char *argv[])
     fprintf(stdout, "NaF state y is %g\n", pdNaFYInternal[0]);
 
 
+    //- set default result : ok
+
+    int iResult = EXIT_SUCCESS;
+
+    //- return result
+
+    return(iResult);
 }
 
 
