@@ -46,21 +46,21 @@ mat number for 0 is 1 at offset 4
 mat number for 0 is 2 at offset 5
 mat number for 1 is 3 at offset 6
 mat number for 1 is 4 at offset 7
-mat number for 2 is 4 at offset 8
+mat number for 2 is 5 at offset 8
 mat number for 3 is 6 at offset 9
 mat number for 3 is 7 at offset 10
 mat number for 0 is 1 at offset 4
 mat number for 0 is 2 at offset 5
 mat number for 1 is 3 at offset 6
 mat number for 1 is 4 at offset 7
-mat number for 2 is 4 at offset 8
+mat number for 2 is 5 at offset 8
 mat number for 3 is 6 at offset 9
 mat number for 3 is 7 at offset 10
 Membrane potential is -0.068
-CaT state x is 0.0394782
-CaT state y is 0.0821138
-Kdr state x is 0.00359944
-Kdr state y is 0.99998
-NaP state x is 0.761231
-NaF state x is 0.00784064
-NaF state y is 0.263978
+CaT state m is 0.0394782
+CaT state h is 0.0821138
+Kdr state m is 0.00359944
+Kdr state h is 0.99998
+NaP state n is 0.761231
+NaF state m is 0.00784064
+NaF state h is 0.263978

@@ -918,19 +918,19 @@ int main(int argc, char *argv[])
 
     double *pdVmExternal = HeccerAddressVariable(pheccer, 1000, "Vm");
 
-    double *pdCaTXExternal = HeccerAddressVariable(pheccer, 2000, "state_x");
+    double *pdCaTMExternal = HeccerAddressVariable(pheccer, 2000, "state_m");
 
-    double *pdCaTYExternal = HeccerAddressVariable(pheccer, 2000, "state_y");
+    double *pdCaTHExternal = HeccerAddressVariable(pheccer, 2000, "state_h");
 
-    double *pdKdrXExternal = HeccerAddressVariable(pheccer, 3000, "state_x");
+    double *pdKdrMExternal = HeccerAddressVariable(pheccer, 3000, "state_m");
 
-    double *pdKdrYExternal = HeccerAddressVariable(pheccer, 3000, "state_y");
+    double *pdKdrHExternal = HeccerAddressVariable(pheccer, 3000, "state_h");
 
-    double *pdNaPXExternal = HeccerAddressVariable(pheccer, 4000, "state_x");
+    double *pdNaPNExternal = HeccerAddressVariable(pheccer, 4000, "state_n");
 
-    double *pdNaFXExternal = HeccerAddressVariable(pheccer, 5000, "state_x");
+    double *pdNaFMExternal = HeccerAddressVariable(pheccer, 5000, "state_m");
 
-    double *pdNaFYExternal = HeccerAddressVariable(pheccer, 5000, "state_y");
+    double *pdNaFHExternal = HeccerAddressVariable(pheccer, 5000, "state_h");
 
 #endif
 
@@ -938,19 +938,19 @@ int main(int argc, char *argv[])
 
     double *pdVmInternal = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");
 
-    double *pdCaTXInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_x");
+    double *pdCaTMInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_m");
 
-    double *pdCaTYInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_y");
+    double *pdCaTHInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_h");
 
-    double *pdKdrXInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_x");
+    double *pdKdrMInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_m");
 
-    double *pdKdrYInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_y");
+    double *pdKdrHInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_h");
 
-    double *pdNaPXInternal = HeccerAddressMechanismVariable(pheccer, 2, "state_x");
+    double *pdNaPNInternal = HeccerAddressMechanismVariable(pheccer, 2, "state_n");
 
-    double *pdNaFXInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_x");
+    double *pdNaFMInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_m");
 
-    double *pdNaFYInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_y");
+    double *pdNaFHInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_h");
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
@@ -961,49 +961,49 @@ int main(int argc, char *argv[])
 	((int *)0)[0] = 0;
     }
 
-    if (pdCaTXInternal != pdCaTXExternal)
+    if (pdCaTMInternal != pdCaTMExternal)
     {
 	//! just a segv
 
 	((int *)0)[0] = 0;
     }
 
-    if (pdCaTYInternal != pdCaTYExternal)
+    if (pdCaTHInternal != pdCaTHExternal)
     {
 	//! just a segv
 
 	((int *)0)[0] = 0;
     }
 
-    if (pdKdrXInternal != pdKdrXExternal)
+    if (pdKdrMInternal != pdKdrMExternal)
     {
 	//! just a segv
 
 	((int *)0)[0] = 0;
     }
 
-    if (pdKdrYInternal != pdKdrYExternal)
+    if (pdKdrHInternal != pdKdrHExternal)
     {
 	//! just a segv
 
 	((int *)0)[0] = 0;
     }
 
-    if (pdNaPXInternal != pdNaPXExternal)
+    if (pdNaPNInternal != pdNaPNExternal)
     {
 	//! just a segv
 
 	((int *)0)[0] = 0;
     }
 
-    if (pdNaFXInternal != pdNaFXExternal)
+    if (pdNaFMInternal != pdNaFMExternal)
     {
 	//! just a segv
 
 	((int *)0)[0] = 0;
     }
 
-    if (pdNaFYInternal != pdNaFYExternal)
+    if (pdNaFHInternal != pdNaFHExternal)
     {
 	//! just a segv
 
@@ -1014,19 +1014,19 @@ int main(int argc, char *argv[])
 
     fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
 
-    fprintf(stdout, "CaT state x is %g\n", pdCaTXInternal[0]);
+    fprintf(stdout, "CaT state m is %g\n", pdCaTMInternal[0]);
 
-    fprintf(stdout, "CaT state y is %g\n", pdCaTYInternal[0]);
+    fprintf(stdout, "CaT state h is %g\n", pdCaTHInternal[0]);
 
-    fprintf(stdout, "Kdr state x is %g\n", pdKdrXInternal[0]);
+    fprintf(stdout, "Kdr state m is %g\n", pdKdrMInternal[0]);
 
-    fprintf(stdout, "Kdr state y is %g\n", pdKdrYInternal[0]);
+    fprintf(stdout, "Kdr state h is %g\n", pdKdrHInternal[0]);
 
-    fprintf(stdout, "NaP state x is %g\n", pdNaPXInternal[0]);
+    fprintf(stdout, "NaP state n is %g\n", pdNaPNInternal[0]);
 
-    fprintf(stdout, "NaF state x is %g\n", pdNaFXInternal[0]);
+    fprintf(stdout, "NaF state m is %g\n", pdNaFMInternal[0]);
 
-    fprintf(stdout, "NaF state y is %g\n", pdNaFYInternal[0]);
+    fprintf(stdout, "NaF state h is %g\n", pdNaFHInternal[0]);
 
 
     //- set default result : ok
