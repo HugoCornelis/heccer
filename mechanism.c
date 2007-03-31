@@ -1664,7 +1664,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- compute gate activation state
 
-		dActivation = dActivation * 2.0 / dBackward - dActivation + dForward / dBackward;
+		dActivation = dForward / dBackward + dActivation * 2.0 / dBackward - dActivation;
 
 		//- and store it for the next cycle
 
