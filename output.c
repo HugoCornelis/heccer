@@ -99,7 +99,7 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
     {
 	//t file name taken from options
 
-	pog->pfileOutput = fopen("/tmp/OutputGenerator", "w");
+	pog->pfileOutput = fopen(pog->pcFilename, "w");
 
 	if (!pog->pfileOutput)
 	{
@@ -191,6 +191,8 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 ///
 /// ARGS.:
 ///
+///	pcFilename..: file name to write output to.
+///
 /// RTN..: struct OutputGenerator *
 ///
 ///	Output generator, NULL for failure.
@@ -199,7 +201,7 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 ///
 /// **************************************************************************
 
-struct OutputGenerator * OutputGeneratorNew(void)
+struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 {
     //- set default result : failure
 
@@ -214,6 +216,12 @@ struct OutputGenerator * OutputGeneratorNew(void)
     pogResult->ppdVariables = (double **)calloc(ALLOCATE_VARIABLES, sizeof(double *));
 
     pogResult->iVariablesAllocated = ALLOCATE_VARIABLES;
+
+    //- allocate filename
+
+    pogResult->pcFilename = calloc(1 + strlen(pcFilename), sizeof(char));
+
+    strcpy(pogResult->pcFilename, pcFilename);
 
     //- return result
 

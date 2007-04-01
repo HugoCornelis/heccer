@@ -37,6 +37,8 @@ struct OutputGenerator
 
     //m output file stream
 
+    char *pcFilename;
+
     FILE *pfileOutput;
 };
 
@@ -48,7 +50,7 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc);
 
 int OutputGeneratorFinish(struct OutputGenerator * pog);
 
-struct OutputGenerator * OutputGeneratorNew(void);
+struct OutputGenerator * OutputGeneratorNew(char *pcFilename);
 
 
 #endif

@@ -953,7 +953,12 @@ sub new
 
     bless $self, $package;
 
-    $self->{backend} = SwiggableHeccer::OutputGeneratorNew();
+    if (!defined $self->{filename})
+    {
+	$self->{filename} = "/tmp/OutputGenerator";
+    }
+
+    $self->{backend} = SwiggableHeccer::OutputGeneratorNew($self->{filename});
 
     if (!defined $self->{backend})
     {
