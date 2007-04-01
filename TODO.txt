@@ -1,5 +1,12 @@
 -*- outline -*-
 
+* internal state serializer
+** serializes the complete internal state
+** can be used from SSP, to save the full state of a model
+** files can be reloaded by a stand-alone heccer for debugging
+** depending on options, only serializes the model state
+and not the model structure.
+
 * integrators
 rename to 'interfaces', to stress the loose coupling.
 ** Heccer.pm mentions 'intergrator plugin'
