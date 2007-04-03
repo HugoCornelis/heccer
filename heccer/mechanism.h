@@ -78,6 +78,10 @@ struct ChannelSpringMass
 
     int iTable;
 
+    //m event time table (FLT_MAX terminated)
+
+    double *pdEventTimes;
+
     //m parameters
 
     struct SpringMassParameters parameters;

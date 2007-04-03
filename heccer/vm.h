@@ -201,9 +201,13 @@ struct MopsSpringMass
 
     int iOperator;
 
-    //m discrete event mapper index, -1 for none
+    //m time table next event
 
-    //! the discrete source holds the counter till the next event (if any).
+    int iEvent;
+
+    double *pdEvents;
+
+    //m discrete event mapper index, -1 for none
 
     int iDiscreteSource;
 
@@ -225,10 +229,12 @@ struct MatsSpringMass
 /*     double dZ; */
 };
 
-#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iDS,iT,dF) \
+#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,pdE,iDS,iT,dF) \
     ((pvMops)								\
      ? ({ struct MopsSpringMass *pmops = (struct MopsSpringMass *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_SPRINGMASS;			\
+	     pmops->iEvent = (pdE) == NULL ? -1 : 0 ;			\
+	     pmops->pdEvents = (pdE) ;					\
 	     pmops->iDiscreteSource = (iDS) ;				\
 	     pmops->iTable = (iT) ;					\
 	     pmops->dFrequency = (dF) ;					\

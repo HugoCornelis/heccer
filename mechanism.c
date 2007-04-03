@@ -284,7 +284,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iDiscreteSource = -1;
 
-		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iDiscreteSource, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
+		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteSource, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
 
 		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY);
 
@@ -1613,7 +1613,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- if the firing frequence has been set
 
-		if (0 && pmops->dFrequency > 0)
+		if (pmops->dFrequency > 0)
 		{
 		    //- generate random number
 
@@ -1623,12 +1623,34 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    if (iRandom < RAND_MAX * pmops->dFrequency)
 		    {
-			//- copy firing to chip array from synchan table
+			//- add one to the activation, and apply decay
+
+			//! fixed weight of 1
 
 			pmats->dX += phtsm->dX1;
 		    }
 		}
-		
+
+		//- if there is an event time table
+
+		if (pmops->pdEvents)
+		{
+		    //- while the next event fires
+
+		    while (pmops->pdEvents[pmops->iEvent] < pheccer->dTime)
+		    {
+			//- add one to the activation, and apply decay
+
+			//! fixed weight of 1
+
+			pmats->dX = phtsm->dX1;
+
+			//- go to the next event
+
+			pmops->iEvent++;
+		    }
+		}
+
 		//t iDiscreteSource
 
 		//- compute channel activation

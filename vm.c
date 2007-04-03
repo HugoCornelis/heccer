@@ -104,7 +104,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
     {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			3,	" %g %g",		1,	sizeof(struct MatsInternalNernst),	},
-    {   HECCER_MOP_SPRINGMASS,			"SPRINGMASS",			sizeof(struct MopsSpringMass),				5,	" %i %i %g",		3,	sizeof(struct MatsSpringMass),	},
+    {   HECCER_MOP_SPRINGMASS,			"SPRINGMASS",			sizeof(struct MopsSpringMass),				5,	" %i %g %i %i %g",		2,	sizeof(struct MatsSpringMass),	},
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
@@ -596,11 +596,15 @@ HeccerVMDumpOperators
 			}
 			else if (phciCurrent->iFormatterType == 5)
 			{
-			    int *pi = (int *)pv;
+			    int *pi1 = (int *)pv;
 
-			    double *pd = (double *)&pi[2];
+			    double **ppdEvents = (double **)&pi1[1];
 
-			    sprintf(pc, " %i %i %g", pi[0], pi[1], pd[0]);
+			    int *pi2 = (int *)&ppdEvents[1];
+
+			    double *pd = (double *)&pi2[2];
+
+			    sprintf(pc, " %i %g %i %i %g", pi1[0], ppdEvents[0][pi1[0]], pi2[0], pi2[1], pd[0]);
 			}
 		    }
 

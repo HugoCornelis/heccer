@@ -9,6 +9,7 @@ Makefile.in$
 ^heccer-.*pre-release/
 ^html/
 ^installed
+^tests/code/addressing-purk-test-axon$
 ^tests/code/c1c2p1$
 ^tests/code/c1c2p2$
 ^tests/code/callout1$
@@ -27,9 +28,9 @@ Makefile.in$
 ^tests/code/pool1-feedback2$
 ^tests/code/pool1-nernst$
 ^tests/code/pool2$
-^tests/code/addressing-purk-test-axon$
 ^tests/code/singlea-naf$
 ^tests/code/singlep$
+^tests/code/springmass$
 ^tests/code/table-cap$
 ^tests/code/table-cat$
 ^tests/code/table-dual-kdr$
