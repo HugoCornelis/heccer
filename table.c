@@ -49,6 +49,21 @@ HeccerTabulatedGateNew
  double dEnd,
  int iEntries);
 
+static
+int
+HeccerTabulatedSpringMassCompareParameters
+(struct HeccerTabulatedSpringMass *phtsm, void *pv, size_t iSize);
+
+static
+int
+HeccerTabulatedSpringMassLookup
+(struct Heccer *pheccer, void *pv, size_t iSize);
+
+static
+int
+HeccerTabulatedSpringMassNew
+(struct Heccer *pheccer, void *pvParameters, size_t iSize);
+
 
 /// **************************************************************************
 ///
@@ -800,12 +815,86 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerTabulateSpringMass()
+///
+/// ARGS.:
+///
+///	pheccer.: a heccer.
+///	pcsm....: a heccer channel with steady state and time constant.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Create the table for a spring mass channel.
+///
+/// **************************************************************************
+
+int
+HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- if already registered
+
+    if (pcsm->iTable != -1)
+    {
+	return(TRUE);
+    }
+
+    //- lookup the table parameters ...
+
+    int i = HeccerTabulatedSpringMassLookup(pheccer, &pcsm->parameters, sizeof(pcsm->parameters));
+
+    if (i == -1)
+    {
+	//- ... or create a new table for these parameters
+
+	i = HeccerTabulatedSpringMassNew(pheccer, &pcsm->parameters, sizeof(pcsm->parameters));
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pcsm->iTable = i;
+
+	//- get access to the tabulated spring mass structure
+
+	struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[i];
+
+	//m compute time constants derived coefficients
+
+	phtsm->dX1 = pcsm->parameters.dTau1 * (1.0 - exp(- pheccer->dStep / pcsm->parameters.dTau1));
+	phtsm->dX2 = exp(- pheccer->dStep / pcsm->parameters.dTau1);
+
+	phtsm->dY1 = pcsm->parameters.dTau2 * (1.0 - exp(- pheccer->dStep / pcsm->parameters.dTau2));
+	phtsm->dY2 = exp(- pheccer->dStep / pcsm->parameters.dTau2);
+
+    }
+    else
+    {
+	pcsm->iTable = i;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerChannelSteadyStateSteppedTauTabulate()
 ///
 /// ARGS.:
 ///
-///	pcsst...: a heccer channel with steady state and time constant.
 ///	pheccer.: a heccer.
+///	pcsst...: a heccer channel with steady state and time constant.
 ///
 /// RTN..: int
 ///
@@ -1339,7 +1428,7 @@ HeccerTabulatedGateCompareParameters
 ///
 ///	tabulated gate index, -1 for failure.
 ///
-/// DESCR: Allocate a new table.
+/// DESCR: Lookup an existing table.
 ///
 /// **************************************************************************
 
@@ -1468,6 +1557,159 @@ HeccerTabulatedGateNew
     //- return result
 
     return(pheccer->tgt.iTabulatedGateCount - 1);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerTabulatedSpringMassCompareParameters()
+///
+/// ARGS.:
+///
+///	phtsm.: an initialized gate table.
+///	pv....: parameters to use for comparison.
+///	iSize.: size of parameter block.
+///
+/// RTN..: int
+///
+///	See memcmp() manual.
+///
+/// DESCR:
+///
+///	Compare parameters for a candidate gate with the parameters
+///	of an existing table.
+///
+/// **************************************************************************
+
+static
+int
+HeccerTabulatedSpringMassCompareParameters
+(struct HeccerTabulatedSpringMass *phtsm, void *pv, size_t iSize)
+{
+    //- set default result : match
+
+    int iResult = 0;
+
+    //- set result : compare memory regions, using smallest size
+
+    iSize = iSize < phtsm->iSizeParameters ? iSize : phtsm->iSizeParameters;
+
+    iResult = memcmp(phtsm->pvParameters, pv, iSize);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerTabulatedSpringMassLookup()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	pv........: table parameter block.
+///	iSize.....: size of parameter block.
+///
+/// RTN..: int
+///
+///	tabulated spring mass index, -1 for failure.
+///
+/// DESCR: Lookup an existing table.
+///
+/// **************************************************************************
+
+static
+int
+HeccerTabulatedSpringMassLookup
+(struct Heccer *pheccer, void *pv, size_t iSize)
+{
+    //- set default result : not found
+
+    int iResult = -1;
+
+    //! a protection for the case where you accidently forget to dereference
+
+    if (iSize < 10)
+    {
+	((int *)0)[0] = 0;
+    }
+
+    //- loop over all tables
+
+    int i;
+
+    for (i = 0 ; i < pheccer->tsmt.iTabulatedSpringMassCount; i++)
+    {
+	//- get pointer to current table
+
+	struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[i];
+
+	//- if match
+
+	if (HeccerTabulatedSpringMassCompareParameters(phtsm, pv, iSize) == 0)
+	{
+	    //- set table index
+
+	    iResult = i;
+
+	    //- break searching loop
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerTabulatedSpringMassNew()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	tabulated spring mass index, -1 for failure.
+///
+/// DESCR: Allocate a new table.
+///
+/// **************************************************************************
+
+static
+int
+HeccerTabulatedSpringMassNew
+(struct Heccer *pheccer, void *pvParameters, size_t iSize)
+{
+    struct HeccerTabulatedSpringMass *phtsm = NULL;
+
+    if (pheccer->tsmt.iTabulatedSpringMassCount >= HECCER_TABULATED_SPRINGMASS_MAX)
+    {
+	return(-1);
+    }
+
+    //- set result : from pool
+
+    phtsm = &pheccer->tsmt.phtsm[pheccer->tsmt.iTabulatedSpringMassCount];
+
+    //- increment registry count
+
+    pheccer->tsmt.iTabulatedSpringMassCount++;
+
+    //- initialize tabulation parameters
+
+    phtsm->iSizeParameters = iSize;
+    phtsm->pvParameters = pvParameters;
+
+    //- return result
+
+    return(pheccer->tsmt.iTabulatedSpringMassCount - 1);
 }
 
 

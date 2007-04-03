@@ -25,6 +25,19 @@
 #include "mathcomponent.h"
 
 
+//s spring mass parameters
+
+struct SpringMassParameters
+{
+    //m first time constant
+
+    double dTau1;
+
+    //m second time constant
+
+    double dTau2;
+};
+
 //s spring mass channel (synaptic channel)
 
 struct ChannelSpringMass
@@ -33,13 +46,41 @@ struct ChannelSpringMass
 
     struct MathComponent mc;
 
-    //m descriptive values, alphabetical order
+    //m initial reversal potential
 
-    double dEk;
+    double dReversalPotential;
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
+
+    //m maximal conductance
+
+    double dMaximalConductance;
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    int iPool;
+
+    //m random activation frequency
+
     double dFrequency;
-/*     double dNormalizer; */
-    double dX;
-    double dY;
+
+    //m first exponential initial value
+
+    double dInitX;
+
+    //m second exponential initial value
+
+    double dInitY;
+
+    //m corresponding index in tables, set to -1 for initialization.
+
+    int iTable;
+
+    //m parameters
+
+    struct SpringMassParameters parameters;
 };
 
 
@@ -54,8 +95,6 @@ struct ExponentialDecay
     //m initial value
 
     double dInitValue;
-
-    //m descriptive values, alphabetical order
 
     //m beta
 
@@ -77,37 +116,33 @@ struct ExponentialDecay
 };
 
 
-//s GHK, not sure if correct, use at own risk
+/* //s GHK, not sure if correct, use at own risk */
 
-struct GHK
-{
-    //m administration overhead
+/* struct GHK */
+/* { */
+/*     //m administration overhead */
 
-    struct MathComponent mc;
+/*     struct MathComponent mc; */
 
-    //m descriptive values, alphabetical order
-
-    double dCin;
-    double dCout;
-    double dT;
-    int iValency;
-};
+/*     double dCin; */
+/*     double dCout; */
+/*     double dT; */
+/*     int iValency; */
+/* }; */
 
 
-//s channel magnesium blocking
+/* //s channel magnesium blocking */
 
-struct MGBlocker
-{
-    //m administration overhead
+/* struct MGBlocker */
+/* { */
+/*     //m administration overhead */
 
-    struct MathComponent mc;
+/*     struct MathComponent mc; */
 
-    //m descriptive values, alphabetical order
-
-    double dCMg;
-    double dKMg_A;
-    double dKMg_B;
-};
+/*     double dCMg; */
+/*     double dKMg_A; */
+/*     double dKMg_B; */
+/* }; */
 
 
 //s nernst potential: constant
@@ -117,8 +152,6 @@ struct ConstantNernst
     //m administration overhead
 
     struct MathComponent mc;
-
-    //m descriptive values, alphabetical order
 
     double dCin;
     double dConstant;
@@ -186,9 +219,12 @@ struct SpikeGenerator
 
     struct MathComponent mc;
 
-    //m descriptive values, alphabetical order
+    //m refractory time
 
-    double dRefract;
+    double dRefractory;
+
+    //m spiking threshold
+
     double dThresh;
 };
 
@@ -293,8 +329,6 @@ struct ChannelActInact
 
     struct MathComponent mc;
 
-    //m first set of descriptive values, alphabetical order
-
     //m initial reversal potential
 
     double dReversalPotential;
@@ -327,8 +361,6 @@ struct ChannelAct
     //m administration overhead
 
     struct MathComponent mc;
-
-    //m first set of descriptive values, alphabetical order
 
     //m initial reversal potential
 
@@ -388,8 +420,6 @@ struct ChannelPersistentSteadyStateDualTau
 
     struct MathComponent mc;
 
-    //m first set of descriptive values, alphabetical order
-
     //m initial reversal potential
 
     double dReversalPotential;
@@ -441,8 +471,6 @@ struct ChannelPersistentSteadyStateTau
     //m administrative overhead
 
     struct MathComponent mc;
-
-    //m first set of descriptive values, alphabetical order
 
     //m initial reversal potential
 
@@ -641,8 +669,6 @@ struct ChannelSteadyStateSteppedTau
 
     struct MathComponent mc;
 
-    //m first set of descriptive values, alphabetical order
-
     //m initial reversal potential
 
     double dReversalPotential;
@@ -743,8 +769,6 @@ struct ChannelActConc
     //m administration overhead
 
     struct MathComponent mc;
-
-    //m first set of descriptive values, alphabetical order
 
     //m initial reversal potential
 

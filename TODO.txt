@@ -1,5 +1,13 @@
 -*- outline -*-
 
+* Before compilation
+Check if a time step has been set, if it is zero, abort.
+
+* SETMAT_FLUXPOOL initial value
+Because ->iPool is only used as a boolean indicator, we can replace it
+with ->dInitFlux, with a value of FLT_MAX meaning no flux must be
+calculated.
+
 * internal state serializer
 ** serializes the complete internal state
 ** can be used from SSP, to save the full state of a model

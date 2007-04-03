@@ -26,11 +26,12 @@
 
 static struct MathComponentInfo pmci[] =
 {
-    MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[1]) - ((char *)&((struct ChannelActConc *)0)[0]),
     MATH_TYPE_ChannelAct,		((char *)&((struct ChannelAct *)0)[1]) - ((char *)&((struct ChannelAct *)0)[0]),
+    MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[1]) - ((char *)&((struct ChannelActConc *)0)[0]),
     MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[1]) - ((char *)&((struct ChannelActInact *)0)[0]),
     MATH_TYPE_ChannelPersistentSteadyStateDualTau,	((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[1]) - ((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[0]),
     MATH_TYPE_ChannelPersistentSteadyStateTau,	((char *)&((struct ChannelPersistentSteadyStateTau *)0)[1]) - ((char *)&((struct ChannelPersistentSteadyStateTau *)0)[0]),
+    MATH_TYPE_ChannelSpringMass,	((char *)&((struct ChannelSpringMass *)0)[1]) - ((char *)&((struct ChannelSpringMass *)0)[0]),
     MATH_TYPE_ChannelSteadyStateSteppedTau,	((char *)&((struct ChannelSteadyStateSteppedTau *)0)[1]) - ((char *)&((struct ChannelSteadyStateSteppedTau *)0)[0]),
     MATH_TYPE_ExponentialDecay,		((char *)&((struct ExponentialDecay *)0)[1]) - ((char *)&((struct ExponentialDecay *)0)[0]),
     MATH_TYPE_InternalNernst,		((char *)&((struct InternalNernst *)0)[1]) - ((char *)&((struct InternalNernst *)0)[0]),

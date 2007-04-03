@@ -101,6 +101,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a spring mass equation
+
+	case MATH_TYPE_ChannelSpringMass:
+	{
+	    //- get type specific data
+
+	    struct ChannelSpringMass * pcsm = (struct ChannelSpringMass *)pmc;
+
+	    pmc = MathComponentNext(&pcsm->mc);
+
+	    break;
+	}
+
 	//- for a nernst operation with internal variable concentration
 
 	case MATH_TYPE_InternalNernst:

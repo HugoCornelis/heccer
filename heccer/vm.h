@@ -195,6 +195,74 @@ struct MatsCompartment
 	 : ({ iMatNumber++; 1; }) ) )
 
 
+struct MopsSpringMass
+{
+    //m operator : HECCER_MOP_TRIPLEEXPONENTIAL
+
+    int iOperator;
+
+    //m discrete event mapper index, -1 for none
+
+    //! the discrete source holds the counter till the next event (if any).
+
+    int iDiscreteSource;
+
+    //m index into sm tables
+
+    int iTable;
+
+    //m random activation frequency
+
+    double dFrequency;
+};
+
+struct MatsSpringMass
+{
+    //m two activation values
+
+    double dX;
+    double dY;
+/*     double dZ; */
+};
+
+#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iDS,iT,dF) \
+    ((pvMops)								\
+     ? ({ struct MopsSpringMass *pmops = (struct MopsSpringMass *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_SPRINGMASS;			\
+	     pmops->iDiscreteSource = (iDS) ;				\
+	     pmops->iTable = (iT) ;					\
+	     pmops->dFrequency = (dF) ;					\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsSpringMass);		\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+     
+#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dInitX,dInitY) \
+    ((pvMats)								\
+     ? ({ struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats ; \
+	     pmats->dX = (dInitX) ;					\
+	     pmats->dY = (dInitY) ;					\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
+	     pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1] ;	\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMatsIndex)							\
+	 ? ({								\
+		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 (iMats) += MAT_ALIGNER(struct MatsSpringMass);		\
+		 1;							\
+	     })								\
+	 : ({ iMatNumber++; 1; }) ) )
+
+
 struct MatsCallout
 {
 /*     double d; */
@@ -713,6 +781,7 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_REGISTERCHANNELCURRENT 26
 #define HECCER_MOP_INTERNALNERNST 27
 #define HECCER_MOP_INITIALIZECHANNELEK 28
+#define HECCER_MOP_SPRINGMASS 29
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
 

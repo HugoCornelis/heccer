@@ -156,6 +156,10 @@ struct Heccer
 
     struct TabulatedGateTable tgt;
 
+    //m tabulated spring mass channels
+
+    struct TabulatedSpringMassTable tsmt;
+
     //m vm
 
     struct VM vm;

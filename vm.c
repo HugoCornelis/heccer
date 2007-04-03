@@ -104,6 +104,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
     {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			3,	" %g %g",		1,	sizeof(struct MatsInternalNernst),	},
+    {   HECCER_MOP_SPRINGMASS,			"SPRINGMASS",			sizeof(struct MopsSpringMass),				5,	" %i %i %g",		3,	sizeof(struct MatsSpringMass),	},
     {    -1,	NULL,	-1,	-1,	NULL,	},
 };
 
@@ -592,6 +593,14 @@ HeccerVMDumpOperators
 			    sprintf(pc2, " %g", pd[0]);
 
 			    strcat(pc, pc2);
+			}
+			else if (phciCurrent->iFormatterType == 5)
+			{
+			    int *pi = (int *)pv;
+
+			    double *pd = (double *)&pi[2];
+
+			    sprintf(pc, " %i %i %g", pi[0], pi[1], pd[0]);
 			}
 		    }
 

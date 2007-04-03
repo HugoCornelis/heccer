@@ -209,6 +209,114 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 
+		//- for a spring mass equation
+
+		case MATH_TYPE_ChannelSpringMass:
+		{
+		    //- get type specific data
+
+		    struct ChannelSpringMass * pcsm = (struct ChannelSpringMass *)pmc;
+
+		    pmc = MathComponentNext(&pcsm->mc);
+
+		    //- compute conductance normalizer
+
+		    double dNormalizer;
+
+		    if (pcsm->parameters.dTau1 == pcsm->parameters.dTau2)
+		    {
+			dNormalizer = pcsm->dMaximalConductance * M_E / pcsm->parameters.dTau1;
+		    }
+		    else 
+		    {
+			double dPeak
+			    = (pcsm->parameters.dTau1
+			       * pcsm->parameters.dTau2
+			       * log(pcsm->parameters.dTau1 / pcsm->parameters.dTau2)
+			       / (pcsm->parameters.dTau1 - pcsm->parameters.dTau2));
+
+			dNormalizer
+			    = (pcsm->dMaximalConductance
+			       * (pcsm->parameters.dTau1 - pcsm->parameters.dTau2)
+			       / (pcsm->parameters.dTau1
+				  * pcsm->parameters.dTau2
+				  * (exp(- dPeak / pcsm->parameters.dTau1)
+				     - exp(- dPeak / pcsm->parameters.dTau2))));
+		    }
+
+		    //- for a constant reversal potential
+
+		    if (pcsm->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pcsm->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcsm->iReversalPotential;
+
+			double *pdReversalPotential = NULL;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
+
+			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
+
+			    pdReversalPotential = (double *)iMatsReversalPotential;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pdReversalPotential);
+		    }
+
+		    //- tabulate the channel
+
+		    //- tabulate activation, Genesis X
+		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+
+		    int iTabulated = HeccerTabulateSpringMass(pheccer, pcsm);
+
+		    int iDiscreteSource = -1;
+
+		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iDiscreteSource, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
+
+		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY);
+
+		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+		    //t would it be useful to retabulate here ?
+
+		    //- register pool index
+
+		    //t for reasons of easy initialization, this should be a check for zero.
+		    //t this means that I have to offset all mechanisms with 1
+		    //t (mmm, the hines solver did the same, but for other reasons).
+
+		    if (pcsm->iPool != -1)
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			//! initial flux is assumed to be zero, always
+
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
+		    }
+
+		    //- register result from tabulation for outcome of this function
+
+		    iResult = iResult && iTabulated;
+
+		    break;
+		}
+
 		//- for a nernst operation with internal variable concentration
 
 		case MATH_TYPE_InternalNernst:
@@ -1009,6 +1117,27 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		break;
 	    }
 
+	    //- for a spring mass equation
+
+	    case HECCER_MOP_SPRINGMASS:
+	    {
+		//- go to next operator
+
+		struct MopsSpringMass *pmops = (struct MopsSpringMass *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+
+		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+
+		//t iDiscreteSource must be linked here ?
+
+		break;
+	    }
+
 	    //- for a nernst operation with internal variable concentration
 
 	    case HECCER_MOP_INTERNALNERNST:
@@ -1456,6 +1585,61 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		dCurrent += per->dCurrent;
 
 		//t check signaling
+
+		break;
+	    }
+
+	    //- for a spring mass equation
+
+	    case HECCER_MOP_SPRINGMASS:
+	    {
+		//- go to next operator
+
+		struct MopsSpringMass *pmops = (struct MopsSpringMass *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+
+		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+
+		//- get pointer to table
+
+		int iTable = pmops->iTable;
+
+		struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[iTable];
+
+		//- if the firing frequence has been set
+
+		if (0 && pmops->dFrequency > 0)
+		{
+		    //- generate random number
+
+		    int iRandom = random();
+
+		    //- check generated number with firing frequency
+
+		    if (iRandom < RAND_MAX * pmops->dFrequency)
+		    {
+			//- copy firing to chip array from synchan table
+
+			pmats->dX += phtsm->dX1;
+		    }
+		}
+		
+		//t iDiscreteSource
+
+		//- compute channel activation
+
+		pmats->dX = pmats->dX * phtsm->dX2;
+
+		pmats->dY = pmats->dX * phtsm->dY1 + pmats->dY * phtsm->dY2;
+
+		//- compute channel conductance
+
+		dChannelConductance *= pmats->dY;
 
 		break;
 	    }

@@ -91,6 +91,26 @@ struct HeccerTabulatedGate
 };
 
 
+struct HeccerTabulatedSpringMass
+{
+    //m original source parameters
+
+    void *pvParameters;
+
+    size_t iSizeParameters;
+
+    //m two precalculated coefficients for first exponential
+
+    double dX1;
+    double dX2;
+
+    //m two precalculated coefficients for second exponential
+
+    double dY1;
+    double dY2;
+};
+
+
 //d maximum number of tabulated gates
 
 #define HECCER_TABULATED_GATES_MAX 100
@@ -104,6 +124,22 @@ struct TabulatedGateTable
     //m number of entries used in the above
 
     int iTabulatedGateCount;
+};
+
+
+//d maximum number of tabulated spring mass channels
+
+#define HECCER_TABULATED_SPRINGMASS_MAX 10000
+
+struct TabulatedSpringMassTable
+{
+    //m tabulated gates (preallocated array)
+
+    struct HeccerTabulatedSpringMass phtsm[HECCER_TABULATED_SPRINGMASS_MAX];
+
+    //m number of entries used in the above
+
+    int iTabulatedSpringMassCount;
 };
 
 
@@ -123,6 +159,9 @@ HeccerChannelPersistentSteadyStateTauTabulate
 int
 HeccerChannelPersistentSteadyStateDualTauTabulate
 (struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer);
+
+int
+HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm);
 
 int
 HeccerChannelSteadyStateSteppedTauTabulate
