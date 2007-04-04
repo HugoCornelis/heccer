@@ -27,6 +27,7 @@
 
 #define HECCER_TEST_REPORTING_GRANULARITY 1000
 #define HECCER_TEST_STEPS 1000
+#define HECCER_TEST_TIME_STEP (2e-5)
 
 
 struct Compartment pcomp[] =

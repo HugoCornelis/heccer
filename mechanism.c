@@ -1627,7 +1627,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			//! fixed weight of 1
 
-			pmats->dX += phtsm->dX1 * pheccer->dStep;
+			pmats->dX += phtsm->dX1;
 		    }
 		}
 
@@ -1643,7 +1643,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			//! fixed weight of 1
 
-			pmats->dX = phtsm->dX1 * pheccer->dStep;
+			pmats->dX += phtsm->dX1;
 
 			//- go to the next event
 
