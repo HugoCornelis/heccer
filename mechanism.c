@@ -1625,7 +1625,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    {
 			//- add one to the activation, and apply decay
 
-			//! fixed weight of 1
+			//! fixed weight of 1, normalized to the time step
 
 			pmats->dX += phtsm->dX1;
 		    }
@@ -1641,7 +1641,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    {
 			//- add one to the activation, and apply decay
 
-			//! fixed weight of 1
+			//! fixed weight of 1, normalized to the time step
 
 			pmats->dX += phtsm->dX1;
 

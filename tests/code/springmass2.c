@@ -143,7 +143,7 @@ struct ChannelSpringMass csm =
 
     //m maximal conductance
 
-    6.87071723162637e-5,
+    6.87071723162637e-10,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 

@@ -1,4 +1,5 @@
-setclock 0 1e-5
+float dt = 2e-7
+setclock 0 {dt}
 create compartment c1
 setfield c1 \
 	Cm 4.57537e-11 \
@@ -18,7 +19,7 @@ addmsg c2 c1 RAXIAL Ra Vm
 create synchan c2/s
 setfield c2/s \
 	Ek 0.0 \
-	gmax 6.87071723162637e-5 \
+	gmax 6.87071723162637e-10 \
 	tau1 5e-4 \
 	tau2 1.2e-3
 addmsg c2 c2/s VOLTAGE Vm
@@ -53,7 +54,7 @@ end
 
 step 5
 
-setfield c2/s z 1
+setfield c2/s z {1 / dt}
 
 step
 
@@ -65,6 +66,9 @@ step 90
 
 step 900
 
-step 1000
+// step 1000
 
+step 9000
+
+step 90000
 
