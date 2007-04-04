@@ -20,7 +20,10 @@
 #include <stdlib.h>
 
 
-//d accessible from the outside if needed
+#include "main.h"
+
+
+//v accessible from the outside if needed
 
 struct Heccer *pheccer = NULL;
 
@@ -34,6 +37,10 @@ struct Heccer *pheccer = NULL;
 //o sensible default value.
 //o #include this file, compile, run and parse the output.
 //o
+
+#ifndef HECCER_TEST_INITIATE
+#define HECCER_TEST_INITIATE ((void)1)
+#endif
 
 #ifndef HECCER_TEST_INTERVAL_DEFAULT_START
 #define HECCER_TEST_INTERVAL_DEFAULT_START (-0.1)
@@ -51,6 +58,10 @@ struct Heccer *pheccer = NULL;
 #define HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES 149
 #endif
 
+#ifndef HECCER_TEST_OUTPUT
+#define HECCER_TEST_OUTPUT ((void)1)
+#endif
+
 #ifndef HECCER_TEST_REPORTING_GRANULARITY
 #define HECCER_TEST_REPORTING_GRANULARITY 1
 #endif
@@ -66,6 +77,35 @@ struct Heccer *pheccer = NULL;
 #ifndef HECCER_TEST_TIME_STEP
 #define HECCER_TEST_TIME_STEP (2e-5)
 #endif
+
+
+int WriteOutput(char *pcFilename)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+    //- copy the file content to stdout
+
+    FILE *pfile = fopen(pcFilename, "r");
+
+    char pc[10000];
+
+    size_t st = fread(pc, sizeof(char), sizeof(pc), pfile);
+
+    while (st == 10000)
+    {
+	fwrite(pc, sizeof(char), st, stdout);
+
+	st = fread(pc, sizeof(char), sizeof(pc), pfile);
+    }
+
+    fwrite(pc, sizeof(char), st, stdout);
+
+    //- return result
+
+    return(iResult);
+}
 
 
 int main(int argc, char *argv[])
@@ -110,6 +150,10 @@ int main(int argc, char *argv[])
 
     HeccerInitiate(pheccer);
 
+    //- initialize test specific things
+
+    HECCER_TEST_INITIATE;
+
     //- initial dump
 
     //! funny : the first '---' in the output are taken as an option
@@ -135,6 +179,10 @@ int main(int argc, char *argv[])
 	//- step
 
 	HeccerHecc(pheccer);
+
+	//- generate user specified output
+
+	HECCER_TEST_OUTPUT;
 
 	//- dump
 

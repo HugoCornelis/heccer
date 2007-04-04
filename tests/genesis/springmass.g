@@ -31,6 +31,17 @@ setfield h \
 	chanmode 4 \
 	path /c1,/c2
 call h SETUP
+
+create asc_file /a1
+setfield ^ \
+	append 0 \
+	filename "/tmp/a1" \
+	flush 1 \
+	leave_open 1
+addmsg /h a1 SAVE vm[0]
+call a1 RESET
+resched
+
 reset
 
 function showfields
@@ -51,4 +62,7 @@ setfield c2/s z 0
 step 4
 
 step 90
+
+step 900
+
 

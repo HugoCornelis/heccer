@@ -16,12 +16,17 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
+#include "../../heccer/output.h"
 
 
-#define HECCER_TEST_REPORTING_GRANULARITY 10
-#define HECCER_TEST_STEPS 100
+#define HECCER_TEST_REPORTING_GRANULARITY 1000
+#define HECCER_TEST_STEPS 1000
 
 
 struct Compartment pcomp[] =
@@ -137,7 +142,7 @@ struct ChannelSpringMass csm =
 
     //m maximal conductance
 
-    6.87071723162637e-10,
+    6.87071723162637e-5,
 
     //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
@@ -219,6 +224,60 @@ struct Intermediary inter =
 
     piC2m,
 };
+
+
+struct OutputGenerator * pog = NULL;
+
+double *pdVm = NULL;
+
+char pcStep[100] = "";
+
+#include "main.h"
+
+
+int main(int argc, char *argv[])
+{
+    //- set default result : ok
+
+    int iResult = EXIT_SUCCESS;
+
+    //- create output elements
+
+    pog = OutputGeneratorNew("/tmp/output");
+
+//d generate output of membrane potential each step
+
+#define HECCER_TEST_INITIATE \
+    pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm"); \
+    OutputGeneratorAddVariable(pog, "Vm", pdVm)
+
+//d generate output of membrane potential each step
+
+#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pog, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+
+    //- do the simulation
+
+    simulate(argc,argv);
+
+    //- finish the simulation output
+
+    OutputGeneratorFinish(pog);
+
+    //- add the simulation output to the program output
+
+    WriteOutput("/tmp/output");
+
+    //- return result
+
+    return(iResult);
+}
+
+
+#define main(argc,argv) simulate(argc,argv)
+
+//t this prototype can give warning and perhaps errors.
+
+int main(int argc, char *argv[]);
 
 
 #include "main.c"

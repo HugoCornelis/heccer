@@ -24,6 +24,9 @@
 #include "../../heccer/heccer.h"
 
 
+#include "main.h"
+
+
 #define HECCER_TEST_REPORTING_GRANULARITY 100
 #define HECCER_TEST_STEPS 0
 /* #define HECCER_TEST_TESTED_THINGS (0) */
@@ -874,9 +877,6 @@ struct Intermediary inter =
 #endif
 
 };
-
-
-extern struct Heccer *pheccer;
 
 
 int main(int argc, char *argv[])
