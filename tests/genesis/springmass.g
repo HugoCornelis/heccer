@@ -1,4 +1,4 @@
-setclock 0 2e-5
+setclock 0 1e-5
 create compartment c1
 setfield c1 \
 	Cm 4.57537e-11 \
@@ -64,5 +64,7 @@ step 4
 step 90
 
 step 900
+
+step 1000
 
 

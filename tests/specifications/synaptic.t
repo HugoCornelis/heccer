@@ -15,11 +15,25 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/springmass',
+				command => 'tests/code/springmass1',
 				command_tests => [
 						  {
-						   description => "Is a synaptic (springmass) channel integrated correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/springmass.txt`, ],
+						   description => "Is a synaptic (springmass) channel integrated correctly, smaller time step ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/springmass1.txt`, ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "synaptic (springmass) channel integration",
+			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/springmass2',
+				command_tests => [
+						  {
+						   description => "Is a synaptic (springmass) channel integrated correctly, larger time step ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/springmass2.txt`, ],
 						   timeout => 8,
 						   write => undef,
 						  },
