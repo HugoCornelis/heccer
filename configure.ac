@@ -43,7 +43,7 @@ if test x"$with_random" == "xyes" ; then
 
     echo "USING THE BUILTIN RANDOM NUMBER GENERATOR (recommended not to use the builtin)"
 
-    AC_DEFINE(RANDOM, ran1(0), [use the numerical recipes ran1() random number generator (not recommended)])
+    AC_DEFINE(RANDOM, (RAND_MAX * ran1(0)), [use the numerical recipes ran1() random number generator (not recommended)])
 
 else
 
