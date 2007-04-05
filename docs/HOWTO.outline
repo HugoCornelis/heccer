@@ -1,11 +1,67 @@
 -*- outline -*-
 
+* Compiling and Installing
+
+** What are the basics of installing ?
+In the Heccer source directory (with the file 'heccer.c'), type
+'./configure', 'make', 'make install'.  Note: if you want to
+uninstall, do 'make uninstall'.
+
+Additionally in the tests directory, run the script './tests_2_html'.
+Next, point your webbrowser to 'tests/html/index.html'.  This is a
+specification of the tests, and contains raw examples how Neurospaces
+can be used to explore an instantiated model.
+
+** What are the dependencies ?
+*** perl modules
+Contact your sysadmin, or do something like 'su -', 'perl -MCPAN
+-e'install <module-name>'.  The perl prerequisites are (besides their
+binary backends) :
+
+**** perl -MCPAN -e'install PAR::Dist;' (Module::Signature)
+**** perl -MCPAN -e'install Module::Signature;' (Bundle::CPAN)
+**** perl -MCPAN -e'install Digest::SHA' (Bundle::CPAN)
+**** perl -MCPAN -e'install IO::Zlib;' (Bundle::CPAN)
+**** perl -MCPAN -e'install ExtUtils::CBuilder;' (ExtUtils::ParseXS)
+**** perl -MCPAN -e'install ExtUtils::ParseXS;' (Enable C_support for Module::Build)
+**** perl -MCPAN -e'install Test::Spiffy' (Test::Base)
+**** perl -MCPAN -e'install Test::More' (Test::Base)
+**** perl -MCPAN -e'install Test::Base' (YAML)
+**** perl -MCPAN -e'install YAML'
+
+**** perl -MCPAN -e'install IO::Pty (Expect)
+**** perl -MCPAN -e'install IO::Tty (Expect)
+**** perl -MCPAN -e'install Expect' (Expect::Simple)
+**** perl -MCPAN -e'install Expect::Simple'
+**** perl -MCPAN -e'install Parse::RecDescent' (Inline, for Inline::C)
+**** perl -MCPAN -e'install Inline'
+**** perl -MCPAN -e'install HTML::QuickTable'
+**** perl -MCPAN -e'install HTML::Template'
+**** perl -MCPAN -e'install HTML::Table'
+**** perl -MCPAN -e'install Clone'
+**** perl -MCPAN -e'install Number::Compare' (File::Find::Rule)
+**** perl -MCPAN -e'install File::Find::Rule'
+
+Note that some Linux distros come with some of these
+installed, some don't.  Also you probably need a '~/.gnupg' directory.
+
+*** for ubuntu 
+The following packages below can be used:
+
+perl clone
+perl yaml
+perl expect
+perl file find rule
+perl digest sha (not sha1)
+
+
 * How to add new maths to heccer ?
 There are two ways to do this: adding new equation solvers using
 call-outs, or extending the byte code generator and emulator.
 
 ** Using call-outs
-See the example on the call-out that computes a conductance.
+See the example on the call-out that computes a conductance
+(tests/code/callout1.c and tests/code/calloutInjector.c)
 
 ** How to add new components to the compiler ?
 *** Step 1
