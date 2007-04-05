@@ -128,6 +128,10 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 static
 int
+solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
 solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static
@@ -1229,6 +1233,124 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 static
 int
+solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- get current math component
+
+    struct MathComponent * pmc = pmcd->pmc;
+
+    struct ChannelSpringMass * pcsm
+	= (struct ChannelSpringMass *)pmc;
+
+    //- if equation
+
+    if (instanceof_equation(phsle))
+    {
+	if (pmcd->iStatus == 1)
+	{
+	    //- initialize table pointer
+
+	    pcsm->iTable = -1;
+
+	    //- get first time constants
+
+	    double dTau1 = SymbolParameterResolveValue(phsle, "TAU1", ptstr->ppist);
+	    pcsm->parameters.dTau1 = dTau1;
+
+	    double dTau2 = SymbolParameterResolveValue(phsle, "TAU2", ptstr->ppist);
+	    pcsm->parameters.dTau2 = dTau2;
+
+	    //t perhaps if only tau1 is defined, I should make tau2
+	    //t equal to tau1 and treat it as a single exponential
+
+	    if (dTau1 == FLT_MAX
+		|| dTau2 == FLT_MAX)
+	    {
+		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+
+	    //- get initial states
+
+	    double dInitX = SymbolParameterResolveValue(phsle, "state_init_x", ptstr->ppist);
+
+	    if (dInitX == FLT_MAX)
+	    {
+		pcsm->dInitX = 0;
+	    }
+	    else
+	    {
+		pcsm->dInitX = dInitX;
+	    }
+
+	    double dInitY = SymbolParameterResolveValue(phsle, "state_init_y", ptstr->ppist);
+
+	    if (dInitY == FLT_MAX)
+	    {
+		pcsm->dInitY = 0;
+	    }
+	    else
+	    {
+		pcsm->dInitY = dInitY;
+	    }
+
+	}
+	else
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE);
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //t have to do attachment points
+
+    //- otherwise
+
+    else
+    {
+	//- an error
+
+	MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE);
+
+	iResult = TSTR_PROCESSOR_ABORT;
+    }
+
+    //- if no error
+
+    if (pmcd->iStatus > 0)
+    {
+	//- increment the status to indicate what component we have processed
+
+	pmcd->iStatus++;
+
+	if (pmcd->iStatus == 2)
+	{
+	    pmcd->iStatus = 1;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static
+int
 solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 {
     //- set default result : ok
@@ -1515,7 +1637,6 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 }
 
 
-
 static
 int
 solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdata)
@@ -1638,6 +1759,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     case MATH_TYPE_ChannelActInact:
     case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
     case MATH_TYPE_ChannelPersistentSteadyStateTau:
+    case MATH_TYPE_ChannelSpringMass:
     case MATH_TYPE_ChannelSteadyStateSteppedTau:
     {
 	//- get maximal conductance
@@ -1731,6 +1853,38 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pcsst->iReversalPotential = iReversalPotential;
 
 	    pcsst->iPool = -1;
+	}
+	else if (iType == MATH_TYPE_ChannelSpringMass)
+	{
+	    struct ChannelSpringMass * pcsm = (struct ChannelSpringMass *)pmc;
+
+	    pcsm->dMaximalConductance = dMaximalConductance;
+
+	    pcsm->dReversalPotential = dReversalPotential;
+
+	    pcsm->iReversalPotential = iReversalPotential;
+
+	    pcsm->iPool = -1;
+
+	    //- get endogenous activation frequency
+
+	    double dFrequency = SymbolParameterResolveValue(phsle, "FREQUENCY", ptstr->ppist);
+
+	    //t this case should actually be handled by neurospaces ?
+
+	    if (dFrequency == FLT_MAX)
+	    {
+		dFrequency = 0;
+	    }
+
+	    pcsm->dFrequency = dFrequency;
+
+	    //t not sure about this one
+	    //t
+	    //t I think, because it is a low level component for I/O to the model, the setting
+	    //t should not be done over neurospaces, but over ssp parameter settings.
+
+	    pcsm->pdEventTimes = NULL;
 	}
 	else if (iType == MATH_TYPE_ChannelActConc)
 	{
@@ -2172,7 +2326,8 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     else if (instanceof_gate_kinetic(phsle)
 	     || instanceof_conceptual_gate(phsle)
-	     || instanceof_concentration_gate_kinetic(phsle))
+	     || instanceof_concentration_gate_kinetic(phsle)
+	     || instanceof_equation(phsle))
     {
 	//- ok, skip
 
@@ -2192,6 +2347,10 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     else if (instanceof_channel(phsle))
     {
+	//- check if channel has an exponential equation
+
+	int iEquation = SymbolHasEquation(phsle, ptstr->ppist);
+
 	//- if channel has multiple concentration dependencies
 
 	struct symtab_IOList *piolPool1
@@ -2211,7 +2370,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	struct symtab_IOList *piolPool0
 	    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
 
-	if (piolPool0)
+	if (piolPool0 && !iEquation)
 	{
 	    //- is a concentration dependent channel
 
@@ -2264,9 +2423,23 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	    }
 	    else
 	    {
-		//- is an activating - inactivating channel
+		//- if the channel has an equation
 
-		iType = MATH_TYPE_ChannelActInact;
+		if (iEquation)
+		{
+		    //- type is springmass channel
+
+		    iType = MATH_TYPE_ChannelSpringMass;
+		}
+
+		//- else
+
+		else
+		{
+		    //- is an activating - inactivating channel
+
+		    iType = MATH_TYPE_ChannelActInact;
+		}
 	    }
 	}
 
@@ -2748,6 +2921,38 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	    break;
 	}
+	case MATH_TYPE_ChannelSpringMass:
+	{
+	    struct ChannelSpringMass * pcsm = (struct ChannelSpringMass *)pmc;
+
+	    //- if channel in contributors registry
+
+	    pcsm->iPool = ConnectionSource2Target(pmcd, pmc);
+
+	    int iPoolSerial = pcsm->iPool;
+
+	    if (iPoolSerial != -1)
+	    {
+		//- translate the contributee serial
+
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+		pcsm->iPool = iPoolIndex;
+	    }
+
+	    //- if solved reversal potential
+
+	    if (pcsm->iReversalPotential != -1)
+	    {
+		//- translate the serial to an index
+
+		int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcsm->iReversalPotential);
+
+		pcsm->iReversalPotential = iReversalPotential;
+	    }
+
+	    break;
+	}
 	case MATH_TYPE_ChannelActConc:
 	{
 	    struct ChannelActConc * pcac = (struct ChannelActConc *)pmc;
@@ -2901,6 +3106,10 @@ Type2Processor(int iType)
     else if (iType == MATH_TYPE_ChannelAct)
     {
 	pfResult = solver_channel_activation_processor;
+    }
+    else if (iType == MATH_TYPE_ChannelSpringMass)
+    {
+	pfResult = solver_channel_springmass_processor;
     }
     else
     {
