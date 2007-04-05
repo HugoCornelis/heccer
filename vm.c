@@ -604,7 +604,14 @@ HeccerVMDumpOperators
 
 			    double *pd = (double *)&pi2[2];
 
-			    sprintf(pc, " %i %g %i %i %g", pi1[0], ppdEvents[0][pi1[0]], pi2[0], pi2[1], pd[0]);
+			    if (ppdEvents[0])
+			    {
+				sprintf(pc, " %i %g %i %i %g", pi1[0], ppdEvents[0][pi1[0]], pi2[0], pi2[1], pd[0]);
+			    }
+			    else
+			    {
+				sprintf(pc, " %i (nil) %i %i %g", pi1[0], pi2[0], pi2[1], pd[0]);
+			    }
 			}
 		    }
 

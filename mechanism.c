@@ -1625,9 +1625,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    {
 			//- add one to the activation, and apply decay
 
-			//! fixed weight of 1, normalized to the time step
+			//! weight not normalized to the time step
 
 			pmats->dX += phtsm->dX1;
+
+/* 			fprintf(stdout, "Firing %i, %g\n", (int)(pheccer->dTime / pheccer->dStep), pheccer->dTime); */
+
 		    }
 		}
 

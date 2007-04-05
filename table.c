@@ -869,6 +869,9 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 
 	//m compute time constants derived coefficients
 
+	//! we normalize the first coefficient over the time step,
+	//! propagates through all equations.
+
 	phtsm->dX1 = (pcsm->parameters.dTau1 * (1.0 - exp(- pheccer->dStep / pcsm->parameters.dTau1))) / pheccer->dStep;
 	phtsm->dX2 = exp(- pheccer->dStep / pcsm->parameters.dTau1);
 

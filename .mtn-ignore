@@ -32,6 +32,7 @@ Makefile.in$
 ^tests/code/singlep$
 ^tests/code/springmass1$
 ^tests/code/springmass2$
+^tests/code/springmass3$
 ^tests/code/table-cap$
 ^tests/code/table-cat$
 ^tests/code/table-dual-kdr$
