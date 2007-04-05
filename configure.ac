@@ -36,7 +36,23 @@ AM_INIT_AUTOMAKE(heccer, integration-4-pre-release)
 AC_PROG_CC
 AC_PROG_RANLIB
 
-# Checks for libraries.
+# Checks for options
+
+AC_ARG_ENABLE(random, AS_HELP_STRING([--with-random   use the builtin random number generator (recommended not to use the builtin)]) )
+if test x"$with_random" == "xyes" ; then
+
+    echo "USING THE BUILTIN RANDOM NUMBER GENERATOR (recommended not to use the builtin)"
+
+    AC_DEFINE(RANDOM, ran1(0), [use the numerical recipes ran1() random number generator (not recommended)])
+
+else
+
+    echo "not using the builtin random number generator (recommended not to use the builtin)"
+
+    AC_DEFINE(RANDOM, random(), [use the 4.3BSD random() random number generator])
+
+fi
+
 AC_ARG_ENABLE(neurospaces, AS_HELP_STRING([--without-neurospaces   don't use neurospaces as modeling component]) )
 
 HECCER_INTEGRATORS=

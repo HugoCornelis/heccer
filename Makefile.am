@@ -38,6 +38,7 @@ libheccer_a_SOURCES = \
 	mechanism.c \
 	minimumdegree.c \
 	output.c \
+	random.c \
 	table.c \
 	vm.c
 
@@ -52,6 +53,7 @@ nobase_include_HEADERS = \
 	heccer/mathcomponent.h \
 	heccer/mechanism.h \
 	heccer/output.h \
+	heccer/random.h \
 	heccer/service.h \
 	heccer/table.h \
 	heccer/vm.h

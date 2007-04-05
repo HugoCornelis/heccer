@@ -24,6 +24,7 @@
 
 #include "heccer/compartment.h"
 #include "heccer/heccer.h"
+#include "heccer/random.h"
 
 
 /// **************************************************************************
@@ -1617,7 +1618,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		{
 		    //- generate random number
 
-		    int iRandom = random();
+		    int iRandom = RANDOM;
 
 		    //- check generated number with firing frequency
 
