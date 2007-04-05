@@ -1254,11 +1254,30 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
     struct ChannelSpringMass * pcsm
 	= (struct ChannelSpringMass *)pmc;
 
+    //- if domain mapper
+
+    if (instanceof_attachment(phsle))
+    {
+	if (pmcd->iStatus == 1
+	    || pmcd->iStatus == 2)
+	{
+	    //t not sure yet
+
+	}
+	else
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE);
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
     //- if equation
 
-    if (instanceof_equation(phsle))
+    else if (instanceof_equation(phsle))
     {
-	if (pmcd->iStatus == 1)
+	if (pmcd->iStatus == 1
+	    || pmcd->iStatus == 2)
 	{
 	    //- initialize table pointer
 
@@ -2328,6 +2347,15 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	     || instanceof_conceptual_gate(phsle)
 	     || instanceof_concentration_gate_kinetic(phsle)
 	     || instanceof_equation(phsle))
+    {
+	//- ok, skip
+
+	iType = -2;
+    }
+
+    //- if simulation domain related
+
+    else if (instanceof_attachment(phsle))
     {
 	//- ok, skip
 
