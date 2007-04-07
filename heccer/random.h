@@ -20,7 +20,7 @@
 
 
 #ifndef RANDOM
-#define RANDOM ran1(0)
+#define RANDOM (RAND_MAX * ran1(0))
 #endif
 
 

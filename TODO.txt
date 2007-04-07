@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* Perhaps I should drand48() for Linux rng
+Is declared obsoleted, see man page.
+
 * Before compilation
 Check if a time step has been set, if it is zero, abort.
 
