@@ -1,5 +1,7 @@
 -*- outline -*-
 
+* the website takes more than 100MB.
+
 * Perhaps I should drand48() for Linux rng
 Is declared obsoleted, see man page.
 
