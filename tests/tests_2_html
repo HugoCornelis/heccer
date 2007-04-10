@@ -16,6 +16,9 @@ our $perl_modules_directory;
 our $config;
 
 
+my $tests_disabled = 0;
+
+
 BEGIN
 {
     # default : running stand-alone
@@ -510,6 +513,8 @@ options :
 			$source->{"$entries. This test is currently not executed"} = "(disabled is '$disabled')";
 
 			$entries++;
+
+			$tests_disabled++;
 		    }
 
 		    # render
@@ -571,7 +576,7 @@ options :
 	(
 	 {
 	  cgi => $cgi,
-	  content => html_index($cgi, $sections, ) . "<hr> Total of $total_tests tests",
+	  content => html_index($cgi, $sections, ) . "<hr> Total of $total_tests tests ($tests_disabled test(s) disabled)",
 	  filename => "index.html",
 	  header => $option_header,
 	  title => "Main Index",
