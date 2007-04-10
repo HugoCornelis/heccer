@@ -379,6 +379,11 @@ options :
 
 		$html .= $cgi->h2($command_definition_count . ". " . ucfirst $command_definition->{description});
 
+		if ($command_definition->{disabled})
+		{
+		    $html .= $cgi->h2("This command definition is currently disabled (disabled is '$command_definition->{disabled}')");
+		}
+
 		my $model = [ $command_definition->{command}, @{$command_definition->{arguments} || []}, ];
 
 		if (@$model)
@@ -493,9 +498,16 @@ options :
 			$entries++;
 		    }
 
-		    if (defined $command_test->{disabled})
+		    if (defined $command_test->{disabled}
+			|| $command_definition->{disabled})
 		    {
-			$source->{"$entries. This test is currently not executed"} = $command_test->{disabled};
+			#! loose some info here, don't really care
+
+			my $disabled
+			    = $command_test->{disabled}
+				|| $command_definition->{disabled};
+
+			$source->{"$entries. This test is currently not executed"} = "(disabled is '$disabled')";
 
 			$entries++;
 		    }
