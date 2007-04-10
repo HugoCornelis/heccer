@@ -484,6 +484,22 @@ options :
 			     )
 			  );
 
+		    $entries++;
+
+		    if (defined $command_test->{comment})
+		    {
+			$source->{"$entries. Comment"} = $command_test->{comment};
+
+			$entries++;
+		    }
+
+		    if (defined $command_test->{disabled})
+		    {
+			$source->{"$entries. This test is currently not executed"} = $command_test->{disabled};
+
+			$entries++;
+		    }
+
 		    # render
 
 		    $html
