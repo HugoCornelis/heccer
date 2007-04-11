@@ -55,6 +55,19 @@ perl file find rule
 perl digest sha (not sha1)
 
 
+* model running
+** use custom written scripts in perl
+See the perl tests for examples.
+** use custom written code in C.
+See the C tests for examples.
+
+* model debugging
+** the membrane potential becomes inf or nan
+*** produce output in verbose manner, pipe it throug the 'less' pager.
+*** Look in the disassembled output for inf and nan.
+Should give a fairly good clue for what model component is responsible
+for the first occurence of inf/nan.
+
 * How to add new maths to heccer ?
 There are two ways to do this: adding new equation solvers using
 call-outs, or extending the byte code generator and emulator.
