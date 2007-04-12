@@ -94,6 +94,7 @@ struct MathComponentData
 #define STATUS_NON_CHANNEL_OUTPUTS_IK -9
 #define STATUS_CONSTANT_NERNST -10
 #define STATUS_NON_POOL_FOR_NERNST -11
+#define STATUS_ILLEGAL_PARAMETER_VALUES -12
 
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc);
@@ -2187,6 +2188,30 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
 
 	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	if (dInitValue == 0
+	    || dBeta == 0)
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES);
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+
+	    fprintf(stdout, "STATUS_ILLEGAL_PARAMETER_VALUES for the following:\n");
+
+	    PidinStackTo_stdout(ptstr->ppist);
+	}
+
+	if (1 / dInitValue == 0
+	    || 1 / dBeta == 0)
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES);
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+
+	    fprintf(stdout, "STATUS_ILLEGAL_PARAMETER_VALUES for the following:\n");
+
+	    PidinStackTo_stdout(ptstr->ppist);
 	}
 
 	//- set values

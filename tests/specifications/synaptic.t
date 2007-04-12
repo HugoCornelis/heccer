@@ -46,7 +46,7 @@ my $test
 				command => 'tests/code/springmass3',
 				command_tests => [
 						  {
-						   description => "Is a synaptic (springmass) channel integrated correctly, endogenous firing ?",
+						   description => "Is a synaptic (springmass) channel integrated correctly, endogenous firing (works only with the linux rng) ?",
 						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/springmass3.txt`, ],
 						   timeout => 8,
 						   write => undef,

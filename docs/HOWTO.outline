@@ -67,6 +67,21 @@ See the C tests for examples.
 *** Look in the disassembled output for inf and nan.
 Should give a fairly good clue for what model component is responsible
 for the first occurence of inf/nan.
+*** Figure out if the offending values comes from initialization or from calculations
+Look for "Iteration" lines.
+**** No Iteration lines
+If there is no iteration line before the
+first occurence of the offending value, the problem is with the
+initial values.
+**** Iteration lines
+***** Oscillation
+Check if this is an oscillation.  If so, decrease the time step and
+try again.
+***** No Oscillation
+The only reason that I have seen so far is an initial value out of the
+physiological range.  A notorious example is a current injection of 1A
+(although in that case you would still see an oscillation of a two
+steps or so).
 
 * How to add new maths to heccer ?
 There are two ways to do this: adding new equation solvers using
