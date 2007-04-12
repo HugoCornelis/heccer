@@ -278,6 +278,13 @@ releases:
         major: pools
         micro: ''
         minor: 9
+  purkinje:
+    1:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: purkinje
+        micro: ''
+        minor: 1
   swig:
     1:
       '':
