@@ -285,6 +285,12 @@ releases:
         major: purkinje
         micro: ''
         minor: 1
+    2:
+      '':
+        email: hugo.cornelis@gmail.com
+        major: purkinje
+        micro: ''
+        minor: 2
   swig:
     1:
       '':
