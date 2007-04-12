@@ -66,7 +66,8 @@ check_PROGRAMS = \
 	version
 
 noinst_HEADERS = \
-	main.c
+	main.c \
+	main.h
 
 addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
 addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
