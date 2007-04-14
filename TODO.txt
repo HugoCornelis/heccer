@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* neurospaces interface
+has fixed size buffers, see two commits ago.  Remove fixed size buffers.
+
 * Add passive only option
 ** heccer internal
 ** neurospaces interface
