@@ -2609,7 +2609,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	//t should try to get rid of this allocation somehow
 
-#define MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS 10000
+#define MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS 100000
 
 	{
 	    mcd.ppiConnectors = (int **)calloc(MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS, sizeof(int *));
@@ -2633,7 +2633,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	//t (2) by incorporating the functions into the symbol hierarchy.
 	//t See relevant comments in symbol hierarchy.
 
-#define MAXIMUM_NUMBER_OF_FUNCTIONS 10000
+#define MAXIMUM_NUMBER_OF_FUNCTIONS 100000
 
 	//! + 1 for '-1' terminator
 
