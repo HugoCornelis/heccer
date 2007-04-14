@@ -1,5 +1,11 @@
 -*- outline -*-
 
+* Add passive only option
+** heccer internal
+** neurospaces interface
+
+* rename integrators to interfaces
+
 * the website takes more than 100MB.
 
 * Perhaps I should drand48() for Linux rng
