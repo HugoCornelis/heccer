@@ -19,6 +19,11 @@ our $config;
 my $tests_disabled = 0;
 
 
+my $option_header;
+my $option_help;
+my $option_verbose;
+
+
 BEGIN
 {
     # default : running stand-alone
@@ -93,6 +98,8 @@ BEGIN
     }
 }
 
+
+$ENV{NEUROSPACES_MODELS} = ${core_directory} . '/library';
 
 my $tests_dir = $config->{tests_directory};
 
@@ -217,10 +224,6 @@ sub html_table_code
 
 sub main
 {
-    my $option_header;
-    my $option_help;
-    my $option_verbose;
-
     my $total_tests = 0;
 
     my $result
@@ -393,11 +396,11 @@ options :
 		{
 		    # output source code
 
-		    my $source_information = output_source($file, $model);
+		    my $source_information = output_source($file, $model, { guessing => 1, }, );
 
-		    my $source_anchor = $source_information->{result_anchor};
+		    my $source_anchor = defined $source_information->{result_anchor} ? " href=\"$source_information->{result_anchor}\"" . $source_information->{result_anchor} : "" ;
 
-		    my $command .= "<a href=\"$source_anchor\">" . (join ' ', @$model) . "</a>";
+		    my $command .= "<a$source_anchor>" . (join ' ', @$model) . "</a>";
 
 		    $html .= $cgi->h4("Startup command : " . $command);
 
@@ -671,6 +674,11 @@ sub output_content
 
     # write output
 
+    if ($option_verbose)
+    {
+	print "Generating $output_file\n";
+    }
+
     my $file = IO::File->new(">$output_file");
 
     print $file $result;
@@ -701,19 +709,40 @@ sub output_source
 
     my $source = shift;
 
+    my $options = shift;
+
     my $result = {};
 
-    # profile the tester source
+    # guess the tester source
 
     my $source_text_file = $config->{core_directory} . $source->[0];
 
-    my $source_profile = `file $source_text_file`;
+    #t guessing is ok, but the implementation not so (duplicate code, use a hash instead)
 
-    if ($source_profile =~ /ELF.*executable/
-	|| $source_profile =~ /ERROR/)
+    if ($options->{guessing})
     {
-	$source_text_file .= ".c";
+	my $source_profile = `file '$source_text_file'`;
 
+	if ($source_profile =~ /ELF.*executable/
+	    || $source_profile =~ /ERROR/)
+	{
+	    $source_text_file .= ".c";
+	}
+	elsif ($source_profile =~ /perl/)
+	{
+	}
+	else
+	{
+	    die "source_type for $source_text_file cannot be determined";
+	}
+    }
+
+    # profile the tester source
+
+    my $source_profile = `file '$source_text_file'`;
+
+    if ($source_profile =~ /ASCII C\+\+ program text/i)
+    {
 	$result->{source_type} = "cpp";
     }
     elsif ($source_profile =~ /perl/)
@@ -722,42 +751,57 @@ sub output_source
     }
     else
     {
-	die "source_type for $source_text_file cannot be determined";
+# 	die "source_type for $source_text_file cannot be determined";
     }
 
-    # set result: where to find the source text
+    # if this is a known source type
 
-    $result->{source_text_file} = $source_text_file;
+    if (defined $result->{source_type}
+	&& $result->{source_type} =~ m(cpp|perl))
+    {
+	# set result: where to find the source text
 
-    # slurp source text
+	$result->{source_text_file} = $source_text_file;
 
-    $result->{source_text} = `cat "$source_text_file"`;
+	# slurp source text
 
-    # define an output text location
+	$result->{source_text} = `cat "$source_text_file"`;
 
-    $result->{result_text_file} = "$outputs_dir/$source_text_file.source.html";
+	# define an output text location
 
-    #! this does not look good to me, it is a reversed parent
-    #! directory removal, there must be something wrong with the data
-    #! flow design here.
+	$result->{result_text_file} = "$outputs_dir/$source_text_file.source.html";
 
-    #! I guess it is somehow related to the global configuration in $config ...
+	#! this does not look good to me, it is a reversed parent
+	#! directory removal, there must be something wrong with the data
+	#! flow design here.
 
-    $result->{result_text_file} =~ s(/\.\./tests)();
+	#! I guess it is somehow related to the global configuration in $config ...
 
-    output_prepare($result->{result_text_file});
+	#! code line coming from the heccer source
 
-    system "source-highlight 2>&1 --line-number-ref --src-lang $result->{source_type} --out-format html --input \"$source_text_file\" --output $result->{result_text_file} ";
+	$result->{result_text_file} =~ s(/\.\./tests)();
 
-    #! oh boy ...
+	$result->{result_text_file} =~ s(html/\.\./tests)(html);
 
-    $result->{result_anchor} = $result->{result_text_file};
+	output_prepare($result->{result_text_file});
 
-    my $parents = ( $test_definition_file =~ tr(/)(/));
+	if ($option_verbose)
+	{
+	    print "Generating $result->{result_text_file}\n";
+	}
 
-    $parents = "../" x ($parents);
+	system "source-highlight 2>&1 --line-number-ref --src-lang $result->{source_type} --out-format html --input \"$source_text_file\" --output $result->{result_text_file} ";
 
-    $result->{result_anchor} =~ s(html/)(html/$parents);
+	#! oh boy ...
+
+	$result->{result_anchor} = $result->{result_text_file};
+
+	my $parents = ( $test_definition_file =~ tr(/)(/));
+
+	$parents = "../" x ($parents);
+
+	$result->{result_anchor} =~ s(html/)(html/$parents);
+    }
 
     # return result: source information
 
