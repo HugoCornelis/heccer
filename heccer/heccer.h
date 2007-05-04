@@ -194,6 +194,8 @@ struct Heccer
 
 //f prototypes
 
+int HeccerCanCompile(struct Heccer *pheccer);
+
 int HeccerCompileP1(struct Heccer *pheccer);
 
 int HeccerCompileP2(struct Heccer *pheccer);

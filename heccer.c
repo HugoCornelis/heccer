@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/03/15) Thursday, March 15, 2007 16:01:01 hugo";
+static char *pcVersionTime="(07/05/04) Friday, May 4, 2007 16:44:45 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -84,6 +84,50 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerCanCompile()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	Model can be compiled.
+///
+/// DESCR: Can the model be compiled, given the current options ?
+///
+/// **************************************************************************
+
+int HeccerCanCompile(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+#define MINIMAL_TIME_STEP 1e-100
+
+    if (pheccer->dStep < MINIMAL_TIME_STEP)
+    {
+	//t HeccerError()
+
+	return(FALSE);
+    }
+
+    if (pheccer->inter.iCompartments == 0)
+    {
+	//t HeccerError()
+
+	return(FALSE);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerCompileP2()
 ///
 /// ARGS.:
@@ -113,6 +157,13 @@ int HeccerCompileP2(struct Heccer *pheccer)
     //- set default result : ok
 
     int iResult = TRUE;
+
+    //- first sanity
+
+    if (!HeccerCanCompile(pheccer))
+    {
+	iResult = FALSE;
+    }
 
     //- do minimum degree
 
