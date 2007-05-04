@@ -956,58 +956,58 @@ int main(int argc, char *argv[])
 
     if (pdVmInternal != pdVmExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdVmInternal != pdVmExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdCaTMInternal != pdCaTMExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdCaTMInternal != pdCaTMExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdCaTHInternal != pdCaTHExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdCaTHInternal != pdCaTHExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdKdrMInternal != pdKdrMExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdKdrMInternal != pdKdrMExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdKdrHInternal != pdKdrHExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdKdrHInternal != pdKdrHExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdNaPNInternal != pdNaPNExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdNaPNInternal != pdNaPNExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdNaFMInternal != pdNaFMExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdNaFMInternal != pdNaFMExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
     if (pdNaFHInternal != pdNaFHExternal)
     {
-	//! just a segv
+	fprintf(stdout, "*** Error: (pdNaFHInternal != pdNaFHExternal)\n");
 
-	((int *)0)[0] = 0;
+	exit(EXIT_FAILURE);
     }
 
 #endif
