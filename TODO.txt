@@ -1,7 +1,5 @@
 -*- outline -*-
 
-* Make the rng dependent tests dependent on the heccer configuration.
-
 * neurospaces interface
 has fixed size buffers, see two commits ago.  Remove fixed size buffers.
 

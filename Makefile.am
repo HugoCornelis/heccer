@@ -46,6 +46,7 @@ nobase_include_HEADERS = \
 	heccer/addressing.h \
 	heccer/callout.h \
 	heccer/compartment.h \
+	heccer/config.h \
 	heccer/heccer.h \
 	heccer/minimumdegree.h \
 	heccer/indexers.h \
