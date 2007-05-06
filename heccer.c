@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/05/04) Friday, May 4, 2007 16:44:45 hugo";
+static char *pcVersionTime="(07/05/04) Friday, May 4, 2007 16:49:01 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -104,7 +104,7 @@ int HeccerCanCompile(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
-#define MINIMAL_TIME_STEP 1e-100
+#define MINIMAL_TIME_STEP 1e-30
 
     if (pheccer->dStep < MINIMAL_TIME_STEP)
     {
