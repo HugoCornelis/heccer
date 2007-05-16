@@ -1,5 +1,7 @@
 -*- outline -*-
 
+* add -fPIC
+
 * neurospaces interface
 has fixed size buffers, see two commits ago.  Remove fixed size buffers.
 
