@@ -36,14 +36,6 @@ struct HeccerCommandInfo
 
     int iLength;
 
-    //m type of formatter, -1 means none, zero means all doubles
-
-    int iFormatterType;
-
-    //m sprintf format string
-
-    char *pcFormat;
-
     //m number of secondary operands, expressed in doubles
 
     int iSecondaries;
@@ -64,6 +56,10 @@ struct HeccerCommandTable
 
     int iCommands;
 
+    //m -1 means no formatted output
+
+    int iFormatted;
+
     //m command info
 
     struct HeccerCommandInfo * phci;
@@ -72,13 +68,13 @@ struct HeccerCommandTable
 
 static struct HeccerCommandInfo phciCops[] =
 {
-    {	HECCER_COP_FORWARD_ELIMINATION,		"FORWARD_ELIMINATION",		2 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"BACKWARD_SUBSTITUTION",	2 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_FINISH_ROW,			"FINISH_ROW",			1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_FINISH,			"FINISH",			1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_SET_DIAGONAL,		"SET_DIAGONAL",			1 * sizeof(int),	-1,	NULL, },
-    {	HECCER_COP_NEXT_ROW,			"NEXT_ROW",			1 * sizeof(int),	-1,	NULL, },
-    {    -1,	NULL,	-1,	-1,	NULL,	},
+    {	HECCER_COP_FORWARD_ELIMINATION,		"FORWARD_ELIMINATION",		2 * sizeof(int), },
+    {	HECCER_COP_BACKWARD_SUBSTITUTION,	"BACKWARD_SUBSTITUTION",	2 * sizeof(int), },
+    {	HECCER_COP_FINISH_ROW,			"FINISH_ROW",			1 * sizeof(int), },
+    {	HECCER_COP_FINISH,			"FINISH",			1 * sizeof(int), },
+    {	HECCER_COP_SET_DIAGONAL,		"SET_DIAGONAL",			1 * sizeof(int), },
+    {	HECCER_COP_NEXT_ROW,			"NEXT_ROW",			1 * sizeof(int), },
+    {    -1,	NULL,	-1,	},
 };
 
 
@@ -86,26 +82,27 @@ static struct HeccerCommandTable hctCops =
 {
     0,
     sizeof(phciCops) / sizeof(struct HeccerCommandInfo) - 1,
+    0,
     phciCops,
 };
 
 
 static struct HeccerCommandInfo phciMops[] =
 {
-    {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					-1,	NULL,			0,	sizeof(struct MatsCallout),	},
-    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					-1,	NULL,			4,	sizeof(struct MatsCompartment),	},
-    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			2,	" %i %i (%g)",		1,	sizeof(struct MatsSingleGateConcept),	},
-    {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	" %g %g %g (%g)",	1,	sizeof(struct MatsExponentialDecay),	},
-    {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					-1,	NULL,			0,	0,	},
-    {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL,			1,	sizeof(struct MatsFluxPool),	},
-    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsInitializeChannel),			0,	" %g %g",		0,	0,	},
-    {	HECCER_MOP_INITIALIZECHANNELEK,		"INITIALIZECHANNELEK",		sizeof(struct MopsInitializeChannelEk),			4,	" (%g) %g",		0,	0,	},
-    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependency),		-1,	NULL,			0,	0,	},
-    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
-    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
-    {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			3,	" %g %g",		1,	sizeof(struct MatsInternalNernst),	},
-    {   HECCER_MOP_SPRINGMASS,			"SPRINGMASS",			sizeof(struct MopsSpringMass),				5,	" %i %g %i %i %g",		2,	sizeof(struct MatsSpringMass),	},
-    {    -1,	NULL,	-1,	-1,	NULL,	},
+    {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					0,	sizeof(struct MatsCallout),	},
+    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
+    {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			1,	sizeof(struct MatsSingleGateConcept),	},
+    {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	sizeof(struct MatsExponentialDecay),	},
+    {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					0,	0,	},
+    {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				1,	sizeof(struct MatsFluxPool),	},
+    {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsInitializeChannel),			0,	0,	},
+    {	HECCER_MOP_INITIALIZECHANNELEK,		"INITIALIZECHANNELEK",		sizeof(struct MopsInitializeChannelEk),			0,	0,	},
+    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependency),		0,	0,	},
+    {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		0,	0,	},
+    {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		0,	0,	},
+    {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			1,	sizeof(struct MatsInternalNernst),	},
+    {   HECCER_MOP_SPRINGMASS,			"SPRINGMASS",			sizeof(struct MopsSpringMass),				2,	sizeof(struct MatsSpringMass),	},
+    {    -1,	NULL,	-1,	},
 };
 
 
@@ -113,6 +110,7 @@ static struct HeccerCommandTable hctMops =
 {
     0,
     sizeof(phciMops) / sizeof(struct HeccerCommandInfo) - 1,
+    1,
     phciMops,
 };
 
@@ -491,23 +489,27 @@ HeccerVMDumpOperators
 
 	    if (iCommandLength >= 2)
 	    {
-		if (phciCurrent->pcFormat)
+		if (phct->iFormatted)
 		{
 		    //t so only for five doubles ...
 
-		    char pc[100];
+		    char pc[100] = "";
 
 		    {
 			void *pv = (void *)&piOperators[i / sizeof(int) + 1];
 
-			if (phciCurrent->iFormatterType == 0)
+			if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNEL)
 			{
+//t MopsInitializeChannel
+
 			    double *pd = (double *)pv;
 
-			    sprintf(pc, phciCurrent->pcFormat, pd[0], pd[1], pd[2], pd[3], pd[4]);
+			    sprintf(pc, " %g %g", pd[0], pd[1]);
 			}
-			else if (phciCurrent->iFormatterType == 1)
+			else if (phciCurrent->iValue == HECCER_MOP_EXPONENTIALDECAY)
 			{
+//t MopsExponentialDecay
+
 			    double *pd = (double *)pv;
 
 			    sprintf(pc, " %g %g %g\n\t\t\t", pd[0], pd[1], pd[2]);
@@ -532,8 +534,10 @@ HeccerVMDumpOperators
 				strcat(pc, pc2);
 			    }
 			}
-			else if (phciCurrent->iFormatterType == 2)
+			else if (phciCurrent->iValue == HECCER_MOP_CONCEPTGATE)
 			{
+//t MopsSingleGateConcept
+
 			    int *pi = (int *)pv;
 
 			    uMC2Mat *pu = (uMC2Mat *)&pi[2];
@@ -547,8 +551,10 @@ HeccerVMDumpOperators
 				sprintf(pc, " %i %i (nil)", pi[0], pi[1], NULL);
 			    }
 			}
-			else if (phciCurrent->iFormatterType == 3)
+			else if (phciCurrent->iValue == HECCER_MOP_INTERNALNERNST)
 			{
+//t MopsInternalNernst
+
 			    double *pd = (double *)pv;
 
 			    sprintf(pc, " %g %g", pd[0], pd[1]);
@@ -573,8 +579,10 @@ HeccerVMDumpOperators
 				strcat(pc, pc2);
 			    }
 			}
-			else if (phciCurrent->iFormatterType == 4)
+			else if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNELEK)
 			{
+//t MopsInitializeChannelEk
+
 			    double **ppd = (double **)pv;
 
 			    if (ppd[0])
@@ -594,8 +602,10 @@ HeccerVMDumpOperators
 
 			    strcat(pc, pc2);
 			}
-			else if (phciCurrent->iFormatterType == 5)
+			else if (phciCurrent->iValue == HECCER_MOP_SPRINGMASS)
 			{
+//t MopsSpringMass
+
 			    int *pi1 = (int *)pv;
 
 			    double **ppdEvents = (double **)&pi1[1];
