@@ -536,11 +536,11 @@ HeccerVMDumpOperators
 			{
 			    int *pi = (int *)pv;
 
-			    double **ppd = (double **)&pi[2];
+			    uMC2Mat *pu = (uMC2Mat *)&pi[2];
 
-			    if (*ppd)
+			    if (pu->pdValue)
 			    {
-				sprintf(pc, " %i %i (%g)", pi[0], pi[1], **ppd);
+				sprintf(pc, " %i %i (%g)", pi[0], pi[1], *pu->pdValue);
 			    }
 			    else
 			    {

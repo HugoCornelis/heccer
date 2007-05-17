@@ -38,6 +38,19 @@ struct VM;
 #include "mechanism.h"
 
 
+typedef union
+{
+    //m index into mathcomponents
+
+    int iMat;
+
+    //m direct value
+
+    double *pdValue;
+
+}
+    uMC2Mat;
+
 //s vm related (name subject to change)
 
 struct VM
@@ -76,7 +89,7 @@ struct VM
 
     //! note that this one does not index compartments, only the mechanism math components.
 
-    int *piMC2Mat;
+    uMC2Mat *piMC2Mat;
 
     //m math component number to mop number convertor
 
@@ -262,7 +275,7 @@ struct MatsSpringMass
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsSpringMass);		\
 		 1;							\
 	     })								\
@@ -309,7 +322,7 @@ struct MatsCallout
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsCallout);		\
 		 1;							\
 	     })								\
@@ -332,7 +345,7 @@ struct MopsInternalNernst
 
     //m variable internal concentration
 
-    double *pdInternal;
+    uMC2Mat uInternal;
 };
 
 
@@ -343,13 +356,13 @@ struct MatsInternalNernst
     double dPotential;
 };
 
-#define SETMOP_INTERNALNERNST(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dC,dE,pdI)	\
+#define SETMOP_INTERNALNERNST(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dC,dE,iI)	\
     ((pvMops)								\
      ? ({ struct MopsInternalNernst *pmops = (struct MopsInternalNernst *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_INTERNALNERNST;		\
 	     pmops->dConstant = (dC) ;					\
 	     pmops->dExternal = (dE) ;					\
-	     pmops->pdInternal = (pdI) ;				\
+	     pmops->uInternal.iMat = (iI) ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
@@ -373,7 +386,7 @@ struct MatsInternalNernst
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsInternalNernst);	\
 		 1;							\
 	     })								\
@@ -424,7 +437,7 @@ struct MopsInitializeChannelEk
 
     //m variable reversal potential
 
-    double *pdReversalPotential;
+    uMC2Mat uReversalPotential;
 
     //m maximal channel conductance
 
@@ -432,11 +445,11 @@ struct MopsInitializeChannelEk
 };
 
 
-#define SETMOP_INITIALIZECHANNELEK(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,pdE) \
+#define SETMOP_INITIALIZECHANNELEK(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,iE) \
     ((pvMops)								\
      ? ({ struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNELEK;		\
-	     pmops->pdReversalPotential = (pdE) ;			\
+	     pmops->uReversalPotential.iMat = (iE) ;			\
 	     pmops->dMaximalConductance = (dG) ;			\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
@@ -552,16 +565,16 @@ struct MopsSingleGateConcept
 
     //m possibly solved dependence
 
-    double *pdState;
+    uMC2Mat uState;
 };
 
-#define SETMOP_POWEREDGATECONCEPT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iT,iP,pdS) \
+#define SETMOP_POWEREDGATECONCEPT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iT,iP,iS) \
     ((pvMops)								\
      ? ({ struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_CONCEPTGATE ;		\
 	     pmops->iTableIndex = (iT) ;				\
 	     pmops->iPower = (iP) ;					\
-	     pmops->pdState = (pdS) ;					\
+	     pmops->uState.iMat = (iS) ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
@@ -593,7 +606,7 @@ struct MatsSingleGateConcept
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent] = iMatNumber++;			\
+		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsSingleGateConcept);	\
 		 1;							\
 	     })								\
@@ -620,7 +633,7 @@ struct MopsExponentialDecay
 
     //m possibly solved external flux contribution
 
-    double *ppdExternal[EXPONENTIALDECAY_CONTRIBUTORS];
+    uMC2Mat puExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 };
 
 
@@ -631,7 +644,7 @@ struct MatsExponentialDecay
     double dState;
 };
 
-#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT,ppdE)	\
+#define SETMOP_EXPONENTIALDECAY(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dB,dS,dT,piE)	\
     ((pvMops)								\
      ? ({ struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_EXPONENTIALDECAY;		\
@@ -641,7 +654,7 @@ struct MatsExponentialDecay
 	     int i;							\
 	     for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)	\
 	     {								\
-		 pmops->ppdExternal[i] = (ppdE)[i] ;			\
+		 pmops->puExternal[i].iMat = (piE)[i] ;			\
 	     }								\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
@@ -666,7 +679,7 @@ struct MatsExponentialDecay
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent] = iMatNumber++;		\
+		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsExponentialDecay);	\
 		 1;							\
 	     })								\
@@ -718,7 +731,7 @@ struct MatsFluxPool
 	 }) : (								\
 	     (ppvMatsIndex)						\
 	     ? ({							\
-		     piMC2Mat[iMathComponent] = iMatNumber++;		\
+		     piMC2Mat[iMathComponent].iMat = iMatNumber++;	\
 		     (iMats) += MAT_ALIGNER(struct MatsFluxPool);	\
 		     1;							\
 		 })							\

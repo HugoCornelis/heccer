@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* rename
+MopsVoltageTableDependence to MopsVoltageTableDependency
+
 * add -fPIC
 
 * neurospaces interface

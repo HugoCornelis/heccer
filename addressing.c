@@ -219,7 +219,7 @@ HeccerAddressMechanismVariable
 
     //- get mat number
 
-    int iMat = pheccer->vm.piMC2Mat[iIndex];
+    int iMat = pheccer->vm.piMC2Mat[iIndex].iMat;
 
     //- lookup the field operand (negative offset for now)
 

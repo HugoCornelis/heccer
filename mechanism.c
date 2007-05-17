@@ -100,7 +100,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
     void **ppvMopsIndex = NULL;
     void **ppvMatsIndex = NULL;
     int *piMC2Mop = NULL;
-    int *piMC2Mat = NULL;
+    uMC2Mat *piMC2Mat = NULL;
 
     for (iCountIndexCompile = 0 ; iCountIndexCompile < 3 ; iCountIndexCompile++)
     {
@@ -260,20 +260,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pcsm->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the channel
@@ -332,20 +328,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iMathComponentActivator = pin->iInternal;
 
-		    double *pdState = NULL;
+		    int iMatsActivator = -1;
 
 		    if (iMathComponentActivator != -1)
 		    {
 			//- convert math component to mat number, convert mat number to mat addressable
 
-			int iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator] : -1;
-
-			//! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			pdState = (double *)iMatsActivator;
+			iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator].iMat : -1;
 		    }
 
-		    SETMOP_INTERNALNERNST(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pin->dConstant, pin->dExternal, pdState);
+		    SETMOP_INTERNALNERNST(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pin->dConstant, pin->dExternal, iMatsActivator);
 
 		    SETMAT_INTERNALNERNST(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pin->dInitPotential);
 
@@ -377,20 +369,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pca->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->dMaximalConductance, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->dMaximalConductance, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the channel
@@ -403,7 +391,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->pgc.gc.iTable, pca->pgc.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->pgc.gc.iTable, pca->pgc.iPower,-1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -463,20 +451,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pcai->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->dMaximalConductance, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the channel
@@ -489,7 +473,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower,-1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -501,7 +485,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedInactivation
 			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,-1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -561,20 +545,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pcac->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->dMaximalConductance, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the membrane dependence
@@ -587,7 +567,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower,NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower,-1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -608,20 +588,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iMathComponentActivator = pcac->pac.ac.iActivator;
 
-		    double *pdState = NULL;
+		    int iMatsActivator = -1;
 
 		    if (iMathComponentActivator != -1)
 		    {
 			//- convert math component to mat number, convert mat number to mat addressable
 
-			int iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator] : -1;
-
-			//! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			pdState = (double *)iMatsActivator;
+			iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator].iMat : -1;
 		    }
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower, pdState);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower, iMatsActivator);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -666,7 +642,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pexdec->mc);
 
-		    double *ppdExternal[EXPONENTIALDECAY_CONTRIBUTORS];
+		    int piExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 
 		    int i;
 
@@ -676,23 +652,25 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iContributor = pexdec->piExternal[i];
 
+			int iMatsExternal = -1;
+
 			if (iContributor != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsExternal = piMC2Mat ? piMC2Mat[iContributor] : -1;
+			    iMatsExternal = piMC2Mat ? piMC2Mat[iContributor].iMat : -1;
 
 			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
 
-			    ppdExternal[i] = (double *)iMatsExternal;
+			    piExternal[i] = iMatsExternal;
 			}
 			else
 			{
-			    ppdExternal[i] = NULL;
+			    piExternal[i] = -1;
 			}
 		    }
 
-		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), ppdExternal);
+		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), piExternal);
 
 		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pexdec->dInitValue);
 
@@ -724,20 +702,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pcsst->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->dMaximalConductance, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->dMaximalConductance, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the channel
@@ -746,13 +720,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iFirstTable, pcsst->iFirstPower, NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iFirstTable, pcsst->iFirstPower, -1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dFirstInitActivation);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iSecondTable, pcsst->iSecondPower, NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iSecondTable, pcsst->iSecondPower, -1);
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dSecondInitActivation);
 
@@ -810,20 +784,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pcpsdt->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->dMaximalConductance, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->dMaximalConductance, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the channel
@@ -832,7 +802,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iFirstTable, pcpsdt->iFirstPower, NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iFirstTable, pcpsdt->iFirstPower, -1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -844,7 +814,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iSecondTable, pcpsdt->iSecondPower, NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iSecondTable, pcpsdt->iSecondPower, -1);
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcpsdt->dSecondInitActivation);
 
@@ -902,20 +872,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			int iMathComponentReversalPotential = pcpst->iReversalPotential;
 
-			double *pdReversalPotential = NULL;
+			int iMatsReversalPotential = -1;
 
 			if (iMathComponentReversalPotential != -1)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    int iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential] : -1;
-
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
-			    pdReversalPotential = (double *)iMatsReversalPotential;
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->dMaximalConductance, pdReversalPotential);
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->dMaximalConductance, iMatsReversalPotential);
 		    }
 
 		    //- tabulate the channel
@@ -924,7 +890,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->iTable, pcpst->iPower, NULL);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->iTable, pcpst->iPower, -1);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
@@ -1012,11 +978,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    {
 		//! note that this one does not index compartments, only the mechanism math components.
 
-		pheccer->vm.piMC2Mat = (int *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(int *));
+		pheccer->vm.piMC2Mat = (uMC2Mat *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(uMC2Mat));
 
 		piMC2Mat = pheccer->vm.piMC2Mat;
 
-		pheccer->vm.piMC2Mop = (int *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(int *));
+		pheccer->vm.piMC2Mop = (int *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(int));
 
 		piMC2Mop = pheccer->vm.piMC2Mop;
 	    }
@@ -1157,35 +1123,21 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- get index of internal concentration
 
-		double *pdInternal = pmops->pdInternal;
+		int iInternal = pmops->uInternal.iMat;
 
-		//- if still an index
-
-		if (pdInternal)
+		if (iInternal != -1)
 		{
-		    //- convert index to pointer
-
-		    int iInternal = (int)pdInternal;
-
-		    if (iInternal == -1)
-		    {
-			//t HeccerError(number, message, varargs);
-
-			fprintf
-			    (stderr,
-			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
-			     &piMop[-1] - (int *)pheccer->vm.pvMops);
-
-			return(FALSE);
-		    }
-
-		    //t I guess this can go wrong, not sure
+		    //- get solved dependency
 
 		    double *pdConcentration = (double *)pheccer->vm.ppvMatsIndex[iInternal];
 
 		    //- store solved internal concentration
 
-		    pmops->pdInternal = pdConcentration;
+		    pmops->uInternal.pdValue = pdConcentration;
+		}
+		else
+		{
+		    pmops->uInternal.pdValue = NULL;
 		}
 
 		break;
@@ -1216,35 +1168,21 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- get index of reversal potential
 
-		double *pdReversalPotential = pmops->pdReversalPotential;
+		int iReversalPotential = pmops->uReversalPotential.iMat;
 
-		//- if still an index
-
-		if (pdReversalPotential)
+		if (iReversalPotential != -1)
 		{
-		    //- convert index to pointer
-
-		    int iReversalPotential = (int)pdReversalPotential;
-
-		    if (iReversalPotential == -1)
-		    {
-			//t HeccerError(number, message, varargs);
-
-			fprintf
-			    (stderr,
-			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
-			     &piMop[-1] - (int *)pheccer->vm.pvMops);
-
-			return(FALSE);
-		    }
-
-		    //t I guess this can go wrong, not sure
+		    //- get solved dependency
 
 		    double *pdNernst = (double *)pheccer->vm.ppvMatsIndex[iReversalPotential];
 
 		    //- store solved nernst potential
 
-		    pmops->pdReversalPotential = pdNernst;
+		    pmops->uReversalPotential.pdValue = pdNernst;
+		}
+		else
+		{
+		    pmops->uReversalPotential.pdValue = NULL;
 		}
 
 		break;
@@ -1300,33 +1238,21 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- get possibly solved dependence
 
-		double *pdState = pmops->pdState;
+		int iMatsActivator = pmops->uState.iMat;
 
-		//- if still an index
-
-		if (pdState)
+		if (iMatsActivator != -1)
 		{
-		    //- convert index to pointer
-
-		    int iMatsActivator = (int)pdState;
-
-		    if (iMatsActivator == -1)
-		    {
-			//t HeccerError(number, message, varargs);
-
-			fprintf
-			    (stderr,
-			     "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
-			     &piMop[-1] - (int *)pheccer->vm.pvMops);
-
-			return(FALSE);
-		    }
+		    //- get solved dependency
 
 		    double *pdMatsActivator = (double *)pheccer->vm.ppvMatsIndex[iMatsActivator];
 
-		    //- store solved dependence
+		    //- store solved dependency
 
-		    pmops->pdState = pdMatsActivator;
+		    pmops->uState.pdValue = pdMatsActivator;
+		}
+		else
+		{
+		    pmops->uState.pdValue = NULL;
 		}
 
 		break;
@@ -1378,33 +1304,21 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
 		{
-		    double *pdExternal = pmops->ppdExternal[i];
+		    int iExternal = pmops->puExternal[i].iMat;
 
-		    //- if still an index
-
-		    if (pdExternal)
+		    if (iExternal != -1)
 		    {
-			//- convert index to pointer
-
-			int iExternal = (int)pdExternal;
-
-			if (iExternal == -1)
-			{
-			    //t HeccerError(number, message, varargs);
-
-			    fprintf
-				(stderr,
-				 "Heccer the hecc : cannot resolve link for a solved dependence (at %i)\n",
-				 &piMop[-1] - (int *)pheccer->vm.pvMops);
-
-			    return(FALSE);
-			}
+			//- get solved dependency
 
 			double *pdFlux = (double *)pheccer->vm.ppvMatsIndex[iExternal];
 
 			//- store solved external flux contribution
 
-			pmops->ppdExternal[i] = pdFlux;
+			pmops->puExternal[i].pdValue = pdFlux;
+		    }
+		    else
+		    {
+			pmops->puExternal[i].pdValue = NULL;
 		    }
 		}
 
@@ -1694,9 +1608,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		double dInternal = 0.0;
 
-		if (pmops->pdInternal)
+		if (pmops->uInternal.pdValue)
 		{
-		    dInternal = *pmops->pdInternal;
+		    dInternal = *pmops->uInternal.pdValue;
 		}
 
 		//- computer nernst potential
@@ -1745,7 +1659,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dChannelConductance = pmops->dMaximalConductance;
 
-		dReversalPotential = pmops->pdReversalPotential[0];
+		dReversalPotential = *pmops->uReversalPotential.pdValue;
 
 		break;
 	    }
@@ -1810,7 +1724,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		int iTable = pmops->iTableIndex;
 
-		double *pdState = pmops->pdState;
+		double *pdState = pmops->uState.pdValue;
 
 		double dActivation = pmats->dActivation;
 
@@ -2012,11 +1926,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
 		{
-		    double *pdExternal = pmops->ppdExternal[i];
+		    double *pdExternal = pmops->puExternal[i].pdValue;
 
 		    if (pdExternal)
 		    {
-			dExternal += pdExternal[0];
+			dExternal += *pdExternal;
 		    }
 		}
 
