@@ -46,10 +46,10 @@ SwiggableHeccer.pm swiggable_heccer_wrap.c: $(swig_DATA)
 	swig -I$(srcdir)/../../.. -I$(top_builddir) -perl5 -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -c swiggable_heccer_wrap.c `perl -MExtUtils::Embed -e ccopts`
+	gcc -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -c swiggable_heccer_wrap.c -fPIC `perl -MExtUtils::Embed -e ccopts`
 
 SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/neurospacesread -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lreadline -lhistory -o SwiggableHeccer.so
+	gcc -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/neurospacesread -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lreadline -lhistory -fPIC -o SwiggableHeccer.so
 
 all: SwiggableHeccer.so
 
