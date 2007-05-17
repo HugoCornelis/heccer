@@ -1,5 +1,9 @@
 -*- outline -*-
 
+* make the debugger output 64bit int compliant
+** the lines should be numbered as operation numbers
+instead of byte number or so.
+
 * rename
 MopsVoltageTableDependence to MopsVoltageTableDependency
 
