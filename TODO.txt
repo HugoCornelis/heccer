@@ -3,6 +3,9 @@
 * make the debugger output 64bit int compliant
 ** the lines should be numbered as operation numbers
 instead of byte number or so.
+** struct MopsInitializeChannel is not disassembled correctly
+two subsequent double values in a structure are not aligned the same
+as an array.
 
 * rename
 MopsVoltageTableDependence to MopsVoltageTableDependency
