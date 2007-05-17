@@ -7,9 +7,6 @@ instead of byte number or so.
 two subsequent double values in a structure are not aligned the same
 as an array.
 
-* rename
-MopsVoltageTableDependence to MopsVoltageTableDependency
-
 * add -fPIC
 
 * neurospaces interface

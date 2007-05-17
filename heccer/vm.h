@@ -498,7 +498,7 @@ struct MatsStoreChannelConductance
 	     : ({ iMopNumber++; 1; }) ) )
 
 
-struct MopsVoltageTableDependence
+struct MopsVoltageTableDependency
 {
     //t so in principle the following operation is only needed once
     //t per compartment.  Still have to figure out how.
@@ -510,7 +510,7 @@ struct MopsVoltageTableDependence
 
 #define SETMOP_LOADVOLTAGETABLE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops)	\
     ((pvMops)								\
-     ? ({ struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)(pvMops); \
+     ? ({ struct MopsVoltageTableDependency *pmops = (struct MopsVoltageTableDependency *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ;		\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
@@ -519,7 +519,7 @@ struct MopsVoltageTableDependence
 	     (ppvMopsIndex)						\
 	     ? ({							\
 		     piMC2Mop[iMathComponent] = iMopNumber++;		\
-		     (iMops) += sizeof(struct MopsVoltageTableDependence); \
+		     (iMops) += sizeof(struct MopsVoltageTableDependency); \
 		     1;							\
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )

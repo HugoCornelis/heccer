@@ -1213,7 +1213,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	    {
 		//- go to next operator
 
-		struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)piMop;
+		struct MopsVoltageTableDependency *pmops = (struct MopsVoltageTableDependency *)piMop;
 
 		piMop = (int *)&pmops[1];
 
@@ -1691,7 +1691,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	    {
 		//- go to next operator
 
-		struct MopsVoltageTableDependence *pmops = (struct MopsVoltageTableDependence *)piMop;
+		struct MopsVoltageTableDependency *pmops = (struct MopsVoltageTableDependency *)piMop;
 
 		piMop = (int *)&pmops[1];
 

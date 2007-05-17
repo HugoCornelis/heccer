@@ -100,7 +100,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				-1,	NULL,			1,	sizeof(struct MatsFluxPool),	},
     {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsInitializeChannel),			0,	" %g %g",		0,	0,	},
     {	HECCER_MOP_INITIALIZECHANNELEK,		"INITIALIZECHANNELEK",		sizeof(struct MopsInitializeChannelEk),			4,	" (%g) %g",		0,	0,	},
-    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependence),		-1,	NULL,			0,	0,	},
+    {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependency),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		-1,	NULL,			0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		-1,	NULL,			0,	0,	},
     {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			3,	" %g %g",		1,	sizeof(struct MatsInternalNernst),	},
