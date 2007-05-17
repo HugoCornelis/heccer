@@ -500,21 +500,19 @@ HeccerVMDumpOperators
 
 			if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNEL)
 			{
-//t MopsInitializeChannel
+			    struct MopsInitializeChannel *pmops
+				= (struct MopsInitializeChannel *)&piOperators[i / sizeof(int)];
 
-			    double *pd = (double *)pv;
-
-			    sprintf(pc, " %g %g", pd[0], pd[1]);
+			    sprintf(pc, " %g %g", pmops->dReversalPotential, pmops->dMaximalConductance);
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_EXPONENTIALDECAY)
 			{
-//t MopsExponentialDecay
+			    struct MopsExponentialDecay *pmops
+				= (struct MopsExponentialDecay *)&piOperators[i / sizeof(int)];
 
-			    double *pd = (double *)pv;
+			    sprintf(pc, " %g %g %g\n\t\t\t", pmops->dBeta, pmops->dSteadyState, pmops->dTau);
 
-			    sprintf(pc, " %g %g %g\n\t\t\t", pd[0], pd[1], pd[2]);
-
-			    double **ppd = (double **)&pd[3];
+			    uMC2Mat *puExternal = &pmops->puExternal[0];
 
 			    int k;
 
@@ -522,9 +520,9 @@ HeccerVMDumpOperators
 
 			    for (k = 0 ; k < EXPONENTIALDECAY_CONTRIBUTORS ; k++)
 			    {
-				if (ppd[k])
+				if (puExternal[k].pdValue)
 				{
-				    sprintf(pc2, " (%g)", *ppd[k]);
+				    sprintf(pc2, " (%g)", *puExternal[k].pdValue);
 				}
 				else
 				{
@@ -536,30 +534,24 @@ HeccerVMDumpOperators
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_CONCEPTGATE)
 			{
-//t MopsSingleGateConcept
+			    struct MopsSingleGateConcept *pmops
+				= (struct MopsSingleGateConcept *)&piOperators[i / sizeof(int)];
 
-			    int *pi = (int *)pv;
-
-			    uMC2Mat *pu = (uMC2Mat *)&pi[2];
-
-			    if (pu->pdValue)
+			    if (pmops->uState.pdValue)
 			    {
-				sprintf(pc, " %i %i (%g)", pi[0], pi[1], *pu->pdValue);
+				sprintf(pc, " %i %i (%g)", pmops->iTableIndex, pmops->iPower, *pmops->uState.pdValue);
 			    }
 			    else
 			    {
-				sprintf(pc, " %i %i (nil)", pi[0], pi[1], NULL);
+				sprintf(pc, " %i %i (nil)", pmops->iTableIndex, pmops->iPower);
 			    }
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_INTERNALNERNST)
 			{
-//t MopsInternalNernst
+			    struct MopsInternalNernst *pmops
+				= (struct MopsInternalNernst *)&piOperators[i / sizeof(int)];
 
-			    double *pd = (double *)pv;
-
-			    sprintf(pc, " %g %g", pd[0], pd[1]);
-
-			    double **ppd = (double **)&pd[2];
+			    sprintf(pc, " %g %g", pmops->dConstant, pmops->dExternal);
 
 			    int k;
 
@@ -567,9 +559,9 @@ HeccerVMDumpOperators
 
 			    for (k = 0 ; k < 1 ; k++)
 			    {
-				if (ppd[k])
+				if (pmops->uInternal.pdValue)
 				{
-				    sprintf(pc2, " (%g)", *ppd[k]);
+				    sprintf(pc2, " (%g)", *pmops->uInternal.pdValue);
 				}
 				else
 				{
@@ -581,46 +573,36 @@ HeccerVMDumpOperators
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNELEK)
 			{
-//t MopsInitializeChannelEk
+			    struct MopsInitializeChannelEk *pmops
+				= (struct MopsInitializeChannelEk *)&piOperators[i / sizeof(int)];
 
-			    double **ppd = (double **)pv;
-
-			    if (ppd[0])
+			    if (pmops->uReversalPotential.pdValue)
 			    {
-				sprintf(pc, " (%g)", *ppd[0]);
+				sprintf(pc, " (%g)", *pmops->uReversalPotential.pdValue);
 			    }
 			    else
 			    {
 				sprintf(pc, "(nil)");
 			    }
 
-			    double *pd = (double *)&ppd[1];
-
 			    char pc2[100];
 
-			    sprintf(pc2, " %g", pd[0]);
+			    sprintf(pc2, " %g", pmops->dMaximalConductance);
 
 			    strcat(pc, pc2);
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_SPRINGMASS)
 			{
-//t MopsSpringMass
+			    struct MopsSpringMass *pmops
+				= (struct MopsSpringMass *)&piOperators[i / sizeof(int)];
 
-			    int *pi1 = (int *)pv;
-
-			    double **ppdEvents = (double **)&pi1[1];
-
-			    int *pi2 = (int *)&ppdEvents[1];
-
-			    double *pd = (double *)&pi2[2];
-
-			    if (ppdEvents[0])
+			    if (pmops->pdEvents[0])
 			    {
-				sprintf(pc, " %i %g %i %i %g", pi1[0], ppdEvents[0][pi1[0]], pi2[0], pi2[1], pd[0]);
+				sprintf(pc, " %i %g %i %i %g", pmops->iEvent, pmops->pdEvents[pmops->iEvent], pmops->iDiscreteSource, pmops->iTable, pmops->dFrequency);
 			    }
 			    else
 			    {
-				sprintf(pc, " %i (nil) %i %i %g", pi1[0], pi2[0], pi2[1], pd[0]);
+				sprintf(pc, " %i (nil) %i %i %g", pmops->iEvent, pmops->iDiscreteSource, pmops->iTable, pmops->dFrequency);
 			    }
 			}
 		    }
