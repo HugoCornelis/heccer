@@ -596,7 +596,8 @@ HeccerVMDumpOperators
 			    struct MopsSpringMass *pmops
 				= (struct MopsSpringMass *)&piOperators[i / sizeof(int)];
 
-			    if (pmops->pdEvents[0])
+			    if (pmops->pdEvents
+				&& pmops->pdEvents[0])
 			    {
 				sprintf(pc, " %i %g %i %i %g", pmops->iEvent, pmops->pdEvents[pmops->iEvent], pmops->iDiscreteSource, pmops->iTable, pmops->dFrequency);
 			    }
