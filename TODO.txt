@@ -1,11 +1,12 @@
 -*- outline -*-
 
-* make the debugger output 64bit int compliant
-** the lines should be numbered as operation numbers
-instead of byte number or so.
-** struct MopsInitializeChannel is not disassembled correctly
-two subsequent double values in a structure are not aligned the same
-as an array.
+* the output of the tests sometimes goes to /tmp/output
+Must be a unique filename due to ownership.  New users cannot remove
+the file when it is owned by a different user.
+       #include <stdio.h>
+       char *tmpnam(char *s);
+and write the name of the generated filename to the test output in
+case needed.
 
 * neurospaces interface
 has fixed size buffers, see two commits ago.  Remove fixed size buffers.
