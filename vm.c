@@ -440,6 +440,10 @@ HeccerVMDumpOperators
 
     fprintf(pfile, "-----\n");
 
+    //- initial line count is zero
+
+    int iLineCount = 0;
+
     //- loop from start to end
 
     //! dump array expects char's but goes over the array as if they
@@ -467,7 +471,7 @@ HeccerVMDumpOperators
 
 	//- print counter
 
-	sprintf(pcOutput1, "%5.5i ::", i / sizeof(int));
+	sprintf(pcOutput1, "%5.5i ::", iLineCount);
 
 /* 	//- print numerical info */
 
@@ -666,6 +670,10 @@ HeccerVMDumpOperators
 	//- terminate line
 
 	fprintf(pfile, "%s\n", pcOutput1);
+
+	//- increment line count
+
+	iLineCount++;
 
 	//- add size of operands
 
