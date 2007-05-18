@@ -20,12 +20,12 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, purkinje-5, hugo.cornelis@gmail.com)
+AC_INIT(heccer, i64-1, hugo.cornelis@gmail.com)
 
 AC_CONFIG_SRCDIR([singlep.c])
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, purkinje-5)
+AM_INIT_AUTOMAKE(heccer, i64-1)
 
 # Checks for programs.
 AC_PROG_CC
