@@ -366,7 +366,7 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 
     int *piChildren = (int *)calloc(iCompartments, sizeof(int));
 
-    int **ppiChildren = (int **)calloc(iCompartments, sizeof(int));
+    int **ppiChildren = (int **)calloc(iCompartments, sizeof(int *));
 
     //- analyze
 
