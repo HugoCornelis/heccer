@@ -19,7 +19,11 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are the variables in an undocumented version of a purkinje axon segment addressed correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-axon.txt`, ],
+						   read => [
+							    (`cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/
+							     ? `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-axon--with-neurospaces.txt`
+							     : `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-axon--without-neurospaces.txt`),
+							   ],
 						   timeout => 5,
 						   write => undef,
 						  },

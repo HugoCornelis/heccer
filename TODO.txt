@@ -1,5 +1,7 @@
 -*- outline -*-
 
+* add the mtn revision to the dist, somehow.
+
 * the output of the tests sometimes goes to /tmp/output
 Must be a unique filename due to ownership.  New users cannot remove
 the file when it is owned by a different user.

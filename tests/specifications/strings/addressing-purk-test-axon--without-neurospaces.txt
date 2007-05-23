@@ -1,0 +1,59 @@
+Initiated
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0)
+Heccer (dStep) : (2e-05)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (7)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: INITIALIZECHANNEL 0.137526 1.39493e-08
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 1 (nil)							 0.0394782
+00004 :: CONCEPTGATE 1 1 (nil)							 0.0821138
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: INITIALIZECHANNEL -0.085 1.67392e-05
+00007 :: LOADVOLTAGETABLE
+00008 :: CONCEPTGATE 2 2 (nil)							 0.00359944
+00009 :: CONCEPTGATE 3 1 (nil)							 0.99998
+00010 :: UPDATECOMPARTMENTCURRENT
+00011 :: INITIALIZECHANNEL 0.045 2.78986e-08
+00012 :: LOADVOLTAGETABLE
+00013 :: CONCEPTGATE 4 3 (nil)							 0.761231
+00014 :: UPDATECOMPARTMENTCURRENT
+00015 :: INITIALIZECHANNEL 0.045 0.000209239
+00016 :: LOADVOLTAGETABLE
+00017 :: CONCEPTGATE 5 3 (nil)							 0.00784064
+00018 :: CONCEPTGATE 6 1 (nil)							 0.263978
+00019 :: UPDATECOMPARTMENTCURRENT
+00020 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.068)
+mat number for 0 is 1 at offset 4
+mat number for 0 is 2 at offset 5
+mat number for 1 is 3 at offset 6
+mat number for 1 is 4 at offset 7
+mat number for 2 is 5 at offset 8
+mat number for 3 is 6 at offset 9
+mat number for 3 is 7 at offset 10
+Membrane potential is -0.068
+CaT state m is 0.0394782
+CaT state h is 0.0821138
+Kdr state m is 0.00359944
+Kdr state h is 0.99998
+NaP state n is 0.761231
+NaF state m is 0.00784064
+NaF state h is 0.263978
