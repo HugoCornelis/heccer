@@ -1,5 +1,7 @@
 -*- outline -*-
 
+* solve the heccer/neurospaces dependencies that Mike Schachter reported.
+
 * add the mtn revision to the dist, somehow.
 
 * the output of the tests sometimes goes to /tmp/output
