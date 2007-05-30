@@ -2,9 +2,6 @@
 #!/usr/bin/perl -w -d:ptkdb
 #
 
-# swig -perl5 -makedefault -module Heccer heccer.i
-# gcc -c heccer_wrap.c `perl -MExtUtils::Embed -e ccopts` 
-# gcc -shared heccer_wrap.o -L. -lheccer -o Heccer.so
 
 use strict;
 
