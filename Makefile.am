@@ -92,6 +92,8 @@ html-upload-prepare:
 	mkdir --parents html/htdocs/neurospaces_project/heccer
 	mkdir --parents html/htdocs/neurospaces_project/heccer/html_source
 	tar cfh - tests/html | ( cd html/htdocs/neurospaces_project/heccer && tar vxf - )
+# remove swig generated large files.
+	rm -fr ~/HTML/local_home/local_home/hugo/neurospaces_project/heccer/source/c/snapshots/0/glue
 	( cd ~/HTML/local_home/local_home/hugo && tar cfh - Xrefs/heccer heccer neurospaces_project/heccer ) | ( cd html/htdocs/neurospaces_project/heccer/html_source && tar vxf - )
 
 html-upload: html-upload-prepare
