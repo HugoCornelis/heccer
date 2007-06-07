@@ -209,7 +209,7 @@ HeccerCommandInfoLookup
 
     //! binary search
 
-    //- search untill the range to search in becomes invalid
+    //- search until the range to search in becomes invalid
 
     while (iUpper - iLower >= 0)
     {
