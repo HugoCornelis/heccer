@@ -57,6 +57,7 @@
 #include "heccer/output.h"
 
 //t so this should depend on the configuration
+//t perhaps this can be done using regular #ifdef statements, not sure
 
 #include "integrators/heccer/neurospaces/heccer.h"
 
@@ -142,6 +143,7 @@ struct Compartment *comp_get(struct Compartment *a, int i)
 %include "heccer/output.h"
 
 //t so this should depend on the configuration
+//t perhaps this can be done using regular #ifdef statements, not sure
 
 %include "integrators/heccer/neurospaces/heccer.h"
 
