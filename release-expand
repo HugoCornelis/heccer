@@ -81,6 +81,11 @@ my $files = $config->{files};
 
 foreach my $file (@$files)
 {
+    if ($option_verbose)
+    {
+	print STDERR "Expanding in $file\n";
+    }
+
     my $content;
 
     {
@@ -106,6 +111,11 @@ foreach my $file (@$files)
 	    # get matched string
 
 	    my $matched = $1;
+
+	    if ($option_verbose)
+	    {
+		print STDERR "For $file: found keywords, expanding ... \n";
+	    }
 
 	    # if need to remove labels
 
@@ -140,6 +150,12 @@ foreach my $file (@$files)
 		foreach my $info (keys %{$config->{labels}})
 		{
 		    $matched =~ s/\$\{$info\}/$config->{labels}->{$info}/g;
+
+		    if ($option_verbose > 1
+			&& $matched =~ m/\$\{$info\}/g)
+		    {
+			print STDERR "For $file: replacing variable $info with $config->{labels}->{$info}\n";
+		    }
 		}
 	    }
 
@@ -147,7 +163,17 @@ foreach my $file (@$files)
 
 	    $content =~ s/\G(.*\n).*\n/$1$matched\n/;
 
+	    if ($option_verbose > 1)
+	    {
+		print STDERR "For $file: new content at position $position is $matched\n";
+	    }
+
 	    pos($content) = $position;
+	}
+
+	if ($option_verbose)
+	{
+	    print STDERR "Done for $file\n";
 	}
 
 	# if something has changed
@@ -307,7 +333,7 @@ Following options are supported:
 
 =item -v, --verbose
 
-Verbose, does not do anything for now.
+Verbose
 
 =item -h, --help
 
