@@ -83,6 +83,12 @@ AC_C_CONST
 # Checks for library functions.
 AC_CHECK_FUNCS([localeconv strchr])
 
+# determine the test library to install
+
+TEST_SPECIFICATION_FILES=`find tests/specifications -name "*.t" -printf "%p " && find tests/specifications/strings -name "*.txt" -printf "%p "`
+AC_SUBST(TEST_SPECIFICATION_FILES)
+
+
 AC_CONFIG_FILES([Makefile
                  glue/Makefile
                  glue/swig/perl/Makefile
