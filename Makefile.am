@@ -59,7 +59,7 @@ nobase_include_HEADERS = \
 	heccer/table.h \
 	heccer/vm.h
 
-heccertestdir=$(prefix)/heccer/tests
+heccertestdir=$(prefix)/heccer
 nobase_dist_heccertest_DATA=@TEST_SPECIFICATION_FILES@
 
 # the tests are copied overhere.
