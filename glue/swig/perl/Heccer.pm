@@ -985,7 +985,7 @@ sub step
 
     my $backend = $self->backend();
 
-    my $result = $backend->OutputGeneratorAnnotatedStep($options->{steps});
+    my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
 
     return $result;
 }
