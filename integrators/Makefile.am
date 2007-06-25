@@ -24,7 +24,7 @@ SUBDIRS =
 
 AM_CFLAGS=-g3 -fPIC -Wmissing-prototypes -Wmissing-declarations -ffloat-store -I/usr/local/neurospaces/instrumentor -I$(srcdir)/.. -I$(builddir).. -include heccer/config.h -DPRE_PROTO_TRAVERSAL -D__NO_MATH_INLINES
 
-CFLAGS = -O0
+#CFLAGS = -O0
 
 pkglib_LIBRARIES = libhneurospaces.a
 
