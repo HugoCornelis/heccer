@@ -331,9 +331,11 @@ static int cellsolver_linksegments(struct Heccer *pheccer)
 		fprintf
 		    (stderr,
 		     "Heccer the hecc : "
-		     "compartment (compartment %i, serial %i) parent linking failed for parent serial %i\n",
+		     "compartment (compartment %i, serial %i (internal %i)) parent linking failed for parent serial %i (internal %i)\n",
 		     iCompartment,
+		     ADDRESSING_HECCER_2_NEUROSPACES(pcomp->mc.iSerial),
 		     pcomp->mc.iSerial,
+		     ADDRESSING_HECCER_2_NEUROSPACES(iParent),
 		     iParent);
 
 		iResult = FALSE;
