@@ -151,8 +151,6 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		struct PidinStack *ppistParent
 		    = ParameterResolveToPidinStack(pparParent, ptstr->ppist);
 
-		//! cannot give an error return, but anyway
-
 		if (ppistParent)
 		{
 		    PidinStackLookupTopSymbol(ppistParent);
