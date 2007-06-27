@@ -116,6 +116,13 @@ print "Executable is $0,\n";
 print "core_directory is $core_directory\n";
 
 
+# $Format: "my $package_name = \"${package}\";"$
+my $package_name = "heccer";
+# $Format: "my $package_label = \"${label}\";"$
+my $package_label = "i64-5";
+# $Format: "my $package_version = \"${major}-${minor}-${micro}\";"$
+my $package_version = "i64-5-0";
+
 my $error_count = 0;
 
 my $test_report
@@ -123,6 +130,11 @@ my $test_report
        description => {
 		       command => $0,
 		       name => "Test report",
+		       package => {
+				   name => $package_name,
+				   label => $package_label,
+				   version => $package_version,
+				  },
 		      },
        global => {
 		  error_count => $error_count,
