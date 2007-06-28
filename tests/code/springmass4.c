@@ -162,7 +162,7 @@ struct ChannelSpringMass csm =
 
     NULL,
 
-    //m white space separated event time table in a file, the previous must be NULL.
+    //m yaml file with event time table, the previous must be NULL.
 
     //! during compilation, the file is converted to a double array
     //! and fills the previous entry.
