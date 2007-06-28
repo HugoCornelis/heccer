@@ -78,7 +78,7 @@ struct ChannelSpringMass
 
     int iTable;
 
-    //m event time table (-1 terminated)
+    //m event time table (FLT_MAX terminated)
 
     double *pdEventTimes;
 

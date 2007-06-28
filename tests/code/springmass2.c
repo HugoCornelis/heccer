@@ -165,7 +165,7 @@ struct ChannelSpringMass csm =
 
     -1,
 
-    //m event time table (-1 terminated)
+    //m event time table (FLT_MAX terminated)
 
     pdEvents,
 
