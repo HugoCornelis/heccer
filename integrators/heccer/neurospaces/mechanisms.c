@@ -22,6 +22,7 @@
 #include <strings.h>
 
 #include <neurospaces/function.h>
+#include <neurospaces/parsersupport.h>
 #include <neurospaces/pidinstack.h>
 #include <neurospaces/treespacetraversal.h>
 
@@ -95,6 +96,7 @@ struct MathComponentData
 #define STATUS_CONSTANT_NERNST -10
 #define STATUS_NON_POOL_FOR_NERNST -11
 #define STATUS_ILLEGAL_PARAMETER_VALUES -12
+#define STATUS_UNQUALIFIABLE_FILENAME -13
 
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc);
@@ -1262,7 +1264,29 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	if (pmcd->iStatus == 1
 	    || pmcd->iStatus == 2)
 	{
-	    //t not sure yet
+	    //- get filename of event list
+
+	    //t should use ParameterResolveSymbol()
+
+	    struct symtab_Parameters *pparEvents
+		= SymbolFindParameter(phsle, "EVENT_FILENAME", ptstr->ppist);
+
+	    char *pcEvents = pparEvents ? ParameterString(pparEvents) : NULL ;
+
+	    char *pcEventsQualified
+		= NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
+
+	    if (pcEvents && !pcEventsQualified)
+	    {
+		MathComponentDataStatusSet(pmcd, STATUS_UNQUALIFIABLE_FILENAME);
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+
+	    pcsm->pcEventTimes = pcEventsQualified;
+
+	    //t not sure yet about connectivity, needs a separate pass
+	    //t as in the genesis/hsolve/neurospaces implementation.
 
 	}
 	else

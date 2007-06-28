@@ -1,5 +1,11 @@
 -*- outline -*-
 
+* add springmass channels to the perl glue
+** add events
+** add springmass2 test
+based on the springmass4 test
+check if the same test output can be used.
+
 * solve the heccer/neurospaces dependencies that Mike Schachter reported.
 
 * add the mtn revision to the dist, somehow.

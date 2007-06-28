@@ -29,6 +29,10 @@
 
 struct TranslationServiceData
 {
+    //m neurospaces
+
+    struct Neurospaces *pneuro;
+
     //m root symbol in neurospaces
 
     struct PidinStack *ppistRoot;

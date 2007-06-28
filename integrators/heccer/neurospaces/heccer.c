@@ -57,6 +57,8 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
 
     pts->ptsd = ptsd;
 
+    pts->ptsd->pneuro = pneuro;
+
     //- allocate pidin stack pointing to root
 
     struct PidinStack *ppistRoot = PidinStackCalloc();
