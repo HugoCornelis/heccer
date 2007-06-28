@@ -85,7 +85,7 @@ AC_CHECK_FUNCS([localeconv strchr])
 
 # determine the test library to install
 
-TEST_SPECIFICATION_FILES=`find tests/specifications -name "*.t" -printf "%p " && find tests/specifications/strings -name "*.txt" -printf "%p "`
+TEST_SPECIFICATION_FILES=`find tests/specifications -name "*.t" -printf "%p " && find tests/specifications/strings -name "*.txt" -printf "%p " && find tests/data -name "*.yml" -printf "%p "`
 AC_SUBST(TEST_SPECIFICATION_FILES)
 
 
