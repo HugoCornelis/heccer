@@ -25,9 +25,9 @@
 #include "../../heccer/output.h"
 
 
-#define HECCER_TEST_REPORTING_GRANULARITY 2000
-#define HECCER_TEST_STEPS 2000
-#define HECCER_TEST_TIME_STEP (1e-5)
+#define HECCER_TEST_REPORTING_GRANULARITY 1000
+#define HECCER_TEST_STEPS 1000
+#define HECCER_TEST_TIME_STEP (2e-5)
 
 
 struct Compartment pcomp[] =
@@ -114,13 +114,6 @@ struct Compartment pcomp[] =
 };
 
 
-double pdEvents[] =
-{
-    0.0001,
-    FLT_MAX,
-};
-
-
 //s spring mass channel (synaptic channel)
 
 struct ChannelSpringMass csm =
@@ -167,14 +160,14 @@ struct ChannelSpringMass csm =
 
     //m event time table (-1 terminated)
 
-    pdEvents,
+    NULL,
 
     //m white space separated event time table in a file, the previous must be NULL.
 
     //! during compilation, the file is converted to a double array
     //! and fills the previous entry.
 
-    NULL,
+    "data/events.yml",
 
     //m parameters
 

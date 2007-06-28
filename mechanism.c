@@ -27,6 +27,11 @@
 #include "heccer/random.h"
 
 
+static
+int
+HeccerMechanismReadDoubleFile(char *pcFilename, double **ppdValues);
+
+
 /// **************************************************************************
 ///
 /// SHORT: HeccerMechanismCompile()
@@ -270,6 +275,72 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			}
 
 			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, iMatsReversalPotential);
+		    }
+
+		    //- preprocess the event list if any
+
+		    if (pcsm->pcEventTimes
+			&& pcsm->pdEventTimes)
+		    {
+			//t HeccerError(number, message, varargs);
+
+			fprintf
+			    (stderr,
+			     "Heccer the hecc : found a file specification as well as an array specification for event times of a springmass channel.\n"
+			     "Heccer the hecc : model container component number %i\n",
+#ifdef HECCER_SOURCE_NEUROSPACES
+			     pcsm->mc.iSerial,
+#else
+			     //t bhlkjwe, should have a char * here
+
+			     -1,
+#endif
+			     iStart);
+
+			//- return error
+
+			return(FALSE);
+		    }
+
+		    if (pcsm->pcEventTimes)
+		    {
+			//- read in the file
+
+			int iDoubles = HeccerMechanismReadDoubleFile(pcsm->pcEventTimes, &pcsm->pdEventTimes);
+
+			if (iDoubles == -1
+			    || !pcsm->pdEventTimes)
+			{
+			    //t HeccerError(number, message, varargs);
+
+			    fprintf
+				(stderr,
+				 "Heccer the hecc : could not read file %s, specified for a springmass channel.\n"
+				 "Heccer the hecc : model container component number %i\n",
+				 pcsm->pcEventTimes,
+#ifdef HECCER_SOURCE_NEUROSPACES
+				 pcsm->mc.iSerial,
+#else
+				 //t bhlkjwe, should have a char * here
+
+				 -1,
+#endif
+				 iStart);
+
+			    //- return error
+
+			    return(FALSE);
+			}
+
+			//! it would probably be a good idea to be able to go back to the original specification.
+
+			//- mark end of array
+
+			pcsm->pdEventTimes[iDoubles] = FLT_MAX;
+
+			//- remove the reference to the file, for next loop over processing
+
+			pcsm->pcEventTimes = NULL;
 		    }
 
 		    //- tabulate the channel
@@ -1379,6 +1450,138 @@ int HeccerMechanismLink(struct Heccer *pheccer)
     }
 
     //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerMechanismReadDoubleFile()
+///
+/// ARGS.:
+///
+///	pcFilename.: filename to read.
+///	ppdValues..: values that have been read, NULL for failure.
+///
+/// RTN..: int
+///
+///	Number of doubles read, -1 for failure.
+///
+///	ppdValues..: values that have been read, NULL for failure.
+///
+/// DESCR: Read a file with doubles, -1 terminated.
+///
+/// **************************************************************************
+
+static
+int
+HeccerMechanismReadDoubleFile(char *pcFilename, double **ppdValues)
+{
+    //- set default result: failure
+
+    int iResult = -1;
+
+    //- open file
+
+    FILE *pfile = fopen(pcFilename, "r");
+
+    if (!pfile)
+    {
+	return(iResult);
+    }
+
+    //- allocate result
+
+    int iAllocated = 100;
+
+    double *pdValues = (double *)calloc(iAllocated, sizeof(double));
+
+    if (!pdValues)
+    {
+	return(iResult);
+    }
+
+    //- go through the file
+
+    int iEOF = 0;
+
+    int iDoubles = 0;
+
+    while (!iEOF)
+    {
+#define ELEMENT_NAME_SIZE 100
+
+	//- read a record
+
+	char pc[ELEMENT_NAME_SIZE * 10];
+
+	if (fgets(pc, ELEMENT_NAME_SIZE * 10, pfile))
+	{
+	    //- if not an element of a yaml array
+
+	    //! hardcoded indentation, 4 spaces required
+
+	    if (pc[0] == ' '
+		&& pc[1] == ' '
+		&& pc[2] == ' '
+		&& pc[3] == ' '
+		&& pc[4] == '-'
+		&& pc[5] == ' ')
+	    {
+		int iScanned = sscanf(pc, " - %lf\n", &pdValues[iDoubles]);
+
+		//- if number of scanned values is ok
+
+		if (iScanned == 1)
+		{
+		    //- next record
+
+		    iDoubles++;
+
+		    //- check for reallocation need
+
+		    if (iDoubles >= 100)
+		    {
+			iAllocated += 100;
+
+			pdValues = (double *)realloc(pdValues, iAllocated * sizeof(double));
+
+			if (!pdValues)
+			{
+			    break;
+			}
+		    }
+		}
+		else
+		{
+		    fprintf(stderr, "Heccer the hecc : parse failure for HeccerMechanismReadDoubleFile(), record %i, scanned %i items (instead of 1)\n", iDoubles, iScanned); 
+
+		    break;
+		}
+	    }
+	}
+
+	//- or
+
+	else
+	{
+	    //- end of file
+
+	    iEOF = 1;
+	}
+    }
+
+    //- set result
+
+    if (ppdValues)
+    {
+	*ppdValues = pdValues;
+    }
+
+    //- return result
+
+    iResult = iDoubles;
 
     return(iResult);
 }

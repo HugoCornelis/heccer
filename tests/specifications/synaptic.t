@@ -55,6 +55,20 @@ my $test
 						 ],
 				description => "synaptic (springmass) channel integration, endogenous firing",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/springmass4',
+				command_tests => [
+						  {
+						   description => "Is a synaptic (springmass) channel integrated correctly, larger time step, events from a file ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/springmass2.txt`, ],
+						   timeout => 8,
+						   write => undef,
+						  },
+						 ],
+				description => "synaptic (springmass) channel integration, larger time step",
+			       },
 			      ],
        description => "synaptic channels",
        name => 'synaptic.t',

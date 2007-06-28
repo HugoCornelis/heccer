@@ -49,6 +49,7 @@ check_PROGRAMS = \
 	springmass1 \
 	springmass2 \
 	springmass3 \
+	springmass4 \
 	table-cap \
 	table-cat \
 	table-dual-kdr \
@@ -117,6 +118,8 @@ springmass2_DEPENDENCIES = ../../libheccer.a main.c
 springmass2_LDADD = -L../.. -lheccer -lm
 springmass3_DEPENDENCIES = ../../libheccer.a main.c
 springmass3_LDADD = -L../.. -lheccer -lm
+springmass4_DEPENDENCIES = ../../libheccer.a main.c
+springmass4_LDADD = -L../.. -lheccer -lm
 table_cap_DEPENDENCIES = ../../libheccer.a main.c
 table_cap_LDADD = -L../.. -lheccer -lm
 table_cat_DEPENDENCIES = ../../libheccer.a main.c

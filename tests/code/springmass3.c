@@ -158,7 +158,14 @@ struct ChannelSpringMass csm =
 
     -1,
 
-    //m event time table (FLT_MAX terminated)
+    //m event time table (-1 terminated)
+
+    NULL,
+
+    //m white space separated event time table in a file, the previous must be NULL.
+
+    //! during compilation, the file is converted to a double array
+    //! and fills the previous entry.
 
     NULL,
 
