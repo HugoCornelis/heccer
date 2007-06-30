@@ -1271,19 +1271,22 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    struct symtab_Parameters *pparEvents
 		= SymbolFindParameter(phsle, "EVENT_FILENAME", ptstr->ppist);
 
-	    char *pcEvents = pparEvents ? ParameterString(pparEvents) : NULL ;
-
-	    char *pcEventsQualified
-		= NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
-
-	    if (pcEvents && !pcEventsQualified)
+	    if (pparEvents)
 	    {
-		MathComponentDataStatusSet(pmcd, STATUS_UNQUALIFIABLE_FILENAME);
+		char *pcEvents = ParameterString(pparEvents);
 
-		iResult = TSTR_PROCESSOR_ABORT;
+		char *pcEventsQualified
+		    = NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
+
+		if (pcEvents && !pcEventsQualified)
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNQUALIFIABLE_FILENAME);
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+
+		pcsm->pcEventTimes = pcEventsQualified;
 	    }
-
-	    pcsm->pcEventTimes = pcEventsQualified;
 
 	    //t not sure yet about connectivity, needs a separate pass
 	    //t as in the genesis/hsolve/neurospaces implementation.
