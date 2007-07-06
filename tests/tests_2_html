@@ -469,6 +469,8 @@ options :
 		    {
 			# output source code
 
+			#! guessing turned on to turn executables into highligted source code.
+
 			my $source_information = output_source($file, $model, { guessing => 1, }, );
 
 			my $source_anchor = defined $source_information->{result_anchor} ? " href=\"$source_information->{result_anchor}\"" . $source_information->{result_anchor} : "" ;
