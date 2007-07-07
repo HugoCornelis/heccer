@@ -93,17 +93,17 @@ if ($?)
 }
 
 
-# generate html for the test cases
+# # generate html for the test cases
 
-#! should be put in Makefile.am, but breaks distcheck.
-#! this one breaks the distcheck, because automake makes dist dirs read-only
+# #! should be put in Makefile.am, but breaks distcheck.
+# #! this one breaks the distcheck, because automake makes dist dirs read-only
 
-system "cd tests && ./tests_2_html";
+# system "cd tests && ./tests_2_html";
 
-if ($?)
-{
-    die "$0: generating html for the test cases failed";
-}
+# if ($?)
+# {
+#     die "$0: generating html for the test cases failed";
+# }
 
 
 # recreate the distribution
