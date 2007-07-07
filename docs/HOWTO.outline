@@ -7,10 +7,10 @@ In the Heccer source directory (with the file 'heccer.c'), type
 './configure', 'make', 'make install'.  Note: if you want to
 uninstall, do 'make uninstall'.
 
-Additionally in the tests directory, run the script './tests_2_html'.
 Next, point your webbrowser to 'tests/html/index.html'.  This is a
-specification of the tests, and contains raw examples how Neurospaces
-can be used to explore an instantiated model.
+specification of the tests, and contains raw examples how Heccer to
+run a model (for examples how to instantiate Heccer from a Neurospaces
+model, see the SSP package).
 
 ** What are the dependencies ?
 *** perl modules
