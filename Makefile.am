@@ -85,10 +85,10 @@ dist-hook:
 	cp -a $(srcdir)/perl $(distdir)
 #	cp -a $(srcdir)/hierarchy $(distdir)
 #	rm -fr $(distdir)/hierarchy/output
-	( cd $(distdir)/tests && chmod -R u+w . && ./tests_2_html )
+	( cd $(distdir)/tests && chmod -R u+w . && ./tests_2_html --introduction introduction.html )
 
 #! this one breaks the distcheck, because automake makes dist dirs read-only
-#	cd $(distdir)/tests && ./tests_2_html
+#	cd $(distdir)/tests && ./tests_2_html --introduction introduction.html
 
 test: check
 

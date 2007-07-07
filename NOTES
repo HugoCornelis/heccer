@@ -1,0 +1,3 @@
+- Test runner improvements.
+- Springmass channels can now be complemented by a file with synaptic
+  events.
