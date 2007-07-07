@@ -4,8 +4,8 @@
 
 ** What are the basics of installing ?
 In the Heccer source directory (with the file 'heccer.c'), type
-'./configure', 'make', 'make install'.  Note: if you want to
-uninstall, do 'make uninstall'.
+'./configure', 'make', 'make check', 'make install'.  Note: if you
+want to uninstall, do 'make uninstall'.
 
 Next, point your webbrowser to 'tests/html/index.html'.  This is a
 specification of the tests, and contains raw examples how Heccer to
@@ -42,8 +42,13 @@ binary backends) :
 **** perl -MCPAN -e'install Number::Compare' (File::Find::Rule)
 **** perl -MCPAN -e'install File::Find::Rule'
 
-Note that some Linux distros come with some of these
-installed, some don't.  Also you probably need a '~/.gnupg' directory.
+Note that some Linux distros come with some of these installed, or
+have prebuilt packages, some don't.  Also you probably need a
+'~/.gnupg' directory.
+
+*** for rhel4
+You have to add '-lncurses' just before '-lhistory' (space separated).
+in the Makefile for building the swig perl glue.
 
 *** for ubuntu 
 The following packages below can be used:
@@ -61,8 +66,14 @@ See the perl tests for examples.
 ** use custom written code in C.
 See the C tests for examples.
 
+** additionally
+Also see the website, which contains the htmlified source code,
+including the test cases.
+
 * model debugging
 ** the membrane potential becomes inf or nan
+Mostly due to a to large time step, or sometimes due to bad initial
+values.
 *** produce output in verbose manner, pipe it throug the 'less' pager.
 *** Look in the disassembled output for inf and nan.
 Should give a fairly good clue for what model component is responsible
@@ -80,12 +91,16 @@ try again.
 ***** No Oscillation
 The only reason that I have seen so far is an initial value out of the
 physiological range.  A notorious example is a current injection of 1A
-(although in that case you would still see an oscillation of a two
-steps or so).
+(although in that case you would still see an oscillation of two
+simulation steps or so).
 
 * How to add new maths to heccer ?
 There are two ways to do this: adding new equation solvers using
-call-outs, or extending the byte code generator and emulator.
+call-outs, or extending the byte code generator and emulator.  In the
+near future, it will also be possible to add new solvers using the
+internal addressing mechanism of Heccer.  This mechanism gives other
+solvers direct access to Heccer's internal fields (so it is obviously
+very fast).
 
 ** Using call-outs
 See the example on the call-out that computes a conductance
