@@ -235,13 +235,20 @@ Total of $test_count tests (encountered $error_count error(s) so far)");
 	    }
 	    else
 	    {
-		# a command can come from the _build directory
+		# a command can be an absolute pathname,
+		# can come from the _build directory
 		# or from the sources for a script
 
+# 		-f $command and print "Found command $command\n";
+# 		-f $built_exe_directory . $command and print "Found built $built_exe_directory$command\n";
+# 		-f $core_directory . $command and print "Found core $core_directory$command\n";
+
 		my $test_command
-		    = -f $built_exe_directory . $command
-			? $built_exe_directory . $command
-			    : $core_directory . $command;
+		    = -f $command
+			? $command
+			    : -f $built_exe_directory . $command
+				? $built_exe_directory . $command
+				    : $core_directory . $command;
 
 		# find differences between how to run this command and
 		# the one already running

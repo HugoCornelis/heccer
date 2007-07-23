@@ -57,8 +57,21 @@ my $test
 			       },
 			       {
 				arguments => [
+					      (
+					       $ENV{srcdir}
+					       ? (
+						  -f '../../_build/tests/code/springmass4'
+						  ? ('-c', "cd $ENV{srcdir} && ../_build/tests/code/springmass4")
+						  : ('-c', "cd $ENV{srcdir} && ../tests/code/springmass4")
+						 )
+					       : ('-c', "cd tests && ./code/springmass4")
+					      ),
 					     ],
-				command => 'tests/code/springmass4',
+				command => (
+					    $ENV{srcdir}
+					    ? "/bin/sh"
+					    : "/bin/sh" # 'tests/code/springmass4'
+					   ),
 				command_tests => [
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, larger time step, events from a file ?",

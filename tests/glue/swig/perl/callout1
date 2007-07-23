@@ -48,6 +48,10 @@ BEGIN
 {
     # for main during tests
 
+    push @INC, 'tests/glue/swig/perl';
+
+    # for main during check
+
     push @INC, './glue/swig/perl';
 
     # for main during distcheck
