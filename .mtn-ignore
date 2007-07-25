@@ -30,6 +30,7 @@ Makefile.in$
 ^tests/code/pool2$
 ^tests/code/singlea-naf$
 ^tests/code/singlep$
+^tests/code/spiker1$
 ^tests/code/springmass1$
 ^tests/code/springmass2$
 ^tests/code/springmass3$
@@ -42,6 +43,7 @@ Makefile.in$
 ^tests/code/table-ka$
 ^tests/code/table-kc$
 ^tests/code/table-kdr$
+^tests/code/table-kdr2$
 ^tests/code/table-kh$
 ^tests/code/table-km$
 ^tests/code/table-naf$

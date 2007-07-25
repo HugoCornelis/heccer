@@ -99,6 +99,20 @@ my $test
 			       {
 				arguments => [
 					     ],
+				command => 'tests/code/table-kdr2',
+				command_tests => [
+						  {
+						   description => "Are gates tabulated correctly, regular delayed rectifier potassium gates ?",
+						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-kdr2.txt`, ],
+						   timeout => 18,
+						   write => undef,
+						  },
+						 ],
+				description => "Delayed rectifier potassium gate tabulation",
+			       },
+			       {
+				arguments => [
+					     ],
 				command => 'tests/code/table-kh',
 				command_tests => [
 						  {

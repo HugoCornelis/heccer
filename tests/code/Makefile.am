@@ -46,6 +46,7 @@ check_PROGRAMS = \
 	pool2 \
 	singlea-naf \
 	singlep \
+	spiker1 \
 	springmass1 \
 	springmass2 \
 	springmass3 \
@@ -58,6 +59,7 @@ check_PROGRAMS = \
 	table-ka \
 	table-kc \
 	table-kdr \
+	table-kdr2 \
 	table-kh \
 	table-km \
 	table-naf \
@@ -112,6 +114,8 @@ singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf_LDADD = -L../.. -lheccer -lm
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 singlep_LDADD = -L../.. -lheccer -lm
+spiker1_DEPENDENCIES = ../../libheccer.a main.c
+spiker1_LDADD = -L../.. -lheccer -lm
 springmass1_DEPENDENCIES = ../../libheccer.a main.c
 springmass1_LDADD = -L../.. -lheccer -lm
 springmass2_DEPENDENCIES = ../../libheccer.a main.c
@@ -136,6 +140,8 @@ table_kc_DEPENDENCIES = ../../libheccer.a main.c
 table_kc_LDADD = -L../.. -lheccer -lm
 table_kdr_DEPENDENCIES = ../../libheccer.a main.c
 table_kdr_LDADD = -L../.. -lheccer -lm
+table_kdr2_DEPENDENCIES = ../../libheccer.a main.c
+table_kdr2_LDADD = -L../.. -lheccer -lm
 table_kh_DEPENDENCIES = ../../libheccer.a main.c
 table_kh_LDADD = -L../.. -lheccer -lm
 table_km_DEPENDENCIES = ../../libheccer.a main.c

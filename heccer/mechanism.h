@@ -236,7 +236,7 @@ struct SpikeGenerator
 
     //m spiking threshold
 
-    double dThresh;
+    double dThreshold;
 };
 
 
