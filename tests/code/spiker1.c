@@ -389,9 +389,29 @@ struct ChannelAct caKdr =
 };
 
 
+struct SpikeGenerator sg =
+{
+    //m administrative overhead
+
+    {
+	//m type of structure
+
+	MATH_TYPE_SpikeGenerator,
+    },
+
+    //m refractory time
+
+    0.001,
+
+    //m spiking threshold
+
+    0.0,
+};
+
+
 int piC2m[] =
 {
-    2,
+    3,
     -1,
 };
 
@@ -400,7 +420,7 @@ struct MathComponentArray mca =
 {
     //m number of math components
 
-    2,
+    3,
 
     //m math component data
 
@@ -439,7 +459,9 @@ int main(int argc, char *argv[])
 
     struct MathComponentInfo *pmciKdr = MathComponentInfoLookup(caKdr.mc.iType);
 
-    int iChars = pmciNaF->iChars + pmciKdr->iChars;
+    struct MathComponentInfo *pmciSpiker = MathComponentInfoLookup(sg.mc.iType);
+
+    int iChars = pmciNaF->iChars + pmciKdr->iChars + pmciSpiker->iChars;
 
     void *pmc = calloc(sizeof(char), iChars);
 
@@ -452,6 +474,10 @@ int main(int argc, char *argv[])
     struct ChannelAct *pca = (struct ChannelAct *)&((char *)pcai)[pmciNaF->iChars];
 
     *pca = caKdr;
+
+    struct SpikeGenerator *psg = (struct SpikeGenerator *)&((char *)pca)[pmciKdr->iChars];
+
+    *psg = sg;
 
     //- link the intermediary
 

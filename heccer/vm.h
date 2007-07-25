@@ -282,6 +282,71 @@ struct MatsSpringMass
 	 : ({ iMatNumber++; 1; }) ) )
 
 
+struct MopsEventGenerator
+{
+    //m operator : HECCER_MOP_EVENTGENERATOR
+
+    int iOperator;
+
+    //m threshold logic
+
+    uMC2Mat uSource;
+
+    double dThreshold;
+
+    double dRefractoryReset;
+
+    //m index into target tables
+
+    int iTable;
+};
+
+struct MatsEventGenerator
+{
+    //m refractory counter, negative means not in refractory period
+
+    double dRefractory;
+
+};
+
+#define SETMOP_EVENTGENERATOR(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iS,dT,dR,iT) \
+    ((pvMops)								\
+     ? ({ struct MopsEventGenerator *pmops = (struct MopsEventGenerator *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_EVENTGENERATOR;		\
+	     pmops->uSource.iMat = (iS) ;				\
+	     pmops->dThreshold = (dT) ;					\
+	     pmops->dRefractoryReset = (dR) ;				\
+	     pmops->iTable = (iT) ;					\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsEventGenerator);	\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+
+#define SETMAT_EVENTGENERATOR(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dR) \
+    ((pvMats)								\
+     ? ({ struct MatsEventGenerator *pmats = (struct MatsEventGenerator *)pvMats ; \
+	     pmats->dRefractory = (dR) ;				\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
+	     pvMats = (void *)&((struct MatsEventGenerator *)pvMats)[1] ; \
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMatsIndex)							\
+	 ? ({								\
+		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 (iMats) += MAT_ALIGNER(struct MatsEventGenerator);	\
+		 1;							\
+	     })								\
+	 : ({ iMatNumber++; 1; }) ) )
+
+
 struct MatsCallout
 {
 /*     double d; */
@@ -801,8 +866,9 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_INTERNALNERNST 27
 #define HECCER_MOP_INITIALIZECHANNELEK 28
 #define HECCER_MOP_SPRINGMASS 29
+#define HECCER_MOP_EVENTGENERATOR 31
 
-#define HECCER_MOP_UPDATECOMPARTMENTCURRENT 30
+#define HECCER_MOP_UPDATECOMPARTMENTCURRENT 40
 
 
 //d all operators for mechanisms have an opcode larger than ...

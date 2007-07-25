@@ -731,8 +731,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			    iMatsExternal = piMC2Mat ? piMC2Mat[iContributor].iMat : -1;
 
-			    //! every such a cast must be resolved during linking, see HeccerMechanismLink().
-
 			    piExternal[i] = iMatsExternal;
 			}
 			else
@@ -996,6 +994,31 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 
+		case MATH_TYPE_SpikeGenerator:
+		{
+		    //- get type specific data
+
+		    struct SpikeGenerator *psg = (struct SpikeGenerator *)pmc;
+
+		    pmc = MathComponentNext(&psg->mc);
+
+		    //- set operators and operands
+
+		    int iSource = -1;
+
+		    int iTable = -1;
+
+		    SETMOP_EVENTGENERATOR(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
+
+		    //! we are not in refractory period
+
+		    double dRefractoryTime = -1.0;
+
+		    SETMAT_EVENTGENERATOR(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime);
+
+		    break;
+		}
+
 		default:
 		{
 		    //t HeccerError(number, message, varargs);
@@ -1098,10 +1121,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 ///	success of operation.
 ///
 /// DESCR: Link mechanism operations.
-///
-///	Link mechanism operations:
-///
-///	HECCER_MOP_FLUXPOOL: mechanism index to flux index.
 ///
 /// **************************************************************************
 
@@ -1414,6 +1433,50 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		break;
 	    }
+
+	    //- for an event generator
+
+	    case HECCER_MOP_EVENTGENERATOR:
+	    {
+		//- go to next operator
+
+		struct MopsEventGenerator *pmops = (struct MopsEventGenerator *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsEventGenerator * pmats = (struct MatsEventGenerator *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- get source for comparison
+
+/* 		int i; */
+
+/* 		for (i = 0 ; i < EVENT_SOURCES ; i++) */
+/* 		{ */
+		    int iSource = pmops->uSource.iMat;
+
+		    if (iSource != -1)
+		    {
+			//- get solved dependency
+
+			double *pdSource = (double *)pheccer->vm.ppvMatsIndex[iSource];
+
+			//- store solved external flux contribution
+
+			pmops->uSource.pdValue = pdSource;
+		    }
+		    else
+		    {
+			pmops->uSource.pdValue = NULL;
+		    }
+/* 		} */
+
+		break;
+	    }
+
 	    default:
 	    {
 		//t HeccerError(number, message, varargs);
@@ -2172,6 +2235,60 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		break;
 	    }
+
+	    //- for an event generator
+
+	    case HECCER_MOP_EVENTGENERATOR:
+	    {
+		//- go to next operator
+
+		struct MopsEventGenerator *pmops = (struct MopsEventGenerator *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsEventGenerator * pmats = (struct MatsEventGenerator *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- if not in refractory period
+
+		if (pmats->dRefractory < 0.0)
+		{
+		    //- get source value
+
+		    double *pdSource = pmops->uSource.pdValue;
+
+		    if (pdSource)
+		    {
+			//- if source greater than threshold
+
+			if (*pdSource > pmops->dThreshold)
+			{
+/* 			    //- generate events */
+
+/* 			    EventsGenerate(pheccer, pmops->iTable); */
+
+			    //- initialize refractory period
+
+			    pmats->dRefractory = pmops->dRefractoryReset;
+			}
+
+			//- else
+
+			else
+			{
+			    //- maintain refractory period since last event
+
+			    pmats->dRefractory -= pheccer->dStep;
+			}
+		    }
+		}
+
+		break;
+	    }
+
 	    default:
 	    {
 		//t HeccerError(number, message, varargs);
