@@ -92,7 +92,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					0,	sizeof(struct MatsCallout),	},
     {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
     {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			1,	sizeof(struct MatsSingleGateConcept),	},
-    {	HECCER_MOP_EVENTGENERATOR,		"EVENTGENERATE",		sizeof(struct MopsEventGenerator),			1,	sizeof(struct MatsEventGenerator),	},
+    {	HECCER_MOP_EVENTGENERATE,		"EVENTGENERATE",		sizeof(struct MopsEventGenerate),			1,	sizeof(struct MatsEventGenerate),	},
     {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	sizeof(struct MatsExponentialDecay),	},
     {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					0,	0,	},
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				1,	sizeof(struct MatsFluxPool),	},
@@ -611,10 +611,10 @@ HeccerVMDumpOperators
 				sprintf(pc, " %i (nil) %i %i %g", pmops->iEvent, pmops->iDiscreteSource, pmops->iTable, pmops->dFrequency);
 			    }
 			}
-			else if (phciCurrent->iValue == HECCER_MOP_EVENTGENERATOR)
+			else if (phciCurrent->iValue == HECCER_MOP_EVENTGENERATE)
 			{
-			    struct MopsEventGenerator *pmops
-				= (struct MopsEventGenerator *)&piOperators[i / sizeof(int)];
+			    struct MopsEventGenerate *pmops
+				= (struct MopsEventGenerate *)&piOperators[i / sizeof(int)];
 
 			    if (pmops->uSource.pdValue)
 			    {

@@ -282,7 +282,7 @@ struct MatsSpringMass
 	 : ({ iMatNumber++; 1; }) ) )
 
 
-struct MopsEventGenerator
+struct MopsEventGenerate
 {
     //m operator : HECCER_MOP_EVENTGENERATOR
 
@@ -301,7 +301,7 @@ struct MopsEventGenerator
     int iTable;
 };
 
-struct MatsEventGenerator
+struct MatsEventGenerate
 {
     //m refractory counter, negative means not in refractory period
 
@@ -309,10 +309,10 @@ struct MatsEventGenerator
 
 };
 
-#define SETMOP_EVENTGENERATOR(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iS,dT,dR,iT) \
+#define SETMOP_EVENTGENERATE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iS,dT,dR,iT) \
     ((pvMops)								\
-     ? ({ struct MopsEventGenerator *pmops = (struct MopsEventGenerator *)(pvMops); \
-	     pmops->iOperator = HECCER_MOP_EVENTGENERATOR;		\
+     ? ({ struct MopsEventGenerate *pmops = (struct MopsEventGenerate *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_EVENTGENERATE;		\
 	     pmops->uSource.iMat = (iS) ;				\
 	     pmops->dThreshold = (dT) ;					\
 	     pmops->dRefractoryReset = (dR) ;				\
@@ -324,24 +324,24 @@ struct MatsEventGenerator
 	     (ppvMopsIndex)						\
 	     ? ({							\
 		     piMC2Mop[iMathComponent] = iMopNumber++;		\
-		     (iMops) += sizeof(struct MopsEventGenerator);	\
+		     (iMops) += sizeof(struct MopsEventGenerate);	\
 		     1;							\
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_EVENTGENERATOR(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dR) \
+#define SETMAT_EVENTGENERATE(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dR) \
     ((pvMats)								\
-     ? ({ struct MatsEventGenerator *pmats = (struct MatsEventGenerator *)pvMats ; \
+     ? ({ struct MatsEventGenerate *pmats = (struct MatsEventGenerate *)pvMats ; \
 	     pmats->dRefractory = (dR) ;				\
 	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsEventGenerator *)pvMats)[1] ; \
+	     pvMats = (void *)&((struct MatsEventGenerate *)pvMats)[1] ; \
 	     1;								\
 	 })								\
      : (								\
 	 (ppvMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
-		 (iMats) += MAT_ALIGNER(struct MatsEventGenerator);	\
+		 (iMats) += MAT_ALIGNER(struct MatsEventGenerate);	\
 		 1;							\
 	     })								\
 	 : ({ iMatNumber++; 1; }) ) )
@@ -866,7 +866,7 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_INTERNALNERNST 27
 #define HECCER_MOP_INITIALIZECHANNELEK 28
 #define HECCER_MOP_SPRINGMASS 29
-#define HECCER_MOP_EVENTGENERATOR 31
+#define HECCER_MOP_EVENTGENERATE 31
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 40
 

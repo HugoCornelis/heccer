@@ -16,8 +16,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <limits.h>
 #include <math.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1004,17 +1004,23 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- set operators and operands
 
-		    int iSource = -1;
+		    //! FLT_MAX means the membrane potential is the source
+
+		    //! for other things, fill in the matindex of the
+		    //! source, the linker will link the mechanisms
+		    //! together (untested).
+
+		    int iSource = INT_MAX;
 
 		    int iTable = -1;
 
-		    SETMOP_EVENTGENERATOR(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
+		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
 
 		    //! we are not in the refractory period
 
 		    double dRefractoryTime = -1.0;
 
-		    SETMAT_EVENTGENERATOR(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime);
+		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime);
 
 		    break;
 		}
@@ -1436,17 +1442,17 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 	    //- for an event generator
 
-	    case HECCER_MOP_EVENTGENERATOR:
+	    case HECCER_MOP_EVENTGENERATE:
 	    {
 		//- go to next operator
 
-		struct MopsEventGenerator *pmops = (struct MopsEventGenerator *)piMop;
+		struct MopsEventGenerate *pmops = (struct MopsEventGenerate *)piMop;
 
 		piMop = (int *)&pmops[1];
 
 		//- go to next type specific data
 
-		struct MatsEventGenerator * pmats = (struct MatsEventGenerator *)pvMats;
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
 
 		pvMats = (void *)&pmats[1];
 
@@ -1458,7 +1464,20 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 /* 		{ */
 		    int iSource = pmops->uSource.iMat;
 
-		    if (iSource != -1)
+		    //- if should be current membrane potential
+
+		    if (iSource == INT_MAX)
+		    {
+			//- set pointer value to a sentinel value
+
+			//! this will generate a warning on some architectures
+
+			pmops->uSource.pdValue = (double *)-1;
+		    }
+
+		    //- if linked to a mechanism value
+
+		    else if (iSource != -1)
 		    {
 			//- get solved dependency
 
@@ -2238,17 +2257,17 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //- for an event generator
 
-	    case HECCER_MOP_EVENTGENERATOR:
+	    case HECCER_MOP_EVENTGENERATE:
 	    {
 		//- go to next operator
 
-		struct MopsEventGenerator *pmops = (struct MopsEventGenerator *)piMop;
+		struct MopsEventGenerate *pmops = (struct MopsEventGenerate *)piMop;
 
 		piMop = (int *)&pmops[1];
 
 		//- go to next type specific data
 
-		struct MatsEventGenerator * pmats = (struct MatsEventGenerator *)pvMats;
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
 
 		pvMats = (void *)&pmats[1];
 
@@ -2262,9 +2281,25 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    if (pdSource)
 		    {
+			double dSource;
+
+			//- if using membrane potential
+
+			if (pdSource == (double *)-1)
+			{
+			    dSource = dVm;
+			}
+
+			//- if using a solved mechanism value
+
+			else
+			{
+			    dSource = *pdSource;
+			}
+
 			//- if source greater than threshold
 
-			if (*pdSource > pmops->dThreshold)
+			if (dSource > pmops->dThreshold)
 			{
 /* 			    //- generate events */
 
