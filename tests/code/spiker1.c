@@ -18,12 +18,14 @@
 
 #include <stdlib.h>
 
+#include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
+#include "../../heccer/output.h"
 
 
-#define HECCER_TEST_REPORTING_GRANULARITY 100
-#define HECCER_TEST_STEPS 1000
+#define HECCER_TEST_REPORTING_GRANULARITY 10000
+#define HECCER_TEST_STEPS 10000
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
 				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
 				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
@@ -31,7 +33,7 @@
 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
 				    | HECCER_DUMP_VM_SUMMARY \
 	)
-#define HECCER_TEST_TIME_STEP (6e-6)
+#define HECCER_TEST_TIME_STEP (1e-6)
 
 
 struct Compartment compSoma =
@@ -68,11 +70,11 @@ struct Compartment compSoma =
 
 /*     double dInitVm; */
 
-    -0.028,
+    -0.065,
 
 /*     double dInject;		 */
 
-    0,
+    2e-9,
 
 /*     double dRa; */
 
@@ -81,6 +83,119 @@ struct Compartment compSoma =
 /*     double dRm; */
 
     3.58441e+08, // unscaled 1
+};
+
+
+//v a regular delayed rectifier, taken from the genesis website
+
+struct ChannelAct caKdr =
+{
+    //m administrative overhead
+
+    {
+	//m type of structure
+
+	MATH_TYPE_ChannelAct,
+    },
+
+    //m first set of descriptive values, alphabetical order
+
+    //m initial reversal potential
+
+    -0.085,
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
+
+    //m maximal conductance when all channels are permissive
+
+    1.004349542e-06,
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    -1,
+
+    //m activation description
+
+    {
+	//m power, for a standard heccer, something between 1 and 4 or so.
+
+	4,
+
+	//m gate definition
+
+	{
+	    //m initial value, commonly forward over backward steady states
+
+	    0.3176769506,
+
+	    //m corresponding index in tables, set to -1 for initialization.
+
+	    -1,
+
+	    {
+		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
+
+		{
+		    //m multiplier
+
+		    -550.0,
+
+		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    -10000,
+
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
+
+		    -1.0,
+
+		    //m nominator or denominator offset
+
+		    -1.0,
+
+		    //m membrane offset
+
+		    0.055,
+
+		    //m denormalized time constant
+
+		    -0.01,
+		},
+
+		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+
+		{
+		    //m multiplier
+
+		    125.0,
+
+		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
+
+		    -1.0,
+
+		    //m nominator or denominator offset
+
+		    0.0,
+
+		    //m membrane offset
+
+		    0.065,
+
+		    //m denormalized time constant
+
+		    0.08,
+		},
+	    },
+	},
+    },
+
 };
 
 
@@ -126,7 +241,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0644214166,
+	    0.01224204035,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -206,7 +321,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.04711824163,
+	    0.1930685015,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -276,119 +391,6 @@ struct ChannelActInact caiNaF =
 };
 
 
-//v a regular delayed rectifier, taken from the genesis website
-
-struct ChannelAct caKdr =
-{
-    //m administrative overhead
-
-    {
-	//m type of structure
-
-	MATH_TYPE_ChannelAct,
-    },
-
-    //m first set of descriptive values, alphabetical order
-
-    //m initial reversal potential
-
-    -0.085,
-
-    //m get reversal potential from this intermediary, -1 for none
-
-    -1,
-
-    //m maximal conductance when all channels are permissive
-
-    1.004349542e-06,
-
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
-
-    -1,
-
-    //m activation description
-
-    {
-	//m power, for a standard heccer, something between 1 and 4 or so.
-
-	4,
-
-	//m gate definition
-
-	{
-	    //m initial value, commonly forward over backward steady states
-
-	    0.4979507076,
-
-	    //m corresponding index in tables, set to -1 for initialization.
-
-	    -1,
-
-	    {
-		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
-
-		{
-		    //m multiplier
-
-		    -550.0,
-
-		    //m multiplier membrane dependence, 0.0 for no dependence
-
-		    -10000,
-
-		    //m choose between nominator or denominator, 1 means nominator, -1
-		    //m means denominator
-
-		    -1.0,
-
-		    //m nominator or denominator offset
-
-		    -1.0,
-
-		    //m membrane offset
-
-		    0.055,
-
-		    //m denormalized time constant
-
-		    -0.01,
-		},
-
-		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
-
-		{
-		    //m multiplier
-
-		    125.0,
-
-		    //m multiplier membrane dependence, 0.0 for no dependence
-
-		    0.0,
-
-		    //m choose between nominator or denominator, 1 means nominator, -1
-		    //m means denominator
-
-		    -1.0,
-
-		    //m nominator or denominator offset
-
-		    0.0,
-
-		    //m membrane offset
-
-		    0.065,
-
-		    //m denormalized time constant
-
-		    0.08,
-		},
-	    },
-	},
-    },
-
-};
-
-
 struct SpikeGenerator sg =
 {
     //m administrative overhead
@@ -451,31 +453,44 @@ struct Intermediary inter =
 };
 
 
+struct OutputGenerator * pog = NULL;
+
+double *pdVm = NULL;
+
+char pcStep[100] = "";
+
+#include "main.h"
+
+
 int main(int argc, char *argv[])
 {
-    //- determine intermediary size, and allocate
+    //- set default result : ok
 
-    struct MathComponentInfo *pmciNaF = MathComponentInfoLookup(caiNaF.mc.iType);
+    int iResult = EXIT_SUCCESS;
+
+    //- determine intermediary size, and allocate
 
     struct MathComponentInfo *pmciKdr = MathComponentInfoLookup(caKdr.mc.iType);
 
+    struct MathComponentInfo *pmciNaF = MathComponentInfoLookup(caiNaF.mc.iType);
+
     struct MathComponentInfo *pmciSpiker = MathComponentInfoLookup(sg.mc.iType);
 
-    int iChars = pmciNaF->iChars + pmciKdr->iChars + pmciSpiker->iChars;
+    int iChars = pmciKdr->iChars + pmciNaF->iChars + pmciSpiker->iChars;
 
     void *pmc = calloc(sizeof(char), iChars);
 
     //- prepare the mechanism intermediary
 
-    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
-
-    *pcai = caiNaF;
-
-    struct ChannelAct *pca = (struct ChannelAct *)&((char *)pcai)[pmciNaF->iChars];
+    struct ChannelAct *pca = (struct ChannelAct *)pmc;
 
     *pca = caKdr;
 
-    struct SpikeGenerator *psg = (struct SpikeGenerator *)&((char *)pca)[pmciKdr->iChars];
+    struct ChannelActInact *pcai = (struct ChannelActInact *)&((char *)pca)[pmciKdr->iChars];
+
+    *pcai = caiNaF;
+
+    struct SpikeGenerator *psg = (struct SpikeGenerator *)&((char *)pcai)[pmciNaF->iChars];
 
     *psg = sg;
 
@@ -483,9 +498,35 @@ int main(int argc, char *argv[])
 
     mca.pmc = pmc;
 
+    //- create output elements
+
+    pog = OutputGeneratorNew("/tmp/output");
+
+//d generate output of membrane potential each step
+
+#define HECCER_TEST_INITIATE \
+    pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm"); \
+    OutputGeneratorAddVariable(pog, "Vm", pdVm)
+
+//d generate output of membrane potential each step
+
+#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pog, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+
     //- do the simulation
 
     simulate(argc,argv);
+
+    //- finish the simulation output
+
+    OutputGeneratorFinish(pog);
+
+    //- add the simulation output to the program output
+
+    WriteOutput("/tmp/output");
+
+    //- return result
+
+    return(iResult);
 }
 
 

@@ -217,6 +217,16 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	    break;
 	}
+	case MATH_TYPE_SpikeGenerator:
+	{
+	    //- get type specific data
+
+	    struct SpikeGenerator *psg = (struct SpikeGenerator *)pmc;
+
+	    pmc = MathComponentNext(&psg->mc);
+
+	    break;
+	}
 	default:
 	{
 	    //t HeccerError(number, message, varargs);
