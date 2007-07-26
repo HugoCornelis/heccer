@@ -92,6 +92,7 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					0,	sizeof(struct MatsCallout),	},
     {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
     {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			1,	sizeof(struct MatsSingleGateConcept),	},
+    {	HECCER_MOP_EVENTGENERATOR,		"EVENTGENERATE",		sizeof(struct MopsEventGenerator),			1,	sizeof(struct MatsEventGenerator),	},
     {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	sizeof(struct MatsExponentialDecay),	},
     {	HECCER_MOP_FINISH,			"FINISH",			1 * sizeof(int),					0,	0,	},
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				1,	sizeof(struct MatsFluxPool),	},
@@ -608,6 +609,20 @@ HeccerVMDumpOperators
 			    else
 			    {
 				sprintf(pc, " %i (nil) %i %i %g", pmops->iEvent, pmops->iDiscreteSource, pmops->iTable, pmops->dFrequency);
+			    }
+			}
+			else if (phciCurrent->iValue == HECCER_MOP_EVENTGENERATOR)
+			{
+			    struct MopsEventGenerator *pmops
+				= (struct MopsEventGenerator *)&piOperators[i / sizeof(int)];
+
+			    if (pmops->uSource.pdValue)
+			    {
+				sprintf(pc, " (%g) %g %g %i", *pmops->uSource.pdValue, pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
+			    }
+			    else
+			    {
+				sprintf(pc, " (nil) %g %g %i", pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
 			    }
 			}
 		    }
