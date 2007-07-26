@@ -144,6 +144,20 @@ struct Heccer
 
     struct TranslationService *pts;
 
+    //m event distribution service: given an event, distributes it over the targets
+
+    //! so to use this feature: define your event distribution service, and
+    //! set it during the construction of your heccer.
+
+    //! wouldn't be surprised that I need several layers of services,
+    //! will see if that has repercussion at this low level or not.
+    //!
+    //! for the moment we have a function layer, which is fixed, and
+    //! a data layer, which is opaque.  The function layer defines the
+    //! real interface.
+
+    struct EventDistributor *ped;
+
     //m intermediary
 
     struct Intermediary inter;

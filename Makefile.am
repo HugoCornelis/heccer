@@ -31,6 +31,8 @@ lib_LIBRARIES = libheccer.a
 libheccer_a_SOURCES = \
 	addressing.c \
 	compartment.c \
+	event.c \
+	eventdistributor.c \
 	heccer.c \
 	indexers.c \
 	intermediary.c \
@@ -47,6 +49,8 @@ nobase_include_HEADERS = \
 	heccer/callout.h \
 	heccer/compartment.h \
 	heccer/config.h \
+	heccer/event.h \
+	heccer/eventdistributor.h \
 	heccer/heccer.h \
 	heccer/minimumdegree.h \
 	heccer/indexers.h \

@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include "heccer/compartment.h"
+#include "heccer/event.h"
 #include "heccer/heccer.h"
 #include "heccer/random.h"
 
@@ -2301,9 +2302,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			if (dSource > pmops->dThreshold)
 			{
-/* 			    //- generate events */
+			    //- generate event for associated targets
 
-/* 			    EventsGenerate(pheccer, pmops->iTable); */
+			    int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
 
 			    //- initialize refractory period
 
