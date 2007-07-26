@@ -616,7 +616,11 @@ HeccerVMDumpOperators
 			    struct MopsEventGenerate *pmops
 				= (struct MopsEventGenerate *)&piOperators[i / sizeof(int)];
 
-			    if (pmops->uSource.pdValue)
+			    if (pmops->uSource.pdValue == (double *)-1)
+			    {
+				sprintf(pc, " (%s) %g %g %i", "dVm", pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
+			    }
+			    else if (pmops->uSource.pdValue)
 			    {
 				sprintf(pc, " (%g) %g %g %i", *pmops->uSource.pdValue, pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
 			    }
