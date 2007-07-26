@@ -1010,7 +1010,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_EVENTGENERATOR(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
 
-		    //! we are not in refractory period
+		    //! we are not in the refractory period
 
 		    double dRefractoryTime = -1.0;
 
