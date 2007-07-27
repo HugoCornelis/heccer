@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/07/27) Friday, July 27, 2007 11:25:19 hugo";
+static char *pcVersionTime="(07/07/27) Friday, July 27, 2007 11:41:33 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -300,7 +300,8 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     if (iSelection & HECCER_DUMP_SERVICE)
     {
-	fprintf(pfile, "Heccer (pvService) : (%p)\n", pheccer->pts);
+	fprintf(pfile, "Heccer (pts) : (%p)\n", pheccer->pts);
+	fprintf(pfile, "Heccer (ped) : (%p)\n", pheccer->ped);
     }
 
     //- dump intermediary
