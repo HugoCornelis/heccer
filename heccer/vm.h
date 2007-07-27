@@ -307,6 +307,9 @@ struct MatsEventGenerate
 
     double dRefractory;
 
+    //m spiking or not
+
+    double dSpike;
 };
 
 #define SETMOP_EVENTGENERATE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iS,dT,dR,iT) \
@@ -329,10 +332,11 @@ struct MatsEventGenerate
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_EVENTGENERATE(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dR) \
+#define SETMAT_EVENTGENERATE(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dR,dS) \
     ((pvMats)								\
      ? ({ struct MatsEventGenerate *pmats = (struct MatsEventGenerate *)pvMats ; \
 	     pmats->dRefractory = (dR) ;				\
+	     pmats->dSpike = (dS) ;					\
 	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsEventGenerate *)pvMats)[1] ; \
 	     1;								\

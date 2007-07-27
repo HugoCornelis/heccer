@@ -42,6 +42,12 @@ int HeccerEventDistribute(struct EventDistributor *ped, int iTargets)
 
     int iResult = 0;
 
+    //- get target table
+
+    struct EventDistributorData *pedd = ped->pedd;
+
+    //t 
+
     //- return result
 
     return(iResult);

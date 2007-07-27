@@ -399,6 +399,15 @@ struct SpikeGenerator sg =
 	//m type of structure
 
 	MATH_TYPE_SpikeGenerator,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(1000),
+
+#endif
+
     },
 
     //m refractory time
@@ -455,6 +464,11 @@ struct Intermediary inter =
 
 #include "heccer/eventdistributor.h"
 
+struct EventDistributorData edd =
+{
+    NULL,
+};
+
 struct EventDistributor ed =
 {
     //m service specific data
@@ -467,9 +481,9 @@ struct EventDistributor ed =
 };
 
 
-struct OutputGenerator * pog = NULL;
+struct OutputGenerator * pogVm = NULL;
 
-double *pdVm = NULL;
+/* double *pdVm = NULL; */
 
 char pcStep[100] = "";
 
@@ -512,19 +526,27 @@ int main(int argc, char *argv[])
 
     mca.pmc = pmc;
 
+    //- link output generator to the spiking element
+
+    struct OutputGenerator *pogSpike = OutputGeneratorNew("/tmp/output_spike");
+
+    edd.pvTarget = pogSpike;
+
     //- create output elements
 
-    pog = OutputGeneratorNew("/tmp/output");
+    pogVm = OutputGeneratorNew("/tmp/output_vm");
 
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_INITIATE \
-    pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm"); \
-    OutputGeneratorAddVariable(pog, "Vm", pdVm)
+    double *pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");	\
+    OutputGeneratorAddVariable(pogVm, "Vm", pdVm)
+    
 
 //d generate output of membrane potential each step
 
-#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pog, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+#define HECCER_TEST_OUTPUT \
+    OutputGeneratorAnnotatedStep(pogVm, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
 
     //- allocate the heccer, for the event distributor service
 
@@ -536,11 +558,11 @@ int main(int argc, char *argv[])
 
     //- finish the simulation output
 
-    OutputGeneratorFinish(pog);
+    OutputGeneratorFinish(pogVm);
 
     //- add the simulation output to the program output
 
-    WriteOutput("/tmp/output");
+    WriteOutput("/tmp/output_vm");
 
     //- return result
 

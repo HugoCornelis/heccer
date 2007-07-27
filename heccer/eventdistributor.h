@@ -24,7 +24,10 @@
 
 struct EventDistributor;
 
-struct EventDistributorData;
+struct EventDistributorData
+{
+    void *pvTarget;
+};
 
 
 typedef int (*EventDistribute)(struct EventDistributor *ped, int iTargets);

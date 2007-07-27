@@ -234,7 +234,7 @@ struct Intermediary inter =
 };
 
 
-struct OutputGenerator * pog = NULL;
+struct OutputGenerator * pogVm = NULL;
 
 double *pdVm = NULL;
 
@@ -251,17 +251,17 @@ int main(int argc, char *argv[])
 
     //- create output elements
 
-    pog = OutputGeneratorNew("/tmp/output");
+    pogVm = OutputGeneratorNew("/tmp/output");
 
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_INITIATE \
     pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm"); \
-    OutputGeneratorAddVariable(pog, "Vm", pdVm)
+    OutputGeneratorAddVariable(pogVm, "Vm", pdVm)
 
 //d generate output of membrane potential each step
 
-#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pog, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogVm, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
 
     //- do the simulation
 
@@ -269,7 +269,7 @@ int main(int argc, char *argv[])
 
     //- finish the simulation output
 
-    OutputGeneratorFinish(pog);
+    OutputGeneratorFinish(pogVm);
 
     //- add the simulation output to the program output
 

@@ -1021,7 +1021,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    double dRefractoryTime = -1.0;
 
-		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime);
+		    double dSpike = 0.0;
+
+		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime, dSpike);
 
 		    break;
 		}
@@ -2272,9 +2274,31 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		pvMats = (void *)&pmats[1];
 
+		//- if spiking
+
+		if (pmats->dRefractory == FLT_MAX)
+		{
+		    //- initialize refractory period
+
+		    pmats->dRefractory = pmops->dRefractoryReset - pheccer->dStep;
+
+		    //- set not spiking
+
+		    pmats->dSpike = 0.0;
+		}
+
+		//- if in refractory period
+
+		else if (pmats->dRefractory > 0.0)
+		{
+		    //- maintain refractory period since last event
+
+		    pmats->dRefractory -= pheccer->dStep;
+		}
+
 		//- if not in refractory period
 
-		if (pmats->dRefractory < 0.0)
+		else
 		{
 		    //- get source value
 
@@ -2306,18 +2330,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			    int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
 
-			    //- initialize refractory period
+			    //- register spiking
 
-			    pmats->dRefractory = pmops->dRefractoryReset;
-			}
+			    pmats->dRefractory = FLT_MAX;
 
-			//- else
-
-			else
-			{
-			    //- maintain refractory period since last event
-
-			    pmats->dRefractory -= pheccer->dStep;
+			    pmats->dSpike = 1.0;
 			}
 		    }
 		}
