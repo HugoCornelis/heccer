@@ -36,7 +36,7 @@
 ///
 /// **************************************************************************
 
-int HeccerEventDistribute(struct EventDistributor *ped, int iTargets)
+int HeccerEventDistribute(struct EventDistributor *ped, double dTime, int iTargets)
 {
     //- set default result: failure
 
@@ -50,7 +50,7 @@ int HeccerEventDistribute(struct EventDistributor *ped, int iTargets)
 
     //- call the target object
 
-    iResult = pedf->pvFunction(ped->pedd->pvTarget, "no data yet");
+    iResult = pedf->pvFunction(ped->pedd->pvTarget, dTime);
 
     //- return result
 

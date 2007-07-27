@@ -539,7 +539,7 @@ int main(int argc, char *argv[])
     pogSpike = OutputGeneratorNew("/tmp/output_spike");
 
     edd.pvTarget = pogSpike;
-    edf.pvFunction = OutputGeneratorAnnotatedStep;
+    edf.pvFunction = OutputGeneratorTimedStep;
 
     //- create output elements
 

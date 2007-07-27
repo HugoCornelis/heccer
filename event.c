@@ -49,7 +49,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
     //- tell the distributor to distribute the event over the targets
 
-    iResult = ped->eventDistribute(ped, iTargets);
+    iResult = ped->eventDistribute(ped, pheccer->dTime, iTargets);
 
     //- return result
 

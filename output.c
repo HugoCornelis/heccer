@@ -229,3 +229,41 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 }
 
 
+/// **************************************************************************
+///
+/// SHORT: OutputGeneratorTimedStep()
+///
+/// ARGS.:
+///
+///	pog...: output generator.
+///	dTime.: simulation time.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Output all variable values, at the given time.
+///
+///	This gets remapped to OutputGeneratorAnnotatedStep(), with the
+///	time as annotation.
+///
+/// **************************************************************************
+
+int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+    char pc[100];
+
+    sprintf(pc, "%g", dTime);
+
+    iResult = OutputGeneratorAnnotatedStep(pog, pc);
+
+    //- return result
+
+    return(iResult);
+}
+
+

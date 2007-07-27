@@ -52,6 +52,8 @@ int OutputGeneratorFinish(struct OutputGenerator * pog);
 
 struct OutputGenerator * OutputGeneratorNew(char *pcFilename);
 
+int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime);
+
 
 #endif
 
