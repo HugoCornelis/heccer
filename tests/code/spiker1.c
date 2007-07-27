@@ -453,6 +453,20 @@ struct Intermediary inter =
 };
 
 
+#include "heccer/eventdistributor.h"
+
+struct EventDistributor ed =
+{
+    //m service specific data
+
+    NULL,
+
+    //m distribute an event over the targets
+
+    HeccerEventDistribute,
+};
+
+
 struct OutputGenerator * pog = NULL;
 
 double *pdVm = NULL;
@@ -511,6 +525,10 @@ int main(int argc, char *argv[])
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pog, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+
+    //- allocate the heccer, for the event distributor service
+
+    pheccer = HeccerNew(NULL, &ed);
 
     //- do the simulation
 

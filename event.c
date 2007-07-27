@@ -43,17 +43,13 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
     int iResult = 0;
 
-    //- get pointer to target table
-
-    int **ppiTargets = NULL;
-
     //- get pointer to event distributor
 
-    struct EventDistributor *ped = NULL;
+    struct EventDistributor *ped = pheccer->ped;
 
     //- tell the distributor to distribute the event over the targets
 
-    NULL;
+    iResult = ped->eventDistribute(ped, iTargets);
 
     //- return result
 

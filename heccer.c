@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/05/04) Friday, May 4, 2007 16:49:01 hugo";
+static char *pcVersionTime="(07/07/27) Friday, July 27, 2007 11:25:19 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -509,7 +509,8 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
-///	pvService: identification service.
+///	pts....: translation service.
+///	ped....: event distribution service.
 ///
 /// RTN..: struct Heccer *
 ///
@@ -522,7 +523,8 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNew(struct TranslationService *pts)
+struct Heccer *
+HeccerNew(struct TranslationService *pts, struct EventDistributor *ped)
 {
     //- set result : initialized heccer
 
@@ -530,6 +532,7 @@ struct Heccer *HeccerNew(struct TranslationService *pts)
 	= HeccerNewP1
 	  (
 	      pts,
+	      ped,
 	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
 	      2e-5
 	      );
@@ -546,7 +549,8 @@ struct Heccer *HeccerNew(struct TranslationService *pts)
 ///
 /// ARGS.:
 ///
-///	pvService: identification service.
+///	pts......: identification service.
+///	ped......: event distribution service.
 ///	iOptions.: see heccer.h.
 ///	dStep....: required time step (from the time constants of the model).
 ///
@@ -558,7 +562,12 @@ struct Heccer *HeccerNew(struct TranslationService *pts)
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double dStep)
+struct Heccer *
+HeccerNewP1
+(struct TranslationService *pts,
+ struct EventDistributor *ped,
+ int iOptions,
+ double dStep)
 {
     //- set result : a new heccer
 
@@ -573,6 +582,10 @@ struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double 
     //- set naming service
 
     pheccerResult->pts = pts;
+
+    //- set event distribution service
+
+    pheccerResult->ped = ped;
 
     //- set options and time step
 
@@ -608,6 +621,8 @@ struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double 
 ///
 /// ARGS.:
 ///
+///	pinter..: intermediary with a complete numerical model definition.
+///
 /// RTN..: struct Heccer *
 ///
 ///	Instantiated heccer, NULL for failure.
@@ -620,7 +635,7 @@ struct Heccer *HeccerNewP2(struct Intermediary *pinter)
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult = HeccerNew(NULL);
+    struct Heccer *pheccerResult = HeccerNew(NULL, NULL);
 
     //- link in intermediary
 

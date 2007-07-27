@@ -26,6 +26,7 @@
 struct Heccer;
 
 
+#include "eventdistributor.h"
 #include "intermediary.h"
 #include "indexers.h"
 #include "service.h"
@@ -253,9 +254,17 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime);
 
 int HeccerInitiate(struct Heccer *pheccer);
 
-struct Heccer *HeccerNew(struct TranslationService *pts);
+struct Heccer *
+HeccerNew
+(struct TranslationService *pts,
+ struct EventDistributor *ped);
 
-struct Heccer *HeccerNewP1(struct TranslationService *pts, int iOptions, double dStep);
+struct Heccer *
+HeccerNewP1
+(struct TranslationService *pts,
+ struct EventDistributor *ped,
+ int iOptions,
+ double dStep);
 
 struct Heccer *HeccerNewP2(struct Intermediary *pinter);
 

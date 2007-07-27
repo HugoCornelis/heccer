@@ -118,7 +118,23 @@ int main(int argc, char *argv[])
 
     //- instantiate a heccer with an initialized intermediary
 
-    pheccer = HeccerNewP2(&inter);
+    //! note: test definition is allowed to allocate the heccer, with services.
+
+    if (!pheccer)
+    {
+	pheccer = HeccerNewP2(&inter);
+    }
+    else
+    {
+	//! quite dirty, ok for testing I assume
+
+	memcpy(&pheccer->inter, &inter, sizeof(inter));
+
+	//- set new status
+
+	pheccer->iStatus = HECCER_STATUS_PHASE_2;
+
+    }
 
     //t need sensible API to set options I guess.
 

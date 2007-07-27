@@ -27,7 +27,7 @@ struct EventDistributor;
 struct EventDistributorData;
 
 
-typedef int (*EventDistribute)(struct EventDistributor *ped, int **ppiTargets);
+typedef int (*EventDistribute)(struct EventDistributor *ped, int iTargets);
 
 struct EventDistributor
 {
@@ -44,7 +44,9 @@ struct EventDistributor
 
 //f prototypes
 
-int HeccerEventDistribute(struct EventDistributor *ped, int **ppiTargets);
+/* extern EventDistribute HeccerEventDistribute; */
+
+int HeccerEventDistribute(struct EventDistributor *ped, int iTargets);
 
 
 #endif

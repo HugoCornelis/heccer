@@ -36,7 +36,7 @@
 ///
 /// **************************************************************************
 
-int HeccerEventDistribute(struct EventDistributor *ped, int **ppiTargets)
+int HeccerEventDistribute(struct EventDistributor *ped, int iTargets)
 {
     //- set default result: failure
 
