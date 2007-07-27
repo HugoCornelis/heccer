@@ -30,6 +30,12 @@ struct EventDistributorData
 };
 
 
+struct EventDistributorFunctions
+{
+    int (*pvFunction)();
+};
+
+
 typedef int (*EventDistribute)(struct EventDistributor *ped, int iTargets);
 
 struct EventDistributor
@@ -37,6 +43,8 @@ struct EventDistributor
     //m service specific data
 
     struct EventDistributorData *pedd;
+
+    struct EventDistributorFunctions *pedf;
 
     //m distribute an event over the targets
 

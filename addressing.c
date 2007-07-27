@@ -227,15 +227,17 @@ HeccerAddressMechanismVariable
     {
 	char *pcField;
 	int iOperand;
+	int iOffset;
     };
 
     struct field_2_operator pF2P[] =
     {
-	{	"Ca",		0, },
-	{	"state_h",	0, },
-	{	"state_m",	-1, },
-	{	"state_n",	0, },
-	{	NULL,		INT_MAX, },
+	{	"Ca",		0,	0, },
+	{	"spike",	0,	1, },
+	{	"state_h",	0,	0, },
+	{	"state_m",	-1,	0, },
+	{	"state_n",	0,	0, },
+	{	NULL,		INT_MAX,	INT_MAX, },
     };
 
     int iField;
@@ -267,7 +269,9 @@ HeccerAddressMechanismVariable
 
     int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
 
-    printf("mat number for %i is %i at offset %i\n", iIndex, iMat, iOffset);
+/*     iOffset += pF2P[iField].iOffset; */
+
+    printf("mat number for intermediary mechanism %i is mat %i at offset %i\n", iIndex, iMat, iOffset);
 
     //! note that this is implicitly assumed to be a pointer to double.
 

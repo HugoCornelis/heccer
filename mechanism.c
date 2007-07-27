@@ -2326,15 +2326,16 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			if (dSource > pmops->dThreshold)
 			{
-			    //- generate event for associated targets
-
-			    int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
-
 			    //- register spiking
 
 			    pmats->dRefractory = FLT_MAX;
 
 			    pmats->dSpike = 1.0;
+
+			    //- generate event for associated targets
+
+			    int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
+
 			}
 		    }
 		}

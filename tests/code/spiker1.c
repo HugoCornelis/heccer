@@ -469,11 +469,18 @@ struct EventDistributorData edd =
     NULL,
 };
 
+struct EventDistributorFunctions edf =
+{
+    NULL,
+};
+
 struct EventDistributor ed =
 {
     //m service specific data
 
-    NULL,
+    &edd,
+
+    &edf,
 
     //m distribute an event over the targets
 
@@ -481,6 +488,7 @@ struct EventDistributor ed =
 };
 
 
+struct OutputGenerator *pogSpike = NULL;
 struct OutputGenerator * pogVm = NULL;
 
 /* double *pdVm = NULL; */
@@ -528,20 +536,22 @@ int main(int argc, char *argv[])
 
     //- link output generator to the spiking element
 
-    struct OutputGenerator *pogSpike = OutputGeneratorNew("/tmp/output_spike");
+    pogSpike = OutputGeneratorNew("/tmp/output_spike");
 
     edd.pvTarget = pogSpike;
+    edf.pvFunction = OutputGeneratorAnnotatedStep;
 
     //- create output elements
 
     pogVm = OutputGeneratorNew("/tmp/output_vm");
 
-//d generate output of membrane potential each step
+//d prepare output of membrane potential and spikes
 
 #define HECCER_TEST_INITIATE \
     double *pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");	\
-    OutputGeneratorAddVariable(pogVm, "Vm", pdVm)
-    
+    OutputGeneratorAddVariable(pogVm, "Vm", pdVm);			\
+    double *pdSpike = HeccerAddressMechanismVariable(pheccer, 2, "spike"); \
+    OutputGeneratorAddVariable(pogSpike, "spike", pdSpike)
 
 //d generate output of membrane potential each step
 
@@ -563,6 +573,8 @@ int main(int argc, char *argv[])
     //- add the simulation output to the program output
 
     WriteOutput("/tmp/output_vm");
+
+    WriteOutput("/tmp/output_spike");
 
     //- return result
 

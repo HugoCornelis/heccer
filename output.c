@@ -93,20 +93,6 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     int iResult = 1;
 
-    //- if file not opened yet
-
-    if (!pog->pfileOutput)
-    {
-	//t file name taken from options
-
-	pog->pfileOutput = fopen(pog->pcFilename, "w");
-
-	if (!pog->pfileOutput)
-	{
-	    return(0);
-	}
-    }
-
     //- write out the annotation
 
     if (pc)
@@ -222,6 +208,20 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
     pogResult->pcFilename = calloc(1 + strlen(pcFilename), sizeof(char));
 
     strcpy(pogResult->pcFilename, pcFilename);
+
+    //- if file not opened yet
+
+/*     if (!pogResult->pfileOutput) */
+    {
+	//t file name taken from options
+
+	pogResult->pfileOutput = fopen(pogResult->pcFilename, "w");
+
+	if (!pogResult->pfileOutput)
+	{
+	    return(NULL);
+	}
+    }
 
     //- return result
 
