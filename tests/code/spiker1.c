@@ -570,6 +570,8 @@ int main(int argc, char *argv[])
 
     OutputGeneratorFinish(pogVm);
 
+    OutputGeneratorFinish(pogSpike);
+
     //- add the simulation output to the program output
 
     WriteOutput("/tmp/output_vm");
