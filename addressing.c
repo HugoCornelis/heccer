@@ -269,13 +269,11 @@ HeccerAddressMechanismVariable
 
     int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
 
-/*     iOffset += pF2P[iField].iOffset; */
-
-    printf("mat number for intermediary mechanism %i is mat %i at offset %i\n", iIndex, iMat, iOffset);
+    printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
 
     //! note that this is implicitly assumed to be a pointer to double.
 
-    pvResult = pheccer->vm.ppvMatsIndex[iMat];
+    pvResult = &((double *)pheccer->vm.ppvMatsIndex[iMat])[pF2P[iField].iOffset];
 
     //- return result
 
