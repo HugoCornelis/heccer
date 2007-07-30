@@ -45,7 +45,7 @@ struct EventDistributor
 {
     //m service specific data
 
-    struct EventDistributorData *pedd;
+    struct EventDistributorData **ppedd;
 
 /*     struct EventDistributorFunctions *pedf; */
 

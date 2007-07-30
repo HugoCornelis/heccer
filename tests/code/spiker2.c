@@ -417,6 +417,10 @@ struct SpikeGenerator sgSource =
     //m spiking threshold
 
     0.0,
+
+    //m table with targets
+
+    -1,
 };
 
 
@@ -788,24 +792,28 @@ struct Intermediary interTarget2 =
 
 #include "heccer/eventdistributor.h"
 
-struct EventDistributorData edd =
+struct EventDistributorData pedd[] =
 {
-    NULL,
-    NULL,
+    {
+	NULL,
+	NULL,
+    },
 };
 
-/* struct EventDistributorFunctions edf = */
-/* { */
-/*     NULL, */
-/* }; */
+/* struct EventDistributorData *pedd2 = pedd; */
+
+struct EventDistributorData *ppedd[] =
+{
+    &pedd,
+};
+
+/* struct EventDistributorData **ppedd2 = ppedd; */
 
 struct EventDistributor ed =
 {
     //m service specific data
 
-    &edd,
-
-/*     &edf, */
+    &ppedd,
 
     //m distribute an event over the targets
 
@@ -876,8 +884,8 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
-    edd.pvTarget = pogSpikeSource;
-    edd.pvFunction = OutputGeneratorTimedStep;
+    pedd[0].pvTarget = pogSpikeSource;
+    pedd[0].pvFunction = OutputGeneratorTimedStep;
 
     //- create output elements
 

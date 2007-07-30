@@ -237,6 +237,10 @@ struct SpikeGenerator
     //m spiking threshold
 
     double dThreshold;
+
+    //m table with targets
+
+    int iTable;
 };
 
 

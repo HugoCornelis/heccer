@@ -1013,7 +1013,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iSource = INT_MAX;
 
-		    int iTable = -1;
+		    int iTable = psg->iTable;
 
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
 
