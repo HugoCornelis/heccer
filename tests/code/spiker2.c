@@ -798,6 +798,10 @@ struct EventDistributorTarget pedt[] =
 	NULL,
 	NULL,
     },
+    {
+	NULL,
+	NULL,
+    },
 };
 
 struct EventDistributorData edd =

@@ -38,17 +38,24 @@
 
 int HeccerEventDistribute(struct EventDistributor *ped, double dTime, int iTargets)
 {
-    //- set default result: failure
+    //- set default result: ok
 
-    int iResult = 0;
+    int iResult = 1;
 
     //- get target table
 
     struct EventDistributorTarget *ppedt = ped->pedd->ppedt[iTargets];
 
-    //- call the target objects
+    while (ppedt && ppedt->pvFunction)
+    {
+	//- call the target object
 
-    iResult = ppedt->pvFunction(ppedt->pvObject, dTime);
+	iResult = iResult && ppedt->pvFunction(ppedt->pvObject, dTime);
+
+	//- next table entry
+
+	ppedt++;
+    }
 
     //- return result
 
