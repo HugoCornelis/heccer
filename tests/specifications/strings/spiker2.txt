@@ -33,6 +33,60 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.065)
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0)
+Heccer (dStep) : (1e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
+00001 :: INITIALIZECHANNEL 0 2.5681e-06
+00002 :: SPRINGMASS -1 (nil) -1 0 0							 0 0
+00003 :: UPDATECOMPARTMENTCURRENT
+00004 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00003)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.065)
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0)
+Heccer (dStep) : (1e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
+00001 :: INITIALIZECHANNEL 0 2.5681e-06
+00002 :: SPRINGMASS -1 (nil) -1 0 0							 0 0
+00003 :: UPDATECOMPARTMENTCURRENT
+00004 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00003)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.065)
 -------
 Iteration 0
 Heccer (iStatus) : (20)
@@ -69,6 +123,60 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0649617)
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (1e-06)
+Heccer (dStep) : (1e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
+00001 :: INITIALIZECHANNEL 0 2.5681e-06
+00002 :: SPRINGMASS -1 (nil) -1 0 0							 0 0
+00003 :: UPDATECOMPARTMENTCURRENT
+00004 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00003)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0650009)
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (1e-06)
+Heccer (dStep) : (1e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
+00001 :: INITIALIZECHANNEL 0 2.5681e-06
+00002 :: SPRINGMASS -1 (nil) -1 0 0							 0 0
+00003 :: UPDATECOMPARTMENTCURRENT
+00004 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00003)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0650009)
 -------
 Final Iteration
 Heccer (iStatus) : (20)
@@ -105,6 +213,60 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0535602)
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.01)
+Heccer (dStep) : (1e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
+00001 :: INITIALIZECHANNEL 0 2.5681e-06
+00002 :: SPRINGMASS -1 (nil) -1 0 0							 0 0
+00003 :: UPDATECOMPARTMENTCURRENT
+00004 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00003)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0718477)
+Heccer (iStatus) : (20)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.01)
+Heccer (dStep) : (1e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
+00001 :: INITIALIZECHANNEL 0 2.5681e-06
+00002 :: SPRINGMASS -1 (nil) -1 0 0							 0 0
+00003 :: UPDATECOMPARTMENTCURRENT
+00004 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00003)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0718477)
 0 -0.0649617
 1 -0.0649234
 2 -0.064885

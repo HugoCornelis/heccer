@@ -500,7 +500,7 @@ struct Compartment compTarget1 =
 
 /*     double dInject;		 */
 
-    2e-9,
+    0.0,
 
 /*     double dRa; */
 
@@ -584,7 +584,6 @@ struct ChannelSpringMass csmTarget1 =
 
 int piC2mTarget1[] =
 {
-    0,
     1,
     -1,
 };
@@ -611,7 +610,7 @@ struct Intermediary interTarget1 =
 {
     //m compartment array
 
-    2,
+    1,
 
     &compTarget1,
 
@@ -663,7 +662,7 @@ struct Compartment compTarget2 =
 
 /*     double dInject;		 */
 
-    2e-9,
+    0.0,
 
 /*     double dRa; */
 
@@ -747,7 +746,6 @@ struct ChannelSpringMass csmTarget2 =
 
 int piC2mTarget2[] =
 {
-    0,
     1,
     -1,
 };
@@ -774,7 +772,7 @@ struct Intermediary interTarget2 =
 {
     //m compartment array
 
-    2,
+    1,
 
     &compTarget2,
 
