@@ -47,6 +47,7 @@ check_PROGRAMS = \
 	singlea-naf \
 	singlep \
 	spiker1 \
+	spiker2 \
 	springmass1 \
 	springmass2 \
 	springmass3 \
@@ -116,6 +117,8 @@ singlep_DEPENDENCIES = ../../libheccer.a main.c
 singlep_LDADD = -L../.. -lheccer -lm
 spiker1_DEPENDENCIES = ../../libheccer.a main.c
 spiker1_LDADD = -L../.. -lheccer -lm
+spiker2_DEPENDENCIES = ../../libheccer.a main.c
+spiker2_LDADD = -L../.. -lheccer -lm
 springmass1_DEPENDENCIES = ../../libheccer.a main.c
 springmass1_LDADD = -L../.. -lheccer -lm
 springmass2_DEPENDENCIES = ../../libheccer.a main.c
