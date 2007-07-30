@@ -792,7 +792,7 @@ struct Intermediary interTarget2 =
 
 #include "heccer/eventdistributor.h"
 
-struct EventDistributorData pedd[] =
+struct EventDistributorTarget pedt[] =
 {
     {
 	NULL,
@@ -800,20 +800,21 @@ struct EventDistributorData pedd[] =
     },
 };
 
-/* struct EventDistributorData *pedd2 = pedd; */
-
-struct EventDistributorData *ppedd[] =
+struct EventDistributorData edd =
 {
-    &pedd,
+    0,
+
+    //m array of targets
+
+    pedt,
 };
 
-/* struct EventDistributorData **ppedd2 = ppedd; */
 
 struct EventDistributor ed =
 {
     //m service specific data
 
-    &ppedd,
+    &edd,
 
     //m distribute an event over the targets
 
@@ -884,8 +885,8 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
-    pedd[0].pvTarget = pogSpikeSource;
-    pedd[0].pvFunction = OutputGeneratorTimedStep;
+    pedt[0].pvObject = pogSpikeSource;
+    pedt[0].pvFunction = OutputGeneratorTimedStep;
 
     //- create output elements
 

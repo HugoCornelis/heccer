@@ -22,22 +22,32 @@
 
 struct EventDistributor;
 
-struct EventDistributorData
+struct EventDistributorTarget
 {
     //m target object
 
-    void *pvTarget;
+    void *pvObject;
 
     //m called function
 
+    //! decouples the event distributor from the target
+
     int (*pvFunction)();
+
 };
 
 
-/* struct EventDistributorFunctions */
-/* { */
-/* }; */
+struct EventDistributorData
+{
+    int iHappy;
 
+    //m array of targets
+
+    struct EventDistributorTarget *ppedt[];
+};
+
+
+//d a event distribution function
 
 typedef int (*EventDistribute)(struct EventDistributor *ped, double dTime, int iTargets);
 
@@ -45,11 +55,11 @@ struct EventDistributor
 {
     //m service specific data
 
-    struct EventDistributorData **ppedd;
+    struct EventDistributorData *pedd;
 
-/*     struct EventDistributorFunctions *pedf; */
+    //m hand an event over to the event distributor
 
-    //m distribute an event over the targets
+    //! decouples the event distributor from the source
 
     EventDistribute eventDistribute;
 
