@@ -49,7 +49,18 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
     //- tell the distributor to distribute the event over the targets
 
-    iResult = ped->eventDistribute(ped, pheccer->dTime, iTargets);
+    if (ped->eventDistribute)
+    {
+	iResult = ped->eventDistribute(ped, pheccer->dTime, iTargets);
+    }
+    else
+    {
+	//t HeccerError(number, message, varargs);
+
+	fprintf
+	    (stderr,
+	     "Heccer the hecc : generating events, but there is no event distribution service.\n");
+    }
 
     //- return result
 

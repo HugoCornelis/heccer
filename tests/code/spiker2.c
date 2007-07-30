@@ -444,7 +444,7 @@ struct MathComponentArray mcaSource =
 };
 
 
-struct Intermediary inter =
+struct Intermediary interSource =
 {
     //m compartment array
 
@@ -814,14 +814,27 @@ struct EventDistributor ed =
 };
 
 
-struct OutputGenerator *pogSpike = NULL;
-struct OutputGenerator * pogVm = NULL;
+struct OutputGenerator *pogSpikeSource = NULL;
+struct OutputGenerator * pogVmSource = NULL;
 
 /* double *pdVm = NULL; */
 
 char pcStep[100] = "";
 
-#include "main.h"
+/* #include "main.h" */
+
+
+/* #define main(argc,argv) not_used(argc,argv) */
+
+
+/* #include "main.c" */
+
+
+//v accessible from the outside if needed
+
+struct Heccer *pheccerSource = NULL;
+struct Heccer *pheccerTarget1 = NULL;
+struct Heccer *pheccerTarget2 = NULL;
 
 
 int main(int argc, char *argv[])
@@ -832,77 +845,82 @@ int main(int argc, char *argv[])
 
     //- determine intermediary size, and allocate
 
-    struct MathComponentInfo *pmciKdr = MathComponentInfoLookup(caKdrSource.mc.iType);
+    struct MathComponentInfo *pmciKdrSource = MathComponentInfoLookup(caKdrSource.mc.iType);
 
-    struct MathComponentInfo *pmciNaF = MathComponentInfoLookup(caiNaFSource.mc.iType);
+    struct MathComponentInfo *pmciNaFSource = MathComponentInfoLookup(caiNaFSource.mc.iType);
 
-    struct MathComponentInfo *pmciSpiker = MathComponentInfoLookup(sgSource.mc.iType);
+    struct MathComponentInfo *pmciSpikerSource = MathComponentInfoLookup(sgSource.mc.iType);
 
-    int iChars = pmciKdr->iChars + pmciNaF->iChars + pmciSpiker->iChars;
+    int iCharsSource = pmciKdrSource->iChars + pmciNaFSource->iChars + pmciSpikerSource->iChars;
 
-    void *pmc = calloc(sizeof(char), iChars);
+    void *pmcSource = calloc(sizeof(char), iCharsSource);
 
     //- prepare the mechanism intermediary
 
-    struct ChannelAct *pcaSource = (struct ChannelAct *)pmc;
+    struct ChannelAct *pcaSource = (struct ChannelAct *)pmcSource;
 
     *pcaSource = caKdrSource;
 
-    struct ChannelActInact *pcaiSource = (struct ChannelActInact *)&((char *)pcaSource)[pmciKdr->iChars];
+    struct ChannelActInact *pcaiSource = (struct ChannelActInact *)&((char *)pcaSource)[pmciKdrSource->iChars];
 
     *pcaiSource = caiNaFSource;
 
-    struct SpikeGenerator *psgSource = (struct SpikeGenerator *)&((char *)pcaiSource)[pmciNaF->iChars];
+    struct SpikeGenerator *psgSource = (struct SpikeGenerator *)&((char *)pcaiSource)[pmciNaFSource->iChars];
 
     *psgSource = sgSource;
 
     //- link the intermediary
 
-    mcaSource.pmc = pmc;
+    mcaSource.pmc = pmcSource;
 
     //- link output generator to the spiking element
 
-    pogSpike = OutputGeneratorNew("/tmp/output_spike");
+    pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
-    edd.pvTarget = pogSpike;
+    edd.pvTarget = pogSpikeSource;
     edf.pvFunction = OutputGeneratorTimedStep;
 
     //- create output elements
 
-    pogVm = OutputGeneratorNew("/tmp/output_vm");
+    pogVmSource = OutputGeneratorNew("/tmp/output_vm_source");
 
 //d prepare output of membrane potential and spikes
 
 #define HECCER_TEST_INITIATE \
-    double *pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");	\
-    OutputGeneratorAddVariable(pogVm, "Vm", pdVm);			\
-    double *pdSpike = HeccerAddressMechanismVariable(pheccer, 2, "spike"); \
-    OutputGeneratorAddVariable(pogSpike, "spike", pdSpike)
+    double *pdVmSource = HeccerAddressCompartmentVariable(pheccerSource, 0, "Vm"); \
+    OutputGeneratorAddVariable(pogVmSource, "Vm", pdVmSource);		\
+    double *pdSpikeSource = HeccerAddressMechanismVariable(pheccerSource, 2, "spike"); \
+    OutputGeneratorAddVariable(pogSpikeSource, "spike", pdSpikeSource)
 
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_OUTPUT \
-    OutputGeneratorAnnotatedStep(pogVm, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+    OutputGeneratorAnnotatedStep(pogVmSource, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
 
     //- allocate the heccer, for the event distributor service
 
-    pheccer = HeccerNew(NULL, &ed);
+    //! the source is constructed overhere and further initialized in simulate(),
+    //! the targets are constructed in simulate() only.  Needs to be cleaned up.
+
+    pheccerSource = HeccerNew(NULL, &ed);
 
     //- do the simulation
+
+    int simulate(int argc, char *argv[]);
 
     simulate(argc,argv);
 
     //- finish the simulation output
 
-    OutputGeneratorFinish(pogVm);
+    OutputGeneratorFinish(pogVmSource);
 
-    OutputGeneratorFinish(pogSpike);
+    OutputGeneratorFinish(pogSpikeSource);
 
     //- add the simulation output to the program output
 
-    WriteOutput("/tmp/output_vm");
+    WriteOutput("/tmp/output_vm_source");
 
-    WriteOutput("/tmp/output_spike");
+    WriteOutput("/tmp/output_spike_source");
 
     //- return result
 
@@ -910,13 +928,311 @@ int main(int argc, char *argv[])
 }
 
 
-#define main(argc,argv) simulate(argc,argv)
+//o To use this file :
+//o
+//o set the variable 'inter' to an intermediary representation,
+//o #define HECCER_TEST_STEPS 1
+//o #define HECCER_TEST_TESTED_THINGS to a dump selection,
+//o and so on for the defines below, when not set they get a
+//o sensible default value.
+//o #include this file, compile, run and parse the output.
+//o
+//o Heccer construction can also be done using the
+//o HECCER_TEST_CONSTRUCT macro, in which case the global variable
+//o pheccer must be preallocated.
+//o
+//o Tests with multiple heccers must not use this file.
+//o
 
-//t this prototype can give warning and perhaps errors.
+#ifndef HECCER_TEST_CONSTRUCT
+#define HECCER_TEST_CONSTRUCT \
+    memcpy(&pheccerSource->inter, &interSource, sizeof(interSource));	\
+    pheccerSource->iStatus = HECCER_STATUS_PHASE_2
+#endif
 
-int main(int argc, char *argv[]);
+#ifndef HECCER_TEST_INITIATE
+#define HECCER_TEST_INITIATE ((void)1)
+#endif
+
+#ifndef HECCER_TEST_INTERVAL_DEFAULT_START
+#define HECCER_TEST_INTERVAL_DEFAULT_START (-0.1)
+#endif
+
+#ifndef HECCER_TEST_INTERVAL_DEFAULT_END
+#define HECCER_TEST_INTERVAL_DEFAULT_END (0.05)
+#endif
+
+#ifndef HECCER_TEST_INTERVAL_DEFAULT_ENTRIES
+#define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES 3000
+#endif
+
+#ifndef HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES
+#define HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES 149
+#endif
+
+#ifndef HECCER_TEST_OUTPUT
+#define HECCER_TEST_OUTPUT ((void)1)
+#endif
+
+#ifndef HECCER_TEST_REPORTING_GRANULARITY
+#define HECCER_TEST_REPORTING_GRANULARITY 1
+#endif
+
+#ifndef HECCER_TEST_STEPS
+#define HECCER_TEST_STEPS 10
+#endif
+
+#ifndef HECCER_TEST_TESTED_THINGS
+#define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
+#endif
+
+#ifndef HECCER_TEST_TIME_STEP
+#define HECCER_TEST_TIME_STEP (2e-5)
+#endif
 
 
-#include "main.c"
+int WriteOutput(char *pcFilename);
+
+int WriteOutput(char *pcFilename)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+    //- copy the file content to stdout
+
+    FILE *pfile = fopen(pcFilename, "r");
+
+    char pc[10000];
+
+    size_t st = fread(pc, sizeof(char), sizeof(pc), pfile);
+
+    while (st == 10000)
+    {
+	fwrite(pc, sizeof(char), st, stdout);
+
+	st = fread(pc, sizeof(char), sizeof(pc), pfile);
+    }
+
+    fwrite(pc, sizeof(char), st, stdout);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+int simulate(int argc, char *argv[]);
+
+int simulate(int argc, char *argv[])
+{
+    //t use argv for heccer options
+
+    //- set default result : ok
+
+    int iResult = EXIT_SUCCESS;
+
+    //- instantiate a heccer with an initialized intermediary
+
+    //! note: test definition is allowed to allocate the heccer, with services.
+
+    if (!pheccerSource)
+    {
+	pheccerSource = HeccerNewP2(&interSource);
+    }
+    else
+    {
+	HECCER_TEST_CONSTRUCT;
+    }
+
+    //- instantiate a heccer with an initialized intermediary
+
+    //! note: test definition is allowed to allocate the heccer, with services.
+
+    if (!pheccerTarget1)
+    {
+	pheccerTarget1 = HeccerNewP2(&interTarget1);
+    }
+
+    //- instantiate a heccer with an initialized intermediary
+
+    //! note: test definition is allowed to allocate the heccer, with services.
+
+    if (!pheccerTarget2)
+    {
+	pheccerTarget2 = HeccerNewP2(&interTarget2);
+    }
+
+    //t need sensible API to set options I guess.
+
+    pheccerSource->dStep = HECCER_TEST_TIME_STEP;
+
+    pheccerSource->ho.dIntervalStart = HECCER_TEST_INTERVAL_DEFAULT_START;
+
+    pheccerSource->ho.dIntervalEnd = HECCER_TEST_INTERVAL_DEFAULT_END;
+
+    //t should set test defaults for basal activator tables.
+
+/*     pheccerSource->ho.dBasalActivatorStart = HECCER_TEST_INTERVAL_DEFAULT_START; */
+
+/*     pheccerSource->ho.dBasalActivatorEnd = HECCER_TEST_INTERVAL_DEFAULT_END; */
+
+    pheccerSource->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
+
+    pheccerSource->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
+
+    //- build indices for optimization
+
+    HeccerCompileP2(pheccerSource);
+
+    //- compile to byte code
+
+    HeccerCompileP3(pheccerSource);
+
+    //- initiate values
+
+    HeccerInitiate(pheccerSource);
+
+    //t need sensible API to set options I guess.
+
+    pheccerTarget1->dStep = HECCER_TEST_TIME_STEP;
+
+    pheccerTarget1->ho.dIntervalStart = HECCER_TEST_INTERVAL_DEFAULT_START;
+
+    pheccerTarget1->ho.dIntervalEnd = HECCER_TEST_INTERVAL_DEFAULT_END;
+
+    //t should set test defaults for basal activator tables.
+
+/*     pheccerTarget1->ho.dBasalActivatorStart = HECCER_TEST_INTERVAL_DEFAULT_START; */
+
+/*     pheccerTarget1->ho.dBasalActivatorEnd = HECCER_TEST_INTERVAL_DEFAULT_END; */
+
+    pheccerTarget1->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
+
+    pheccerTarget1->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
+
+    //- build indices for optimization
+
+    HeccerCompileP2(pheccerTarget1);
+
+    //- compile to byte code
+
+    HeccerCompileP3(pheccerTarget1);
+
+    //- initiate values
+
+    HeccerInitiate(pheccerTarget1);
+
+    //t need sensible API to set options I guess.
+
+    pheccerTarget2->dStep = HECCER_TEST_TIME_STEP;
+
+    pheccerTarget2->ho.dIntervalStart = HECCER_TEST_INTERVAL_DEFAULT_START;
+
+    pheccerTarget2->ho.dIntervalEnd = HECCER_TEST_INTERVAL_DEFAULT_END;
+
+    //t should set test defaults for basal activator tables.
+
+/*     pheccerTarget2->ho.dBasalActivatorStart = HECCER_TEST_INTERVAL_DEFAULT_START; */
+
+/*     pheccerTarget2->ho.dBasalActivatorEnd = HECCER_TEST_INTERVAL_DEFAULT_END; */
+
+    pheccerTarget2->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
+
+    pheccerTarget2->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
+
+    //- build indices for optimization
+
+    HeccerCompileP2(pheccerTarget2);
+
+    //- compile to byte code
+
+    HeccerCompileP3(pheccerTarget2);
+
+    //- initiate values
+
+    HeccerInitiate(pheccerTarget2);
+
+    //- initialize test specific things
+
+    HECCER_TEST_INITIATE;
+
+    //- initial dump
+
+    //! funny : the first '---' in the output are taken as an option
+    //! by Expect.pm, which complicates testing a bit.  So just
+    //! removed.
+
+/*     fprintf(stdout, "-------\n"); */
+
+    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Initiated\n");
+
+    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
+
+    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget1, stdout, HECCER_TEST_TESTED_THINGS);
+
+    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget2, stdout, HECCER_TEST_TESTED_THINGS);
+
+    //v final report needed ?
+
+    int iFinalReport = 0;
+
+    //- a couple of times
+
+    int i;
+
+    for (i = 0; i < HECCER_TEST_STEPS ; i++)
+    {
+	//- step
+
+	HeccerHecc(pheccerSource);
+
+	HeccerHecc(pheccerTarget1);
+
+	HeccerHecc(pheccerTarget2);
+
+	//- generate user specified output
+
+	HECCER_TEST_OUTPUT;
+
+	//- dump
+
+	if (i % HECCER_TEST_REPORTING_GRANULARITY == 0)
+	{
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
+
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Iteration %i\n", i);
+
+	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
+
+	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget1, stdout, HECCER_TEST_TESTED_THINGS);
+
+	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget2, stdout, HECCER_TEST_TESTED_THINGS);
+	}
+	else
+	{
+	    iFinalReport = 1;
+	}
+    }
+
+    //- add a final report if necessary
+
+    if (iFinalReport)
+    {
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
+
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Final Iteration\n", i);
+
+	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
+
+	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget1, stdout, HECCER_TEST_TESTED_THINGS);
+
+	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget2, stdout, HECCER_TEST_TESTED_THINGS);
+    }
+
+    //- return result
+
+    return(iResult);
+}
 
 

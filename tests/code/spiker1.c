@@ -24,6 +24,9 @@
 #include "../../heccer/output.h"
 
 
+#define HECCER_TEST_CONSTRUCT \
+    memcpy(&pheccer->inter, &inter, sizeof(inter));	\
+    pheccer->iStatus = HECCER_STATUS_PHASE_2
 #define HECCER_TEST_REPORTING_GRANULARITY 10000
 #define HECCER_TEST_STEPS 10000
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
