@@ -423,7 +423,7 @@ struct SpikeGenerator sg =
 
     //m table with targets
 
-    -1,
+    0,
 };
 
 

@@ -44,7 +44,7 @@ int HeccerEventDistribute(struct EventDistributor *ped, double dTime, int iTarge
 
     //- get target table
 
-    struct EventDistributorTarget *ppedt = ped->pedd->ppedt[0];
+    struct EventDistributorTarget *ppedt = ped->pedd->ppedt[iTargets];
 
     //- call the target objects
 

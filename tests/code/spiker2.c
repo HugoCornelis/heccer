@@ -420,7 +420,7 @@ struct SpikeGenerator sgSource =
 
     //m table with targets
 
-    -1,
+    0,
 };
 
 
