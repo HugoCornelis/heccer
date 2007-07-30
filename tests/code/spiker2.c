@@ -462,7 +462,7 @@ struct Intermediary inter =
 };
 
 
-struct Compartment compTarget =
+struct Compartment compTarget1 =
 {
     //m administrative overhead
 
@@ -509,6 +509,282 @@ struct Compartment compTarget =
 /*     double dRm; */
 
     3.58441e+08, // unscaled 1
+};
+
+
+//s spring mass channel (synaptic channel)
+
+struct ChannelSpringMass csmTarget1 =
+{
+    //m administrative overhead
+
+    {
+	//m type of structure
+
+	MATH_TYPE_ChannelSpringMass,
+    },
+
+    //m initial reversal potential
+
+    0.0,
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
+
+    //m maximal conductance
+
+    6.87071723162637e-10,
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    -1,
+
+    //m random activation frequency
+
+    0.0,
+
+    //m first exponential initial value
+
+    0.0,
+
+    //m second exponential initial value
+
+    0.0,
+
+    //m corresponding index in tables, set to -1 for initialization.
+
+    -1,
+
+    //m event time table (FLT_MAX terminated)
+
+    NULL,
+
+    //m yaml file with event time table, the previous must be NULL.
+
+    //! during compilation, the file is converted to a double array
+    //! and fills the previous entry.
+
+    NULL,
+
+    //m parameters
+
+    {
+	//m first time constant
+
+	5e-4,
+
+	//m second time constant
+
+	1.2e-3,
+    },
+
+};
+
+
+int piC2mTarget1[] =
+{
+    0,
+    1,
+    -1,
+};
+
+
+struct MathComponentArray mcaTarget1 =
+{
+    //m number of math components
+
+    1,
+
+    //m math component data
+
+    &csmTarget1.mc,
+
+    //m math component index, initialize to NULL
+
+    NULL,
+
+};
+
+
+struct Intermediary interTarget1 =
+{
+    //m compartment array
+
+    2,
+
+    &compTarget1,
+
+    //m all other mathematical components
+
+    &mcaTarget1,
+
+    //m compartment 2 first mechanism number
+
+    piC2mTarget1,
+};
+
+
+struct Compartment compTarget2 =
+{
+    //m administrative overhead
+
+    {
+	//m type of structure
+
+	MATH_TYPE_Compartment,
+    },
+
+    //m index of parent compartment, -1 for none
+
+    -1,
+
+/*     //m first mechanism */
+
+/*     NULL, */
+
+/*     //m number of mechanisms */
+
+/*     0, */
+
+    //m descriptive values, alphabetical order
+
+/*     double dCm; */
+
+    4.57537e-11, // unscaled 0.0164,
+
+/*     double dEm; */
+
+    -0.08,
+
+/*     double dInitVm; */
+
+    -0.065,
+
+/*     double dInject;		 */
+
+    2e-9,
+
+/*     double dRa; */
+
+    360502, // unscaled 2.5,
+
+/*     double dRm; */
+
+    3.58441e+08, // unscaled 1
+};
+
+
+//s spring mass channel (synaptic channel)
+
+struct ChannelSpringMass csmTarget2 =
+{
+    //m administrative overhead
+
+    {
+	//m type of structure
+
+	MATH_TYPE_ChannelSpringMass,
+    },
+
+    //m initial reversal potential
+
+    0.0,
+
+    //m get reversal potential from this intermediary, -1 for none
+
+    -1,
+
+    //m maximal conductance
+
+    6.87071723162637e-10,
+
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    -1,
+
+    //m random activation frequency
+
+    0.0,
+
+    //m first exponential initial value
+
+    0.0,
+
+    //m second exponential initial value
+
+    0.0,
+
+    //m corresponding index in tables, set to -1 for initialization.
+
+    -1,
+
+    //m event time table (FLT_MAX terminated)
+
+    NULL,
+
+    //m yaml file with event time table, the previous must be NULL.
+
+    //! during compilation, the file is converted to a double array
+    //! and fills the previous entry.
+
+    NULL,
+
+    //m parameters
+
+    {
+	//m first time constant
+
+	5e-4,
+
+	//m second time constant
+
+	1.2e-3,
+    },
+
+};
+
+
+int piC2mTarget2[] =
+{
+    0,
+    1,
+    -1,
+};
+
+
+struct MathComponentArray mcaTarget2 =
+{
+    //m number of math components
+
+    1,
+
+    //m math component data
+
+    &csmTarget2.mc,
+
+    //m math component index, initialize to NULL
+
+    NULL,
+
+};
+
+
+struct Intermediary interTarget2 =
+{
+    //m compartment array
+
+    2,
+
+    &compTarget2,
+
+    //m all other mathematical components
+
+    &mcaTarget2,
+
+    //m compartment 2 first mechanism number
+
+    piC2mTarget2,
 };
 
 

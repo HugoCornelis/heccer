@@ -37,6 +37,18 @@ struct Heccer *pheccer = NULL;
 //o sensible default value.
 //o #include this file, compile, run and parse the output.
 //o
+//o Heccer construction can also be done using the
+//o HECCER_TEST_CONSTRUCT macro, in which case the global variable
+//o pheccer must be preallocated.
+//o
+//o Tests with multiple heccers must not use this file.
+//o
+
+#ifndef HECCER_TEST_CONSTRUCT
+#define HECCER_TEST_CONSTRUCT \
+    memcpy(&pheccer->inter, &inter, sizeof(inter));	\
+    pheccer->iStatus = HECCER_STATUS_PHASE_2
+#endif
 
 #ifndef HECCER_TEST_INITIATE
 #define HECCER_TEST_INITIATE ((void)1)
@@ -126,14 +138,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-	//! quite dirty, ok for testing I assume
-
-	memcpy(&pheccer->inter, &inter, sizeof(inter));
-
-	//- set new status
-
-	pheccer->iStatus = HECCER_STATUS_PHASE_2;
-
+	HECCER_TEST_CONSTRUCT;
     }
 
     //t need sensible API to set options I guess.
