@@ -46,11 +46,11 @@ int HeccerEventDistribute(struct EventDistributor *ped, double dTime, int iTarge
 
     struct EventDistributorData *pedd = ped->pedd;
 
-    struct EventDistributorFunctions *pedf = ped->pedf;
+/*     struct EventDistributorFunctions *pedf = ped->pedf; */
 
     //- call the target object
 
-    iResult = pedf->pvFunction(ped->pedd->pvTarget, dTime);
+    iResult = pedd->pvFunction(pedd->pvTarget, dTime);
 
     //- return result
 

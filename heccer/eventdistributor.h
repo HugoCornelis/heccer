@@ -20,20 +20,23 @@
 #define HECCER_EVENT_DISTRIBUTOR_H
 
 
-/* struct Heccer; */
-
 struct EventDistributor;
 
 struct EventDistributorData
 {
+    //m target object
+
     void *pvTarget;
-};
 
+    //m called function
 
-struct EventDistributorFunctions
-{
     int (*pvFunction)();
 };
+
+
+/* struct EventDistributorFunctions */
+/* { */
+/* }; */
 
 
 typedef int (*EventDistribute)(struct EventDistributor *ped, double dTime, int iTargets);
@@ -44,7 +47,7 @@ struct EventDistributor
 
     struct EventDistributorData *pedd;
 
-    struct EventDistributorFunctions *pedf;
+/*     struct EventDistributorFunctions *pedf; */
 
     //m distribute an event over the targets
 

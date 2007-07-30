@@ -470,12 +470,13 @@ struct Intermediary inter =
 struct EventDistributorData edd =
 {
     NULL,
-};
-
-struct EventDistributorFunctions edf =
-{
     NULL,
 };
+
+/* struct EventDistributorFunctions edf = */
+/* { */
+/*     NULL, */
+/* }; */
 
 struct EventDistributor ed =
 {
@@ -483,7 +484,7 @@ struct EventDistributor ed =
 
     &edd,
 
-    &edf,
+/*     &edf, */
 
     //m distribute an event over the targets
 
@@ -542,7 +543,7 @@ int main(int argc, char *argv[])
     pogSpike = OutputGeneratorNew("/tmp/output_spike");
 
     edd.pvTarget = pogSpike;
-    edf.pvFunction = OutputGeneratorTimedStep;
+    edd.pvFunction = OutputGeneratorTimedStep;
 
     //- create output elements
 
