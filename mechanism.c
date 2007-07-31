@@ -355,7 +355,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteSource, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
 
-		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY);
+		    double dDiscreteSource = -1.0;
+
+		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY, dDiscreteSource);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1857,7 +1859,34 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    }
 		}
 
-		//t iDiscreteSource
+		//- if there is an incoming event from the event distributor
+
+		if (pmats->dDiscreteSource != -1.0
+		    && pmats->dDiscreteSource < pheccer->dTime)
+		{
+/* 		    //- get pointer to event queuer */
+
+/* 		    struct EventQueuer *peq = pheccer->peq; */
+
+/* 		    //- ask for incoming event */
+
+/* 		    double dActivation = ped->eventReceive(ped, pheccer->dTime, pmops->iDiscreteSource); */
+
+/* 		    if (dActivation != -1) */
+/* 		    { */
+/* 			//t add the event activation to the channel activation */
+/* 		    } */
+/* 		    else */
+/* 		    { */
+/* 			fprintf(stderr, "Heccer the hecc : event reception failed for () at time %g\n", pheccer->dTime);  */
+
+/* 			return(0); */
+/* 		    } */
+
+		    //- reset the incoming event time
+
+		    pmats->dDiscreteSource = -1.0;
+		}
 
 		//- compute channel activation
 
