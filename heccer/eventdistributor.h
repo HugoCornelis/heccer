@@ -39,6 +39,10 @@ struct EventDistributorTarget
 
     void *pvObject;
 
+    //m target identier
+
+    int iTarget;
+
     //m called function
 
     //! decouples the event distributor from the target
@@ -106,7 +110,7 @@ struct EventQueuerData
 
     //m array of targets
 
-    struct EventQueuerTarget *ppedt[];
+    struct EventQueuerTarget *ppeqt[];
 };
 
 
@@ -118,7 +122,7 @@ struct EventQueuer
 {
     //m service specific data
 
-    struct EventQueuerData *pedd;
+    struct EventQueuerData *peqd;
 
     //m hand an event over to the event queuer
 
@@ -137,9 +141,18 @@ struct EventQueuer
 
 //f prototypes
 
-/* extern EventDistribute HeccerEventDistribute; */
+/* extern EventDistribute EventDistributorSend; */
 
-int HeccerEventDistribute(struct EventDistributor *ped, double dTime, int iTargets);
+int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets);
+
+
+/* extern EventQueue EventQueuerQueue ; */
+
+int EventQueuerQueue(struct EventQueuer *peq, double dTime, int iTargets);
+
+/* extern EventQueue EventQueuerReceive ; */
+
+int EventQueuerReceive(struct EventQueuer *peq, double dTime, int iTargets);
 
 
 #endif

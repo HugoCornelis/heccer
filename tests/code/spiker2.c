@@ -794,12 +794,40 @@ struct Intermediary interTarget2 =
 
 struct EventDistributorTarget pedt[] =
 {
+    //! for HeccerOutput object
+
     {
 	NULL,
+	-1,
+	NULL,
+    },
+
+    //! for target heccer 1
+
+    {
+	NULL,
+	-1,
+	NULL,
+    },
+
+    //! for target heccer 2
+
+    {
+	NULL,
+	-1,
+	NULL,
+    },
+
+    //! terminator
+
+    {
+	NULL,
+	-1,
 	NULL,
     },
     {
 	NULL,
+	-1,
 	NULL,
     },
 };
@@ -822,7 +850,66 @@ struct EventDistributor ed =
 
     //m distribute an event over the targets
 
-    HeccerEventDistribute,
+    EventDistributorSend,
+};
+
+
+struct EventQueuerTarget peqt[] =
+{
+    //! for target heccer 1
+
+    {
+	0,
+	NULL,
+    },
+
+    //! for target heccer 2
+
+    {
+	0,
+	NULL,
+    },
+
+    //! terminator
+
+    {
+	0,
+	NULL,
+    },
+    {
+	0,
+	NULL,
+    },
+};
+
+struct EventQueuerData eqd =
+{
+    0,
+
+    //m array of targets
+
+    peqt,
+};
+
+
+struct EventQueuer eq =
+{
+    //m service specific data
+
+    &eqd,
+
+    //m hand an event over to the event queuer
+
+    //! decouples the event queuer from the source
+
+    EventQueuerQueue,
+
+    //m forward an event from queuer to receiver
+
+    //! decouples the event queuer from the receiver
+
+    EventQueuerReceive,
+
 };
 
 
@@ -885,12 +972,24 @@ int main(int argc, char *argv[])
 
     mcaSource.pmc = pmcSource;
 
-    //- link output generator to the spiking element
+    //- link spiking element to output generator
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
     pedt[0].pvObject = pogSpikeSource;
     pedt[0].pvFunction = OutputGeneratorTimedStep;
+
+    //- link spiking element to springmass of target 1
+
+    pedt[1].pvObject = &peqt[0];
+    pedt[1].pvObject = &eq;
+    pedt[1].pvFunction = EventQueuerQueue;
+
+    //- link spiking element to springmass of target 2
+
+    pedt[2].pvObject = &peqt[1];
+    pedt[2].pvObject = &eq;
+    pedt[2].pvFunction = EventQueuerQueue;
 
     //- create output elements
 

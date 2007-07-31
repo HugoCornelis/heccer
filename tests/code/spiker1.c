@@ -475,10 +475,12 @@ struct EventDistributorTarget pedt[] =
 {
     {
 	NULL,
+	-1,
 	NULL,
     },
     {
 	NULL,
+	-1,
 	NULL,
     },
 };
@@ -501,7 +503,7 @@ struct EventDistributor ed =
 
     //m distribute an event over the targets
 
-    HeccerEventDistribute,
+    EventDistributorSend,
 };
 
 
@@ -551,7 +553,7 @@ int main(int argc, char *argv[])
 
     mca.pmc = pmc;
 
-    //- link output generator to the spiking element
+    //- link spiking element to output generator
 
     pogSpike = OutputGeneratorNew("/tmp/output_spike");
 
