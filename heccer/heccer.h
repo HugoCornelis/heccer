@@ -159,6 +159,20 @@ struct Heccer
 
     struct EventDistributor *ped;
 
+    //m event reception service: receive an event, and queue till it fires
+
+    //! so to use this feature: define your event reception service, and
+    //! set it during the construction of your heccer.
+
+    //! wouldn't be surprised that I need several layers of services,
+    //! will see if that has repercussion at this low level or not.
+    //!
+    //! for the moment we have a function layer, which is fixed, and
+    //! a data layer, which is opaque.  The function layer defines the
+    //! real interface.
+
+    struct EventQueuer *peq;
+
     //m intermediary
 
     struct Intermediary inter;

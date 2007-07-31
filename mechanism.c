@@ -1864,24 +1864,22 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		if (pmats->dDiscreteSource != -1.0
 		    && pmats->dDiscreteSource < pheccer->dTime)
 		{
-/* 		    //- get pointer to event queuer */
+		    //- translate incoming events to their activation
 
-/* 		    struct EventQueuer *peq = pheccer->peq; */
+		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteSource);
 
-/* 		    //- ask for incoming event */
+		    if (dActivation != -1)
+		    {
+			//t add the event activation to the channel activation
+		    }
+		    else
+		    {
+			//t HeccerError(number, message, varargs);
 
-/* 		    double dActivation = ped->eventReceive(ped, pheccer->dTime, pmops->iDiscreteSource); */
+			fprintf(stderr, "Heccer the hecc : event reception failed for () at time %g\n", pheccer->dTime); 
 
-/* 		    if (dActivation != -1) */
-/* 		    { */
-/* 			//t add the event activation to the channel activation */
-/* 		    } */
-/* 		    else */
-/* 		    { */
-/* 			fprintf(stderr, "Heccer the hecc : event reception failed for () at time %g\n", pheccer->dTime);  */
-
-/* 			return(0); */
-/* 		    } */
+			return(0);
+		    }
 
 		    //- reset the incoming event time
 
