@@ -42,7 +42,7 @@ int HeccerEventDistribute(struct EventDistributor *ped, double dTime, int iTarge
 
     int iResult = 1;
 
-    //- get target table
+    //- loop over target table
 
     struct EventDistributorTarget *ppedt = ped->pedd->ppedt[iTargets];
 
