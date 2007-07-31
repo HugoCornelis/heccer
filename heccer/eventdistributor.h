@@ -95,6 +95,10 @@ struct EventQueuerTarget
 
     int iTarget;
 
+    //m connection delay
+
+    double dDelay;
+
     //m called function
 
     //! decouples the event distributor from the target

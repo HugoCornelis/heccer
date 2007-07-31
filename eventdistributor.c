@@ -107,9 +107,13 @@ int EventQueuerQueue(struct EventQueuer *peq, double dTime, int iTarget)
 
 	while (ppeqt && ppeqt->pvFunction)
 	{
+	    //- add connection delay
+
+	    double dEvent = dTime + ppeqt->dDelay;
+
 	    //- call the target object
 
-	    iResult = iResult && ppeqt->pvFunction(ppeqt->iTarget, dTime);
+	    iResult = iResult && ppeqt->pvFunction(ppeqt->iTarget, dEvent);
 
 	    //- next table entry
 

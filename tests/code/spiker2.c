@@ -860,6 +860,7 @@ struct EventQueuerTarget peqt[] =
 
     {
 	0,
+	0.0,
 	NULL,
     },
 
@@ -867,6 +868,7 @@ struct EventQueuerTarget peqt[] =
 
     {
 	0,
+	0.0,
 	NULL,
     },
 
@@ -874,10 +876,12 @@ struct EventQueuerTarget peqt[] =
 
     {
 	0,
+	-1.0,
 	NULL,
     },
     {
 	0,
+	0.0,
 	NULL,
     },
 };
