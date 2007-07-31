@@ -85,7 +85,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 ///
 /// **************************************************************************
 
-double HeccerEventReceive(struct Heccer *pheccer, int iSource)
+double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
 {
     //- set default result: failure
 

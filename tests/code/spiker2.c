@@ -983,12 +983,14 @@ int main(int argc, char *argv[])
 
     pedt[1].pvObject = &peqt[0];
     pedt[1].pvObject = &eq;
+    pedt[1].iTarget = 0;
     pedt[1].pvFunction = EventQueuerQueue;
 
     //- link spiking element to springmass of target 2
 
     pedt[2].pvObject = &peqt[1];
     pedt[2].pvObject = &eq;
+    pedt[2].iTarget = 0;
     pedt[2].pvFunction = EventQueuerQueue;
 
     //- create output elements

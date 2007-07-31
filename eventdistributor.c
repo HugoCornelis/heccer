@@ -95,19 +95,26 @@ int EventQueuerQueue(struct EventQueuer *peq, double dTime, int iTarget)
     //t 3. link heccer with the entry, or better do the scheduling external, so link with ssp
     //t 4. done ?
 
-    //- loop over target table
+    //- if there is a valid target
 
-    struct EventQueuerTarget *ppeqt = peq->peqd->ppeqt[iTarget];
+    //! guess I will have to get rid of this check.
 
-    while (ppeqt && ppeqt->pvFunction)
+    if (iTarget != -1)
     {
-	//- call the target object
+	//- loop over target table
 
-	iResult = iResult && ppeqt->pvFunction(ppeqt->iTarget, dTime);
+	struct EventQueuerTarget *ppeqt = peq->peqd->ppeqt[iTarget];
 
-	//- next table entry
+	while (ppeqt && ppeqt->pvFunction)
+	{
+	    //- call the target object
 
-	ppeqt++;
+	    iResult = iResult && ppeqt->pvFunction(ppeqt->iTarget, dTime);
+
+	    //- next table entry
+
+	    ppeqt++;
+	}
     }
 
     //- return result

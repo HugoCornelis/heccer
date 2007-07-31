@@ -353,7 +353,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iDiscreteSource = -1;
 
-		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteSource, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
+		    int iDiscreteTarget = -1;
+
+		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteSource, iDiscreteTarget, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
 
 		    double dDiscreteSource = -1.0;
 
@@ -1866,7 +1868,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		{
 		    //- translate incoming events to their activation
 
-		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteSource);
+		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteSource, pmops->iDiscreteTarget);
 
 		    if (dActivation != -1)
 		    {
