@@ -136,9 +136,9 @@ double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
 
 int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
 {
-    //- set default result: failure
+    //- set default result: ok
 
-    int iResult = 0;
+    int iResult = 1;
 
     //- get type specific data
 

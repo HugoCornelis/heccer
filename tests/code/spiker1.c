@@ -579,7 +579,7 @@ int main(int argc, char *argv[])
 
     //- allocate the heccer, for the event distributor service
 
-    pheccer = HeccerNew(NULL, &ed);
+    pheccer = HeccerNew(NULL, &ed, NULL);
 
     //- do the simulation
 

@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/07/27) Friday, July 27, 2007 11:41:33 hugo";
+static char *pcVersionTime="(07/08/01) Wednesday, August 1, 2007 14:30:07 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -512,6 +512,7 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///
 ///	pts....: translation service.
 ///	ped....: event distribution service.
+///	peq....: event queuing service.
 ///
 /// RTN..: struct Heccer *
 ///
@@ -525,7 +526,10 @@ int HeccerInitiate(struct Heccer *pheccer)
 /// **************************************************************************
 
 struct Heccer *
-HeccerNew(struct TranslationService *pts, struct EventDistributor *ped)
+HeccerNew
+(struct TranslationService *pts,
+ struct EventDistributor *ped,
+ struct EventQueuer *peq)
 {
     //- set result : initialized heccer
 
@@ -534,6 +538,7 @@ HeccerNew(struct TranslationService *pts, struct EventDistributor *ped)
 	  (
 	      pts,
 	      ped,
+	      peq,
 	      0, // HECCER_OPTION_LOGICAL_BRANCH_SCHEDULING,
 	      2e-5
 	      );
@@ -552,6 +557,7 @@ HeccerNew(struct TranslationService *pts, struct EventDistributor *ped)
 ///
 ///	pts......: identification service.
 ///	ped......: event distribution service.
+///	peq......: event queuing service.
 ///	iOptions.: see heccer.h.
 ///	dStep....: required time step (from the time constants of the model).
 ///
@@ -567,6 +573,7 @@ struct Heccer *
 HeccerNewP1
 (struct TranslationService *pts,
  struct EventDistributor *ped,
+ struct EventQueuer *peq,
  int iOptions,
  double dStep)
 {
@@ -587,6 +594,10 @@ HeccerNewP1
     //- set event distribution service
 
     pheccerResult->ped = ped;
+
+    //- set event queuing service
+
+    pheccerResult->peq = peq;
 
     //- set options and time step
 
@@ -636,7 +647,7 @@ struct Heccer *HeccerNewP2(struct Intermediary *pinter)
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult = HeccerNew(NULL, NULL);
+    struct Heccer *pheccerResult = HeccerNew(NULL, NULL, NULL);
 
     //- link in intermediary
 

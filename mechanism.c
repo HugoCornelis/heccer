@@ -2365,6 +2365,14 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			    int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
 
+			    if (!iResult)
+			    {
+				//t HeccerError(number, message, varargs);
+
+				fprintf
+				    (stderr,
+				     "Heccer the hecc : spike generation failed at time (%g)\n", pheccer->dTime);
+			    }
 			}
 		    }
 		}

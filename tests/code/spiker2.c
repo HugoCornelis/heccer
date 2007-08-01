@@ -866,7 +866,7 @@ struct EventQueuerTarget peqt[] =
 
 	//m target object, an index into a array of double ?
 
-	0,
+	4,
 
 	//m connection delay
 
@@ -886,7 +886,7 @@ struct EventQueuerTarget peqt[] =
 
 	//m target object, an index into a array of double ?
 
-	0,
+	4,
 
 	//m connection delay
 
@@ -1075,7 +1075,11 @@ int main(int argc, char *argv[])
     //! the source is constructed overhere and further initialized in simulate(),
     //! the targets are constructed in simulate() only.  Needs to be cleaned up.
 
-    pheccerSource = HeccerNew(NULL, &ed);
+    pheccerSource = HeccerNew(NULL, &ed, NULL);
+
+    pheccerTarget1 = HeccerNew(NULL, NULL, &eq);
+
+    pheccerTarget2 = HeccerNew(NULL, NULL, &eq);
 
     //- do the simulation
 
@@ -1117,10 +1121,22 @@ int main(int argc, char *argv[])
 //o Tests with multiple heccers must not use this file.
 //o
 
-#ifndef HECCER_TEST_CONSTRUCT
-#define HECCER_TEST_CONSTRUCT \
+#ifndef HECCER_TEST_CONSTRUCT_SOURCE
+#define HECCER_TEST_CONSTRUCT_SOURCE \
     memcpy(&pheccerSource->inter, &interSource, sizeof(interSource));	\
     pheccerSource->iStatus = HECCER_STATUS_PHASE_2
+#endif
+
+#ifndef HECCER_TEST_CONSTRUCT_TARGET1
+#define HECCER_TEST_CONSTRUCT_TARGET1 \
+    memcpy(&pheccerTarget1->inter, &interTarget1, sizeof(interTarget1));	\
+    pheccerTarget1->iStatus = HECCER_STATUS_PHASE_2
+#endif
+
+#ifndef HECCER_TEST_CONSTRUCT_TARGET2
+#define HECCER_TEST_CONSTRUCT_TARGET2 \
+    memcpy(&pheccerTarget2->inter, &interTarget2, sizeof(interTarget2));	\
+    pheccerTarget2->iStatus = HECCER_STATUS_PHASE_2
 #endif
 
 #ifndef HECCER_TEST_INITIATE
@@ -1215,7 +1231,7 @@ int simulate(int argc, char *argv[])
     }
     else
     {
-	HECCER_TEST_CONSTRUCT;
+	HECCER_TEST_CONSTRUCT_SOURCE;
     }
 
     //- instantiate a heccer with an initialized intermediary
@@ -1226,6 +1242,10 @@ int simulate(int argc, char *argv[])
     {
 	pheccerTarget1 = HeccerNewP2(&interTarget1);
     }
+    else
+    {
+	HECCER_TEST_CONSTRUCT_TARGET1;
+    }
 
     //- instantiate a heccer with an initialized intermediary
 
@@ -1234,6 +1254,10 @@ int simulate(int argc, char *argv[])
     if (!pheccerTarget2)
     {
 	pheccerTarget2 = HeccerNewP2(&interTarget2);
+    }
+    else
+    {
+	HECCER_TEST_CONSTRUCT_TARGET2;
     }
 
     //t need sensible API to set options I guess.

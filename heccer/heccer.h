@@ -271,12 +271,14 @@ int HeccerInitiate(struct Heccer *pheccer);
 struct Heccer *
 HeccerNew
 (struct TranslationService *pts,
- struct EventDistributor *ped);
+ struct EventDistributor *ped,
+ struct EventQueuer *peq);
 
 struct Heccer *
 HeccerNewP1
 (struct TranslationService *pts,
  struct EventDistributor *ped,
+ struct EventQueuer *peq,
  int iOptions,
  double dStep);
 
