@@ -91,7 +91,11 @@ struct EventQueuer;
 
 struct EventQueuerTarget
 {
-    //m target object, an index into a array of double ?
+    //m target object, a solver or so
+
+    void *pvObject;
+
+    //m target site, an index into a array of double ?
 
     int iTarget;
 

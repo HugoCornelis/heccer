@@ -20,6 +20,7 @@
 
 #include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
+#include "../../heccer/event.h"
 #include "../../heccer/heccer.h"
 #include "../../heccer/output.h"
 
@@ -859,29 +860,80 @@ struct EventQueuerTarget peqt[] =
     //! for target heccer 1
 
     {
-	0,
-	0.0,
+	//m target object, a solver or so
+
 	NULL,
+
+	//m target object, an index into a array of double ?
+
+	0,
+
+	//m connection delay
+
+	0.001,
+
+	//m called function
+
+	HeccerEventSet,
     },
 
     //! for target heccer 2
 
     {
+	//m target object, a solver or so
+
+	NULL,
+
+	//m target object, an index into a array of double ?
+
 	0,
-	0.0,
+
+	//m connection delay
+
+	0.002,
+
+	//m called function
+
+	HeccerEventSet,
+    },
+
+    //! terminator
+
+    {
+	//m target object, a solver or so
+
+	NULL,
+
+	//m target object, an index into a array of double ?
+
+	0,
+
+	//m connection delay
+
+	-1.0,
+
+	//m called function
+
 	NULL,
     },
 
     //! terminator
 
     {
-	0,
-	-1.0,
+	//m target object, a solver or so
+
 	NULL,
-    },
-    {
+
+	//m target object, an index into a array of double ?
+
 	0,
+
+	//m connection delay
+
 	0.0,
+
+	//m called function
+
 	NULL,
     },
 };
@@ -985,12 +1037,16 @@ int main(int argc, char *argv[])
 
     //- link spiking element to springmass of target 1
 
+    //! see also below, same developer comment
+
     pedt[1].pvObject = &peqt[0];
     pedt[1].pvObject = &eq;
     pedt[1].iTarget = 0;
     pedt[1].pvFunction = EventQueuerQueue;
 
     //- link spiking element to springmass of target 2
+
+    //! see also below, same developer comment
 
     pedt[2].pvObject = &peqt[1];
     pedt[2].pvObject = &eq;
@@ -1269,6 +1325,18 @@ int simulate(int argc, char *argv[])
     //- initiate values
 
     HeccerInitiate(pheccerTarget2);
+
+    //- link spiking element to springmass of target 1
+
+    //! see also above, same developer comment
+
+    peqt[0].pvObject = pheccerTarget1;
+
+    //- link spiking element to springmass of target 2
+
+    //! see also above, same developer comment
+
+    peqt[1].pvObject = pheccerTarget2;
 
     //- initialize test specific things
 

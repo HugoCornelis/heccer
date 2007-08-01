@@ -357,9 +357,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteSource, iDiscreteTarget, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
 
-		    double dDiscreteSource = -1.0;
+		    double dNextEvent = -1.0;
 
-		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY, dDiscreteSource);
+		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1863,8 +1863,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- if there is an incoming event from the event distributor
 
-		if (pmats->dDiscreteSource != -1.0
-		    && pmats->dDiscreteSource < pheccer->dTime)
+		if (pmats->dNextEvent != -1.0
+		    && pmats->dNextEvent < pheccer->dTime)
 		{
 		    //- translate incoming events to their activation
 
@@ -1885,7 +1885,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    //- reset the incoming event time
 
-		    pmats->dDiscreteSource = -1.0;
+		    pmats->dNextEvent = -1.0;
 		}
 
 		//- compute channel activation

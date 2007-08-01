@@ -239,7 +239,7 @@ struct MatsSpringMass
 {
     //m time to next event from source
 
-    double dDiscreteSource;
+    double dNextEvent;
 
     //m two activation values
 
@@ -270,12 +270,12 @@ struct MatsSpringMass
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dInitX,dInitY,dS) \
+#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dInitX,dInitY,dNE) \
     ((pvMats)								\
      ? ({ struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats ; \
 	     pmats->dX = (dInitX) ;					\
 	     pmats->dY = (dInitY) ;					\
-	     pmats->dDiscreteSource = (dS) ;				\
+	     pmats->dNextEvent = (dNE) ;				\
 	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1] ;	\
 	     1;								\

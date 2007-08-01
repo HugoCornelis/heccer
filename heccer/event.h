@@ -29,6 +29,8 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets);
 
 double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget);
 
+int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime);
+
 
 #endif
 

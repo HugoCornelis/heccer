@@ -113,7 +113,7 @@ int EventQueuerQueue(struct EventQueuer *peq, double dTime, int iTarget)
 
 	    //- call the target object
 
-	    iResult = iResult && ppeqt->pvFunction(ppeqt->iTarget, dEvent);
+	    iResult = iResult && ppeqt->pvFunction(ppeqt->pvObject, ppeqt->iTarget, dEvent);
 
 	    //- next table entry
 

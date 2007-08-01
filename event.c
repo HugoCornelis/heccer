@@ -116,3 +116,52 @@ double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
 }
 
 
+/// **************************************************************************
+///
+/// SHORT: HeccerEventSet()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iTarget...: index of target.
+///	dTime.....: firing time of event.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Associate an event with its target.
+///
+/// **************************************************************************
+
+int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
+{
+    //- set default result: failure
+
+    int iResult = 0;
+
+    //- get type specific data
+
+    //! somehow this needs to use the addressing module or so, preferably during compilation
+
+    struct MatsSpringMass *pmats = (struct MatsSpringMass *)&((double *)pheccer->vm.pvMats)[iTarget];
+
+    //- if there is no next event
+
+    if (pmats->dNextEvent == -1.0
+
+	//- or the next pending event has a later time stamp than the new one
+
+	|| pmats->dNextEvent > dTime)
+    {
+	//- overwrite the time stamp for the next event with the time stamp of the incoming event
+
+	pmats->dNextEvent = dTime;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
