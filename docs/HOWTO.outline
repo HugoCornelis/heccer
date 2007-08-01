@@ -48,7 +48,8 @@ have prebuilt packages, some don't.  Also you probably need a
 
 *** for rhel4
 You have to add '-lncurses' just before '-lhistory' (space separated).
-in the Makefile for building the swig perl glue.
+in the Makefile for building the swig perl glue,
+./glue/swig/perl/Makefile
 
 *** for ubuntu 
 The following packages below can be used:
