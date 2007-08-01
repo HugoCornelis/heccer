@@ -469,7 +469,7 @@ struct Intermediary inter =
 };
 
 
-#include "heccer/eventdistributor.h"
+#include "../../heccer/eventdistributor.h"
 
 struct EventDistributorTarget pedt[] =
 {
