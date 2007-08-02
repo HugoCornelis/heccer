@@ -419,7 +419,7 @@ struct SpikeGenerator sgSource =
 
     0.0,
 
-    //m table with targets
+    //m table in event distributor with targets
 
     0,
 };
@@ -798,39 +798,81 @@ struct EventDistributorTarget pedt[] =
     //! for HeccerOutput object
 
     {
+	//m target object, a solver, a HeccerOutput, or so
+
 	NULL,
+
+	//m target subcomponent identification
+
 	-1,
+
+	//m called function
+
 	NULL,
     },
 
     //! for target heccer 1
 
     {
+	//m target object, a solver, a HeccerOutput, or so
+
 	NULL,
+
+	//m target subcomponent identification
+
 	-1,
+
+	//m called function
+
 	NULL,
     },
 
     //! for target heccer 2
 
     {
+	//m target object, a solver, a HeccerOutput, or so
+
 	NULL,
+
+	//m target subcomponent identification
+
 	-1,
+
+	//m called function
+
 	NULL,
     },
 
     //! terminator
 
     {
+	//m target object, a solver, a HeccerOutput, or so
+
 	NULL,
+
+	//m target subcomponent identification
+
 	-1,
+
+	//m called function
+
 	NULL,
     },
+
     {
+	//m target object, a solver, a HeccerOutput, or so
+
 	NULL,
+
+	//m target subcomponent identification
+
 	-1,
+
+	//m called function
+
 	NULL,
     },
+
 };
 
 struct EventDistributorData edd =

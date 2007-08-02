@@ -54,6 +54,10 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 	//- call the target object
 
+	//! possibly calls directly to HeccerOutput,
+	//! possibly calls to the EventQueuer to queue the object
+	//! other hooks possible.
+
 	iResult = iResult && ppedt->pvFunction(ppedt->pvObject, dTime, iTarget);
 
 	//- next table entry

@@ -238,7 +238,7 @@ struct SpikeGenerator
 
     double dThreshold;
 
-    //m table with targets
+    //m table in event distributor with targets
 
     int iTable;
 };

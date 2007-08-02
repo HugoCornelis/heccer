@@ -35,11 +35,11 @@ struct EventDistributor;
 
 struct EventDistributorTarget
 {
-    //m target object, a solver or so
+    //m target object, a solver, a HeccerOutput, or so
 
     void *pvObject;
 
-    //m target identier
+    //m target subcomponent identification
 
     int iTarget;
 

@@ -421,7 +421,7 @@ struct SpikeGenerator sg =
 
     0.0,
 
-    //m table with targets
+    //m table in event distributor with targets
 
     0,
 };
