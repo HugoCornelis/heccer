@@ -124,7 +124,7 @@ struct EventQueuerData
 
 //d a event queuing function
 
-typedef int (*EventQueue)(struct EventQueuer *peq, double dTime, int iSource);
+typedef int (*EventQueue)(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
 
 struct EventQueuer
 {
@@ -136,13 +136,13 @@ struct EventQueuer
 
     //! decouples the event queuer from the source
 
-    EventQueue eventQueue;
+    EventQueue eventEnqueue;
 
     //m forward an event from queuer to receiver
 
     //! decouples the event queuer from the receiver
 
-    EventQueue eventReceive;
+    EventQueue eventDequeue;
 
 };
 
@@ -154,13 +154,13 @@ struct EventQueuer
 int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets);
 
 
-/* extern EventQueue EventQueuerQueue ; */
-
-int EventQueuerQueue(struct EventQueuer *peq, double dTime, int iTargets);
-
 /* extern EventQueue EventQueuerReceive ; */
 
-int EventQueuerReceive(struct EventQueuer *peq, double dTime, int iTargets);
+int EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
+
+/* extern EventQueue EventQueuerQueue ; */
+
+int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
 
 
 #endif

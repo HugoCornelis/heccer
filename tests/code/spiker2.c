@@ -970,13 +970,13 @@ struct EventQueuer eq =
 
     //! decouples the event queuer from the source
 
-    EventQueuerQueue,
+    EventQueuerEnqueue,
 
     //m forward an event from queuer to receiver
 
     //! decouples the event queuer from the receiver
 
-    EventQueuerReceive,
+    EventQueuerDequeue,
 
 };
 
@@ -1054,7 +1054,7 @@ int main(int argc, char *argv[])
     pedt[1].pvObject = &peqt[0];
     pedt[1].pvObject = &eq;
     pedt[1].iTarget = 0;
-    pedt[1].pvFunction = EventQueuerQueue;
+    pedt[1].pvFunction = EventQueuerEnqueue;
 
     //- create output elements
 

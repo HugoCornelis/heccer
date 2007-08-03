@@ -97,9 +97,9 @@ double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
 
     //- tell the distributor to distribute the event over the targets
 
-    if (peq->eventReceive)
+    if (peq->eventDequeue)
     {
-	dResult = peq->eventReceive(peq, pheccer->dTime, iSource);
+	dResult = peq->eventDequeue(peq, pheccer->dTime, iSource, iTarget);
 
 	//t call HeccerEventSet() for next event time.
 
