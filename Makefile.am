@@ -97,6 +97,7 @@ dist-hook:
 test: check
 
 html-upload-prepare:
+	( cd tests && ./tests_2_html --introduction introduction.html )
 	rm -fr html/htdocs/neurospaces_project/heccer/
 	mkdir --parents html/htdocs/neurospaces_project/heccer
 	mkdir --parents html/htdocs/neurospaces_project/heccer/html_source
