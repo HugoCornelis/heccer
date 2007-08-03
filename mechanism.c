@@ -1870,7 +1870,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteSource, pmops->iDiscreteTarget);
 
-		    if (dActivation != -1)
+		    if (dActivation != FLT_MAX)
 		    {
 			//t add the event activation to the channel activation
 		    }

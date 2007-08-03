@@ -79,7 +79,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 ///
 /// RTN..: double
 ///
-///	activation delivered by the events, -1.0 for failure.
+///	activation delivered by the events, FLT_MAX for failure.
 ///
 /// DESCR: Receive event for given source.
 ///
@@ -89,7 +89,7 @@ double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
 {
     //- set default result: failure
 
-    double dResult = -1.0;
+    double dResult = FLT_MAX;
 
     //- get pointer to event distributor
 
@@ -100,6 +100,12 @@ double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
     if (peq->eventReceive)
     {
 	dResult = peq->eventReceive(peq, pheccer->dTime, iSource);
+
+	//t call HeccerEventSet() for next event time.
+
+	//t dNext == next event time
+
+	//t HeccerEventSet(pheccer, iTarget, dNext);
     }
     else
     {
