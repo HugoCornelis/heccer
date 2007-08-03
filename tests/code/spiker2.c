@@ -811,23 +811,7 @@ struct EventDistributorTarget pedt[] =
 	NULL,
     },
 
-    //! for target heccer 1
-
-    {
-	//m target object, a solver, a HeccerOutput, or so
-
-	NULL,
-
-	//m target subcomponent identification
-
-	-1,
-
-	//m called function
-
-	NULL,
-    },
-
-    //! for target heccer 2
+    //! for event queuer
 
     {
 	//m target object, a solver, a HeccerOutput, or so
@@ -844,20 +828,6 @@ struct EventDistributorTarget pedt[] =
     },
 
     //! terminator
-
-    {
-	//m target object, a solver, a HeccerOutput, or so
-
-	NULL,
-
-	//m target subcomponent identification
-
-	-1,
-
-	//m called function
-
-	NULL,
-    },
 
     {
 	//m target object, a solver, a HeccerOutput, or so
