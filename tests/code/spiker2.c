@@ -1077,7 +1077,7 @@ int main(int argc, char *argv[])
     pedt[0].pvObject = pogSpikeSource;
     pedt[0].pvFunction = OutputGeneratorTimedStep;
 
-    //- link spiking element to springmass of target 1
+    //- link spiking element to the event queuer
 
     //! see also below, same developer comment
 
@@ -1085,15 +1085,6 @@ int main(int argc, char *argv[])
     pedt[1].pvObject = &eq;
     pedt[1].iTarget = 0;
     pedt[1].pvFunction = EventQueuerQueue;
-
-    //- link spiking element to springmass of target 2
-
-    //! see also below, same developer comment
-
-    pedt[2].pvObject = &peqt[1];
-    pedt[2].pvObject = &eq;
-    pedt[2].iTarget = 0;
-    pedt[2].pvFunction = EventQueuerQueue;
 
     //- create output elements
 
@@ -1392,13 +1383,13 @@ int simulate(int argc, char *argv[])
 
     HeccerInitiate(pheccerTarget2);
 
-    //- link spiking element to springmass of target 1
+    //- link event queuer to springmass of target 1
 
     //! see also above, same developer comment
 
     peqt[0].pvObject = pheccerTarget1;
 
-    //- link spiking element to springmass of target 2
+    //- link event queuer to springmass of target 2
 
     //! see also above, same developer comment
 
