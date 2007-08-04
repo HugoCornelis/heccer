@@ -16,6 +16,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <float.h>
+#include <stdlib.h>
+
 #include "heccer/eventdistributor.h"
 
 
@@ -80,43 +83,55 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 ///	peq.......: an event queuer.
 ///	iTarget...: target object index.
 ///
-/// RTN..: int
+/// RTN..: double
 ///
-///	success of operation.
+///	Sum of weights of arriving events, FLT_MAX for failure.
 ///
-/// DESCR: Distribute an event over the targets.
+/// DESCR: Dequeue events for the given target, return the summed weights.
 ///
 /// **************************************************************************
 
-int EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
+double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 {
-    //- set default result: ok
+    //- set default result: no weights
 
-    int iResult = 1;
+    double dResult = 0.0;
 
-    //t 1. just queue event
-    //t 2. add function to the queuer service as a solver entry
-    //t 3. link heccer with the entry, or better do the scheduling external, so link with ssp
-    //t 4. done ?
+    //- loop over events for this target until this time
 
-    //- loop over target table
+    //t
 
     struct EventQueuerTarget *ppeqt = peq->peqd->ppeqt[iTarget];
 
-    while (ppeqt && ppeqt->pvFunction)
+    while (ppeqt
+/* 	   && ppeqt->pvFunction */
+	   && dResult != FLT_MAX)
     {
-	//- call the target object
+	//- get weight for event
 
-	iResult = iResult && ppeqt->pvFunction(ppeqt->iTarget, dTime);
+	//t
+
+	double dWeight = 0.0;
+
+	if (dWeight == FLT_MAX)
+	{
+	    return(FLT_MAX);
+	}
+
+	//- add weight to result
+
+	dResult += dWeight;
 
 	//- next table entry
 
 	ppeqt++;
+
+	ppeqt = NULL;
     }
 
     //- return result
 
-    return(iResult);
+    return(dResult);
 }
 
 

@@ -353,7 +353,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-		    int iDiscreteTarget = -1; // pcsm->mc.iSerial;
+		    int iDiscreteTarget = pcsm->mc.iSerial;
 
 #else
 
@@ -1871,6 +1871,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		if (pmats->dNextEvent != -1.0
 		    && pmats->dNextEvent < pheccer->dTime
+
+		    //! target index for this object
+
 		    && pmops->iDiscreteTarget != -1)
 		{
 		    //- translate incoming events to their activation
