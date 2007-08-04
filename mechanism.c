@@ -351,11 +351,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iTabulated = HeccerTabulateSpringMass(pheccer, pcsm);
 
-		    int iDiscreteSource = -1;
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+		    int iDiscreteTarget = -1; // pcsm->mc.iSerial;
+
+#else
 
 		    int iDiscreteTarget = -1;
 
-		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteSource, iDiscreteTarget, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
+#endif
+
+		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteTarget, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
 
 		    double dNextEvent = -1.0;
 
@@ -1864,11 +1870,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		//- if there is an incoming event from the event distributor
 
 		if (pmats->dNextEvent != -1.0
-		    && pmats->dNextEvent < pheccer->dTime)
+		    && pmats->dNextEvent < pheccer->dTime
+		    && pmops->iDiscreteTarget != -1)
 		{
 		    //- translate incoming events to their activation
 
-		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteSource, pmops->iDiscreteTarget);
+		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteTarget);
 
 		    if (dActivation != FLT_MAX)
 		    {

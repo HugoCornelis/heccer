@@ -27,13 +27,13 @@
 /// ARGS.:
 ///
 ///	pheccer...: a heccer.
-///	iTargets..: index of targets table.
+///	iTargets..: index of targets table, in the event distributor.
 ///
 /// RTN..: int
 ///
 ///	success of operation.
 ///
-/// DESCR: Generate event for associated targets.
+/// DESCR: Generate event for specified targets.
 ///
 /// **************************************************************************
 
@@ -75,17 +75,17 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 /// ARGS.:
 ///
 ///	pheccer...: a heccer.
-///	iSource...: index of targets table.
+///	iTarget...: target identifier (of the event receiver object).
 ///
 /// RTN..: double
 ///
-///	activation delivered by the events, FLT_MAX for failure.
+///	Activation delivered by the events, FLT_MAX for failure.
 ///
-/// DESCR: Receive event for given source.
+/// DESCR: Receive event arriving at the specified target.
 ///
 /// **************************************************************************
 
-double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
+double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 {
     //- set default result: failure
 
@@ -99,7 +99,7 @@ double HeccerEventReceive(struct Heccer *pheccer, int iSource, int iTarget)
 
     if (peq->eventDequeue)
     {
-	dResult = peq->eventDequeue(peq, pheccer->dTime, iSource, iTarget);
+	dResult = peq->eventDequeue(peq, pheccer->dTime, iTarget);
 
 	//t call HeccerEventSet() for next event time.
 

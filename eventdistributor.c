@@ -26,7 +26,7 @@
 /// ARGS.:
 ///
 ///	ped.......: an event distributor.
-///	ppiTargets: target objects and target ports.
+///	iTargets..: index of target objects and target ports.
 ///
 /// RTN..: int
 ///
@@ -48,7 +48,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     while (ppedt && ppedt->pvFunction)
     {
-	//- get target index
+	//- get target port index
 
 	int iTarget = ppedt->iTarget;
 
@@ -78,7 +78,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 /// ARGS.:
 ///
 ///	peq.......: an event queuer.
-///	ppiTargets: target objects and target ports.
+///	iTarget...: target object index.
 ///
 /// RTN..: int
 ///
@@ -88,7 +88,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 ///
 /// **************************************************************************
 
-int EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iSource, int iTarget)
+int EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 {
     //- set default result: ok
 

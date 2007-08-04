@@ -222,8 +222,6 @@ struct MopsSpringMass
 
     //m discrete event mapper indices, -1 for none
 
-    int iDiscreteSource;
-
     int iDiscreteTarget;
 
     //m index into sm tables
@@ -248,13 +246,12 @@ struct MatsSpringMass
 /*     double dZ; */
 };
 
-#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,pdE,iDS,iDT,iT,dF) \
+#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,pdE,iDT,iT,dF) \
     ((pvMops)								\
      ? ({ struct MopsSpringMass *pmops = (struct MopsSpringMass *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_SPRINGMASS;			\
 	     pmops->iEvent = (pdE) == NULL ? -1 : 0 ;			\
 	     pmops->pdEvents = (pdE) ;					\
-	     pmops->iDiscreteSource = (iDS) ;				\
 	     pmops->iDiscreteTarget = (iDT) ;				\
 	     pmops->iTable = (iT) ;					\
 	     pmops->dFrequency = (dF) ;					\
