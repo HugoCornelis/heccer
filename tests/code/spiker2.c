@@ -884,6 +884,10 @@ struct EventQueuerTarget peqt[] =
 
 	0.001,
 
+	//m connection weight
+
+	0.002,
+
 	//m called function
 
 	HeccerEventSet,
@@ -901,6 +905,10 @@ struct EventQueuerTarget peqt[] =
 	4,
 
 	//m connection delay
+
+	0.002,
+
+	//m connection weight
 
 	0.002,
 
@@ -922,7 +930,11 @@ struct EventQueuerTarget peqt[] =
 
 	//m connection delay
 
-	-1.0,
+	FLT_MAX,
+
+	//m connection weight
+
+	FLT_MAX,
 
 	//m called function
 
@@ -941,6 +953,10 @@ struct EventQueuerTarget peqt[] =
 	0,
 
 	//m connection delay
+
+	0.0,
+
+	//m connection weight
 
 	0.0,
 

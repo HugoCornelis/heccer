@@ -103,6 +103,10 @@ struct EventQueuerTarget
 
     double dDelay;
 
+    //m connection weight
+
+    double dWeight;
+
     //m called function
 
     //! decouples the event distributor from the target

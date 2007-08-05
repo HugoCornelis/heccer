@@ -111,7 +111,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
 	//t
 
-	double dWeight = 0.0;
+	double dWeight = ppeqt->dWeight;
 
 	if (dWeight == FLT_MAX)
 	{
