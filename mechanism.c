@@ -1863,6 +1863,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			//- go to the next event
 
+			//t should be a variable ?
+
 			pmops->iEvent++;
 		    }
 		}
@@ -1882,13 +1884,15 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    if (dActivation != FLT_MAX)
 		    {
-			//t add the event activation to the channel activation
+			//- add the activation of (possibly multiple) events to the channel activation
+
+			pmats->dX += dActivation * phtsm->dX1;
 		    }
 		    else
 		    {
 			//t HeccerError(number, message, varargs);
 
-			fprintf(stderr, "Heccer the hecc : event reception failed for () at time %g\n", pheccer->dTime); 
+			fprintf(stderr, "Heccer the hecc : event reception failed for (%i) at time %g\n", pmops->iDiscreteTarget, pheccer->dTime); 
 
 			return(0);
 		    }
