@@ -303,7 +303,7 @@ EventQueuerSerial2ConnectionIndexAdd
 	if (peq->peqd->iConnectionIndices < EVENTQUEUER_MAX_CONNECTIONS)
 	{
 	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][0] = iSerial;
-	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][0] = iIndex;
+	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][1] = iIndex;
 
 	    peq->peqd->iConnectionIndices++;
 
