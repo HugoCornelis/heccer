@@ -1033,11 +1033,9 @@ struct EventQueuerData eqd =
 {
     //m array translating name service serials to event queuer target index
 
-    2,
+    0,
 
     {
-	{	6000, 0,	},
-	{	8000, 1,	},
     },
 
     //m array of targets
@@ -1143,6 +1141,23 @@ int main(int argc, char *argv[])
     pedm[1].pvObject = &eq;
     pedm[1].iTarget = 0;
     pedm[1].pvFunction = EventQueuerEnqueue;
+
+    //- initialize the serial to connection matrix index convertor
+
+    if (!EventQueuerSerial2ConnectionIndexAdd(&eq, 6000, 0))
+    {
+	exit(1);
+    }
+
+    if (!EventQueuerSerial2ConnectionIndexAdd(&eq, 8000, 1))
+    {
+	exit(2);
+    }
+
+    if (!EventQueuerSerial2ConnectionIndexSort(&eq))
+    {
+	exit(3);
+    }
 
     //- create output elements
 

@@ -32,6 +32,7 @@ Makefile.in$
 ^tests/code/singlep$
 ^tests/code/spiker1$
 ^tests/code/spiker2$
+^tests/code/spiker3$
 ^tests/code/springmass1$
 ^tests/code/springmass2$
 ^tests/code/springmass3$
