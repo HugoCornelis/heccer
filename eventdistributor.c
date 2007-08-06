@@ -197,7 +197,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 
 /// **************************************************************************
 ///
-/// SHORT: EventQueuerSerial2PortNumber()
+/// SHORT: EventQueuerSerial2ConnectionIndex()
 ///
 /// ARGS.:
 ///
