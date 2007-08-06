@@ -1031,7 +1031,7 @@ struct EventQueuerTarget peqt[] =
 
 struct EventQueuerData eqd =
 {
-    //m array translating name service serials to input ports
+    //m array translating name service serials to event queuer target index
 
     2,
 

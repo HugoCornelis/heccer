@@ -212,7 +212,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 ///
 /// **************************************************************************
 
-int EventQueuerSerial2PortNumber(struct EventQueuer *peq, int iSerial)
+int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 {
     //- set default result: failure.
 
@@ -220,14 +220,14 @@ int EventQueuerSerial2PortNumber(struct EventQueuer *peq, int iSerial)
 
     //- if there is an initialized event queuer
 
-    if (peq && peq->peqd && peq->peqd->iPorts > 0)
+    if (peq && peq->peqd && peq->peqd->iConnectionIndices > 0)
     {
 	//! binary search
 
 	//- init top and bottom counters
 
 	int iLower = 0;
-	int iUpper = peq->peqd->iPorts - 1;
+	int iUpper = peq->peqd->iConnectionIndices - 1;
 
 	//- search until the range to search in becomes invalid
 
@@ -239,16 +239,16 @@ int EventQueuerSerial2PortNumber(struct EventQueuer *peq, int iSerial)
 
 	    //- set result and break out loop if search value is found here
 
-	    if (iSerial == peq->peqd->ppiSerial2PortNumber[iMiddle][0])
+	    if (iSerial == peq->peqd->ppiSerial2ConnectionIndex[iMiddle][0])
 	    {
-		iResult = peq->peqd->ppiSerial2PortNumber[iMiddle][1];
+		iResult = peq->peqd->ppiSerial2ConnectionIndex[iMiddle][1];
 
 		break;
 	    }
 
 	    //- set a new lower or upper limit
 
-	    if (iSerial > peq->peqd->ppiSerial2PortNumber[iMiddle][0])
+	    if (iSerial > peq->peqd->ppiSerial2ConnectionIndex[iMiddle][0])
 	    {
 		iLower = iMiddle + 1;
 	    }

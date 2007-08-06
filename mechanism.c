@@ -354,11 +354,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-		    int iDiscreteTarget = pcsm->mc.iSerial;
+		    //- convert serial to index in the connection matrix
 
-		    //t convert serial to input port number in the connection matrix
-
-		    iDiscreteTarget = EventQueuerSerial2PortNumber(pheccer->peq, ADDRESSING_HECCER_2_NEUROSPACES(iDiscreteTarget));
+		    int iDiscreteTarget = EventQueuerSerial2ConnectionIndex(pheccer->peq, ADDRESSING_HECCER_2_NEUROSPACES(pcsm->mc.iSerial));
 
 #else
 
