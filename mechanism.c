@@ -355,6 +355,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iDiscreteTarget = pcsm->mc.iSerial;
 
+		    //t convert serial to input port number in the connection matrix
+
+		    iDiscreteTarget = iDiscreteTarget;
+
 #else
 
 		    int iDiscreteTarget = -1;

@@ -45,6 +45,15 @@ struct Compartment compSource =
 	//m type of structure
 
 	MATH_TYPE_Compartment,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(1000),
+
+#endif
+
     },
 
     //m index of parent compartment, -1 for none
@@ -97,6 +106,15 @@ struct ChannelAct caKdrSource =
 	//m type of structure
 
 	MATH_TYPE_ChannelAct,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(2000),
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -210,6 +228,15 @@ struct ChannelActInact caiNaFSource =
 	//m type of structure
 
 	MATH_TYPE_ChannelActInact,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(3000),
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -405,7 +432,7 @@ struct SpikeGenerator sgSource =
 
 	//m identification
 
-	ADDRESSING_NEUROSPACES_2_HECCER(1000),
+	ADDRESSING_NEUROSPACES_2_HECCER(4000),
 
 #endif
 
@@ -475,6 +502,15 @@ struct Compartment compTarget1 =
 	//m type of structure
 
 	MATH_TYPE_Compartment,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(5000),
+
+#endif
+
     },
 
     //m index of parent compartment, -1 for none
@@ -527,6 +563,16 @@ struct ChannelSpringMass csmTarget1 =
 	//m type of structure
 
 	MATH_TYPE_ChannelSpringMass,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+/* 	ADDRESSING_NEUROSPACES_2_HECCER(6000), */
+
+	0,
+#endif
+
     },
 
     //m initial reversal potential
@@ -637,6 +683,15 @@ struct Compartment compTarget2 =
 	//m type of structure
 
 	MATH_TYPE_Compartment,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(7000),
+
+#endif
+
     },
 
     //m index of parent compartment, -1 for none
@@ -689,6 +744,16 @@ struct ChannelSpringMass csmTarget2 =
 	//m type of structure
 
 	MATH_TYPE_ChannelSpringMass,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	//m identification
+
+/* 	ADDRESSING_NEUROSPACES_2_HECCER(8000), */
+
+	1,
+#endif
+
     },
 
     //m initial reversal potential
@@ -886,7 +951,7 @@ struct EventQueuerTarget peqt[] =
 
 	//m connection weight
 
-	0.002,
+	1.0,
 
 	//m called function
 
@@ -910,7 +975,7 @@ struct EventQueuerTarget peqt[] =
 
 	//m connection weight
 
-	0.002,
+	2.0,
 
 	//m called function
 

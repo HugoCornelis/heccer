@@ -101,7 +101,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     //t
 
-    struct EventQueuerTarget *ppeqt = peq->peqd->ppeqt[iTarget];
+    struct EventQueuerTarget *ppeqt = &peq->peqd->ppeqt[0][iTarget];
 
     while (ppeqt
 /* 	   && ppeqt->pvFunction */

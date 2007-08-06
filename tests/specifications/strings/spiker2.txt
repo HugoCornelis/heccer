@@ -80,7 +80,7 @@ Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
 00001 :: INITIALIZECHANNEL 0 2.5681e-06
-00002 :: SPRINGMASS -1 (nil) 0 0 0							 -1 0 0
+00002 :: SPRINGMASS -1 (nil) 1 0 0							 -1 0 0
 00003 :: UPDATECOMPARTMENTCURRENT
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00003)
@@ -170,7 +170,7 @@ Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
 00001 :: INITIALIZECHANNEL 0 2.5681e-06
-00002 :: SPRINGMASS -1 (nil) 0 0 0							 -1 0 0
+00002 :: SPRINGMASS -1 (nil) 1 0 0							 -1 0 0
 00003 :: UPDATECOMPARTMENTCURRENT
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00003)
@@ -233,13 +233,13 @@ Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
 00001 :: INITIALIZECHANNEL 0 2.5681e-06
-00002 :: SPRINGMASS -1 (nil) 0 0 0							 -1 0 0
+00002 :: SPRINGMASS -1 (nil) 0 0 0							 -1 1.18898e-07 1.11425e-06
 00003 :: UPDATECOMPARTMENTCURRENT
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.0718477)
+VM Membrane Potentials (pdVms[0]) : (-0.070312)
 Heccer (iStatus) : (20)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
@@ -260,13 +260,13 @@ Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
 00001 :: INITIALIZECHANNEL 0 2.5681e-06
-00002 :: SPRINGMASS -1 (nil) 0 0 0							 -1 0 0
+00002 :: SPRINGMASS -1 (nil) 1 0 0							 -1 1.75358e-06 5.12241e-06
 00003 :: UPDATECOMPARTMENTCURRENT
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.0718477)
+VM Membrane Potentials (pdVms[0]) : (-0.068615)
 0 -0.0649617
 1 -0.0649234
 2 -0.064885
