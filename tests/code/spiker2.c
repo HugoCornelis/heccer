@@ -570,7 +570,6 @@ struct ChannelSpringMass csmTarget1 =
 
 	ADDRESSING_NEUROSPACES_2_HECCER(6000),
 
-/* 	0, */
 #endif
 
     },
@@ -751,7 +750,6 @@ struct ChannelSpringMass csmTarget2 =
 
 	ADDRESSING_NEUROSPACES_2_HECCER(8000),
 
-/* 	1, */
 #endif
 
     },
