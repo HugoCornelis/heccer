@@ -148,7 +148,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 ///
 ///	success of operation.
 ///
-/// DESCR: Distribute an event over the targets.
+/// DESCR: Put an event in the queue untill it fires.
 ///
 /// **************************************************************************
 
@@ -186,6 +186,76 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 	    //- next table entry
 
 	    ppeqt++;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: EventQueuerSerial2PortNumber()
+///
+/// ARGS.:
+///
+///	peq.......: an event queuer.
+///	iSerial...: serial to convert.
+///
+/// RTN..: int
+///
+///	port number, -1 for failure.
+///
+/// DESCR: Convert an external serial to a solver port number.
+///
+/// **************************************************************************
+
+int EventQueuerSerial2PortNumber(struct EventQueuer *peq, int iSerial)
+{
+    //- set default result: failure.
+
+    int iResult = -1;
+
+    //- if there is an initialized event queuer
+
+    if (peq && peq->peqd && peq->peqd->iPorts > 0)
+    {
+	//! binary search
+
+	//- init top and bottom counters
+
+	int iLower = 0;
+	int iUpper = peq->peqd->iPorts - 1;
+
+	//- search until the range to search in becomes invalid
+
+	while (iUpper - iLower >= 0)
+	{
+	    //- determine the middle of the search range
+
+	    int iMiddle = (iLower + iUpper) / 2;
+
+	    //- set result and break out loop if search value is found here
+
+	    if (iSerial == peq->peqd->ppiSerial2PortNumber[iMiddle][0])
+	    {
+		iResult = peq->peqd->ppiSerial2PortNumber[iMiddle][1];
+
+		break;
+	    }
+
+	    //- set a new lower or upper limit
+
+	    if (iSerial > peq->peqd->ppiSerial2PortNumber[iMiddle][0])
+	    {
+		iLower = iMiddle + 1;
+	    }
+	    else
+	    {
+		iUpper = iMiddle - 1;
+	    }
 	}
     }
 

@@ -568,9 +568,9 @@ struct ChannelSpringMass csmTarget1 =
 
 	//m identification
 
-/* 	ADDRESSING_NEUROSPACES_2_HECCER(6000), */
+	ADDRESSING_NEUROSPACES_2_HECCER(6000),
 
-	0,
+/* 	0, */
 #endif
 
     },
@@ -749,9 +749,9 @@ struct ChannelSpringMass csmTarget2 =
 
 	//m identification
 
-/* 	ADDRESSING_NEUROSPACES_2_HECCER(8000), */
+	ADDRESSING_NEUROSPACES_2_HECCER(8000),
 
-	1,
+/* 	1, */
 #endif
 
     },
@@ -1033,7 +1033,14 @@ struct EventQueuerTarget peqt[] =
 
 struct EventQueuerData eqd =
 {
-    0,
+    //m array translating name service serials to input ports
+
+    2,
+
+    {
+	{	6000, 0,	},
+	{	8000, 1,	},
+    },
 
     //m array of targets
 

@@ -118,7 +118,11 @@ struct EventQueuerTarget
 
 struct EventQueuerData
 {
-    int iHappy;
+    //m array translating name service serials to input ports
+
+    int iPorts;
+
+    int ppiSerial2PortNumber[10000][2];
 
     //m array of targets
 
@@ -170,6 +174,8 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 /* extern EventQueue EventQueuerEnQueue ; */
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
+
+int EventQueuerSerial2PortNumber(struct EventQueuer *peq, int iSerial);
 
 
 #endif

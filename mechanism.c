@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "heccer/addressing.h"
 #include "heccer/compartment.h"
 #include "heccer/event.h"
 #include "heccer/heccer.h"
@@ -357,7 +358,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //t convert serial to input port number in the connection matrix
 
-		    iDiscreteTarget = iDiscreteTarget;
+		    iDiscreteTarget = EventQueuerSerial2PortNumber(pheccer->peq, ADDRESSING_HECCER_2_NEUROSPACES(iDiscreteTarget));
 
 #else
 
