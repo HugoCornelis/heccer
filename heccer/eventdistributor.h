@@ -120,9 +120,11 @@ struct EventQueuerData
 {
     //m array translating name service serials to event queuer target index
 
+#define EVENTQUEUER_MAX_CONNECTIONS 10000
+
     int iConnectionIndices;
 
-    int ppiSerial2ConnectionIndex[10000][2];
+    int ppiSerial2ConnectionIndex[EVENTQUEUER_MAX_CONNECTIONS][2];
 
     //m array of targets
 
@@ -176,6 +178,14 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
 
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial);
+
+int
+EventQueuerSerial2ConnectionIndexAdd
+(struct EventQueuer *peq,
+ int iSerial,
+ int iIndex);
+
+int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq);
 
 
 #endif

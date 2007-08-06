@@ -18,6 +18,7 @@
 
 #include <float.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "heccer/eventdistributor.h"
 
@@ -208,7 +209,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 ///
 ///	port number, -1 for failure.
 ///
-/// DESCR: Convert an external serial to a solver port number.
+/// DESCR: Convert an external serial to a connection matrix index.
 ///
 /// **************************************************************************
 
@@ -257,6 +258,133 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 		iUpper = iMiddle - 1;
 	    }
 	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: EventQueuerSerial2ConnectionIndexAdd()
+///
+/// ARGS.:
+///
+///	peq.......: an event queuer.
+///	iSerial...: serial to convert.
+///	iIndex....: connection index.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Add an external serial to that was added to the connection matrix.
+///
+/// **************************************************************************
+
+int
+EventQueuerSerial2ConnectionIndexAdd
+(struct EventQueuer *peq,
+ int iSerial,
+ int iIndex)
+{
+    //- set default result: failure.
+
+    int iResult = 0;
+
+    //- if there is an initialized event queuer
+
+    if (peq && peq->peqd)
+    {
+	//- add the translation of the connection
+
+	if (peq->peqd->iConnectionIndices < EVENTQUEUER_MAX_CONNECTIONS)
+	{
+	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][0] = iSerial;
+	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][0] = iIndex;
+
+	    peq->peqd->iConnectionIndices++;
+
+	    iResult = 1;
+	}
+	else
+	{
+	    //t HeccerError(number, message, varargs);
+
+	    fprintf
+		(stderr,
+		 "Heccer the hecc : connection matrix translator overflow (please increase EVENTQUEUER_MAX_CONNECTIONS in the source).\n");
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: EventQueuerSerial2ConnectionIndexSort()
+///
+/// ARGS.:
+///
+///	peq.......: an event queuer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Sort the serial 2 connection index array.
+///
+/// **************************************************************************
+
+static int comparator(const void *pv1, const void *pv2)
+{
+    int iResult = 0;
+
+    int *pi1 = (int *)pv1;
+    int *pi2 = (int *)pv2;
+
+    if (pi1[0] < pi2[0])
+    {
+	return(-1);
+    }
+    else if (pi1[0] > pi2[0])
+    {
+	return(1);
+    }
+    else
+    {
+	//t HeccerError(number, message, varargs);
+
+	fprintf
+	    (stderr,
+	     "Heccer the hecc : connection matrix index comparator() encounters entries with the same serial.\n");
+
+	return(0);
+    }
+}
+
+int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq)
+{
+    //- set default result: failure.
+
+    int iResult = 0;
+
+    //- if there is an initialized event queuer
+
+    if (peq && peq->peqd)
+    {
+	qsort
+	    (&peq->peqd->ppiSerial2ConnectionIndex[0][0], 
+	     peq->peqd->iConnectionIndices,
+	     sizeof(peq->peqd->ppiSerial2ConnectionIndex[0]),
+	     comparator);
+
+	iResult = 1;
     }
 
     //- return result
