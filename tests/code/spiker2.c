@@ -856,7 +856,7 @@ struct Intermediary interTarget2 =
 
 #include "../../heccer/eventdistributor.h"
 
-struct EventDistributorTarget pedt[] =
+struct EventDistributorMatrix pedm[] =
 {
     //! for HeccerOutput object
 
@@ -914,7 +914,7 @@ struct EventDistributorData edd =
 
     //m array of targets
 
-    pedt,
+    pedm,
 };
 
 
@@ -930,7 +930,7 @@ struct EventDistributor ed =
 };
 
 
-struct EventQueuerTarget peqt[] =
+struct EventQueuerMatrix peqm[] =
 {
     //! for target heccer 1
 
@@ -1042,7 +1042,7 @@ struct EventQueuerData eqd =
 
     //m array of targets
 
-    peqt,
+    peqm,
 };
 
 
@@ -1130,17 +1130,17 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
-    pedt[0].pvObject = pogSpikeSource;
-    pedt[0].pvFunction = OutputGeneratorTimedStep;
+    pedm[0].pvObject = pogSpikeSource;
+    pedm[0].pvFunction = OutputGeneratorTimedStep;
 
     //- link spiking element to the event queuer
 
     //! see also below, same developer comment
 
-    pedt[1].pvObject = &peqt[0];
-    pedt[1].pvObject = &eq;
-    pedt[1].iTarget = 0;
-    pedt[1].pvFunction = EventQueuerEnqueue;
+    pedm[1].pvObject = &peqm[0];
+    pedm[1].pvObject = &eq;
+    pedm[1].iTarget = 0;
+    pedm[1].pvFunction = EventQueuerEnqueue;
 
     //- create output elements
 
@@ -1443,13 +1443,13 @@ int simulate(int argc, char *argv[])
 
     //! see also above, same developer comment
 
-    peqt[0].pvObject = pheccerTarget1;
+    peqm[0].pvObject = pheccerTarget1;
 
     //- link event queuer to springmass of target 2
 
     //! see also above, same developer comment
 
-    peqt[1].pvObject = pheccerTarget2;
+    peqm[1].pvObject = pheccerTarget2;
 
     //- initialize test specific things
 

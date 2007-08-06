@@ -471,7 +471,7 @@ struct Intermediary inter =
 
 #include "../../heccer/eventdistributor.h"
 
-struct EventDistributorTarget pedt[] =
+struct EventDistributorMatrix pedm[] =
 {
     {
 	NULL,
@@ -491,7 +491,7 @@ struct EventDistributorData edd =
 
     //m array of targets
 
-    pedt,
+    pedm,
 };
 
 
@@ -557,8 +557,8 @@ int main(int argc, char *argv[])
 
     pogSpike = OutputGeneratorNew("/tmp/output_spike");
 
-    pedt[0].pvObject = pogSpike;
-    pedt[0].pvFunction = OutputGeneratorTimedStep;
+    pedm[0].pvObject = pogSpike;
+    pedm[0].pvFunction = OutputGeneratorTimedStep;
 
     //- create output elements
 

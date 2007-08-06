@@ -48,13 +48,13 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     //- loop over target table
 
-    struct EventDistributorTarget *ppedt = ped->pedd->ppedt[iTargets];
+    struct EventDistributorMatrix *ppedm = ped->pedd->ppedm[iTargets];
 
-    while (ppedt && ppedt->pvFunction)
+    while (ppedm && ppedm->pvFunction)
     {
 	//- get target port index
 
-	int iTarget = ppedt->iTarget;
+	int iTarget = ppedm->iTarget;
 
 	//- call the target object
 
@@ -62,11 +62,11 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 	//! possibly calls to the EventQueuer to queue the object
 	//! other hooks possible.
 
-	iResult = iResult && ppedt->pvFunction(ppedt->pvObject, dTime, iTarget);
+	iResult = iResult && ppedm->pvFunction(ppedm->pvObject, dTime, iTarget);
 
 	//- next table entry
 
-	ppedt++;
+	ppedm++;
     }
 
     //- return result
@@ -102,9 +102,9 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     //t
 
-    struct EventQueuerTarget *ppeqt = &peq->peqd->ppeqt[0][iTarget];
+    struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[0][iTarget];
 
-    while (ppeqt
+    while (ppeqm
 /* 	   && ppeqt->pvFunction */
 	   && dResult != FLT_MAX)
     {
@@ -112,7 +112,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
 	//t
 
-	double dWeight = ppeqt->dWeight;
+	double dWeight = ppeqm->dWeight;
 
 	if (dWeight == FLT_MAX)
 	{
@@ -125,9 +125,9 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
 	//- next table entry
 
-	ppeqt++;
+	ppeqm++;
 
-	ppeqt = NULL;
+	ppeqm = NULL;
     }
 
     //- return result
@@ -172,27 +172,77 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     {
 	//- loop over target table
 
-	struct EventQueuerTarget *ppeqt = peq->peqd->ppeqt[iTarget];
+	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
 
-	while (ppeqt && ppeqt->pvFunction)
+	while (ppeqm && ppeqm->pvFunction)
 	{
 	    //- add connection delay
 
-	    double dEvent = dTime + ppeqt->dDelay;
+	    double dEvent = dTime + ppeqm->dDelay;
 
 	    //- call the target object
 
-	    iResult = iResult && ppeqt->pvFunction(ppeqt->pvObject, ppeqt->iTarget, dEvent);
+	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent);
 
 	    //- next table entry
 
-	    ppeqt++;
+	    ppeqm++;
 	}
     }
 
     //- return result
 
     return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: EventQueuerNew()
+///
+/// ARGS.:
+///
+/// RTN..: struct EventQueuer
+///
+///	An event queuer.
+///
+/// DESCR: Allocate an event queuer.
+///
+/// **************************************************************************
+
+struct EventQueuer * EventQueuerNew(void)
+{
+    //- set default result: allocate
+
+    struct EventQueuer *peqResult = calloc(1, sizeof(*peqResult));
+
+    if (!peqResult)
+    {
+	return(NULL);
+    }
+
+    peqResult->eventDequeue = EventQueuerDequeue;
+
+    peqResult->eventEnqueue = EventQueuerEnqueue;
+
+    struct EventQueuerData *peqd = calloc(1, sizeof(*peqd));
+
+    if (!peqd)
+    {
+	free(peqResult);
+
+	return(NULL);
+    }
+
+    peqResult->peqd = peqd;
+
+    peqd->iConnectionIndices = 0;
+
+/*     peqd->ppeqm = NULL; */
+
+    //- return result
+
+    return(peqResult);
 }
 
 
@@ -207,7 +257,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 ///
 /// RTN..: int
 ///
-///	port number, -1 for failure.
+///	connection matrix index, -1 for failure.
 ///
 /// DESCR: Convert an external serial to a connection matrix index.
 ///

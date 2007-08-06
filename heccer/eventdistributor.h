@@ -33,7 +33,7 @@
 
 struct EventDistributor;
 
-struct EventDistributorTarget
+struct EventDistributorMatrix
 {
     //m target object, a solver, a HeccerOutput, or so
 
@@ -58,7 +58,7 @@ struct EventDistributorData
 
     //m array of targets
 
-    struct EventDistributorTarget *ppedt[];
+    struct EventDistributorMatrix *ppedm[];
 };
 
 
@@ -89,7 +89,7 @@ struct EventDistributor
 
 struct EventQueuer;
 
-struct EventQueuerTarget
+struct EventQueuerMatrix
 {
     //m target object, a solver or so
 
@@ -128,7 +128,7 @@ struct EventQueuerData
 
     //m array of targets
 
-    struct EventQueuerTarget *ppeqt[];
+    struct EventQueuerMatrix *ppeqm[];
 };
 
 
@@ -176,6 +176,8 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 /* extern EventQueue EventQueuerEnQueue ; */
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
+
+struct EventQueuer * EventQueuerNew(void);
 
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial);
 
