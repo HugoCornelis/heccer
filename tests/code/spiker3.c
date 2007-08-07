@@ -856,83 +856,6 @@ struct Intermediary interTarget2 =
 
 #include "../../heccer/eventdistributor.h"
 
-struct EventQueuerMatrix peqm[] =
-{
-    //! for target heccer 1
-
-    {
-	//m target object, a solver or so
-
-	NULL,
-
-	//m target object, an index into a array of double ?
-
-	4,
-
-	//m connection delay
-
-	0.001,
-
-	//m connection weight
-
-	1.0,
-
-	//m called function
-
-	HeccerEventSet,
-    },
-
-    //! for target heccer 2
-
-    {
-	//m target object, a solver or so
-
-	NULL,
-
-	//m target object, an index into a array of double ?
-
-	4,
-
-	//m connection delay
-
-	0.002,
-
-	//m connection weight
-
-	2.0,
-
-	//m called function
-
-	HeccerEventSet,
-    },
-
-    //! terminator
-
-    {
-	//m target object, a solver or so
-
-	NULL,
-
-	//m target object, an index into a array of double ?
-
-	0,
-
-	//m connection delay
-
-	FLT_MAX,
-
-	//m connection weight
-
-	FLT_MAX,
-
-	//m called function
-
-	NULL,
-    },
-
-};
-
-
 struct OutputGenerator *pogSpikeSource = NULL;
 struct OutputGenerator * pogVmSource = NULL;
 
@@ -996,85 +919,6 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
-    //- allocate event queuer
-
-    struct EventQueuer *peq = EventQueuerNew(peqm);
-
-    //- initialize the serial to connection matrix index convertor
-
-    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 6000, 0))
-    {
-	exit(1);
-    }
-
-    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 8000, 1))
-    {
-	exit(2);
-    }
-
-    if (!EventQueuerSerial2ConnectionIndexSort(peq))
-    {
-	exit(3);
-    }
-
-    //- construct a connection matrix for the event distributor
-
-    struct EventDistributorMatrix pedm[] =
-	{
-	    //! for HeccerOutput object
-
-	    {
-		//m target object, a solver, a HeccerOutput, or so
-
-		pogSpikeSource,
-
-		//m target subcomponent identification
-
-		-1,
-
-		//m called function
-
-		OutputGeneratorTimedStep,
-	    },
-
-	    //! for event queuer
-
-	    {
-		//m target object, a solver, a HeccerOutput, or so
-
-		peq, // &peqm[0],
-
-		//m target subcomponent identification
-
-		0,
-
-		//m called function
-
-		EventQueuerEnqueue,
-	    },
-
-	    //! terminator
-
-	    {
-		//m target object, a solver, a HeccerOutput, or so
-
-		NULL,
-
-		//m target subcomponent identification
-
-		-1,
-
-		//m called function
-
-		NULL,
-	    },
-
-	};
-
-    //- allocate event distributor
-
-    struct EventDistributor *ped = EventDistributorNew(pedm);
-
     //- create output elements
 
     pogVmSource = OutputGeneratorNew("/tmp/output_vm_source");
@@ -1091,17 +935,6 @@ int main(int argc, char *argv[])
 
 #define HECCER_TEST_OUTPUT \
     OutputGeneratorAnnotatedStep(pogVmSource, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
-
-    //- allocate the heccer, for the event distributor service
-
-    //! the source is constructed overhere and further initialized in simulate(),
-    //! the targets are constructed in simulate() only.  Needs to be cleaned up.
-
-    pheccerSource = HeccerNew(NULL, ped, NULL);
-
-    pheccerTarget1 = HeccerNew(NULL, NULL, peq);
-
-    pheccerTarget2 = HeccerNew(NULL, NULL, peq);
 
     //- do the simulation
 
@@ -1242,6 +1075,174 @@ int simulate(int argc, char *argv[])
     //- set default result : ok
 
     int iResult = EXIT_SUCCESS;
+
+    //- construct a connection matrix for the event distributor
+
+    struct EventQueuerMatrix peqm[] =
+	{
+	    //! for target heccer 1
+
+	    {
+		//m target object, a solver or so
+
+		NULL,
+
+		//m target object, an index into a array of double ?
+
+		4,
+
+		//m connection delay
+
+		0.001,
+
+		//m connection weight
+
+		1.0,
+
+		//m called function
+
+		HeccerEventSet,
+	    },
+
+	    //! for target heccer 2
+
+	    {
+		//m target object, a solver or so
+
+		NULL,
+
+		//m target object, an index into a array of double ?
+
+		4,
+
+		//m connection delay
+
+		0.002,
+
+		//m connection weight
+
+		2.0,
+
+		//m called function
+
+		HeccerEventSet,
+	    },
+
+	    //! terminator
+
+	    {
+		//m target object, a solver or so
+
+		NULL,
+
+		//m target object, an index into a array of double ?
+
+		0,
+
+		//m connection delay
+
+		FLT_MAX,
+
+		//m connection weight
+
+		FLT_MAX,
+
+		//m called function
+
+		NULL,
+	    },
+
+	};
+
+    //- allocate event queuer
+
+    struct EventQueuer *peq = EventQueuerNew(peqm);
+
+    //- initialize the serial to connection matrix index convertor
+
+    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 6000, 0))
+    {
+	exit(1);
+    }
+
+    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 8000, 1))
+    {
+	exit(2);
+    }
+
+    if (!EventQueuerSerial2ConnectionIndexSort(peq))
+    {
+	exit(3);
+    }
+
+    //- construct a connection matrix for the event distributor
+
+    struct EventDistributorMatrix pedm[] =
+	{
+	    //! for HeccerOutput object
+
+	    {
+		//m target object, a solver, a HeccerOutput, or so
+
+		pogSpikeSource,
+
+		//m target subcomponent identification
+
+		-1,
+
+		//m called function
+
+		OutputGeneratorTimedStep,
+	    },
+
+	    //! for event queuer
+
+	    {
+		//m target object, a solver, a HeccerOutput, or so
+
+		peq, // &peqm[0],
+
+		//m target subcomponent identification
+
+		0,
+
+		//m called function
+
+		EventQueuerEnqueue,
+	    },
+
+	    //! terminator
+
+	    {
+		//m target object, a solver, a HeccerOutput, or so
+
+		NULL,
+
+		//m target subcomponent identification
+
+		-1,
+
+		//m called function
+
+		NULL,
+	    },
+
+	};
+
+    //- allocate event distributor
+
+    struct EventDistributor *ped = EventDistributorNew(pedm);
+
+    //- allocate the heccer, for the event distributor service
+
+    //! the source is constructed overhere and further initialized in simulate(),
+    //! the targets are constructed in simulate() only.  Needs to be cleaned up.
+
+    pheccerSource = HeccerNew(NULL, ped, NULL);
+
+    pheccerTarget1 = HeccerNew(NULL, NULL, peq);
+
+    pheccerTarget2 = HeccerNew(NULL, NULL, peq);
 
     //- instantiate a heccer with an initialized intermediary
 
