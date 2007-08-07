@@ -102,7 +102,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     //t
 
-    struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[0][iTarget];
+    struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
 
     while (ppeqm
 /* 	   && ppeqt->pvFunction */
@@ -172,7 +172,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     {
 	//- loop over target table
 
-	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
+	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
 
 	while (ppeqm && ppeqm->pvFunction)
 	{
@@ -210,7 +210,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 ///
 /// **************************************************************************
 
-struct EventQueuer * EventQueuerNew(void)
+struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 {
     //- set default result: allocate
 
@@ -238,7 +238,7 @@ struct EventQueuer * EventQueuerNew(void)
 
     peqd->iConnectionIndices = 0;
 
-/*     peqd->ppeqm = NULL; */
+    peqd->ppeqm = ppeqm;
 
     //- return result
 

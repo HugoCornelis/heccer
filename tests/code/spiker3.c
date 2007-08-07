@@ -1029,41 +1029,6 @@ struct EventQueuerMatrix peqm[] =
     },
 };
 
-struct EventQueuerData eqd =
-{
-    //m array translating name service serials to event queuer target index
-
-    0,
-
-    {
-    },
-
-    //m array of targets
-
-    peqm,
-};
-
-
-struct EventQueuer eq =
-{
-    //m service specific data
-
-    &eqd,
-
-    //m hand an event over to the event queuer
-
-    //! decouples the event queuer from the source
-
-    EventQueuerEnqueue,
-
-    //m forward an event from queuer to receiver
-
-    //! decouples the event queuer from the receiver
-
-    EventQueuerDequeue,
-
-};
-
 
 struct OutputGenerator *pogSpikeSource = NULL;
 struct OutputGenerator * pogVmSource = NULL;
@@ -1128,6 +1093,29 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
+    //- allocate event queuer
+
+    struct EventQueuer *peq = EventQueuerNew(peqm);
+
+    //- initialize the serial to connection matrix index convertor
+
+    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 6000, 0))
+    {
+	exit(1);
+    }
+
+    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 8000, 1))
+    {
+	exit(2);
+    }
+
+    if (!EventQueuerSerial2ConnectionIndexSort(peq))
+    {
+	exit(3);
+    }
+
+    //t allocate event distributor
+
     //- link spiking element to output generator
 
     pedm[0].pvObject = pogSpikeSource;
@@ -1138,26 +1126,9 @@ int main(int argc, char *argv[])
     //! see also below, same developer comment
 
     pedm[1].pvObject = &peqm[0];
-    pedm[1].pvObject = &eq;
+    pedm[1].pvObject = peq;
     pedm[1].iTarget = 0;
     pedm[1].pvFunction = EventQueuerEnqueue;
-
-    //- initialize the serial to connection matrix index convertor
-
-    if (!EventQueuerSerial2ConnectionIndexAdd(&eq, 6000, 0))
-    {
-	exit(1);
-    }
-
-    if (!EventQueuerSerial2ConnectionIndexAdd(&eq, 8000, 1))
-    {
-	exit(2);
-    }
-
-    if (!EventQueuerSerial2ConnectionIndexSort(&eq))
-    {
-	exit(3);
-    }
 
     //- create output elements
 
@@ -1183,9 +1154,9 @@ int main(int argc, char *argv[])
 
     pheccerSource = HeccerNew(NULL, &ed, NULL);
 
-    pheccerTarget1 = HeccerNew(NULL, NULL, &eq);
+    pheccerTarget1 = HeccerNew(NULL, NULL, peq);
 
-    pheccerTarget2 = HeccerNew(NULL, NULL, &eq);
+    pheccerTarget2 = HeccerNew(NULL, NULL, peq);
 
     //- do the simulation
 

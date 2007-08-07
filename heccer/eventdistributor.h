@@ -128,7 +128,7 @@ struct EventQueuerData
 
     //m array of targets
 
-    struct EventQueuerMatrix *ppeqm[];
+    struct EventQueuerMatrix *ppeqm;
 };
 
 
@@ -177,7 +177,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
 
-struct EventQueuer * EventQueuerNew(void);
+struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm);
 
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial);
 
