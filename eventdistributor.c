@@ -25,6 +25,58 @@
 
 /// **************************************************************************
 ///
+/// SHORT: EventDistributorNew()
+///
+/// ARGS.:
+///
+///	ppedm...: event distributor connection matrix.
+///
+/// RTN..: struct EventDistributor
+///
+///	An event distributor.
+///
+/// DESCR: Allocate an event distributor.
+///
+/// **************************************************************************
+
+struct EventDistributor *
+EventDistributorNew
+(struct EventDistributorMatrix *ppedm)
+{
+    //- set default result: allocate
+
+    struct EventDistributor *pedResult = calloc(1, sizeof(*pedResult));
+
+    if (!pedResult)
+    {
+	return(NULL);
+    }
+
+    pedResult->eventDistribute = EventDistributorSend;
+
+    struct EventDistributorData *pedd = calloc(1, sizeof(*pedd));
+
+    if (!pedd)
+    {
+	free(pedResult);
+
+	return(NULL);
+    }
+
+    pedResult->pedd = pedd;
+
+    pedd->iHappy = 0;
+
+    pedd->ppedm = ppedm;
+
+    //- return result
+
+    return(pedResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: EventDistributorSend()
 ///
 /// ARGS.:
@@ -48,7 +100,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     //- loop over target table
 
-    struct EventDistributorMatrix *ppedm = ped->pedd->ppedm[iTargets];
+    struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[iTargets];
 
     while (ppedm && ppedm->pvFunction)
     {
@@ -201,6 +253,8 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 /// SHORT: EventQueuerNew()
 ///
 /// ARGS.:
+///
+///	ppeqm...: event queuer connection matrix.
 ///
 /// RTN..: struct EventQueuer
 ///

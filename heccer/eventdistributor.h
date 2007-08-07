@@ -58,7 +58,7 @@ struct EventDistributorData
 
     //m array of targets
 
-    struct EventDistributorMatrix *ppedm[];
+    struct EventDistributorMatrix *ppedm;
 };
 
 
@@ -163,6 +163,10 @@ struct EventQueuer
 
 
 //f prototypes
+
+struct EventDistributor *
+EventDistributorNew
+(struct EventDistributorMatrix *ppedm);
 
 /* extern EventDistribute EventDistributorSend; */
 

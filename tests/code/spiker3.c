@@ -908,28 +908,6 @@ struct EventDistributorMatrix pedm[] =
 
 };
 
-struct EventDistributorData edd =
-{
-    0,
-
-    //m array of targets
-
-    pedm,
-};
-
-
-struct EventDistributor ed =
-{
-    //m service specific data
-
-    &edd,
-
-    //m distribute an event over the targets
-
-    EventDistributorSend,
-};
-
-
 struct EventQueuerMatrix peqm[] =
 {
     //! for target heccer 1
@@ -1004,29 +982,6 @@ struct EventQueuerMatrix peqm[] =
 	NULL,
     },
 
-    //! terminator
-
-    {
-	//m target object, a solver or so
-
-	NULL,
-
-	//m target object, an index into a array of double ?
-
-	0,
-
-	//m connection delay
-
-	0.0,
-
-	//m connection weight
-
-	0.0,
-
-	//m called function
-
-	NULL,
-    },
 };
 
 
@@ -1114,8 +1069,6 @@ int main(int argc, char *argv[])
 	exit(3);
     }
 
-    //t allocate event distributor
-
     //- link spiking element to output generator
 
     pedm[0].pvObject = pogSpikeSource;
@@ -1129,6 +1082,10 @@ int main(int argc, char *argv[])
     pedm[1].pvObject = peq;
     pedm[1].iTarget = 0;
     pedm[1].pvFunction = EventQueuerEnqueue;
+
+    //- allocate event distributor
+
+    struct EventDistributor *ped = EventDistributorNew(pedm);
 
     //- create output elements
 
@@ -1152,7 +1109,7 @@ int main(int argc, char *argv[])
     //! the source is constructed overhere and further initialized in simulate(),
     //! the targets are constructed in simulate() only.  Needs to be cleaned up.
 
-    pheccerSource = HeccerNew(NULL, &ed, NULL);
+    pheccerSource = HeccerNew(NULL, ped, NULL);
 
     pheccerTarget1 = HeccerNew(NULL, NULL, peq);
 
