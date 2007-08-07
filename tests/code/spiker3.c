@@ -1423,6 +1423,8 @@ int simulate(int argc, char *argv[])
 
 	HeccerHecc(pheccerTarget2);
 
+	EventQueuerProcess(peq);
+
 	//- generate user specified output
 
 	HECCER_TEST_OUTPUT;

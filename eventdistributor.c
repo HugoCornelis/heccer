@@ -23,6 +23,19 @@
 #include "heccer/eventdistributor.h"
 
 
+static
+struct
+{
+    int iTarget;
+    double dTime;
+    int iEvents;
+}
+event =
+{
+    -1, FLT_MAX, 0,
+};
+
+
 /// **************************************************************************
 ///
 /// SHORT: EventDistributorNew()
@@ -214,31 +227,11 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     //t 3. link heccer with the entry, or better do the scheduling external, so link with ssp
     //t 4. done ?
 
-    //- if there is a valid target
+    event.iTarget = iTarget;
+    event.dTime = dTime;
+    event.iEvents++;
 
-    //! guess I will have to get rid of this check.
-
-    if (iTarget != -1)
-    {
-	//- loop over target table
-
-	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
-
-	while (ppeqm && ppeqm->pvFunction)
-	{
-	    //- add connection delay
-
-	    double dEvent = dTime + ppeqm->dDelay;
-
-	    //- call the target object
-
-	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent);
-
-	    //- next table entry
-
-	    ppeqm++;
-	}
-    }
+/*     iResult = EventQueuerProcess(peq, iTarget, dTime); */
 
     //- return result
 
@@ -295,6 +288,67 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
     //- return result
 
     return(peqResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: EventQueuerProcess()
+///
+/// ARGS.:
+///
+///	peq...: event queuer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Process events in the queue, forward the ones that should fire.
+///
+/// **************************************************************************
+
+int EventQueuerProcess(struct EventQueuer *peq)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    int iTarget = event.iTarget;
+
+    double dTime = event.dTime;
+
+    //- if there is a valid target
+
+    //! guess I will have to get rid of this check.
+
+    if (iTarget != -1
+	&& event.iEvents != 0)
+    {
+	//- loop over target table
+
+	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
+
+	while (ppeqm && ppeqm->pvFunction)
+	{
+	    //- add connection delay
+
+	    double dEvent = dTime + ppeqm->dDelay;
+
+	    //- call the target object
+
+	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent);
+
+	    //- next table entry
+
+	    ppeqm++;
+	}
+
+	event.iEvents--;
+    }
+
+    //- return result
+
+    return(iResult);
 }
 
 

@@ -183,6 +183,8 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 
 struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm);
 
+int EventQueuerProcess(struct EventQueuer *peq);
+
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial);
 
 int
