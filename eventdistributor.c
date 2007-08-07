@@ -152,17 +152,15 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     //- loop over events for this target until this time
 
-    //t
+    //t loop over events for this target until this time
 
     struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
 
     while (ppeqm
-/* 	   && ppeqt->pvFunction */
+/* 	   && ppeqm->pvFunction */
 	   && dResult != FLT_MAX)
     {
 	//- get weight for event
-
-	//t
 
 	double dWeight = ppeqm->dWeight;
 
