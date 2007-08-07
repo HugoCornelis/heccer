@@ -856,58 +856,6 @@ struct Intermediary interTarget2 =
 
 #include "../../heccer/eventdistributor.h"
 
-struct EventDistributorMatrix pedm[] =
-{
-    //! for HeccerOutput object
-
-    {
-	//m target object, a solver, a HeccerOutput, or so
-
-	NULL,
-
-	//m target subcomponent identification
-
-	-1,
-
-	//m called function
-
-	NULL,
-    },
-
-    //! for event queuer
-
-    {
-	//m target object, a solver, a HeccerOutput, or so
-
-	NULL,
-
-	//m target subcomponent identification
-
-	-1,
-
-	//m called function
-
-	NULL,
-    },
-
-    //! terminator
-
-    {
-	//m target object, a solver, a HeccerOutput, or so
-
-	NULL,
-
-	//m target subcomponent identification
-
-	-1,
-
-	//m called function
-
-	NULL,
-    },
-
-};
-
 struct EventQueuerMatrix peqm[] =
 {
     //! for target heccer 1
@@ -1069,19 +1017,59 @@ int main(int argc, char *argv[])
 	exit(3);
     }
 
-    //- link spiking element to output generator
+    //- construct a connection matrix for the event distributor
 
-    pedm[0].pvObject = pogSpikeSource;
-    pedm[0].pvFunction = OutputGeneratorTimedStep;
+    struct EventDistributorMatrix pedm[] =
+	{
+	    //! for HeccerOutput object
 
-    //- link spiking element to the event queuer
+	    {
+		//m target object, a solver, a HeccerOutput, or so
 
-    //! see also below, same developer comment
+		pogSpikeSource,
 
-    pedm[1].pvObject = &peqm[0];
-    pedm[1].pvObject = peq;
-    pedm[1].iTarget = 0;
-    pedm[1].pvFunction = EventQueuerEnqueue;
+		//m target subcomponent identification
+
+		-1,
+
+		//m called function
+
+		OutputGeneratorTimedStep,
+	    },
+
+	    //! for event queuer
+
+	    {
+		//m target object, a solver, a HeccerOutput, or so
+
+		peq, // &peqm[0],
+
+		//m target subcomponent identification
+
+		0,
+
+		//m called function
+
+		EventQueuerEnqueue,
+	    },
+
+	    //! terminator
+
+	    {
+		//m target object, a solver, a HeccerOutput, or so
+
+		NULL,
+
+		//m target subcomponent identification
+
+		-1,
+
+		//m called function
+
+		NULL,
+	    },
+
+	};
 
     //- allocate event distributor
 
