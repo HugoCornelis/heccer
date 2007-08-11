@@ -21,6 +21,24 @@
 #include <stdio.h>
 
 #include "heccer/eventdistributor.h"
+#include "heccer/sglib.h"
+
+
+typedef struct EventList
+{
+    struct EventList *ptr_to_next;
+    struct EventList *ptr_to_previous;
+    int iTarget;
+    double dTime;
+}
+    EventList;
+
+#define EVENTLIST_COMPARATOR(e1, e2) (e1->dTime > e2->dTime)
+
+SGLIB_DEFINE_DL_LIST_PROTOTYPES(EventList, EVENTLIST_COMPARATOR, ptr_to_previous, ptr_to_next);
+SGLIB_DEFINE_DL_LIST_FUNCTIONS(EventList, EVENTLIST_COMPARATOR, ptr_to_previous, ptr_to_next);
+
+EventList *elEvents = NULL;
 
 
 static
@@ -227,9 +245,20 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     //t 3. link heccer with the entry, or better do the scheduling external, so link with ssp
     //t 4. done ?
 
-    event.iTarget = iTarget;
-    event.dTime = dTime;
-    event.iEvents++;
+    EventList *elElement = malloc(sizeof(EventList));
+
+    elElement->dTime = dTime;
+    elElement->iTarget = iTarget;
+
+    sglib_EventList_add(&elEvents, elElement);
+
+    //- sort event list
+
+    sglib_EventList_sort(&elEvents);
+
+/*     event.iTarget = iTarget; */
+/*     event.dTime = dTime; */
+/*     event.iEvents++; */
 
 /*     iResult = EventQueuerProcess(peq, iTarget, dTime); */
 
@@ -313,17 +342,16 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
     int iResult = 1;
 
-    int iTarget = event.iTarget;
+    EventList *elElement = sglib_EventList_get_first(elEvents);
 
-    double dTime = event.dTime;
-
-    //- if there is a valid target
-
-    //! guess I will have to get rid of this check.
-
-    if (iTarget != -1
-	&& event.iEvents != 0)
+    if (elElement)
     {
+	sglib_EventList_delete(&elEvents, elElement);
+
+	int iTarget = elElement->iTarget;
+
+	double dTime = elElement->dTime;
+
 	//- loop over target table
 
 	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
@@ -342,9 +370,40 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 	    ppeqm++;
 	}
-
-	event.iEvents--;
     }
+
+/*     int iTarget = event.iTarget; */
+
+/*     double dTime = event.dTime; */
+
+/*     //- if there is a valid target */
+
+/*     //! guess I will have to get rid of this check. */
+
+/*     if (iTarget != -1 */
+/* 	&& event.iEvents != 0) */
+/*     { */
+/* 	//- loop over target table */
+
+/* 	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget]; */
+
+/* 	while (ppeqm && ppeqm->pvFunction) */
+/* 	{ */
+/* 	    //- add connection delay */
+
+/* 	    double dEvent = dTime + ppeqm->dDelay; */
+
+/* 	    //- call the target object */
+
+/* 	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent); */
+
+/* 	    //- next table entry */
+
+/* 	    ppeqm++; */
+/* 	} */
+
+/* 	event.iEvents--; */
+/*     } */
 
     //- return result
 
