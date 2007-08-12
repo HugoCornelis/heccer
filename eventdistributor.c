@@ -367,6 +367,11 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
 
+	//t This code SEGV on './configure --with-random', with optimization turned on.
+	//t It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
+	//t This behaviour was noticed after using sglib, so removing sglib should be
+	//t checked first to see if it solves the problem.
+
 	while (ppeqm && ppeqm->pvFunction)
 	{
 	    //- add connection delay
