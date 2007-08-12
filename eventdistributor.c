@@ -24,6 +24,37 @@
 #include "heccer/sglib.h"
 
 
+//o
+//o An event is an abstraction of a point in time where a solved variable
+//o crossed a (possibly solved) threshold.  The events are delivered to
+//o an event distributor, that distributes the events to event queuers.
+//o An event queuer queues the event until it is delivered to a target,
+//o normally the target is a solver.
+//o
+//o An event list is the core of the implementation of an event queuer.
+//o Other possible implementation candidates are:
+//o
+//o 1. A heap, for variable event list size, with an average number
+//o    of events above 10000, for those simulation times where there
+//o    are events in the queue.  Bursting networks are typical examples.
+//o
+//o 2. An adaptive calendar queue, for a number of events that is
+//o    about constant, for networks that are uniformly active.
+//o
+//o 3. An Splay tree is a candidate too, see the Neuron simulator.  I have
+//o    strong doubts that it performs better than a heap for neural
+//o    simulations.
+//o
+//o From my own experience, the used algorithm for the event queue is of
+//o minor importance for simulation of networks with detailed cell
+//o morphologies using the Genesis simulator, because Genesis distributes
+//o the events to many, many independent queues, such that each queue size
+//o is very small (for the simulations that I have investigated, less than
+//o 100 events).  A simple sorted list does better than any complicated
+//o data structure, according to my results (unpublished, it is difficult
+//o to publish anything that fails).
+//o 
+
 typedef struct EventList
 {
     struct EventList *ptr_to_next;
