@@ -41,19 +41,6 @@ SGLIB_DEFINE_DL_LIST_FUNCTIONS(EventList, EVENTLIST_COMPARATOR, ptr_to_previous,
 EventList *elEvents = NULL;
 
 
-static
-struct
-{
-    int iTarget;
-    double dTime;
-    int iEvents;
-}
-event =
-{
-    -1, FLT_MAX, 0,
-};
-
-
 /// **************************************************************************
 ///
 /// SHORT: EventDistributorNew()
@@ -240,10 +227,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 
     int iResult = 1;
 
-    //t 1. just queue event
-    //t 2. add function to the queuer service as a solver entry
-    //t 3. link heccer with the entry, or better do the scheduling external, so link with ssp
-    //t 4. done ?
+    //- queue the incoming event
 
     EventList *elElement = malloc(sizeof(EventList));
 
@@ -255,10 +239,6 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     //- sort event list
 
     sglib_EventList_sort(&elEvents);
-
-/*     event.iTarget = iTarget; */
-/*     event.dTime = dTime; */
-/*     event.iEvents++; */
 
 /*     iResult = EventQueuerProcess(peq, iTarget, dTime); */
 
@@ -371,39 +351,6 @@ int EventQueuerProcess(struct EventQueuer *peq)
 	    ppeqm++;
 	}
     }
-
-/*     int iTarget = event.iTarget; */
-
-/*     double dTime = event.dTime; */
-
-/*     //- if there is a valid target */
-
-/*     //! guess I will have to get rid of this check. */
-
-/*     if (iTarget != -1 */
-/* 	&& event.iEvents != 0) */
-/*     { */
-/* 	//- loop over target table */
-
-/* 	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget]; */
-
-/* 	while (ppeqm && ppeqm->pvFunction) */
-/* 	{ */
-/* 	    //- add connection delay */
-
-/* 	    double dEvent = dTime + ppeqm->dDelay; */
-
-/* 	    //- call the target object */
-
-/* 	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent); */
-
-/* 	    //- next table entry */
-
-/* 	    ppeqm++; */
-/* 	} */
-
-/* 	event.iEvents--; */
-/*     } */
 
     //- return result
 
