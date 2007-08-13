@@ -75,6 +75,9 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
+/* use the builtin event queue */
+#undef USE_SGLIB
+
 /* Version number of package */
 #undef VERSION
 

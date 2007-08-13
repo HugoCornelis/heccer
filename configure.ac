@@ -53,6 +53,21 @@ else
 
 fi
 
+AC_ARG_ENABLE(sglib, AS_HELP_STRING([--with-sglib   use the sglib based event queue]) )
+if test x"$with_sglib" == "xyes" ; then
+
+    echo "using the sglib based event queue"
+
+    AC_DEFINE(USE_SGLIB, 1, [use the sglib based event queue])
+
+else
+
+    echo "not using the sglib based event queue"
+
+    AC_DEFINE(USE_SGLIB, 0, [use the builtin event queue])
+
+fi
+
 AC_ARG_ENABLE(neurospaces, AS_HELP_STRING([--without-neurospaces   don't use neurospaces as modeling component]) )
 
 HECCER_INTEGRATORS=

@@ -21,7 +21,11 @@
 #include <stdio.h>
 
 #include "heccer/eventdistributor.h"
+#ifdef USE_SGLIB
+
 #include "heccer/sglib.h"
+
+#endif
 
 
 //o
@@ -57,19 +61,145 @@
 
 typedef struct EventList
 {
-    struct EventList *ptr_to_next;
-    struct EventList *ptr_to_previous;
+    struct EventList *pelLater;
+    struct EventList *pelEarlier;
     int iTarget;
     double dTime;
 }
     EventList;
 
+#ifdef USE_SGLIB
+
 #define EVENTLIST_COMPARATOR(e1, e2) (e1->dTime > e2->dTime)
 
-SGLIB_DEFINE_DL_LIST_PROTOTYPES(EventList, EVENTLIST_COMPARATOR, ptr_to_previous, ptr_to_next);
-SGLIB_DEFINE_DL_LIST_FUNCTIONS(EventList, EVENTLIST_COMPARATOR, ptr_to_previous, ptr_to_next);
+SGLIB_DEFINE_DL_LIST_PROTOTYPES(EventList, EVENTLIST_COMPARATOR, pelEarlier, pelLater);
+SGLIB_DEFINE_DL_LIST_FUNCTIONS(EventList, EVENTLIST_COMPARATOR, pelEarlier, pelLater);
 
-EventList *elEvents = NULL;
+EventList *elEvents;
+
+#else
+
+static EventList *pelEventFirst = NULL;
+static EventList *pelEventLast = NULL;
+
+
+static EventList * EventListDequeue(void)
+{
+    EventList * pelResult = pelEventFirst;
+
+    if (pelEventFirst)
+    {
+	//- one event in list
+
+	if (pelEventFirst == pelEventLast)
+	{
+	    //- set: none left
+
+	    pelEventFirst = NULL;
+	    pelEventLast = NULL;
+	}
+
+	//- more than one event in list
+
+	else
+	{
+	    //- set: new first event
+
+	    pelEventFirst = pelEventFirst->pelLater;
+
+	    //- set: earlier event for new first has been removed
+
+	    pelEventFirst->pelEarlier = NULL;
+	}
+    }
+
+    return(pelResult);
+}
+
+
+static int EventListInsert(EventList *pel)
+{
+    //- if there are elements in the list
+
+    if (pelEventLast)
+    {
+	//- loop over list starting at last event
+
+	EventList *elCurrent = pelEventLast;
+
+	while (elCurrent)
+	{
+	    //- if insertion position found
+
+	    if (elCurrent->dTime < pel->dTime)
+	    {
+		//- link new
+
+		pel->pelLater = elCurrent->pelLater;
+
+		//- protect for last event in list
+
+		if (pel->pelLater)
+		{
+		    pel->pelLater->pelEarlier = pel;
+		}
+		else
+		{
+		    pelEventLast = pel;
+		}
+
+		pel->pelEarlier = elCurrent;
+		elCurrent->pelLater = pel;
+
+		//- break loop
+
+		break;
+	    }
+
+	    //- next event: towards start of list
+
+	    elCurrent = elCurrent->pelEarlier;
+	}
+
+	//- if new is earliest element (the unlikely case)
+
+	if (!elCurrent)
+	{
+	    pel->pelEarlier = NULL;
+	    pel->pelLater = pelEventFirst;
+
+	    if (pel->pelLater)
+	    {
+		pel->pelLater->pelEarlier = pel;
+	    }
+
+	    pelEventFirst = pel;
+	}
+
+/* 	//- if new is last element */
+
+/* 	if (elCurrent == elEventLast) */
+/* 	{ */
+/* 	    el->elLater = NULL; */
+/* 	    elEventLast = el; */
+/* 	} */
+    }
+
+    //- else no elements in the list
+
+    else
+    {
+	//- set start and end
+
+	pelEventFirst = pel;
+	pelEventLast = pel;
+    }
+
+    return(1);
+}
+
+
+#endif
 
 
 /// **************************************************************************
@@ -265,11 +395,23 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     elElement->dTime = dTime;
     elElement->iTarget = iTarget;
 
+#ifdef USE_SGLIB
+
     sglib_EventList_add(&elEvents, elElement);
+
+#else
+
+    iResult = EventListInsert(elElement);
+
+#endif
 
     //- sort event list
 
+#ifdef USE_SGLIB
+
     sglib_EventList_sort(&elEvents);
+
+#endif
 
 /*     iResult = EventQueuerProcess(peq, iTarget, dTime); */
 
@@ -353,11 +495,23 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
     int iResult = 1;
 
+#ifdef USE_SGLIB
+
     EventList *elElement = sglib_EventList_get_first(elEvents);
+
+#else
+
+    EventList *elElement = EventListDequeue();
+
+#endif
 
     if (elElement)
     {
+#ifdef USE_SGLIB
+
 	sglib_EventList_delete(&elEvents, elElement);
+
+#endif
 
 	int iTarget = elElement->iTarget;
 
@@ -369,8 +523,8 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 	//t This code SEGV on './configure --with-random', with optimization turned on.
 	//t It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
-	//t This behaviour was noticed after using sglib, so removing sglib should be
-	//t checked first to see if it solves the problem.
+	//t This behaviour was noticed when using sglib, and when using the builtin
+	//t event queue.
 
 	while (ppeqm && ppeqm->pvFunction)
 	{
