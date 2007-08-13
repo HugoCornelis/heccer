@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 #include "heccer/eventdistributor.h"
-#ifdef USE_SGLIB
+#if USE_SGLIB
 
 #include "heccer/sglib.h"
 
@@ -68,7 +68,7 @@ typedef struct EventList
 }
     EventList;
 
-#ifdef USE_SGLIB
+#if USE_SGLIB
 
 #define EVENTLIST_COMPARATOR(e1, e2) (e1->dTime > e2->dTime)
 
@@ -395,7 +395,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
     elElement->dTime = dTime;
     elElement->iTarget = iTarget;
 
-#ifdef USE_SGLIB
+#if USE_SGLIB
 
     sglib_EventList_add(&elEvents, elElement);
 
@@ -407,7 +407,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int i
 
     //- sort event list
 
-#ifdef USE_SGLIB
+#if USE_SGLIB
 
     sglib_EventList_sort(&elEvents);
 
@@ -495,7 +495,7 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
     int iResult = 1;
 
-#ifdef USE_SGLIB
+#if USE_SGLIB
 
     EventList *elElement = sglib_EventList_get_first(elEvents);
 
@@ -507,7 +507,7 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
     if (elElement)
     {
-#ifdef USE_SGLIB
+#if USE_SGLIB
 
 	sglib_EventList_delete(&elEvents, elElement);
 
