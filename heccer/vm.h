@@ -355,6 +355,34 @@ struct MatsEventGenerate
 	     })								\
 	 : ({ iMatNumber++; 1; }) ) )
 
+struct MopsReset
+{
+    //m operator : HECCER_MOP_RESET
+
+    int iOperator;
+
+    //m reset value
+
+    double dReset;
+};
+
+#define SETMOP_RESET(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dR) \
+    ((pvMops)								\
+     ? ({ struct MopsReset *pmops = (struct MopsReset *)(pvMops);	\
+	     pmops->iOperator = HECCER_MOP_RESET;			\
+	     pmops->dReset = (dR) ;					\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsReset);		\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+
 
 struct MatsCallout
 {
@@ -876,6 +904,7 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_INITIALIZECHANNELEK 28
 #define HECCER_MOP_SPRINGMASS 29
 #define HECCER_MOP_EVENTGENERATE 31
+#define HECCER_MOP_RESET 32
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 40
 

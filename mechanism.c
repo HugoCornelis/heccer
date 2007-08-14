@@ -1042,7 +1042,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (psg->dReset != FLT_MAX)
 		    {
-			//t generate op for resetting the membrane potential
+			//- generate op for resetting the membrane potential
+
+			SETMOP_RESET(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, psg->dReset);
+
 		    }
 
 		    break;
@@ -1515,6 +1518,19 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 			pmops->uSource.pdValue = NULL;
 		    }
 /* 		} */
+
+		break;
+	    }
+
+	    //- for a reset operation
+
+	    case HECCER_MOP_RESET:
+	    {
+		//- go to next operator
+
+		struct MopsReset *pmops = (struct MopsReset *)piMop;
+
+		piMop = (int *)&pmops[1];
 
 		break;
 	    }
@@ -2400,6 +2416,31 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 			}
 		    }
 		}
+
+		break;
+	    }
+
+	    //- for a reset operation
+
+	    case HECCER_MOP_RESET:
+	    {
+		//- go to next operator
+
+		struct MopsReset *pmops = (struct MopsReset *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- get reset value
+
+		double dVmNew = pmops->dReset;
+
+		//- set the membrane potential
+
+		//t what if the user mixes this with active currents ?
+		//t this is ok for simple integrate and fire,
+		//t but for more complicated models I am not sure.
+
+		pdVm[0] = dVmNew;
 
 		break;
 	    }
