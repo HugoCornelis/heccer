@@ -238,6 +238,10 @@ struct SpikeGenerator
 
     double dThreshold;
 
+    //m reset value, FLT_MAX for none
+
+    double dReset;
+
     //m table in event distributor with targets
 
     int iTable;

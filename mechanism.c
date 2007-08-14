@@ -1038,6 +1038,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime, dSpike);
 
+		    //- if there is a reset value set
+
+		    if (psg->dReset != FLT_MAX)
+		    {
+			//t generate op for resetting the membrane potential
+		    }
+
 		    break;
 		}
 
