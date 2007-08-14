@@ -372,7 +372,9 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 /// ARGS.:
 ///
 ///	peq.......: an event queuer.
-///	ppiTargets: target objects and target ports.
+///	dTime.....: time the event arrives.
+///	iSource...: source identifier.
+///	iTarget...: target identifier.
 ///
 /// RTN..: int
 ///
@@ -382,7 +384,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 ///
 /// **************************************************************************
 
-int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget)
+int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget)
 {
     //- set default result: ok
 
@@ -450,7 +452,7 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 
     peqResult->eventDequeue = EventQueuerDequeue;
 
-    peqResult->eventEnqueue = EventQueuerEnqueue;
+/*     peqResult->eventEnqueue = EventQueuerEnqueue; */
 
     struct EventQueuerData *peqd = calloc(1, sizeof(*peqd));
 

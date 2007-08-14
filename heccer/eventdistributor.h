@@ -109,7 +109,7 @@ struct EventQueuerMatrix
 
     //m called function
 
-    //! decouples the event distributor from the target
+    //! decouples the event queuer from the target
 
     int (*pvFunction)();
 
@@ -138,7 +138,7 @@ typedef double (*EventDequeuer)(struct EventQueuer *peq, double dTime, int iTarg
 
 //d a event enqueuing function
 
-typedef int (*EventEnqueuer)(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
+typedef int (*EventEnqueuer)(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget);
 
 
 struct EventQueuer
@@ -147,11 +147,11 @@ struct EventQueuer
 
     struct EventQueuerData *peqd;
 
-    //m hand an event over to the event queuer
+/*     //m hand an event over to the event queuer */
 
-    //! decouples the event queuer from the source
+/*     //! decouples the event queuer from the source */
 
-    EventEnqueuer eventEnqueue;
+/*     EventEnqueuer eventEnqueue; */
 
     //m forward an event from queuer to receiver
 
@@ -179,7 +179,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 
 /* extern EventQueue EventQueuerEnQueue ; */
 
-int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, int iSource, int iTarget);
+int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget);
 
 struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm);
 
