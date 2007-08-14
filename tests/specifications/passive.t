@@ -84,7 +84,7 @@ my $test
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, first alternative ?",
 						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork4p1.txt`, ],
-						   timeout => 5,
+						   timeout => 8,
 						   write => undef,
 						  },
 						 ],
@@ -98,7 +98,7 @@ my $test
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, second alternative ?",
 						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork4p2.txt`, ],
-						   timeout => 5,
+						   timeout => 8,
 						   write => undef,
 						  },
 						 ],
@@ -112,7 +112,7 @@ my $test
 						  {
 						   description => "Is a fork of four passive compartments solved correctly, third alternative ?",
 						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/fork4p3.txt`, ],
-						   timeout => 5,
+						   timeout => 8,
 						   write => undef,
 						  },
 						 ],
