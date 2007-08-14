@@ -489,6 +489,12 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 ///
 /// **************************************************************************
 
+int iTarget = -1;
+
+struct EventQueuerMatrix *ppeqm = NULL;
+
+EventList *elElement = NULL;
+
 int EventQueuerProcess(struct EventQueuer *peq)
 {
     //- set default result: ok
@@ -497,11 +503,11 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 #if USE_SGLIB
 
-    EventList *elElement = sglib_EventList_get_first(elEvents);
+    elElement = sglib_EventList_get_first(elEvents);
 
 #else
 
-    EventList *elElement = EventListDequeue();
+    elElement = EventListDequeue();
 
 #endif
 
@@ -513,13 +519,13 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 #endif
 
-	int iTarget = elElement->iTarget;
+	iTarget = elElement->iTarget;
 
 	double dTime = elElement->dTime;
 
 	//- loop over target table
 
-	struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
+	ppeqm = &peq->peqd->ppeqm[iTarget];
 
 	//t This code SEGV on './configure --with-random', with optimization turned on.
 	//t It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
