@@ -1056,11 +1056,11 @@ struct EventQueuer eq =
 
     &eqd,
 
-    //m hand an event over to the event queuer
+/*     //m hand an event over to the event queuer */
 
-    //! decouples the event queuer from the source
+/*     //! decouples the event queuer from the source */
 
-    EventQueuerEnqueue,
+/*     EventQueuerEnqueue, */
 
     //m forward an event from queuer to receiver
 
