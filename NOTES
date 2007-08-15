@@ -1,3 +1,5 @@
-- Test runner improvements.
-- Springmass channels can now be complemented by a file with synaptic
-  events.
+- Test framework synchronization with neurospaces.
+- Small docs updates.
+- Package management fixes.
+- Added event distribution and queuing system, first version.
+- Small distributed improvements.
