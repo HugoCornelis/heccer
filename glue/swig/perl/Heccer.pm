@@ -879,6 +879,57 @@ sub heccer_object
 }
 
 
+package Heccer::DES;
+
+
+sub add_distributor
+{
+    my $self = shift;
+
+    my $distributor = shift;
+
+    $self->{distributor} = SwiggableHeccer::EventDistributorNew($distributor);
+
+    if (!defined $self->{distributor})
+    {
+	return undef;
+    }
+
+    return 1;
+}
+
+
+sub add_queuer
+{
+    my $self = shift;
+
+    my $queuer = shift;
+
+    $self->{queuer} = SwiggableHeccer::EventQueuerNew($queuer);
+
+    if (!defined $self->{queuer})
+    {
+	return undef;
+    }
+
+    return 1;
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    return $self;
+}
+
+
 package Heccer::Output;
 
 
