@@ -1,5 +1,7 @@
 -*- outline -*-
 
+* the tests/tests directory is part of the distribution, somehow.
+
 * add springmass channels to the perl glue
 ** add events
 ** add springmass2 test
