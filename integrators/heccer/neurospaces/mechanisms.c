@@ -97,6 +97,8 @@ struct MathComponentData
 #define STATUS_NON_POOL_FOR_NERNST -11
 #define STATUS_ILLEGAL_PARAMETER_VALUES -12
 #define STATUS_UNQUALIFIABLE_FILENAME -13
+#define STATUS_UNKNOWN_CHANNEL_TYPE1 -14
+#define STATUS_UNKNOWN_CHANNEL_TYPE2 -15
 
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc);
@@ -2427,122 +2429,210 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     else if (instanceof_channel(phsle))
     {
-	//- check if channel has an exponential equation
+	struct symtab_Parameters *pparType
+	    = SymbolFindParameter(phsle, "CHANNEL_TYPE", ptstr->ppist);
 
-	int iEquation = SymbolHasEquation(phsle, ptstr->ppist);
-
-	//- if channel has multiple concentration dependencies
-
-	struct symtab_IOList *piolPool1
-	    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 1);
-
-	if (piolPool1)
+	if (pparType)
 	{
-	    //- abort the traversal
+	    char *pcType = ParameterString(pparType);
 
-	    MathComponentDataStatusSet(pmcd, STATUS_MANY_POOLS);
-
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	//- if channel has concentration dependency
-
-	struct symtab_IOList *piolPool0
-	    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
-
-	if (piolPool0 && !iEquation)
-	{
-	    //- is a concentration dependent channel
-
-	    iType = MATH_TYPE_ChannelActConc;
-	}
-
-	//- else
-
-	else
-	{
-	    //t this needs to be worked out:
-
-	    //- get name of channel
-
-	    char * pcName = SymbolGetName(phsle);
-
-	    //t check for other types
-
-	    if (strncasecmp(pcName, "nap", strlen("nap")) == 0)
+	    if (pcType)
 	    {
-		//- MATH_TYPE_ChannelAct: only one gate (nap)
+		//- check if channel has an exponential equation
 
-		iType = MATH_TYPE_ChannelAct;
-	    }
-	    else if (strncasecmp(pcName, "km", strlen("km")) == 0)
-	    {
-		//t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
+		int iEquation = SymbolHasEquation(phsle, ptstr->ppist);
 
-		iType = MATH_TYPE_ChannelPersistentSteadyStateTau;
-	    }
-	    else if (strncasecmp(pcName, "kh", strlen("kh")) == 0)
-	    {
-		//- MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh)
+		//- if channel has multiple concentration dependencies
 
-		iType = MATH_TYPE_ChannelPersistentSteadyStateDualTau;
-	    }
-	    else if (strncasecmp(pcName, "kdr", strlen("kdr")) == 0)
-	    {
-		//t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr)
+		struct symtab_IOList *piolPool1
+		    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 1);
 
-		iType = MATH_TYPE_ChannelSteadyStateSteppedTau;
-	    }
-	    else if (strncasecmp(pcName, "kc", strlen("kc")) == 0
-		     || strncasecmp(pcName, "k2", strlen("k2")) == 0)
-	    {
-		//t when the concen was not bound, the test above fails.
-		//t need a separate name for the concen gate or so
-
-		iType = MATH_TYPE_ChannelActConc;
-	    }
-	    else
-	    {
-		//- if the channel has an equation
-
-		if (iEquation)
+		if (piolPool1)
 		{
-		    //- type is springmass channel
+		    //- abort the traversal
 
-		    iType = MATH_TYPE_ChannelSpringMass;
+		    MathComponentDataStatusSet(pmcd, STATUS_MANY_POOLS);
+
+		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		//- else
+/* 		//- if channel has concentration dependency */
 
-		else
+/* 		struct symtab_IOList *piolPool0 */
+/* 		    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 0); */
+
+/* 		if (piolPool0 */
+
+/* 		    //- but no exponential equation */
+
+/* 		    && !iEquation) */
+/* 		{ */
+/* 		    //- is a concentration dependent channel */
+
+/* 		    iType = MATH_TYPE_ChannelActConc; */
+/* 		} */
+
+/* 		//- else */
+
+/* 		else */
+/* 		{ */
+/* 		    //t this needs to be worked out: */
+
+/* 		    //- get name of channel */
+
+/* 		    char * pcName = SymbolGetName(phsle); */
+
+/* 		    //t check for other types */
+
+/* 		    if (strncasecmp(pcName, "nap", strlen("nap")) == 0) */
+/* 		    { */
+/* 			//- MATH_TYPE_ChannelAct: only one gate (nap) */
+
+/* 			iType = MATH_TYPE_ChannelAct; */
+/* 		    } */
+/* 		    else if (strncasecmp(pcName, "km", strlen("km")) == 0) */
+/* 		    { */
+/* 			//t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km) */
+
+/* 			iType = MATH_TYPE_ChannelPersistentSteadyStateTau; */
+/* 		    } */
+/* 		    else if (strncasecmp(pcName, "kh", strlen("kh")) == 0) */
+/* 		    { */
+/* 			//- MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh) */
+
+/* 			iType = MATH_TYPE_ChannelPersistentSteadyStateDualTau; */
+/* 		    } */
+/* 		    else if (strncasecmp(pcName, "kdr", strlen("kdr")) == 0) */
+/* 		    { */
+/* 			//t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr) */
+
+/* 			iType = MATH_TYPE_ChannelSteadyStateSteppedTau; */
+/* 		    } */
+/* 		    else if (strncasecmp(pcName, "kc", strlen("kc")) == 0 */
+/* 			     || strncasecmp(pcName, "k2", strlen("k2")) == 0) */
+/* 		    { */
+/* 			//t when the concen was not bound, the test above fails. */
+/* 			//t need a separate name for the concen gate or so */
+
+/* 			iType = MATH_TYPE_ChannelActConc; */
+/* 		    } */
+/* 		    else */
+/* 		    { */
+/* 			//- if the channel has an exponential equation */
+
+/* 			if (iEquation) */
+/* 			{ */
+/* 			    //- type is springmass channel */
+
+/* 			    iType = MATH_TYPE_ChannelSpringMass; */
+/* 			} */
+
+/* 			//- else */
+
+/* 			else */
+/* 			{ */
+/* 			    //- is an activating - inactivating channel */
+
+/* 			    iType = MATH_TYPE_ChannelActInact; */
+/* 			} */
+/* 		    } */
+/* 		} */
+
+     0;
+
+		if (strncasecmp(pcType, "ChannelAct", strlen("ChannelAct")) == 0)
 		{
-		    //- is an activating - inactivating channel
+		    //- MATH_TYPE_ChannelAct: only one gate (nap)
+
+		    iType = MATH_TYPE_ChannelAct;
+		}
+		else if (strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
+		{
+		    //t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
+
+		    iType = MATH_TYPE_ChannelPersistentSteadyStateTau;
+		}
+		else if (strncasecmp(pcType, "ChannelPersistentSteadyStateDualTau", strlen("ChannelPersistentSteadyStateDualTau")) == 0)
+		{
+		    //- MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh)
+
+		    iType = MATH_TYPE_ChannelPersistentSteadyStateDualTau;
+		}
+		else if (strncasecmp(pcType, "ChannelSteadyStateSteppedTau", strlen("ChannelSteadyStateSteppedTau")) == 0)
+		{
+		    //t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr)
+
+		    iType = MATH_TYPE_ChannelSteadyStateSteppedTau;
+		}
+		else if (strncasecmp(pcType, "ChannelActConc", strlen("ChannelActConc")) == 0)
+		{
+		    //t when the concen was not bound, the test above fails.
+		    //t need a separate name for the concen gate or so
+
+		    iType = MATH_TYPE_ChannelActConc;
+		}
+		else if (strncasecmp(pcType, "ChannelActInact", strlen("ChannelActInact")) == 0)
+		{
+		    //t when the concen was not bound, the test above fails.
+		    //t need a separate name for the concen gate or so
 
 		    iType = MATH_TYPE_ChannelActInact;
 		}
+		else
+		{
+		    //- if the channel has an exponential equation
+
+		    if (iEquation)
+		    {
+			//- type is springmass channel
+
+			iType = MATH_TYPE_ChannelSpringMass;
+		    }
+		    else
+		    {
+			//- abort the traversal
+
+			MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE1);
+
+			iResult = TSTR_PROCESSOR_ABORT;
+		    }
+		}
+
+		//- if the channel has a nernst function
+
+		//t need a separate loop for registering the type or so.
+
+		if (SymbolHasNernstEk(phsle, ptstr->ppist))
+		{
+		    if (!MathComponentDataTypeRegister(pmcd, iType))
+		    {
+			iResult = TSTR_PROCESSOR_ABORT;
+		    }
+
+		    //t differentiate between internal and external nernst,
+		    //t possibly also differentiate with constant nernst
+
+		    iType = MATH_TYPE_InternalNernst;
+		}
+
+		//t MATH_TYPE_MGBlocker
+
+		//t check for attachments (synchans)
 	    }
-	}
-
-	//- if the channel has a nernst function
-
-	//t need a separate loop for registering the type or so.
-
-	if (SymbolHasNernstEk(phsle, ptstr->ppist))
-	{
-	    if (!MathComponentDataTypeRegister(pmcd, iType))
+	    else
 	    {
+		//- abort the traversal
+
+		MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE2);
+
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
-
-	    //t differentiate between internal and external nernst,
-	    //t possibly also differentiate with constant nernst
-
-	    iType = MATH_TYPE_InternalNernst;
 	}
-
-	//t MATH_TYPE_MGBlocker
-
-	//t check for attachments (synchans)
+	else
+	{
+	    //t deal with channels that are linked with a table
+	    //t generated externally (using genesis2)
+	}
     }
 
     //- register type
