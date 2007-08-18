@@ -16,6 +16,7 @@ my $test
 						   description => "Are callouts correctly executed, one compartment case ?",
 						   read => [ 'Initiated
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -57,6 +58,7 @@ The pefSoma callout is advancing to time 2e-05
 -------
 Iteration 0
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -98,6 +100,7 @@ The pefSoma callout is advancing to time 4e-05
 -------
 Iteration 1
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -139,6 +142,7 @@ The pefSoma callout is advancing to time 6e-05
 -------
 Iteration 2
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -180,6 +184,7 @@ The pefSoma callout is advancing to time 8e-05
 -------
 Iteration 3
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -221,6 +226,7 @@ The pefSoma callout is advancing to time 0.0001
 -------
 Iteration 4
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -262,6 +268,7 @@ The pefSoma callout is advancing to time 0.00012
 -------
 Iteration 5
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -303,6 +310,7 @@ The pefSoma callout is advancing to time 0.00014
 -------
 Iteration 6
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -344,6 +352,7 @@ The pefSoma callout is advancing to time 0.00016
 -------
 Iteration 7
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -385,6 +394,7 @@ The pefSoma callout is advancing to time 0.00018
 -------
 Iteration 8
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -426,6 +436,7 @@ The pefSoma callout is advancing to time 0.0002
 -------
 Iteration 9
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -478,6 +489,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0681455)
 						   description => "Are callouts correctly executed, one compartment case, injected current for some steps ?",
 						   read => [ 'Initiated
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -519,6 +531,7 @@ The pefInjector callout is advancing to time 2e-05
 -------
 Iteration 0
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -560,6 +573,7 @@ The pefInjector callout is advancing to time 4e-05
 -------
 Iteration 1
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -601,6 +615,7 @@ The pefInjector callout is advancing to time 6e-05
 -------
 Iteration 2
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -642,6 +657,7 @@ The pefInjector callout is advancing to time 8e-05
 -------
 Iteration 3
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -683,6 +699,7 @@ The pefInjector callout is advancing to time 0.0001
 -------
 Iteration 4
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -724,6 +741,7 @@ The pefInjector callout is advancing to time 0.00012
 -------
 Iteration 5
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -765,6 +783,7 @@ The pefInjector callout is advancing to time 0.00014
 -------
 Iteration 6
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -806,6 +825,7 @@ The pefInjector callout is advancing to time 0.00016
 -------
 Iteration 7
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -847,6 +867,7 @@ The pefInjector callout is advancing to time 0.00018
 -------
 Iteration 8
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -888,6 +909,7 @@ The pefInjector callout is advancing to time 0.0002
 -------
 Iteration 9
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)

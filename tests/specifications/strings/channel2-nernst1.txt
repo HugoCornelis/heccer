@@ -1,5 +1,6 @@
 Initiated
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -43,6 +44,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.068)
 -------
 Iteration 0
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -86,6 +88,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.068)
 -------
 Iteration 100000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -129,6 +132,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0678255)
 -------
 Iteration 200000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -172,6 +176,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.067651)
 -------
 Iteration 300000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -215,6 +220,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0674764)
 -------
 Iteration 400000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -258,6 +264,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0673019)
 -------
 Iteration 500000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -301,6 +308,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0671274)
 -------
 Iteration 600000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -344,6 +352,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0669529)
 -------
 Iteration 700000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -387,6 +396,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0667784)
 -------
 Iteration 800000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -430,6 +440,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0666039)
 -------
 Iteration 900000
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
@@ -473,6 +484,7 @@ VM Membrane Potentials (pdVms[0]) : (-0.0664294)
 -------
 Final Iteration
 Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
 Heccer Options (dIntervalEnd) : (0.05)
