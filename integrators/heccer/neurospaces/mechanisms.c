@@ -2593,6 +2593,12 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		    {
 			//- abort the traversal
 
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter present ?).",
+			     SymbolGetName(phsle));
+
 			MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE1);
 
 			iResult = TSTR_PROCESSOR_ABORT;
