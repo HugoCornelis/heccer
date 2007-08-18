@@ -2432,9 +2432,10 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	struct symtab_Parameters *pparType
 	    = SymbolFindParameter(phsle, "CHANNEL_TYPE", ptstr->ppist);
 
-	if (pparType)
+	if (pparType
+	    || SymbolHasEquation(phsle, ptstr->ppist))
 	{
-	    char *pcType = ParameterString(pparType);
+	    char *pcType = pparType ? ParameterString(pparType) : NULL;
 
 /* 	    if (pcType) */
 	    {
