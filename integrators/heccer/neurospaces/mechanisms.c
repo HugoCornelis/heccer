@@ -2436,7 +2436,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	{
 	    char *pcType = ParameterString(pparType);
 
-	    if (pcType)
+/* 	    if (pcType) */
 	    {
 		//- check if channel has an exponential equation
 
@@ -2540,38 +2540,38 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
      0;
 
-		if (strncasecmp(pcType, "ChannelAct", strlen("ChannelAct")) == 0)
+		if (pcType && strncasecmp(pcType, "ChannelAct", strlen("ChannelAct")) == 0)
 		{
 		    //- MATH_TYPE_ChannelAct: only one gate (nap)
 
 		    iType = MATH_TYPE_ChannelAct;
 		}
-		else if (strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
+		else if (pcType && strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
 		{
 		    //t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
 
 		    iType = MATH_TYPE_ChannelPersistentSteadyStateTau;
 		}
-		else if (strncasecmp(pcType, "ChannelPersistentSteadyStateDualTau", strlen("ChannelPersistentSteadyStateDualTau")) == 0)
+		else if (pcType && strncasecmp(pcType, "ChannelPersistentSteadyStateDualTau", strlen("ChannelPersistentSteadyStateDualTau")) == 0)
 		{
 		    //- MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh)
 
 		    iType = MATH_TYPE_ChannelPersistentSteadyStateDualTau;
 		}
-		else if (strncasecmp(pcType, "ChannelSteadyStateSteppedTau", strlen("ChannelSteadyStateSteppedTau")) == 0)
+		else if (pcType && strncasecmp(pcType, "ChannelSteadyStateSteppedTau", strlen("ChannelSteadyStateSteppedTau")) == 0)
 		{
 		    //t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr)
 
 		    iType = MATH_TYPE_ChannelSteadyStateSteppedTau;
 		}
-		else if (strncasecmp(pcType, "ChannelActConc", strlen("ChannelActConc")) == 0)
+		else if (pcType && strncasecmp(pcType, "ChannelActConc", strlen("ChannelActConc")) == 0)
 		{
 		    //t when the concen was not bound, the test above fails.
 		    //t need a separate name for the concen gate or so
 
 		    iType = MATH_TYPE_ChannelActConc;
 		}
-		else if (strncasecmp(pcType, "ChannelActInact", strlen("ChannelActInact")) == 0)
+		else if (pcType && strncasecmp(pcType, "ChannelActInact", strlen("ChannelActInact")) == 0)
 		{
 		    //t when the concen was not bound, the test above fails.
 		    //t need a separate name for the concen gate or so
@@ -2619,14 +2619,14 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		//t check for attachments (synchans)
 	    }
-	    else
-	    {
-		//- abort the traversal
+/* 	    else */
+/* 	    { */
+/* 		//- abort the traversal */
 
-		MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE2);
+/* 		MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE2); */
 
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
+/* 		iResult = TSTR_PROCESSOR_ABORT; */
+/* 	    } */
 	}
 	else
 	{

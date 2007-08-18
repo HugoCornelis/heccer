@@ -119,6 +119,8 @@ struct Heccer
 
     int iStatus;
 
+    int iErrorCount;
+
     //m options
 
     struct HeccerOptions ho;
@@ -261,6 +263,8 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 
 
 char * HeccerGetVersion(void);
+
+int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...);
 
 int HeccerHecc(struct Heccer *pheccer);
 

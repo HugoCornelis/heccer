@@ -59,7 +59,9 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
     {
 	//- get pointer to intermediary
 
-	struct Intermediary *pinter = (struct Intermediary *)pvUserdata;
+	struct Heccer *pheccer = (struct Heccer *)pvUserdata;
+
+	struct Intermediary *pinter = &pheccer->inter;
 
 	//- register current symbol
 
@@ -189,9 +191,9 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	if (iResult == TSTR_PROCESSOR_ABORT)
 	{
-	    fprintf
-		(stderr,
-		 "Heccer the hecc : "
+	    HeccerError
+		(pheccer,
+		 NULL,
 		 "compartment array translation failed at compartment (compartment %i, serial %i)\n",
 		 pinter->iCompartments,
 		 pinter->pcomp[iSegment].mc.iSerial);
@@ -245,7 +247,7 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 	//- register solved segments in cell
 
 	if (SymbolTraverseSegments
-	    (phsleModel, ppistModel, solver_segmentprocessor, NULL, pinter) == -1)
+	    (phsleModel, ppistModel, solver_segmentprocessor, NULL, pheccer) == -1)
 	{
 	    iResult = FALSE;
 	}
@@ -326,9 +328,9 @@ static int cellsolver_linksegments(struct Heccer *pheccer)
 	    }
 	    else
 	    {
-		fprintf
-		    (stderr,
-		     "Heccer the hecc : "
+		HeccerError
+		    (pheccer,
+		     NULL,
 		     "compartment (compartment %i, serial %i (internal %i)) parent linking failed for parent serial %i (internal %i)\n",
 		     iCompartment,
 		     ADDRESSING_HECCER_2_NEUROSPACES(pcomp->mc.iSerial),

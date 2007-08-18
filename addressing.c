@@ -107,11 +107,10 @@ HeccerAddressVariable
     {
 	//! this cannot be, internal error
 
-	//t HeccerError(number, message, varargs);
-
-	fprintf
-	    (stderr,
-	     "Heccer the hecc : trying to address something that should exist, but cannot find it (internal serial %i\n",
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "trying to address something that should exist, but cannot find it (internal serial %i)",
 	     iSerial);
 
 	//- return error

@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/08/01) Wednesday, August 1, 2007 14:30:07 hugo";
+static char *pcVersionTime="(07/08/17) Friday, August 17, 2007 22:17:34 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -18,6 +18,7 @@ static char *pcVersionTime="(07/08/01) Wednesday, August 1, 2007 14:30:07 hugo";
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -332,7 +333,75 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerHecc()
+/// SHORT: HeccerError()
+///
+/// ARGS.:
+///
+///	pheccer..: a heccer.
+///	pcContext: context of error.
+///	pcError..: error string.
+///
+/// RTN..: int
+///
+/// DESCR: Register an error, print to stderr.
+///
+/// **************************************************************************
+
+int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- give diagnostics
+
+    //- print to stderr
+
+    fprintf(stderr, "Heccer the hecc :");
+
+/*     if (pcContext) */
+/*     { */
+/* 	fprintf */
+/* 	    (stderr, */
+/* 	     "%s: *** Error: ", */
+/* 	     pcContext); */
+/*     } */
+
+    //v stdargs list
+
+    va_list vaList;
+
+    //- get start of stdargs
+
+    va_start(vaList, pcError);
+
+    //- give diagnostics
+
+    vfprintf(stderr, pcError, vaList);
+
+    fprintf(stderr, "\n");
+
+    //- end stdargs
+
+    va_end(vaList);
+
+    //- negate status: this heccer is in error
+
+    pheccer->iStatus = - pheccer->iStatus;
+
+    //- increment total error count
+
+    pheccer->iErrorCount++;
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerGetVersion()
 ///
 /// ARGS.:
 ///

@@ -31,7 +31,8 @@
 
 static
 int
-HeccerMechanismReadDoubleFile(char *pcFilename, double **ppdValues);
+HeccerMechanismReadDoubleFile
+(struct Heccer *pheccer, char *pcFilename, double **ppdValues);
 
 
 /// **************************************************************************
@@ -176,9 +177,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    {
 		//t HeccerError(number, message, varargs);
 
-		fprintf
-		    (stderr,
-		     "Heccer the hecc : trying to fetch math component number %i, which is out of range\n",
+		HeccerError
+		    (pheccer,
+		     NULL,
+		     "trying to fetch math component number %i, which is out of range",
 		     iStart);
 
 		//- return error
@@ -286,10 +288,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			//t HeccerError(number, message, varargs);
 
-			fprintf
-			    (stderr,
-			     "Heccer the hecc : found a file specification as well as an array specification for event times of a springmass channel.\n"
-			     "Heccer the hecc : model container component number %i\n",
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "found a file specification as well as an array specification for event times of a springmass channel, "
+			     "model container component number %i\n",
 #ifdef HECCER_SOURCE_NEUROSPACES
 			     pcsm->mc.iSerial,
 #else
@@ -308,17 +311,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			//- read in the file
 
-			int iDoubles = HeccerMechanismReadDoubleFile(pcsm->pcEventTimes, &pcsm->pdEventTimes);
+			int iDoubles = HeccerMechanismReadDoubleFile(pheccer, pcsm->pcEventTimes, &pcsm->pdEventTimes);
 
 			if (iDoubles == -1
 			    || !pcsm->pdEventTimes)
 			{
 			    //t HeccerError(number, message, varargs);
 
-			    fprintf
-				(stderr,
-				 "Heccer the hecc : could not read file %s, specified for a springmass channel.\n"
-				 "Heccer the hecc : model container component number %i\n",
+			    HeccerError
+				(pheccer,
+				 NULL,
+				 "could not read file %s, specified for a springmass channel, "
+				 "model container component number %i\n",
 				 pcsm->pcEventTimes,
 #ifdef HECCER_SOURCE_NEUROSPACES
 				 pcsm->mc.iSerial,
@@ -1055,9 +1059,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		{
 		    //t HeccerError(number, message, varargs);
 
-		    fprintf
-			(stderr,
-			 "Heccer the hecc : unknown pmc->iType (%i)\n", iType);
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "unknown pmc->iType (%i)",
+			 iType);
+
 		    break;
 		}
 		}
@@ -1073,9 +1080,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	{
 	    //t HeccerError(number, message, varargs);
 
-	    fprintf
-		(stderr,
-		 "Heccer the hecc : mechanisms found after last compartment's mechanism\n");
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 "mechanisms found after last compartment's mechanism");
 
 	    return(FALSE);
 	}
@@ -1539,9 +1547,11 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	    {
 		//t HeccerError(number, message, varargs);
 
-		fprintf
-		    (stderr,
-		     "Heccer the hecc : unknown mechanism operation (%i)\n", piMop[0]);
+		HeccerError
+		    (pheccer,
+		     NULL,
+		     "unknown mechanism operation (%i)",
+		     piMop[0]);
 
 		//! the best we can do is advance the pointer with one
 
@@ -1559,9 +1569,10 @@ int HeccerMechanismLink(struct Heccer *pheccer)
     {
 	//t add something like HeccerError(number, message, varargs);
 
-	fprintf
-	    (stderr,
-	     "Heccer the hecc : piMop[0] is %i, should be %i\n",
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "piMop[0] is %i, should be %i",
 	     piMop[0],
 	     HECCER_MOP_FINISH);
 
@@ -1582,6 +1593,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
+///	pheccer....: a heccer.
 ///	pcFilename.: filename to read.
 ///	ppdValues..: values that have been read, NULL for failure.
 ///
@@ -1597,7 +1609,8 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 static
 int
-HeccerMechanismReadDoubleFile(char *pcFilename, double **ppdValues)
+HeccerMechanismReadDoubleFile
+(struct Heccer *pheccer, char *pcFilename, double **ppdValues)
 {
     //- set default result: failure
 
@@ -1676,7 +1689,12 @@ HeccerMechanismReadDoubleFile(char *pcFilename, double **ppdValues)
 		}
 		else
 		{
-		    fprintf(stderr, "Heccer the hecc : parse failure for HeccerMechanismReadDoubleFile(), record %i, scanned %i items (instead of 1)\n", iDoubles, iScanned); 
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "parse failure for HeccerMechanismReadDoubleFile(), record %i, scanned %i items (instead of 1)\n",
+			 iDoubles,
+			 iScanned); 
 
 		    break;
 		}
@@ -1918,7 +1936,12 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    {
 			//t HeccerError(number, message, varargs);
 
-			fprintf(stderr, "Heccer the hecc : event reception failed for (%i) at time %g\n", pmops->iDiscreteTarget, pheccer->dTime); 
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "event reception failed for (%i) at time %g\n",
+			     pmops->iDiscreteTarget,
+			     pheccer->dTime); 
 
 			return(0);
 		    }
@@ -2191,9 +2214,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		{
 		    //t HeccerError(number, message, varargs);
 
-		    fprintf
-			(stderr,
-			 "Heccer the hecc : invalid gate power (%i)\n", iPower);
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "invalid gate power (%i)",
+			 iPower);
 
 		    *(int *)0 = 0;
 		}
@@ -2409,9 +2434,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 			    {
 				//t HeccerError(number, message, varargs);
 
-				fprintf
-				    (stderr,
-				     "Heccer the hecc : spike generation failed at time (%g)\n", pheccer->dTime);
+				HeccerError
+				    (pheccer,
+				     NULL,
+				     "spike generation failed at time (%g)",
+				     pheccer->dTime);
 			    }
 			}
 		    }
@@ -2449,9 +2476,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	    {
 		//t HeccerError(number, message, varargs);
 
-		fprintf
-		    (stderr,
-		     "Heccer the hecc : unknown mechanism operation (%i)\n", piMop[0]);
+		HeccerError
+		    (pheccer,
+		     NULL,
+		     "unknown mechanism operation (%i)",
+		     piMop[0]);
 
 		//! the best we can do is advance the pointer with one
 
@@ -2504,9 +2533,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
     {
 	//t add something like HeccerError(number, message, varargs);
 
-	fprintf
-	    (stderr,
-	     "Heccer the hecc : piMop[0] is %i, should be %i\n",
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "piMop[0] is %i, should be %i",
 	     piMop[0],
 	     HECCER_MOP_FINISH);
 
