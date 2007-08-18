@@ -2540,13 +2540,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
      0;
 
-		if (pcType && strncasecmp(pcType, "ChannelAct", strlen("ChannelAct")) == 0)
-		{
-		    //- MATH_TYPE_ChannelAct: only one gate (nap)
-
-		    iType = MATH_TYPE_ChannelAct;
-		}
-		else if (pcType && strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
+		if (pcType && strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
 		{
 		    //t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
 
@@ -2577,6 +2571,12 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		    //t need a separate name for the concen gate or so
 
 		    iType = MATH_TYPE_ChannelActInact;
+		}
+		else if (pcType && strncasecmp(pcType, "ChannelAct", strlen("ChannelAct")) == 0)
+		{
+		    //- MATH_TYPE_ChannelAct: only one gate (nap)
+
+		    iType = MATH_TYPE_ChannelAct;
 		}
 		else
 		{
