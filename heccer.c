@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/08/17) Friday, August 17, 2007 22:17:34 hugo";
+static char *pcVersionTime="(07/08/17) Friday, August 17, 2007 22:27:02 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -44,6 +44,13 @@ static char *pcVersionTime="(07/08/17) Friday, August 17, 2007 22:17:34 hugo";
 
 int HeccerCompileP1(struct Heccer *pheccer)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -101,6 +108,13 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
 int HeccerCanCompile(struct Heccer *pheccer)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -155,6 +169,13 @@ int HeccerCanCompile(struct Heccer *pheccer)
 
 int HeccerCompileP2(struct Heccer *pheccer)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -205,6 +226,13 @@ int HeccerCompileP2(struct Heccer *pheccer)
 
 int HeccerCompileP3(struct Heccer *pheccer)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -260,6 +288,13 @@ int HeccerDumpV(struct Heccer *pheccer)
 
 int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -440,6 +475,13 @@ char * HeccerGetVersion(void)
 
 int HeccerHecc(struct Heccer *pheccer)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -499,6 +541,13 @@ int HeccerHecc(struct Heccer *pheccer)
 
 int HeccerHeccs(struct Heccer *pheccer, double dTime)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
@@ -555,6 +604,13 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 
 int HeccerInitiate(struct Heccer *pheccer)
 {
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
     //- set default result : ok
 
     int iResult = TRUE;
