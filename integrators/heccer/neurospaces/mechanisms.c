@@ -2596,7 +2596,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 			HeccerError
 			    (pheccer,
 			     NULL,
-			     "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter present ?).",
+			     "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter valid ?).",
 			     SymbolGetName(phsle));
 
 			MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE1);
@@ -2637,6 +2637,14 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 	else
 	{
+	    //- abort the traversal
+
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter present ?).",
+		 SymbolGetName(phsle));
+
 	    //t deal with channels that are linked with a table
 	    //t generated externally (using genesis2)
 	}
