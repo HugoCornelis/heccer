@@ -678,6 +678,15 @@ struct MopsSingleGateConcept
 	     pmops->iPower = (iP) ;					\
 	     pmops->uState.iMat = (iS) ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     ((iP) <= 0)						\
+		 ? ({							\
+			 HeccerError					\
+			     (pheccer,					\
+			      NULL,					\
+			      "gate power %i out of range",		\
+			      (iP));					\
+		     })							\
+		 : ({ });						\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
 	 }) : (								\
