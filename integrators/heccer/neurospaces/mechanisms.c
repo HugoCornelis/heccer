@@ -1949,22 +1949,25 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
-	    struct symtab_IOList *piolPool
+	    struct PidinStack *ppistPool
 		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
 
-	    if (piolPool)
+	    if (ppistPool)
 	    {
-		//t this is a hack to get things to work right now,
-		//t see TODOs in neurospaces
+/* 		//t this is a hack to get things to work right now, */
+/* 		//t see TODOs in neurospaces */
 
-		//t this hack will not work when components are in different groups or so
+/* 		//t this hack will not work when components are in different groups or so */
 
-		int iSerialDifference
-		    = piolPool->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
+/* 		int iSerialDifference */
+/* 		    = piolPool->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent; */
 
-		int iPool = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+		int iPool = PidinStackToSerial(ppistPool);
 
 		pcac->pac.ac.iActivator = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
+
+		PidinStackFree(ppistPool);
+
 	    }
 	    else
 	    {
@@ -2256,12 +2259,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	for (iInput = 0 ; iInput < EXPONENTIALDECAY_CONTRIBUTORS ; iInput++)
 	{
-	    struct symtab_IOList *piolExternal
+	    struct PidinStack *ppistExternal
 		= SymbolResolveInput(phsle, ptstr->ppist, "Ik", iInput);
 
-	    if (piolExternal)
+	    if (ppistExternal)
 	    {
-		if (!instanceof_channel(&piolExternal->hsle))
+		struct symtab_HSolveListElement *phsleExternal
+		    = PidinStackLookupTopSymbol(ppistExternal);
+
+		if (!instanceof_channel(phsleExternal))
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_NON_CHANNEL_OUTPUTS_IK);
 
@@ -2270,15 +2276,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		    break;
 		}
 
-		//t this is a hack to get things to work right now,
-		//t see TODOs in neurospaces
+/* 		//t this is a hack to get things to work right now, */
+/* 		//t see TODOs in neurospaces */
 
-		//t this hack will not work when components are in different groups or so
+/* 		//t this hack will not work when components are in different groups or so */
 
-		int iSerialDifference
-		    = piolExternal->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent;
+/* 		int iSerialDifference */
+/* 		    = piolExternal->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent; */
 
-		int iChannel = PidinStackToSerial(ptstr->ppist) + iSerialDifference;
+		int iChannel = PidinStackToSerial(ppistExternal);
 		int iPool = PidinStackToSerial(ptstr->ppist);
 
 		iChannel = ADDRESSING_NEUROSPACES_2_HECCER(iChannel);
@@ -2292,6 +2298,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		pmcd->ppiConnectors[pmcd->iConnectors][1] = iPool;
 
 		pmcd->iConnectors++;
+
+		PidinStackFree(ppistExternal);
+
 	    }
 	    else
 	    {
@@ -2301,14 +2310,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- check for to many contributors
 
-	struct symtab_IOList *piolExternal
+	struct PidinStack *ppistExternal
 	    = SymbolResolveInput(phsle, ptstr->ppist, "Ik", iInput);
 
-	if (piolExternal)
+	if (ppistExternal)
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_MANY_CHANNELS);
 
 	    iResult = TSTR_PROCESSOR_ABORT;
+
+	    PidinStackFree(ppistExternal);
 	}
 
 	//- advance to the next math component
@@ -2445,16 +2456,19 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		//- if channel has multiple concentration dependencies
 
-		struct symtab_IOList *piolPool1
+		struct PidinStack *ppistPool1
 		    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 1);
 
-		if (piolPool1)
+		if (ppistPool1)
 		{
 		    //- abort the traversal
 
 		    MathComponentDataStatusSet(pmcd, STATUS_MANY_POOLS);
 
 		    iResult = TSTR_PROCESSOR_ABORT;
+
+		    PidinStackFree(ppistPool1);
+
 		}
 
 /* 		//- if channel has concentration dependency */
