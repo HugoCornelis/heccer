@@ -2827,7 +2827,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 			    //t not sure if recycling is still allowed ...
 
 			    ptstr->iStatus = TSTR_STATUS_NEW;
-			    ptstr->pfProcesor = solver_mathcomponent_processor;
+			    ptstr->pfProcessor = solver_mathcomponent_processor;
 			    ptstr->pfFinalizer = solver_mathcomponent_finalizer;
 			    ptstr->pvFinalizer = (void *)&mcd;
 
