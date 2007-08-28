@@ -303,7 +303,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
     //- if conceptual gate
 
-    if (instanceof_conceptual_gate(phsle))
+    if (instanceof_h_h_gate(phsle))
     {
 	if (pmcd->iStatus == 1)
 	{
@@ -473,7 +473,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
     //- if conceptual gate
 
-    if (instanceof_conceptual_gate(phsle))
+    if (instanceof_h_h_gate(phsle))
     {
 	if (pmcd->iStatus == 1)
 	{
@@ -709,7 +709,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
     //- if conceptual gate
 
-    if (instanceof_conceptual_gate(phsle))
+    if (instanceof_h_h_gate(phsle))
     {
 	if (pmcd->iStatus == 1
 	    || pmcd->iStatus == 4)
@@ -893,7 +893,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
     //- if conceptual gate
 
-    if (instanceof_conceptual_gate(phsle))
+    if (instanceof_h_h_gate(phsle))
     {
 	if (pmcd->iStatus == 1)
 	{
@@ -1061,7 +1061,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
     //- if conceptual gate
 
-    if (instanceof_conceptual_gate(phsle))
+    if (instanceof_h_h_gate(phsle))
     {
 	if (pmcd->iStatus == 1)
 	{
@@ -1423,7 +1423,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
     //- if conceptual gate
 
-    if (instanceof_conceptual_gate(phsle))
+    if (instanceof_h_h_gate(phsle))
     {
 	if (pmcd->iStatus == 1)
 	{
@@ -1770,7 +1770,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     //- if gate and related
 
     else if (instanceof_gate_kinetic(phsle)
-	     || instanceof_conceptual_gate(phsle)
+	     || instanceof_h_h_gate(phsle)
 	     || instanceof_concentration_gate_kinetic(phsle))
     {
 	//- ok, skip
@@ -2409,7 +2409,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
     //- if gate and related
 
     else if (instanceof_gate_kinetic(phsle)
-	     || instanceof_conceptual_gate(phsle)
+	     || instanceof_h_h_gate(phsle)
 	     || instanceof_concentration_gate_kinetic(phsle)
 	     || instanceof_equation(phsle))
     {
