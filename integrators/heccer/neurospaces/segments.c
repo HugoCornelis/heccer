@@ -51,7 +51,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- if segment
 

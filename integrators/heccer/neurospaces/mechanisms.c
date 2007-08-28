@@ -289,7 +289,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -459,7 +459,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -695,7 +695,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -878,7 +878,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -1046,7 +1046,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -1246,7 +1246,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -1408,7 +1408,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -1696,7 +1696,7 @@ solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -1731,7 +1731,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
@@ -2361,7 +2361,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     //- get actual symbol
 
-    struct symtab_HSolveListElement *phsle = TstrGetActual(ptstr);
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
     //- get user data
 
