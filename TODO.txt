@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* running tests on a user machine
+requires mtn installed, because the test.config tries to execute mtn.
+
 * the tests/tests directory is part of the distribution, somehow.
 
 * add springmass channels to the perl glue
