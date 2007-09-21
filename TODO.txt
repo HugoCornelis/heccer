@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* some tests don't work on ric-neurospaces-02
+check files heccer-tables.output and heccer-spikes.output.
+
 * running tests on a user machine
 requires mtn installed, because the test.config tries to execute mtn.
 
