@@ -393,9 +393,9 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 	    {
 		//t HeccerError(number, message, varargs);
 
-		fprintf
-		    (stderr,
-		     "Heccer the hecc : "
+		HeccerError
+		    (pheccer,
+		     NULL,
 		     "the compartment array does not describe a valid tree structure"
 		     " at compartment (%i)\n",
 		     i);
