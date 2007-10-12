@@ -1275,7 +1275,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    if (pparEvents)
 	    {
-		char *pcEvents = ParameterString(pparEvents);
+		char *pcEvents = ParameterGetString(pparEvents);
 
 		char *pcEventsQualified
 		    = NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
@@ -2446,7 +2446,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	if (pparType
 	    || SymbolHasEquation(phsle, ptstr->ppist))
 	{
-	    char *pcType = pparType ? ParameterString(pparType) : NULL;
+	    char *pcType = pparType ? ParameterGetString(pparType) : NULL;
 
 /* 	    if (pcType) */
 	    {
