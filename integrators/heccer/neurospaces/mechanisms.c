@@ -1771,7 +1771,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     else if (instanceof_gate_kinetic(phsle)
 	     || instanceof_h_h_gate(phsle)
-	     || instanceof_concentration_gate_kinetic(phsle))
+	     || instanceof_concentration_gate_kinetic(phsle)
+	     || instanceof_equation(phsle))
+    {
+	//- ok, skip
+
+	iType = -2;
+    }
+
+    //- if simulation domain related
+
+    else if (instanceof_attachment(phsle))
     {
 	//- ok, skip
 
@@ -1782,19 +1792,54 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     else
     {
-	//- get type of math component
+	//- default: we do not process this component
 
-	iType = pmcd->piTypes[pmcd->iCurrentType];
+	int iProcess = 0;
 
-	//- register the type in the math component array
+	//- if passive-only mode and this is a synchan
 
-	pmc->iType = iType;
+	if (pheccer->ho.iOptions & HECCER_OPTION_PASSIVE_SYNCHANS)
+	{
+	    if (instanceof_channel(phsle)
+		&& SymbolHasEquation(phsle, ptstr->ppist))
+	    {
+		//- ok, process
 
-	//- register serial
+		iProcess = 1;
+	    }
+	}
 
-	int iNeurospaces = PidinStackToSerial(ptstr->ppist);
+	//- else, active mode
 
-	pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
+	else
+	{
+	    //- ok, process everything
+
+	    iProcess = 1;
+	}
+
+	//- if we must process this component
+
+	if (iProcess)
+	{
+	    //- get type of math component
+
+	    iType = pmcd->piTypes[pmcd->iCurrentType];
+
+	    //- register the type in the math component array
+
+	    pmc->iType = iType;
+
+	    //- register serial
+
+	    int iNeurospaces = PidinStackToSerial(ptstr->ppist);
+
+	    pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
+	}
+	else
+	{
+	    iType = -2;
+	}
     }
 
     //- depending on the type
@@ -2431,25 +2476,71 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     else if (instanceof_pool(phsle))
     {
-	//- ok, register
+	//- if passive-only mode
 
-	iType = MATH_TYPE_ExponentialDecay;
+	if (pheccer->ho.iOptions & HECCER_OPTION_PASSIVE_SYNCHANS)
+	{
+	    //- ok, skip
+
+	    iType = -2;
+	}
+
+	//- if active mode
+
+	else
+	{
+	    //- ok, register
+
+	    iType = MATH_TYPE_ExponentialDecay;
+	}
     }
 
     //- channel
 
     else if (instanceof_channel(phsle))
     {
-	struct symtab_Parameters *pparType
-	    = SymbolFindParameter(phsle, "CHANNEL_TYPE", ptstr->ppist);
+	//t clearly there should be global filter for this: given a
+	//t component, should we process it or not ?  This filter should
+	//t then be used by the other functions too, to see what must go
+	//t to the intermediary.
 
-	if (pparType
-	    || SymbolHasEquation(phsle, ptstr->ppist))
+	//- default: we do not process channels
+
+	int iProcess = 0;
+
+	//- if passive-only mode and this is a synchan
+
+	if (pheccer->ho.iOptions & HECCER_OPTION_PASSIVE_SYNCHANS)
 	{
-	    char *pcType = pparType ? ParameterGetString(pparType) : NULL;
-
-/* 	    if (pcType) */
+	    if (SymbolHasEquation(phsle, ptstr->ppist))
 	    {
+		//- ok, process
+
+		iProcess = 1;
+	    }
+	}
+
+	//- else, active mode
+
+	else
+	{
+	    //- ok, process everything
+
+	    iProcess = 1;
+	}
+
+	//- if we must process this channel
+
+	if (iProcess)
+	{
+	    struct symtab_Parameters *pparType
+		= SymbolFindParameter(phsle, "CHANNEL_TYPE", ptstr->ppist);
+
+	    if (pparType
+		|| SymbolHasEquation(phsle, ptstr->ppist))
+	    {
+		char *pcType = pparType ? ParameterGetString(pparType) : NULL;
+
 		//- check if channel has an exponential equation
 
 		int iEquation = SymbolHasEquation(phsle, ptstr->ppist);
@@ -2470,90 +2561,6 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		    PidinStackFree(ppistPool1);
 
 		}
-
-/* 		//- if channel has concentration dependency */
-
-/* 		struct symtab_IOList *piolPool0 */
-/* 		    = SymbolResolveInput(phsle, ptstr->ppist, "concen", 0); */
-
-/* 		if (piolPool0 */
-
-/* 		    //- but no exponential equation */
-
-/* 		    && !iEquation) */
-/* 		{ */
-/* 		    //- is a concentration dependent channel */
-
-/* 		    iType = MATH_TYPE_ChannelActConc; */
-/* 		} */
-
-/* 		//- else */
-
-/* 		else */
-/* 		{ */
-/* 		    //t this needs to be worked out: */
-
-/* 		    //- get name of channel */
-
-/* 		    char * pcName = SymbolGetName(phsle); */
-
-/* 		    //t check for other types */
-
-/* 		    if (strncasecmp(pcName, "nap", strlen("nap")) == 0) */
-/* 		    { */
-/* 			//- MATH_TYPE_ChannelAct: only one gate (nap) */
-
-/* 			iType = MATH_TYPE_ChannelAct; */
-/* 		    } */
-/* 		    else if (strncasecmp(pcName, "km", strlen("km")) == 0) */
-/* 		    { */
-/* 			//t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km) */
-
-/* 			iType = MATH_TYPE_ChannelPersistentSteadyStateTau; */
-/* 		    } */
-/* 		    else if (strncasecmp(pcName, "kh", strlen("kh")) == 0) */
-/* 		    { */
-/* 			//- MATH_TYPE_ChannelPersistentSteadyStateDualTau: tau with two parts ? (kh) */
-
-/* 			iType = MATH_TYPE_ChannelPersistentSteadyStateDualTau; */
-/* 		    } */
-/* 		    else if (strncasecmp(pcName, "kdr", strlen("kdr")) == 0) */
-/* 		    { */
-/* 			//t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr) */
-
-/* 			iType = MATH_TYPE_ChannelSteadyStateSteppedTau; */
-/* 		    } */
-/* 		    else if (strncasecmp(pcName, "kc", strlen("kc")) == 0 */
-/* 			     || strncasecmp(pcName, "k2", strlen("k2")) == 0) */
-/* 		    { */
-/* 			//t when the concen was not bound, the test above fails. */
-/* 			//t need a separate name for the concen gate or so */
-
-/* 			iType = MATH_TYPE_ChannelActConc; */
-/* 		    } */
-/* 		    else */
-/* 		    { */
-/* 			//- if the channel has an exponential equation */
-
-/* 			if (iEquation) */
-/* 			{ */
-/* 			    //- type is springmass channel */
-
-/* 			    iType = MATH_TYPE_ChannelSpringMass; */
-/* 			} */
-
-/* 			//- else */
-
-/* 			else */
-/* 			{ */
-/* 			    //- is an activating - inactivating channel */
-
-/* 			    iType = MATH_TYPE_ChannelActInact; */
-/* 			} */
-/* 		    } */
-/* 		} */
-
-     0;
 
 		if (pcType && strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
 		{
@@ -2640,27 +2647,23 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		//t check for attachments (synchans)
 	    }
-/* 	    else */
-/* 	    { */
-/* 		//- abort the traversal */
+	    else
+	    {
+		//- abort the traversal
 
-/* 		MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_CHANNEL_TYPE2); */
+		HeccerError
+		    (pheccer,
+		     NULL,
+		     "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter present ?).",
+		     SymbolGetName(phsle));
 
-/* 		iResult = TSTR_PROCESSOR_ABORT; */
-/* 	    } */
+		//t deal with channels that are linked with a table
+		//t generated externally (using genesis2)
+	    }
 	}
 	else
 	{
-	    //- abort the traversal
-
-	    HeccerError
-		(pheccer,
-		 NULL,
-		 "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter present ?).",
-		 SymbolGetName(phsle));
-
-	    //t deal with channels that are linked with a table
-	    //t generated externally (using genesis2)
+	    iType = -2;
 	}
     }
 

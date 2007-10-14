@@ -87,6 +87,11 @@ struct HeccerOptions
 
 #define HECCER_OPTION_BACKWARD_EULER			2
 
+//d simulate as a passive model, with synchans (springmass)
+
+#define HECCER_OPTION_PASSIVE_SYNCHANS			4
+
+
 //d discretized gate, interval start
 
 #define HECCER_INTERVAL_DEFAULT_START			(-0.1)

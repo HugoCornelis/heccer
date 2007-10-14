@@ -1,7 +1,22 @@
 -*- outline -*-
 
+* passive-only option
+** open issues
+probably both of these, for interfacing consistency:
+*** should be at level of the integrator ?
+So mechanisms never propagate to the intermediary ?
+*** should be at the level of the compiler ?
+So mechanisms are filtered out by the compilers ?
+**** in HeccerMechanismCompile()
+All the mechanisms, except springmass are skipped.  This is supposed
+to be tracked automatically by the mechanism indexing, so should work
+like that.
+** implement tests for the passive-only option
+
 * some tests don't work on ric-neurospaces-02
-check files heccer-tables.output and heccer-spikes.output.
+check files heccer-tables.output and heccer-spikes.output.  Perhaps
+related to not recompiling heccer and integrating the proper
+neurospaces library.
 
 * running tests on a user machine
 requires mtn installed, because the test.config tries to execute mtn.
@@ -28,13 +43,6 @@ case needed.
 
 * neurospaces interface
 has fixed size buffers, see two commits ago.  Remove fixed size buffers.
-
-* Add passive only option
-** add a flag PASSIVE_ONLY
-** in HeccerMechanismCompile()
-All the mechanisms, except springmass are skipped.  This is supposed
-to be tracked automatically by the mechanism indexing, so should work
-like that.
 
 * rename integrators to interfaces
 
