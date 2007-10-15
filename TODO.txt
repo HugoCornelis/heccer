@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* addressing, output generator and vclamp
+Variables should be (double *) instead of (void *).
+
 * passive-only option
 ** open issues
 probably both of these, for interfacing consistency:
