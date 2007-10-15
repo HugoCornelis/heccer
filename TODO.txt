@@ -1,5 +1,9 @@
 -*- outline -*-
 
+* HeccerHecc()
+should have access to the current simulation time, now this is
+implied.
+
 * addressing, output generator and vclamp
 Variables should be (double *) instead of (void *).
 
