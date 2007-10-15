@@ -27,6 +27,8 @@
 
 struct Heccer *pheccer = NULL;
 
+struct VClamp *pvc = NULL;
+
 
 //o To use this file :
 //o
@@ -76,6 +78,10 @@ struct Heccer *pheccer = NULL;
 
 #ifndef HECCER_TEST_REPORTING_GRANULARITY
 #define HECCER_TEST_REPORTING_GRANULARITY 1
+#endif
+
+#ifndef HECCER_TEST_SCHEDULE
+#define HECCER_TEST_SCHEDULE ((void)1)
 #endif
 
 #ifndef HECCER_TEST_STEPS
@@ -197,9 +203,17 @@ int main(int argc, char *argv[])
 
     for (i = 0; i < HECCER_TEST_STEPS ; i++)
     {
+	//- update the current simulation time.
+
+	double dSimulationTime = i * HECCER_TEST_TIME_STEP;
+
 	//- step
 
 	HeccerHecc(pheccer);
+
+	//- schedule other objects
+
+	HECCER_TEST_SCHEDULE;
 
 	//- generate user specified output
 

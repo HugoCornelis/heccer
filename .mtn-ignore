@@ -52,6 +52,7 @@ Makefile.in$
 ^tests/code/table-nap$
 ^tests/code/tensizesp$
 ^tests/code/triplep$
+^tests/code/vclamp-sodium$
 ^tests/code/version$
 ^tests/html/
 _Inline

@@ -208,6 +208,13 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 
     pogResult->iVariablesAllocated = ALLOCATE_VARIABLES;
 
+    if (!pogResult->ppdVariables)
+    {
+	free(pogResult);
+
+	return(NULL);
+    }
+
     //- allocate filename
 
     pogResult->pcFilename = calloc(1 + strlen(pcFilename), sizeof(char));

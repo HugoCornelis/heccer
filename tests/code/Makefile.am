@@ -68,6 +68,7 @@ check_PROGRAMS = \
 	table-nap \
 	tensizesp \
 	triplep \
+	vclamp-sodium \
 	version
 
 noinst_HEADERS = \
@@ -160,6 +161,8 @@ tensizesp_DEPENDENCIES = ../../libheccer.a main.c
 tensizesp_LDADD = -L../.. -lheccer -lm
 triplep_DEPENDENCIES = ../../libheccer.a main.c
 triplep_LDADD = -L../.. -lheccer -lm
+vclamp_sodium_DEPENDENCIES = ../../libheccer.a
+vclamp_sodium_LDADD = -L../.. -lheccer -lm
 version_DEPENDENCIES = ../../libheccer.a
 version_LDADD = -L../.. -lheccer -lm
 

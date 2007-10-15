@@ -42,6 +42,7 @@ libheccer_a_SOURCES = \
 	output.c \
 	random.c \
 	table.c \
+	vclamp.c \
 	vm.c
 
 nobase_include_HEADERS = \
@@ -60,6 +61,7 @@ nobase_include_HEADERS = \
 	heccer/output.h \
 	heccer/random.h \
 	heccer/service.h \
+	heccer/vclamp.h \
 	heccer/table.h \
 	heccer/vm.h
 

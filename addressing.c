@@ -170,6 +170,11 @@ HeccerAddressCompartmentVariable
 
     else if (strcmp(pcField, "inject") == 0)
     {
+	//- convert intermediary to schedule number
+
+	int iSchedule = pheccer->indexers.md.piForward[iIntermediary];
+
+	//t get entry of mat array, I guess
     }
 
     //- for total membrane current
