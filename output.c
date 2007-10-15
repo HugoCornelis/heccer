@@ -197,6 +197,11 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 
     pogResult = (struct OutputGenerator *)calloc(1, sizeof(struct OutputGenerator));
 
+    if (!pogResult)
+    {
+	return(NULL);
+    }
+
     //- allocate output variables
 
     pogResult->ppdVariables = (double **)calloc(ALLOCATE_VARIABLES, sizeof(double *));
