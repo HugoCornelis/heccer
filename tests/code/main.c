@@ -205,7 +205,7 @@ int main(int argc, char *argv[])
     {
 	//- update the current simulation time.
 
-	double dSimulationTime = i * HECCER_TEST_TIME_STEP;
+	double dSimulationTime = (i + 1) * HECCER_TEST_TIME_STEP;
 
 	//- step
 

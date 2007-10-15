@@ -29,11 +29,7 @@
 #define HECCER_TEST_REPORTING_GRANULARITY 100
 #define HECCER_TEST_STEPS 1000
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
-				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
-				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
-				    | HECCER_DUMP_VM_MECHANISM_DATA \
 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
-				    | HECCER_DUMP_VM_SUMMARY \
 	)
 #define HECCER_TEST_TIME_STEP (6e-6)
 
@@ -334,7 +330,7 @@ int main(int argc, char *argv[])
 
     //! setfield ^ gain 0.50 tau_i 0.02 tau_d 0.005 saturation 999.0
 
-    double dGain = 0.50;
+    double dGain = 0.50e-13;
     double dTau_i = 0.02;
     double dTau_d = 0.005;
     double dSaturation = 999.0;
