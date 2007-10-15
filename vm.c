@@ -376,18 +376,6 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 	}
     }
 
-/*     //m mechanism operations */
-
-/*     //t data type unspecified */
-
-/*     void *pvMops; */
-
-/*     //m mechanism data */
-
-/*     //t data type unspecified */
-
-/*     void *pvMats; */
-
     //- return result
 
     return(iResult);
