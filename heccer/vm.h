@@ -115,6 +115,8 @@ struct VM
 
     //m indexing from mops or mats number towards one of the above
 
+    void **ppvCMatsIndex;
+
     void **ppvMopsIndex;
 
     void **ppvMatsIndex;
@@ -188,12 +190,13 @@ struct MatsCompartment
 	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_COMPARTMENT(ppvMatsIndex,iMatNumber,pvMats,iMats,dL,dI,dC,dD) \
+#define SETMAT_COMPARTMENT(ppvCMatsIndex,iCNumber,ppvMatsIndex,iMatNumber,pvMats,iMats,dL,dI,dC,dD) \
     ((pvMats)								\
      ? ({ struct MatsCompartment *pmats = (struct MatsCompartment *)pvMats ; \
 	     pmats->dLeak = (dL) ; pmats->dInjected = (dI) ;		\
 	     pmats->dCapacity = (dC) ;					\
 	     pmats->dDiagonal = (dD) ;					\
+	     ppvCMatsIndex[iCNumber] = pvMats;				\
 	     ppvMatsIndex[iMatNumber++] = pvMats;			\
 	     pvMats = (void *)&((struct MatsCompartment *)pvMats)[1] ;	\
 	     1 ;							\

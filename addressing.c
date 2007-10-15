@@ -174,7 +174,16 @@ HeccerAddressCompartmentVariable
 
 	int iSchedule = pheccer->indexers.md.piForward[iIntermediary];
 
-	//t get entry of mat array, I guess
+	//- get entry in mat array
+
+	struct MatsCompartment *pmatsc
+	    = (struct MatsCompartment *)pheccer->vm.ppvCMatsIndex[iSchedule];
+
+	//- set result
+
+	double *pdResult = &pmatsc->dInjected;
+
+	pvResult = (void *)pdResult;
     }
 
     //- for total membrane current
