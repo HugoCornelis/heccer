@@ -326,16 +326,20 @@ int main(int argc, char *argv[])
 
     //- set fields
 
-    double dCommand = 0.0;
+    double dInject = 0.0;
 
     //! setfield ^ gain 0.50 tau_i 0.02 tau_d 0.005 saturation 999.0
+
+    double dR = 1;
+    double dC = 0.03;
+    double dCommand_init = 0.0;
 
     double dGain = 0.50e-13;
     double dTau_i = 0.02;
     double dTau_d = 0.005;
     double dSaturation = 999.0;
 
-    VClampSetFields(pvc, dCommand, dGain, dTau_i, dTau_d, dSaturation);
+    VClampSetFields(pvc, dInject, dC, dR, dCommand_init, dGain, dTau_i, dTau_d, dSaturation);
 
 //d connect the voltage clamp object with the compartment of interest
 

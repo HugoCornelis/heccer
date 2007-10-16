@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single spike ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/spiker1.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker1.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -33,7 +33,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single source, single spike, multiple targets, hardcoded connection matrix ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -47,7 +47,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single source, single spike, multiple targets ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },

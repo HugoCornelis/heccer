@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tables shared across compartments, kdr case ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-dual-kdr.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-dual-kdr.txt`),
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -33,7 +33,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tables shared across compartments, km case ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/table-dual-km.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-dual-km.txt`),
 						   timeout => 18,
 						   write => undef,
 						  },

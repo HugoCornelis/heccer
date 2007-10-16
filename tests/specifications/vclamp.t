@@ -10,6 +10,18 @@ my $test
 			       {
 				arguments => [
 					     ],
+				command => 'tests/code/vclamp-passive',
+				command_tests => [
+						  {
+						   description => "Can a passive compartment be clamped ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-passive.txt`),
+						  },
+						 ],
+				description => "vclamp circuitry, passive compartment",
+			       },
+			       {
+				arguments => [
+					     ],
 				command => 'tests/code/vclamp-sodium',
 				command_tests => [
 						  {

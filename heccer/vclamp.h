@@ -43,6 +43,15 @@ struct VClamp
 
     //m command voltage
 
+    double dInjected;
+
+    //m intial resistance and capacitance
+
+    double dC;
+    double dR;
+
+    //m resulting command voltage
+
     double dCommand;
 
     //m gain and time constants
@@ -87,7 +96,10 @@ struct VClamp * VClampNew(char *pcName);
 int
 VClampSetFields
 (struct VClamp * pvc,
- double dCommand,
+ double dInjected,
+ double dC,
+ double dR,
+ double dCommand_init,
  double dGain,
  double dTau_i,
  double dTau_d,

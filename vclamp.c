@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -209,11 +210,14 @@ struct VClamp * VClampNew(char *pcName)
 ///
 /// ARGS.:
 ///
-///	dCommand....: command voltage.
-///	dGain.......: gain value.
-///	dTau_i......: integrating time constant.
-///	dTau_d......: derivative time constant.
-///	dSaturation.: saturation value.
+///	dInjected.....: injected current.
+///	dC............: parallel initial capacitance.
+///	dR............: initial resistance.
+///	dCommand_init.: initial command voltage.
+///	dGain.........: gain value.
+///	dTau_i........: integrating time constant.
+///	dTau_d........: derivative time constant.
+///	dSaturation...: saturation value.
 ///
 /// RTN..: int
 ///
@@ -221,12 +225,20 @@ struct VClamp * VClampNew(char *pcName)
 ///
 /// DESCR: set operation fields of voltage clamper.
 ///
+/// NOTE.:
+///
+///	The initial command voltage should probably have a separate
+///	setter method.
+///
 /// **************************************************************************
 
 int
 VClampSetFields
 (struct VClamp * pvc,
- double dCommand,
+ double dInjected,
+ double dC,
+ double dR,
+ double dCommand_init,
  double dGain,
  double dTau_i,
  double dTau_d,
@@ -238,7 +250,11 @@ VClampSetFields
 
     //- set fields
 
-    pvc->dCommand = dCommand;
+    pvc->dInjected = dInjected;
+
+    pvc->dC = dC;
+    pvc->dR = dR;
+    pvc->dCommand = dCommand_init;
 
     pvc->dGain = dGain;
     pvc->dTau_i = dTau_i;
@@ -282,7 +298,17 @@ int VClampSingleStep(struct VClamp * pvc, double dTime)
 
     double dStep = dTime - pvc->dPreviousTime;
 
-    //- first preserver the previous area
+    //- exponential euler integration for the RC circuit
+
+    double dA = pvc->dInjected / pvc->dC;
+
+    double dB = 1 / (pvc->dR * pvc->dC);
+
+    double dD = exp( - dB * dStep);
+
+    pvc->dCommand = (pvc->dCommand * dD + (dA / dB) * (1 - dD));
+
+    //- first preserve the previous value
 
     pvc->dEPrevious = pvc->dE;
 

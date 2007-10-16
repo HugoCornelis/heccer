@@ -68,6 +68,7 @@ check_PROGRAMS = \
 	table-nap \
 	tensizesp \
 	triplep \
+	vclamp-passive \
 	vclamp-sodium \
 	version
 
@@ -161,6 +162,8 @@ tensizesp_DEPENDENCIES = ../../libheccer.a main.c
 tensizesp_LDADD = -L../.. -lheccer -lm
 triplep_DEPENDENCIES = ../../libheccer.a main.c
 triplep_LDADD = -L../.. -lheccer -lm
+vclamp_passive_DEPENDENCIES = ../../libheccer.a
+vclamp_passive_LDADD = -L../.. -lheccer -lm
 vclamp_sodium_DEPENDENCIES = ../../libheccer.a
 vclamp_sodium_LDADD = -L../.. -lheccer -lm
 version_DEPENDENCIES = ../../libheccer.a

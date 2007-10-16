@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, single pool case ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pool1.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -33,7 +33,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, two compartments, two pools case ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool2.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pool2.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -47,7 +47,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1-feedback1.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pool1-feedback1.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -61,7 +61,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop, reversed order ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1-feedback2.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pool1-feedback2.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -75,7 +75,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool feed by two channels ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1-contributors2.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pool1-contributors2.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -89,7 +89,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is the concentration dependent nernst potential calculated correctly ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/pool1-nernst.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pool1-nernst.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -103,7 +103,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is the solved nernst potential applied for channel reversal potentials ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/channel1-nernst1.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/channel1-nernst1.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -117,7 +117,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is the solved nernst potential applied for two channel reversal potentials ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/channel2-nernst1.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/channel2-nernst1.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
@@ -131,7 +131,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are two solved nernst potential applied for two channel reversal potentials ?",
-						   read => [ `cat $::config->{core_directory}/tests/specifications/strings/channel2-nernst2.txt`, ],
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/channel2-nernst2.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },
