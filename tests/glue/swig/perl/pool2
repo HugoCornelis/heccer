@@ -101,6 +101,7 @@ my $channel1
 						       forward => {
 								   dMultiplier => 2.6e3,
 								   dMembraneDependence => 0.0,
+								   dMembraneDependenceOffset => 1.0,
 								   iNominator => -1.0,
 								   dDeNominatorOffset => 1.0,
 								   dMembraneOffset => 0.021,
@@ -109,6 +110,7 @@ my $channel1
 						       backward => {
 								    dMultiplier => 0.18e3,
 								    dMembraneDependence => 0.0,
+								    dMembraneDependenceOffset => 1.0,
 								    iNominator => -1.0,
 								    dDeNominatorOffset => 1.0,
 								    dMembraneOffset => 0.04,
@@ -125,6 +127,7 @@ my $channel1
 							 forward => {
 								     dMultiplier => 0.0025e3,
 								     dMembraneDependence => 0.0,
+								     dMembraneDependenceOffset => 1.0,
 								     iNominator => -1.0,
 								     dDeNominatorOffset => 1.0,
 								     dMembraneOffset => 0.04,
@@ -133,6 +136,7 @@ my $channel1
 							 backward => {
 								      dMultiplier => 0.19e3,
 								      dMembraneDependence => 0.0,
+								      dMembraneDependenceOffset => 1.0,
 								      iNominator => -1.0,
 								      dDeNominatorOffset => 1.0,
 								      dMembraneOffset => 0.05,
@@ -173,6 +177,7 @@ my $channel2
 						       forward => {
 								   dMultiplier => 2.6e3,
 								   dMembraneDependence => 0.0,
+								   dMembraneDependenceOffset => 1.0,
 								   iNominator => -1.0,
 								   dDeNominatorOffset => 1.0,
 								   dMembraneOffset => 0.021,
@@ -181,6 +186,7 @@ my $channel2
 						       backward => {
 								    dMultiplier => 0.18e3,
 								    dMembraneDependence => 0.0,
+								    dMembraneDependenceOffset => 1.0,
 								    iNominator => -1.0,
 								    dDeNominatorOffset => 1.0,
 								    dMembraneOffset => 0.04,
@@ -197,6 +203,7 @@ my $channel2
 							 forward => {
 								     dMultiplier => 0.0025e3,
 								     dMembraneDependence => 0.0,
+								     dMembraneDependenceOffset => 1.0,
 								     iNominator => -1.0,
 								     dDeNominatorOffset => 1.0,
 								     dMembraneOffset => 0.04,
@@ -205,6 +212,7 @@ my $channel2
 							 backward => {
 								      dMultiplier => 0.19e3,
 								      dMembraneDependence => 0.0,
+								      dMembraneDependenceOffset => 1.0,
 								      iNominator => -1.0,
 								      dDeNominatorOffset => 1.0,
 								      dMembraneOffset => 0.05,

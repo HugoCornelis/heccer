@@ -353,11 +353,11 @@ HeccerGateConceptTabulate
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdForward[i] = (dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdForward[i] = (dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {
@@ -397,11 +397,11 @@ HeccerGateConceptTabulate
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdBackward[i] = dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdBackward[i] = dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx) / dDeNominator;
 		    }
 		    else
 		    {
