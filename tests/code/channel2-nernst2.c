@@ -146,6 +146,10 @@ struct ChannelActInact caiCaT =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -172,6 +176,10 @@ struct ChannelActInact caiCaT =
 		    0.18e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 
@@ -226,6 +234,10 @@ struct ChannelActInact caiCaT =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -252,6 +264,10 @@ struct ChannelActInact caiCaT =
 		    0.19e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 
@@ -364,6 +380,10 @@ struct ChannelActInact caiCaP =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -390,6 +410,10 @@ struct ChannelActInact caiCaP =
 		    35.0e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 
@@ -444,6 +468,10 @@ struct ChannelActInact caiCaP =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -470,6 +498,10 @@ struct ChannelActInact caiCaP =
 		    0.0055e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 

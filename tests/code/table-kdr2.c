@@ -137,6 +137,10 @@ struct ChannelAct caKdr =
 
 		    10000,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -163,6 +167,10 @@ struct ChannelAct caKdr =
 		    125.0,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 

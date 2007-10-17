@@ -136,6 +136,10 @@ struct ChannelActConc cacKC =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -162,6 +166,10 @@ struct ChannelActConc cacKC =
 		    0.11e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 

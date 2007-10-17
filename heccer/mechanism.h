@@ -278,6 +278,10 @@ struct GateKinetic
 
     double dMembraneDependence;
 
+    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+    double dMembraneDependenceOffset;
+
     //m 3: choose between nominator or denominator, 1 means nominator, -1
     //m means denominator
 

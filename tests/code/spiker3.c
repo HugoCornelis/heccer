@@ -165,6 +165,10 @@ struct ChannelAct caKdrSource =
 
 		    10000,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -191,6 +195,10 @@ struct ChannelAct caKdrSource =
 		    125.0,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 
@@ -287,6 +295,10 @@ struct ChannelActInact caiNaFSource =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -313,6 +325,10 @@ struct ChannelActInact caiNaFSource =
 		    7.0e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 
@@ -367,6 +383,10 @@ struct ChannelActInact caiNaFSource =
 
 		    0.0,
 
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+
+		    0.0,
+
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
@@ -393,6 +413,10 @@ struct ChannelActInact caiNaFSource =
 		    7.5e3,
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
+
+		    0.0,
+
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
 		    0.0,
 
