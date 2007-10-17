@@ -326,6 +326,7 @@ HeccerGateConceptTabulate
 	{
 	    double dMultiplier = pgc->parameters.gkForward.dMultiplier;
 	    double dMembraneDependence = pgc->parameters.gkForward.dMembraneDependence;
+	    double dMembraneDependenceOffset = 0.0;
 	    int iNominator = pgc->parameters.gkForward.iNominator;
 	    double dDeNominatorOffset = pgc->parameters.gkForward.dDeNominatorOffset;
 	    double dMembraneOffset = pgc->parameters.gkForward.dMembraneOffset;
@@ -352,11 +353,11 @@ HeccerGateConceptTabulate
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdForward[i] = (dMultiplier + dMembraneDependence * dx) * dDeNominator;
+			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdForward[i] = (dMultiplier + dMembraneDependence * dx) / dDeNominator;
+			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {
@@ -374,6 +375,7 @@ HeccerGateConceptTabulate
 	{
 	    double dMultiplier = pgc->parameters.gkBackward.dMultiplier;
 	    double dMembraneDependence = pgc->parameters.gkBackward.dMembraneDependence;
+	    double dMembraneDependenceOffset = 0.0;
 	    int iNominator = pgc->parameters.gkBackward.iNominator;
 	    double dDeNominatorOffset = pgc->parameters.gkBackward.dDeNominatorOffset;
 	    double dMembraneOffset = pgc->parameters.gkBackward.dMembraneOffset;
@@ -395,11 +397,11 @@ HeccerGateConceptTabulate
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdBackward[i] = (dMultiplier + dMembraneDependence * dx) * dDeNominator;
+			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdBackward[i] = (dMultiplier + dMembraneDependence * dx) / dDeNominator;
+			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {

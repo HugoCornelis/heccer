@@ -163,7 +163,7 @@ struct ChannelAct caKdrSource =
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		    -10000,
+		    10000,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
