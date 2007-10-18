@@ -298,6 +298,10 @@ struct GateKinetic
     //m 6: denormalized time constant
 
     double dTauDenormalizer;
+
+    //m 7: membrane dependence in the expential argument
+
+    double dExponentialMembraneDependence;
 };
 
 //s channel gate concept

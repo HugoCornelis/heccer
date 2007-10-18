@@ -93,6 +93,7 @@ my $channel
 								   dDeNominatorOffset => 0.0,
 								   dMembraneOffset => 5.0e-3,
 								   dTauDenormalizer => -10.0e-3,
+								   dExponentialMembraneDependence => -1.0,
 								  },
 						       backward => {
 								    dMultiplier => 7.0e3,
@@ -102,6 +103,7 @@ my $channel
 								    dDeNominatorOffset => 0.0,
 								    dMembraneOffset => 65.0e-3,
 								    dTauDenormalizer => 20.0e-3,
+								    dExponentialMembraneDependence => -1.0,
 								   },
 						      },
 				       },
@@ -119,6 +121,7 @@ my $channel
 								     dDeNominatorOffset => 1.0,
 								     dMembraneOffset => 80.0e-3,
 								     dTauDenormalizer => 10.0e-3,
+								     dExponentialMembraneDependence => -1.0,
 								    },
 							 backward => {
 								      dMultiplier => 7.5e3,
@@ -128,6 +131,7 @@ my $channel
 								      dDeNominatorOffset => 0.0,
 								      dMembraneOffset => -3.0e-3,
 								      dTauDenormalizer => -18.0e-3,
+								      dExponentialMembraneDependence => -1.0,
 								     },
 							},
 					 },

@@ -94,6 +94,7 @@ my $channel_cat
 								   dDeNominatorOffset => 1.0,
 								   dMembraneOffset => 0.021,
 								   dTauDenormalizer => -8e-3,
+								   dExponentialMembraneDependence => -1.0,
 								  },
 						       backward => {
 								    dMultiplier => 0.18e3,
@@ -103,6 +104,7 @@ my $channel_cat
 								    dDeNominatorOffset => 1.0,
 								    dMembraneOffset => 0.04,
 								    dTauDenormalizer => 4e-3,
+								    dExponentialMembraneDependence => -1.0,
 								   },
 						      },
 				       },
@@ -120,6 +122,7 @@ my $channel_cat
 								     dDeNominatorOffset => 1.0,
 								     dMembraneOffset => 0.04,
 								     dTauDenormalizer => 8e-3,
+								     dExponentialMembraneDependence => -1.0,
 								    },
 							 backward => {
 								      dMultiplier => 0.19e3,
@@ -129,6 +132,7 @@ my $channel_cat
 								      dDeNominatorOffset => 1.0,
 								      dMembraneOffset => 0.05,
 								      dTauDenormalizer => -10.0e-3,
+								      dExponentialMembraneDependence => -1.0,
 								     },
 							},
 					 },
@@ -169,6 +173,7 @@ my $channel_kc
 								   dDeNominatorOffset => 0.0,
 								   dMembraneOffset => 0.0,
 								   dTauDenormalizer => 1e12,
+								   dExponentialMembraneDependence => -1.0,
 								  },
 						       backward => {
 								    dMultiplier => 0.11e3,
@@ -178,6 +183,7 @@ my $channel_kc
 								    dDeNominatorOffset => 0.0,
 								    dMembraneOffset => -0.035,
 								    dTauDenormalizer => 14.9e-3,
+								    dExponentialMembraneDependence => -1.0,
 								   },
 						      },
 				       },

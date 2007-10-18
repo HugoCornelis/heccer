@@ -156,6 +156,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    -8e-3,
+
+		    //m 7: membrane dependence in the expential argument
+
+		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -189,6 +193,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    4e-3,
+
+		    //m 7: membrane dependence in the expential argument
+
+		    -1.0,
 		},
 	    },
 	},
@@ -244,6 +252,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    8e-3,
+
+		    //m 7: membrane dependence in the expential argument
+
+		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -277,6 +289,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    -10.0e-3,
+
+		    //m 7: membrane dependence in the expential argument
+
+		    -1.0,
 		},
 	    },
 	},

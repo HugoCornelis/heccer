@@ -135,7 +135,7 @@ struct ChannelAct caKdr =
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		    10000,
+		    1,
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
@@ -157,6 +157,10 @@ struct ChannelAct caKdr =
 		    //m denormalized time constant
 
 		    -0.01,
+
+		    //m 7: membrane dependence in the expential argument
+
+		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -190,6 +194,10 @@ struct ChannelAct caKdr =
 		    //m denormalized time constant
 
 		    0.08,
+
+		    //m 7: membrane dependence in the expential argument
+
+		    -1.0,
 		},
 	    },
 	},
