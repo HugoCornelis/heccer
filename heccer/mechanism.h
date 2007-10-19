@@ -278,7 +278,7 @@ struct GateKinetic
 
     //m 2: multiplier membrane dependence, 0.0 for no dependence
 
-    //! genesis tabchan B ?
+    //! genesis tabchan -B ?
 
     double dMembraneDependence;
 
