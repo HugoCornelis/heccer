@@ -13,6 +13,7 @@ my $test
 				command => 'tests/code/vclamp-passive',
 				command_tests => [
 						  {
+						   comment => 'this test still needs tuning.',
 						   description => "Can a passive compartment be clamped ?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-passive.txt`),
 						  },
