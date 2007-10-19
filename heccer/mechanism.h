@@ -272,9 +272,13 @@ struct GateKinetic
 
     //m 1: multiplier
 
+    //! genesis tabchan A
+
     double dMultiplier;
 
     //m 2: multiplier membrane dependence, 0.0 for no dependence
+
+    //! genesis tabchan B ?
 
     double dMembraneDependence;
 
@@ -289,13 +293,19 @@ struct GateKinetic
 
     //m 4: nominator or denominator offset
 
+    //! genesis tabchan C ?
+
     double dDeNominatorOffset;
 
     //m 5: membrane offset
 
+    //! genesis tabchan D
+
     double dMembraneOffset;
 
     //m 6: denormalized time constant
+
+    //! genesis tabchan F
 
     double dTauDenormalizer;
 

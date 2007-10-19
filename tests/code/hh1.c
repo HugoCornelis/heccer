@@ -25,15 +25,18 @@
 #include "../../heccer/output.h"
 
 
+#define HECCER_TEST_INTERVAL_DEFAULT_START			(-0.1)
+#define HECCER_TEST_INTERVAL_DEFAULT_END			(0.05)
+#define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES			50
 #define HECCER_TEST_REPORTING_GRANULARITY 100
-#define HECCER_TEST_STEPS 10000
-#define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
-				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
-				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
-				    | HECCER_DUMP_VM_MECHANISM_DATA \
-				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
-				    | HECCER_DUMP_VM_SUMMARY \
-	)
+#define HECCER_TEST_STEPS 1
+/* #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \ */
+/* 				    | HECCER_DUMP_VM_COMPARTMENT_DATA \ */
+/* 				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \ */
+/* 				    | HECCER_DUMP_VM_MECHANISM_DATA \ */
+/* 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \ */
+/* 				    | HECCER_DUMP_VM_SUMMARY \ */
+/* 	) */
 #define HECCER_TEST_TIME_STEP (6e-6)
 
 
@@ -145,7 +148,7 @@ struct ChannelActInact caiNa =
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		    -1.0,
+		    1.0,
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
@@ -170,7 +173,7 @@ struct ChannelActInact caiNa =
 
 		    //m 7: membrane dependence in the expential argument
 
-		    -1.0,
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -199,7 +202,7 @@ struct ChannelActInact caiNa =
 
 		    //m membrane offset
 
-		    -70e-3,
+		    70e-3,
 
 		    //m denormalized time constant
 
@@ -266,7 +269,7 @@ struct ChannelActInact caiNa =
 
 		    //m 7: membrane dependence in the expential argument
 
-		    -1.0,
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -303,7 +306,7 @@ struct ChannelActInact caiNa =
 
 		    //m 7: membrane dependence in the expential argument
 
-		    -1.0,
+		    1.0,
 		},
 	    },
 	},
@@ -392,7 +395,7 @@ struct ChannelAct caK =
 
 		    //m 7: membrane dependence in the expential argument
 
-		    -1.0,
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -429,7 +432,7 @@ struct ChannelAct caK =
 
 		    //m 7: membrane dependence in the expential argument
 
-		    -1.0,
+		    1.0,
 		},
 	    },
 	},
