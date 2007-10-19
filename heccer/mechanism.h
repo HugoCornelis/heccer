@@ -278,7 +278,7 @@ struct GateKinetic
 
     //m 2: multiplier membrane dependence, 0.0 for no dependence
 
-    //! genesis tabchan -B ?
+    //! genesis tabchan B ?
 
     double dMembraneDependence;
 
@@ -308,10 +308,6 @@ struct GateKinetic
     //! genesis tabchan F
 
     double dTauDenormalizer;
-
-    //m 7: membrane dependence in the expential argument
-
-    double dExponentialMembraneDependence;
 };
 
 //s channel gate concept

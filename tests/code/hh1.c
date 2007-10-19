@@ -29,15 +29,15 @@
 #define HECCER_TEST_INTERVAL_DEFAULT_END			(0.05)
 #define HECCER_TEST_INTERVAL_DEFAULT_ENTRIES			50
 #define HECCER_TEST_REPORTING_GRANULARITY 100
-#define HECCER_TEST_STEPS 1
-/* #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \ */
-/* 				    | HECCER_DUMP_VM_COMPARTMENT_DATA \ */
-/* 				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \ */
-/* 				    | HECCER_DUMP_VM_MECHANISM_DATA \ */
-/* 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \ */
-/* 				    | HECCER_DUMP_VM_SUMMARY \ */
-/* 	) */
-#define HECCER_TEST_TIME_STEP (5e-5)
+#define HECCER_TEST_STEPS 40000
+#define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
+				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
+				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
+				    | HECCER_DUMP_VM_MECHANISM_DATA \
+				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
+				    | HECCER_DUMP_VM_SUMMARY \
+	)
+#define HECCER_TEST_TIME_STEP (5e-7)
 
 
 struct Compartment compSoma =
@@ -148,11 +148,11 @@ struct ChannelActInact caiNa =
 
 		    //m multiplier membrane dependence, 0.0 for no dependence
 
-		    -0.1e6,
+		    0.1e6,
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -170,10 +170,6 @@ struct ChannelActInact caiNa =
 		    //m denormalized time constant
 
 		    -0.01,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -194,7 +190,7 @@ struct ChannelActInact caiNa =
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
-		    1.0,
+		    -1.0,
 
 		    //m nominator or denominator offset
 
@@ -207,10 +203,6 @@ struct ChannelActInact caiNa =
 		    //m denormalized time constant
 
 		    18e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 	    },
 	},
@@ -248,12 +240,12 @@ struct ChannelActInact caiNa =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
 
-		    1.0,
+		    -1.0,
 
 		    //m nominator or denominator offset
 
@@ -266,10 +258,6 @@ struct ChannelActInact caiNa =
 		    //m denormalized time constant
 
 		    0.02,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -303,10 +291,6 @@ struct ChannelActInact caiNa =
 		    //m denormalized time constant
 
 		    -10.0e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    1.0,
 		},
 	    },
 	},
@@ -314,135 +298,127 @@ struct ChannelActInact caiNa =
 };
 
 
-/* struct ChannelAct caK = */
-/* { */
-/*     //m administrative overhead */
+struct ChannelAct caK =
+{
+    //m administrative overhead
 
-/*     { */
-/* 	//m type of structure */
+    {
+	//m type of structure
 
-/* 	MATH_TYPE_ChannelAct, */
-/*     }, */
+	MATH_TYPE_ChannelAct,
+    },
 
-/*     //m first set of descriptive values, alphabetical order */
+    //m first set of descriptive values, alphabetical order
 
-/*     //m initial reversal potential */
+    //m initial reversal potential
 
-/*     -0.08200000226, */
+    -0.08200000226,
 
-/*     //m get reversal potential from this intermediary, -1 for none */
+    //m get reversal potential from this intermediary, -1 for none
 
-/*     -1, */
+    -1,
 
-/*     //m maximal conductance when all channels are permissive */
+    //m maximal conductance when all channels are permissive
 
-/*     1.017875206e-06, */
+    1.017875206e-06,
 
-/*     //m contributes to this concentration pool, -1 for none, boolean indicator only. */
+    //m contributes to this concentration pool, -1 for none, boolean indicator only.
 
-/*     -1, */
+    -1,
 
-/*     //m activation description */
+    //m activation description
 
-/*     { */
-/* 	//m power, for a standard heccer, something between 1 and 4 or so. */
+    {
+	//m power, for a standard heccer, something between 1 and 4 or so.
 
-/* 	4, */
+	4,
 
-/* 	//m gate definition */
+	//m gate definition
 
-/* 	{ */
-/* 	    //m initial value, commonly forward over backward steady states */
+	{
+	    //m initial value, commonly forward over backward steady states
 
-/* 	    0.3176768857, */
+	    0.3176768857,
 
-/* 	    //m corresponding index in tables, set to -1 for initialization. */
+	    //m corresponding index in tables, set to -1 for initialization.
 
-/* 	    -1, */
+	    -1,
 
-/* 	    { */
-/* 		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate */
+	    {
+		//m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-/* 		{ */
-/* 		    //m multiplier */
+		{
+		    //m multiplier
 
-/* 		    10e3, */
+		    -600,
 
-/* 		    //m multiplier membrane dependence, 0.0 for no dependence */
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-/* 		    -1.0, */
+		    10000,
 
-/* 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence */
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-/* 		    -60e-3, */
+		    0.0,
 
-/* 		    //m choose between nominator or denominator, 1 means nominator, -1 */
-/* 		    //m means denominator */
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-/* 		    -1.0, */
+		    -1.0,
 
-/* 		    //m nominator or denominator offset */
+		    //m nominator or denominator offset
 
-/* 		    -1.0, */
+		    -1.0,
 
-/* 		    //m membrane offset */
+		    //m membrane offset
 
-/* 		    -60e-3, */
+		    60e-3,
 
-/* 		    //m denormalized time constant */
+		    //m denormalized time constant
 
-/* 		    10.0e-3, */
+		    -10.0e-3,
+		},
 
-/* 		    //m 7: membrane dependence in the expential argument */
+		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-/* 		    1.0, */
-/* 		}, */
+		{
+		    //m multiplier
 
-/* 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate */
+		    125,
 
-/* 		{ */
-/* 		    //m multiplier */
+		    //m multiplier membrane dependence, 0.0 for no dependence
 
-/* 		    125, */
+		    0.0,
 
-/* 		    //m multiplier membrane dependence, 0.0 for no dependence */
+		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-/* 		    0.0, */
+		    1.0,
 
-/* 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence */
+		    //m choose between nominator or denominator, 1 means nominator, -1
+		    //m means denominator
 
-/* 		    1.0, */
+		    -1.0,
 
-/* 		    //m choose between nominator or denominator, 1 means nominator, -1 */
-/* 		    //m means denominator */
+		    //m nominator or denominator offset
 
-/* 		    1.0, */
+		    0.0,
 
-/* 		    //m nominator or denominator offset */
+		    //m membrane offset
 
-/* 		    0.0, */
+		    70e-3,
 
-/* 		    //m membrane offset */
+		    //m denormalized time constant
 
-/* 		    -70e-3, */
-
-/* 		    //m denormalized time constant */
-
-/* 		    80e-3, */
-
-/* 		    //m 7: membrane dependence in the expential argument */
-
-/* 		    1.0, */
-/* 		}, */
-/* 	    }, */
-/* 	}, */
-/*     }, */
-/* }; */
+		    80e-3,
+		},
+	    },
+	},
+    },
+};
 
 
 int piC2m[] =
 {
-    1,
+    2,
     -1,
 };
 
@@ -451,7 +427,7 @@ struct MathComponentArray mca =
 {
     //m number of math components
 
-    1,
+    2,
 
     //m math component data
 
@@ -501,9 +477,9 @@ int main(int argc, char *argv[])
 
     struct MathComponentInfo *pmciNa = MathComponentInfoLookup(caiNa.mc.iType);
 
-/*     struct MathComponentInfo *pmciK = MathComponentInfoLookup(caK.mc.iType); */
+    struct MathComponentInfo *pmciK = MathComponentInfoLookup(caK.mc.iType);
 
-    int iChars = pmciNa->iChars/*  + pmciK->iChars; */;
+    int iChars = pmciNa->iChars + pmciK->iChars;;
 
     void *pmc = calloc(sizeof(char), iChars);
 
@@ -513,9 +489,9 @@ int main(int argc, char *argv[])
 
     *pcaiNa = caiNa;
 
-/*     struct ChannelAct *pcaK = (struct ChannelAct *)&((char *)pcaiNa)[pmciNa->iChars]; */
+    struct ChannelAct *pcaK = (struct ChannelAct *)&((char *)pcaiNa)[pmciNa->iChars];
 
-/*     *pcaK = caK; */
+    *pcaK = caK;
 
     //- link the intermediary
 

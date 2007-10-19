@@ -331,7 +331,6 @@ HeccerGateConceptTabulate
 	    double dDeNominatorOffset = pgc->parameters.gkForward.dDeNominatorOffset;
 	    double dMembraneOffset = pgc->parameters.gkForward.dMembraneOffset;
 	    double dTauDenormalizer = pgc->parameters.gkForward.dTauDenormalizer;
-	    double dExponentialMembraneDependence = pgc->parameters.gkForward.dExponentialMembraneDependence;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
@@ -344,7 +343,7 @@ HeccerGateConceptTabulate
 	    }
 	    else
 	    {
-		double dDeNominator = dDeNominatorOffset + exp((dMembraneOffset - dExponentialMembraneDependence * dx) / dTauDenormalizer);
+		double dDeNominator = dDeNominatorOffset + exp((dx + dMembraneOffset) / dTauDenormalizer);
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
@@ -354,11 +353,11 @@ HeccerGateConceptTabulate
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdForward[i] = (dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdForward[i] = (dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {
@@ -381,7 +380,6 @@ HeccerGateConceptTabulate
 	    double dDeNominatorOffset = pgc->parameters.gkBackward.dDeNominatorOffset;
 	    double dMembraneOffset = pgc->parameters.gkBackward.dMembraneOffset;
 	    double dTauDenormalizer = pgc->parameters.gkBackward.dTauDenormalizer;
-	    double dExponentialMembraneDependence = pgc->parameters.gkBackward.dExponentialMembraneDependence;
 
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {
@@ -389,7 +387,7 @@ HeccerGateConceptTabulate
 	    }
 	    else
 	    {
-		double dDeNominator = dDeNominatorOffset + exp((dMembraneOffset - dExponentialMembraneDependence * dx) / dTauDenormalizer);
+		double dDeNominator = dDeNominatorOffset + exp((dx + dMembraneOffset) / dTauDenormalizer);
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
@@ -399,11 +397,11 @@ HeccerGateConceptTabulate
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdBackward[i] = dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx) * dDeNominator;
+			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdBackward[i] = dMultiplier * (dMembraneDependenceOffset - dMembraneDependence * dx) / dDeNominator;
+			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {

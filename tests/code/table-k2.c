@@ -138,7 +138,7 @@ struct ChannelActConc cacK2 =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -156,10 +156,6 @@ struct ChannelActConc cacK2 =
 		    //m denormalized time constant
 
 		    1.0e12,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -175,7 +171,7 @@ struct ChannelActConc cacK2 =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -193,10 +189,6 @@ struct ChannelActConc cacK2 =
 		    //m denormalized time constant
 
 		    6.0e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 	    },
 	},

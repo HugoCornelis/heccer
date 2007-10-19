@@ -167,7 +167,7 @@ struct ChannelAct caKdrSource =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -185,10 +185,6 @@ struct ChannelAct caKdrSource =
 		    //m denormalized time constant
 
 		    -0.01,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -204,7 +200,7 @@ struct ChannelAct caKdrSource =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -222,10 +218,6 @@ struct ChannelAct caKdrSource =
 		    //m denormalized time constant
 
 		    0.08,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 	    },
 	},
@@ -305,7 +297,7 @@ struct ChannelActInact caiNaFSource =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -323,10 +315,6 @@ struct ChannelActInact caiNaFSource =
 		    //m denormalized time constant
 
 		    -10.0e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -342,7 +330,7 @@ struct ChannelActInact caiNaFSource =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -360,10 +348,6 @@ struct ChannelActInact caiNaFSource =
 		    //m denormalized time constant
 
 		    20.0e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 	    },
 	},
@@ -401,7 +385,7 @@ struct ChannelActInact caiNaFSource =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -419,10 +403,6 @@ struct ChannelActInact caiNaFSource =
 		    //m denormalized time constant
 
 		    10.0e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -438,7 +418,7 @@ struct ChannelActInact caiNaFSource =
 
 		    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-		    1.0,
+		    0.0,
 
 		    //m choose between nominator or denominator, 1 means nominator, -1
 		    //m means denominator
@@ -456,10 +436,6 @@ struct ChannelActInact caiNaFSource =
 		    //m denormalized time constant
 
 		    -18.0e-3,
-
-		    //m 7: membrane dependence in the expential argument
-
-		    -1.0,
 		},
 	    },
 	},
