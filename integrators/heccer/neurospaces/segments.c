@@ -233,6 +233,21 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 
 	int iSegments = SymbolCountSegments(phsleModel, ppistModel);
 
+	if (iSegments == 0)
+	{
+	    char pc[1000];
+
+	    PidinStackString(ppistModel, pc, sizeof(pc));
+
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 "no compartments found inside %s\n",
+		 pc);
+
+	    return(FALSE);
+	}
+
 	int i;
 
 	//- allocate intermediary for segments to solve
