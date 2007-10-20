@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/08/18) Saturday, August 18, 2007 10:00:30 hugo";
+static char *pcVersionTime="(07/10/20) Saturday, October 20, 2007 15:33:37 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -123,14 +123,20 @@ int HeccerCanCompile(struct Heccer *pheccer)
 
     if (pheccer->dStep < MINIMAL_TIME_STEP)
     {
-	//t HeccerError()
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "illegal time step (smallest is %g), cannot compile\n", MINIMAL_TIME_STEP);
 
 	return(FALSE);
     }
 
     if (pheccer->inter.iCompartments == 0)
     {
-	//t HeccerError()
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "no compartments found in the intermediary, cannot compile this model\n");
 
 	return(FALSE);
     }
