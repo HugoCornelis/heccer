@@ -1136,7 +1136,7 @@ sub new
 
 	$backend->PerfectClampSetFields($options->{command});
     }
-    else if (defined $options->{filename})
+    elsif (defined $options->{filename})
     {
 	my $backend = $self->backend();
 
