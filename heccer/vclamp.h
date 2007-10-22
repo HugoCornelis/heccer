@@ -31,8 +31,6 @@ struct VClamp
 
     //m number of clamped variables
 
-    int iClampsAllocated;
-
     int iClampsActive;
 
     //m input, solved variables
