@@ -1102,13 +1102,7 @@ sub initiate
 {
     my $self = shift;
 
-    my $options = shift;
-
-    my $command = $options->{command};
-
-    my $backend = $self->backend();
-
-    $backend->PerfectClampSetFields($command);
+    #t perhaps need to set the command voltage here ?
 }
 
 
@@ -1134,7 +1128,11 @@ sub new
 	return undef;
     }
 
-    $self->initiate($options);
+    my $command = $options->{command};
+
+    my $backend = $self->backend();
+
+    $backend->PerfectClampSetFields($command);
 
     return $self;
 }
