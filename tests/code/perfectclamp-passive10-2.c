@@ -733,7 +733,7 @@ int main(int argc, char *argv[])
 
     double dCommand = 0.1;
 
-    PerfectClampSetFields(ppc, dCommand);
+    PerfectClampSetFields(ppc, dCommand, NULL);
 
 //d connect the voltage clamp object with the compartment of interest
 

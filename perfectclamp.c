@@ -89,7 +89,21 @@ int PerfectClampFinish(struct PerfectClamp * ppc)
 
     int iResult = 1;
 
+    //- close files
+
+    if (ppc->pfile)
+    {
+	fclose(ppc->pfile);
+    }
+
+    if (ppc->pcFilename)
+    {
+	free(ppc->pcFilename);
+    }
+
     //- free all allocated memory
+
+    free(ppc->pcName);
 
     free(ppc);
 
@@ -176,7 +190,8 @@ struct PerfectClamp * PerfectClampNew(char *pcName)
 ///
 /// ARGS.:
 ///
-///	dCommand.....: command voltage.
+///	dCommand.....: command voltage, ignored if a filename is given.
+///	pcFilename...: filename, file contains sequence of command voltages.
 ///
 /// RTN..: int
 ///
@@ -189,7 +204,8 @@ struct PerfectClamp * PerfectClampNew(char *pcName)
 int
 PerfectClampSetFields
 (struct PerfectClamp * ppc,
- double dCommand)
+ double dCommand,
+ char *pcFilename)
 {
     //- set default result: ok
 
@@ -198,6 +214,36 @@ PerfectClampSetFields
     //- set fields
 
     ppc->dCommand = dCommand;
+
+    //- if a filename has been given
+
+    if (pcFilename)
+    {
+	//- allocate filename
+
+	ppc->pcFilename = calloc(1 + strlen(pcFilename), sizeof(char));
+
+	strcpy(ppc->pcFilename, pcFilename);
+
+	//- open file
+
+	//! I need the qualification service overhere.
+
+	ppc->pfile = fopen(pcFilename, "r");
+
+	if (!ppc->pfile)
+	{
+	    fprintf(stderr, "warning: PerfectClampSetFields() cannot open command file\n");
+
+	    PerfectClampFinish(ppc);
+
+	    return(0);
+	}
+
+	//- file stays open during simulation
+
+	//! we could also cache the file in memory, depending on an option or so.
+    }
 
     //- return result
 
@@ -232,9 +278,46 @@ int PerfectClampSingleStep(struct PerfectClamp * ppc, double dTime)
 
     int iResult = 1;
 
-    //- set the output
+    //- if running with a file open
 
-    *ppc->pdVoltage = ppc->dCommand;
+    if (ppc->pfile)
+    {
+	//- read a command voltage from the file
+
+	char pcStep[100];
+
+	char pcCommand[100];
+
+	int iEOF = fscanf(ppc->pfile, " %[^:]: %s", pcStep, pcCommand);
+
+	ppc->dCommand = strtod(pcCommand, (char **)NULL);
+
+	//- if end of file
+
+	if (iEOF == EOF)
+	{
+	    //- rewind the file
+
+	    if (fseek(ppc->pfile, 0L, SEEK_SET) != 0)
+	    {
+		fprintf(stderr, "warning: PerfectClampSingleStep() cannot rewind the command file\n");
+	    }
+	}
+	else if (iEOF != 2)
+	{
+	    fprintf(stderr, "warning: PerfectClampSingleStep() read %i values from the command file (instead of 2)\n", iEOF);
+	}
+
+	//- set the output
+
+	*ppc->pdVoltage = ppc->dCommand;
+    }
+    else
+    {
+	//- set the output
+
+	*ppc->pdVoltage = ppc->dCommand;
+    }
 
     //- return result
 

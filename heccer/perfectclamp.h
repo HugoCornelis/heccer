@@ -33,13 +33,19 @@ struct PerfectClamp
 
     int iClampsActive;
 
-    //m input, solved variables
+    //m input, solved variable
 
     double *pdVoltage;
 
     //m command voltage
 
     double dCommand;
+
+    //m filename with command voltages
+
+    char *pcFilename;
+
+    FILE *pfile;
 
 };
 
@@ -59,7 +65,8 @@ struct PerfectClamp * PerfectClampNew(char *pcName);
 int
 PerfectClampSetFields
 (struct PerfectClamp * ppc,
- double dCommand);
+ double dCommand,
+ char *pcFilename);
 
 
 #endif

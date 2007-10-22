@@ -1134,13 +1134,17 @@ sub new
     {
 	my $backend = $self->backend();
 
-	$backend->PerfectClampSetFields($options->{command});
+	$backend->PerfectClampSetFields($options->{command}, undef);
     }
     elsif (defined $options->{filename})
     {
 	my $backend = $self->backend();
 
-	$backend->PerfectClampSetFilename($options->{filename});
+	#! the command voltage is ignored in this case, use an
+	#! unreasonable value to make result invalid if it would be used
+	#! (due to a bug).
+
+	$backend->PerfectClampSetFields(-10000, $options->{filename});
     }
     else
     {
