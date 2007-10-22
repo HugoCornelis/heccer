@@ -1062,7 +1062,7 @@ sub add
 #     $name =~ s/\>/__/g;
 #     $name =~ s/\-//g;
 
-    my $result = $backend->PerfectClampAddVariable($name, $options->{address});
+    my $result = $backend->PerfectClampAddVariable($options->{address});
 
     return $result;
 }
@@ -1133,6 +1133,8 @@ sub new
     {
 	return undef;
     }
+
+    $self->initiate($options);
 
     return $self;
 }

@@ -37,8 +37,6 @@ struct PerfectClamp
 
     double *pdVoltage;
 
-    double *pdInjector;
-
     //m command voltage
 
     double dCommand;
