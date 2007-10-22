@@ -1042,6 +1042,124 @@ sub step
 }
 
 
+package Heccer::PerfectClamp;
+
+
+sub add
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $name
+	= $options->{service_request}->{component_name}
+	    . "__"
+		. $options->{service_request}->{field};
+
+    $name =~ s/\//____/g;
+#     $name =~ s/\>/__/g;
+#     $name =~ s/\-//g;
+
+    my $result = $backend->PerfectClampAddVariable($name, $options->{address});
+
+    return $result;
+}
+
+
+sub advance
+{
+    my $self = shift;
+
+    #t call the appropriate method or something
+
+    return 1;
+}
+
+
+sub backend
+{
+    my $self = shift;
+
+    return $self->{backend};
+}
+
+
+sub finish
+{
+    my $self = shift;
+
+    # close files, free memory
+
+    my $backend = $self->backend();
+
+    $backend->PerfectClampFinish();
+}
+
+
+sub initiate
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $command = $options->{command};
+
+    my $backend = $self->backend();
+
+    $backend->PerfectClampSetFields($command);
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    if (!defined $self->{name})
+    {
+	$self->{name} = "a pc";
+    }
+
+    $self->{backend} = SwiggableHeccer::PerfectClampNew($self->{name});
+
+    if (!defined $self->{backend})
+    {
+	return undef;
+    }
+
+    return $self;
+}
+
+
+sub report
+{
+    my $self = shift;
+
+    #t nothing I guess ?
+}
+
+
+sub step
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $result = $backend->PerfectClampSingleStep($options->{steps});
+
+    return $result;
+}
+
+
 1;
 
 
