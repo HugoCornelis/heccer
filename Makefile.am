@@ -40,6 +40,7 @@ libheccer_a_SOURCES = \
 	mechanism.c \
 	minimumdegree.c \
 	output.c \
+	perfectclamp.c \
 	random.c \
 	table.c \
 	vclamp.c \
@@ -59,6 +60,7 @@ nobase_include_HEADERS = \
 	heccer/mathcomponent.h \
 	heccer/mechanism.h \
 	heccer/output.h \
+	heccer/perfectclamp.h \
 	heccer/random.h \
 	heccer/service.h \
 	heccer/vclamp.h \
