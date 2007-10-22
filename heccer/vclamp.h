@@ -35,13 +35,13 @@ struct VClamp
 
     int iClampsActive;
 
-    //m all variables
+    //m input, solved variables
 
-    double **ppdVoltage;
+    double *pdVoltage;
 
-    double **ppdInjector;
+    double *pdInjector;
 
-    //m command voltage
+    //m command current
 
     double dInjected;
 

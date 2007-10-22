@@ -25,9 +25,6 @@
 #include "heccer/vclamp.h"
 
 
-#define ALLOCATE_VARIABLES 10000
-
-
 /// **************************************************************************
 ///
 /// SHORT: VClampAddVariable()
@@ -54,16 +51,16 @@ VClampAddVariable
 
     int iResult = 1;
 
-    if (pvc->iClampsActive >= ALLOCATE_VARIABLES)
+    if (pvc->iClampsActive >= 1)
     {
 	return(0);
     }
 
     //- set next variable
 
-    pvc->ppdVoltage[pvc->iClampsActive] = (double *)pvVoltage;
+    pvc->pdVoltage = (double *)pvVoltage;
 
-    pvc->ppdInjector[pvc->iClampsActive] = (double *)pvInjector;
+    pvc->pdInjector = (double *)pvInjector;
 
     pvc->iClampsActive++;
 
@@ -97,8 +94,6 @@ int VClampFinish(struct VClamp * pvc)
 
     //- free all allocated memory
 
-    free(pvc->ppdVoltage);
-    free(pvc->ppdInjector);
     free(pvc);
 
     //- return result
@@ -179,24 +174,6 @@ struct VClamp * VClampNew(char *pcName)
     pvcResult->pcName = calloc(1 + strlen(pcName), sizeof(char));
 
     strcpy(pvcResult->pcName, pcName);
-
-    //- allocate output variables
-
-    pvcResult->ppdVoltage = (double **)calloc(ALLOCATE_VARIABLES, sizeof(double *));
-
-    pvcResult->ppdInjector = (double **)calloc(ALLOCATE_VARIABLES, sizeof(double *));
-
-    pvcResult->iClampsAllocated = ALLOCATE_VARIABLES;
-
-    if (!pvcResult->ppdVoltage
-	|| !pvcResult->ppdInjector)
-    {
-	free(pvcResult->ppdVoltage);
-	free(pvcResult->ppdInjector);
-	free(pvcResult);
-
-	return(NULL);
-    }
 
     //- return result
 
@@ -312,7 +289,7 @@ int VClampSingleStep(struct VClamp * pvc, double dTime)
 
     pvc->dEPrevious = pvc->dE;
 
-    pvc->dE = pvc->dCommand - *pvc->ppdVoltage[0];
+    pvc->dE = pvc->dCommand - *pvc->pdVoltage;
 
     pvc->dEDerivative = (pvc->dE - pvc->dEPrevious) / dStep;
 
@@ -343,7 +320,7 @@ int VClampSingleStep(struct VClamp * pvc, double dTime)
 
     //- set the output
 
-    *pvc->ppdInjector[0] = pvc->dOutput;
+    *pvc->pdInjector = pvc->dOutput;
 
     //- register the current simulation time for the next time we are scheduled
 
