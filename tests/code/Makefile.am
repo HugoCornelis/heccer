@@ -39,6 +39,9 @@ check_PROGRAMS = \
 	fork4p2 \
 	fork4p3 \
 	hh1 \
+	perfectclamp-passive1 \
+	perfectclamp-passive10 \
+	perfectclamp-passive10-2 \
 	pool1 \
 	pool1-contributors2 \
 	pool1-feedback1 \
@@ -105,6 +108,12 @@ fork4p3_DEPENDENCIES = ../../libheccer.a main.c
 fork4p3_LDADD = -L../.. -lheccer -lm
 hh1_DEPENDENCIES = ../../libheccer.a main.c
 hh1_LDADD = -L../.. -lheccer -lm
+perfectclamp_passive1_DEPENDENCIES = ../../libheccer.a main.c
+perfectclamp_passive1_LDADD = -L../.. -lheccer -lm
+perfectclamp_passive10_DEPENDENCIES = ../../libheccer.a main.c
+perfectclamp_passive10_LDADD = -L../.. -lheccer -lm
+perfectclamp_passive10_2_DEPENDENCIES = ../../libheccer.a main.c
+perfectclamp_passive10_2_LDADD = -L../.. -lheccer -lm
 pool1_DEPENDENCIES = ../../libheccer.a main.c
 pool1_LDADD = -L../.. -lheccer -lm
 pool1_contributors2_DEPENDENCIES = ../../libheccer.a main.c

@@ -26,6 +26,9 @@ Makefile.in$
 ^tests/code/fork4p2$
 ^tests/code/fork4p3$
 ^tests/code/hh1$
+^tests/code/perfectclamp-passive1$
+^tests/code/perfectclamp-passive10$
+^tests/code/perfectclamp-passive10-2$
 ^tests/code/pool1$
 ^tests/code/pool1-contributors2$
 ^tests/code/pool1-feedback1$

@@ -20,6 +20,8 @@ extern struct Heccer *pheccer;
 
 extern struct VClamp *pvc;
 
+extern struct PerfectClamp *ppc;
+
 
 int WriteOutput(char *pcFilename);
 

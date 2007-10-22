@@ -29,6 +29,8 @@ struct Heccer *pheccer = NULL;
 
 struct VClamp *pvc = NULL;
 
+struct PerfectClamp *ppc = NULL;
+
 
 //o To use this file :
 //o
