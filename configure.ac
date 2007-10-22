@@ -20,7 +20,7 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, des-4, hugo.cornelis@gmail.com)
+AC_INIT(heccer, des-5, hugo.cornelis@gmail.com)
 
 AC_CONFIG_SRCDIR([compartment.c])
 AC_CONFIG_HEADER([heccer/config.h])
@@ -30,7 +30,7 @@ dnl dnl all subdirs
 dnl AC_CONFIG_SUBDIRS(tests/code glue)
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, des-4)
+AM_INIT_AUTOMAKE(heccer, des-5)
 
 # Checks for programs.
 AC_PROG_CC
