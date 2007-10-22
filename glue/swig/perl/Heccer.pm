@@ -1128,11 +1128,24 @@ sub new
 	return undef;
     }
 
-    my $command = $options->{command};
+    # make distinction between command_filename and command voltage option
 
-    my $backend = $self->backend();
+    if (defined $options->{command})
+    {
+	my $backend = $self->backend();
 
-    $backend->PerfectClampSetFields($command);
+	$backend->PerfectClampSetFields($options->{command});
+    }
+    else if (defined $options->{filename})
+    {
+	my $backend = $self->backend();
+
+	$backend->PerfectClampSetFilename($options->{filename});
+    }
+    else
+    {
+	return "Heccer::PerfectClamp constructor: cannot construct a perfect clamp without command voltage and without a filename";
+    }
 
     return $self;
 }
