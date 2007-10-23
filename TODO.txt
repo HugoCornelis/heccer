@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* protect variables in the intermediary from illegal values
+e.g. CM must not be 0.
+
 * running tests
 '--regex perl' gives results that are inconsistent with 'make check'.
 
