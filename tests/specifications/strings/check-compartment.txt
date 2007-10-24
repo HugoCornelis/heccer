@@ -1,0 +1,33 @@
+Heccer the hecc :HeccerMechanismCompile(): compartment 4 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 3 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 1 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 0 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 4 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 3 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 1 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 0 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 4 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 3 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 1 parameters invalid
+Heccer the hecc :HeccerMechanismCompile(): compartment 0 parameters invalid
+Initiated
+-------
+Iteration 0
+-------
+Iteration 1
+-------
+Iteration 2
+-------
+Iteration 3
+-------
+Iteration 4
+-------
+Iteration 5
+-------
+Iteration 6
+-------
+Iteration 7
+-------
+Iteration 8
+-------
+Iteration 9

@@ -261,7 +261,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    char pcDescription[100];
 
-	    sprintf(pcDescription, "HeccerMechanismCompile(): compartment %i parameters", iSchedule);
+	    sprintf(pcDescription, "HeccerMechanismCompile(): compartment %i parameters", iIntermediary);
 
 	    HeccerCheckParameters
 		(

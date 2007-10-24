@@ -33,6 +33,7 @@ check_PROGRAMS = \
 	channel1-nernst1 \
 	channel2-nernst1 \
 	channel2-nernst2 \
+	check-compartment \
 	doublep \
 	fork3p \
 	fork4p1 \
@@ -96,6 +97,8 @@ channel2_nernst1_DEPENDENCIES = ../../libheccer.a main.c
 channel2_nernst1_LDADD = -L../.. -lheccer -lm
 channel2_nernst2_DEPENDENCIES = ../../libheccer.a main.c
 channel2_nernst2_LDADD = -L../.. -lheccer -lm
+check_compartment_DEPENDENCIES = ../../libheccer.a main.c
+check_compartment_LDADD = -L../.. -lheccer -lm
 doublep_DEPENDENCIES = ../../libheccer.a main.c
 doublep_LDADD = -L../.. -lheccer -lm
 fork3p_DEPENDENCIES = ../../libheccer.a main.c
