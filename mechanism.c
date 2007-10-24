@@ -18,6 +18,7 @@
 
 #include <limits.h>
 #include <math.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,8 +32,98 @@
 
 static
 int
+HeccerCheckParameters
+(struct Heccer *pheccer,
+ char *pcDescription,
+ ...);
+
+static
+int
 HeccerMechanismReadDoubleFile
 (struct Heccer *pheccer, char *pcFilename, double **ppdValues);
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerCheckParameters()
+///
+/// ARGS.:
+///
+///	pheccer.......: a heccer.
+///	pcDescription.: description of these parameters.
+///	va_list.......: -1 terminated list of boolean values.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Check parameters utility function.
+///
+///	Just give a list of boolean expressions, telling if the
+///	parameters comply or not, a description where they occur.
+///	This function will call HeccerError() for any FALSE boolean in
+///	the stdarg list.
+///
+/// **************************************************************************
+
+static
+int
+HeccerCheckParameters
+(struct Heccer *pheccer,
+ char *pcDescription,
+ ...)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //v stdargs list
+
+    va_list vaList;
+
+    //- get start of stdargs
+
+    va_start(vaList, pcDescription);
+
+    //- loop over all arguments
+
+    int iOk = va_arg(vaList, int);
+
+    while (iOk != -1)
+    {
+	//- if current argument not ok
+
+	if (!iOk)
+	{
+	    char pcMessage[1000];
+
+	    sprintf(pcMessage, "%s invalid", pcDescription);
+
+	    //t HeccerError(number, message, varargs);
+
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 pcMessage);
+
+	    //- break loop
+
+	    break;
+	}
+
+	//- go to next argument
+
+	iOk = va_arg(vaList, int);
+    }
+
+    //- end stdargs
+
+    va_end(vaList);
+
+    //- return result
+
+    return(iResult);
+}
 
 
 /// **************************************************************************
@@ -96,6 +187,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	dt = pheccer->dStep / 2.0;
     }
 
+    //- check parameters
+
+    HeccerCheckParameters
+	(
+	    pheccer,
+	    "HeccerMechanismCompile(): time step",
+	    (dt > 0 && dt < 1),
+	    -1
+	    );
+
     //- first count, then index, next compile the following block
 
     int iMopNumber;
@@ -155,6 +256,22 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    double dInject = pheccer->inter.pcomp[iIntermediary].dInject;
 
 	    double dRm = pheccer->inter.pcomp[iIntermediary].dRm;
+
+	    //- check parameters
+
+	    char pcDescription[100];
+
+	    sprintf(pcDescription, "HeccerMechanismCompile(): compartment %i parameters", iSchedule);
+
+	    HeccerCheckParameters
+		(
+		    pheccer,
+		    pcDescription,
+		    (dCm != 0),
+		    (dEm >= -1 && dEm <= 1),
+		    (dRm != 0),
+		    -1
+		    );
 
 	    //- fill in compartment constants
 
@@ -229,6 +346,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct ChannelSpringMass * pcsm = (struct ChannelSpringMass *)pmc;
 
 		    pmc = MathComponentNext(&pcsm->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelSpringMass parameters",
+			    (pcsm->dReversalPotential > -1 && pcsm->dReversalPotential < 1),
+			    (pcsm->parameters.dTau1 != pcsm->parameters.dTau2),
+			    -1
+			    );
 
 		    //- compute conductance normalizer
 
@@ -414,6 +542,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pin->mc);
 
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_InternalNernst parameters",
+			    -1
+			    );
+
 		    //- get math component number
 
 		    int iMathComponentActivator = pin->iInternal;
@@ -443,6 +580,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct ChannelAct *pca = (struct ChannelAct *)pmc;
 
 		    pmc = MathComponentNext(&pca->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelAct parameters",
+			    -1
+			    );
 
 		    //- for a constant reversal potential
 
@@ -525,6 +671,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct ChannelActInact *pcai = (struct ChannelActInact *)pmc;
 
 		    pmc = MathComponentNext(&pcai->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelActInact parameters",
+			    -1
+			    );
 
 		    //- for a constant reversal potential
 
@@ -619,6 +774,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct ChannelActConc *pcac = (struct ChannelActConc *)pmc;
 
 		    pmc = MathComponentNext(&pcac->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelActConc parameters",
+			    -1
+			    );
 
 		    //- for a constant reversal potential
 
@@ -732,6 +896,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pexdec->mc);
 
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ExponentialDecay parameters",
+			    -1
+			    );
+
 		    int piExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 
 		    int i;
@@ -774,6 +947,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct ChannelSteadyStateSteppedTau *pcsst = (struct ChannelSteadyStateSteppedTau *)pmc;
 
 		    pmc = MathComponentNext(&pcsst->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelSteadyStateSteppedTau parameters",
+			    -1
+			    );
 
 		    //- for a constant reversal potential
 
@@ -856,6 +1038,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct ChannelPersistentSteadyStateDualTau *pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pmc;
 
 		    pmc = MathComponentNext(&pcpsdt->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelPersistentSteadyStateDualTau parameters",
+			    -1
+			    );
 
 		    //- for a constant reversal potential
 
@@ -945,6 +1136,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    pmc = MathComponentNext(&pcpst->mc);
 
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelPersistentSteadyStateTau parameters",
+			    -1
+			    );
+
 		    //- for a constant reversal potential
 
 		    if (pcpst->iReversalPotential == -1)
@@ -1020,6 +1220,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    struct SpikeGenerator *psg = (struct SpikeGenerator *)pmc;
 
 		    pmc = MathComponentNext(&psg->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_SpikeGenerator parameters",
+			    -1
+			    );
 
 		    //- set operators and operands
 
