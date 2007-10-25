@@ -1,6 +1,71 @@
 -*- outline -*-
 
 * running tests
+The tests sometimes rely on the output file /tmp/output, which
+sometimes can be owned by a foriegn user.  So the tests fail.  These
+tests are suspect:
+
+  active_multiple.t:
+    1:
+      error: 3:Child PID 5511 exited with status 65280
+      small subset of the purkinje cell model:
+        description: Is a small subset of the purkinje cell model solved correctly ?
+    2:
+      error: 3:Child PID 5512 exited with status 65280
+      'small subset of the purkinje cell model, passive-only mode':
+        description: 'Is a small subset of the purkinje cell model solved correctly, passive-only mode ?'
+  hh.t:
+    3:
+      error: 3:Child PID 5513 exited with status 65280
+      single compartment with regular HH channels:
+        description: Is a single compartment with regular HH channels solved correctly ?
+  perfectclamp.t:
+    4:
+      error: 3:Child PID 5528 exited with status 65280
+      'perfect clamp on the full purkinje model, constant command voltage':
+        description: Can we do a perfect clamp on the full purkinje cell model using a constant command voltage ?
+    5:
+      error: 3:Child PID 5530 exited with status 65280
+      perfect clamp on the full purkinje model using a file with command voltages:
+        description: Can we do a perfect clamp on the full purkinje cell model using a file with command voltages ?
+  pools.t:
+    6:
+      error: 2:EOF
+      'pool integration, one compartment, one pool with a feedback loop':
+        description: 'Is a pool integrated correctly, one compartment, one pool with a feedback loop ?'
+    7:
+      error: 2:EOF
+      'pool integration, one pool, two feeding channels':
+        description: 'Is a pool integrated correctly, one pool, two feeding channels ?'
+    8:
+      error: 2:EOF
+      solved nernst potential application for channel reversal potentials:
+        description: Is the solved nernst potential applied for channel reversal potentials ?
+  purkinje.t:
+    10:
+      error: 3:Child PID 5541 exited with status 65280
+      'full purkinje model, soma current injection':
+        description: 'Is the full purkinje cell model behaviour ok, soma current injection ?'
+    11:
+      error: 2:EOF
+      purkinje undocumented axon segment:
+        description: Is the undocumented purkinje axon solved correctly ?
+    9:
+      error: 3:Child PID 5539 exited with status 65280
+      'full purkinje model, synchans endogenous firing':
+        description: 'Is the full purkinje cell model behaviour ok, synchans endogenous firing (works only with the ran1() rng) ?'
+  synaptic.t:
+    12:
+      error: 2:EOF
+      'synaptic (springmass) channel integration, with an event table':
+        description: Is a synaptic (springmass) channel with an event table integrated correctly ?
+    13:
+      error: 2:EOF
+      'synaptic (springmass) channel integration, with an event table, passive-only mode':
+        description: 'Is a synaptic (springmass) channel with an event table integrated correctly, passive-only mode ?'
+
+
+* running tests
 '--regex perl' gives results that are inconsistent with 'make check'.
 
 * HeccerHecc()
