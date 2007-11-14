@@ -1,5 +1,10 @@
 -*- outline -*-
 
+* test config
+get_current_revision_id is being used, but that gives an wrong
+revision id on an unchanged workspace, or I cannot figure out what it
+is doing.
+
 * running tests
 The tests sometimes rely on the output file /tmp/output, which
 sometimes can be owned by a foriegn user.  So the tests fail.  These
