@@ -3,7 +3,7 @@ Makefile.in$
 ^Heccer
 ^docs/various.txt$
 ^doxy$
-^doxygen
+^doxygen/docs/
 ^glue/swig/perl/SwiggableHeccer.pm$
 ^glue/swig/perl/swiggable_heccer_wrap.c$
 ^heccer-.*pre-release/

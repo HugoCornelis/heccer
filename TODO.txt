@@ -1,5 +1,14 @@
 -*- outline -*-
 
+* comparison project
+** from previous G2 based tutorial
+This is compartment /Purkinje/p0b2b2b1[21](dia:1.020000013e-06,len:3.908517556e-06)
+This is compartment /Purkinje/p0b2b2b1b1[3](dia:8.70000008e-07,len:3.5061787e-06)
+This is compartment /Purkinje/p0b2b2b1b2[4](dia:1.020000013e-06,len:3.171656999e-06)
+** colormap file colormaps/TurtlePC2_020105_soma_pclamp.yml
+'/TurtlePC2_020105/segments/p0b2b2b1b1[0]': -0.0625251
+'/TurtlePC2_020105/segments/p0b2b2b1b1[10]': -0.0488724
+
 * test config
 get_current_revision_id is being used, but that gives an wrong
 revision id on an unchanged workspace, or I cannot figure out what it
