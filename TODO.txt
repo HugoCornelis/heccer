@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* add double exp. for ca pools
+See chat with Paolo.
+
 * comparison project
 ** from previous G2 based tutorial
 This is compartment /Purkinje/p0b2b2b1[21](dia:1.020000013e-06,len:3.908517556e-06)
