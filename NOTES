@@ -1,5 +1,9 @@
-- Improved error handling and reporting interface.
-- Added support for the CHANNEL_TYPE parameter in the neurospaces
-  bridge.
-- Small changes to accomodate some small fixes in the
-  neurospaces API.
+- Small improvements to the neurospaces integrator.
+- Replaced a couple of hardcoded error calls with calls to HeccerError().
+- Added support for passive only simulation, without channels.
+- Cleanup and maintenance.
+- Small misc bugfixes.
+- Added voltage clamp and perfect clamp functionality.
+- Updated the test framework.
+- Improved addressing framework to address internal variables.
+- Added checks for some of the discrete parameters.
