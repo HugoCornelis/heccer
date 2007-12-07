@@ -46,15 +46,15 @@ $content =~ s(///\s*NOTE\.:)(/// \\note )g;
 
 # $content =~ s(///\s*([a-zA-Z_]+)\S+)(/// \\arg $1)g;
 
-$content =~ s((/// ARGS.:\s*\n([^\n]+\n){1})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
+$content =~ s((/// ARGS.:\s*\n///\s*\n(///\s+[^\n]+\n){0})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
 
-$content =~ s((/// ARGS.:\s*\n([^\n]+\n){2})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
+$content =~ s((/// ARGS.:\s*\n///\s*\n(///\s+[^\n]+\n){1})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
 
-$content =~ s((/// ARGS.:\s*\n([^\n]+\n){3})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
+$content =~ s((/// ARGS.:\s*\n///\s*\n(///\s+[^\n]+\n){2})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
 
-$content =~ s((/// ARGS.:\s*\n([^\n]+\n){4})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
+$content =~ s((/// ARGS.:\s*\n///\s*\n(///\s+[^\n]+\n){3})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
 
-$content =~ s((/// ARGS.:\s*\n([^\n]+\n){5})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
+$content =~ s((/// ARGS.:\s*\n///\s*\n(///\s+[^\n]+\n){4})///\s*([a-zA-Z_]+)\S+)($1/// \\arg $3)g;
 
 $content =~ s(/// ARGS.:\s*\n)(///\n)g;
 
