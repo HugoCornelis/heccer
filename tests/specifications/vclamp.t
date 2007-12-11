@@ -27,7 +27,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a compartment with a sodium conductance be clamped ?",
-						   read => "",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-sodium.txt`),
 						  },
 						 ],
 				description => "vclamp circuitry, compartment with a sodium conductance",
