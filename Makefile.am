@@ -71,7 +71,6 @@ heccertestdir=$(prefix)/heccer
 nobase_dist_heccertest_DATA=@TEST_SPECIFICATION_FILES@
 
 # the tests are copied overhere.
-# the perl library is copied overhere.
 #
 # The variable EXTRA_DIST could also be used here.
 
@@ -90,7 +89,6 @@ dist-hook:
 	cp -dp $(srcdir)/tests/{run,run.ptkdb,command_extractor,command_extractor.ptkdb,tests_2_html,tests_2_html.ptkdb,tests.config} $(distdir)/tests
 	cp -a $(srcdir)/tests.config $(distdir)
 	cp -a $(srcdir)/tests/code/tests.config $(distdir)/tests/code/tests.config
-	cp -a $(srcdir)/perl $(distdir)
 #	cp -a $(srcdir)/hierarchy $(distdir)
 #	rm -fr $(distdir)/hierarchy/output
 	( cd $(distdir)/tests && chmod -R u+w . && ./tests_2_html --introduction introduction.html )
