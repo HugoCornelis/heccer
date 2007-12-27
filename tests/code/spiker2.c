@@ -20,8 +20,8 @@
 
 #include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
-#include "../../heccer/event.h"
 #include "../../heccer/heccer.h"
+#include "../../heccer/event.h"
 #include "../../heccer/output.h"
 
 
