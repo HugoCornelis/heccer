@@ -20,7 +20,11 @@
 #define HECCER_EVENT_H
 
 
+#ifndef HECCER_HECCER_H
+
 #include "heccer/heccer.h"
+
+#endif
 
 
 //f prototypes
