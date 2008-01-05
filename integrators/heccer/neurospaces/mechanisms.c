@@ -2305,7 +2305,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	for (iInput = 0 ; iInput < EXPONENTIALDECAY_CONTRIBUTORS ; iInput++)
 	{
 	    struct PidinStack *ppistExternal
-		= SymbolResolveInput(phsle, ptstr->ppist, "Ik", iInput);
+		= SymbolResolveInput(phsle, ptstr->ppist, "I", iInput);
 
 	    if (ppistExternal)
 	    {
@@ -2356,7 +2356,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	//- check for to many contributors
 
 	struct PidinStack *ppistExternal
-	    = SymbolResolveInput(phsle, ptstr->ppist, "Ik", iInput);
+	    = SymbolResolveInput(phsle, ptstr->ppist, "I", iInput);
 
 	if (ppistExternal)
 	{
