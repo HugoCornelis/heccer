@@ -3,14 +3,70 @@ $files = {
                             {
                               'expr' => undef,
                               'value' => '1',
-                              'text' => '			    ($matched_pattern_position,
+                              'text' => '    if (scalar @$numbers1 ne scalar @$numbers2)
 ',
                               'fname' => '././run',
                               'type' => 'user',
-                              'line' => '355'
+                              'line' => 906
+                            },
+                            {
+                              'expr' => undef,
+                              'value' => '1',
+                              'text' => '    my $numbers1 = [];
+',
+                              'fname' => '././run',
+                              'type' => 'user',
+                              'line' => 863
+                            },
+                            {
+                              'expr' => undef,
+                              'value' => '1',
+                              'text' => '    if ($string1 ne $string2)
+',
+                              'fname' => '././run',
+                              'type' => 'user',
+                              'line' => 901
+                            },
+                            {
+                              'expr' => undef,
+                              'value' => '1',
+                              'text' => '			    if (!$command_test->{string_only})
+',
+                              'fname' => '././run',
+                              'type' => 'user',
+                              'line' => 504
                             }
                           ]
          };
-$expr_list = [];
+$expr_list = [
+               {
+                 'expr' => '$text',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$number',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$index',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$diff',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$numbers1->[$index]',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$numbers1->[$index] / 10000',
+                 'depth' => -1
+               },
+               {
+                 'expr' => 'scalar @$numbers1',
+                 'depth' => -1
+               }
+             ];
 $eval_saved_text = undef;
-$main_win_geometry = '800x600+781+0';
+$main_win_geometry = '1140x1046+441+0';

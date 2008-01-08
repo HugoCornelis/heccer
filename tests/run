@@ -1,3 +1,4 @@
+#!/usr/bin/perl -d:ptkdb
 #!/usr/bin/perl -w
 #!/usr/bin/perl -d:ptkdb
 #
@@ -493,6 +494,20 @@ Total of $test_report->{global}->{test_count} tests (encountered $error_count er
 			     $after_match)
 				= $exp->expect($timeout, @$read, );
 			}
+
+			# if things don't match
+
+			if ($error)
+			{
+			    # if allowed to compare numerically
+
+			    if (!$command_test->{string_only})
+			    {
+				# compare numerically
+
+# 				$error = numerical_compare($command_test, $before_match, $read, $error);
+			    }
+			}
 		    }
 		}
 
@@ -800,6 +815,128 @@ sub report_message
     print "$message\n\n";
     print "$line\n" for 0 .. $trailer;
     print "\n";
+}
+
+
+sub numerical_compare
+{
+    my $command_test = shift;
+
+    my $string1 = shift;
+
+    my $string2 = shift;
+
+    my $current_diffs = shift;
+
+    my $result = $current_diffs;
+
+#     # use Text::Diff ();
+
+#     # Text::Diff::diff( \$successfully_matching_string, \$read, { STYLE => 'UNIFIED', CONTEXT => 0, }, );
+
+#     # prepare to compare
+
+#     use VCS::Lite;
+
+#     my $vcs1 = VCS::Lite->new(undef, undef, [ split '\n', $string1, ], );
+
+#     my $vcs2 = VCS::Lite->new(undef, undef, [ split '\n', $string2, ], );
+
+#     # get diff hunks
+
+#     my $delta = $vcs1->delta($vcs2);
+
+#     my $hunks = [ $delta->hunks(), ];
+
+#     # loop over all hunks to produce numerical rows
+
+#     foreach my $hunk (@$hunks)
+#     {
+# 	#t loop over all diffs found, extract numerics and compare
+
+# 	#t signal error if numerical diffs to large
+
+#     }
+
+    my $texts1 = [];
+
+    my $numbers1 = [];
+
+ LOOP1:
+    {
+	while ($string1 =~ s/\G((?:\n?\r?[^\d+-])+(?:(?:[-+]+(?:\n|\r))?))([+-]?\.?\d+(\.[0-9]+)?(e[+-]?[0-9]+)?)//is)
+	{
+	    my $text = $1;
+
+	    my $number = $2;
+
+	    push @$texts1, $text;
+
+	    push @$numbers1, $number;
+	}
+
+    }
+
+    my $texts2 = [];
+
+    my $numbers2 = [];
+
+ LOOP2:
+    {
+	while ($string2 =~ s/\G((?:\n?\r?[^\d+-])+(?:(?:[-+]+(?:\n|\r))?))([+-]?\.?\d+(\.[0-9]+)?(e[+-]?[0-9]+)?)//is)
+	{
+	    my $text = $1;
+
+	    my $number = $2;
+
+	    push @$texts2, $text;
+
+	    push @$numbers2, $number;
+	}
+
+    }
+
+    #t safety check
+
+    if ($string1 ne $string2)
+    {
+	return $result;
+    }
+
+    if (scalar @$numbers1 ne scalar @$numbers2)
+    {
+	return $result;
+    }
+
+    if (scalar @$texts1 ne scalar @$texts2)
+    {
+	return $result;
+    }
+
+    foreach my $index (0 .. $#$texts1)
+    {
+	if ($texts1->[$index] ne $texts2->[$index])
+	{
+	    #t check for white space differences
+
+	    return $result;
+	}
+    }
+
+    foreach my $index (0 .. $#$numbers1)
+    {
+	if ($numbers1->[$index] != $numbers2->[$index])
+	{
+	    my $diff = $numbers1->[$index] - $numbers2->[$index];
+
+	    if ($diff > $numbers1->[$index] / 10000)
+	    {
+		return $result;
+	    }
+	}
+    }
+
+    return $result;
 }
 
 
