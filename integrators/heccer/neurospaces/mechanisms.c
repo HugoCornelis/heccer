@@ -1862,7 +1862,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- get reversal potential
 
-	double dReversalPotential = SymbolParameterResolveValue(phsle, "Ek", ptstr->ppist);
+	double dReversalPotential = SymbolParameterResolveValue(phsle, "Erev", ptstr->ppist);
 
 	if (dMaximalConductance == FLT_MAX
 	    || dReversalPotential == FLT_MAX)
@@ -1877,7 +1877,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	int iReversalPotential = -1;
 
-	if (SymbolHasNernstEk(phsle, ptstr->ppist))
+	if (SymbolHasNernstErev(phsle, ptstr->ppist))
 	{
 	    //- currently the nernst intermediary always comes after the channel
 
@@ -2080,7 +2080,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	int iFunctions = 1;
 
-	if (SymbolHasNernstEk(phsle, ptstr->ppist))
+	if (SymbolHasNernstErev(phsle, ptstr->ppist))
 	{
 	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
 
@@ -2093,15 +2093,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pin->mc.iType = MATH_TYPE_InternalNernst;
 	    pin->mc.iSerial = iNernst;
 
-	    //- get Ek parameter
+	    //- get Erev parameter
 
-	    struct symtab_Parameters *pparEk
-		= SymbolGetParameter(phsle, "Ek", ptstr->ppist);
+	    struct symtab_Parameters *pparErev
+		= SymbolGetParameter(phsle, "Erev", ptstr->ppist);
 
 	    //- get nernst function
 
 	    struct symtab_Function *pfunNernst
-		= ParameterGetFunction(pparEk);
+		= ParameterGetFunction(pparErev);
 
 	    //- fetch parameters
 
@@ -2163,13 +2163,13 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    //! neurospaces contains support to evaluate simple functions
 
-	    pin->dInitPotential = SymbolParameterResolveValue(phsle, "Ek", ptstr->ppist);
+	    pin->dInitPotential = SymbolParameterResolveValue(phsle, "Erev", ptstr->ppist);
 
 	    //- find concentration that determines the nernst potential
 
 	    struct symtab_HSolveListElement *phslePool
 		= SymbolResolveParameterFunctionalInput
-		  (phsle, ptstr->ppist, "Ek", "Cin", 0);
+		  (phsle, ptstr->ppist, "Erev", "Cin", 0);
 
 	    //- if found
 
@@ -2630,7 +2630,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		//t need a separate loop for registering the type or so.
 
-		if (SymbolHasNernstEk(phsle, ptstr->ppist))
+		if (SymbolHasNernstErev(phsle, ptstr->ppist))
 		{
 		    if (!MathComponentDataTypeRegister(pmcd, iType))
 		    {

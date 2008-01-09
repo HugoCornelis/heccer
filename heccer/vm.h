@@ -534,7 +534,7 @@ struct MopsInitializeChannel
 	 : ({ iMopNumber++; 1; }) ) )
 
 
-struct MopsInitializeChannelEk
+struct MopsInitializeChannelErev
 {
     //m operation : HECCER_MOP_INITIALIZECHANNELEK
 
@@ -552,8 +552,8 @@ struct MopsInitializeChannelEk
 
 #define SETMOP_INITIALIZECHANNELEK(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,iE) \
     ((pvMops)								\
-     ? ({ struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)(pvMops);	\
-	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNELEK;		\
+     ? ({ struct MopsInitializeChannelErev *pmops = (struct MopsInitializeChannelErev *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNELEREV;		\
 	     pmops->uReversalPotential.iMat = (iE) ;			\
 	     pmops->dMaximalConductance = (dG) ;			\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
@@ -564,7 +564,7 @@ struct MopsInitializeChannelEk
 	 (ppvMopsIndex)							\
 	 ? ({								\
 		 piMC2Mop[iMathComponent] = iMopNumber++;		\
-		 (iMops) += sizeof(struct MopsInitializeChannelEk);	\
+		 (iMops) += sizeof(struct MopsInitializeChannelErev);	\
 		 1;							\
 	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
@@ -913,7 +913,7 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_FLUXPOOL 25
 #define HECCER_MOP_REGISTERCHANNELCURRENT 26
 #define HECCER_MOP_INTERNALNERNST 27
-#define HECCER_MOP_INITIALIZECHANNELEK 28
+#define HECCER_MOP_INITIALIZECHANNELEREV 28
 #define HECCER_MOP_SPRINGMASS 29
 #define HECCER_MOP_EVENTGENERATE 31
 #define HECCER_MOP_RESET 32

@@ -1502,11 +1502,11 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 	    //- for single channel initialization with variable reversal potential
 
-	    case HECCER_MOP_INITIALIZECHANNELEK:
+	    case HECCER_MOP_INITIALIZECHANNELEREV:
 	    {
 		//- go to next operator
 
-		struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)piMop;
+		struct MopsInitializeChannelErev *pmops = (struct MopsInitializeChannelErev *)piMop;
 
 		piMop = (int *)&pmops[1];
 
@@ -2241,11 +2241,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //- for single channel initialization with variable reversal potential
 
-	    case HECCER_MOP_INITIALIZECHANNELEK:
+	    case HECCER_MOP_INITIALIZECHANNELEREV:
 	    {
 		//- go to next operator
 
-		struct MopsInitializeChannelEk *pmops = (struct MopsInitializeChannelEk *)piMop;
+		struct MopsInitializeChannelErev *pmops = (struct MopsInitializeChannelErev *)piMop;
 
 		piMop = (int *)&pmops[1];
 
@@ -2823,7 +2823,7 @@ int HeccerMechanismSort(struct Heccer *pheccer)
 
     //t qsort mechanisms per compartment
 
-    //t sort on Ek, see adaptive time step paper and hsolve implementation.
+    //t sort on Erev, see adaptive time step paper and hsolve implementation.
 
     //- return result
 
