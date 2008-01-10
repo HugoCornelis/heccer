@@ -3,11 +3,20 @@ $files = {
                             {
                               'expr' => undef,
                               'value' => '1',
+                              'text' => '			    if (!$command_test->{string_only}
+',
+                              'fname' => '././run',
+                              'type' => 'user',
+                              'line' => 514
+                            },
+                            {
+                              'expr' => undef,
+                              'value' => '1',
                               'text' => '    if (scalar @$numbers1 ne scalar @$numbers2)
 ',
                               'fname' => '././run',
                               'type' => 'user',
-                              'line' => 906
+                              'line' => '958'
                             },
                             {
                               'expr' => undef,
@@ -16,25 +25,7 @@ $files = {
 ',
                               'fname' => '././run',
                               'type' => 'user',
-                              'line' => 863
-                            },
-                            {
-                              'expr' => undef,
-                              'value' => '1',
-                              'text' => '    if ($string1 ne $string2)
-',
-                              'fname' => '././run',
-                              'type' => 'user',
-                              'line' => 901
-                            },
-                            {
-                              'expr' => undef,
-                              'value' => '1',
-                              'text' => '			    if (!$command_test->{string_only})
-',
-                              'fname' => '././run',
-                              'type' => 'user',
-                              'line' => 504
+                              'line' => 876
                             }
                           ]
          };
