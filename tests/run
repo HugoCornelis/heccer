@@ -848,34 +848,6 @@ sub numerical_compare
 
     push @{$test_report->{numerical_compare}}, $command_test->{description};
 
-#     # use Text::Diff ();
-
-#     # Text::Diff::diff( \$successfully_matching_string, \$read, { STYLE => 'UNIFIED', CONTEXT => 0, }, );
-
-#     # prepare to compare
-
-#     use VCS::Lite;
-
-#     my $vcs1 = VCS::Lite->new(undef, undef, [ split '\n', $string1, ], );
-
-#     my $vcs2 = VCS::Lite->new(undef, undef, [ split '\n', $string2, ], );
-
-#     # get diff hunks
-
-#     my $delta = $vcs1->delta($vcs2);
-
-#     my $hunks = [ $delta->hunks(), ];
-
-#     # loop over all hunks to produce numerical rows
-
-#     foreach my $hunk (@$hunks)
-#     {
-# 	#t loop over all diffs found, extract numerics and compare
-
-# 	#t signal error if numerical diffs to large
-
-#     }
-
     my $texts1 = [ split '\n', $string1, ];
 
     my $numbers1 = [];
@@ -903,62 +875,6 @@ sub numerical_compare
 	    push @$numbers2, $number;
 	}
     }
-
-#  LOOP1:
-#     {
-# 	while ($string1 =~ s/\G((?:\n?\r?[^\d+-])+(?:(?:[-+]+(?:\n|\r))?))([+-]?\.?\d+(\.[0-9]+)?(e[+-]?[0-9]+)?)//is)
-# 	{
-# 	    my $text = $1;
-
-# 	    my $number = $2;
-
-# 	    push @$texts1, $text;
-
-# 	    push @$numbers1, $number;
-# 	}
-
-#     }
-
-#     while ($string1 =~ s/\G(.*?)([+-]?\.?\d+(\.[0-9]+)?(e[+-]?[0-9]+)?)/$1HERE_WAS_A_NUMBER/gs)
-#     {
-# 	my $position = pos($string1);
-
-# 	my $text = $1;
-
-# 	my $number = $2;
-
-# 	push @$texts1, $text;
-
-# 	push @$numbers1, $number;
-
-# 	pos($string1) = $position;
-#     }
-
-#     my $texts2 = [];
-
-#     my $numbers2 = [];
-
-#  LOOP2:
-#     {
-# 	while ($string2 =~ s/\G((?:\n?\r?[^\d+-])+(?:(?:[-+]+(?:\n|\r))?))([+-]?\.?\d+(\.[0-9]+)?(e[+-]?[0-9]+)?)//is)
-# 	{
-# 	    my $text = $1;
-
-# 	    my $number = $2;
-
-# 	    push @$texts2, $text;
-
-# 	    push @$numbers2, $number;
-# 	}
-
-#     }
-
-#     #t safety check
-
-#     if ($string1 ne $string2)
-#     {
-# 	return $result;
-#     }
 
     # from here on the default result is no error
 
