@@ -135,15 +135,6 @@ my $test_report
 		  test_count => 0,
 		  time_start => `date`,
 		 },
-       options => {
-		   flattenout => $option_flattenout,
-		   help => $option_help,
-		   numerical_compare => $option_numerical_compare,
-		   random_order => $option_random_order,
-		   regex_selector => $option_regex_selector,
-		   timeout_multiplier => $option_timeout_multiplier,
-		   verbose => $option_verbose,
-		  },
        target => {
 		  OS => $^O,
 		 },
@@ -673,6 +664,17 @@ sub read_cmd_line
 	     "timeout-multiplier=s" => \$option_timeout_multiplier,
 	     "v|verbose+" => \$option_verbose,
 	    );
+
+    $test_report->{options}
+	= {
+	   flattenout => $option_flattenout,
+	   help => $option_help,
+	   numerical_compare => $option_numerical_compare,
+	   random_order => $option_random_order,
+	   regex_selector => $option_regex_selector,
+	   timeout_multiplier => $option_timeout_multiplier,
+	   verbose => $option_verbose,
+	  };
 
     if ($option_help)
     {
