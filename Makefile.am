@@ -70,11 +70,15 @@ nobase_include_HEADERS = \
 heccertestdir=$(prefix)/heccer
 nobase_dist_heccertest_DATA=@TEST_SPECIFICATION_FILES@
 
+dist-keywords:
+	release-expand heccer des 6 0 des-6 hugo.cornelis@gmail.com --verbose
+
 # the tests are copied overhere.
 #
 # The variable EXTRA_DIST could also be used here.
 
-dist-hook:
+dist-hook: dist-keywords
+	cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi
 	find $(distdir) -name _Inline -exec chmod u+w -R \{\} \;
 	$(RM) -fr `find $(distdir) -name _Inline`
 	cp $(srcdir)/license.txt $(distdir)
