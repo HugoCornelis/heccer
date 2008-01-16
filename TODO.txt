@@ -1,5 +1,10 @@
 -*- outline -*-
 
+* compilation of outputs
+truncates output files, perhaps that should be moved to the initiation
+sequence ?  Would be handy if starting the studio from ssp, output
+files would not be truncated.
+
 * add double exp. for ca pools
 See chat with Paolo.
 
