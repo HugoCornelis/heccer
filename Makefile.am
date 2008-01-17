@@ -71,7 +71,7 @@ heccertestdir=$(prefix)/heccer
 nobase_dist_heccertest_DATA=@TEST_SPECIFICATION_FILES@
 
 dist-keywords:
-	release-expand heccer des 6 0 des-6 hugo.cornelis@gmail.com --verbose
+	release-expand heccer des 7 0 des-7 hugo.cornelis@gmail.com --verbose
 
 # the tests are copied overhere.
 #
