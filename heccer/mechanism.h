@@ -255,9 +255,10 @@ struct GateKinetic
     //! need parameters as follows:
 
     //! 1   A
-    //! 2   (Vm - V0)          (factor is present or not, membrane dependence)
-    //! 3   /                  (choose between division and multiplication)
-    //! 4   (cte +
+    //! 2a  (ct1 * Vm                (factor is present or not, membrane dependence)
+    //! 2b            - V0)          (membrane offset)
+    //! 3   /                        (choose between division and multiplication)
+    //! 4   (ct2 +
     //! 5    exp((Vm - V0)
     //! 6        / B))
 
@@ -274,40 +275,73 @@ struct GateKinetic
 
     //! genesis tabchan A
 
-    double dMultiplier;
+    //? HH_SCALE
 
-    //m 2: multiplier membrane dependence, 0.0 for no dependence
+    double dHHScale;
+
+/*     double dMultiplier; */
+
+    //m 2a: multiplier membrane dependence, 0.0 for no dependence
 
     //! genesis tabchan B ?
 
-    double dMembraneDependence;
+    //? HH_MULT
+
+    double dHHMult;
+
+/*     double dMembraneDependence; */
 
     //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-    double dMembraneDependenceOffset;
+    //? HH_OFFSET_1
+
+    //? HH_OFFSET
+
+    double dHHOffset1;
+
+/*     double dMembraneDependenceOffset; */
 
     //m 3: choose between nominator or denominator, 1 means nominator, -1
     //m means denominator
 
-    int iNominator;
+    //? HH_FACTOR_FLAG
+
+    int iHHFactorFlag;
+
+/*     int iNominator; */
 
     //m 4: nominator or denominator offset
 
     //! genesis tabchan C ?
 
-    double dDeNominatorOffset;
+    //? HH_ADD
+
+    double dHHAdd;
+
+/*     double dDeNominatorOffset; */
 
     //m 5: membrane offset
 
     //! genesis tabchan D
 
-    double dMembraneOffset;
+    //? HH_OFFSET_2
+
+    //? HH_OFFSET
+
+    double dHHOffset2;
+
+/*     double dMembraneOffset; */
 
     //m 6: denormalized time constant
 
     //! genesis tabchan F
 
-    double dTauDenormalizer;
+    //? HH_TAU
+
+    double dHHTau;
+
+/*     double dTauDenormalizer; */
+
 };
 
 //s channel gate concept

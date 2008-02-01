@@ -360,50 +360,50 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    ppgc->gc.iTable = -1;
 
-	    //- get Multiplier = 35.0e3
+	    //- get HH_Scale = 35.0e3
 
-	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_Scale", ptstr->ppist);
 
-	    pgk->dMultiplier = dMultiplier;
+	    pgk->dHHScale = dHHScale;
 
-	    //- get MembraneDependence = 0.0
+	    //- get HH_Mult = 0.0
 
-	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
+	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_Mult", ptstr->ppist);
 
-	    pgk->dMembraneDependence = dMembraneDependence;
+	    pgk->dHHMult = dHHMult;
 
-	    //- get Nominator = -1.0
+	    //- get HH_Factor_Flag = -1.0
 
-	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
+	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_Factor_Flag", ptstr->ppist);
 
-	    int iNominator = dNominator;
+	    int iHHFactorFlag = dHHFactorFlag;
 
-	    pgk->iNominator = iNominator;
+	    pgk->iHHFactorFlag = iHHFactorFlag;
 
-	    //- get DeNominatorOffset = 0.0
+	    //- get HH_Add = 0.0
 
-	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_Add", ptstr->ppist);
 
-	    pgk->dDeNominatorOffset = dDeNominatorOffset;
+	    pgk->dHHAdd = dHHAdd;
 
-	    //- get MembraneOffset = 5.0e-3
+	    //- get HH_Offset2 = 5.0e-3
 
-	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+	    double dHHOffset2 = SymbolParameterResolveValue(phsle, "HH_Offset2", ptstr->ppist);
 
-	    pgk->dMembraneOffset = dMembraneOffset;
+	    pgk->dHHOffset2 = dHHOffset2;
 
-	    //- get TauDenormalizer = -10.0e-3
+	    //- get HH_Tau = -10.0e-3
 
-	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_Tau", ptstr->ppist);
 
-	    pgk->dTauDenormalizer = dTauDenormalizer;
+	    pgk->dHHTau = dHHTau;
 
-	    if (dMultiplier == FLT_MAX
-		|| dMembraneDependence == FLT_MAX
-		|| dNominator == FLT_MAX
-		|| dDeNominatorOffset == FLT_MAX
-		|| dMembraneOffset == FLT_MAX
-		|| dTauDenormalizer == FLT_MAX)
+	    if (dHHScale == FLT_MAX
+		|| dHHMult == FLT_MAX
+		|| dHHFactorFlag == FLT_MAX
+		|| dHHAdd == FLT_MAX
+		|| dHHOffset2 == FLT_MAX
+		|| dHHTau == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
 
@@ -562,50 +562,50 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    ppgc->gc.iTable = -1;
 
-	    //- get Multiplier = 35.0e3
+	    //- get HH_Scale = 35.0e3
 
-	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_Scale", ptstr->ppist);
 
-	    pgk->dMultiplier = dMultiplier;
+	    pgk->dHHScale = dHHScale;
 
-	    //- get MembraneDependence = 0.0
+	    //- get HH_Mult = 0.0
 
-	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
+	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_Mult", ptstr->ppist);
 
-	    pgk->dMembraneDependence = dMembraneDependence;
+	    pgk->dHHMult = dHHMult;
 
-	    //- get Nominator = -1.0
+	    //- get HH_Factor_Flag = -1.0
 
-	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
+	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_Factor_Flag", ptstr->ppist);
 
-	    int iNominator = dNominator;
+	    int iHHFactorFlag = dHHFactorFlag;
 
-	    pgk->iNominator = iNominator;
+	    pgk->iHHFactorFlag = iHHFactorFlag;
 
-	    //- get DeNominatorOffset = 0.0
+	    //- get HH_Add = 0.0
 
-	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_Add", ptstr->ppist);
 
-	    pgk->dDeNominatorOffset = dDeNominatorOffset;
+	    pgk->dHHAdd = dHHAdd;
 
-	    //- get MembraneOffset = 5.0e-3
+	    //- get HH_Offset2 = 5.0e-3
 
-	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+	    double dHHOffset2 = SymbolParameterResolveValue(phsle, "HH_Offset2", ptstr->ppist);
 
-	    pgk->dMembraneOffset = dMembraneOffset;
+	    pgk->dHHOffset2 = dHHOffset2;
 
-	    //- get TauDenormalizer = -10.0e-3
+	    //- get HH_Tau = -10.0e-3
 
-	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_Tau", ptstr->ppist);
 
-	    pgk->dTauDenormalizer = dTauDenormalizer;
+	    pgk->dHHTau = dHHTau;
 
-	    if (dMultiplier == FLT_MAX
-		|| dMembraneDependence == FLT_MAX
-		|| dNominator == FLT_MAX
-		|| dDeNominatorOffset == FLT_MAX
-		|| dMembraneOffset == FLT_MAX
-		|| dTauDenormalizer == FLT_MAX)
+	    if (dHHScale == FLT_MAX
+		|| dHHMult == FLT_MAX
+		|| dHHFactorFlag == FLT_MAX
+		|| dHHAdd == FLT_MAX
+		|| dHHOffset2 == FLT_MAX
+		|| dHHTau == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
 
@@ -779,50 +779,50 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    ppgc->gc.iTable = -1;
 
-	    //- get Multiplier = 35.0e3
+	    //- get HH_Scale = 35.0e3
 
-	    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_Scale", ptstr->ppist);
 
-	    pgk->dMultiplier = dMultiplier;
+	    pgk->dHHScale = dHHScale;
 
-	    //- get MembraneDependence = 0.0
+	    //- get HH_Mult = 0.0
 
-	    double dMembraneDependence = SymbolParameterResolveValue(phsle, "MembraneDependence", ptstr->ppist);
+	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_Mult", ptstr->ppist);
 
-	    pgk->dMembraneDependence = dMembraneDependence;
+	    pgk->dHHMult = dHHMult;
 
-	    //- get Nominator = -1.0
+	    //- get HH_FactorFlag = -1.0
 
-	    double dNominator = SymbolParameterResolveValue(phsle, "Nominator", ptstr->ppist);
+	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_Factor_Flag", ptstr->ppist);
 
-	    int iNominator = dNominator;
+	    int iHHFactorFlag = dHHFactorFlag;
 
-	    pgk->iNominator = iNominator;
+	    pgk->iHHFactorFlag = iHHFactorFlag;
 
-	    //- get DeNominatorOffset = 0.0
+	    //- get HH_Add = 0.0
 
-	    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_Add", ptstr->ppist);
 
-	    pgk->dDeNominatorOffset = dDeNominatorOffset;
+	    pgk->dHHAdd = dHHAdd;
 
-	    //- get MembraneOffset = 5.0e-3
+	    //- get HH_Offset2 = 5.0e-3
 
-	    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+	    double dHHOffset2 = SymbolParameterResolveValue(phsle, "HH_Offset2", ptstr->ppist);
 
-	    pgk->dMembraneOffset = dMembraneOffset;
+	    pgk->dHHOffset2 = dHHOffset2;
 
-	    //- get TauDenormalizer = -10.0e-3
+	    //- get HH_Tau = -10.0e-3
 
-	    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_Tau", ptstr->ppist);
 
-	    pgk->dTauDenormalizer = dTauDenormalizer;
+	    pgk->dHHTau = dHHTau;
 
-	    if (dMultiplier == FLT_MAX
-		|| dMembraneDependence == FLT_MAX
-		|| dNominator == FLT_MAX
-		|| dDeNominatorOffset == FLT_MAX
-		|| dMembraneOffset == FLT_MAX
-		|| dTauDenormalizer == FLT_MAX)
+	    if (dHHScale == FLT_MAX
+		|| dHHMult == FLT_MAX
+		|| dHHFactorFlag == FLT_MAX
+		|| dHHAdd == FLT_MAX
+		|| dHHOffset2 == FLT_MAX
+		|| dHHTau == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
 
