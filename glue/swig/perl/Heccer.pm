@@ -469,6 +469,9 @@ my $heccer_mapping
 				  intermediary => {
 						   target => 'inter',
 						  },
+
+				  # model_source comes from SSP, should not be translated
+
 				  model_source => {
 						  },
 				  options => {
@@ -927,6 +930,49 @@ sub new
     bless $self, $package;
 
     return $self;
+}
+
+
+package Heccer::Tabulator;
+
+
+sub backend
+{
+    my $self = shift;
+
+    return $self->{backend};
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift || {};
+
+    my $self
+	= {
+	   %$options,
+
+	   #! this gets called before Heccer is instantiated so there
+	   #! is no backend yet.
+
+	   backend => undef,
+	  };
+
+    bless $self, $package;
+
+    return $self;
+}
+
+
+sub serve
+{
+    my $self = shift;
+
+    my $backend = shift;
+
+    
 }
 
 
