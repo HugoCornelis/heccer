@@ -43,6 +43,8 @@ sub advance
 {
     my $self = shift;
 
+    my $scheduler = shift;
+
     my $time = shift;
 
     my $result = $self->{heccer}->HeccerHeccs($time);
@@ -62,6 +64,8 @@ sub backend
 sub compile
 {
     my $self = shift;
+
+    my $scheduler = shift;
 
     my $options = shift;
 
@@ -216,6 +220,8 @@ sub report
     #t call ->dump() with dump options in this object.
 
     my $self = shift;
+
+    my $scheduler = shift;
 
     my $options = shift;
 
@@ -889,7 +895,9 @@ sub add_distributor
 {
     my $self = shift;
 
-    my $distributor = shift;
+    my $scheduler = shift;
+
+    my $distributor; # $scheduler->lookup_service('event_distributor');
 
     $self->{distributor} = SwiggableHeccer::EventDistributorNew($distributor);
 
@@ -906,7 +914,9 @@ sub add_queuer
 {
     my $self = shift;
 
-    my $queuer = shift;
+    my $scheduler = shift;
+
+    my $queuer; # $scheduler->lookup_service('event_queuer');
 
     $self->{queuer} = SwiggableHeccer::EventQueuerNew($queuer);
 
@@ -970,9 +980,9 @@ sub serve
 {
     my $self = shift;
 
-    my $backend = shift;
+    my $scheduler = shift;
 
-    
+    my $options = shift;
 }
 
 
@@ -1077,6 +1087,8 @@ sub report
 sub step
 {
     my $self = shift;
+
+    my $scheduler = shift;
 
     my $options = shift;
 
@@ -1212,6 +1224,8 @@ sub report
 sub step
 {
     my $self = shift;
+
+    my $scheduler = shift;
 
     my $options = shift;
 
