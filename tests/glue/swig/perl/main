@@ -102,7 +102,7 @@ $heccer->initiate();
 
 # initial dump
 
-$heccer->report( { steps => undef, verbose => 1, }, );
+$heccer->report( undef, { steps => undef, verbose => 1, }, );
 
 # a couple of times
 
@@ -116,12 +116,12 @@ foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps
 
     # report
 
-    $heccer->report( { steps => $i, verbose => 1, }, );
+    $heccer->report( undef, { steps => $i, verbose => 1, }, );
 }
 
 # final report
 
-$heccer->report( { steps => -1, verbose => 1, }, );
+$heccer->report( undef, { steps => -1, verbose => 1, }, );
 
 
 1;
