@@ -980,9 +980,35 @@ sub serve
 {
     my $self = shift;
 
-    my $scheduler = shift;
+    my $ssp_analyzer = shift;
 
     my $options = shift;
+
+    # lookup the object with the tables
+
+    my $scheduler = $ssp_analyzer->{scheduler};
+
+    # lookup the heccer
+
+    my $solver = $scheduler->lookup_solver_engine($options->{source});
+
+    if (!defined $solver)
+    {
+	die "$0: Heccer::Tabulator::serve(): solver not found";
+    }
+
+    my $backend = $solver->backend();
+
+    if (!$backend->isa("Heccer"))
+    {
+	die "$0: Heccer::Tabulator::serve(): $backend is not a Heccer object";
+    }
+
+    # get access to the low level C structure
+
+    my $heccer = $backend->backend();
+
+    1;
 }
 
 
