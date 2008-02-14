@@ -966,6 +966,27 @@ sub dump
 
     my $scheduler = $ssp_analyzer->{scheduler};
 
+    # convert the arguments to a serial
+
+    my $source = $arguments->[0]->{source};
+
+    my $service_name = $self->{ssp_engine}->{service_name};
+
+    my $source_info = $scheduler->lookup_object($service_name);
+
+    my $service = $source_info->backend();
+
+    my $solver_info
+	= $service->output_2_solverinfo
+	    (
+	     {
+	      #t source still contains the '::' separator
+
+	      component_name => $source,
+	      field => 'table',
+	     },
+	    );
+
     # get access to the low level C structure
 
     my $backend = $self->backend();
@@ -1024,6 +1045,8 @@ sub serve
     {
 	die "$0: Heccer::Tabulator::serve(): solver not found";
     }
+
+    $self->{ssp_engine} = $solver;
 
     my $backend = $solver->backend();
 
