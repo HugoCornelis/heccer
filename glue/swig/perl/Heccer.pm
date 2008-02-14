@@ -976,7 +976,7 @@ sub dump
 
     my $tgt = $backend->{heccer}->swig_tgt_get();
 
-    
+    print "tgt is $tgt\n";
 
     1;
 }
