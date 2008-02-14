@@ -57,6 +57,7 @@
 #include "heccer/mechanism.h"
 #include "heccer/output.h"
 #include "heccer/perfectclamp.h"
+#include "heccer/table.h"
 
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
@@ -145,6 +146,7 @@ struct Compartment *comp_get(struct Compartment *a, int i)
 %include "heccer/mechanism.h"
 %include "heccer/output.h"
 %include "heccer/perfectclamp.h"
+%include "heccer/table.h"
 
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure

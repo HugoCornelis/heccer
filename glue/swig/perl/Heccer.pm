@@ -954,6 +954,34 @@ sub backend
 }
 
 
+sub dump
+{
+    my $self = shift;
+
+    my $ssp_analyzer = shift;
+
+    my $arguments = [ @_, ];
+
+    # lookup the object with the tables
+
+    my $scheduler = $ssp_analyzer->{scheduler};
+
+    # get access to the low level C structure
+
+    my $backend = $self->backend();
+
+#     my $heccer = $backend->backend();
+
+    # get access to tables
+
+    my $tgt = $backend->{heccer}->swig_tgt_get();
+
+    
+
+    1;
+}
+
+
 sub new
 {
     my $package = shift;
@@ -1007,6 +1035,8 @@ sub serve
     # get access to the low level C structure
 
     my $heccer = $backend->backend();
+
+    $self->{backend} = $backend;
 
     1;
 }
