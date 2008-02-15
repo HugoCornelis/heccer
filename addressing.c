@@ -230,11 +230,9 @@ HeccerAddressMechanismVariable
 
     void *pvResult = NULL;
 
-    //- get mat number
+    //- lookup the field operand, we first search for mat entries
 
-    int iMat = pheccer->vm.piMC2Mat[iIndex].iMat;
-
-    //- lookup the field operand (negative offset for now)
+    //! negative offset for now
 
     struct field_2_operator
     {
@@ -263,30 +261,60 @@ HeccerAddressMechanismVariable
 	}
     }
 
-    //- if not found
+    //- if mat entry found
 
     int iOperand = pF2P[iField].iOperand;
 
-    if (iOperand == INT_MAX)
+    if (iOperand != INT_MAX)
     {
-	//- return failure
+	//- get mat number
 
-	return(NULL);
+	int iMat = pheccer->vm.piMC2Mat[iIndex].iMat;
+
+	//- apply the operand
+
+	iMat += iOperand;
+
+	//- set result
+
+	int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
+
+	printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
+
+	//! note that this is implicitly assumed to be a pointer to double.
+
+	pvResult = &((double *)pheccer->vm.ppvMatsIndex[iMat])[pF2P[iField].iOffset];
     }
 
-    //- apply the operand
+    //- else
 
-    iMat += iOperand;
+    else
+    {
+	//- we try mop entries
 
-    //- set result
+	if (strcmp(pcField, "table_index") == 0)
+	{
+	    //- get mop number
 
-    int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
+	    int iMop = pheccer->vm.piMC2Mop[iIndex];
 
-    printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
+	    //t I guess I will need the operand to differentiate between activation and inactivation
 
-    //! note that this is implicitly assumed to be a pointer to double.
+/* 	    //- apply the operand */
 
-    pvResult = &((double *)pheccer->vm.ppvMatsIndex[iMat])[pF2P[iField].iOffset];
+/* 	    iMop += iOperand; */
+
+	    //- set result
+
+	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops;
+
+	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, -4);
+
+	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)&((int *)pheccer->vm.ppvMopsIndex[iMop])[-4];
+
+	    pvResult = &((int *)pheccer->vm.ppvMopsIndex[iMop])[-4];
+	}
+    }
 
     //- return result
 

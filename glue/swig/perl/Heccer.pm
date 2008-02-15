@@ -976,16 +976,22 @@ sub dump
 
     my $service = $source_info->backend();
 
+    #t perhaps I should check here for 'forward' or 'backward' in the
+    #t source, and assign a different field name to them, this would
+    #t make it easier in the C code to differentiate between those two.
+
     my $solver_info
 	= $service->output_2_solverinfo
 	    (
 	     {
-	      #t source still contains the '::' separator
-
 	      component_name => $source,
-	      field => 'table',
+	      field => 'table_index',
 	     },
 	    );
+
+    use Data::Dumper;
+
+    print Dumper($solver_info);
 
     # get access to the low level C structure
 
@@ -993,13 +999,54 @@ sub dump
 
 #     my $heccer = $backend->backend();
 
-    # get access to tables
+    #t not sure about this one yet
 
-    my $tgt = $backend->{heccer}->swig_tgt_get();
+    my $synaptic = 0;
 
-    print "tgt is $tgt\n";
+    if ($synaptic)
+    {
+    }
+    else
+    {
+	# convert the table serial to an addressable: an index into the table structures
+
+	my $table_index
+	    = $self->kinetic_serial_2_table_index
+		(
+		 $solver_info->{serial},
+		 'table_index',
+		);
+
+	# get access to tables
+
+	my $tgt = $backend->{heccer}->swig_tgt_get();
+
+	print "tgt is $tgt\n";
+    }
 
     1;
+}
+
+
+sub kinetic_serial_2_table_index
+{
+    my $self = shift;
+
+    my $serial = shift;
+
+    my $type = shift;
+
+    my $result;
+
+    # get access to the low level C structure
+
+    my $backend = $self->backend();
+
+    my $heccer = $backend->backend();
+
+    $heccer->HeccerAddressVariable($serial, $type);
+
+    return $result;
 }
 
 
@@ -1011,12 +1058,12 @@ sub new
 
     my $self
 	= {
-	   %$options,
-
 	   #! this gets called before Heccer is instantiated so there
 	   #! is no backend yet.
 
 	   backend => undef,
+
+	   %$options,
 	  };
 
     bless $self, $package;
