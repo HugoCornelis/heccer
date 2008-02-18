@@ -976,16 +976,21 @@ sub dump
 
     my $service = $source_info->backend();
 
-    #t perhaps I should check here for 'forward' or 'backward' in the
-    #t source, and assign a different field name to them, this would
-    #t make it easier in the C code to differentiate between those two.
+    # we check here for 'forward' or 'backward' in the source
+    # component, and assign a different field name to them, this makes
+    # it easier in the C code to differentiate between those two.
+
+    my $field
+	= $source =~ /forward/
+	    ? 'table_forward_index'
+		: 'table_backward_index';
 
     my $solver_info
 	= $service->output_2_solverinfo
 	    (
 	     {
 	      component_name => $source,
-	      field => 'table_index',
+	      field => $field,
 	     },
 	    );
 

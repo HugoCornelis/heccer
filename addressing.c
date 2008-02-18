@@ -292,17 +292,28 @@ HeccerAddressMechanismVariable
     {
 	//- we try mop entries
 
-	if (strcmp(pcField, "table_index") == 0)
+	if (strcmp(pcField, "table_forward_index") == 0)
+	{
+	    //t need to fill in, and check if this can really work
+
+	    iOperand = 0;
+	}
+	else if (strcmp(pcField, "table_backward_index") == 0)
+	{
+	    //t need to fill in, and check if this can really work
+
+	    iOperand = 0;
+	}
+
+	if (iOperand != INT_MAX)
 	{
 	    //- get mop number
 
 	    int iMop = pheccer->vm.piMC2Mop[iIndex];
 
-	    //t I guess I will need the operand to differentiate between activation and inactivation
+	    //- apply the operand
 
-/* 	    //- apply the operand */
-
-/* 	    iMop += iOperand; */
+	    iMop += iOperand;
 
 	    //- set result
 
