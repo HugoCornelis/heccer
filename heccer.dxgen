@@ -25,7 +25,7 @@ PROJECT_NAME = "heccer"
 # if some version control system is used.
 
 # $Format: "PROJECT_NUMBER = \"${label}\""$
-PROJECT_NUMBER = "des-7"
+PROJECT_NUMBER = "des-10"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
