@@ -1,3 +1,8 @@
+heccer-spikes.output
+heccer-tables.output
+heccer_check_ric-neurospaces-02.out
+heccer_check_ric-neurospaces-03.out
+
 Makefile$
 ^Heccer
 ^docs/various.txt$
