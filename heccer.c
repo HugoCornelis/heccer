@@ -1,4 +1,4 @@
-static char *pcVersionTime="(07/12/07) Friday, December 7, 2007 10:32:35 hugo";
+static char *pcVersionTime="(08/02/25) Monday, February 25, 2008 14:12:17 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -310,7 +310,11 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 	pfile = stdout;
     }
 
-    //- status : reflects phases of compilation.
+    //- name: always present
+
+    fprintf(pfile, "Heccer (pcName) : (%s)\n", pheccer->pcName ? pheccer->pcName : "(null)");
+
+    //- status: reflects phases of compilation.
 
     fprintf(pfile, "Heccer (iStatus) : (%i)\n", pheccer->iStatus);
 
@@ -645,6 +649,7 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///
 /// ARGS.:
 ///
+///	pc.....: name of this heccer, may be NULL.
 ///	pts....: translation service.
 ///	ped....: event distribution service.
 ///	peq....: event queuing service.
@@ -662,7 +667,8 @@ int HeccerInitiate(struct Heccer *pheccer)
 
 struct Heccer *
 HeccerNew
-(struct TranslationService *pts,
+(char *pc,
+ struct TranslationService *pts,
  struct EventDistributor *ped,
  struct EventQueuer *peq)
 {
@@ -671,6 +677,7 @@ HeccerNew
     struct Heccer *pheccerResult
 	= HeccerNewP1
 	  (
+	      pc,
 	      pts,
 	      ped,
 	      peq,
@@ -690,6 +697,7 @@ HeccerNew
 ///
 /// ARGS.:
 ///
+///	pc.......: name of this heccer, may be NULL.
 ///	pts......: identification service.
 ///	ped......: event distribution service.
 ///	peq......: event queuing service.
@@ -706,7 +714,8 @@ HeccerNew
 
 struct Heccer *
 HeccerNewP1
-(struct TranslationService *pts,
+(char *pc,
+ struct TranslationService *pts,
  struct EventDistributor *ped,
  struct EventQueuer *peq,
  int iOptions,
@@ -721,6 +730,10 @@ HeccerNewP1
     {
 	return(NULL);
     }
+
+    //- set name
+
+    pheccerResult->pcName = pc;
 
     //- set naming service
 
@@ -768,6 +781,7 @@ HeccerNewP1
 ///
 /// ARGS.:
 ///
+///	pc......: name of this heccer, may be NULL.
 ///	pinter..: intermediary with a complete numerical model definition.
 ///
 /// RTN..: struct Heccer *
@@ -778,11 +792,11 @@ HeccerNewP1
 ///
 /// **************************************************************************
 
-struct Heccer *HeccerNewP2(struct Intermediary *pinter)
+struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult = HeccerNew(NULL, NULL, NULL);
+    struct Heccer *pheccerResult = HeccerNew(pc, NULL, NULL, NULL);
 
     //- link in intermediary
 

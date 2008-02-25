@@ -19,7 +19,7 @@ struct SV *HeccerNew(SV * psvInter)
 
     //- instantiate a heccer with an initialized intermediary
 
-    struct Heccer *pheccer = HeccerNewP2(pinter);
+    struct Heccer *pheccer = HeccerNewP2("cbc -- obsoleted", pinter);
 
     //- build indices for optimization
 

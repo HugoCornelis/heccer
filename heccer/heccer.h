@@ -120,6 +120,13 @@ struct HeccerOptions
 
 struct Heccer
 {
+    //m name of this heccer
+
+    //! if the name of a heccer is a system wide id depends on the
+    //! environment, heccer does not (and cannot) enforce it.
+
+    char *pcName;
+
     //m status : reflects phases of compilation.
 
     int iStatus;
@@ -279,19 +286,21 @@ int HeccerInitiate(struct Heccer *pheccer);
 
 struct Heccer *
 HeccerNew
-(struct TranslationService *pts,
+(char *pc,
+ struct TranslationService *pts,
  struct EventDistributor *ped,
  struct EventQueuer *peq);
 
 struct Heccer *
 HeccerNewP1
-(struct TranslationService *pts,
+(char *pc,
+ struct TranslationService *pts,
  struct EventDistributor *ped,
  struct EventQueuer *peq,
  int iOptions,
  double dStep);
 
-struct Heccer *HeccerNewP2(struct Intermediary *pinter);
+struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter);
 
 
 #endif

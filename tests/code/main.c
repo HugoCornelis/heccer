@@ -48,6 +48,10 @@ struct PerfectClamp *ppc = NULL;
 //o Tests with multiple heccers must not use this file.
 //o
 
+#ifndef HECCER_TEST_NAME
+#define HECCER_TEST_NAME ("unnamed test")
+#endif
+
 #ifndef HECCER_TEST_CONSTRUCT
 #define HECCER_TEST_CONSTRUCT \
     memcpy(&pheccer->inter, &inter, sizeof(inter));	\
@@ -142,7 +146,7 @@ int main(int argc, char *argv[])
 
     if (!pheccer)
     {
-	pheccer = HeccerNewP2(&inter);
+	pheccer = HeccerNewP2(HECCER_TEST_NAME, &inter);
     }
     else
     {

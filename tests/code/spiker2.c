@@ -1194,11 +1194,11 @@ int main(int argc, char *argv[])
     //! the source is constructed overhere and further initialized in simulate(),
     //! the targets are constructed in simulate() only.  Needs to be cleaned up.
 
-    pheccerSource = HeccerNew(NULL, &ed, NULL);
+    pheccerSource = HeccerNew("source", NULL, &ed, NULL);
 
-    pheccerTarget1 = HeccerNew(NULL, NULL, &eq);
+    pheccerTarget1 = HeccerNew("target1", NULL, NULL, &eq);
 
-    pheccerTarget2 = HeccerNew(NULL, NULL, &eq);
+    pheccerTarget2 = HeccerNew("target2", NULL, NULL, &eq);
 
     //- do the simulation
 
@@ -1346,7 +1346,7 @@ int simulate(int argc, char *argv[])
 
     if (!pheccerSource)
     {
-	pheccerSource = HeccerNewP2(&interSource);
+	pheccerSource = HeccerNewP2("source", &interSource);
     }
     else
     {
@@ -1359,7 +1359,7 @@ int simulate(int argc, char *argv[])
 
     if (!pheccerTarget1)
     {
-	pheccerTarget1 = HeccerNewP2(&interTarget1);
+	pheccerTarget1 = HeccerNewP2("target1", &interTarget1);
     }
     else
     {
@@ -1372,7 +1372,7 @@ int simulate(int argc, char *argv[])
 
     if (!pheccerTarget2)
     {
-	pheccerTarget2 = HeccerNewP2(&interTarget2);
+	pheccerTarget2 = HeccerNewP2("target2", &interTarget2);
     }
     else
     {

@@ -467,6 +467,10 @@ my $heccer_mapping
 
 # 						       iOptions => $SwiggableHeccer::HECCER_OPTION_BRANCHES_FIRST_SCHEDULING,
 						      },
+
+					   #! this is mainly to get the tests to work ...
+
+					   pcName => "unnamed test",
 					  },
 		  internal_name => 'Heccer',
 		  translators => {
