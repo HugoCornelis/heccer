@@ -14,9 +14,9 @@ my $test
 				command_tests => [
 						  {
 						   # $Format: "description => \"Does the version information match with ${label} ?\","$
-description => "Does the version information match with 1b9de3b638c28c0e77b85db9533d1fe686defe02-0 ?",
+description => "Does the version information match with bf53d1eea85235e08a0f39d09a66d6826f730641-0 ?",
 						   # $Format: "read => \"${label}\","$
-read => "1b9de3b638c28c0e77b85db9533d1fe686defe02-0",
+read => "bf53d1eea85235e08a0f39d09a66d6826f730641-0",
 						   write => "version",
 						  },
 						 ],
