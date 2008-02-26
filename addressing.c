@@ -294,15 +294,15 @@ HeccerAddressMechanismVariable
 
 	if (strcmp(pcField, "table_forward_index") == 0)
 	{
-	    //t need to fill in, and check if this can really work
+	    //- operators are two off
 
-	    iOperand = 0;
+	    iOperand = -2;
 	}
 	else if (strcmp(pcField, "table_backward_index") == 0)
 	{
-	    //t need to fill in, and check if this can really work
+	    //- operators are one off
 
-	    iOperand = 0;
+	    iOperand = -1;
 	}
 
 	if (iOperand != INT_MAX)
@@ -319,11 +319,13 @@ HeccerAddressMechanismVariable
 
 	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops;
 
-	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, -4);
+	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0);
 
-	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)&((int *)pheccer->vm.ppvMopsIndex[iMop])[-4];
+	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
 
-	    pvResult = &((int *)pheccer->vm.ppvMopsIndex[iMop])[-4];
+	    printf("table index is %i\n", pmops->iTableIndex);
+
+	    pvResult = (int *)pmops->iTableIndex;
 	}
     }
 

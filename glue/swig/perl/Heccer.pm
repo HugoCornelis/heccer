@@ -1023,7 +1023,7 @@ sub dump
 	    = $self->kinetic_serial_2_table_index
 		(
 		 $solver_info->{serial},
-		 'table_index',
+		 $field,
 		);
 
 	# get access to tables
