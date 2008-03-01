@@ -43,90 +43,6 @@ HeccerAddressSerial2Intermediary
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerAddressVariable()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcField...: name of requested variable.
-///
-/// RTN..: void *
-///
-///	pointer to the requested field, NULL for failure.
-///
-/// DESCR: Find the simulation sequence of a given variable.
-///
-///	In all cases, as of the moment of writing, the pointer is a
-///	pointer to a double.
-///
-/// **************************************************************************
-
-#ifdef HECCER_SOURCE_NEUROSPACES
-void *
-HeccerAddressVariable
-(struct Heccer *pheccer, int iSerial, char *pcType)
-{
-    //- set default result : not found
-
-    void *pvResult = NULL;
-
-    iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
-
-    //- if serial not within range
-
-    if (iSerial < pheccer->inter.iSerialStart
-	|| iSerial > pheccer->inter.iSerialEnd)
-    {
-	//- return failure
-
-	return(NULL);
-    }
-
-    //- convert the serial to an intermediary index
-
-    int iIntermediary = HeccerAddressSerial2Intermediary(pheccer, iSerial, pcType);
-
-    if (iIntermediary != -1)
-    {
-	//- for membrane potential
-
-	if (strcmp(pcType, "Vm") == 0
-	    || strcmp(pcType, "inject") == 0
-	    || strcmp(pcType, "Im") == 0
-	    || strcmp(pcType, "Ileak") == 0)
-	{
-	    pvResult = HeccerAddressCompartmentVariable(pheccer, iIntermediary, pcType);
-	}
-	else
-	{
-	    pvResult = HeccerAddressMechanismVariable(pheccer, iIntermediary, pcType);
-	}
-    }
-    else
-    {
-	//! this cannot be, internal error
-
-	HeccerError
-	    (pheccer,
-	     NULL,
-	     "trying to address something that should exist, but cannot find it (internal serial %i)",
-	     iSerial);
-
-	//- return error
-
-	return(NULL);
-    }
-
-    //- return result
-
-    return(pvResult);
-}
-#endif
-
-
-/// **************************************************************************
-///
 /// SHORT: HeccerAddressCompartmentVariable()
 ///
 /// ARGS.:
@@ -196,137 +112,6 @@ HeccerAddressCompartmentVariable
 
     else if (strcmp(pcField, "Ileak") == 0)
     {
-    }
-
-    //- return result
-
-    return(pvResult);
-}
-
-
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressMechanismVariable()
-///
-/// ARGS.:
-///
-///	pheccer.......: a heccer.
-///	iIntermediary.: index of mechanism in the intermediary.
-///	pcField.......: name of requested variable.
-///
-/// RTN..: void *
-///
-///	pointer to the requested field, NULL for failure.
-///
-/// DESCR: Find the simulation sequence of a given variable.
-///
-/// **************************************************************************
-
-void *
-HeccerAddressMechanismVariable
-(struct Heccer *pheccer, int iIndex, char *pcField)
-{
-    //- set default result : not found
-
-    void *pvResult = NULL;
-
-    //- lookup the field operand, we first search for mat entries
-
-    //! negative offset for now
-
-    struct field_2_operator
-    {
-	char *pcField;
-	int iOperand;
-	int iOffset;
-    };
-
-    struct field_2_operator pF2P[] =
-    {
-	{	"Ca",		0,	0, },
-	{	"spike",	0,	1, },
-	{	"state_h",	0,	0, },
-	{	"state_m",	-1,	0, },
-	{	"state_n",	0,	0, },
-	{	NULL,		INT_MAX,	INT_MAX, },
-    };
-
-    int iField;
-
-    for (iField = 0 ; pF2P[iField].pcField ; iField++)
-    {
-	if (strcmp(pcField, pF2P[iField].pcField) == 0)
-	{
-	    break;
-	}
-    }
-
-    //- if mat entry found
-
-    int iOperand = pF2P[iField].iOperand;
-
-    if (iOperand != INT_MAX)
-    {
-	//- get mat number
-
-	int iMat = pheccer->vm.piMC2Mat[iIndex].iMat;
-
-	//- apply the operand
-
-	iMat += iOperand;
-
-	//- set result
-
-	int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
-
-	printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
-
-	//! note that this is implicitly assumed to be a pointer to double.
-
-	pvResult = &((double *)pheccer->vm.ppvMatsIndex[iMat])[pF2P[iField].iOffset];
-    }
-
-    //- else
-
-    else
-    {
-	//- we try mop entries
-
-	if (strcmp(pcField, "table_forward_index") == 0)
-	{
-	    //- operators are two off
-
-	    iOperand = -2;
-	}
-	else if (strcmp(pcField, "table_backward_index") == 0)
-	{
-	    //- operators are one off
-
-	    iOperand = -1;
-	}
-
-	if (iOperand != INT_MAX)
-	{
-	    //- get mop number
-
-	    int iMop = pheccer->vm.piMC2Mop[iIndex];
-
-	    //- apply the operand
-
-	    iMop += iOperand;
-
-	    //- set result
-
-	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops;
-
-	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0);
-
-	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
-
-	    printf("table index is %i\n", pmops->iTableIndex);
-
-	    pvResult = (int *)pmops->iTableIndex;
-	}
     }
 
     //- return result
@@ -460,6 +245,141 @@ HeccerAddressMechanismSerial2Intermediary
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerAddressMechanismVariable()
+///
+/// ARGS.:
+///
+///	pheccer.......: a heccer.
+///	iIntermediary.: index of mechanism in the intermediary.
+///	pcField.......: name of requested variable.
+///
+/// RTN..: void *
+///
+///	pointer to the requested field, NULL for failure.
+///
+/// DESCR: Find the simulation sequence of a given variable.
+///
+/// **************************************************************************
+
+void *
+HeccerAddressMechanismVariable
+(struct Heccer *pheccer, int iIndex, char *pcField)
+{
+    //- set default result : not found
+
+    void *pvResult = NULL;
+
+    //- lookup the field operand, we first search for mat entries
+
+    //! negative offset for now
+
+    struct field_2_operator
+    {
+	char *pcField;
+	int iOperand;
+	int iOffset;
+    };
+
+    struct field_2_operator pF2P[] =
+    {
+	{	"Ca",		0,	0, },
+	{	"spike",	0,	1, },
+	{	"state_h",	0,	0, },
+	{	"state_m",	-1,	0, },
+	{	"state_n",	0,	0, },
+	{	NULL,		INT_MAX,	INT_MAX, },
+    };
+
+    int iField;
+
+    for (iField = 0 ; pF2P[iField].pcField ; iField++)
+    {
+	if (strcmp(pcField, pF2P[iField].pcField) == 0)
+	{
+	    break;
+	}
+    }
+
+    //- if mat entry found
+
+    int iOperand = pF2P[iField].iOperand;
+
+    if (iOperand != INT_MAX)
+    {
+	//- get mat number
+
+	int iMat = pheccer->vm.piMC2Mat[iIndex].iMat;
+
+	//- apply the operand
+
+	iMat += iOperand;
+
+	//- set result
+
+	int iOffset = (double *)pheccer->vm.ppvMatsIndex[iMat] - (double *)pheccer->vm.pvMats;
+
+	printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
+
+	//! note that this is implicitly assumed to be a pointer to double.
+
+	pvResult = &((double *)pheccer->vm.ppvMatsIndex[iMat])[pF2P[iField].iOffset];
+    }
+
+    //- else
+
+    else
+    {
+	//- we try mop entries
+
+	if (strcmp(pcField, "table_forward_index") == 0)
+	{
+	    //- operators are two off
+
+	    iOperand = -2;
+	}
+	else if (strcmp(pcField, "table_backward_index") == 0)
+	{
+	    //- operators are one off
+
+	    iOperand = -1;
+	}
+
+	if (iOperand != INT_MAX)
+	{
+	    //- get mop number
+
+	    int iMop = pheccer->vm.piMC2Mop[iIndex];
+
+	    //- apply the operand
+
+	    iMop += iOperand;
+
+	    //- set result
+
+	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops;
+
+	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0);
+
+	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
+
+	    printf("table index is %i\n", pmops->iTableIndex);
+
+	    //! normally the default for iTableIndex is -1, which is
+	    //! returned as an error indicator if there is no table
+	    //! associated with this gate.
+
+	    pvResult = (int *)pmops->iTableIndex;
+	}
+    }
+
+    //- return result
+
+    return(pvResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerAddressSerial2Intermediary()
 ///
 /// ARGS.:
@@ -504,6 +424,135 @@ HeccerAddressSerial2Intermediary
     //- return result
 
     return(iResult);
+}
+#endif
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerAddressTableIndex()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iSerial...: identification number.
+///	pcType....: name of requested variable.
+///
+/// RTN..: int
+///
+///	index into table array, -1 for failure.
+///
+/// DESCR: Lookup the table index of the given serial.
+///
+///	The returned index is an address into ptgt->phtg.  See table.h
+///	for more information.
+///
+/// **************************************************************************
+
+int
+HeccerAddressTableIndex
+(struct Heccer *pheccer, int iSerial, char *pcType)
+{
+    //- set default result : not found
+
+    int iResult = -1;
+
+    //- do a regular lookup
+
+    void *pvResult = HeccerAddressVariable(pheccer, iSerial, pcType);
+
+    //t should be cleaner than this
+
+    //- convert result to int
+
+    iResult = (int)pvResult;
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerAddressVariable()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iSerial...: identification number.
+///	pcType....: name of requested variable.
+///
+/// RTN..: void *
+///
+///	pointer to the requested field, NULL for failure.
+///
+/// DESCR: Find the simulation sequence of a given variable.
+///
+///	In all cases, as of the moment of writing, the pointer is a
+///	pointer to a double.
+///
+/// **************************************************************************
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+void *
+HeccerAddressVariable
+(struct Heccer *pheccer, int iSerial, char *pcType)
+{
+    //- set default result : not found
+
+    void *pvResult = NULL;
+
+    iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
+
+    //- if serial not within range
+
+    if (iSerial < pheccer->inter.iSerialStart
+	|| iSerial > pheccer->inter.iSerialEnd)
+    {
+	//- return failure
+
+	return(NULL);
+    }
+
+    //- convert the serial to an intermediary index
+
+    int iIntermediary = HeccerAddressSerial2Intermediary(pheccer, iSerial, pcType);
+
+    if (iIntermediary != -1)
+    {
+	//- for membrane potential
+
+	if (strcmp(pcType, "Vm") == 0
+	    || strcmp(pcType, "inject") == 0
+	    || strcmp(pcType, "Im") == 0
+	    || strcmp(pcType, "Ileak") == 0)
+	{
+	    pvResult = HeccerAddressCompartmentVariable(pheccer, iIntermediary, pcType);
+	}
+	else
+	{
+	    pvResult = HeccerAddressMechanismVariable(pheccer, iIntermediary, pcType);
+	}
+    }
+    else
+    {
+	//! this cannot be, internal error
+
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "trying to address something that should exist, but cannot find it (internal serial %i)",
+	     iSerial);
+
+	//- return error
+
+	return(NULL);
+    }
+
+    //- return result
+
+    return(pvResult);
 }
 #endif
 

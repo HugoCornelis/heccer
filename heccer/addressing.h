@@ -37,14 +37,9 @@ struct Heccer;
 
 //t should add defines for assigning function IDs.
 //t
-//t note that this would be solved automatically if
-//t neurospaces would do full traversals.
+//t note that this would be solved automatically if the
+//t neurospaces model_container would do full traversals.
 
-
-void *
-HeccerAddressVariable
-(struct Heccer *pheccer, int iSerial, char *pcType);
-#endif
 
 void *
 HeccerAddressCompartmentVariable
@@ -53,6 +48,15 @@ HeccerAddressCompartmentVariable
 void *
 HeccerAddressMechanismVariable
 (struct Heccer *pheccer, int iIndex, char *pcField);
+
+int
+HeccerAddressTableIndex
+(struct Heccer *pheccer, int iSerial, char *pcField);
+
+void *
+HeccerAddressVariable
+(struct Heccer *pheccer, int iSerial, char *pcType);
+#endif
 
 
 #endif

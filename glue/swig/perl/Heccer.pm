@@ -966,6 +966,8 @@ sub dump
 
     my $arguments = [ @_, ];
 
+    my $result;
+
     # define the format
 
     my $format = $arguments->[0]->{format} || 'internal';
@@ -1057,18 +1059,69 @@ sub dump
 	    die "$0: internal error, table index for $source is $table_index, but that is >= $tables_defined (serial is $solver_info->{serial}, field is $field)";
 	}
 
-	#t implement SwiggableHeccer::htg_get()
+	# implement SwiggableHeccer::htg_get()
 
 	my $htg = SwiggableHeccer::htg_get($tgt, $table_index);
 
-	my $forward = $htg->swig_pdForward_get();
+	my $backward_doubles = $htg->swig_pdBackward_get;
 
-	my $backward = $htg->swig_pdBackward_get;
+	my $forward_doubles = $htg->swig_pdForward_get();
 
-	#t now convert to array of values
+	# get number of entries
+
+	my $entries = $htg->swig_iEntries_get();
+
+	# get start, end, step size
+
+	my $hi = $htg->swig_hi_get();
+
+	my $end = $hi->swig_dEnd_get();
+
+	my $start = $hi->swig_dStart_get();
+
+	my $step = $hi->swig_dStep_get();
+
+	# convert to array of values
+
+	my $backward = [];
+	my $forward = [];
+
+	map
+	{
+	    $backward->[$_] = SwiggableHeccer::double_get($backward_doubles, $_);
+
+	    $forward->[$_] = SwiggableHeccer::double_get($forward_doubles, $_);
+	}
+	    0 .. $entries - 1;
+
+	# set result
+
+	$result
+	    = {
+	       backward => $backward,
+	       entries => $entries,
+	       forward => $forward,
+	       hi => {
+		      end => $end,
+		      start => $start,
+		      step => $step,
+		     },
+	      };
+
+	#t now do the conversion according to the format
+
+	my $existing_formats
+	    = {
+	       'alpha-beta' => 0,
+	       'steadystate-tau' => 0,
+	       'A-B' => 0,
+	       'internal*dt' => 0,
+	       'internal' => 1,
+	      };
+
     }
 
-    1;
+    return $result;
 }
 
 
@@ -1088,7 +1141,7 @@ sub kinetic_serial_2_table_index
 
     my $heccer = $backend->backend();
 
-    $heccer->HeccerAddressVariable($serial, $type);
+    $result = $heccer->HeccerAddressTableIndex($serial, $type);
 
     return $result;
 }

@@ -96,6 +96,27 @@ int int_get(int *a, int i)
     return a[i];
 }
 
+/// double array handling
+
+//t use array generics, see carray.i
+
+double *double_array(int size)
+{
+    return (double *) malloc(sizeof(double) * size);
+}
+void double_destroy(double *a)
+{
+    free(a);
+}
+void double_set(double *a, int i, double val)
+{
+    a[i] = val;
+}
+double double_get(double *a, int i)
+{
+    return a[i];
+}
+
 /// compartment array handling
 
 struct Compartment *comp_array(int size)
@@ -113,6 +134,13 @@ void comp_set(struct Compartment *a, int i, struct Compartment *val)
 struct Compartment *comp_get(struct Compartment *a, int i)
 {
     return &a[i];
+}
+
+/// table handling
+
+struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
+{
+    return &ptgt->phtg[i];
 }
 
 /* /// math component array handling */
