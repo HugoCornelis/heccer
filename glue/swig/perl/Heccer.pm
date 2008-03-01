@@ -977,7 +977,7 @@ sub dump
 	   'alpha-beta' => 0,
 	   'steadystate-tau' => 0,
 	   'A-B' => 0,
-	   'internal*dt' => 0,
+# 	   'internal*dt' => 0,
 	   'internal' => 1,
 	  };
 
@@ -1115,10 +1115,26 @@ sub dump
 	       'alpha-beta' => 0,
 	       'steadystate-tau' => 0,
 	       'A-B' => 0,
-	       'internal*dt' => 0,
+# 	       'internal*dt' => 0,
 	       'internal' => 1,
 	      };
 
+    }
+
+    # if a result was produced
+
+    if ($result)
+    {
+	# if output should go to stdout
+
+	my $output = $arguments->[0]->{output} || 'stdout';
+
+	if ($output eq 'stdout')
+	{
+	    use YAML;
+
+	    print Dump(bless($result, 'Heccer::Tabulator::Result'));
+	}
     }
 
     return $result;
@@ -1207,6 +1223,11 @@ sub serve
 
     1;
 }
+
+
+package Heccer::Tabulator::Result;
+
+#! nothing here, just place holder for loading tables from YAML streams.
 
 
 package Heccer::Output;
