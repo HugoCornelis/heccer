@@ -966,6 +966,24 @@ sub dump
 
     my $arguments = [ @_, ];
 
+    # define the format
+
+    my $format = $arguments->[0]->{format} || 'internal';
+
+    my $existing_formats
+	= {
+	   'alpha-beta' => 0,
+	   'steadystate-tau' => 0,
+	   'A-B' => 0,
+	   'internal*dt' => 0,
+	   'internal' => 1,
+	  };
+
+    if (!$existing_formats->{$format})
+    {
+	die "$0: Heccer::Tabulator::dump(): unknown format $format";
+    }
+
     # lookup the object with the tables
 
     my $scheduler = $ssp_analyzer->{scheduler};
@@ -1030,7 +1048,24 @@ sub dump
 
 	my $tgt = $backend->{heccer}->swig_tgt_get();
 
-	print "tgt is $tgt\n";
+	print "tgt is $tgt, table_index is $table_index\n";
+
+	my $tables_defined = $tgt->swig_iTabulatedGateCount_get();
+
+	if ($table_index >= $tables_defined)
+	{
+	    die "$0: internal error, table index for $source is $table_index, but that is >= $tables_defined (serial is $solver_info->{serial}, field is $field)";
+	}
+
+	#t implement SwiggableHeccer::htg_get()
+
+	my $htg = SwiggableHeccer::htg_get($tgt, $table_index);
+
+	my $forward = $htg->swig_pdForward_get();
+
+	my $backward = $htg->swig_pdBackward_get;
+
+	#t now convert to array of values
     }
 
     1;
