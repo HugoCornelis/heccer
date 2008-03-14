@@ -187,7 +187,7 @@ sub new
 
 		if (!$success)
 		{
-		    return "HeccerConstruct failed";
+		    return "HeccerConstruct from neurospaces failed";
 		}
 	    }
 	    else
