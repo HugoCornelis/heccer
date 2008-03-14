@@ -62,6 +62,9 @@ struct MathComponent
 #define MATH_TYPE_InternalNernst 5
 #define MATH_TYPE_SpikeGenerator 6
 
+#define MATH_TYPE_BasalActivator 20
+#define MATH_TYPE_GateConcept 21
+
 
 #define MATH_TYPE_CallOut_flag			0x8000
 

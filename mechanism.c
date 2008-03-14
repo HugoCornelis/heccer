@@ -483,7 +483,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- tabulate activation, Genesis X
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
-		    int iTabulated = HeccerTabulateSpringMass(pheccer, pcsm);
+		    int iTabulated = HeccerTabulateAny(pheccer, pcsm, MATH_TYPE_ChannelSpringMass);
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
@@ -623,7 +623,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulated
-			= HeccerDiscretizeGateConcept(pheccer, &pca->pgc.gc);
+			= HeccerTabulateAny(pheccer, &pca->pgc.gc, MATH_TYPE_GateConcept);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -714,7 +714,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulatedActivation
-			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcActivation.gc);
+			= HeccerTabulateAny(pheccer, &pcai->pgcActivation.gc, MATH_TYPE_GateConcept);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -728,7 +728,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulatedInactivation
-			= HeccerDiscretizeGateConcept(pheccer, &pcai->pgcInactivation.gc);
+			= HeccerTabulateAny(pheccer, &pcai->pgcInactivation.gc, MATH_TYPE_GateConcept);
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,-1);
 
@@ -817,7 +817,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulatedMembraneDependence
-			= HeccerDiscretizeGateConcept(pheccer, &pcac->pgc.gc);
+			= HeccerTabulateAny(pheccer, &pcac->pgc.gc, MATH_TYPE_GateConcept);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -831,7 +831,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
 
 		    int iTabulatedBasalActivator
-			= HeccerDiscretizeBasalActivator(pheccer, &pcac->pac.ac);
+			= HeccerTabulateAny(pheccer, &pcac->pac.ac, MATH_TYPE_BasalActivator);
 
 		    //! gate computations are just fetching things from tables, and
 		    //! multiplying the conductances, so it is not relevant if these
@@ -986,7 +986,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- tabulate the channel
 
-		    int iTabulated = HeccerChannelSteadyStateSteppedTauTabulate(pcsst, pheccer);
+		    int iTabulated
+			= HeccerTabulateAny(pheccer, pcsst, MATH_TYPE_ChannelSteadyStateSteppedTau);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1077,7 +1078,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- tabulate the channel
 
-		    int iTabulated = HeccerChannelPersistentSteadyStateDualTauTabulate(pcpsdt, pheccer);
+		    int iTabulated
+			= HeccerTabulateAny(pheccer, pcpsdt, MATH_TYPE_ChannelPersistentSteadyStateDualTau);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1174,7 +1176,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- tabulate the channel
 
-		    int iTabulated = HeccerChannelPersistentSteadyStateTauTabulate(pcpst, pheccer);
+		    int iTabulated
+			= HeccerTabulateAny(pheccer, pcpst, MATH_TYPE_ChannelPersistentSteadyStateTau);
 
 		    SETMOP_LOADVOLTAGETABLE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 

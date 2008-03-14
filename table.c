@@ -25,6 +25,31 @@
 #include "heccer/table.h"
 
 
+int
+static
+HeccerChannelPersistentSteadyStateDualTauTabulate
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer);
+
+int
+static
+HeccerChannelPersistentSteadyStateTauTabulate
+(struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer);
+
+int
+static
+HeccerChannelSteadyStateSteppedTauTabulate
+(struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer);
+
+int
+static
+HeccerDiscretizeBasalActivator
+(struct Heccer *pheccer, struct Activator *pac);
+
+int
+static
+HeccerDiscretizeGateConcept
+(struct Heccer *pheccer, struct GateConcept *pgc);
+
 static int
 HeccerTableDump
 (struct HeccerTabulatedGate *phtg, int iIndex, FILE *pfile, int iSelection);
@@ -48,6 +73,10 @@ HeccerTabulatedGateNew
  double dStart,
  double dEnd,
  int iEntries);
+
+int
+static
+HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm);
 
 static
 int
@@ -147,6 +176,7 @@ HeccerBasalActivatorTabulate
 /// **************************************************************************
 
 int
+static
 HeccerDiscretizeBasalActivator
 (struct Heccer *pheccer, struct Activator *pac)
 {
@@ -220,6 +250,7 @@ HeccerDiscretizeBasalActivator
 /// **************************************************************************
 
 int
+static
 HeccerDiscretizeGateConcept
 (struct Heccer *pheccer, struct GateConcept *pgc)
 {
@@ -453,6 +484,7 @@ HeccerGateConceptTabulate
 /// **************************************************************************
 
 int
+static
 HeccerChannelPersistentSteadyStateDualTauTabulate
 (struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer)
 {
@@ -692,6 +724,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 /// **************************************************************************
 
 int
+static
 HeccerChannelPersistentSteadyStateTauTabulate
 (struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer)
 {
@@ -817,6 +850,92 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerTabulateAny()
+///
+/// ARGS.:
+///
+///	pheccer.: a heccer.
+///     iType...: type of intermediary.
+///	pv......: a heccer intermediary with table parameters.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Create the table for a channel.
+///
+/// **************************************************************************
+
+int
+HeccerTabulateAny
+(struct Heccer *pheccer, void *pv, int iType)
+{
+    //- set default result: failure
+
+    int iResult = FALSE;
+
+    //- tabulate depending on tables
+
+    switch (iType)
+    {
+    case MATH_TYPE_BasalActivator:
+    {
+	struct Activator *pac = (struct Activator *)pv;
+
+	iResult = HeccerDiscretizeBasalActivator(pheccer, pac);
+
+	break;
+    }
+    case MATH_TYPE_GateConcept:
+    {
+	struct GateConcept *pgc = (struct GateConcept *)pv;
+ 
+	iResult = HeccerDiscretizeGateConcept(pheccer, pgc);
+
+	break;
+    }
+    case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
+    {
+	struct ChannelPersistentSteadyStateDualTau *pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pv;
+
+	iResult = HeccerChannelPersistentSteadyStateDualTauTabulate(pcpsdt, pheccer);
+
+	break;
+    }
+    case MATH_TYPE_ChannelPersistentSteadyStateTau:
+    {
+	struct ChannelPersistentSteadyStateTau *pcpst = (struct ChannelPersistentSteadyStateTau *)pv;
+
+	iResult = HeccerChannelPersistentSteadyStateTauTabulate(pcpst, pheccer);
+
+	break;
+    }
+    case MATH_TYPE_ChannelSpringMass:
+    {
+	struct ChannelSpringMass *pcsm = (struct ChannelSpringMass *)pv;
+
+	iResult = HeccerTabulateSpringMass(pheccer, pcsm);
+
+	break;
+    }
+    case MATH_TYPE_ChannelSteadyStateSteppedTau:
+    {
+	struct ChannelSteadyStateSteppedTau *pcsst = (struct ChannelSteadyStateSteppedTau *)pv;
+
+	iResult = HeccerChannelSteadyStateSteppedTauTabulate(pcsst, pheccer);
+
+	break;
+    }
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerTabulateSpringMass()
 ///
 /// ARGS.:
@@ -833,6 +952,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 /// **************************************************************************
 
 int
+static
 HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 {
     //- set default result : ok
@@ -919,6 +1039,7 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 /// **************************************************************************
 
 int
+static
 HeccerChannelSteadyStateSteppedTauTabulate
 (struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer)
 {

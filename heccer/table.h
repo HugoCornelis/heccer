@@ -153,29 +153,6 @@ HeccerBasalActivatorTabulate
 (struct Activator *pac, struct Heccer *pheccer);
 
 int
-HeccerChannelPersistentSteadyStateTauTabulate
-(struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer);
-
-int
-HeccerChannelPersistentSteadyStateDualTauTabulate
-(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer);
-
-int
-HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm);
-
-int
-HeccerChannelSteadyStateSteppedTauTabulate
-(struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer);
-
-int
-HeccerDiscretizeBasalActivator
-(struct Heccer *pheccer, struct Activator *pac);
-
-int
-HeccerDiscretizeGateConcept
-(struct Heccer *pheccer, struct GateConcept *pgc);
-
-int
 HeccerGateConceptTabulate
 (struct GateConcept *pgc, struct Heccer *pheccer);
 
@@ -189,6 +166,10 @@ HeccerTableInterpolate
  double *ppdDestinations[],
  int iSourceSize,
  int iDestinationSize);
+
+int
+HeccerTabulateAny
+(struct Heccer *pheccer, void *pv, int iType);
 
 int
 HeccerTabulatedGateRegister(struct Heccer *pheccer, struct GateConcept *pgc);
