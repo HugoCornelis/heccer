@@ -175,6 +175,8 @@ sub new
 	{
 	    my $service_name = $model_source->{service_name};
 
+	    # if setting up from the neurospaces model container
+
 	    if ($service_name eq 'neurospaces')
 	    {
 		my $service_backend = $model_source->{service_backend}->backend();
@@ -183,11 +185,54 @@ sub new
 
 		my $heccer_backend = $result->backend();
 
+		# setup the interface to build an intermediary
+
 		my $success = SwiggableHeccer::HeccerConstruct($heccer_backend, $service_backend, $modelname);
 
 		if (!$success)
 		{
 		    return "HeccerConstruct from neurospaces failed";
+		}
+
+		# if there was an intermediary
+
+		if ($settings->{intermediary})
+		{
+		    # set status: HECCER_STATUS_PHASE_2
+
+		    $result->{heccer}->swig_iStatus_set($SwiggableHeccer::HECCER_STATUS_PHASE_2);
+		}
+	    }
+
+	    # if setting up from an inlined heccer_intermediary
+
+	    elsif ($service_name eq 'heccer_intermediary')
+	    {
+		# get reference to the inlined heccer_intermediary
+
+		my $service_backend = $model_source->{service_backend};
+
+		my $intermediary = $service_backend->backend();
+
+		# get low-level intermediary
+
+		my $intermediary_backend = $intermediary->backend();
+
+		my $modelname = $model_source->{modelname};
+
+		# link the heccer with the intermediary
+
+		my $heccer_backend = $result->backend();
+
+		$heccer_backend->swig_inter_set($intermediary_backend);
+
+		$heccer_backend->swig_iStatus_set($SwiggableHeccer::HECCER_STATUS_PHASE_2);
+
+		my $success = 1;
+
+		if (!$success)
+		{
+		    return "HeccerConstruct from heccer_intermediary failed";
 		}
 	    }
 	    else
@@ -199,15 +244,6 @@ If you need a different service, you have to install
 the appropriate integrator plugin for Heccer, and let the perl
 package know how to call the integrator.";
 	    }
-	}
-
-	# if there was an intermediary
-
-	if ($settings->{intermediary})
-	{
-	    # set status: HECCER_STATUS_PHASE_2
-
-	    $result->{heccer}->swig_iStatus_set($SwiggableHeccer::HECCER_STATUS_PHASE_2);
 	}
     }
 
@@ -881,6 +917,16 @@ sub heccer_object
 }
 
 
+sub backend
+{
+    my \$self = shift;
+
+    my \$result = \$self->{$component};
+
+    return \$result;
+}
+
+
 ";
 
     my $result = eval $code;
@@ -944,6 +990,75 @@ sub new
     bless $self, $package;
 
     return $self;
+}
+
+
+package Heccer::Intermediary::Compiler;
+
+
+sub backend
+{
+    my $self = shift;
+
+    return $self->{backend};
+}
+
+
+sub load
+{
+    my $self = shift;
+
+    my $ssp_service = shift;
+
+    my $arguments = shift;
+
+    my $intermediary = Heccer::Intermediary->new($arguments);
+
+    $self->{backend} = $intermediary;
+
+    my $result = defined $intermediary;
+
+    return $result;
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    return $self;
+}
+
+
+sub register_engine
+{
+    my $self = shift;
+
+    my $engine = shift;
+
+    my $modelname = shift;
+
+    # do some concy checking for this restricted model container.
+
+    if (defined $modelname)
+    {
+	die "$0: " . __PACKAGE__ . " cannot register_engine() for a named model ($modelname)";
+    }
+
+#     if (!$engine->isa('Heccer::Intermediary::Compiler'))
+#     {
+# 	die "$0: register_engine() called for a object that is not a 'Heccer::Intermediary::Compiler' ($engine)";
+#     }
+
+    # return success
+
+    return 1;
 }
 
 
