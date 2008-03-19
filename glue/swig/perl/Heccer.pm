@@ -586,6 +586,10 @@ my $heccer_mapping
 
 								my $value = shift;
 
+# 								# copy all values, because below we possibly will modify the values
+
+# 								$value = [ @$value, ];
+
 								my $result = Heccer::MathComponentArray->new( { iMathComponents => 0, } );
 
 								#! why again +2: 1 is from the perl $#$ operator offset, the other 1 is for the terminating -1
@@ -596,9 +600,33 @@ my $heccer_mapping
 
 								foreach my $math_component_index (0 .. $#$value)
 								{
-								    # set the type of the math component
+# 								    # get current entry
 
-								    #! sure that if this confesses, the user is going to go a long way to figure out why
+# 								    my $math_component = $value->[$math_component_index];
+
+								    # if this is a high level spec
+
+								    #! sure that if one of the following confesses, the user is going to go a long way to figure out why
+
+# 								    if (ref $math_component eq 'HASH'
+# 								        && keys %$math_component)
+# 								    {
+# 									# construct the lowlevel math component
+
+#  									my $package = $math_component->{type};
+
+# 									my $settings = $math_component->{values};
+
+# 									$math_component = $package->new($settings);
+
+# 									# and put it in the original values
+
+# 									$value->[$math_component_index] = $math_component;
+# 								    }
+
+								    # register the type of the math component
+
+# 								    my $type = $math_component->heccer_object()->swig_mc_get()->swig_iType_get();
 
 								    my $type = $value->[$math_component_index]->heccer_object()->swig_mc_get()->swig_iType_get();
 
@@ -617,7 +645,7 @@ my $heccer_mapping
 
 								foreach my $math_component_index (0 .. $#$value)
 								{
-								    # copy the entry to the low level entry
+								    # copy the memory of the low level entry
 
 								    my $mc = $value->[$math_component_index]->heccer_object()->swig_mc_get();
 
