@@ -588,10 +588,16 @@ my $heccer_mapping
 
 								my $result = Heccer::MathComponentArray->new( { iMathComponents => 0, } );
 
+								#! why again +2: 1 is from the perl $#$ operator offset, the other 1 is for the terminating -1 ?
+
 								my $types = SwiggableHeccer::int_array($#$value + 2);
+
+								# loop over all given value entries
 
 								foreach my $math_component_index (0 .. $#$value)
 								{
+								    # set the type of the math component
+
 								    #! sure that if this confesses, the user is going to go a long way to figure out why
 
 								    my $type = $value->[$math_component_index]->heccer_object()->swig_mc_get()->swig_iType_get();
@@ -599,12 +605,20 @@ my $heccer_mapping
 								    SwiggableHeccer::int_set($types, $math_component_index, $type);
 								}
 
+								# set the terminating -1 in the types array
+
 								SwiggableHeccer::int_set($types, $#$value + 1, -1);
+
+								# allocate a math component array for these types
 
 								$result->heccer_object()->MathComponentArrayCallocData($types);
 
+								# loop over all given value entries
+
 								foreach my $math_component_index (0 .. $#$value)
 								{
+								    # copy the entry to the low level entry
+
 								    my $mc = $value->[$math_component_index]->heccer_object()->swig_mc_get();
 
 								    $result->heccer_object()->MathComponentArraySetAdvance($mc);

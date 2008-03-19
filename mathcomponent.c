@@ -47,7 +47,7 @@ static struct MathComponentInfo pmci[] =
 /// ARGS.:
 ///
 ///	pmca...: math component array.
-///	iTypes.: set of math component types to allocate for.
+///	iTypes.: set of math component types to allocate for, -1 terminated.
 ///
 /// RTN..: int
 ///
