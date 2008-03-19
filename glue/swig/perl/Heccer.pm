@@ -588,7 +588,7 @@ my $heccer_mapping
 
 								my $result = Heccer::MathComponentArray->new( { iMathComponents => 0, } );
 
-								#! why again +2: 1 is from the perl $#$ operator offset, the other 1 is for the terminating -1 ?
+								#! why again +2: 1 is from the perl $#$ operator offset, the other 1 is for the terminating -1
 
 								my $types = SwiggableHeccer::int_array($#$value + 2);
 
