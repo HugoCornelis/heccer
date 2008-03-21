@@ -245,6 +245,20 @@ the appropriate integrator plugin for Heccer, and let the perl
 package know how to call the integrator.";
 	    }
 	}
+
+	# if was a direct initialization
+
+	else
+	{
+	    # if there was an intermediary
+
+	    if ($settings->{intermediary})
+	    {
+		# set status: HECCER_STATUS_PHASE_2
+
+		$result->{heccer}->swig_iStatus_set($SwiggableHeccer::HECCER_STATUS_PHASE_2);
+	    }
+	}
     }
 
     return $result;
