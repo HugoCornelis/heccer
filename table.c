@@ -357,10 +357,10 @@ HeccerGateConceptTabulate
 	{
 	    double dMultiplier = pgc->parameters.gkForward.dHHScale;
 	    double dMembraneDependence = pgc->parameters.gkForward.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkForward.dHHOffset1;
+	    double dMembraneDependenceOffset = pgc->parameters.gkForward.dHHOffsetM;
 	    int iNominator = pgc->parameters.gkForward.iHHFactorFlag;
 	    double dDeNominatorOffset = pgc->parameters.gkForward.dHHAdd;
-	    double dMembraneOffset = pgc->parameters.gkForward.dHHOffset2;
+	    double dMembraneOffset = pgc->parameters.gkForward.dHHOffsetE;
 	    double dTauDenormalizer = pgc->parameters.gkForward.dHHTau;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
@@ -406,10 +406,10 @@ HeccerGateConceptTabulate
 	{
 	    double dMultiplier = pgc->parameters.gkBackward.dHHScale;
 	    double dMembraneDependence = pgc->parameters.gkBackward.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkForward.dHHOffset1;
+	    double dMembraneDependenceOffset = pgc->parameters.gkForward.dHHOffsetM;
 	    int iNominator = pgc->parameters.gkBackward.iHHFactorFlag;
 	    double dDeNominatorOffset = pgc->parameters.gkBackward.dHHAdd;
-	    double dMembraneOffset = pgc->parameters.gkBackward.dHHOffset2;
+	    double dMembraneOffset = pgc->parameters.gkBackward.dHHOffsetE;
 	    double dTauDenormalizer = pgc->parameters.gkBackward.dHHTau;
 
 	    if (fabs(dTauDenormalizer) < 1e-17)

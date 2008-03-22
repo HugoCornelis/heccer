@@ -273,74 +273,32 @@ struct GateKinetic
 
     //m 1: multiplier
 
-    //! genesis tabchan A
-
-    //? HH_SCALE
-
     double dHHScale;
-
-/*     double dMultiplier; */
 
     //m 2a: multiplier membrane dependence, 0.0 for no dependence
 
-    //! genesis tabchan B ?
-
-    //? HH_MULT
-
     double dHHMult;
-
-/*     double dMembraneDependence; */
 
     //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
-    //? HH_OFFSET_1
-
-    //? HH_OFFSET
-
-    double dHHOffset1;
-
-/*     double dMembraneDependenceOffset; */
+    double dHHOffsetM;
 
     //m 3: choose between nominator or denominator, 1 means nominator, -1
     //m means denominator
 
-    //? HH_FACTOR_FLAG
-
     int iHHFactorFlag;
-
-/*     int iNominator; */
 
     //m 4: nominator or denominator offset
 
-    //! genesis tabchan C ?
-
-    //? HH_ADD
-
     double dHHAdd;
-
-/*     double dDeNominatorOffset; */
 
     //m 5: membrane offset
 
-    //! genesis tabchan D
-
-    //? HH_OFFSET_2
-
-    //? HH_OFFSET
-
-    double dHHOffset2;
-
-/*     double dMembraneOffset; */
+    double dHHOffsetE;
 
     //m 6: denormalized time constant
 
-    //! genesis tabchan F
-
-    //? HH_TAU
-
     double dHHTau;
-
-/*     double dTauDenormalizer; */
 
 };
 

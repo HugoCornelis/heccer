@@ -386,11 +386,11 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_Offset2 = 5.0e-3
+	    //- get HH_OffsetE = 5.0e-3
 
-	    double dHHOffset2 = SymbolParameterResolveValue(phsle, "HH_Offset2", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_OffsetE", ptstr->ppist);
 
-	    pgk->dHHOffset2 = dHHOffset2;
+	    pgk->dHHOffsetE = dHHOffsetE;
 
 	    //- get HH_Tau = -10.0e-3
 
@@ -402,7 +402,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		|| dHHMult == FLT_MAX
 		|| dHHFactorFlag == FLT_MAX
 		|| dHHAdd == FLT_MAX
-		|| dHHOffset2 == FLT_MAX
+		|| dHHOffsetE == FLT_MAX
 		|| dHHTau == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
@@ -590,9 +590,9 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    //- get HH_Offset2 = 5.0e-3
 
-	    double dHHOffset2 = SymbolParameterResolveValue(phsle, "HH_Offset2", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_OffsetE", ptstr->ppist);
 
-	    pgk->dHHOffset2 = dHHOffset2;
+	    pgk->dHHOffsetE = dHHOffsetE;
 
 	    //- get HH_Tau = -10.0e-3
 
@@ -604,7 +604,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		|| dHHMult == FLT_MAX
 		|| dHHFactorFlag == FLT_MAX
 		|| dHHAdd == FLT_MAX
-		|| dHHOffset2 == FLT_MAX
+		|| dHHOffsetE == FLT_MAX
 		|| dHHTau == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
@@ -807,9 +807,9 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    //- get HH_Offset2 = 5.0e-3
 
-	    double dHHOffset2 = SymbolParameterResolveValue(phsle, "HH_Offset2", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_OffsetE", ptstr->ppist);
 
-	    pgk->dHHOffset2 = dHHOffset2;
+	    pgk->dHHOffsetE = dHHOffsetE;
 
 	    //- get HH_Tau = -10.0e-3
 
@@ -821,7 +821,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		|| dHHMult == FLT_MAX
 		|| dHHFactorFlag == FLT_MAX
 		|| dHHAdd == FLT_MAX
-		|| dHHOffset2 == FLT_MAX
+		|| dHHOffsetE == FLT_MAX
 		|| dHHTau == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
