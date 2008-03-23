@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
 //d schedule the voltage clamper
 
-#define HECCER_TEST_SCHEDULE VClampSingleStep(pvc, dSimulationTime)
+#define HECCER_TEST_SCHEDULE VClampSingleStep(pvc, (dSimulationTime - HECCER_TEST_TIME_GRANULARITY))
 
     //- do the simulation
 

@@ -34,6 +34,7 @@ my $test
 			       },
 			      ],
        description => "vclamp circuitry",
+       disabled => 'voltage clamp has been replaced with perfect clamp, and is no longer maintained',
        name => 'vclamp.t',
       };
 

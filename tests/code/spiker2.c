@@ -1294,6 +1294,10 @@ int main(int argc, char *argv[])
 #define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
 #endif
 
+#ifndef HECCER_TEST_TIME_GRANULARITY
+#define HECCER_TEST_TIME_GRANULARITY (1e-9)
+#endif
+
 #ifndef HECCER_TEST_TIME_STEP
 #define HECCER_TEST_TIME_STEP (2e-5)
 #endif
@@ -1511,13 +1515,17 @@ int simulate(int argc, char *argv[])
 
     for (i = 0; i < HECCER_TEST_STEPS ; i++)
     {
+	//- update the current simulation time.
+
+	double dSimulationTime = i * HECCER_TEST_TIME_STEP + HECCER_TEST_TIME_GRANULARITY;
+
 	//- step
 
-	HeccerHecc(pheccerSource);
+	HeccerHeccs(pheccerSource, dSimulationTime);
 
-	HeccerHecc(pheccerTarget1);
+	HeccerHeccs(pheccerTarget1, dSimulationTime);
 
-	HeccerHecc(pheccerTarget2);
+	HeccerHeccs(pheccerTarget2, dSimulationTime);
 
 	EventQueuerProcess(&eq);
 

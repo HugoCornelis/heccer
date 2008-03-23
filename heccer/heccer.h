@@ -278,7 +278,7 @@ char * HeccerGetVersion(void);
 
 int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...);
 
-int HeccerHecc(struct Heccer *pheccer);
+/* int HeccerHecc(struct Heccer *pheccer); */
 
 int HeccerHeccs(struct Heccer *pheccer, double dTime);
 

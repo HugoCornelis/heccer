@@ -113,7 +113,7 @@ sub c1c2p2
     {
 	# step
 
-	$heccer->HeccerHecc();
+	$heccer->HeccerHeccs(($_ + 1) * 2e-5);
 
 	# dump
 
@@ -203,7 +203,7 @@ sub singlep
     {
 	# step
 
-	$heccer->HeccerHecc();
+	$heccer->HeccerHeccs(($_ + 1) * 2e-5);
 
 	# dump
 
@@ -293,7 +293,7 @@ sub swig_singlep
     {
 	# step
 
-	$heccer->HeccerHecc();
+	$heccer->HeccerHeccs(($_ + 1) * 2e-5);
 
 	# dump
 
@@ -411,7 +411,7 @@ sub swig_c1c2p2
     {
 	# step
 
-	$heccer->HeccerHecc();
+	$heccer->HeccerHeccs(($_ + 1) * 2e-5);
 
 	# dump
 

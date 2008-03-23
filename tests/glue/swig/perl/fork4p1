@@ -151,13 +151,15 @@ my $options
 
 # instantiate heccer
 
+my $step = $config->{settings}->{time_step} || $config->{defaults}->{time_step};
+
 our $intermediary;
 
 my $heccer
     = Heccer->new
       (
        {
-	dStep => $config->{settings}->{time_step} || $config->{defaults}->{time_step},
+	dStep => $step,
 	intermediary => $intermediary,
 	options => $options,
        },
@@ -183,9 +185,15 @@ my $final_report = 0;
 
 foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps}) - 1)
 {
+    # update the current simulation time.
+
+    # + 1e-9 needs to be configurable
+
+    my $time = $i * $step + 1e-9;
+
     # step
 
-    $heccer->hecc();
+    $heccer->hecc($time);
 
     if (($i % ($config->{settings}->{reporting_granularity} || $config->{defaults}->{reporting_granularity})) == 0)
     {

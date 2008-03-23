@@ -135,7 +135,9 @@ sub hecc
 {
     my $self = shift;
 
-    $self->{heccer}->HeccerHecc();
+    my $time = shift;
+
+    $self->{heccer}->HeccerHeccs($time);
 }
 
 

@@ -98,6 +98,16 @@ struct PerfectClamp *ppc = NULL;
 #define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
 #endif
 
+
+//! no heccer instance allowed to run with a clock smaller than this
+
+#ifndef HECCER_TEST_TIME_GRANULARITY
+#define HECCER_TEST_TIME_GRANULARITY (1e-9)
+#endif
+
+
+//! default heccer time step, must be bigger than the HECCER_TEST_TIME_GRANULARITY
+
 #ifndef HECCER_TEST_TIME_STEP
 #define HECCER_TEST_TIME_STEP (2e-5)
 #endif
@@ -211,11 +221,11 @@ int main(int argc, char *argv[])
     {
 	//- update the current simulation time.
 
-	double dSimulationTime = (i + 1) * HECCER_TEST_TIME_STEP;
+	double dSimulationTime = i * HECCER_TEST_TIME_STEP + HECCER_TEST_TIME_GRANULARITY;
 
 	//- step
 
-	HeccerHecc(pheccer);
+	HeccerHeccs(pheccer, dSimulationTime);
 
 	//- schedule other objects
 
