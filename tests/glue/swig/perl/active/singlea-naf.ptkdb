@@ -1,15 +1,26 @@
 $files = {
-           '_</usr/local/glue/swig/perl/Heccer.pm' => [
-                                                        {
-                                                          'expr' => undef,
-                                                          'value' => '1',
-                                                          'text' => '    $self->settings($type, $settings);
+           '_<tests/glue/swig/perl/active/singlea-naf' => [
+                                                            {
+                                                              'expr' => undef,
+                                                              'value' => '1',
+                                                              'text' => 'require \'main\';
 ',
-                                                          'fname' => '/usr/local/glue/swig/perl/Heccer.pm',
-                                                          'type' => 'user',
-                                                          'line' => '623'
-                                                        }
-                                                      ]
+                                                              'fname' => 'tests/glue/swig/perl/active/singlea-naf',
+                                                              'type' => 'user',
+                                                              'line' => '173'
+                                                            }
+                                                          ],
+           '_<tests/glue/swig/perl/main' => [
+                                              {
+                                                'expr' => undef,
+                                                'value' => '1',
+                                                'text' => 'foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps}) - 1)
+',
+                                                'fname' => 'tests/glue/swig/perl/main',
+                                                'type' => 'user',
+                                                'line' => '113'
+                                              }
+                                            ]
          };
 $expr_list = [];
 $eval_saved_text = undef;

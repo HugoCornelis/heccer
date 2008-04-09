@@ -135,9 +135,15 @@ sub hecc
 {
     my $self = shift;
 
-    my $time = shift;
+    my $current_time = $self->{heccer}->swig_dTime_get();
 
-    $self->{heccer}->HeccerHeccs($time);
+    my $current_step = $self->{heccer}->swig_dStep_get();
+
+    my $small_thing = $current_step / 2;
+
+    my $target_time = $current_time + $current_step - $small_thing;
+
+    $self->{heccer}->HeccerHeccs($target_time);
 }
 
 
