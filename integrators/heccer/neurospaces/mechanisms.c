@@ -386,9 +386,9 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_AB_OffsetE = 5.0e-3
+	    //- get HH_AB_Offset_E = 5.0e-3
 
-	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_OffsetE", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_Offset_E", ptstr->ppist);
 
 	    pgk->dHHOffsetE = dHHOffsetE;
 
@@ -588,9 +588,9 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_AB_Offset2 = 5.0e-3
+	    //- get HH_AB_Offset_E = 5.0e-3
 
-	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_OffsetE", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_Offset_E", ptstr->ppist);
 
 	    pgk->dHHOffsetE = dHHOffsetE;
 
@@ -805,9 +805,9 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_AB_Offset2 = 5.0e-3
+	    //- get HH_AB_Offset_E = 5.0e-3
 
-	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_OffsetE", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_Offset_E", ptstr->ppist);
 
 	    pgk->dHHOffsetE = dHHOffsetE;
 
