@@ -360,41 +360,41 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    ppgc->gc.iTable = -1;
 
-	    //- get HH_Scale = 35.0e3
+	    //- get HH_AB_Scale = 35.0e3
 
-	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_Scale", ptstr->ppist);
+	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_AB_Scale", ptstr->ppist);
 
 	    pgk->dHHScale = dHHScale;
 
-	    //- get HH_Mult = 0.0
+	    //- get HH_AB_Mult = 0.0
 
-	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_Mult", ptstr->ppist);
+	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_AB_Mult", ptstr->ppist);
 
 	    pgk->dHHMult = dHHMult;
 
-	    //- get HH_Factor_Flag = -1.0
+	    //- get HH_AB_Factor_Flag = -1.0
 
-	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_Factor_Flag", ptstr->ppist);
+	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_AB_Factor_Flag", ptstr->ppist);
 
 	    int iHHFactorFlag = dHHFactorFlag;
 
 	    pgk->iHHFactorFlag = iHHFactorFlag;
 
-	    //- get HH_Add = 0.0
+	    //- get HH_AB_Add = 0.0
 
-	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_Add", ptstr->ppist);
+	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_AB_Add", ptstr->ppist);
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_OffsetE = 5.0e-3
+	    //- get HH_AB_OffsetE = 5.0e-3
 
-	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_OffsetE", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_OffsetE", ptstr->ppist);
 
 	    pgk->dHHOffsetE = dHHOffsetE;
 
-	    //- get HH_Tau = -10.0e-3
+	    //- get HH_AB_Tau = -10.0e-3
 
-	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_Tau", ptstr->ppist);
+	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_AB_Tau", ptstr->ppist);
 
 	    pgk->dHHTau = dHHTau;
 
@@ -562,41 +562,41 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    ppgc->gc.iTable = -1;
 
-	    //- get HH_Scale = 35.0e3
+	    //- get HH_AB_Scale = 35.0e3
 
-	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_Scale", ptstr->ppist);
+	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_AB_Scale", ptstr->ppist);
 
 	    pgk->dHHScale = dHHScale;
 
-	    //- get HH_Mult = 0.0
+	    //- get HH_AB_Mult = 0.0
 
-	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_Mult", ptstr->ppist);
+	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_AB_Mult", ptstr->ppist);
 
 	    pgk->dHHMult = dHHMult;
 
-	    //- get HH_Factor_Flag = -1.0
+	    //- get HH_AB_Factor_Flag = -1.0
 
-	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_Factor_Flag", ptstr->ppist);
+	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_AB_Factor_Flag", ptstr->ppist);
 
 	    int iHHFactorFlag = dHHFactorFlag;
 
 	    pgk->iHHFactorFlag = iHHFactorFlag;
 
-	    //- get HH_Add = 0.0
+	    //- get HH_AB_Add = 0.0
 
-	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_Add", ptstr->ppist);
+	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_AB_Add", ptstr->ppist);
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_Offset2 = 5.0e-3
+	    //- get HH_AB_Offset2 = 5.0e-3
 
-	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_OffsetE", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_OffsetE", ptstr->ppist);
 
 	    pgk->dHHOffsetE = dHHOffsetE;
 
-	    //- get HH_Tau = -10.0e-3
+	    //- get HH_AB_Tau = -10.0e-3
 
-	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_Tau", ptstr->ppist);
+	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_AB_Tau", ptstr->ppist);
 
 	    pgk->dHHTau = dHHTau;
 
@@ -779,41 +779,41 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    ppgc->gc.iTable = -1;
 
-	    //- get HH_Scale = 35.0e3
+	    //- get HH_AB_Scale = 35.0e3
 
-	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_Scale", ptstr->ppist);
+	    double dHHScale = SymbolParameterResolveValue(phsle, "HH_AB_Scale", ptstr->ppist);
 
 	    pgk->dHHScale = dHHScale;
 
-	    //- get HH_Mult = 0.0
+	    //- get HH_AB_Mult = 0.0
 
-	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_Mult", ptstr->ppist);
+	    double dHHMult = SymbolParameterResolveValue(phsle, "HH_AB_Mult", ptstr->ppist);
 
 	    pgk->dHHMult = dHHMult;
 
-	    //- get HH_FactorFlag = -1.0
+	    //- get HH_AB_FactorFlag = -1.0
 
-	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_Factor_Flag", ptstr->ppist);
+	    double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_AB_Factor_Flag", ptstr->ppist);
 
 	    int iHHFactorFlag = dHHFactorFlag;
 
 	    pgk->iHHFactorFlag = iHHFactorFlag;
 
-	    //- get HH_Add = 0.0
+	    //- get HH_AB_Add = 0.0
 
-	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_Add", ptstr->ppist);
+	    double dHHAdd = SymbolParameterResolveValue(phsle, "HH_AB_Add", ptstr->ppist);
 
 	    pgk->dHHAdd = dHHAdd;
 
-	    //- get HH_Offset2 = 5.0e-3
+	    //- get HH_AB_Offset2 = 5.0e-3
 
-	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_OffsetE", ptstr->ppist);
+	    double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_OffsetE", ptstr->ppist);
 
 	    pgk->dHHOffsetE = dHHOffsetE;
 
-	    //- get HH_Tau = -10.0e-3
+	    //- get HH_AB_Tau = -10.0e-3
 
-	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_Tau", ptstr->ppist);
+	    double dHHTau = SymbolParameterResolveValue(phsle, "HH_AB_Tau", ptstr->ppist);
 
 	    pgk->dHHTau = dHHTau;
 
