@@ -124,10 +124,6 @@ my $option_verbose;
 print "Executable is $0,\n";
 print "core_directory is $core_directory\n";
 
-$config->{environment_settings}
-    = {
-      };
-
 my $environment_settings = $config->{environment_settings};
 
 foreach my $environment_setting_name (keys %$environment_settings)
