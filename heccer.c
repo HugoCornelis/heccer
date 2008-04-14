@@ -474,7 +474,7 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 char * HeccerGetVersion(void)
 {
     // $Format: "    static char *pcVersion=\"${label}\";"$
-    static char *pcVersion="build-18";
+    static char *pcVersion="build-20";
 
     return(pcVersion);
 }
