@@ -14,9 +14,9 @@ my $test
 				command_tests => [
 						  {
 						   # $Format: "description => \"Does the version information match with ${label} ?\","$
-description => "Does the version information match with build-16 ?",
+description => "Does the version information match with build-18 ?",
 						   # $Format: "read => \"${label}\","$
-read => "build-16",
+read => "build-18",
 						   write => "version",
 						  },
 						 ],
