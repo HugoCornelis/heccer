@@ -1858,7 +1858,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     {
 	//- get maximal conductance
 
-	double dMaximalConductance = SymbolParameterResolveScaledValue(phsle, "GMAX", ptstr->ppist);
+	double dMaximalConductance = SymbolParameterResolveScaledValue(phsle, "G_MAX", ptstr->ppist);
 
 	//- get reversal potential
 
