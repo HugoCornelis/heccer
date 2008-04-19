@@ -607,6 +607,10 @@ int main(int argc, char *argv[])
 
     //- allocate the heccer, for the event distributor service
 
+    //t the event distributor should be added to the heccer instances
+    //t during output object construction, such that this is closer to
+    //t SSP behaviour, and closer to CBI architecture specs.
+
     pheccer = HeccerNew("spiker1", NULL, &ed, NULL);
 
     //- do the simulation

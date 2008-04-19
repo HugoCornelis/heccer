@@ -1013,6 +1013,8 @@ sub add_distributor
 
     my $distributor; # $scheduler->lookup_service('event_distributor');
 
+    my $options = shift;
+
     $self->{distributor} = SwiggableHeccer::EventDistributorNew($distributor);
 
     if (!defined $self->{distributor})
