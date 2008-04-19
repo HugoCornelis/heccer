@@ -611,6 +611,8 @@ int main(int argc, char *argv[])
     //t during output object construction, such that this is closer to
     //t SSP behaviour, and closer to CBI architecture specs.
 
+    //t so that is during HECCER_TEST_INITIATE ?
+
     pheccer = HeccerNew("spiker1", NULL, &ed, NULL);
 
     //- do the simulation
