@@ -2378,6 +2378,71 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	break;
     }
 
+    //- for a spike generator
+
+    case MATH_TYPE_SpikeGenerator:
+    {
+	//t for spikegens: initialize struct SpikeGenerator
+
+	//- get math component data
+
+	struct SpikeGenerator * psg
+	    = (struct SpikeGenerator *)psg;
+
+	//- get refractory time
+
+	double dRefractory = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+
+	//- get spiking threshold
+
+	double dThreshold = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+
+	//- get reset value, FLT_MAX for none
+
+	double dReset = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+
+	//- unset table in event distributor with targets, will be
+	//- filled when projections are compiled
+
+	int iTable = INT_MAX;
+
+	if (dRefractory == FLT_MAX
+	    || dThreshold == FLT_MAX)
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+
+	if (dRefractory <= 0)
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES);
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+
+	    fprintf(stdout, "STATUS_ILLEGAL_PARAMETER_VALUES for the following:\n");
+
+	    PidinStackTo_stdout(ptstr->ppist);
+	}
+
+	//- set values
+
+	psg->dRefractory = dRefractory;
+	psg->dThreshold = dThreshold;
+	psg->dReset = dReset;
+	psg->iTable = iTable;
+
+	//- advance to the next math component
+
+	pmcd->pmc = MathComponentNext(pmcd->pmc);
+
+	pmcd->iCurrentType++;
+
+	pmc = pmcd->pmc;
+
+	break;
+    }
+
     //- for skipped components
 
     case -2:
@@ -2467,9 +2532,27 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     else if (instanceof_attachment(phsle))
     {
-	//- ok, skip
+	//- if a spikegen
 
-	iType = -2;
+	struct symtab_Attachment *patta = (struct symtab_Attachment *)phsle;
+
+	if (AttachmentPointIsOutgoing(patta))
+	{
+	    //- ok, register
+
+	    iType = MATH_TYPE_SpikeGenerator;
+	}
+
+	//- if a synapse
+
+	else
+	{
+	    //- ok, skip
+
+	    //! this will be taken care of during compilation of the projections.
+
+	    iType = -2;
+	}
     }
 
     //- pool
@@ -3247,6 +3330,14 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 		    pexdec->piExternal[i] = iExternalIndex;
 		}
 	    }
+	    break;
+	}
+	case MATH_TYPE_SpikeGenerator:
+	{
+	    struct SpikeGenerator * psg = (struct SpikeGenerator *)pmc;
+
+	    //- ok
+
 	    break;
 	}
 	default:
