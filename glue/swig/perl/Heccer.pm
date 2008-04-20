@@ -1059,6 +1059,123 @@ sub new
 }
 
 
+package Heccer::Event::Output;
+
+
+sub add
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    #t if I am correct we also have to set the iTable of the SpikeGen
+    #t overhere, not sure.
+
+    my $name
+	= $options->{service_request}->{component_name}
+	    . "__"
+		. $options->{service_request}->{field};
+
+    $name =~ s/\//____/g;
+#     $name =~ s/\>/__/g;
+#     $name =~ s/\-//g;
+
+    my $result = $backend->OutputGeneratorAddVariable($name, $options->{address});
+
+    return $result;
+}
+
+
+sub advance
+{
+    my $self = shift;
+
+    #t call the appropriate method or something
+
+    return 1;
+}
+
+
+sub backend
+{
+    my $self = shift;
+
+    return $self->{backend};
+}
+
+
+sub finish
+{
+    my $self = shift;
+
+    # close files, free memory
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorFinish();
+}
+
+
+sub initiate
+{
+    my $self = shift;
+
+    #t could create the files here ?
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    if (!defined $self->{filename})
+    {
+	$self->{filename} = "/tmp/EventOutputGenerator";
+    }
+
+    $self->{backend} = SwiggableHeccer::OutputGeneratorNew($self->{filename});
+
+    if (!defined $self->{backend})
+    {
+	return undef;
+    }
+
+    return $self;
+}
+
+
+sub report
+{
+    my $self = shift;
+
+    #t nothing I guess ?
+}
+
+
+sub step
+{
+    my $self = shift;
+
+    my $scheduler = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+
+    return $result;
+}
+
+
 package Heccer::Intermediary::Compiler;
 
 
