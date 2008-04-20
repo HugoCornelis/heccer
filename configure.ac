@@ -110,6 +110,7 @@ AC_CONFIG_FILES([Makefile
                  integrators/Makefile
                  tests/Makefile
                  tests/code/Makefile
+                 tests/genesis/Makefile
 		 tests/glue/Makefile])
 AC_OUTPUT
 

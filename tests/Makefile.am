@@ -16,7 +16,7 @@
 ##############################################################################
 
 
-SUBDIRS = code glue .
+SUBDIRS = code genesis glue .
 
 #t automake does not allow to pass in arguments for tests ?
 

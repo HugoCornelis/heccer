@@ -162,7 +162,12 @@ am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
-am__tar = @am__tar@
+#	release-expand heccer des 10 0 des-10 hugo.cornelis@gmail.com --verbose
+
+# the tests are copied overhere.
+#
+# The variable EXTRA_DIST could also be used here.
+am__tar = ${AMTAR} chf - --format=posix "$$tardir"
 am__untar = @am__untar@
 bindir = @bindir@
 build_alias = @build_alias@
@@ -794,11 +799,6 @@ show-release-labels:
 
 dist-keywords:
 	release-expand heccer $(RELEASE_MAJOR) $(RELEASE_MINOR) $(RELEASE_MICRO) $(RELEASE_MAJOR)-$(RELEASE_MINOR) hugo.cornelis@gmail.com --verbose
-#	release-expand heccer des 10 0 des-10 hugo.cornelis@gmail.com --verbose
-
-# the tests are copied overhere.
-#
-# The variable EXTRA_DIST could also be used here.
 
 dist-hook: dist-keywords
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi

@@ -4041,7 +4041,7 @@ TEST_SPECIFICATION_FILES=`echo -n "tests/introduction.html " && find tests/speci
 
 
 
-                                                                      ac_config_files="$ac_config_files Makefile glue/Makefile glue/swig/perl/Makefile integrators/Makefile tests/Makefile tests/code/Makefile tests/glue/Makefile"
+                                                                                ac_config_files="$ac_config_files Makefile glue/Makefile glue/swig/perl/Makefile integrators/Makefile tests/Makefile tests/code/Makefile tests/genesis/Makefile tests/glue/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -4598,6 +4598,7 @@ do
   "integrators/Makefile" ) CONFIG_FILES="$CONFIG_FILES integrators/Makefile" ;;
   "tests/Makefile" ) CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
   "tests/code/Makefile" ) CONFIG_FILES="$CONFIG_FILES tests/code/Makefile" ;;
+  "tests/genesis/Makefile" ) CONFIG_FILES="$CONFIG_FILES tests/genesis/Makefile" ;;
   "tests/glue/Makefile" ) CONFIG_FILES="$CONFIG_FILES tests/glue/Makefile" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "heccer/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS heccer/config.h" ;;
