@@ -2388,7 +2388,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	//- get math component data
 
 	struct SpikeGenerator * psg
-	    = (struct SpikeGenerator *)psg;
+	    = (struct SpikeGenerator *)pmc;
 
 	//- get refractory time
 
