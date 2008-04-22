@@ -1790,9 +1790,19 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	if (AttachmentPointIsOutgoing(patta))
 	{
-	    //- ok, register
+	    //- get type of math component
 
-	    iType = MATH_TYPE_SpikeGenerator;
+	    iType = pmcd->piTypes[pmcd->iCurrentType];
+
+	    //- register the type in the math component array
+
+	    pmc->iType = iType;
+
+	    //- register serial
+
+	    int iNeurospaces = PidinStackToSerial(ptstr->ppist);
+
+	    pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
 	}
 
 	//- if a synapse
