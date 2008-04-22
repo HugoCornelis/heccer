@@ -2392,15 +2392,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- get refractory time
 
-	double dRefractory = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+	double dRefractory = SymbolParameterResolveValue(phsle, "REFRACTORY", ptstr->ppist);
 
 	//- get spiking threshold
 
-	double dThreshold = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+	double dThreshold = SymbolParameterResolveValue(phsle, "THRESHOLD", ptstr->ppist);
 
 	//- get reset value, FLT_MAX for none
 
-	double dReset = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+	double dReset = SymbolParameterResolveValue(phsle, "RESET", ptstr->ppist);
 
 	//- unset table in event distributor with targets, will be
 	//- filled when projections are compiled
