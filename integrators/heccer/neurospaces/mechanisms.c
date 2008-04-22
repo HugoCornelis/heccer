@@ -1784,9 +1784,27 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     else if (instanceof_attachment(phsle))
     {
-	//- ok, skip
+	//- if a spikegen
 
-	iType = -2;
+	struct symtab_Attachment *patta = (struct symtab_Attachment *)phsle;
+
+	if (AttachmentPointIsOutgoing(patta))
+	{
+	    //- ok, register
+
+	    iType = MATH_TYPE_SpikeGenerator;
+	}
+
+	//- if a synapse
+
+	else
+	{
+	    //- ok, skip
+
+	    //! this will be taken care of during compilation of the projections.
+
+	    iType = -2;
+	}
     }
 
     //- else
