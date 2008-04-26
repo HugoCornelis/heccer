@@ -1017,7 +1017,7 @@ sub add_distributor
 
     # construct a connection matrix
 
-    my $connection_matrix = SwiggableHeccer:EventDistributorData->new();
+    my $connection_matrix = SwiggableHeccer::EventDistributorMatrix->new();
 
     #t fill in output objects in the matrix
 
