@@ -1015,12 +1015,26 @@ sub add_distributor
 
     my $options = shift;
 
-    $self->{distributor} = SwiggableHeccer::EventDistributorNew($distributor);
+    # construct a connection matrix
+
+    my $connection_matrix = SwiggableHeccer:EventDistributorData->new();
+
+    #t fill in output objects in the matrix
+
+#     $connection_matrix->swig_ppedm_set();
+
+    $self->{distributor} = SwiggableHeccer::EventDistributorNew($connection_matrix);
 
     if (!defined $self->{distributor})
     {
 	return undef;
     }
+
+    # fill in a default send function
+
+    $self->{distributor}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
+
+#     $self->{distributor}->swig_pedd_set($);
 
     return 1;
 }
