@@ -204,6 +204,61 @@ static int EventListInsert(EventList *pel)
 
 /// **************************************************************************
 ///
+/// SHORT: EventDistributorInitiate()
+///
+/// ARGS.:
+///
+///	ped.....: event distributor.
+///	iType...: type of setup to perform.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Initiate the event distributor service.
+///
+///	Initiation means setup internal state, at this moment this
+///	only involves initializing the distribution function.
+///
+///
+/// NOTE:
+///
+///	I consider this function a hack that gets around swig
+///	deficiencies in an acceptable way (or I don't have enough
+///	knowledge of swig).  To extend: add new iType values, and map
+///	to your own functions.
+///
+/// **************************************************************************
+
+int
+EventDistributorInitiate
+(struct EventDistributor *ped, int iType)
+{
+    //- set default result: failure
+
+    int iResult = 0;
+
+    //- if known type
+
+    if (iType == 1)
+    {
+	//- set distribution function
+
+	ped->eventDistribute = EventDistributorSend;
+
+	//- set result: ok
+
+	iResult = 1;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: EventDistributorNew()
 ///
 /// ARGS.:

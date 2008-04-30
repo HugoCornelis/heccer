@@ -164,6 +164,10 @@ struct EventQueuer
 
 //f prototypes
 
+int
+EventDistributorInitiate
+(struct EventDistributor *ped, int iType);
+
 struct EventDistributor *
 EventDistributorNew
 (struct EventDistributorMatrix *ppedm);

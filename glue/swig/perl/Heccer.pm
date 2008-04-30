@@ -1032,7 +1032,12 @@ sub add_distributor
 
     # fill in a default send function
 
-    $self->{distributor}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
+    if (!$self->{distributor}->EventDistributorInitiate(1))
+    {
+	die "$0: error setting up the event distributor, EventDistributorInitiate() failed";
+    }
+
+#     $self->{distributor}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
 
 #     $self->{distributor}->swig_pedd_set($);
 
