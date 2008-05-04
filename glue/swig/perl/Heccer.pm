@@ -1002,18 +1002,18 @@ sub backend
 }
 
 
-package Heccer::DES;
+package Heccer::DES::Distributor;
 
 
-sub add_distributor
+sub compile
 {
     my $self = shift;
 
     my $scheduler = shift;
 
-    my $distributor; # $scheduler->lookup_service('event_distributor');
-
     my $options = shift;
+
+    my $distributor; # $scheduler->lookup_service('event_distributor');
 
     # construct a connection matrix
 
@@ -1045,7 +1045,24 @@ sub add_distributor
 }
 
 
-sub add_queuer
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    return $self;
+}
+
+
+package Heccer::DES::Queuer;
+
+
+sub compile
 {
     my $self = shift;
 
