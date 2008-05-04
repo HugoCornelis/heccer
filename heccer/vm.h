@@ -296,9 +296,11 @@ struct MopsEventGenerate
 
     int iOperator;
 
-    //m threshold logic
+    //m source, sentinel for membrane potential
 
     uMC2Mat uSource;
+
+    //m threshold logic
 
     double dThreshold;
 
