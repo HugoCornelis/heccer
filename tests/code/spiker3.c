@@ -1261,9 +1261,25 @@ int simulate(int argc, char *argv[])
 
 	};
 
+    struct EventDistributorData edd =
+	{
+	    //m number of connections in the matrix
+
+	    3,
+
+	    //m last used
+
+	    2,
+
+	    //m array of targets
+
+	    pedm,
+	};
+
+
     //- allocate event distributor
 
-    struct EventDistributor *ped = EventDistributorNew(pedm);
+    struct EventDistributor *ped = EventDistributorNew(&edd);
 
     //- allocate the heccer, for the event distributor service
 

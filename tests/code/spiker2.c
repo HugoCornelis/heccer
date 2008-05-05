@@ -938,7 +938,13 @@ struct EventDistributorMatrix pedm[] =
 
 struct EventDistributorData edd =
 {
-    0,
+    //m number of connections in the matrix
+
+    3,
+
+    //m last used
+
+    2,
 
     //m array of targets
 
