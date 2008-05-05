@@ -21,6 +21,8 @@
 #include <stdio.h>
 
 #include "heccer/eventdistributor.h"
+#include "heccer/output.h"
+
 #if USE_SGLIB
 
 #include "heccer/sglib.h"
@@ -56,7 +58,8 @@
 //o is very small (for the simulations that I have investigated, less than
 //o 100 events).  A simple sorted list does better than any complicated
 //o data structure, according to my results (unpublished, it is difficult
-//o to publish anything that fails).
+//o to publish anything that fails, which is sad, as we learn the most
+//o from our mistakes).
 //o 
 
 typedef struct EventList
@@ -204,6 +207,109 @@ static int EventListInsert(EventList *pel)
 
 /// **************************************************************************
 ///
+/// SHORT: EventDistributorAddOutputConnection()
+///
+/// ARGS.:
+///
+///	ped....: event distributor.
+///	pog....: output object.
+///	iType..: 1: OutputGeneratorTimedStep() used to send the event.
+///	iTarget: 
+///
+/// RTN..: int
+///
+///	number of allocated connections, -1 for failure.
+///
+/// DESCR: Add an output connection to the connection matrix.
+///
+/// **************************************************************************
+
+int
+EventDistributorAddConnection
+(struct EventDistributor *ped, struct OutputGenerator *pog, int iType)
+{
+    //- set default result: failure
+
+    int iResult = -1;
+
+    //- get matrix data
+
+    struct EventDistributorData *pedd = ped->pedd;
+
+    //- if space available
+
+    if (pedd->iLast < pedd->iConnections)
+    {
+	//- fill in data
+
+	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[pedd->iLast];
+
+	ppedm->pvObject = pog;
+
+	//! output objects don't have an internal target for now,
+	//! could be changed in the future.  -1 means undefined, see
+	//! spiker1 test case.
+
+	ppedm->iTarget = -1;
+
+	if (iType == 1)
+	{
+	    ppedm->pvFunction = OutputGeneratorTimedStep;
+	}
+
+	//- increment connection count
+
+	pedd->iLast++;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: EventDistributorDataNew()
+///
+/// ARGS.:
+///
+///	iConnections..: number of connections in the matrix.
+///
+/// RTN..: struct EventDistributorData *
+///
+///	a connection matrix, NULL for failure.
+///
+/// DESCR: Construct an empty connection matrix.
+///
+/// **************************************************************************
+
+struct EventDistributorData *
+EventDistributorDataNew(int iConnections)
+{
+    //- set default result: allocate data
+
+    struct EventDistributorData *pedd = calloc(1, sizeof(*pedd));
+
+    //- allocate connection matrix
+
+    struct EventDistributorMatrix *ppedm
+	= calloc(iConnections, sizeof(*ppedm));
+
+    //- fill in result
+
+    pedd->iConnections = iConnections;
+    pedd->iLast = 0;
+    pedd->ppedm = ppedm;
+
+    //- return result
+
+    return(pedd);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: EventDistributorInitiate()
 ///
 /// ARGS.:
@@ -275,7 +381,7 @@ EventDistributorInitiate
 
 struct EventDistributor *
 EventDistributorNew
-(struct EventDistributorMatrix *ppedm)
+(struct EventDistributorData *pedd)
 {
     //- set default result: allocate
 
@@ -288,20 +394,9 @@ EventDistributorNew
 
     pedResult->eventDistribute = EventDistributorSend;
 
-    struct EventDistributorData *pedd = calloc(1, sizeof(*pedd));
-
-    if (!pedd)
-    {
-	free(pedResult);
-
-	return(NULL);
-    }
+    //- link the distributor with the connection matrix
 
     pedResult->pedd = pedd;
-
-    pedd->iHappy = 0;
-
-    pedd->ppedm = ppedm;
 
     //- return result
 

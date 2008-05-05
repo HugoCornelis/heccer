@@ -1005,11 +1005,72 @@ sub backend
 package Heccer::DES::Distributor;
 
 
+sub add_output
+{
+    my $self = shift;
+
+    my $outputclass = shift;
+
+#! normally done automatically during ->instantiate_outputs()
+
+#     pogSpike = OutputGeneratorNew("/tmp/output_spike");
+
+#! normally done automatically by Heccer::Event::Output::add
+
+#     double *pdSpike = HeccerAddressMechanismVariable(pheccer, 2, "spike"); \
+#     OutputGeneratorAddVariable(pogSpike, "spike", pdSpike)
+
+
+#! should be done here: fill in in heccer intermediary
+
+#     //m table in event distributor with targets
+
+#     0,
+
+
+#! should be done here
+
+#     //- link spiking element to output generator
+
+#     pogSpike = OutputGeneratorNew("/tmp/output_spike");
+
+#     pedm[0].pvObject = pogSpike;
+#     pedm[0].pvFunction = OutputGeneratorTimedStep;
+
+
+    # lookup the backend for the output
+
+    my $scheduler = $outputclass->{scheduler};
+
+    my $output_backend = $outputclass->backend();
+
+    # add the output object to the connection matrix
+
+    my $distributor = $self->{backend};
+
+    #! argument value 1: sets the output function
+
+    my $result = $distributor->EventDistributorAddConnection($output_backend, 1);
+
+    # return result
+
+    return $result;
+}
+
+
+# sub backend
+# {
+#     my $self = shift;
+
+#     return $self->{backend};
+# }
+
+
 sub compile
 {
     my $self = shift;
 
-    my $scheduler = shift;
+    my $peer = shift;
 
     my $options = shift;
 
@@ -1017,29 +1078,27 @@ sub compile
 
     # construct a connection matrix
 
-    my $connection_matrix = SwiggableHeccer::EventDistributorMatrix->new();
+    my $connections = $options->{connections};
 
-    #t fill in output objects in the matrix
+    my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
-#     $connection_matrix->swig_ppedm_set();
+    $self->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
 
-    $self->{distributor} = SwiggableHeccer::EventDistributorNew($connection_matrix);
-
-    if (!defined $self->{distributor})
+    if (!defined $self->{backend})
     {
 	return undef;
     }
 
     # fill in a default send function
 
-    if (!$self->{distributor}->EventDistributorInitiate(1))
+    if (!$self->{backend}->EventDistributorInitiate(1))
     {
 	die "$0: error setting up the event distributor, EventDistributorInitiate() failed";
     }
 
-#     $self->{distributor}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
+#     $self->{backend}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
 
-#     $self->{distributor}->swig_pedd_set($);
+#     $self->{backend}->swig_pedd_set($);
 
     return 1;
 }
@@ -1062,17 +1121,28 @@ sub new
 package Heccer::DES::Queuer;
 
 
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
+# sub backend
+# {
+#     my $self = shift;
+
+#     return $self->{backend};
+# }
+
+
 sub compile
 {
     my $self = shift;
 
-    my $scheduler = shift;
+    my $peer = shift;
 
     my $queuer; # $scheduler->lookup_service('event_queuer');
 
-    $self->{queuer} = SwiggableHeccer::EventQueuerNew($queuer);
+    $self->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
 
-    if (!defined $self->{queuer})
+    if (!defined $self->{backend})
     {
 	return undef;
     }
@@ -1096,6 +1166,9 @@ sub new
 
 
 package Heccer::Event::Output;
+
+
+BEGIN { our @ISA = qw(Heccer::Glue); }
 
 
 sub add
@@ -1134,12 +1207,12 @@ sub advance
 }
 
 
-sub backend
-{
-    my $self = shift;
+# sub backend
+# {
+#     my $self = shift;
 
-    return $self->{backend};
-}
+#     return $self->{backend};
+# }
 
 
 sub finish
@@ -1168,6 +1241,8 @@ sub new
 
     my $options = shift;
 
+    # construct object
+
     my $self = { %$options, };
 
     bless $self, $package;
@@ -1177,12 +1252,41 @@ sub new
 	$self->{filename} = "/tmp/EventOutputGenerator";
     }
 
+    # construct backend
+
     $self->{backend} = SwiggableHeccer::OutputGeneratorNew($self->{filename});
 
     if (!defined $self->{backend})
     {
 	return undef;
     }
+
+    # lookup the event_distributor service
+
+    my $distributor_name = $options->{distributor_name};
+
+    my $scheduler = $self->{scheduler};
+
+    my $ssp_distributor = $scheduler->lookup_object($distributor_name);
+
+    if (!$ssp_distributor)
+    {
+	die "$0: " . __PACKAGE__ . " cannot construct, $distributor_name not found as an ssp service";
+    }
+
+    my $distributor = $ssp_distributor->backend();
+
+    if (!$distributor)
+    {
+	die "$0: " . __PACKAGE__ . " cannot construct, $distributor_name has no low-level backend";
+    }
+
+    if (!$distributor->add_output($self))
+    {
+	die "$0: " . __PACKAGE__ . " cannot construct";
+    }
+
+    # return result
 
     return $self;
 }
@@ -1212,7 +1316,8 @@ sub step
 }
 
 
-package Heccer::Intermediary::Compiler;
+package Heccer::Glue;
+
 
 
 sub backend
@@ -1221,6 +1326,20 @@ sub backend
 
     return $self->{backend};
 }
+
+
+package Heccer::Intermediary::Compiler;
+
+
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
+# sub backend
+# {
+#     my $self = shift;
+
+#     return $self->{backend};
+# }
 
 
 sub load
@@ -1284,12 +1403,15 @@ sub register_engine
 package Heccer::Tabulator;
 
 
-sub backend
-{
-    my $self = shift;
+BEGIN { our @ISA = qw(Heccer::Glue); }
 
-    return $self->{backend};
-}
+
+# sub backend
+# {
+#     my $self = shift;
+
+#     return $self->{backend};
+# }
 
 
 sub dump
@@ -1567,6 +1689,9 @@ package Heccer::Tabulator::Result;
 package Heccer::Output;
 
 
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
 sub add
 {
     my $self = shift;
@@ -1600,12 +1725,12 @@ sub advance
 }
 
 
-sub backend
-{
-    my $self = shift;
+# sub backend
+# {
+#     my $self = shift;
 
-    return $self->{backend};
-}
+#     return $self->{backend};
+# }
 
 
 sub finish
@@ -1681,6 +1806,9 @@ sub step
 package Heccer::PerfectClamp;
 
 
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
 sub add
 {
     my $self = shift;
@@ -1714,12 +1842,12 @@ sub advance
 }
 
 
-sub backend
-{
-    my $self = shift;
+# sub backend
+# {
+#     my $self = shift;
 
-    return $self->{backend};
-}
+#     return $self->{backend};
+# }
 
 
 sub finish

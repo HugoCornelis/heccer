@@ -1235,7 +1235,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- set operators and operands
 
-		    //! FLT_MAX means the membrane potential is the source
+		    //! INT_MAX means the membrane potential is the source
 
 		    //! for other things, fill in the matindex of the
 		    //! source, the linker will link the mechanisms
@@ -1244,6 +1244,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iSource = INT_MAX;
 
 		    int iTable = psg->iTable;
+
+		    if (iTable == INT_MAX)
+		    {
+			//t so register iMopNumber inside piSpikegens ?
+
+			//t then, during linking, loop over piSpikegens and fill in iTable for each if uninitialized
+
+			int iTodos;
+			iTodos++;
+		    }
 
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
 

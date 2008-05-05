@@ -54,7 +54,13 @@ struct EventDistributorMatrix
 
 struct EventDistributorData
 {
-    int iHappy;
+    //m number of connections in the matrix
+
+    int iConnections;
+
+    //m last used
+
+    int iLast;
 
     //m array of targets
 
@@ -164,13 +170,26 @@ struct EventQueuer
 
 //f prototypes
 
+//! The parameter list of EventDistributorAddConnection() assumes that
+//! the output objects are always heccer output generators.  Internally
+//! this does not matter, just for ease of development.
+
+struct OutputGenerator;
+
+int
+EventDistributorAddConnection
+(struct EventDistributor *ped, struct OutputGenerator *pog, int iType);
+
+struct EventDistributorData *
+EventDistributorDataNew(int iConnections);
+
 int
 EventDistributorInitiate
 (struct EventDistributor *ped, int iType);
 
 struct EventDistributor *
 EventDistributorNew
-(struct EventDistributorMatrix *ppedm);
+(struct EventDistributorData *pedd);
 
 /* extern EventDistribute EventDistributorSend; */
 
