@@ -1185,7 +1185,7 @@ sub advance
 {
     my $self = shift;
 
-    #t call the appropriate method or something
+    # event output is not dependent on advancing time
 
     return 1;
 }
@@ -1286,9 +1286,15 @@ sub step
 
     my $backend = $self->backend();
 
-    my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+    # event output is not dependent on advancing time
 
-    return $result;
+#     my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+
+#     return $result;
+
+    # return success
+
+    return 1;
 }
 
 
