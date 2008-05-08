@@ -1058,14 +1058,6 @@ sub add_output
 }
 
 
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
-
-
 sub compile
 {
     my $self = shift;
@@ -1122,14 +1114,6 @@ package Heccer::DES::Queuer;
 
 
 BEGIN { our @ISA = qw(Heccer::Glue); }
-
-
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
 
 
 sub compile
@@ -1205,14 +1189,6 @@ sub advance
 
     return 1;
 }
-
-
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
 
 
 sub finish
@@ -1334,14 +1310,6 @@ package Heccer::Intermediary::Compiler;
 BEGIN { our @ISA = qw(Heccer::Glue); }
 
 
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
-
-
 sub load
 {
     my $self = shift;
@@ -1404,14 +1372,6 @@ package Heccer::Tabulator;
 
 
 BEGIN { our @ISA = qw(Heccer::Glue); }
-
-
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
 
 
 sub dump
@@ -1725,14 +1685,6 @@ sub advance
 }
 
 
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
-
-
 sub finish
 {
     my $self = shift;
@@ -1840,14 +1792,6 @@ sub advance
 
     return 1;
 }
-
-
-# sub backend
-# {
-#     my $self = shift;
-
-#     return $self->{backend};
-# }
 
 
 sub finish
