@@ -42,6 +42,10 @@ struct TranslationServiceData
     //m the model to be solved by this instantiation
 
     int iModel;
+
+/*     //m event distributor, needed for the connection matrix index translator */
+
+/*     struct EventDistributor *ped; */
 };
 
 

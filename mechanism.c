@@ -1247,9 +1247,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (iTable == INT_MAX)
 		    {
-			//t so register iMopNumber inside piSpikegens ?
+			//t from ssp viewpoint, the distributor_service is already setup, and knows that it connects to this spikegen
 
-			//t then, during linking, loop over piSpikegens and fill in iTable for each if uninitialized
+			//t the distributor_service builds a table that converts model container serials to entries in the connection matrix
+
+			//t here we use that table, to convert the serial to the index in the connection matrix
 
 			int iTodos;
 			iTodos++;

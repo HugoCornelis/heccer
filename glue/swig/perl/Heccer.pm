@@ -1070,7 +1070,11 @@ sub compile
 
     # construct a connection matrix
 
-    my $connections = $options->{connections};
+    my $scheduler = $peer->{scheduler};
+
+    my $outputs = $scheduler->{outputs};
+
+    my $connections = scalar grep { $_->{distributor_service} } @$outputs;
 
     my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
@@ -1091,6 +1095,8 @@ sub compile
 #     $self->{backend}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
 
 #     $self->{backend}->swig_pedd_set($);
+
+    #t build a table that converts model container serials to entries in the connection matrix
 
     return 1;
 }
@@ -1239,22 +1245,22 @@ sub new
 
     # lookup the event_distributor service
 
-    my $distributor_name = $options->{distributor_name};
+    my $event_source = $options->{event_source};
 
     my $scheduler = $self->{scheduler};
 
-    my $ssp_distributor = $scheduler->lookup_object($distributor_name);
+    my $ssp_distributor = $scheduler->lookup_object($event_source);
 
     if (!$ssp_distributor)
     {
-	die "$0: " . __PACKAGE__ . " cannot construct, $distributor_name not found as an ssp service";
+	die "$0: " . __PACKAGE__ . " cannot construct, $event_source not found as an ssp service";
     }
 
     my $distributor = $ssp_distributor->backend();
 
     if (!$distributor)
     {
-	die "$0: " . __PACKAGE__ . " cannot construct, $distributor_name has no low-level backend";
+	die "$0: " . __PACKAGE__ . " cannot construct, $event_source has no low-level backend";
     }
 
     if (!$distributor->add_output($self))
