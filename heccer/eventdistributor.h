@@ -31,6 +31,13 @@
 //o with an entry of all NULLs.
 //o
 
+
+/* //s the connection table translates model service serial in indices */
+/* //s for the EventDistributorMatrix */
+
+/* struct ConnectionTable; */
+
+
 struct EventDistributor;
 
 struct EventDistributorMatrix
@@ -48,6 +55,12 @@ struct EventDistributorMatrix
     //! decouples the event distributor from the target
 
     int (*pvFunction)();
+
+    //m serial in the model container
+
+    //t check if we can share this with iTarget
+
+    int iSerial;
 
 };
 
@@ -179,6 +192,9 @@ struct OutputGenerator;
 int
 EventDistributorAddConnection
 (struct EventDistributor *ped, struct OutputGenerator *pog, int iType);
+
+struct EventDistributorMatrix *
+EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry);
 
 struct EventDistributorData *
 EventDistributorDataNew(int iConnections);

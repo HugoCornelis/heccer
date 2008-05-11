@@ -1066,7 +1066,7 @@ sub compile
 
     my $options = shift;
 
-    my $distributor; # $scheduler->lookup_service('event_distributor');
+#     my $distributor; # $scheduler->lookup_service('event_distributor');
 
     # construct a connection matrix
 
@@ -1085,6 +1085,23 @@ sub compile
 	return undef;
     }
 
+    # fill in the serials in the connection matrix
+
+    my $count = 0;
+
+    foreach my $output (grep { $_->{distributor_service} } @$outputs)
+    {
+	my $service = $scheduler->lookup_object($options->{service});
+
+	my $solver_info = $service->output_2_solverinfo($output);
+
+	my $entry = SwiggableHeccer::EventDistributorDataGetEntry($count);
+
+	$entry->swig_iSerial_set($solver_info->{serial});
+
+	$count++;
+    }
+
     # fill in a default send function
 
     if (!$self->{backend}->EventDistributorInitiate(1))
@@ -1096,7 +1113,41 @@ sub compile
 
 #     $self->{backend}->swig_pedd_set($);
 
-    #t build a table that converts model container serials to entries in the connection matrix
+#     #t build a table that converts model container serials to entries in the connection matrix
+
+#     my $connection_table = ConnectionTableNew($connections);
+
+#     my $count = 0;
+
+#     my $connection_table_entries
+# 	= [
+# 	   map
+# 	   {
+# 	       # lookup serial for this component
+
+# 	       my $output = $_;
+
+# 	       my $service = $scheduler->lookup_object($options->{service});
+
+# 	       my $solver_info = $service->output_2_solverinfo($output);
+
+# 	       my $result
+# 		   = {
+# 		      serial => $solver_info->{serial},
+# 		      count => $count,
+# 		     };
+
+# 	       $count++;
+
+# 	       $result;
+# 	   }
+# 	   grep { $_->{distributor_service} } @$outputs,
+# 	  ];
+
+#     foreach my $connection_table_entry (@$connection_table_entries)
+#     {
+# 	$connection_table->ConnectionTableSetEntry($connection_table_entry->{serial}, $connection_table_entry->{count}, );
+#     }
 
     return 1;
 }

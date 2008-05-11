@@ -270,6 +270,40 @@ EventDistributorAddConnection
 
 /// **************************************************************************
 ///
+/// SHORT: EventDistributorDataGetEntry()
+///
+/// ARGS.:
+///
+///	pedd......: event distributor data.
+///	iEntry....: entry number to get access to.
+///
+/// RTN..: struct EventDistributorMatrix *
+///
+///	a single entry in the connection matrix, NULL for failure.
+///
+/// DESCR: Get access to an entry in the connection matrix.
+///
+/// **************************************************************************
+
+struct EventDistributorMatrix *
+EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
+{
+    //- set default result: failure
+
+    struct EventDistributorMatrix *ppedmResult = NULL;
+
+    //- compute result
+
+    ppedmResult = &pedd->ppedm[iEntry];
+
+    //- return result
+
+    return(ppedmResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: EventDistributorDataNew()
 ///
 /// ARGS.:
@@ -289,7 +323,7 @@ EventDistributorDataNew(int iConnections)
 {
     //- set default result: allocate data
 
-    struct EventDistributorData *pedd = calloc(1, sizeof(*pedd));
+    struct EventDistributorData *peddResult = calloc(1, sizeof(*peddResult));
 
     //- allocate connection matrix
 
@@ -298,13 +332,13 @@ EventDistributorDataNew(int iConnections)
 
     //- fill in result
 
-    pedd->iConnections = iConnections;
-    pedd->iLast = 0;
-    pedd->ppedm = ppedm;
+    peddResult->iConnections = iConnections;
+    peddResult->iLast = 0;
+    peddResult->ppedm = ppedm;
 
     //- return result
 
-    return(pedd);
+    return(peddResult);
 }
 
 
