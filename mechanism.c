@@ -259,7 +259,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- check parameters
 
-	    char pcDescription[100];
+	    char pcDescription[1000];
 
 	    sprintf(pcDescription, "HeccerMechanismCompile(): compartment %i parameters (dCm == %f, dEm == %f, dRm == %f)", iIntermediary, dCm, dEm, dRm);
 
