@@ -68,6 +68,7 @@ Makefile$
 ^tests/code/vclamp-sodium$
 ^tests/code/version$
 ^tests/html/
+^tests/output
 _Inline
 autoscan.log$
 config.h$
