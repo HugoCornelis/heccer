@@ -39,18 +39,18 @@ sub addressable
 }
 
 
-sub advance
-{
-    my $self = shift;
+# sub advance
+# {
+#     my $self = shift;
 
-    my $scheduler = shift;
+#     my $scheduler = shift;
 
-    my $time = shift;
+#     my $time = shift;
 
-    my $result = $self->{heccer}->HeccerHeccs($time);
+#     my $result = $self->{heccer}->HeccerHeccs($time);
 
-    return $result;
-}
+#     return $result;
+# }
 
 
 sub backend
@@ -152,6 +152,20 @@ sub finish
     my $self = shift;
 
     #! that is ok.
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # get time step from the low level solver
+
+    my $result = $self->{heccer}->swig_dStep_get();
+
+    # return result
+
+    return $result;
 }
 
 
@@ -1238,14 +1252,14 @@ sub add
 }
 
 
-sub advance
-{
-    my $self = shift;
+# sub advance
+# {
+#     my $self = shift;
 
-    # event output is not dependent on advancing time
+#     # event output is not dependent on advancing time
 
-    return 1;
-}
+#     return undef;
+# }
 
 
 sub finish
@@ -1257,6 +1271,16 @@ sub finish
     my $backend = $self->backend();
 
     $backend->OutputGeneratorFinish();
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # an event output object does not have a time step
+
+    return undef;
 }
 
 
@@ -1738,14 +1762,24 @@ sub add
 }
 
 
-sub advance
-{
-    my $self = shift;
+# sub advance
+# {
+#     my $self = shift;
 
-    #t call the appropriate method or something
+#     my $scheduler = shift;
 
-    return 1;
-}
+#     my $time = shift;
+
+#     # call the appropriate method
+
+#     my $backend = $self->backend();
+
+#     my $result = $backend->OutputGeneratorAnnotatedStep($time);
+
+#     # return result
+
+#     return $result;
+# }
 
 
 sub finish
@@ -1757,6 +1791,16 @@ sub finish
     my $backend = $self->backend();
 
     $backend->OutputGeneratorFinish();
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # an output object does not have a time step
+
+    return undef;
 }
 
 
@@ -1847,14 +1891,14 @@ sub add
 }
 
 
-sub advance
-{
-    my $self = shift;
+# sub advance
+# {
+#     my $self = shift;
 
-    #t call the appropriate method or something
+#     #t call the appropriate method or something
 
-    return 1;
-}
+#     return undef;
+# }
 
 
 sub finish
@@ -1866,6 +1910,16 @@ sub finish
     my $backend = $self->backend();
 
     $backend->PerfectClampFinish();
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # a perfect clamp object does not have a time step
+
+    return undef;
 }
 
 
