@@ -101,7 +101,7 @@ BEGIN
 }
 
 
-$ENV{NEUROSPACES_MODELS} = ${core_directory} . '/library';
+$ENV{NEUROSPACES_NMC_MODELS} = ${core_directory} . '/library';
 
 my $tests_dir = $config->{tests_directory};
 
