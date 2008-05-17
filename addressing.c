@@ -43,6 +43,56 @@ HeccerAddressSerial2Intermediary
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerAddressableSet()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iSerial...: identification number.
+///	pcType....: name of requested variable.
+///	dValue....: new value for this variable.
+///
+/// RTN..: char *
+///
+///	error code, NULL for success.
+///
+/// DESCR: Set a variable in a compiled model.
+///
+/// **************************************************************************
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+char *
+HeccerAddressableSet
+(struct Heccer *pheccer, int iSerial, char *pcType, double dValue)
+{
+    //- set default result: success
+
+    char *pcResult = NULL;
+
+    //- find the addressable
+
+    double *pd = HeccerAddressVariable(pheccer, iSerial, pcType);
+
+    if (pd)
+    {
+	//- set the value
+
+	*pd = dValue;
+    }
+    else
+    {
+	pcResult = "Variable cannot be found in this compiled heccer instance";
+    }
+
+    //- return result
+
+    return(pcResult);
+}
+#endif
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerAddressCompartmentVariable()
 ///
 /// ARGS.:

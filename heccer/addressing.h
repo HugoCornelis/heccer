@@ -41,6 +41,10 @@ struct Heccer;
 //t neurospaces model_container would do full traversals.
 
 
+char *
+HeccerAddressableSet
+(struct Heccer *pheccer, int iSerial, char *pcType, double dValue);
+
 void *
 HeccerAddressCompartmentVariable
 (struct Heccer *pheccer, int iIntermediary, char *pcField);

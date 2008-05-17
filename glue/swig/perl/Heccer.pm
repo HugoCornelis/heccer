@@ -358,6 +358,20 @@ sub report
 }
 
 
+sub set_addressable
+{
+    my $self = shift;
+
+    my $fieldinfo = shift;
+
+    my $value = shift;
+
+    my $result = $self->{heccer}->HeccerAddressableSet($fieldinfo->{serial}, $fieldinfo->{type}, $value);
+
+    return $result;
+}
+
+
 sub step
 {
     return hecc(@_);
