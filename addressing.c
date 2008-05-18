@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include "heccer/addressing.h"
 #include "heccer/heccer.h"
@@ -30,14 +31,14 @@
 static
 int
 HeccerAddressCompartmentSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcField);
+(struct Heccer *pheccer, int iSerial, char *pcType);
 #endif
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 static
 int
 HeccerAddressSerial2Intermediary
-(struct Heccer *pheccer, int iIndex, char *pcField);
+(struct Heccer *pheccer, int iIndex, char *pcType);
 #endif
 
 
@@ -99,7 +100,7 @@ HeccerAddressableSet
 ///
 ///	pheccer.......: a heccer.
 ///	iIntermediary.: index of compartment in the intermediary.
-///	pcField.......: name of requested variable.
+///	pcType........: name of requested variable.
 ///
 /// RTN..: void *
 ///
@@ -111,7 +112,7 @@ HeccerAddressableSet
 
 void *
 HeccerAddressCompartmentVariable
-(struct Heccer *pheccer, int iIntermediary, char *pcField)
+(struct Heccer *pheccer, int iIntermediary, char *pcType)
 {
     //- set default result : not found
 
@@ -119,7 +120,7 @@ HeccerAddressCompartmentVariable
 
     //- for membrane potential
 
-    if (strcmp(pcField, "Vm") == 0)
+    if (strcasecmp(pcType, "Vm") == 0)
     {
 	//- convert intermediary to schedule number
 
@@ -134,7 +135,7 @@ HeccerAddressCompartmentVariable
 
     //- for injected current
 
-    else if (strcmp(pcField, "inject") == 0)
+    else if (strcasecmp(pcType, "inject") == 0)
     {
 	//- convert intermediary to schedule number
 
@@ -154,13 +155,13 @@ HeccerAddressCompartmentVariable
 
     //- for total membrane current
 
-    else if (strcmp(pcField, "Im") == 0)
+    else if (strcasecmp(pcType, "Im") == 0)
     {
     }
 
     //- for membrane leak current
 
-    else if (strcmp(pcField, "Ileak") == 0)
+    else if (strcasecmp(pcType, "Ileak") == 0)
     {
     }
 
@@ -178,7 +179,7 @@ HeccerAddressCompartmentVariable
 ///
 ///	pheccer...: a heccer.
 ///	iSerial...: identification number.
-///	pcField...: name of requested variable.
+///	pcType....: name of requested variable.
 ///
 /// RTN..: int
 ///
@@ -192,7 +193,7 @@ HeccerAddressCompartmentVariable
 static
 int
 HeccerAddressCompartmentSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcField)
+(struct Heccer *pheccer, int iSerial, char *pcType)
 {
     //- set default result : not found
 
@@ -239,7 +240,7 @@ HeccerAddressCompartmentSerial2Intermediary
 ///
 ///	pheccer...: a heccer.
 ///	iSerial...: identification number.
-///	pcField...: name of requested variable.
+///	pcType....: name of requested variable.
 ///
 /// RTN..: int
 ///
@@ -253,7 +254,7 @@ HeccerAddressCompartmentSerial2Intermediary
 static
 int
 HeccerAddressMechanismSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcField)
+(struct Heccer *pheccer, int iSerial, char *pcType)
 {
 
     //- set default result : not found
@@ -301,7 +302,7 @@ HeccerAddressMechanismSerial2Intermediary
 ///
 ///	pheccer.......: a heccer.
 ///	iIntermediary.: index of mechanism in the intermediary.
-///	pcField.......: name of requested variable.
+///	pcType........: name of requested variable.
 ///
 /// RTN..: void *
 ///
@@ -313,7 +314,7 @@ HeccerAddressMechanismSerial2Intermediary
 
 void *
 HeccerAddressMechanismVariable
-(struct Heccer *pheccer, int iIndex, char *pcField)
+(struct Heccer *pheccer, int iIndex, char *pcType)
 {
     //- set default result : not found
 
@@ -325,7 +326,7 @@ HeccerAddressMechanismVariable
 
     struct field_2_operator
     {
-	char *pcField;
+	char *pcType;
 	int iOperand;
 	int iOffset;
     };
@@ -342,9 +343,9 @@ HeccerAddressMechanismVariable
 
     int iField;
 
-    for (iField = 0 ; pF2P[iField].pcField ; iField++)
+    for (iField = 0 ; pF2P[iField].pcType ; iField++)
     {
-	if (strcmp(pcField, pF2P[iField].pcField) == 0)
+	if (strcasecmp(pcType, pF2P[iField].pcType) == 0)
 	{
 	    break;
 	}
@@ -381,13 +382,13 @@ HeccerAddressMechanismVariable
     {
 	//- we try mop entries
 
-	if (strcmp(pcField, "table_forward_index") == 0)
+	if (strcasecmp(pcType, "table_forward_index") == 0)
 	{
 	    //- operators are two off
 
 	    iOperand = -2;
 	}
-	else if (strcmp(pcField, "table_backward_index") == 0)
+	else if (strcasecmp(pcType, "table_backward_index") == 0)
 	{
 	    //- operators are one off
 
@@ -436,7 +437,7 @@ HeccerAddressMechanismVariable
 ///
 ///	pheccer...: a heccer.
 ///	iSerial...: identification number.
-///	pcField...: name of requested variable.
+///	pcType....: name of requested variable.
 ///
 /// RTN..: int
 ///
@@ -453,22 +454,28 @@ HeccerAddressMechanismVariable
 static
 int
 HeccerAddressSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcField)
+(struct Heccer *pheccer, int iSerial, char *pcType)
 {
-    //- set default result : not found
+    //- set default result: not found
 
     int iResult = -1;
 
-    if (strcmp(pcField, "Vm") == 0
-	|| strcmp(pcField, "inject") == 0
-	|| strcmp(pcField, "Im") == 0
-	|| strcmp(pcField, "Ileak") == 0)
+    //- for compartment addressables
+
+/*     if (strcmp(pcType, "Vm") == 0 */
+/* 	|| strcmp(pcType, "inject") == 0 */
+/* 	|| strcmp(pcType, "Im") == 0 */
+/* 	|| strcmp(pcType, "Ileak") == 0) */
+    if (strcasecmp(pcType, "Vm") == 0
+	|| strcasecmp(pcType, "inject") == 0
+	|| strcasecmp(pcType, "Im") == 0
+	|| strcasecmp(pcType, "Ileak") == 0)
     {
-	iResult = HeccerAddressCompartmentSerial2Intermediary(pheccer, iSerial, pcField);
+	iResult = HeccerAddressCompartmentSerial2Intermediary(pheccer, iSerial, pcType);
     }
     else
     {
-	iResult = HeccerAddressMechanismSerial2Intermediary(pheccer, iSerial, pcField);
+	iResult = HeccerAddressMechanismSerial2Intermediary(pheccer, iSerial, pcType);
     }
 
     //- return result
@@ -571,12 +578,16 @@ HeccerAddressVariable
 
     if (iIntermediary != -1)
     {
-	//- for membrane potential
+	//- for compartment addressables
 
-	if (strcmp(pcType, "Vm") == 0
-	    || strcmp(pcType, "inject") == 0
-	    || strcmp(pcType, "Im") == 0
-	    || strcmp(pcType, "Ileak") == 0)
+/* 	if (strcmp(pcType, "Vm") == 0 */
+/* 	    || strcmp(pcType, "inject") == 0 */
+/* 	    || strcmp(pcType, "Im") == 0 */
+/* 	    || strcmp(pcType, "Ileak") == 0) */
+	if (strcasecmp(pcType, "Vm") == 0
+	    || strcasecmp(pcType, "inject") == 0
+	    || strcasecmp(pcType, "Im") == 0
+	    || strcasecmp(pcType, "Ileak") == 0)
 	{
 	    pvResult = HeccerAddressCompartmentVariable(pheccer, iIntermediary, pcType);
 	}
