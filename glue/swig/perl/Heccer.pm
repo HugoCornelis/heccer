@@ -1135,7 +1135,7 @@ sub compile
 
 	if (!defined $serial)
 	{
-	    die "$0: Component_name $component_name cannot be found";
+	    die "$0: Component_name $component_name cannot be found during DES output compilation";
 	}
 
 	# fill in the entry
