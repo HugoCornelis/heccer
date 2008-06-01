@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/03/22) Saturday, March 22, 2008 19:25:21 hugo";
+static char *pcVersionTime="(08/05/31) Saturday, May 31, 2008 22:20:19 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -68,7 +68,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
     struct TranslationService *pts = pheccer->pts;
 
-    struct TranslationServiceData *ptsd = pts->ptsd;
+/*     struct TranslationServiceData *ptsd = pts->ptsd; */
 
     //- build up intermediary using the available service
 

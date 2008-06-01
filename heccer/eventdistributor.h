@@ -207,6 +207,8 @@ struct EventDistributor *
 EventDistributorNew
 (struct EventDistributorData *pedd);
 
+int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial);
+
 /* extern EventDistribute EventDistributorSend; */
 
 int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets);

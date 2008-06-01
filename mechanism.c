@@ -1253,8 +1253,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			//t here we use that table, to convert the serial to the index in the connection matrix
 
-			int iTodos;
-			iTodos++;
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+			int iSerial = psg->mc.iSerial;
+#else
+			int iSerial = INT_MAX;
+#endif
+
+			struct EventDistributor *ped = pheccer->ped;
+
+			iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
 		    }
 
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);

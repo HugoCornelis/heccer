@@ -191,6 +191,13 @@ sub new
     {
 	bless $result, $package;
 
+	my $event_distributor_backend;
+
+	if ($settings->{event_distributor})
+	{
+	    $event_distributor_backend = $settings->{event_distributor}->{event_distributor_backend}->backend();
+	}
+
 	my $model_source = $settings->{model_source};
 
 	if (exists $model_source->{service_name})
@@ -209,7 +216,7 @@ sub new
 
 		# setup the interface to build an intermediary
 
-		my $success = SwiggableHeccer::HeccerConstruct($heccer_backend, $service_backend, $modelname);
+		my $success = SwiggableHeccer::HeccerConstruct($heccer_backend, $service_backend, $modelname, $event_distributor_backend);
 
 		if (!$success)
 		{

@@ -49,7 +49,7 @@ struct TranslationServiceData
 };
 
 
-int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel);
+int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, void *pvEventDistributor);
 
 
 #endif

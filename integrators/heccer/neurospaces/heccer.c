@@ -26,8 +26,14 @@
 #include "heccer/neurospaces/heccer.h"
 
 
-int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel)
+int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, void *pvEventDistributor)
 {
+    //- the event_distributor is an event_distributor
+
+    struct EventDistributor *ped = (struct EventDistributor *)pvEventDistributor;
+
+    pheccer->ped = ped;
+
     //- the service core is neurospaces
 
     struct Neurospaces *pneuro = (struct Neurospaces *)pvNeurospaces;

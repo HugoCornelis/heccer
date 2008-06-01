@@ -440,6 +440,57 @@ EventDistributorNew
 
 /// **************************************************************************
 ///
+/// SHORT: EventDistributorSerial2Index()
+///
+/// ARGS.:
+///
+///	ped.......: an event distributor.
+///	iSerial...: serial of a bio component that generates spikes.
+///
+/// RTN..: int
+///
+///	corresponding index in the connection matrix, -1 for not found.
+///
+/// DESCR: Lookup a spikegen serial, return the internal index.
+///
+/// **************************************************************************
+
+int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
+{
+    //- set default result: failure
+
+    int iResult = -1;
+
+    //- loop over connection matrix
+
+    int iConnection;
+
+    for (iConnection = 0 ; iConnection < ped->pedd->iLast ; iConnection++)
+    {
+	//- if serials match
+
+	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[iConnection];
+
+	if (ppedm->iSerial == iSerial)
+	{
+	    //- set result
+
+	    iResult = iSerial;
+
+	    //- break loop
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: EventDistributorSend()
 ///
 /// ARGS.:
