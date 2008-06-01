@@ -569,11 +569,19 @@ my $heccer_mapping
 		  translators => {
 				  configuration => {
 						   },
+
+				  #t event_distributor, see model_source comments below
+
+				  event_distributor => {
+						       },
+
 				  intermediary => {
 						   target => 'inter',
 						  },
 
 				  # model_source comes from SSP, should not be translated
+
+				  #t we should use this to translate the model_source into the TranslationServiceData or so
 
 				  model_source => {
 						  },
@@ -1038,6 +1046,9 @@ sub backend
 
 
 package Heccer::DES::Distributor;
+
+
+BEGIN { our @ISA = qw(Heccer::Glue); }
 
 
 sub add_output
