@@ -1025,7 +1025,7 @@ sub backend
 
     if ($@)
     {
-	die "In Heccer.pm: error constructing $component factory methods: $@";
+	die "$0: In Heccer.pm: error constructing $component factory methods: $@";
     }
 }
 
@@ -1113,19 +1113,36 @@ sub compile
 	return undef;
     }
 
+    # lookup service
+
+    my $service = $scheduler->lookup_object($options->{service});
+
+    my $service_backend = $service->backend();
+
     # fill in the serials in the connection matrix
 
     my $count = 0;
 
     foreach my $output (grep { $_->{distributor_service} } @$outputs)
     {
-	my $service = $scheduler->lookup_object($options->{service});
+	# get output component name
 
-	my $solver_info = $service->output_2_solverinfo($output);
+	my $component_name = $output->{component_name};
 
-	my $entry = SwiggableHeccer::EventDistributorDataGetEntry($count);
+	# convert to serial
 
-	$entry->swig_iSerial_set($solver_info->{serial});
+	my $serial = $service_backend->component_2_serial($component_name);
+
+	if (!defined $serial)
+	{
+	    die "$0: Component_name $component_name cannot be found";
+	}
+
+	# fill in the entry
+
+	my $entry = $connection_matrix->EventDistributorDataGetEntry($count);
+
+	$entry->swig_iSerial_set($serial);
 
 	$count++;
     }
