@@ -193,7 +193,7 @@ sub new
 
 	my $event_distributor_backend;
 
-	if ($settings->{event_distributor})
+	if ($settings->{event_distributor}->{event_distributor_backend})
 	{
 	    $event_distributor_backend = $settings->{event_distributor}->{event_distributor_backend}->backend();
 	}
