@@ -328,7 +328,7 @@ EventDistributorDataNew(int iConnections)
     //- allocate connection matrix
 
     struct EventDistributorMatrix *ppedm
-	= calloc(iConnections, sizeof(*ppedm));
+	= calloc(iConnections + 1, sizeof(*ppedm));
 
     //- fill in result
 
@@ -512,9 +512,13 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     int iResult = 1;
 
+    //- get matrix data
+
+    struct EventDistributorData *pedd = ped->pedd;
+
     //- loop over target table
 
-    struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[iTargets];
+    struct EventDistributorMatrix *ppedm = &pedd->ppedm[iTargets];
 
     while (ppedm && ppedm->pvFunction)
     {
