@@ -1262,7 +1262,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			struct EventDistributor *ped = pheccer->ped;
 
+			//t EventDistributor does not know about anything yet, this cannot work.
+
 			iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
+
+			iTable = 0;
 		    }
 
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
