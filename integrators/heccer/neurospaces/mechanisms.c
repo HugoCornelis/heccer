@@ -101,6 +101,28 @@ struct MathComponentData
 #define STATUS_UNKNOWN_CHANNEL_TYPE1 -14
 #define STATUS_UNKNOWN_CHANNEL_TYPE2 -15
 
+static
+char *ppcStatusMessages[] =
+{
+    NULL,
+    "overflow",
+    "unknown mechanism type found in the intracellular mechanisms of the model",
+    "many_pools: channels can have at most one concentration dependency",
+    "out of memory",
+    "found an internal inconsistency during typing of the model intracellular mechanisms",
+    "unresolvable parameters: the model container does not associate a numerical value with one of the parameters",
+    "many_channels: an exponential decay concentration pool had to many channel feeds (max is EXPONENTIALDECAY_CONTRIBUTORS)" ,
+    "unknown_error during channel examination",
+    "non_channel_outputs_ik: something feeds a current to a pool, but it is not a channel while it should",
+    "constant_nernst: the nerst equation must be connected to an internal concentration pool",
+    "non_pool_for_nernst: the internal concentration of a nerst equation is not connected to a concentration pool",
+    "illegal_parameter_values: some parameters have values that don't make sense from a mathematical viewpoint",
+    "unqualifiable_filename: a parameter filename cannot be resolved to an existing file",
+    "cannot determine the value of a channel type parameter",
+    "unknown_channel_type2",
+    NULL,
+};
+
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc);
 
@@ -1277,6 +1299,9 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    if (pparEvents)
 	    {
 		char *pcEvents = ParameterGetString(pparEvents);
+
+		//t hardcoded connection with the neurospaces model container.
+		//t filename qualification must come in a separate software component.
 
 		char *pcEventsQualified
 		    = NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
@@ -3029,10 +3054,11 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	    HeccerError
 		(pheccer,
 		 NULL,
-		 "cellsolver_getmathcomponents() returned error code %i, "
+		 "cellsolver_getmathcomponents() returned error code (%i, %s), "
 		 "last processed mathcomponent is %i, "
 		 "external error return is %i.",
 		 mcd.iStatus,
+		 ppcStatusMessages[- mcd.iStatus],
 		 mcd.iCurrentType,
 		 iResult);
 	}
