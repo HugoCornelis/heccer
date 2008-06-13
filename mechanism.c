@@ -1266,6 +1266,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
 
+			//t so hardcoded solution that makes the spiker1 test case work
+
 			iTable = 0;
 		    }
 
