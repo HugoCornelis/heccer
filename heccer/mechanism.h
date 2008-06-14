@@ -308,11 +308,11 @@ struct GateConceptParameters
 {
     //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
-    struct GateKinetic gkForward;
+    struct GateKinetic gkA;
 
     //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
-    struct GateKinetic gkBackward;
+    struct GateKinetic gkB;
 
 };
 

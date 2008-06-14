@@ -534,11 +534,11 @@ my $heccer_mapping
 				   translators => {
 						   backward => {
 								source => 'gate_kinetic',
-								target => 'gkBackward',
+								target => 'gkB',
 							       },
 						   forward => {
 							       source => 'gate_kinetic',
-							       target => 'gkForward',
+							       target => 'gkA',
 							      },
 				       },
 		       },

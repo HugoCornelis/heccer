@@ -376,8 +376,8 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
-		   ? &ppgc->gc.parameters.gkForward
-		   : &ppgc->gc.parameters.gkBackward);
+		   ? &ppgc->gc.parameters.gkA
+		   : &ppgc->gc.parameters.gkB);
 
 	    //- initialize table index
 
@@ -578,8 +578,8 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
-		   ? &ppgc->gc.parameters.gkForward
-		   : &ppgc->gc.parameters.gkBackward);
+		   ? &ppgc->gc.parameters.gkA
+		   : &ppgc->gc.parameters.gkB);
 
 	    //- initialize table index
 
@@ -795,8 +795,8 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    struct GateKinetic *pgk
 		= (pmcd->iStatus == 2
 		   || pmcd->iStatus == 5
-		   ? &ppgc->gc.parameters.gkForward
-		   : &ppgc->gc.parameters.gkBackward);
+		   ? &ppgc->gc.parameters.gkA
+		   : &ppgc->gc.parameters.gkB);
 
 	    //- initialize table index
 

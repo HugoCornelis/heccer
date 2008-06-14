@@ -355,13 +355,13 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdForward)
 	{
-	    double dMultiplier = pgc->parameters.gkForward.dHHScale;
-	    double dMembraneDependence = pgc->parameters.gkForward.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkForward.dHHOffsetM;
-	    int iNominator = pgc->parameters.gkForward.iHHFactorFlag;
-	    double dDeNominatorOffset = pgc->parameters.gkForward.dHHAdd;
-	    double dMembraneOffset = pgc->parameters.gkForward.dHHOffsetE;
-	    double dTauDenormalizer = pgc->parameters.gkForward.dHHTau;
+	    double dMultiplier = pgc->parameters.gkA.dHHScale;
+	    double dMembraneDependence = pgc->parameters.gkA.dHHMult;
+	    double dMembraneDependenceOffset = pgc->parameters.gkA.dHHOffsetM;
+	    int iNominator = pgc->parameters.gkA.iHHFactorFlag;
+	    double dDeNominatorOffset = pgc->parameters.gkA.dHHAdd;
+	    double dMembraneOffset = pgc->parameters.gkA.dHHOffsetE;
+	    double dTauDenormalizer = pgc->parameters.gkA.dHHTau;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
@@ -404,13 +404,13 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdForward && phtg->pdBackward)
 	{
-	    double dMultiplier = pgc->parameters.gkBackward.dHHScale;
-	    double dMembraneDependence = pgc->parameters.gkBackward.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkForward.dHHOffsetM;
-	    int iNominator = pgc->parameters.gkBackward.iHHFactorFlag;
-	    double dDeNominatorOffset = pgc->parameters.gkBackward.dHHAdd;
-	    double dMembraneOffset = pgc->parameters.gkBackward.dHHOffsetE;
-	    double dTauDenormalizer = pgc->parameters.gkBackward.dHHTau;
+	    double dMultiplier = pgc->parameters.gkB.dHHScale;
+	    double dMembraneDependence = pgc->parameters.gkB.dHHMult;
+	    double dMembraneDependenceOffset = pgc->parameters.gkA.dHHOffsetM;
+	    int iNominator = pgc->parameters.gkB.iHHFactorFlag;
+	    double dDeNominatorOffset = pgc->parameters.gkB.dHHAdd;
+	    double dMembraneOffset = pgc->parameters.gkB.dHHOffsetE;
+	    double dTauDenormalizer = pgc->parameters.gkB.dHHTau;
 
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {
