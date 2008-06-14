@@ -1225,6 +1225,10 @@ int simulate(int argc, char *argv[])
 		//m called function
 
 		OutputGeneratorTimedStep,
+
+		//m serial in the model container
+
+		-1,
 	    },
 
 	    //! for event queuer
@@ -1241,6 +1245,10 @@ int simulate(int argc, char *argv[])
 		//m called function
 
 		EventQueuerEnqueue,
+
+		//m serial in the model container
+
+		-1,
 	    },
 
 	    //! terminator
@@ -1257,6 +1265,10 @@ int simulate(int argc, char *argv[])
 		//m called function
 
 		NULL,
+
+		//m serial in the model container
+
+		-1,
 	    },
 
 	};

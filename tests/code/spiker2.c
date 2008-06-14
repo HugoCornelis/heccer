@@ -900,6 +900,10 @@ struct EventDistributorMatrix pedm[] =
 	//m called function
 
 	NULL,
+
+	//m serial in the model container
+
+	-1,
     },
 
     //! for event queuer
@@ -916,6 +920,10 @@ struct EventDistributorMatrix pedm[] =
 	//m called function
 
 	NULL,
+
+	//m serial in the model container
+
+	-1,
     },
 
     //! terminator
@@ -932,6 +940,10 @@ struct EventDistributorMatrix pedm[] =
 	//m called function
 
 	NULL,
+
+	//m serial in the model container
+
+	-1,
     },
 
 };
