@@ -13,15 +13,6 @@ files would not be truncated.
 * add double exp. for ca pools
 See chat with Paolo.
 
-* comparison project
-** from previous G2 based tutorial
-This is compartment /Purkinje/p0b2b2b1[21](dia:1.020000013e-06,len:3.908517556e-06)
-This is compartment /Purkinje/p0b2b2b1b1[3](dia:8.70000008e-07,len:3.5061787e-06)
-This is compartment /Purkinje/p0b2b2b1b2[4](dia:1.020000013e-06,len:3.171656999e-06)
-** colormap file colormaps/TurtlePC2_020105_soma_pclamp.yml
-'/TurtlePC2_020105/segments/p0b2b2b1b1[0]': -0.0625251
-'/TurtlePC2_020105/segments/p0b2b2b1b1[10]': -0.0488724
-
 * test config
 get_current_revision_id is being used, but that gives an wrong
 revision id on an unchanged workspace, or I cannot figure out what it
@@ -92,13 +83,6 @@ tests are suspect:
         description: 'Is a synaptic (springmass) channel with an event table integrated correctly, passive-only mode ?'
 
 
-* running tests
-'--regex perl' gives results that are inconsistent with 'make check'.
-
-* HeccerHecc()
-should have access to the current simulation time, now this is
-implied.
-
 * addressing, output generator and vclamp
 Variables should be (double *) instead of (void *).
 
@@ -131,7 +115,10 @@ requires mtn installed, because the test.config tries to execute mtn.
 based on the springmass4 test
 check if the same test output can be used.
 
-* solve the heccer/neurospaces dependencies that Mike Schachter reported.
+* configure
+** Check for the neurospaces.h file
+then set the variable to compile the neurospaces integrator (or not).
+** solve the heccer/neurospaces dependencies that Mike Schachter reported.
 
 * add the mtn revision to the dist, somehow.
 
@@ -143,18 +130,8 @@ the file when it is owned by a different user.
 and write the name of the generated filename to the test output in
 case needed.
 
-* neurospaces interface
-has fixed size buffers, see two commits ago.  Remove fixed size buffers.
-
-* rename integrators to interfaces
-
-* the website takes more than 100MB.
-
 * Perhaps I should drand48() for Linux rng
 Is declared obsoleted, see man page.
-
-* Before compilation
-Check if a time step has been set, if it is zero, abort.
 
 * SETMAT_FLUXPOOL initial value
 Because ->iPool is only used as a boolean indicator, we can replace it
@@ -172,6 +149,8 @@ and not the model structure.
 rename to 'interfaces', to stress the loose coupling.
 ** Heccer.pm mentions 'intergrator plugin'
 Needs to be adapted.
+** neurospaces interface
+has fixed size buffers, see two commits ago.  Remove fixed size buffers.
 
 * addressing
 Last mechanism can not have more than one output, see addressing.c
@@ -184,10 +163,6 @@ when there are no mechanisms.
 * intermediary concy checker
 ** number of entries in comp2mech
 ** values of comp2mech entries
-
-* configure
-Check for the neurospaces.h file, then set the variable to compile the
-neurospaces integrator (or not).
 
 * Revisit the compartments mops and mats
 Needs update of all tests (also in ssp).
