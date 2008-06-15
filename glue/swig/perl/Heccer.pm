@@ -1526,10 +1526,10 @@ sub dump
 
     my $field
 	= (
-	   $source eq 'A'
+	   $source =~ m'A$'
 	   ? 'table_A_index'
 	   : (
-	      $source eq 'B'
+	      $source =~ m'B$'
 	      ? 'table_B_index'
 	      : 'invalid table reference'
 	     )
