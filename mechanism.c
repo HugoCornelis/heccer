@@ -481,7 +481,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- tabulate the channel
 
 		    //- tabulate activation, Genesis X
-		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulated = HeccerTabulateAny(pheccer, pcsm, MATH_TYPE_ChannelSpringMass);
 
@@ -620,7 +620,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- tabulate the channel
 
 		    //- tabulate activation, Genesis X
-		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulated
 			= HeccerTabulateAny(pheccer, &pca->pgc.gc, MATH_TYPE_GateConcept);
@@ -711,7 +711,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- tabulate the channel
 
 		    //- tabulate activation, Genesis X
-		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulatedActivation
 			= HeccerTabulateAny(pheccer, &pcai->pgcActivation.gc, MATH_TYPE_GateConcept);
@@ -725,7 +725,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcActivation.gc.dInitActivation);
 
 		    //- tabulate inactivation, Genesis Y
-		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulatedInactivation
 			= HeccerTabulateAny(pheccer, &pcai->pgcInactivation.gc, MATH_TYPE_GateConcept);
@@ -814,7 +814,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- tabulate the membrane dependence
 
 		    //- tabulate membrane dependence, Genesis X
-		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulatedMembraneDependence
 			= HeccerTabulateAny(pheccer, &pcac->pgc.gc, MATH_TYPE_GateConcept);
@@ -828,7 +828,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pgc.gc.dInitActivation);
 
 		    //- tabulate concentration dependence, Genesis Z
-		    //- create forward table, Genesis A, alpha, create backward table, Genesis B, alpha + beta
+		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulatedBasalActivator
 			= HeccerTabulateAny(pheccer, &pcac->pac.ac, MATH_TYPE_BasalActivator);
@@ -2362,8 +2362,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
 
-		double *pdForward = phtg->pdForward;
-		double *pdBackward = phtg->pdBackward;
+		double *pdA = phtg->pdA;
+		double *pdB = phtg->pdB;
 
 		double dState;
 
@@ -2401,24 +2401,20 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    iIndex = phtg->iEntries - 1;
 		}
 
-		//- fetch forward and backward gate rates
+		//- fetch A and B gate rates
 
-		double dForward = pdForward[iIndex];
-		double dBackward = pdBackward[iIndex];
+		double dA = pdA[iIndex];
+		double dB = pdB[iIndex];
 
 		//t move to channel rearrangements
 
-		dBackward = 1.0 + pheccer->dStep / 2.0 * dBackward;
+		dB = 1.0 + pheccer->dStep / 2.0 * dB;
 
-		dForward = pheccer->dStep * dForward;
-
-/* 		printf("forward %g, backward %g\n", dForward, dBackward); */
+		dA = pheccer->dStep * dA;
 
 		//- compute gate activation state
 
-/* 		dActivation = (dActivation * (2.0 - dBackward) + dForward) / dBackward; */
-
-		dActivation = dForward / dBackward + dActivation * 2.0 / dBackward - dActivation;
+		dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
 
 		//- and store it for the next cycle
 

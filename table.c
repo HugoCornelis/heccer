@@ -149,9 +149,9 @@ HeccerBasalActivatorTabulate
 
 	//! time step normalization done elsewhere
 
-	phtg->pdForward[i] = dEquilibrium / pac->parameters.dTau;
+	phtg->pdA[i] = dEquilibrium / pac->parameters.dTau;
 
-	phtg->pdBackward[i] = 1 / pac->parameters.dTau;
+	phtg->pdB[i] = 1 / pac->parameters.dTau;
     }
 
     //- return result
@@ -353,7 +353,7 @@ HeccerGateConceptTabulate
 
 	double dCarryOver;
 
-	if (phtg->pdForward)
+	if (phtg->pdA)
 	{
 	    double dMultiplier = pgc->parameters.gkA.dHHScale;
 	    double dMembraneDependence = pgc->parameters.gkA.dHHMult;
@@ -370,7 +370,7 @@ HeccerGateConceptTabulate
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {
 		dCarryOver = 0.0;
-		phtg->pdForward[i] = 0.0;
+		phtg->pdA[i] = 0.0;
 	    }
 	    else
 	    {
@@ -378,17 +378,17 @@ HeccerGateConceptTabulate
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
-		    phtg->pdForward[i] = phtg->pdForward[i - 1];
+		    phtg->pdA[i] = phtg->pdA[i - 1];
 		}
 		else
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdA[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdForward[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdA[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {
@@ -398,11 +398,11 @@ HeccerGateConceptTabulate
 
 		//- remember alpha, such that we can add it to beta below
 
-		dCarryOver = phtg->pdForward[i];
+		dCarryOver = phtg->pdA[i];
 	    }
 	}
 
-	if (phtg->pdForward && phtg->pdBackward)
+	if (phtg->pdA && phtg->pdB)
 	{
 	    double dMultiplier = pgc->parameters.gkB.dHHScale;
 	    double dMembraneDependence = pgc->parameters.gkB.dHHMult;
@@ -414,7 +414,7 @@ HeccerGateConceptTabulate
 
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {
-		phtg->pdBackward[i] = 0.0;
+		phtg->pdB[i] = 0.0;
 	    }
 	    else
 	    {
@@ -422,17 +422,17 @@ HeccerGateConceptTabulate
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
-		    phtg->pdBackward[i] = phtg->pdBackward[i - 1];
+		    phtg->pdB[i] = phtg->pdB[i - 1];
 		}
 		else
 		{
 		    if (iNominator == 1)
 		    {
-			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdB[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) * dDeNominator;
 		    }
 		    else if (iNominator == -1)
 		    {
-			phtg->pdBackward[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdB[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) / dDeNominator;
 		    }
 		    else
 		    {
@@ -445,7 +445,7 @@ HeccerGateConceptTabulate
 
 	    if (iResult == TRUE)
 	    {
-		phtg->pdBackward[i] += dCarryOver;
+		phtg->pdB[i] += dCarryOver;
 	    }
 	}
 
@@ -585,7 +585,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 	double *ppdSources[]
 	    = { pd1, pd2, NULL, };
 	double *ppdDestinations[]
-	    = { phtg1->pdForward, phtg1->pdBackward, NULL, };
+	    = { phtg1->pdA, phtg1->pdB, NULL, };
 
 	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
@@ -677,7 +677,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 	double *ppdSources[]
 	    = { pd3, pd4, NULL, };
 	double *ppdDestinations[]
-	    = { phtg2->pdForward, phtg2->pdBackward, NULL, };
+	    = { phtg2->pdA, phtg2->pdB, NULL, };
 
 	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
@@ -828,7 +828,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 	double *ppdSources[]
 	    = { pd1, pd2, NULL, };
 	double *ppdDestinations[]
-	    = { phtg->pdForward, phtg->pdBackward, NULL, };
+	    = { phtg->pdA, phtg->pdB, NULL, };
 
 	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
@@ -1155,7 +1155,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
 	double *ppdSources[]
 	    = { pd1, pd2, NULL, };
 	double *ppdDestinations[]
-	    = { phtg1->pdForward, phtg1->pdBackward, NULL, };
+	    = { phtg1->pdA, phtg1->pdB, NULL, };
 
 	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
@@ -1254,7 +1254,7 @@ HeccerChannelSteadyStateSteppedTauTabulate
 	double *ppdSources[]
 	    = { pd3, pd4, NULL, };
 	double *ppdDestinations[]
-	    = { phtg2->pdForward, phtg2->pdBackward, NULL, };
+	    = { phtg2->pdA, phtg2->pdB, NULL, };
 
 	iResult = iResult && HeccerTableInterpolate(ppdSources, ppdDestinations, iSmallTableSize, iEntries);
 
@@ -1324,12 +1324,12 @@ HeccerTableDump
 
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
-	    fprintf(pfile, "Tabulated gate %i, forward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdForward[i]);
+	    fprintf(pfile, "Tabulated gate %i, forward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdA[i]);
 	}
 
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
-	    fprintf(pfile, "Tabulated gate %i, backward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdBackward[i]);
+	    fprintf(pfile, "Tabulated gate %i, backward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdB[i]);
 	}
     }
 
@@ -1673,8 +1673,8 @@ HeccerTabulatedGateNew
     //- initialize discrete function entries
 
     phtg->iEntries = iEntries;
-    phtg->pdForward = calloc(phtg->iEntries + 1, sizeof(*phtg->pdForward));
-    phtg->pdBackward = calloc(phtg->iEntries + 1, sizeof(*phtg->pdBackward));
+    phtg->pdA = calloc(phtg->iEntries + 1, sizeof(*phtg->pdA));
+    phtg->pdB = calloc(phtg->iEntries + 1, sizeof(*phtg->pdB));
 
     //- initialize the tao
 

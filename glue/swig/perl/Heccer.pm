@@ -532,14 +532,14 @@ my $heccer_mapping
        gate_concept_parameters => {
 				   internal_name => 'GateConceptParameters',
 				   translators => {
-						   backward => {
-								source => 'gate_kinetic',
-								target => 'gkB',
-							       },
-						   forward => {
-							       source => 'gate_kinetic',
-							       target => 'gkA',
-							      },
+						   A => {
+							 source => 'gate_kinetic',
+							 target => 'gkA',
+							},
+						   B => {
+							 source => 'gate_kinetic',
+							 target => 'gkB',
+							},
 				       },
 		       },
        gate_kinetic => {
@@ -1520,14 +1520,14 @@ sub dump
 
     my $service = $source_info->backend();
 
-    # we check here for 'forward' or 'backward' in the source
+    # we check here for 'A' or 'B' in the source
     # component, and assign a different field name to them, this makes
     # it easier in the C code to differentiate between those two.
 
     my $field
-	= $source =~ /forward/
-	    ? 'table_forward_index'
-		: 'table_backward_index';
+	= $source =~ /A/
+	    ? 'table_A_index'
+		: 'table_B_index';
 
     my $solver_info
 	= $service->output_2_solverinfo
@@ -1583,9 +1583,9 @@ sub dump
 
 	my $htg = SwiggableHeccer::htg_get($tgt, $table_index);
 
-	my $backward_doubles = $htg->swig_pdBackward_get;
+	my $A_doubles = $htg->swig_pdA_get();
 
-	my $forward_doubles = $htg->swig_pdForward_get();
+	my $B_doubles = $htg->swig_pdB_get();
 
 	# get number of entries
 
@@ -1603,14 +1603,13 @@ sub dump
 
 	# convert to array of values
 
-	my $backward = [];
-	my $forward = [];
+	my $A = [];
+	my $B = [];
 
 	map
 	{
-	    $backward->[$_] = SwiggableHeccer::double_get($backward_doubles, $_);
-
-	    $forward->[$_] = SwiggableHeccer::double_get($forward_doubles, $_);
+	    $A->[$_] = SwiggableHeccer::double_get($A_doubles, $_);
+	    $B->[$_] = SwiggableHeccer::double_get($B_doubles, $_);
 	}
 	    0 .. $entries - 1;
 
@@ -1618,9 +1617,9 @@ sub dump
 
 	$result
 	    = {
-	       backward => $backward,
+	       A => $A,
+	       B => $B,
 	       entries => $entries,
-	       forward => $forward,
 	       hi => {
 		      end => $end,
 		      start => $start,

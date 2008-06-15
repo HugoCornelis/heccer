@@ -81,13 +81,13 @@ struct HeccerTabulatedGate
 
     int iEntries;
 
-    //m forward table (alpha)
+    //m A table
 
-    double *pdForward;
+    double *pdA;
 
     //m backward table (alpha + beta)
 
-    double *pdBackward;
+    double *pdB;
 };
 
 
