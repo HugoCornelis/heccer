@@ -382,13 +382,13 @@ HeccerAddressMechanismVariable
     {
 	//- we try mop entries
 
-	if (strcasecmp(pcType, "table_forward_index") == 0)
+	if (strcasecmp(pcType, "table_A_index") == 0)
 	{
 	    //- operators are two off
 
 	    iOperand = -2;
 	}
-	else if (strcasecmp(pcType, "table_backward_index") == 0)
+	else if (strcasecmp(pcType, "table_B_index") == 0)
 	{
 	    //- operators are one off
 

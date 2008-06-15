@@ -1525,9 +1525,15 @@ sub dump
     # it easier in the C code to differentiate between those two.
 
     my $field
-	= $source =~ /A/
-	    ? 'table_A_index'
-		: 'table_B_index';
+	= (
+	   $source eq 'A'
+	   ? 'table_A_index'
+	   : (
+	      $source eq 'B'
+	      ? 'table_B_index'
+	      : 'invalid table reference'
+	     )
+	   );
 
     my $solver_info
 	= $service->output_2_solverinfo
