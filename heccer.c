@@ -9,7 +9,7 @@ static char *pcVersionTime="(08/05/31) Saturday, May 31, 2008 22:20:19 hugo";
 //'
 //' Heccer : testbed C implementation
 //'
-//' Copyright (C) 2006-2007 Hugo Cornelis
+//' Copyright (C) 2006-2008 Hugo Cornelis
 //'
 //' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
 //'

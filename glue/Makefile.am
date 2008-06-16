@@ -7,7 +7,7 @@
 ##'
 ##' Heccer : testbed C implementation
 ##'
-##' Copyright (C) 2006-2007 Hugo Cornelis
+##' Copyright (C) 2006-2008 Hugo Cornelis
 ##'
 ##' functional ideas ..	Hugo Cornelis, hugo.cornelis@gmail.com
 ##'
