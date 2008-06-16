@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* test output
+** rename table forward / backward to A / B respectively
+
 * table index addressing
 Results are cast from int to void * back to int.  I guess that some of
 the functions are doing to much work, ie. there is not a clean
