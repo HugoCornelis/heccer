@@ -143,7 +143,7 @@ HeccerBasalActivatorTabulate
 
 	double dEquilibrium = 1 / (1 + (pac->parameters.dBasalLevel / dx));
 
-	//- fill in forward and backward table
+	//- fill in A and B table
 
 	//t perhaps the table names should be redefined ?
 
@@ -244,8 +244,8 @@ HeccerDiscretizeBasalActivator
 ///
 /// DESCR: Discretize the given gate concept.
 ///
-///	Note that for a single gate, this function sets up the forward
-///	and backward kinetic discretization.
+///	Note that for a single gate, this function sets up the A
+///	and B kinetic discretization.
 ///
 /// **************************************************************************
 
@@ -557,27 +557,27 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 		      + exp((dx + pcpsdt->parameters1.tau.dMembraneOffset)
 			    / pcpsdt->parameters1.tau.dTauDenormalizer)));
 
-	    double dForward1 = dA;
-	    double dBackward1 = dC;
+	    double dA1 = dA;
+	    double dB1 = dC;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
 	    //t dependent, and obviously completely add hoc.
 
-	    if (fabs(dForward1) < 1e-17)
+	    if (fabs(dA1) < 1e-17)
 	    {
-		if (dForward1 < 0.0)
+		if (dA1 < 0.0)
 		{
-		    dForward1 = -1e-17;
+		    dA1 = -1e-17;
 		}
 		else
 		{
-		    dForward1 = 1e-17;
+		    dA1 = 1e-17;
 		}
 	    }
 
-	    pd1[i] = dBackward1 / dForward1;
-	    pd2[i] = 1.0 / dForward1;
+	    pd1[i] = dB1 / dA1;
+	    pd2[i] = 1.0 / dA1;
 	}
 
 	//- interpolate the tables
@@ -649,27 +649,27 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 		      + exp((dx + pcpsdt->parameters2.tau.dMembraneOffset)
 			    / pcpsdt->parameters2.tau.dTauDenormalizer)));
 
-	    double dForward2 = dB;
-	    double dBackward2 = dD;
+	    double dA2 = dB;
+	    double dB2 = dD;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
 	    //t dependent, and obviously completely add hoc.
 
-	    if (fabs(dForward2) < 1e-17)
+	    if (fabs(dA2) < 1e-17)
 	    {
-		if (dForward2 < 0.0)
+		if (dA2 < 0.0)
 		{
-		    dForward2 = -1e-17;
+		    dA2 = -1e-17;
 		}
 		else
 		{
-		    dForward2 = 1e-17;
+		    dA2 = 1e-17;
 		}
 	    }
 
-	    pd3[i] = dBackward2 / dForward2;
-	    pd4[i] = 1.0 / dForward2;
+	    pd3[i] = dB2 / dA2;
+	    pd4[i] = 1.0 / dA2;
 	}
 
 	//- interpolate the tables
@@ -799,28 +799,28 @@ HeccerChannelPersistentSteadyStateTauTabulate
 		   / (pcpst->parameters.tc.dDeNominatorOffset
 		      + (exp((dx + pcpst->parameters.tc.dMembraneOffset) / pcpst->parameters.tc.dTauDenormalizer))));
 
-	    double dForward = dA;
+	    double dA3 = dA;
 
-	    double dBackward = dB;
+	    double dB3 = dB;
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
 	    //t dependent, and obviously completely add hoc.
 
-	    if (fabs(dForward) < 1e-17)
+	    if (fabs(dA3) < 1e-17)
 	    {
-		if (dForward < 0.0)
+		if (dA3 < 0.0)
 		{
-		    dForward = -1e-17;
+		    dA3 = -1e-17;
 		}
 		else
 		{
-		    dForward = 1e-17;
+		    dA3 = 1e-17;
 		}
 	    }
 
-	    pd1[i] = dBackward / dForward;
-	    pd2[i] = 1.0 / dForward;
+	    pd1[i] = dB3 / dA3;
+	    pd2[i] = 1.0 / dA3;
 	}
 
 	//- interpolate the tables
@@ -1126,28 +1126,28 @@ HeccerChannelSteadyStateSteppedTauTabulate
 		   * (exp( - (dx + pcsst->ss_parameters.second.b.dMembraneDependenceOffset)
 			   / pcsst->ss_parameters.second.b.dTauDenormalizer)));
 
-	    double dForward = (1.0 / (dA + dB));
+	    double dA4 = (1.0 / (dA + dB));
 
-	    double dBackward = (dC / (dC + dD));
+	    double dB4 = (dC / (dC + dD));
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
 	    //t dependent, and obviously completely add hoc.
 
-	    if (fabs(dForward) < 1e-17)
+	    if (fabs(dA4) < 1e-17)
 	    {
-		if (dForward < 0.0)
+		if (dA4 < 0.0)
 		{
-		    dForward = -1e-17;
+		    dA4 = -1e-17;
 		}
 		else
 		{
-		    dForward = 1e-17;
+		    dA4 = 1e-17;
 		}
 	    }
 
-	    pd1[i] = dBackward / dForward;
-	    pd2[i] = 1.0 / dForward;
+	    pd1[i] = dB4 / dA4;
+	    pd2[i] = 1.0 / dA4;
 	}
 
 	//- interpolate the tables
@@ -1211,15 +1211,15 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 	for (dx = phtg2->hi.dStart, i = 0 ; i <= iSmallTableSize ; i++, dx += dSmallStep)
 	{
-	    double dForward;
+	    double dA;
 
 	    if (dx < pcsst->tc_parameters.a.dThreshold)
 	    {
-		dForward = pcsst->tc_parameters.a.dLowTarget;
+		dA = pcsst->tc_parameters.a.dLowTarget;
 	    }
 	    else
 	    {
-		dForward = pcsst->tc_parameters.a.dHighTarget;
+		dA = pcsst->tc_parameters.a.dHighTarget;
 	    }
 
 	    double dY
@@ -1227,26 +1227,26 @@ HeccerChannelSteadyStateSteppedTauTabulate
 		   + (exp((dx + pcsst->tc_parameters.b.dMembraneOffset)
 			  / pcsst->tc_parameters.b.dTauDenormalizer)));
 
-	    double dBackward = (1.0 / dY);
+	    double dB = (1.0 / dY);
 
 	    //t check the MCAD MMGLT macro to see how it deals with
 	    //t relative errors.  The current implementation is magnitude
 	    //t dependent, and obviously completely add hoc.
 
-	    if (fabs(dForward) < 1e-17)
+	    if (fabs(dA) < 1e-17)
 	    {
-		if (dForward < 0.0)
+		if (dA < 0.0)
 		{
-		    dForward = -1e-17;
+		    dA = -1e-17;
 		}
 		else
 		{
-		    dForward = 1e-17;
+		    dA = 1e-17;
 		}
 	    }
 
-	    pd3[i] = dBackward / dForward;
-	    pd4[i] = 1.0 / dForward;
+	    pd3[i] = dB / dA;
+	    pd4[i] = 1.0 / dA;
 	}
 
 	//- interpolate the tables
@@ -1324,12 +1324,12 @@ HeccerTableDump
 
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
-	    fprintf(pfile, "Tabulated gate %i, forward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdA[i]);
+	    fprintf(pfile, "Tabulated gate %i, A (iEntry %i) : (%g)\n", iIndex, i, phtg->pdA[i]);
 	}
 
 	for (i = 0 ; i < phtg->iEntries ; i++)
 	{
-	    fprintf(pfile, "Tabulated gate %i, backward (iEntry %i) : (%g)\n", iIndex, i, phtg->pdB[i]);
+	    fprintf(pfile, "Tabulated gate %i, B (iEntry %i) : (%g)\n", iIndex, i, phtg->pdB[i]);
 	}
     }
 
