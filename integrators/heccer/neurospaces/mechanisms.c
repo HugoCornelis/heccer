@@ -36,6 +36,18 @@
 #include "heccer/service.h"
 
 
+struct TableAllocatorData
+{
+    //m symbol with value array
+
+    struct symtab_HSolveListElement *phsle;
+
+    //m context of the symbol
+
+    struct PidinStack *ppist;
+};
+
+
 struct MathComponentData
 {
     //m solution engine
@@ -133,6 +145,10 @@ MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus);
 static
 int
 MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType);
+
+static
+double
+TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue);
 
 static
 int
@@ -387,6 +403,23 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	
 	    if (iHasTable)
 	    {
+		struct TableAllocatorData ta =
+		{
+		    //m symbol with value array
+
+		    phsle,
+
+		    //m context of the symbol
+
+		    ptstr->ppist,
+		};
+
+		double *pdA = calloc(pmcd->pheccer->ho.iIntervalEntries + 1, sizeof(*pdA));
+		double *pdB = calloc(pmcd->pheccer->ho.iIntervalEntries + 1, sizeof(*pdB));
+
+		//t allocate the table, fill in the index, initialize
+		//t the table entries with what is found in the model
+		//t container.
 	    }
 	    else
 	    {
@@ -477,6 +510,26 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
     //- return result
 
     return(iResult);
+}
+
+
+static
+double
+TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue)
+{
+    //- construct parameter name
+
+    char pcValue[100];
+
+    sprintf(pcValue, "value[%i]", iValue);
+
+    //- resolve value
+
+    double dResult = SymbolParameterResolveValue(ptd->phsle, pcValue, ptd->ppist);
+
+    //- return result
+
+    return(dResult);
 }
 
 
