@@ -401,7 +401,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 		struct TableAllocatorData ta =
 		{
@@ -648,7 +648,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -722,7 +722,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	{
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -881,7 +881,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -1073,7 +1073,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -1222,7 +1222,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -1289,7 +1289,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -1647,7 +1647,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-		if (iHasTable)
+		if (iHasTable && 0)
 		{
 		}
 		else
@@ -1700,7 +1700,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-		if (iHasTable)
+		if (iHasTable && 0)
 		{
 		}
 		else
@@ -1741,7 +1741,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
@@ -1781,7 +1781,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 	
-	    if (iHasTable)
+	    if (iHasTable && 0)
 	    {
 	    }
 	    else
