@@ -400,9 +400,11 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    ppgc->gc.iTable = -1;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 		struct TableAllocatorData ta =
 		{
 		    //m symbol with value array
@@ -647,9 +649,11 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    ppgc->gc.iTable = -1;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -721,9 +725,11 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	if (pmcd->iStatus == 5)
 	{
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -880,9 +886,11 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    ppgc->gc.iTable = -1;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -1072,9 +1080,11 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 		   : &pcpsdt->parameters2.tau);
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -1221,9 +1231,11 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	    struct single_steady_state * pss = &pcpst->parameters.ss;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -1288,9 +1300,11 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	    struct single_time_constant * ptc = &pcpst->parameters.tc;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -1646,9 +1660,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		struct dual_steadystate_kinetic_part_a * pa = &pdsk->a;
 
 		int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 		if (iHasTable && 0)
 		{
+		    printf("warning: iHasTable has value %i\n", iHasTable);
+
 		}
 		else
 		{
@@ -1699,9 +1715,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		struct dual_steadystate_kinetic_part_b * pb = &pdsk->b;
 
 		int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 		if (iHasTable && 0)
 		{
+		    printf("warning: iHasTable has value %i\n", iHasTable);
+
 		}
 		else
 		{
@@ -1740,9 +1758,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		= &pcpsdt->tc_parameters;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -1780,9 +1800,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		= &pcpsdt->tc_parameters;
 
 	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
-	
+
 	    if (iHasTable && 0)
 	    {
+		printf("warning: iHasTable has value %i\n", iHasTable);
+
 	    }
 	    else
 	    {
@@ -1865,6 +1887,13 @@ solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
 
+    if (instanceof_cell(phsle))
+    {
+	printf("warning: cell found during solver_mathcomponent_finalizer()\n");
+
+	int iBreak = 1;
+    }
+
     //- get user data
 
     struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
@@ -1899,6 +1928,13 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     //- get actual symbol
 
     struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
+
+    if (instanceof_cell(phsle))
+    {
+	printf("warning: cell found during solver_mathcomponent_finalizer()\n");
+
+	int iBreak = 1;
+    }
 
     //- get user data
 
@@ -2678,6 +2714,13 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
     //- get actual symbol
 
     struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
+
+    if (instanceof_cell(phsle))
+    {
+	printf("warning: cell found during solver_mathcomponent_finalizer()\n");
+
+	int iBreak = 1;
+    }
 
     //- get user data
 
