@@ -1490,14 +1490,13 @@ sub dump
 
     # define the format
 
-    my $format = $arguments->[0]->{format} || 'internal';
+    my $format = $arguments->[0]->{format};
 
     my $existing_formats
 	= {
-	   'alpha-beta' => 0,
-	   'steadystate-tau' => 0,
+	   'alpha-beta' => 1,
+	   'steadystate-tau' => 1,
 	   'A-B' => 1,
-# 	   'internal*dt' => 0,
 	   'internal' => 1,
 	  };
 
@@ -1633,17 +1632,81 @@ sub dump
 		     },
 	      };
 
-	#t now do the conversion according to the format
+	# now do the conversion according to the format
 
 	my $existing_formats
 	    = {
-	       'alpha-beta' => 0,
-	       'steadystate-tau' => 0,
+	       'alpha-beta' =>
+	       sub
+	       {
+		   my $result = shift;
+
+		   my $A = $result->{A};
+		   my $B = $result->{B};
+
+		   my $alpha = [ @$A, ];
+
+		   #! expensive operation, expands the full array
+
+		   my $beta = [];
+
+		   foreach my $index (0 ... $#$B)
+		   {
+		       $beta->[$index] = $B->[$index] - $A->[$index];
+		   }
+
+		   $result->{alpha} = $alpha;
+
+		   $result->{beta} = $beta;
+
+		   return $result;
+	       },
+	       'steadystate-tau' =>
+	       sub
+	       {
+		   my $result = shift;
+
+		   my $A = $result->{A};
+		   my $B = $result->{B};
+
+		   #! expensive operation, expands the full array
+
+		   my $steady = [];
+
+		   foreach my $index (0 ... $#$B)
+		   {
+		       #t what with zeros for B ?
+
+		       $steady->[$index] = $A->[$index] / $B->[$index];
+		   }
+
+		   #! expensive operation, expands the full array
+
+		   my $tau = [];
+
+		   foreach my $index (0 ... $#$B)
+		   {
+		       #t what with zeros for B ?
+
+		       $tau->[$index] = 1 / $B->[$index];
+		   }
+
+		   $result->{steady} = $steady;
+
+		   $result->{tau} = $tau;
+
+		   return $result;
+	       },
 	       'A-B' => 1,
-# 	       'internal*dt' => 0,
 	       'internal' => 1,
 	      };
 
+	my $convertor = $existing_formats->{$format};
+
+	if (ref $convertor eq 'CODE')
+	{
+	    $result = &$convertor($result);
+	}
     }
 
     # if a result was produced
@@ -1661,6 +1724,8 @@ sub dump
 	    print Dump(bless($result, 'Heccer::Tabulator::Result'));
 	}
     }
+
+    # return result
 
     return $result;
 }
