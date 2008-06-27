@@ -1496,7 +1496,7 @@ sub dump
 	= {
 	   'alpha-beta' => 0,
 	   'steadystate-tau' => 0,
-	   'A-B' => 0,
+	   'A-B' => 1,
 # 	   'internal*dt' => 0,
 	   'internal' => 1,
 	  };
@@ -1639,7 +1639,7 @@ sub dump
 	    = {
 	       'alpha-beta' => 0,
 	       'steadystate-tau' => 0,
-	       'A-B' => 0,
+	       'A-B' => 1,
 # 	       'internal*dt' => 0,
 	       'internal' => 1,
 	      };
