@@ -525,6 +525,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -655,6 +667,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -755,6 +779,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			//! initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
+		    }
+
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -876,6 +912,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			//! initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
+		    }
+
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -1023,6 +1071,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -1121,6 +1181,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -1206,6 +1278,18 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			//! initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+
+		    }
+
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -1660,6 +1744,25 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		break;
 	    }
 
+	    //- compute current for single channel
+
+	    case HECCER_MOP_STORESINGLECHANNELCURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsStoreSingleChannelCurrent *pmops = (struct MopsStoreSingleChannelCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
 	    //- compute exponential decay, mostly an ion concentration
 
 	    case HECCER_MOP_EXPONENTIALDECAY:
@@ -1998,7 +2101,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     int *piMop = (int *)pheccer->vm.pvMops;
 
-    //- get access to variables and results
+    //- get access to compartment variables and results
 
     double *pdVm = &pheccer->vm.pdVms[0];
 
@@ -2027,7 +2130,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	//- initialize current with leak and injected
 
-	double dCurrent = pmatsc->dLeak + pmatsc->dInjected;
+	double dCompartmentCurrents = pmatsc->dLeak + pmatsc->dInjected;
 
 	//- initial total conductance is zero
 
@@ -2087,7 +2190,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dConductances += per->dConductance;
 
-		dCurrent += per->dCurrent;
+		dCompartmentCurrents += per->dCurrent;
 
 		//t check signaling
 
@@ -2501,7 +2604,31 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- compute current for matrix right side
 
-		dCurrent += dChannelConductance * dReversalPotential;
+		dCompartmentCurrents += dChannelConductance * dReversalPotential;
+
+		break;
+	    }
+
+	    //- compute current for single channel
+
+	    case HECCER_MOP_STORESINGLECHANNELCURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsStoreSingleChannelCurrent *pmops = (struct MopsStoreSingleChannelCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- store the current, use appropriate indexing
+
+		pmats->dConductance = dChannelConductance;
+		pmats->dCurrent = dSingleChannelCurrent;
 
 		break;
 	    }
@@ -2743,7 +2870,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //t differentiation needed between CN and BE ?
 
-	    double dResult = ((dVm + dCurrent * pmatsc->dCapacity)
+	    double dResult = ((dVm + dCompartmentCurrents * pmatsc->dCapacity)
 			      / (dConductances * pmatsc->dCapacity + pmatsc->dDiagonal));
 
 	    pdVm[0] = dResult + dResult - pdVm[0];
@@ -2757,7 +2884,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    //- right side
 
-	    pdResults[0] = dVm + dCurrent * pmatsc->dCapacity;
+	    pdResults[0] = dVm + dCompartmentCurrents * pmatsc->dCapacity;
 
 	    //- left side
 

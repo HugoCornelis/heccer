@@ -91,6 +91,14 @@ struct HeccerOptions
 
 #define HECCER_OPTION_PASSIVE_SYNCHANS			4
 
+//d enable computation of individual currents and conductances
+
+//! so by default the contribution of each channel to the overall
+//! compartmental current is computed, when this option is turned on,
+//! only the integrated current is computed.  Same for conductance.
+
+#define HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS	32
+
 
 //d discretized gate, interval start
 

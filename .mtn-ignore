@@ -41,6 +41,7 @@ Makefile$
 ^tests/code/pool1-nernst$
 ^tests/code/pool2$
 ^tests/code/singlea-naf$
+^tests/code/singlea-naf-current$
 ^tests/code/singlep$
 ^tests/code/spiker1$
 ^tests/code/spiker2$

@@ -78,6 +78,10 @@ struct PerfectClamp *ppc = NULL;
 #define HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES 149
 #endif
 
+#ifndef HECCER_TEST_OPTIONS
+#define HECCER_TEST_OPTIONS 0
+#endif
+
 #ifndef HECCER_TEST_OUTPUT
 #define HECCER_TEST_OUTPUT ((void)1)
 #endif
@@ -180,6 +184,8 @@ int main(int argc, char *argv[])
     pheccer->ho.iIntervalEntries = HECCER_TEST_INTERVAL_DEFAULT_ENTRIES;
 
     pheccer->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
+
+    pheccer->ho.iOptions = HECCER_TEST_OPTIONS;
 
     //- build indices for optimization
 

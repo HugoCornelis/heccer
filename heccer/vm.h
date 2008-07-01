@@ -878,6 +878,59 @@ struct MopsRegisterChannelCurrent
 	     : ({ iMopNumber++; 1; }) ) )
 
 
+struct MopsStoreSingleChannelCurrent
+{
+    //m operator : HECCER_MOP_STORESINGLECHANNELCURRENT
+
+    int iOperator;
+};
+
+struct MatsStoreSingleChannelCurrent
+{
+    //m single channel conductance
+
+    double dConductance;
+
+    //m single channel current
+
+    double dCurrent;
+
+};
+
+#define SETMOP_STORESINGLECHANNELCURRENT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops) \
+    ((pvMops)								\
+     ? ({ struct MopsStoreSingleChannelCurrent *pmops = (struct MopsStoreSingleChannelCurrent *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_STORESINGLECHANNELCURRENT ;	\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsStoreSingleChannelCurrent); \
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+
+#define SETMAT_STORESINGLECHANNELCURRENT(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dCo,dCu) \
+    ((pvMats)								\
+     ? ({ struct MatsStoreSingleChannelCurrent *pmats = (struct MatsStoreSingleChannelCurrent *)pvMats ; \
+	     pmats->dConductance = (dCo) ;				\
+	     pmats->dCurrent = (dCu) ;					\
+	     ppvMatsIndex[iMatNumber++] = pvMats;			\
+	     pvMats = (void *)&((struct MatsStoreSingleChannelCurrent *)pvMats)[1] ; \
+	     1;								\
+	 }) : (								\
+	     (ppvMatsIndex)						\
+	     ? ({							\
+		     piMC2Mat[iMathComponent].iMat = iMatNumber++;	\
+		     (iMats) += MAT_ALIGNER(struct MatsStoreSingleChannelCurrent); \
+		     1;							\
+		 })							\
+	     : ({ iMatNumber++; 1; }) ) )
+
+
 //d operations for compartments
 
 #define HECCER_COP_FORWARD_ELIMINATION		1
@@ -921,6 +974,7 @@ struct MopsRegisterChannelCurrent
 #define HECCER_MOP_RESET 32
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 40
+#define HECCER_MOP_STORESINGLECHANNELCURRENT 41
 
 
 //d all operators for mechanisms have an opcode larger than ...

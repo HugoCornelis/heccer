@@ -50,6 +50,7 @@ check_PROGRAMS = \
 	pool1-nernst \
 	pool2 \
 	singlea-naf \
+	singlea-naf-current \
 	singlep \
 	spiker1 \
 	spiker2 \
@@ -131,6 +132,8 @@ pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf_LDADD = -L../.. -lheccer -lm
+singlea_naf_current_DEPENDENCIES = ../../libheccer.a main.c
+singlea_naf_current_LDADD = -L../.. -lheccer -lm
 singlep_DEPENDENCIES = ../../libheccer.a main.c
 singlep_LDADD = -L../.. -lheccer -lm
 spiker1_DEPENDENCIES = ../../libheccer.a main.c
