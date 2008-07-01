@@ -51,6 +51,9 @@
 /* use neurospaces as modeling component */
 #undef HECCER_SOURCE_NEUROSPACES
 
+/* use model source typing */
+#undef HECCER_SOURCE_TYPING
+
 /* Name of package */
 #undef PACKAGE
 

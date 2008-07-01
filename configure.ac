@@ -68,6 +68,8 @@ else
 
 fi
 
+# integrators: integrate with model-container of neurospaces ?
+
 AC_ARG_ENABLE(neurospaces, AS_HELP_STRING([--without-neurospaces   don't use neurospaces as modeling component]) )
 
 HECCER_INTEGRATORS=
@@ -86,6 +88,21 @@ else
 fi
 
 AC_SUBST(HECCER_INTEGRATORS)
+
+# enable source typing to compute aggregate currents ?
+
+AC_ARG_ENABLE(source-typing, AS_HELP_STRING([--without-source-typing   don't use model source typing for calculation of aggregate currents]) )
+
+if test x"$with_source_typing" == "xno" ; then
+
+    echo "NOT using source typing"
+
+else
+
+    echo "Using source typing"
+
+    AC_DEFINE(HECCER_SOURCE_TYPING, 1, [use model source typing])
+fi
 
 # Checks for header files.
 AC_HEADER_STDC

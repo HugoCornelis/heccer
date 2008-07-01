@@ -857,6 +857,8 @@ Optional Features:
 
   --without-neurospaces   don't use neurospaces as modeling component
 
+  --without-source-typing   don't use model source typing for calculation of aggregate currents
+
 
 Some influential environment variables:
   CC          C compiler command
@@ -2998,6 +3000,8 @@ _ACEOF
 
 fi
 
+# integrators: integrate with model-container of neurospaces ?
+
 # Check whether --enable-neurospaces or --disable-neurospaces was given.
 if test "${enable_neurospaces+set}" = set; then
   enableval="$enable_neurospaces"
@@ -3024,6 +3028,29 @@ _ACEOF
 fi
 
 
+
+# enable source typing to compute aggregate currents ?
+
+# Check whether --enable-source-typing or --disable-source-typing was given.
+if test "${enable_source_typing+set}" = set; then
+  enableval="$enable_source_typing"
+
+fi;
+
+if test x"$with_source_typing" == "xno" ; then
+
+    echo "NOT using source typing"
+
+else
+
+    echo "Using source typing"
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HECCER_SOURCE_TYPING 1
+_ACEOF
+
+fi
 
 # Checks for header files.
 

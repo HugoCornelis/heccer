@@ -37,6 +37,17 @@ struct MathComponent
 
 #endif
 
+#ifdef HECCER_SOURCE_TYPING
+
+    //m model source type number
+
+    //! source typing is used to compute aggregate currents ao
+    //! things.
+
+    int iModelSourceType;
+
+#endif
+
 #ifdef HECCER_SIZED_MATH_STRUCTURES
 
     //m size of this structure
