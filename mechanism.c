@@ -537,6 +537,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcsm->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcsm->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -679,6 +690,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pca->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pca->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -791,6 +813,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
 			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcai->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcai->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -924,6 +957,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
 			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcac->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcac->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -1083,6 +1127,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcsst->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcsst->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -1193,6 +1248,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    }
 
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcpsdt->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcpsdt->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+
+		    }
+
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
@@ -1290,6 +1356,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
 			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+
+		    }
+
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcpst->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcpst->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -1529,7 +1606,20 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 	    switch (piMop[0])
 	    {
-		//- for a call out
+	    //- for aggregate current
+
+	    case HECCER_MOP_AGGREGATECURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsAggregateCurrent *pmops = (struct MopsAggregateCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for a call out
 
 	    case HECCER_MOP_CALLOUT:
 	    {
@@ -2154,7 +2244,22 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    switch (piMop[0])
 	    {
-		//- for a call out
+	    //- for aggregate current
+
+	    case HECCER_MOP_AGGREGATECURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsAggregateCurrent *pmops = (struct MopsAggregateCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		pheccer->vm.pdAggregators[pmops->iIndex] += dSingleChannelCurrent;
+
+		break;
+	    }
+
+	    //- for a call out
 
 	    case HECCER_MOP_CALLOUT:
 	    {

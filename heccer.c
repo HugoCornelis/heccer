@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/07/01) Tuesday, July 1, 2008 11:32:58 hugo";
+static char *pcVersionTime="(08/07/01) Tuesday, July 1, 2008 15:04:06 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -24,6 +24,46 @@ static char *pcVersionTime="(08/07/01) Tuesday, July 1, 2008 11:32:58 hugo";
 #include <string.h>
 
 #include "heccer/heccer.h"
+
+
+static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerAggregatorsInitialize()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	Result of operation.
+///
+/// DESCR: Zero out result arrays for aggregation operators.
+///
+/// **************************************************************************
+
+static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- zero out ...
+
+    int i;
+
+    for (i = 0 ; i < pheccer->vm.iAggregators ; i++)
+    {
+	pheccer->vm.pdAggregators[i] = 0.0;
+    }
+
+    //- return result
+
+    return(iResult);
+}
 
 
 /// **************************************************************************
@@ -560,6 +600,13 @@ static int HeccerHecc(struct Heccer *pheccer)
     //- update the simulation time
 
     pheccer->dTime += pheccer->dStep;
+
+    //- initialize the aggregate results
+
+    if (pheccer->vm.pdAggregators)
+    {
+	iResult = iResult && HeccerAggregatorsInitialize(pheccer);
+    }
 
     //! I am undecided where to make the difference between CN and BE.
     //! From cosmetic viewpoint, here we should only delegate to

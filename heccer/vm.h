@@ -937,6 +937,35 @@ struct MatsStoreSingleChannelCurrent
 	     : ({ iMatNumber++; 1; }) ) )
 
 
+struct MopsAggregateCurrent
+{
+    //m operator : HECCER_MOP_AGGREGATECURRENT
+
+    int iOperator;
+
+    //m index into the aggregate results array
+
+    int iIndex;
+};
+
+#define SETMOP_AGGREGATECURRENT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iAggregator) \
+    ((pvMops)								\
+     ? ({ struct MopsAggregateCurrent *pmops = (struct MopsAggregateCurrent *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_AGGREGATECURRENT ;		\
+	     pmops->iIndex = iAggregator ;				\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 }) : (								\
+	     (ppvMopsIndex)						\
+	     ? ({							\
+		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     (iMops) += sizeof(struct MopsAggregateCurrent);	\
+		     1;							\
+		 })							\
+	     : ({ iMopNumber++; 1; }) ) )
+
+
 //d operations for compartments
 
 #define HECCER_COP_FORWARD_ELIMINATION		1
@@ -981,6 +1010,8 @@ struct MatsStoreSingleChannelCurrent
 
 #define HECCER_MOP_UPDATECOMPARTMENTCURRENT 40
 #define HECCER_MOP_STORESINGLECHANNELCURRENT 41
+
+#define HECCER_MOP_AGGREGATECURRENT 60
 
 
 //d all operators for mechanisms have an opcode larger than ...

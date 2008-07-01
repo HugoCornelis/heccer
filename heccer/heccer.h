@@ -99,6 +99,10 @@ struct HeccerOptions
 
 #define HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS	32
 
+//d enable compilation and execution of aggregator operators
+
+#define HECCER_OPTION_ENABLE_AGGREGATORS 64
+
 
 //d discretized gate, interval start
 
