@@ -121,6 +121,12 @@ struct VM
 
     void **ppvMatsIndex;
 
+    //m aggregate currents etc.
+
+    int iAggregators;
+
+    double *pdAggregators;
+
 /*     //m fluxes link channels and pools */
 
 /*     int iFluxes; */

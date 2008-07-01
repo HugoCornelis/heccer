@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/05/31) Saturday, May 31, 2008 22:20:19 hugo";
+static char *pcVersionTime="(08/07/01) Tuesday, July 1, 2008 11:32:58 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -24,6 +24,107 @@ static char *pcVersionTime="(08/05/31) Saturday, May 31, 2008 22:20:19 hugo";
 #include <string.h>
 
 #include "heccer/heccer.h"
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerAggregatorsCompile()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	Result of operation.
+///
+/// DESCR: Allocate result arrays for aggregation operators.
+///
+/// **************************************************************************
+
+int HeccerAggregatorsCompile(struct Heccer *pheccer)
+{
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- allocate memory
+
+    pheccer->vm.pdAggregators = calloc(pheccer->vm.iAggregators, sizeof(*pheccer->vm.pdAggregators));
+
+    if (!pheccer->vm.pdAggregators)
+    {
+	return(FALSE);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerCanCompile()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///
+/// RTN..: int
+///
+///	Model can be compiled.
+///
+/// DESCR: Can the model be compiled, given the current options ?
+///
+/// **************************************************************************
+
+int HeccerCanCompile(struct Heccer *pheccer)
+{
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	return(FALSE);
+    }
+
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+#define MINIMAL_TIME_STEP 1e-30
+
+    if (pheccer->dStep < MINIMAL_TIME_STEP)
+    {
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "illegal time step (smallest is %g), cannot compile\n", MINIMAL_TIME_STEP);
+
+	return(FALSE);
+    }
+
+    if (pheccer->inter.iCompartments == 0)
+    {
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "no compartments found in the intermediary, cannot compile this model\n");
+
+	return(FALSE);
+    }
+
+    //- return result
+
+    return(iResult);
+}
 
 
 /// **************************************************************************
@@ -91,63 +192,6 @@ int HeccerCompileP1(struct Heccer *pheccer)
 	//t do something sensible here
 
 	//t HeccerError()
-    }
-
-    //- return result
-
-    return(iResult);
-}
-
-
-/// **************************************************************************
-///
-/// SHORT: HeccerCanCompile()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
-///	Model can be compiled.
-///
-/// DESCR: Can the model be compiled, given the current options ?
-///
-/// **************************************************************************
-
-int HeccerCanCompile(struct Heccer *pheccer)
-{
-    //- check for errors
-
-    if (pheccer->iErrorCount)
-    {
-	return(FALSE);
-    }
-
-    //- set default result : ok
-
-    int iResult = TRUE;
-
-#define MINIMAL_TIME_STEP 1e-30
-
-    if (pheccer->dStep < MINIMAL_TIME_STEP)
-    {
-	HeccerError
-	    (pheccer,
-	     NULL,
-	     "illegal time step (smallest is %g), cannot compile\n", MINIMAL_TIME_STEP);
-
-	return(FALSE);
-    }
-
-    if (pheccer->inter.iCompartments == 0)
-    {
-	HeccerError
-	    (pheccer,
-	     NULL,
-	     "no compartments found in the intermediary, cannot compile this model\n");
-
-	return(FALSE);
     }
 
     //- return result
@@ -265,6 +309,10 @@ int HeccerCompileP3(struct Heccer *pheccer)
     iResult = iResult && HeccerMechanismLink(pheccer);
 
     //t perhaps should discretize channels overhere ?
+
+    //- allocate memory for aggragate results
+
+    iResult = iResult && HeccerAggregatorsCompile(pheccer);
 
     //- return result
 

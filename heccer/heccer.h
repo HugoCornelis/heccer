@@ -245,6 +245,8 @@ struct Heccer
 
 //f prototypes
 
+int HeccerAggregatorsCompile(struct Heccer *pheccer);
+
 int HeccerCanCompile(struct Heccer *pheccer);
 
 int HeccerCompileP1(struct Heccer *pheccer);
