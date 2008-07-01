@@ -2005,6 +2005,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    int iNeurospaces = PidinStackToSerial(ptstr->ppist);
 
 	    pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
+
+#ifdef HECCER_SOURCE_TYPING
+
+	int iModelSourceType
+	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
+
+	pmc->iModelSourceType = iModelSourceType;
+
+#endif
+
 	}
 
 	//- if a synapse
@@ -2066,6 +2076,16 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    int iNeurospaces = PidinStackToSerial(ptstr->ppist);
 
 	    pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
+
+#ifdef HECCER_SOURCE_TYPING
+
+	int iModelSourceType
+	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
+
+	pmc->iModelSourceType = iModelSourceType;
+
+#endif
+
 	}
 	else
 	{
@@ -2323,6 +2343,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pin->mc.iType = MATH_TYPE_InternalNernst;
 	    pin->mc.iSerial = iNernst;
+
+#ifdef HECCER_SOURCE_TYPING
+
+	int iModelSourceType
+	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
+
+	pin->mc.iModelSourceType = iModelSourceType;
+
+#endif
 
 	    //- get Erev parameter
 

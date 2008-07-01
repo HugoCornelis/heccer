@@ -81,6 +81,15 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	pinter->pcomp[iSegment].mc.iSerial = iSerial;
 
+#ifdef HECCER_SOURCE_TYPING
+
+	int iModelSourceType
+	    = SymbolParameterResolveScaledValue(phsle, "SOURCE_TYPE", ptstr->ppist);
+
+	pinter->pcomp[iSegment].mc.iModelSourceType = iModelSourceType;
+
+#endif
+
 	//- register parameters
 
 	//t check for error returns, abort traversal if necessary
