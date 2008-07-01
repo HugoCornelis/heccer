@@ -26,6 +26,20 @@ my $test
 						 ],
 				description => "single channel current and conductance option",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/singlea-naf2-aggregator',
+				command_tests => [
+						  {
+						   description => "Are single channel currents summed correctly ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/singlea-naf2-aggregator.txt`),
+						   timeout => 10,
+						   write => undef,
+						  },
+						 ],
+				description => "single channel currents summation",
+			       },
 			      ],
        description => "various options",
        name => 'options.t',

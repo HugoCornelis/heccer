@@ -1,0 +1,483 @@
+Initiated
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.761231
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000920349
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 0 0
+00008 :: AGGREGATECURRENT 0 (0)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.761231
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000920349
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 0 0
+00016 :: AGGREGATECURRENT 0 (0)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.028)
+-------
+Iteration 0
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (6e-06)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.761231
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000920349
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 8.49463e-08 6.20108e-09
+00008 :: AGGREGATECURRENT 0 (1.24022e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.761231
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000920349
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 8.49463e-08 6.20108e-09
+00016 :: AGGREGATECURRENT 0 (1.24022e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0264106)
+-------
+Iteration 1
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (1.2e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.76243
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000918634
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 8.51893e-08 6.08343e-09
+00008 :: AGGREGATECURRENT 0 (2.4569e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.76243
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000918634
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 8.51893e-08 6.08343e-09
+00016 :: AGGREGATECURRENT 0 (2.4569e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0248524)
+-------
+Iteration 2
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (1.8e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.764895
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000915311
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 8.57072e-08 5.98686e-09
+00008 :: AGGREGATECURRENT 0 (3.65427e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.764895
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000915311
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 8.57072e-08 5.98686e-09
+00016 :: AGGREGATECURRENT 0 (3.65427e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0233199)
+-------
+Iteration 3
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (2.4e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.768698
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000910465
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 8.65315e-08 5.91183e-09
+00008 :: AGGREGATECURRENT 0 (4.83664e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.768698
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000910465
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 8.65315e-08 5.91183e-09
+00016 :: AGGREGATECURRENT 0 (4.83664e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0218076)
+-------
+Iteration 4
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (3e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.77386
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000904209
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 8.76799e-08 5.85768e-09
+00008 :: AGGREGATECURRENT 0 (6.00817e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.77386
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000904209
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 8.76799e-08 5.85768e-09
+00016 :: AGGREGATECURRENT 0 (6.00817e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.02031)
+-------
+Iteration 5
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (3.6e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.780442
+00004 :: CONCEPTGATE 1 1 (nil)							 0.00089659
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 8.91784e-08 5.82424e-09
+00008 :: AGGREGATECURRENT 0 (7.17302e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.780442
+00012 :: CONCEPTGATE 1 1 (nil)							 0.00089659
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 8.91784e-08 5.82424e-09
+00016 :: AGGREGATECURRENT 0 (7.17302e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.018822)
+-------
+Iteration 6
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (4.2e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.788494
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000887639
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 9.10488e-08 5.81092e-09
+00008 :: AGGREGATECURRENT 0 (8.33521e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.788494
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000887639
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 9.10488e-08 5.81092e-09
+00016 :: AGGREGATECURRENT 0 (8.33521e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0173383)
+-------
+Iteration 7
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (4.8e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.798044
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000877377
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 9.33062e-08 5.81655e-09
+00008 :: AGGREGATECURRENT 0 (9.49851e-08)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.798044
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000877377
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 9.33062e-08 5.81655e-09
+00016 :: AGGREGATECURRENT 0 (9.49851e-08)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0158541)
+-------
+Iteration 8
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (5.4e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.809018
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000865867
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 9.59333e-08 5.83794e-09
+00008 :: AGGREGATECURRENT 0 (1.06661e-07)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.809018
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000865867
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 9.59333e-08 5.83794e-09
+00016 :: AGGREGATECURRENT 0 (1.06661e-07)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0143655)
+-------
+Iteration 9
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (96)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dBasalActivatorStart) : (4e-05)
+Heccer Options (dBasalActivatorEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (6e-05)
+Heccer (dStep) : (6e-06)
+Compartment (mc.iType) : (1)
+Tables (iTabulatedGateCount) : (2)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 65568.5 1.00018
+00001 :: INITIALIZECHANNEL 0.045 0.000209239
+00002 :: LOADVOLTAGETABLE
+00003 :: CONCEPTGATE 0 3 (nil)							 0.821447
+00004 :: CONCEPTGATE 1 1 (nil)							 0.000853064
+00005 :: UPDATECOMPARTMENTCURRENT
+00006 :: REGISTERCHANNELCURRENT
+00007 :: STORESINGLECHANNELCURRENT							 9.89382e-08 5.87351e-09
+00008 :: AGGREGATECURRENT 0 (1.18408e-07)
+00009 :: INITIALIZECHANNEL 0.045 0.000209239
+00010 :: LOADVOLTAGETABLE
+00011 :: CONCEPTGATE 0 3 (nil)							 0.821447
+00012 :: CONCEPTGATE 1 1 (nil)							 0.000853064
+00013 :: UPDATECOMPARTMENTCURRENT
+00014 :: REGISTERCHANNELCURRENT
+00015 :: STORESINGLECHANNELCURRENT							 9.89382e-08 5.87351e-09
+00016 :: AGGREGATECURRENT 0 (1.18408e-07)
+00017 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00018)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0128687)

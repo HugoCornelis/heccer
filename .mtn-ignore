@@ -42,6 +42,7 @@ Makefile$
 ^tests/code/pool2$
 ^tests/code/singlea-naf$
 ^tests/code/singlea-naf-current$
+^tests/code/singlea-naf2-aggregator$
 ^tests/code/singlep$
 ^tests/code/spiker1$
 ^tests/code/spiker2$

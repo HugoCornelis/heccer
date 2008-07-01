@@ -101,9 +101,10 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependency),		0,	0,	},
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		0,	0,	},
+    {   HECCER_MOP_AGGREGATECURRENT,		"AGGREGATECURRENT",		sizeof(struct MopsAggregateCurrent),			0,	0,	},
     {   HECCER_MOP_INTERNALNERNST,		"INTERNALNERNST",		sizeof(struct MopsInternalNernst),			1,	sizeof(struct MatsInternalNernst),	},
     {   HECCER_MOP_SPRINGMASS,			"SPRINGMASS",			sizeof(struct MopsSpringMass),				3,	sizeof(struct MatsSpringMass),	},
-    {   HECCER_MOP_STORESINGLECHANNELCURRENT,   "STORESINGLECHANNELCURRENT",    sizeof(struct MopsStoreSingleChannelCurrent),           2,      sizeof(struct MatsStoreSingleChannelCurrent),	},
+    {   HECCER_MOP_STORESINGLECHANNELCURRENT,	"STORESINGLECHANNELCURRENT",    sizeof(struct MopsStoreSingleChannelCurrent),           2,      sizeof(struct MatsStoreSingleChannelCurrent),	},
     {    -1,	NULL,	-1,	},
 };
 
@@ -617,6 +618,13 @@ HeccerVMDumpOperators
 			    {
 				sprintf(pc, " (nil) %g %g %i", pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
 			    }
+			}
+			else if (phciCurrent->iValue == HECCER_MOP_AGGREGATECURRENT)
+			{
+			    struct MopsAggregateCurrent *pmops
+				= (struct MopsAggregateCurrent *)&piOperators[i / sizeof(int)];
+
+			    sprintf(pc, " %i (%g)", pmops->iIndex, pvm->pdAggregators[pmops->iIndex]);
 			}
 		    }
 
