@@ -2008,10 +2008,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 #ifdef HECCER_SOURCE_TYPING
 
-	int iModelSourceType
+	double dModelSourceType
 	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
 
-	pmc->iModelSourceType = iModelSourceType;
+	if (dModelSourceType != FLT_MAX)
+	{
+	    pmc->iModelSourceType = dModelSourceType;
+	}
+	else
+	{
+	    pmc->iModelSourceType = -1;
+	}
 
 #endif
 
@@ -2079,10 +2086,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 #ifdef HECCER_SOURCE_TYPING
 
-	int iModelSourceType
+	double dModelSourceType
 	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
 
-	pmc->iModelSourceType = iModelSourceType;
+	if (dModelSourceType != FLT_MAX)
+	{
+	    pmc->iModelSourceType = dModelSourceType;
+	}
+	else
+	{
+	    pmc->iModelSourceType = -1;
+	}
 
 #endif
 
@@ -2346,10 +2360,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 #ifdef HECCER_SOURCE_TYPING
 
-	int iModelSourceType
+	double dModelSourceType
 	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
 
-	pin->mc.iModelSourceType = iModelSourceType;
+	if (dModelSourceType != FLT_MAX)
+	{
+	    pin->mc.iModelSourceType = dModelSourceType;
+	}
+	else
+	{
+	    pin->mc.iModelSourceType = -1;
+	}
 
 #endif
 
