@@ -544,7 +544,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pcsm->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -697,7 +697,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pca->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -823,7 +823,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pcai->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -967,7 +967,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pcac->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -1134,7 +1134,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pcsst->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -1255,7 +1255,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pcpsdt->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 
@@ -1366,7 +1366,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			int iAggregator = pcpst->mc.iModelSourceType;
 
-			SETMOP_AGGREGATECURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
 
 		    }
 

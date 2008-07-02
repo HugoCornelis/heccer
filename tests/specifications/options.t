@@ -40,6 +40,20 @@ my $test
 						 ],
 				description => "single channel currents summation",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/doublea-aggregator',
+				command_tests => [
+						  {
+						   description => "Are single channel currents summed correctly, double compartment case ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/doublea-aggregator.txt`),
+						   timeout => 10,
+						   write => undef,
+						  },
+						 ],
+				description => "single channel currents summation, double compartment case",
+			       },
 			      ],
        description => "various options",
        name => 'options.t',

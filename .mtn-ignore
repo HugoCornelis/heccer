@@ -25,6 +25,7 @@ Makefile$
 ^tests/code/channel2-nernst1$
 ^tests/code/channel2-nernst2$
 ^tests/code/check-compartment$
+^tests/code/doublea-aggregator$
 ^tests/code/doublep$
 ^tests/code/fork3p$
 ^tests/code/fork4p1$

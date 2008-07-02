@@ -41,6 +41,7 @@ VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.028)
+VM Membrane Aggregator results (pdAggregators[0]) : (0)
 -------
 Iteration 0
 Heccer (pcName) : (unnamed test)
@@ -85,6 +86,7 @@ VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0264106)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.24022e-08)
 -------
 Iteration 1
 Heccer (pcName) : (unnamed test)
@@ -115,7 +117,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 8.51893e-08 6.08343e-09
-00008 :: AGGREGATECURRENT 0 (2.4569e-08)
+00008 :: AGGREGATECURRENT 0 (1.21669e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.76243
@@ -123,12 +125,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 8.51893e-08 6.08343e-09
-00016 :: AGGREGATECURRENT 0 (2.4569e-08)
+00016 :: AGGREGATECURRENT 0 (1.21669e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0248524)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.21669e-08)
 -------
 Iteration 2
 Heccer (pcName) : (unnamed test)
@@ -159,7 +162,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 8.57072e-08 5.98686e-09
-00008 :: AGGREGATECURRENT 0 (3.65427e-08)
+00008 :: AGGREGATECURRENT 0 (1.19737e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.764895
@@ -167,12 +170,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 8.57072e-08 5.98686e-09
-00016 :: AGGREGATECURRENT 0 (3.65427e-08)
+00016 :: AGGREGATECURRENT 0 (1.19737e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0233199)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.19737e-08)
 -------
 Iteration 3
 Heccer (pcName) : (unnamed test)
@@ -203,7 +207,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 8.65315e-08 5.91183e-09
-00008 :: AGGREGATECURRENT 0 (4.83664e-08)
+00008 :: AGGREGATECURRENT 0 (1.18237e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.768698
@@ -211,12 +215,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 8.65315e-08 5.91183e-09
-00016 :: AGGREGATECURRENT 0 (4.83664e-08)
+00016 :: AGGREGATECURRENT 0 (1.18237e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0218076)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.18237e-08)
 -------
 Iteration 4
 Heccer (pcName) : (unnamed test)
@@ -247,7 +252,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 8.76799e-08 5.85768e-09
-00008 :: AGGREGATECURRENT 0 (6.00817e-08)
+00008 :: AGGREGATECURRENT 0 (1.17154e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.77386
@@ -255,12 +260,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 8.76799e-08 5.85768e-09
-00016 :: AGGREGATECURRENT 0 (6.00817e-08)
+00016 :: AGGREGATECURRENT 0 (1.17154e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.02031)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.17154e-08)
 -------
 Iteration 5
 Heccer (pcName) : (unnamed test)
@@ -291,7 +297,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 8.91784e-08 5.82424e-09
-00008 :: AGGREGATECURRENT 0 (7.17302e-08)
+00008 :: AGGREGATECURRENT 0 (1.16485e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.780442
@@ -299,12 +305,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 8.91784e-08 5.82424e-09
-00016 :: AGGREGATECURRENT 0 (7.17302e-08)
+00016 :: AGGREGATECURRENT 0 (1.16485e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.018822)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.16485e-08)
 -------
 Iteration 6
 Heccer (pcName) : (unnamed test)
@@ -335,7 +342,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 9.10488e-08 5.81092e-09
-00008 :: AGGREGATECURRENT 0 (8.33521e-08)
+00008 :: AGGREGATECURRENT 0 (1.16218e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.788494
@@ -343,12 +350,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 9.10488e-08 5.81092e-09
-00016 :: AGGREGATECURRENT 0 (8.33521e-08)
+00016 :: AGGREGATECURRENT 0 (1.16218e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0173383)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.16218e-08)
 -------
 Iteration 7
 Heccer (pcName) : (unnamed test)
@@ -379,7 +387,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 9.33062e-08 5.81655e-09
-00008 :: AGGREGATECURRENT 0 (9.49851e-08)
+00008 :: AGGREGATECURRENT 0 (1.16331e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.798044
@@ -387,12 +395,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 9.33062e-08 5.81655e-09
-00016 :: AGGREGATECURRENT 0 (9.49851e-08)
+00016 :: AGGREGATECURRENT 0 (1.16331e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0158541)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.16331e-08)
 -------
 Iteration 8
 Heccer (pcName) : (unnamed test)
@@ -423,7 +432,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 9.59333e-08 5.83794e-09
-00008 :: AGGREGATECURRENT 0 (1.06661e-07)
+00008 :: AGGREGATECURRENT 0 (1.16759e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.809018
@@ -431,12 +440,13 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 9.59333e-08 5.83794e-09
-00016 :: AGGREGATECURRENT 0 (1.06661e-07)
+00016 :: AGGREGATECURRENT 0 (1.16759e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0143655)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.16759e-08)
 -------
 Iteration 9
 Heccer (pcName) : (unnamed test)
@@ -467,7 +477,7 @@ Mechanism operations
 00005 :: UPDATECOMPARTMENTCURRENT
 00006 :: REGISTERCHANNELCURRENT
 00007 :: STORESINGLECHANNELCURRENT							 9.89382e-08 5.87351e-09
-00008 :: AGGREGATECURRENT 0 (1.18408e-07)
+00008 :: AGGREGATECURRENT 0 (1.1747e-08)
 00009 :: INITIALIZECHANNEL 0.045 0.000209239
 00010 :: LOADVOLTAGETABLE
 00011 :: CONCEPTGATE 0 3 (nil)							 0.821447
@@ -475,9 +485,10 @@ Mechanism operations
 00013 :: UPDATECOMPARTMENTCURRENT
 00014 :: REGISTERCHANNELCURRENT
 00015 :: STORESINGLECHANNELCURRENT							 9.89382e-08 5.87351e-09
-00016 :: AGGREGATECURRENT 0 (1.18408e-07)
+00016 :: AGGREGATECURRENT 0 (1.1747e-08)
 00017 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00018)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0128687)
+VM Membrane Aggregator results (pdAggregators[0]) : (1.1747e-08)

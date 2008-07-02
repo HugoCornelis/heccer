@@ -948,13 +948,16 @@ struct MopsAggregateCurrent
     int iIndex;
 };
 
-#define SETMOP_AGGREGATECURRENT(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iAggregator) \
+#define SET_AGGREGATOR_MAX(pvm,iAggregator) ((pvm)->iAggregators <= iAggregator ? ((pvm)->iAggregators = iAggregator + 1) : (0))
+
+#define SETMOP_AGGREGATECURRENT(pvm,iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,iAggregator) \
     ((pvMops)								\
      ? ({ struct MopsAggregateCurrent *pmops = (struct MopsAggregateCurrent *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_AGGREGATECURRENT ;		\
 	     pmops->iIndex = iAggregator ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
+	     SET_AGGREGATOR_MAX((pvm),(iAggregator));			\
 	     1;								\
 	 }) : (								\
 	     (ppvMopsIndex)						\

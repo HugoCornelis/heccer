@@ -378,6 +378,18 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 	}
     }
 
+    //- results : aggregators
+
+    if (iSelection & HECCER_DUMP_VM_AGGREGATORS)
+    {
+	int i;
+
+	for (i = 0 ; i < pvm->iAggregators ; i++)
+	{
+	    fprintf(pfile, "VM Membrane Aggregator results (pdAggregators[%i]) : (%g)\n", i, pvm->pdAggregators[i]);
+	}
+    }
+
     //- return result
 
     return(iResult);

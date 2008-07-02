@@ -287,6 +287,8 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 #define HECCER_DUMP_VM_CHANNEL_POOL_FLUXES			(1 << 21)
 #define HECCER_DUMP_VM_SUMMARY					(1 << 22)
 
+#define HECCER_DUMP_VM_AGGREGATORS				(1 << 25)
+
 
 char * HeccerGetVersion(void);
 
