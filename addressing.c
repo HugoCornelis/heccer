@@ -27,7 +27,13 @@
 #include "heccer/mathcomponent.h"
 
 
+static
+void *
+HeccerAddressAggregator
+(struct Heccer *pheccer, int iSerial, char *pcType);
+
 #ifdef HECCER_SOURCE_NEUROSPACES
+
 static
 int
 HeccerAddressCompartmentSerial2Intermediary
@@ -39,6 +45,7 @@ static
 int
 HeccerAddressSerial2Intermediary
 (struct Heccer *pheccer, int iIndex, char *pcType);
+
 #endif
 
 
@@ -90,6 +97,78 @@ HeccerAddressableSet
     return(pcResult);
 }
 #endif
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerAddressAggregator()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	iSerial...: identification number.
+///	pcType....: name of requested variable.
+///
+/// RTN..: void *
+///
+///	address of the aggregator, NULL for failure.
+///
+/// DESCR: Get the address of an aggregator.
+///
+/// **************************************************************************
+
+static
+void *
+HeccerAddressAggregator
+(struct Heccer *pheccer, int iSerial, char *pcType)
+{
+    //- set default result: not found
+
+    char *pvResult = NULL;
+
+    //- process as an aggregator variable
+
+    if (strncasecmp(pcType, "aggregator", strlen("aggregator")) == 0)
+    {
+	//- find the requested index
+
+	int iIndex = -1;
+
+	int iAssigned = sscanf(pcType, "aggregator[%i]", &iIndex);
+
+	if (iAssigned == 1)
+	{
+	    if (iIndex < pheccer->vm.iAggregators)
+	    {
+		//- set result
+
+		pvResult = (void *)&pheccer->vm.pdAggregators[iIndex];
+	    }
+	    else
+	    {
+		HeccerError
+		    (pheccer,
+		     "HeccerAddressAggregator()",
+		     "aggregator index of %s is out of range (internal serial %i)",
+		     pcType,
+		     iSerial);
+	    }
+	}
+	else
+	{
+	    HeccerError
+		(pheccer,
+		 "HeccerAddressAggregator()",
+		 "invalid aggregator %s (internal serial %i)",
+		 pcType,
+		 iSerial);
+	}
+    }
+
+    //- return resulting address if variable was found
+
+    return(pvResult);
+}
 
 
 /// **************************************************************************
@@ -562,6 +641,17 @@ HeccerAddressVariable
 
     iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
 
+    //- if this is the serial of the model itself
+
+    if (iSerial == pheccer->inter.iSerialStart)
+    {
+	//- address as an aggregator
+
+	pvResult = HeccerAddressAggregator(pheccer, iSerial, pcType);
+
+	return(pvResult);
+    }
+
     //- if serial not within range
 
     if (iSerial < pheccer->inter.iSerialStart
@@ -602,7 +692,7 @@ HeccerAddressVariable
 
 	HeccerError
 	    (pheccer,
-	     NULL,
+	     "HeccerAddressVariable()",
 	     "trying to address something that should exist, but cannot find it (internal serial %i)",
 	     iSerial);
 
