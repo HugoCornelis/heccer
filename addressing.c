@@ -551,10 +551,10 @@ HeccerAddressTableIndex
 ///
 /// **************************************************************************
 
-#ifdef HECCER_SOURCE_NEUROSPACES
 void *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType)
+#ifdef HECCER_SOURCE_NEUROSPACES
 {
     //- set default result : not found
 
@@ -614,6 +614,10 @@ HeccerAddressVariable
     //- return result
 
     return(pvResult);
+}
+#else
+{
+    return(NULL);
 }
 #endif
 

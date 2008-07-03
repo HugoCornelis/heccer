@@ -60,6 +60,13 @@ HeccerAddressTableIndex
 void *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType);
+
+#else
+
+void *
+HeccerAddressVariable
+(struct Heccer *pheccer, int iSerial, char *pcType);
+
 #endif
 
 
