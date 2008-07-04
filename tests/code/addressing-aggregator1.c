@@ -27,9 +27,7 @@
 #include "main.h"
 
 
-#define HECCER_TEST_REPORTING_GRANULARITY 100
-#define HECCER_TEST_STEPS 0
-/* #define HECCER_TEST_TESTED_THINGS (0) */
+#define HECCER_TEST_OPTIONS (HECCER_OPTION_ENABLE_AGGREGATORS | HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS)
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
 				    | HECCER_DUMP_VM_COMPARTMENT_DATA \
 				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
@@ -37,6 +35,7 @@
 				    | HECCER_DUMP_VM_MECHANISM_DATA \
 				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
 				    | HECCER_DUMP_VM_SUMMARY \
+				    | HECCER_DUMP_VM_AGGREGATORS \
 	)
 /* #define HECCER_TEST_TIME_STEP (2e-5) */
 
@@ -55,6 +54,17 @@ struct Compartment compSoma =
 	//m identification
 
 	ADDRESSING_NEUROSPACES_2_HECCER(1000),
+
+#endif
+
+#ifdef HECCER_SOURCE_TYPING
+
+	//m model source type number
+
+	//! source typing is used to compute aggregate currents ao
+	//! things.
+
+	-1,
 
 #endif
 
@@ -114,6 +124,17 @@ struct ChannelActInact caiCaT =
 	//m identification
 
 	ADDRESSING_NEUROSPACES_2_HECCER(2000),
+
+#endif
+
+#ifdef HECCER_SOURCE_TYPING
+
+	//m model source type number
+
+	//! source typing is used to compute aggregate currents ao
+	//! things.
+
+	0,
 
 #endif
 
@@ -334,6 +355,17 @@ struct ChannelSteadyStateSteppedTau csstKdr =
 
 #endif
 
+#ifdef HECCER_SOURCE_TYPING
+
+	//m model source type number
+
+	//! source typing is used to compute aggregate currents ao
+	//! things.
+
+	1,
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -533,6 +565,17 @@ struct ChannelAct caNaP =
 
 #endif
 
+#ifdef HECCER_SOURCE_TYPING
+
+	//m model source type number
+
+	//! source typing is used to compute aggregate currents ao
+	//! things.
+
+	2,
+
+#endif
+
     },
 
     //m first set of descriptive values, alphabetical order
@@ -660,6 +703,17 @@ struct ChannelActInact caiNaF =
 	//m identification
 
 	ADDRESSING_NEUROSPACES_2_HECCER(5000),
+
+#endif
+
+#ifdef HECCER_SOURCE_TYPING
+
+	//m model source type number
+
+	//! source typing is used to compute aggregate currents ao
+	//! things.
+
+	2,
 
 #endif
 
@@ -956,118 +1010,52 @@ int main(int argc, char *argv[])
 
     //- address variables via the external ids
 
-    double *pdVmExternal = HeccerAddressVariable(pheccer, 1000, "Vm");
+    double *pdAggregator0External = HeccerAddressVariable(pheccer, 1000 - 1, "aggregator[0]");
 
-    double *pdCaTMExternal = HeccerAddressVariable(pheccer, 2000, "state_m");
+    double *pdAggregator1External = HeccerAddressVariable(pheccer, 1000 - 1, "aggregator[1]");
 
-    double *pdCaTHExternal = HeccerAddressVariable(pheccer, 2000, "state_h");
-
-    double *pdKdrMExternal = HeccerAddressVariable(pheccer, 3000, "state_m");
-
-    double *pdKdrHExternal = HeccerAddressVariable(pheccer, 3000, "state_h");
-
-    double *pdNaPNExternal = HeccerAddressVariable(pheccer, 4000, "state_n");
-
-    double *pdNaFMExternal = HeccerAddressVariable(pheccer, 5000, "state_m");
-
-    double *pdNaFHExternal = HeccerAddressVariable(pheccer, 5000, "state_h");
+    double *pdAggregator2External = HeccerAddressVariable(pheccer, 1000 - 1, "aggregator[2]");
 
 #endif
 
     //- address variables via the internal indices
 
-    double *pdVmInternal = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");
+    double *pdAggregator0Internal = HeccerAddressAggregator(pheccer, 0, "aggregator[0]");
 
-    double *pdCaTMInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_m");
+    double *pdAggregator1Internal = HeccerAddressAggregator(pheccer, 1, "aggregator[1]");
 
-    double *pdCaTHInternal = HeccerAddressMechanismVariable(pheccer, 0, "state_h");
-
-    double *pdKdrMInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_m");
-
-    double *pdKdrHInternal = HeccerAddressMechanismVariable(pheccer, 1, "state_h");
-
-    double *pdNaPNInternal = HeccerAddressMechanismVariable(pheccer, 2, "state_n");
-
-    double *pdNaFMInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_m");
-
-    double *pdNaFHInternal = HeccerAddressMechanismVariable(pheccer, 3, "state_h");
+    double *pdAggregator2Internal = HeccerAddressAggregator(pheccer, 2, "aggregator[2]");
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-    if (pdVmInternal != pdVmExternal)
+    if (pdAggregator0Internal != pdAggregator0External)
     {
-	fprintf(stdout, "*** Error: (pdVmInternal != pdVmExternal)\n");
+	fprintf(stdout, "*** Error: (pdAggregator0Internal != pdAggregator0External)\n");
 
 	exit(EXIT_FAILURE);
     }
 
-    if (pdCaTMInternal != pdCaTMExternal)
+    if (pdAggregator1Internal != pdAggregator1External)
     {
-	fprintf(stdout, "*** Error: (pdCaTMInternal != pdCaTMExternal)\n");
+	fprintf(stdout, "*** Error: (pdAggregator1Internal != pdAggregator1External)\n");
 
 	exit(EXIT_FAILURE);
     }
 
-    if (pdCaTHInternal != pdCaTHExternal)
+    if (pdAggregator2Internal != pdAggregator2External)
     {
-	fprintf(stdout, "*** Error: (pdCaTHInternal != pdCaTHExternal)\n");
-
-	exit(EXIT_FAILURE);
-    }
-
-    if (pdKdrMInternal != pdKdrMExternal)
-    {
-	fprintf(stdout, "*** Error: (pdKdrMInternal != pdKdrMExternal)\n");
-
-	exit(EXIT_FAILURE);
-    }
-
-    if (pdKdrHInternal != pdKdrHExternal)
-    {
-	fprintf(stdout, "*** Error: (pdKdrHInternal != pdKdrHExternal)\n");
-
-	exit(EXIT_FAILURE);
-    }
-
-    if (pdNaPNInternal != pdNaPNExternal)
-    {
-	fprintf(stdout, "*** Error: (pdNaPNInternal != pdNaPNExternal)\n");
-
-	exit(EXIT_FAILURE);
-    }
-
-    if (pdNaFMInternal != pdNaFMExternal)
-    {
-	fprintf(stdout, "*** Error: (pdNaFMInternal != pdNaFMExternal)\n");
-
-	exit(EXIT_FAILURE);
-    }
-
-    if (pdNaFHInternal != pdNaFHExternal)
-    {
-	fprintf(stdout, "*** Error: (pdNaFHInternal != pdNaFHExternal)\n");
+	fprintf(stdout, "*** Error: (pdAggregator2Internal != pdAggregator2External)\n");
 
 	exit(EXIT_FAILURE);
     }
 
 #endif
 
-    fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
+    fprintf(stdout, "pdAggregator0 is %g\n", pdAggregator0External[0]);
 
-    fprintf(stdout, "CaT state m is %g\n", pdCaTMInternal[0]);
+    fprintf(stdout, "pdAggregator1 is %g\n", pdAggregator1External[0]);
 
-    fprintf(stdout, "CaT state h is %g\n", pdCaTHInternal[0]);
-
-    fprintf(stdout, "Kdr state m is %g\n", pdKdrMInternal[0]);
-
-    fprintf(stdout, "Kdr state h is %g\n", pdKdrHInternal[0]);
-
-    fprintf(stdout, "NaP state n is %g\n", pdNaPNInternal[0]);
-
-    fprintf(stdout, "NaF state m is %g\n", pdNaFMInternal[0]);
-
-    fprintf(stdout, "NaF state h is %g\n", pdNaFHInternal[0]);
-
+    fprintf(stdout, "pdAggregator2 is %g\n", pdAggregator2External[0]);
 
     //- set default result : ok
 

@@ -54,6 +54,20 @@ my $test
 						 ],
 				description => "single channel currents summation, double compartment case",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/addressing-aggregator1',
+				command_tests => [
+						  {
+						   description => "Are single channel currents summed correctly, single compartment, three aggregators ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-aggregator1.txt`),
+						   timeout => 10,
+						   write => undef,
+						  },
+						 ],
+				description => "single channel currents summation, single compartment, three aggregators",
+			       },
 			      ],
        description => "various options",
        name => 'options.t',

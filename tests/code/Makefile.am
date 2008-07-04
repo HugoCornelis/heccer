@@ -25,6 +25,7 @@ AM_CFLAGS=-g3 -fPIC -Wmissing-prototypes -Wmissing-declarations -ffloat-store -I
 CFLAGS=-O0
 
 check_PROGRAMS = \
+	addressing-aggregator1 \
 	addressing-purk-test-axon \
 	c1c2p1 \
 	c1c2p2 \
@@ -84,6 +85,8 @@ noinst_HEADERS = \
 	main.c \
 	main.h
 
+addressing_aggregator1_DEPENDENCIES = ../../libheccer.a main.c
+addressing_aggregator1_LDADD = -L../.. -lheccer -lm
 addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
 addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c

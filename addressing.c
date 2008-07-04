@@ -27,11 +27,6 @@
 #include "heccer/mathcomponent.h"
 
 
-static
-void *
-HeccerAddressAggregator
-(struct Heccer *pheccer, int iSerial, char *pcType);
-
 #ifdef HECCER_SOURCE_NEUROSPACES
 
 static
@@ -117,7 +112,6 @@ HeccerAddressableSet
 ///
 /// **************************************************************************
 
-static
 void *
 HeccerAddressAggregator
 (struct Heccer *pheccer, int iSerial, char *pcType)
