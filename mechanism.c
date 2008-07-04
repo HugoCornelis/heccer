@@ -2097,12 +2097,19 @@ HeccerMechanismReadDoubleFile
 
 	    //! hardcoded indentation, 4 spaces required
 
-	    if (pc[0] == ' '
-		&& pc[1] == ' '
-		&& pc[2] == ' '
-		&& pc[3] == ' '
-		&& pc[4] == '-'
-		&& pc[5] == ' ')
+	    if ((pc[0] == ' '
+		 && pc[1] == ' '
+		 && pc[2] == ' '
+		 && pc[3] == ' '
+		 && pc[4] == '-'
+		 && pc[5] == ' '
+		 && pc[6] != ' ')
+		||
+		(pc[0] == ' '
+		 && pc[1] == ' '
+		 && pc[2] == '-'
+		 && pc[3] == ' '
+		 && pc[4] != ' ')
 	    {
 		int iScanned = sscanf(pc, " - %lf\n", &pdValues[iDoubles]);
 
