@@ -2109,7 +2109,7 @@ HeccerMechanismReadDoubleFile
 		 && pc[1] == ' '
 		 && pc[2] == '-'
 		 && pc[3] == ' '
-		 && pc[4] != ' ')
+		 && pc[4] != ' '))
 	    {
 		int iScanned = sscanf(pc, " - %lf\n", &pdValues[iDoubles]);
 
