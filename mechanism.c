@@ -2074,6 +2074,8 @@ HeccerMechanismReadDoubleFile
 
     if (!pdValues)
     {
+	fclose(pfile);
+
 	return(iResult);
     }
 
@@ -2165,6 +2167,10 @@ HeccerMechanismReadDoubleFile
     {
 	*ppdValues = pdValues;
     }
+
+    //- close
+
+    fclose(pfile);
 
     //- return result
 
