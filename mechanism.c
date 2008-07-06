@@ -1879,9 +1879,20 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		    if (iExternal != -1)
 		    {
+			int iOffset = 0;
+
+			//- if individual channel currents are enabled
+
+			if (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS)
+			{
+			    //- there is a mat entry in between, subtract one from the index
+
+			    iOffset = -1;
+			}
+
 			//- get solved dependency
 
-			double *pdFlux = (double *)pheccer->vm.ppvMatsIndex[iExternal];
+			double *pdFlux = (double *)pheccer->vm.ppvMatsIndex[iExternal + iOffset];
 
 			//- store solved external flux contribution
 
