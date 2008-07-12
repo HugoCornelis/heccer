@@ -1723,6 +1723,26 @@ sub dump
 
 	    print Dump(bless($result, 'Heccer::Tabulator::Result'));
 	}
+
+	elsif ($output =~ m|^file://(.*)|)
+	{
+	    my $filename = $1;
+
+	    use IO::File;
+
+	    my $fh = IO::File->new(">$filename");
+
+	    if (!$fh)
+	    {
+		die "$0: Heccer::Tabulator::dump(): cannot open file $filename";
+	    }
+
+	    use YAML;
+
+	    print $fh Dump(bless($result, 'Heccer::Tabulator::Result'));
+
+	    $fh->close();
+	}
     }
 
     # return result
