@@ -440,7 +440,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
 		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
 		{
-		    double *pdTable = calloc(pmcd->pheccer->ho.iIntervalEntries, sizeof(*pdTable));
+		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -735,7 +735,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
 		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
 		{
-		    double *pdTable = calloc(pmcd->pheccer->ho.iIntervalEntries, sizeof(*pdTable));
+		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -874,7 +874,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 /* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
 /* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
 /* 		{ */
-/* 		    double *pdTable = calloc(pmcd->pheccer->ho.iIntervalEntries, sizeof(*pdTable)); */
+/* 		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable)); */
 
 /* 		    int i; */
 
@@ -1073,9 +1073,66 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    if (iHasTable)
 	    {
-		printf("warning: iHasTable has value %i\n", iHasTable);
+/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
 
 	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+		ppgc->gc.htg.iEntries = dEntries;
+
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+
+		if (ppgc->gc.htg.hi.dStart != FLT_MAX
+		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
+		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
+		{
+		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+
+		    int i;
+
+		    for (i = 0 ; i < ppgc->gc.htg.iEntries ; i++)
+		    {
+			char pcTable[50];
+
+			sprintf(pcTable, "table[%i]", i);
+
+			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist);
+
+			if (d != FLT_MAX)
+			{
+			    pdTable[i] = d;
+			}
+			else
+			{
+			    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
+
+			    iResult = TSTR_PROCESSOR_ABORT;
+
+			    break;
+			}
+		    }
+
+		    //t would prefer to have all tests for pmcd->iStatus at the same place
+
+		    if (pmcd->iStatus == 2
+			|| pmcd->iStatus == 5)
+		    {   //t store number of entries in the table
+			ppgc->gc.htg.pdA = pdTable;
+		    }
+		    else
+		    {   //t compare number of entries with stored number
+			ppgc->gc.htg.pdB = pdTable;
+		    }
+		}
+	    }
+
+	    //- else parameterized
+
 	    else
 	    {
 		//- get HH_AB_Scale = 35.0e3
@@ -2164,7 +2221,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     if (instanceof_cell(phsle))
     {
-	printf("warning: cell found during solver_mathcomponent_finalizer()\n");
+	printf("warning: cell found during solver_mathcomponent_processor()\n");
 
 	int iBreak = 1;
     }

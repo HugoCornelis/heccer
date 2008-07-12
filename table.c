@@ -1926,6 +1926,10 @@ HeccerTabulatedGateStore
 
 #endif
 
+    //- increment registry count
+
+    pheccer->tgt.iTabulatedGateCount++;
+
     //- we simply copy all the parameters
 
     *phtg = *phtgNew;

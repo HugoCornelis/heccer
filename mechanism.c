@@ -552,6 +552,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelSpringMass failed");
+
 		    break;
 		}
 
@@ -705,6 +710,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelAct failed");
+
 		    break;
 		}
 
@@ -830,6 +840,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulatedActivation && iTabulatedInactivation;
+
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelActInact failed");
 
 		    break;
 		}
@@ -974,6 +989,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulatedMembraneDependence && iTabulatedBasalActivator;
+
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelActConc failed");
 
 		    break;
 		}
@@ -1142,6 +1162,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelSteadyStateSteppedTau failed");
+
 		    break;
 		}
 
@@ -1263,6 +1288,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelPersistentSteadyStateDualTau failed");
+
 		    break;
 		}
 
@@ -1373,6 +1403,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- register result from tabulation for outcome of this function
 
 		    iResult = iResult && iTabulated;
+
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Compilation of ChannelPersistentSteadyStateTau failed");
 
 		    break;
 		}
