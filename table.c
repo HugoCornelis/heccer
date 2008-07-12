@@ -93,6 +93,12 @@ int
 HeccerTabulatedSpringMassNew
 (struct Heccer *pheccer, void *pvParameters, size_t iSize);
 
+static
+int
+HeccerTabulatedGateStore
+(struct Heccer *pheccer,
+ struct HeccerTabulatedGate *phtgNew);
+
 
 /// **************************************************************************
 ///
@@ -257,6 +263,39 @@ HeccerDiscretizeGateConcept
     //- set default result : ok
 
     int iResult = TRUE;
+
+    //- if table is hardcoded
+
+    if (pgc->htg.pdA
+	|| pgc->htg.pdB)
+    {
+	if (!pgc->htg.pdA
+	    || !pgc->htg.pdB)
+	{
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 "HeccerDiscretizeGateConcept(): if a gate has a hardcoded table for one kinetic, it must have hardcoded tables for all kinetics.");
+
+	    return(FALSE);
+	}
+
+	//t first should do the lookup
+
+	//- store the table as is
+
+	int i = HeccerTabulatedGateStore(pheccer, &pgc->htg);
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pgc->iTable = i;
+
+    }
 
     //- if already registered
 
@@ -1836,6 +1875,64 @@ HeccerTabulatedSpringMassNew
     //- return result
 
     return(pheccer->tsmt.iTabulatedSpringMassCount - 1);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerTabulatedGateStore()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	phtgNew...: tabulated gate.
+///
+/// RTN..: int
+///
+///	tabulated gate index, -1 for failure.
+///
+/// DESCR: Store a new table.
+///
+///	Note that the parameters that identify the table must be
+///	initialized correctly before this function is called.
+///
+/// **************************************************************************
+
+static
+int
+HeccerTabulatedGateStore
+(struct Heccer *pheccer,
+ struct HeccerTabulatedGate *phtgNew)
+{
+    struct HeccerTabulatedGate *phtg = NULL;
+
+    if (pheccer->tgt.iTabulatedGateCount >= HECCER_TABULATED_GATES_MAX)
+    {
+	return(-1);
+    }
+
+#define HECCER_STATIC_TABULATED_GATES
+#ifdef HECCER_STATIC_TABULATED_GATES
+
+    //- set result : from pool
+
+    phtg = &pheccer->tgt.phtg[pheccer->tgt.iTabulatedGateCount];
+
+#else
+
+    //- set result : allocate a new tabulated gate
+
+    phtg = calloc(1, sizeof(*phtg));
+
+#endif
+
+    //- we simply copy all the parameters
+
+    *phtg = *phtgNew;
+
+    //- return result
+
+    return(pheccer->tgt.iTabulatedGateCount - 1);
 }
 
 

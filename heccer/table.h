@@ -143,6 +143,8 @@ struct TabulatedSpringMassTable
 };
 
 
+struct Activator;
+struct GateConcept;
 struct Heccer;
 
 

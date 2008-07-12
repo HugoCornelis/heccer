@@ -399,30 +399,78 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    ppgc->gc.iTable = -1;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    //- if a hardcoded table is present
 
-	    if (iHasTable && 0)
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
 	    {
-		printf("warning: iHasTable has value %i\n", iHasTable);
-
-		struct TableAllocatorData ta =
-		{
-		    //m symbol with value array
-
-		    phsle,
-
-		    //m context of the symbol
-
-		    ptstr->ppist,
-		};
-
-		double *pdA = calloc(pmcd->pheccer->ho.iIntervalEntries + 1, sizeof(*pdA));
-		double *pdB = calloc(pmcd->pheccer->ho.iIntervalEntries + 1, sizeof(*pdB));
-
-		//t allocate the table, fill in the index, initialize
-		//t the table entries with what is found in the model
-		//t container.
+		iHasTable = dHasTable;
 	    }
+
+	    if (iHasTable)
+	    {
+/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
+
+	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+		ppgc->gc.htg.iEntries = dEntries;
+
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+
+		if (ppgc->gc.htg.hi.dStart != FLT_MAX
+		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
+		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
+		{
+		    double *pdTable = calloc(pmcd->pheccer->ho.iIntervalEntries, sizeof(*pdTable));
+
+		    int i;
+
+		    for (i = 0 ; i < ppgc->gc.htg.iEntries ; i++)
+		    {
+			char pcTable[50];
+
+			sprintf(pcTable, "table[%i]", i);
+
+			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist);
+
+			if (d != FLT_MAX)
+			{
+			    pdTable[i] = d;
+			}
+			else
+			{
+			    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
+
+			    iResult = TSTR_PROCESSOR_ABORT;
+
+			    break;
+			}
+		    }
+
+		    //t would prefer to have all tests for pmcd->iStatus at the same place
+
+		    if (pmcd->iStatus == 2)
+		    {
+			ppgc->gc.htg.pdA = pdTable;
+		    }
+		    else
+		    {
+			ppgc->gc.htg.pdB = pdTable;
+		    }
+		}
+	    }
+
+	    //- else parameterized
+
 	    else
 	    {
 		//- get HH_AB_Scale = 35.0e3
@@ -648,13 +696,76 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    ppgc->gc.iTable = -1;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
 	    {
-		printf("warning: iHasTable has value %i\n", iHasTable);
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
+	    {
+/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
 
 	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+		ppgc->gc.htg.iEntries = dEntries;
+
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+
+		if (ppgc->gc.htg.hi.dStart != FLT_MAX
+		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
+		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
+		{
+		    double *pdTable = calloc(pmcd->pheccer->ho.iIntervalEntries, sizeof(*pdTable));
+
+		    int i;
+
+		    for (i = 0 ; i < ppgc->gc.htg.iEntries ; i++)
+		    {
+			char pcTable[50];
+
+			sprintf(pcTable, "table[%i]", i);
+
+			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist);
+
+			if (d != FLT_MAX)
+			{
+			    pdTable[i] = d;
+			}
+			else
+			{
+			    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS);
+
+			    iResult = TSTR_PROCESSOR_ABORT;
+
+			    break;
+			}
+		    }
+
+		    //t would prefer to have all tests for pmcd->iStatus at the same place
+
+		    if (pmcd->iStatus == 2)
+		    {
+			ppgc->gc.htg.pdA = pdTable;
+		    }
+		    else
+		    {
+			ppgc->gc.htg.pdB = pdTable;
+		    }
+		}
+	    }
+
+	    //- else parameterized
+
 	    else
 	    {
 		//- get HH_AB_Scale = 35.0e3
@@ -724,13 +835,69 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	if (pmcd->iStatus == 5)
 	{
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 
 	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+/* 		ppgc->gc.htg.iEntries = dEntries; */
+
+/* 		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist); */
+/* 		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist); */
+/* 		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist); */
+
+/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
+/* 		{ */
+/* 		    double *pdTable = calloc(pmcd->pheccer->ho.iIntervalEntries, sizeof(*pdTable)); */
+
+/* 		    int i; */
+
+/* 		    for (i = 0 ; i < iEntries ; i++) */
+/* 		    { */
+/* 			char pcTable[50]; */
+
+/* 			sprintf(pcTable, "table[%i]", %i); */
+
+/* 			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist); */
+
+/* 			if (d != FLT_MAX) */
+/* 			{ */
+/* 			    pdTable[i] = d; */
+/* 			} */
+/* 			else */
+/* 			{ */
+/* 			    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS); */
+
+/* 			    iResult = TSTR_PROCESSOR_ABORT; */
+
+/* 			    break; */
+/* 			} */
+/* 		    } */
+
+/* 		    //t would prefer to have all tests for pmcd->iStatus at the same place */
+
+/* /* 		    pgk->gc.htg.pdA = pdTable; * */
+/* 		} */
+	    }
+
+	    //- else parameterized
+
 	    else
 	    {
 		//- basal level, A in EDS1994
@@ -885,9 +1052,16 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    ppgc->gc.iTable = -1;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1079,9 +1253,16 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 		   ? &pcpsdt->parameters1.tau
 		   : &pcpsdt->parameters2.tau);
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1230,9 +1411,16 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	{
 	    struct single_steady_state * pss = &pcpst->parameters.ss;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1299,9 +1487,16 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	{
 	    struct single_time_constant * ptc = &pcpst->parameters.tc;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1659,9 +1854,16 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    {
 		struct dual_steadystate_kinetic_part_a * pa = &pdsk->a;
 
-		int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+		double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-		if (iHasTable && 0)
+		int iHasTable = 0;
+
+		if (dHasTable != FLT_MAX)
+		{
+		    iHasTable = dHasTable;
+		}
+
+		if (iHasTable)
 		{
 		    printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1714,9 +1916,16 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    {
 		struct dual_steadystate_kinetic_part_b * pb = &pdsk->b;
 
-		int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+		double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-		if (iHasTable && 0)
+		int iHasTable = 0;
+
+		if (dHasTable != FLT_MAX)
+		{
+		    iHasTable = dHasTable;
+		}
+
+		if (iHasTable)
 		{
 		    printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1757,9 +1966,16 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    struct SteppedTimeConstantParameters * pdtc
 		= &pcpsdt->tc_parameters;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 
@@ -1799,9 +2015,16 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    struct SteppedTimeConstantParameters * pdtc
 		= &pcpsdt->tc_parameters;
 
-	    int iHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
 
-	    if (iHasTable && 0)
+	    int iHasTable = 0;
+
+	    if (dHasTable != FLT_MAX)
+	    {
+		iHasTable = dHasTable;
+	    }
+
+	    if (iHasTable)
 	    {
 		printf("warning: iHasTable has value %i\n", iHasTable);
 

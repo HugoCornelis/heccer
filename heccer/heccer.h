@@ -50,6 +50,10 @@ struct HeccerOptions
 
     int iOptions;
 
+    //m interval has been set ?
+
+    int iIntervalSet;
+
     //m discretized gate, membrane, interval start
 
     double dIntervalStart;
@@ -57,6 +61,10 @@ struct HeccerOptions
     //m discretized gate, membrane, interval end
 
     double dIntervalEnd;
+
+    //m activator has been set ?
+
+    int iActivatorSet;
 
     //m discretized gate, basal activator, interval start
 

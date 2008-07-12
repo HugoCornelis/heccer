@@ -23,6 +23,7 @@
 #include <float.h>
 
 #include "mathcomponent.h"
+#include "table.h"
 
 
 //s spring mass parameters
@@ -326,7 +327,14 @@ struct GateConcept
 
     int iTable;
 
+    //m or parameterized
+
     struct GateConceptParameters parameters;
+
+    //m or using an external tables
+
+    struct HeccerTabulatedGate htg;
+
 };
 
 //s gate with a power
