@@ -379,6 +379,21 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+		ppgc->gc.htg.iEntries = dEntries;
+
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+	    }
+	    else
+	    {
+		ppgc->gc.htg.iEntries = INT_MAX;
+	    }
 	}
 	else
 	{
@@ -426,16 +441,8 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
-
-	    if (dEntries != FLT_MAX)
+	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		ppgc->gc.htg.iEntries = dEntries;
-
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
-
 		if (ppgc->gc.htg.hi.dStart != FLT_MAX
 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
 		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
@@ -476,6 +483,12 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		    {
 			ppgc->gc.htg.pdB = pdTable;
 		    }
+		}
+		else
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
+
+		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 	    }
 
@@ -646,6 +659,21 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+		pcac->pgc.gc.htg.iEntries = dEntries;
+
+		pcac->pgc.gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
+		pcac->pgc.gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
+		pcac->pgc.gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+	    }
+	    else
+	    {
+		pcac->pgc.gc.htg.iEntries = INT_MAX;
+	    }
 	}
 	else if (pmcd->iStatus == 4)
 	{
@@ -721,16 +749,8 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
-
-	    if (dEntries != FLT_MAX)
+	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		ppgc->gc.htg.iEntries = dEntries;
-
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
-
 		if (ppgc->gc.htg.hi.dStart != FLT_MAX
 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
 		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
@@ -771,6 +791,12 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    {
 			ppgc->gc.htg.pdB = pdTable;
 		    }
+		}
+		else
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
+
+		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 	    }
 
@@ -1023,6 +1049,21 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
+
+	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+
+	    if (dEntries != FLT_MAX)
+	    {
+		ppgc->gc.htg.iEntries = dEntries;
+
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+	    }
+	    else
+	    {
+		ppgc->gc.htg.iEntries = INT_MAX;
+	    }
 	}
 	else
 	{
@@ -1077,16 +1118,8 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
-
-	    if (dEntries != FLT_MAX)
+	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		ppgc->gc.htg.iEntries = dEntries;
-
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
-
 		if (ppgc->gc.htg.hi.dStart != FLT_MAX
 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
 		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
@@ -1128,6 +1161,12 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		    {   //t compare number of entries with stored number
 			ppgc->gc.htg.pdB = pdTable;
 		    }
+		}
+		else
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
+
+		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 	    }
 

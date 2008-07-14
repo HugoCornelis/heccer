@@ -264,6 +264,13 @@ HeccerDiscretizeGateConcept
 
     int iResult = TRUE;
 
+    //- if already registered
+
+    if (pgc->iTable != -1)
+    {
+	return(TRUE);
+    }
+
     //- if table is hardcoded
 
     if (pgc->htg.pdA
@@ -295,12 +302,8 @@ HeccerDiscretizeGateConcept
 
 	pgc->iTable = i;
 
-    }
+	//- return success
 
-    //- if already registered
-
-    if (pgc->iTable != -1)
-    {
 	return(TRUE);
     }
 
