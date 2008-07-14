@@ -1,0 +1,21 @@
+$files = {
+           '_<glue/swig/perl/Heccer.pm' => [
+                                             {
+                                               'expr' => undef,
+                                               'value' => '1',
+                                               'text' => '	    $self->{$type}->$subname($value);
+',
+                                               'fname' => 'glue/swig/perl/Heccer.pm',
+                                               'type' => 'user',
+                                               'line' => '906'
+                                             }
+                                           ]
+         };
+$expr_list = [
+               {
+                 'expr' => '$subname',
+                 'depth' => -1
+               }
+             ];
+$eval_saved_text = undef;
+$main_win_geometry = '1592x1114+0+0';
