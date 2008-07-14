@@ -64,8 +64,8 @@ my $options
     = Heccer::Options->new
       (
        {
-	dBasalActivatorEnd => $config->{settings}->{basal_activator_end} || $config->{defaults}->{basal_activator_end},
-	dBasalActivatorStart => $config->{settings}->{basal_activator_start} || $config->{defaults}->{basal_activator_start},
+	dConcentrationGateEnd => $config->{settings}->{concentration_gate_end} || $config->{defaults}->{concentration_gate_end},
+	dConcentrationGateStart => $config->{settings}->{concentration_gate_start} || $config->{defaults}->{concentration_gate_start},
 	dIntervalEnd => $config->{settings}->{interval_default_end} || $config->{defaults}->{interval_default_end},
 	dIntervalStart => $config->{settings}->{interval_default_start} || $config->{defaults}->{interval_default_start},
 	iIntervalEntries => $config->{settings}->{interval_default_entries} || $config->{defaults}->{interval_default_entries},

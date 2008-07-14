@@ -42,8 +42,8 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 int
 static
-HeccerDiscretizeBasalActivator
-(struct Heccer *pheccer, struct Activator *pac);
+HeccerDiscretizeConcentrationGate
+(struct Heccer *pheccer, struct ConcentrationActivator *pac);
 
 int
 static
@@ -102,11 +102,11 @@ HeccerTabulatedGateStore
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerBasalActivatorTabulate()
+/// SHORT: HeccerConcentrationGateTabulate()
 ///
 /// ARGS.:
 ///
-///	pac.....: a basal activator gate concept.
+///	pca.....: a concentration gate concept.
 ///	pheccer.: a heccer.
 ///
 /// RTN..: int
@@ -115,14 +115,14 @@ HeccerTabulatedGateStore
 ///
 ///	phtg....: a filled heccer tabulated gate.
 ///
-/// DESCR: Fill the tables with a discretization of the basal
-/// activator gate kinetics.
+/// DESCR: Fill the tables with a discretization of concentration gate
+/// kinetics.
 ///
 /// **************************************************************************
 
 int
-HeccerBasalActivatorTabulate
-(struct Activator *pac, struct Heccer *pheccer)
+HeccerConcentrationGateTabulate
+(struct ConcentrationActivator *pca, struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -130,7 +130,7 @@ HeccerBasalActivatorTabulate
 
     //- get access to the tabulated gate structure
 
-    int iIndex = pac->iTable;
+    int iIndex = pca->iTable;
 
     struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
 
@@ -147,7 +147,7 @@ HeccerBasalActivatorTabulate
     {
 	//- compute steady state
 
-	double dEquilibrium = 1 / (1 + (pac->parameters.dBasalLevel / dx));
+	double dEquilibrium = 1 / (1 + (pca->parameters.dBasalLevel / dx));
 
 	//- fill in A and B table
 
@@ -155,9 +155,9 @@ HeccerBasalActivatorTabulate
 
 	//! time step normalization done elsewhere
 
-	phtg->pdA[i] = dEquilibrium / pac->parameters.dTau;
+	phtg->pdA[i] = dEquilibrium / pca->parameters.dTau;
 
-	phtg->pdB[i] = 1 / pac->parameters.dTau;
+	phtg->pdB[i] = 1 / pca->parameters.dTau;
     }
 
     //- return result
@@ -168,23 +168,23 @@ HeccerBasalActivatorTabulate
 
 /// **************************************************************************
 ///
-/// SHORT: HeccerDiscretizeBasalActivator()
+/// SHORT: HeccerDiscretizeConcentrationGate()
 ///
 /// ARGS.:
 ///
 ///	pheccer...: a heccer.
-///	pac.......: basal activator concept description.
+///	pca.......: concentration gate concept description.
 ///
 /// RTN..: int : success of operation.
 ///
-/// DESCR: Discretize the given basal activator concept.
+/// DESCR: Discretize the given concentration gate concept.
 ///
 /// **************************************************************************
 
 int
 static
-HeccerDiscretizeBasalActivator
-(struct Heccer *pheccer, struct Activator *pac)
+HeccerDiscretizeConcentrationGate
+(struct Heccer *pheccer, struct ConcentrationActivator *pca)
 {
     //- set default result : ok
 
@@ -192,26 +192,26 @@ HeccerDiscretizeBasalActivator
 
     //- if already registered
 
-    if (pac->iTable != -1)
+    if (pca->iTable != -1)
     {
 	return(TRUE);
     }
 
     //- allocate structures
 
-    double dStart = pheccer->ho.dBasalActivatorStart;
-    double dEnd = pheccer->ho.dBasalActivatorEnd;
+    double dStart = pheccer->ho.dConcentrationGateStart;
+    double dEnd = pheccer->ho.dConcentrationGateEnd;
     int iEntries = pheccer->ho.iIntervalEntries;
 
     //- lookup the table parameters ...
 
-    int i = HeccerTabulatedGateLookup(pheccer, &pac->parameters, sizeof(pac->parameters));
+    int i = HeccerTabulatedGateLookup(pheccer, &pca->parameters, sizeof(pca->parameters));
 
     if (i == -1)
     {
 	//- ... or create a new table for these parameters
 
-	i = HeccerTabulatedGateNew(pheccer, &pac->parameters, sizeof(pac->parameters), dStart, dEnd, iEntries);
+	i = HeccerTabulatedGateNew(pheccer, &pca->parameters, sizeof(pca->parameters), dStart, dEnd, iEntries);
 
 	if (i == -1)
 	{
@@ -220,15 +220,15 @@ HeccerDiscretizeBasalActivator
 
 	//- register the index
 
-	pac->iTable = i;
+	pca->iTable = i;
 
 	//- fill the table with the discretized gate kinetics
 
-	iResult = iResult && HeccerBasalActivatorTabulate(pac, pheccer);
+	iResult = iResult && HeccerConcentrationGateTabulate(pca, pheccer);
     }
     else
     {
-	pac->iTable = i;
+	pca->iTable = i;
     }
 
     //- return result
@@ -917,11 +917,11 @@ HeccerTabulateAny
 
     switch (iType)
     {
-    case MATH_TYPE_BasalActivator:
+    case MATH_TYPE_Concentration:
     {
-	struct Activator *pac = (struct Activator *)pv;
+	struct ConcentrationActivator *pca = (struct ConcentrationActivator *)pv;
 
-	iResult = HeccerDiscretizeBasalActivator(pheccer, pac);
+	iResult = HeccerDiscretizeConcentrationGate(pheccer, pca);
 
 	break;
     }

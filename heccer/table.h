@@ -143,7 +143,7 @@ struct TabulatedSpringMassTable
 };
 
 
-struct Activator;
+struct ConcentrationActivator;
 struct GateConcept;
 struct Heccer;
 
@@ -151,8 +151,8 @@ struct Heccer;
 //f prototypes
 
 int
-HeccerBasalActivatorTabulate
-(struct Activator *pac, struct Heccer *pheccer);
+HeccerConcentrationGateTabulate
+(struct ConcentrationActivator *pac, struct Heccer *pheccer);
 
 int
 HeccerGateConceptTabulate

@@ -765,7 +765,7 @@ struct ActivatorParameters
 
 };
 
-struct Activator
+struct ConcentrationActivator
 {
     //m initial value, commonly steady state
 
@@ -792,7 +792,7 @@ struct PoweredActivatorConcept
 
     //m activator definition
 
-    struct Activator ac;
+    struct ConcentrationActivator ca;
 };
 
 //s HH alike channel, activation and concentration dependent

@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/07/01) Tuesday, July 1, 2008 15:04:06 hugo";
+static char *pcVersionTime="(08/07/13) Sunday, July 13, 2008 18:47:45 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -425,9 +425,9 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
     fprintf(pfile, "Heccer Options (dIntervalEnd) : (%g)\n", pheccer->ho.dIntervalEnd);
 
-    fprintf(pfile, "Heccer Options (dBasalActivatorStart) : (%g)\n", pheccer->ho.dBasalActivatorStart);
+    fprintf(pfile, "Heccer Options (dConcentrationGateStart) : (%g)\n", pheccer->ho.dConcentrationGateStart);
 
-    fprintf(pfile, "Heccer Options (dBasalActivatorEnd) : (%g)\n", pheccer->ho.dBasalActivatorEnd);
+    fprintf(pfile, "Heccer Options (dConcentrationGateEnd) : (%g)\n", pheccer->ho.dConcentrationGateEnd);
 
     fprintf(pfile, "Heccer Options (iIntervalEntries) : (%i)\n", pheccer->ho.iIntervalEntries);
 
@@ -862,8 +862,8 @@ HeccerNewP1
     pheccerResult->ho.dIntervalStart = HECCER_INTERVAL_DEFAULT_START;
     pheccerResult->ho.dIntervalEnd = HECCER_INTERVAL_DEFAULT_END;
 
-    pheccerResult->ho.dBasalActivatorStart = HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START;
-    pheccerResult->ho.dBasalActivatorEnd = HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END;
+    pheccerResult->ho.dConcentrationGateStart = HECCER_INTERVAL_CONCENTRATION_GATE_DEFAULT_START;
+    pheccerResult->ho.dConcentrationGateEnd = HECCER_INTERVAL_CONCENTRATION_GATE_DEFAULT_END;
 
     pheccerResult->ho.iIntervalEntries = HECCER_INTERVAL_DEFAULT_ENTRIES;
 

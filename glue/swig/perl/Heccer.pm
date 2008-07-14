@@ -12,8 +12,8 @@ use strict;
 
 our $config
     = {
-       basal_activator_end => 0.3,
-       basal_activator_start => 4e-5,
+       concentration_gate_end => 0.3,
+       concentration_gate_start => 4e-5,
        interval_default_end => (0.05),
        interval_default_entries => 3000,
        interval_default_start => (-0.1),
@@ -393,18 +393,18 @@ use SwiggableHeccer;
 
 my $heccer_mapping
     = {
-       activator => {
-		     constructor_settings => {
-					      iTable => -1,
-					     },
-		     internal_name => 'Activator',
-		     translators => {
-				     parameters => {
-						    source => 'activator_parameters',
-						    target => 'parameters',
-						   },
-				    },
-		    },
+       concentration_activator => {
+				   constructor_settings => {
+							    iTable => -1,
+							   },
+				   internal_name => 'ConcentrationActivator',
+				   translators => {
+						   parameters => {
+								  source => 'activator_parameters',
+								  target => 'parameters',
+								 },
+						  },
+				  },
        activator_parameters => {
 				internal_name => 'ActivatorParameters',
 			       },
@@ -549,8 +549,8 @@ my $heccer_mapping
 		  constructor_settings => {
 					   dStep => 2e-5,
 					   options => {
-						       dBasalActivatorEnd => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END,
-						       dBasalActivatorStart => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START,
+						       dConcentrationGateEnd => $SwiggableHeccer::HECCER_INTERVAL_CONCENTRATION_GATE_DEFAULT_END,
+						       dConcentrationGateStart => $SwiggableHeccer::HECCER_INTERVAL_CONCENTRATION_GATE_DEFAULT_START,
 						       dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
 						       dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
 						       iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
@@ -704,8 +704,8 @@ my $heccer_mapping
 			       },
        options => {
 		   constructor_settings => {
-					    dBasalActivatorEnd => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_END,
-					    dBasalActivatorStart => $SwiggableHeccer::HECCER_INTERVAL_BASAL_ACTIVATOR_DEFAULT_START,
+					    dConcentrationGateEnd => $SwiggableHeccer::HECCER_INTERVAL_CONCENTRATION_GATE_DEFAULT_END,
+					    dConcentrationGateStart => $SwiggableHeccer::HECCER_INTERVAL_CONCENTRATION_GATE_DEFAULT_START,
 					    dIntervalEnd => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_END,
 					    dIntervalStart => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_START,
 					    iIntervalEntries => $SwiggableHeccer::HECCER_INTERVAL_DEFAULT_ENTRIES,
@@ -720,10 +720,10 @@ my $heccer_mapping
        powered_activator_concept => {
 				     internal_name => 'PoweredActivatorConcept',
 				     translators => {
-						     activator => {
-								   source => 'activator',
-								   target => 'ac',
-								  },
+						     concentration_activator => {
+										 source => 'concentration_activator',
+										 target => 'ca',
+										},
 						    },
 				    },
        powered_gate_concept => {

@@ -651,7 +651,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	{
 	    //- initial table index
 
-	    pcac->pac.ac.iTable = -1;
+	    pcac->pac.ca.iTable = -1;
 
 	    //- get power
 
@@ -665,7 +665,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
 
-	    pcac->pac.ac.dInitActivation = dInitActivation;
+	    pcac->pac.ca.dInitActivation = dInitActivation;
 
 	    if (dPower == FLT_MAX
 		|| dInitActivation == FLT_MAX)
@@ -914,13 +914,13 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		double dBasalLevel = SymbolParameterResolveValue(phsle, "Base", ptstr->ppist);
 
-		pcac->pac.ac.parameters.dBasalLevel = dBasalLevel;
+		pcac->pac.ca.parameters.dBasalLevel = dBasalLevel;
 
 		//- time constant, B in EDS1994
 
 		double dTau = SymbolParameterResolveValue(phsle, "Tau", ptstr->ppist);
 
-		pcac->pac.ac.parameters.dTau = dTau;
+		pcac->pac.ca.parameters.dTau = dTau;
 
 		if (dBasalLevel == FLT_MAX
 		    || dTau == FLT_MAX)
@@ -2564,14 +2564,14 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 		int iPool = PidinStackToSerial(ppistPool);
 
-		pcac->pac.ac.iActivator = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
+		pcac->pac.ca.iActivator = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
 
 		PidinStackFree(ppistPool);
 
 	    }
 	    else
 	    {
-		pcac->pac.ac.iActivator = -1;
+		pcac->pac.ca.iActivator = -1;
 	    }
 	}
 	else
@@ -3852,11 +3852,11 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	    //- translate iActivator
 
-	    if (pcac->pac.ac.iActivator != -1)
+	    if (pcac->pac.ca.iActivator != -1)
 	    {
-		int iActivator = MathComponentArrayLookupSerial(pmca, pcac->pac.ac.iActivator);
+		int iActivator = MathComponentArrayLookupSerial(pmca, pcac->pac.ca.iActivator);
 
-		pcac->pac.ac.iActivator = iActivator;
+		pcac->pac.ca.iActivator = iActivator;
 	    }
 
 /* 	    //- or */

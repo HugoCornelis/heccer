@@ -552,10 +552,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelSpringMass failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelSpringMass failed");
+		    }
 
 		    break;
 		}
@@ -710,10 +713,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelAct failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelAct failed");
+		    }
 
 		    break;
 		}
@@ -841,10 +847,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulatedActivation && iTabulatedInactivation;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelActInact failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelActInact failed");
+		    }
 
 		    break;
 		}
@@ -915,7 +924,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    //- create A table, alpha, create B table, alpha + beta
 
 		    int iTabulatedBasalActivator
-			= HeccerTabulateAny(pheccer, &pcac->pac.ac, MATH_TYPE_BasalActivator);
+			= HeccerTabulateAny(pheccer, &pcac->pac.ca, MATH_TYPE_Concentration);
 
 		    //! gate computations are just fetching things from tables, and
 		    //! multiplying the conductances, so it is not relevant if these
@@ -924,7 +933,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- get math component number
 
-		    int iMathComponentActivator = pcac->pac.ac.iActivator;
+		    int iMathComponentActivator = pcac->pac.ca.iActivator;
 
 		    int iMatsActivator = -1;
 
@@ -935,11 +944,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator].iMat : -1;
 		    }
 
-		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ac.iTable, pcac->pac.iPower, iMatsActivator);
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ca.iTable, pcac->pac.iPower, iMatsActivator);
 
 		    //! at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pac.ac.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pac.ca.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -990,10 +999,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulatedMembraneDependence && iTabulatedBasalActivator;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelActConc failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelActConc failed");
+		    }
 
 		    break;
 		}
@@ -1162,10 +1174,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelSteadyStateSteppedTau failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelSteadyStateSteppedTau failed");
+		    }
 
 		    break;
 		}
@@ -1288,10 +1303,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelPersistentSteadyStateDualTau failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelPersistentSteadyStateDualTau failed");
+		    }
 
 		    break;
 		}
@@ -1404,10 +1422,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    iResult = iResult && iTabulated;
 
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "Compilation of ChannelPersistentSteadyStateTau failed");
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelPersistentSteadyStateTau failed");
+		    }
 
 		    break;
 		}
