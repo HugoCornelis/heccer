@@ -84,7 +84,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 #ifdef HECCER_SOURCE_TYPING
 
 	int iModelSourceType
-	    = SymbolParameterResolveScaledValue(phsle, "SOURCE_TYPE", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "SOURCE_TYPE");
 
 	pinter->pcomp[iSegment].mc.iModelSourceType = iModelSourceType;
 
@@ -95,7 +95,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	//t check for error returns, abort traversal if necessary
 
 	double dCm
-	    = SymbolParameterResolveScaledValue(phsle, "CM", ptstr->ppist);
+	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "CM");
 
 	if (dCm == FLT_MAX)
 	{
@@ -103,7 +103,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 
 	double dEm
-	    = SymbolParameterResolveValue(phsle, "ELEAK", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "ELEAK");
 
 	if (dEm == FLT_MAX)
 	{
@@ -111,7 +111,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 
 	double dInitVm
-	    = SymbolParameterResolveValue(phsle, "Vm_init", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "Vm_init");
 
 	if (dInitVm == FLT_MAX)
 	{
@@ -119,7 +119,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 
 	double dInject
-	    = SymbolParameterResolveValue(phsle, "INJECT", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "INJECT");
 
 	if (dInject == FLT_MAX)
 	{
@@ -127,7 +127,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 
 	double dRa
-	    = SymbolParameterResolveScaledValue(phsle, "RA", ptstr->ppist);
+	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "RA");
 
 	if (dRa == FLT_MAX)
 	{
@@ -135,7 +135,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 
 	double dRm
-	    = SymbolParameterResolveScaledValue(phsle, "RM", ptstr->ppist);
+	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "RM");
 
 	if (dRm == FLT_MAX)
 	{

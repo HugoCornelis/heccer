@@ -360,7 +360,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    //- get power
 
-	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 
 	    int iPower = dPower;
 
@@ -368,7 +368,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    //- get initial state
 
-	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 
 	    ppgc->gc.dInitActivation = dInitActivation;
 
@@ -380,15 +380,15 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
 	    if (dEntries != FLT_MAX)
 	    {
 		ppgc->gc.htg.iEntries = dEntries;
 
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
 	    }
 	    else
 	    {
@@ -426,7 +426,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    //- if a hardcoded table is present
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -457,7 +457,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 			sprintf(pcTable, "table[%i]", i);
 
-			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist);
+			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
 			if (d != FLT_MAX)
 			{
@@ -498,19 +498,19 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    {
 		//- get HH_AB_Scale = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, "HH_AB_Scale", ptstr->ppist);
+		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Scale");
 
 		pgk->dHHScale = dHHScale;
 
 		//- get HH_AB_Mult = 0.0
 
-		double dHHMult = SymbolParameterResolveValue(phsle, "HH_AB_Mult", ptstr->ppist);
+		double dHHMult = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
 
 		pgk->dHHMult = dHHMult;
 
 		//- get HH_AB_Factor_Flag = -1.0
 
-		double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_AB_Factor_Flag", ptstr->ppist);
+		double dHHFactorFlag = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Factor_Flag");
 
 		int iHHFactorFlag = dHHFactorFlag;
 
@@ -518,19 +518,19 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		//- get HH_AB_Add = 0.0
 
-		double dHHAdd = SymbolParameterResolveValue(phsle, "HH_AB_Add", ptstr->ppist);
+		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add");
 
 		pgk->dHHAdd = dHHAdd;
 
 		//- get HH_AB_Offset_E = 5.0e-3
 
-		double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_Offset_E", ptstr->ppist);
+		double dHHOffsetE = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Offset_E");
 
 		pgk->dHHOffsetE = dHHOffsetE;
 
 		//- get HH_AB_Tau = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, "HH_AB_Tau", ptstr->ppist);
+		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Tau");
 
 		pgk->dHHTau = dHHTau;
 
@@ -598,7 +598,7 @@ TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue)
 
     //- resolve value
 
-    double dResult = SymbolParameterResolveValue(ptd->phsle, pcValue, ptd->ppist);
+    double dResult = SymbolParameterResolveValue(ptd->phsle, ptd->ppist, pcValue);
 
     //- return result
 
@@ -640,7 +640,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    //- get power
 
-	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 
 	    int iPower = dPower;
 
@@ -648,7 +648,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    //- get initial state
 
-	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 
 	    pcac->pgc.gc.dInitActivation = dInitActivation;
 
@@ -660,15 +660,15 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
 	    if (dEntries != FLT_MAX)
 	    {
 		pcac->pgc.gc.htg.iEntries = dEntries;
 
-		pcac->pgc.gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
-		pcac->pgc.gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
-		pcac->pgc.gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+		pcac->pgc.gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
+		pcac->pgc.gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
+		pcac->pgc.gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
 	    }
 	    else
 	    {
@@ -683,7 +683,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    //- get power
 
-	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 
 	    int iPower = dPower;
 
@@ -691,7 +691,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    //- get initial state
 
-	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 
 	    pcac->pac.ca.dInitActivation = dInitActivation;
 
@@ -734,7 +734,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    ppgc->gc.iTable = -1;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -765,7 +765,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 			sprintf(pcTable, "table[%i]", i);
 
-			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist);
+			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
 			if (d != FLT_MAX)
 			{
@@ -806,19 +806,19 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		//- get HH_AB_Scale = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, "HH_AB_Scale", ptstr->ppist);
+		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Scale");
 
 		pgk->dHHScale = dHHScale;
 
 		//- get HH_AB_Mult = 0.0
 
-		double dHHMult = SymbolParameterResolveValue(phsle, "HH_AB_Mult", ptstr->ppist);
+		double dHHMult = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
 
 		pgk->dHHMult = dHHMult;
 
 		//- get HH_AB_Factor_Flag = -1.0
 
-		double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_AB_Factor_Flag", ptstr->ppist);
+		double dHHFactorFlag = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Factor_Flag");
 
 		int iHHFactorFlag = dHHFactorFlag;
 
@@ -826,19 +826,19 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		//- get HH_AB_Add = 0.0
 
-		double dHHAdd = SymbolParameterResolveValue(phsle, "HH_AB_Add", ptstr->ppist);
+		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add");
 
 		pgk->dHHAdd = dHHAdd;
 
 		//- get HH_AB_Offset_E = 5.0e-3
 
-		double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_Offset_E", ptstr->ppist);
+		double dHHOffsetE = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Offset_E");
 
 		pgk->dHHOffsetE = dHHOffsetE;
 
 		//- get HH_AB_Tau = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, "HH_AB_Tau", ptstr->ppist);
+		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Tau");
 
 		pgk->dHHTau = dHHTau;
 
@@ -871,7 +871,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	if (pmcd->iStatus == 5)
 	{
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -886,7 +886,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
 	    if (dEntries != FLT_MAX)
 	    {
@@ -938,13 +938,13 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		//- basal level, A in EDS1994
 
-		double dBasalLevel = SymbolParameterResolveValue(phsle, "Base", ptstr->ppist);
+		double dBasalLevel = SymbolParameterResolveValue(phsle, ptstr->ppist, "Base");
 
 		pcac->pac.ca.parameters.dBasalLevel = dBasalLevel;
 
 		//- time constant, B in EDS1994
 
-		double dTau = SymbolParameterResolveValue(phsle, "Tau", ptstr->ppist);
+		double dTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "Tau");
 
 		pcac->pac.ca.parameters.dTau = dTau;
 
@@ -1030,7 +1030,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    //- get power
 
-	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 
 	    int iPower = dPower;
 
@@ -1038,7 +1038,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    //- get initial state
 
-	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 
 	    ppgc->gc.dInitActivation = dInitActivation;
 
@@ -1050,15 +1050,15 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    double dEntries = SymbolParameterResolveValue(phsle, "HH_NUMBER_OF_TABLE_ENTRIES", ptstr->ppist);
+	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
 	    if (dEntries != FLT_MAX)
 	    {
 		ppgc->gc.htg.iEntries = dEntries;
 
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, "HH_TABLE_START", ptstr->ppist);
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, "HH_TABLE_END", ptstr->ppist);
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, "HH_TABLE_STEP", ptstr->ppist);
+		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
+		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
+		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
 	    }
 	    else
 	    {
@@ -1103,7 +1103,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    ppgc->gc.iTable = -1;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -1134,7 +1134,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 			sprintf(pcTable, "table[%i]", i);
 
-			double d = SymbolParameterResolveValue(phsle, pcTable, ptstr->ppist);
+			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
 			if (d != FLT_MAX)
 			{
@@ -1176,19 +1176,19 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    {
 		//- get HH_AB_Scale = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, "HH_AB_Scale", ptstr->ppist);
+		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Scale");
 
 		pgk->dHHScale = dHHScale;
 
 		//- get HH_AB_Mult = 0.0
 
-		double dHHMult = SymbolParameterResolveValue(phsle, "HH_AB_Mult", ptstr->ppist);
+		double dHHMult = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
 
 		pgk->dHHMult = dHHMult;
 
 		//- get HH_AB_FactorFlag = -1.0
 
-		double dHHFactorFlag = SymbolParameterResolveValue(phsle, "HH_AB_Factor_Flag", ptstr->ppist);
+		double dHHFactorFlag = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Factor_Flag");
 
 		int iHHFactorFlag = dHHFactorFlag;
 
@@ -1196,19 +1196,19 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		//- get HH_AB_Add = 0.0
 
-		double dHHAdd = SymbolParameterResolveValue(phsle, "HH_AB_Add", ptstr->ppist);
+		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add");
 
 		pgk->dHHAdd = dHHAdd;
 
 		//- get HH_AB_Offset_E = 5.0e-3
 
-		double dHHOffsetE = SymbolParameterResolveValue(phsle, "HH_AB_Offset_E", ptstr->ppist);
+		double dHHOffsetE = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Offset_E");
 
 		pgk->dHHOffsetE = dHHOffsetE;
 
 		//- get HH_AB_Tau = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, "HH_AB_Tau", ptstr->ppist);
+		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Tau");
 
 		pgk->dHHTau = dHHTau;
 
@@ -1300,28 +1300,28 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 	    //- get powers
 
-	    double dFirstPower = SymbolParameterResolveValue(phsle, "iFirstPower", ptstr->ppist);
+	    double dFirstPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "iFirstPower");
 	    int iFirstPower = dFirstPower;
 	    pcpsdt->iFirstPower = iFirstPower;
 
-	    double dSecondPower = SymbolParameterResolveValue(phsle, "iSecondPower", ptstr->ppist);
+	    double dSecondPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "iSecondPower");
 	    int iSecondPower = dSecondPower;
 	    pcpsdt->iSecondPower = iSecondPower;
 
 	    //- get initial states
 
-	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, "dFirstInitActivation", ptstr->ppist);
+	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "dFirstInitActivation");
 	    pcpsdt->dFirstInitActivation = dFirstInitActivation;
 
-	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "dSecondInitActivation", ptstr->ppist);
+	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "dSecondInitActivation");
 	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
 
 	    //- get steady states
 
-	    double dFirstSteadyState = SymbolParameterResolveValue(phsle, "dFirstSteadyState", ptstr->ppist);
+	    double dFirstSteadyState = SymbolParameterResolveValue(phsle, ptstr->ppist, "dFirstSteadyState");
 	    pcpsdt->parameters1.dSteadyState = dFirstSteadyState;
 
-	    double dSecondSteadyState = SymbolParameterResolveValue(phsle, "dSecondSteadyState", ptstr->ppist);
+	    double dSecondSteadyState = SymbolParameterResolveValue(phsle, ptstr->ppist, "dSecondSteadyState");
 	    pcpsdt->parameters2.dSteadyState = dSecondSteadyState;
 
 	    if (dFirstPower == FLT_MAX
@@ -1359,7 +1359,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 		   ? &pcpsdt->parameters1.tau
 		   : &pcpsdt->parameters2.tau);
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -1377,25 +1377,25 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    {
 		//- get Multiplier = 35.0e3
 
-		double dMultiplier = SymbolParameterResolveValue(phsle, "dMultiplier", ptstr->ppist);
+		double dMultiplier = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMultiplier");
 
 		pdtc->dMultiplier = dMultiplier;
 
 		//- get DeNominatorOffset = 0.0
 
-		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "dDeNominatorOffset", ptstr->ppist);
+		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "dDeNominatorOffset");
 
 		pdtc->dDeNominatorOffset = dDeNominatorOffset;
 
 		//- get MembraneOffset = 5.0e-3
 
-		double dMembraneOffset = SymbolParameterResolveValue(phsle, "dMembraneOffset", ptstr->ppist);
+		double dMembraneOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMembraneOffset");
 
 		pdtc->dMembraneOffset = dMembraneOffset;
 
 		//- get TauDenormalizer = -10.0e-3
 
-		double dTauDenormalizer = SymbolParameterResolveValue(phsle, "dTauDenormalizer", ptstr->ppist);
+		double dTauDenormalizer = SymbolParameterResolveValue(phsle, ptstr->ppist, "dTauDenormalizer");
 
 		pdtc->dTauDenormalizer = dTauDenormalizer;
 
@@ -1484,13 +1484,13 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 	    //- get power
 
-	    double dPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 	    int iPower = dPower;
 	    pcpst->iPower = iPower;
 
 	    //- get initial states
 
-	    double dInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 	    pcpst->dInitActivation = dInitActivation;
 
 	    if (dPower == FLT_MAX
@@ -1517,7 +1517,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	{
 	    struct single_steady_state * pss = &pcpst->parameters.ss;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -1535,43 +1535,43 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	    {
 		//- get Nominator
 
-		double dNominator = SymbolParameterResolveValue(phsle, "dNominator", ptstr->ppist);
+		double dNominator = SymbolParameterResolveValue(phsle, ptstr->ppist, "dNominator");
 
 		pss->dNominator = dNominator;
 
 		//- get Multiplier1
 
-		double dMultiplier1 = SymbolParameterResolveValue(phsle, "dMultiplier1", ptstr->ppist);
+		double dMultiplier1 = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMultiplier1");
 
 		pss->dMultiplier1 = dMultiplier1;
 
 		//- get MembraneOffset1
 
-		double dMembraneOffset1 = SymbolParameterResolveValue(phsle, "dMembraneOffset1", ptstr->ppist);
+		double dMembraneOffset1 = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMembraneOffset1");
 
 		pss->dMembraneOffset1 = dMembraneOffset1;
 
 		//- get TauDenormalizer1
 
-		double dTauDenormalizer1 = SymbolParameterResolveValue(phsle, "dTauDenormalizer1", ptstr->ppist);
+		double dTauDenormalizer1 = SymbolParameterResolveValue(phsle, ptstr->ppist, "dTauDenormalizer1");
 
 		pss->dTauDenormalizer1 = dTauDenormalizer1;
 
 		//- get Multiplier2
 
-		double dMultiplier2 = SymbolParameterResolveValue(phsle, "dMultiplier2", ptstr->ppist);
+		double dMultiplier2 = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMultiplier2");
 
 		pss->dMultiplier2 = dMultiplier2;
 
 		//- get MembraneOffset2
 
-		double dMembraneOffset2 = SymbolParameterResolveValue(phsle, "dMembraneOffset2", ptstr->ppist);
+		double dMembraneOffset2 = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMembraneOffset2");
 
 		pss->dMembraneOffset2 = dMembraneOffset2;
 
 		//- get TauDenormalizer2
 
-		double dTauDenormalizer2 = SymbolParameterResolveValue(phsle, "dTauDenormalizer2", ptstr->ppist);
+		double dTauDenormalizer2 = SymbolParameterResolveValue(phsle, ptstr->ppist, "dTauDenormalizer2");
 
 		pss->dTauDenormalizer2 = dTauDenormalizer2;
 
@@ -1593,7 +1593,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	{
 	    struct single_time_constant * ptc = &pcpst->parameters.tc;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -1611,25 +1611,25 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	    {
 		//- get Nominator
 
-		double dNominator = SymbolParameterResolveValue(phsle, "dNominator", ptstr->ppist);
+		double dNominator = SymbolParameterResolveValue(phsle, ptstr->ppist, "dNominator");
 
 		ptc->dNominator = dNominator;
 
 		//- get DeNominatorOffset
 
-		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "dDeNominatorOffset", ptstr->ppist);
+		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "dDeNominatorOffset");
 
 		ptc->dDeNominatorOffset = dDeNominatorOffset;
 
 		//- get MembraneOffset
 
-		double dMembraneOffset = SymbolParameterResolveValue(phsle, "dMembraneOffset", ptstr->ppist);
+		double dMembraneOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "dMembraneOffset");
 
 		ptc->dMembraneOffset = dMembraneOffset;
 
 		//- get TauDenormalizer
 
-		double dTauDenormalizer = SymbolParameterResolveValue(phsle, "dTauDenormalizer", ptstr->ppist);
+		double dTauDenormalizer = SymbolParameterResolveValue(phsle, ptstr->ppist, "dTauDenormalizer");
 
 		ptc->dTauDenormalizer = dTauDenormalizer;
 
@@ -1765,10 +1765,10 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    //- get first time constants
 
-	    double dTau1 = SymbolParameterResolveValue(phsle, "TAU1", ptstr->ppist);
+	    double dTau1 = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU1");
 	    pcsm->parameters.dTau1 = dTau1;
 
-	    double dTau2 = SymbolParameterResolveValue(phsle, "TAU2", ptstr->ppist);
+	    double dTau2 = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU2");
 	    pcsm->parameters.dTau2 = dTau2;
 
 	    //t perhaps if only tau1 is defined, I should make tau2
@@ -1784,7 +1784,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    //- get initial states
 
-	    double dInitX = SymbolParameterResolveValue(phsle, "state_init_x", ptstr->ppist);
+	    double dInitX = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init_x");
 
 	    if (dInitX == FLT_MAX)
 	    {
@@ -1795,7 +1795,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		pcsm->dInitX = dInitX;
 	    }
 
-	    double dInitY = SymbolParameterResolveValue(phsle, "state_init_y", ptstr->ppist);
+	    double dInitY = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init_y");
 
 	    if (dInitY == FLT_MAX)
 	    {
@@ -1883,13 +1883,13 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    //- get power
 
-	    double dFirstPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dFirstPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 	    int iFirstPower = dFirstPower;
 	    pcpsdt->iFirstPower = iFirstPower;
 
 	    //- get initial state
 
-	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 	    pcpsdt->dFirstInitActivation = dFirstInitActivation;
 
 	    if (dFirstPower == FLT_MAX
@@ -1908,13 +1908,13 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    //- get power
 
-	    double dSecondPower = SymbolParameterResolveValue(phsle, "POWER", ptstr->ppist);
+	    double dSecondPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
 	    int iSecondPower = dSecondPower;
 	    pcpsdt->iSecondPower = iSecondPower;
 
 	    //- get initial state
 
-	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, "state_init", ptstr->ppist);
+	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
 
 	    if (dSecondPower == FLT_MAX
@@ -1960,7 +1960,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    {
 		struct dual_steadystate_kinetic_part_a * pa = &pdsk->a;
 
-		double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+		double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 		int iHasTable = 0;
 
@@ -1978,31 +1978,31 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		{
 		    //- get Multiplier
 
-		    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+		    double dMultiplier = SymbolParameterResolveValue(phsle, ptstr->ppist, "Multiplier");
 
 		    pa->dMultiplier = dMultiplier;
 
 		    //- get MembraneDependenceOffset
 
-		    double dMembraneDependenceOffset = SymbolParameterResolveValue(phsle, "MembraneDependenceOffset", ptstr->ppist);
+		    double dMembraneDependenceOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "MembraneDependenceOffset");
 
 		    pa->dMembraneDependenceOffset = dMembraneDependenceOffset;
 
 		    //- get dDeNominatorOffset
 
-		    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+		    double dDeNominatorOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "DeNominatorOffset");
 
 		    pa->dDeNominatorOffset = dDeNominatorOffset;
 
 		    //- get MembraneOffset
 
-		    double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+		    double dMembraneOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "MembraneOffset");
 
 		    pa->dMembraneOffset = dMembraneOffset;
 
 		    //- get TauDenormalizer
 
-		    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+		    double dTauDenormalizer = SymbolParameterResolveValue(phsle, ptstr->ppist, "TauDenormalizer");
 
 		    pa->dTauDenormalizer = dTauDenormalizer;
 
@@ -2022,7 +2022,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    {
 		struct dual_steadystate_kinetic_part_b * pb = &pdsk->b;
 
-		double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+		double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 		int iHasTable = 0;
 
@@ -2040,19 +2040,19 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		{
 		    //- get Multiplier
 
-		    double dMultiplier = SymbolParameterResolveValue(phsle, "Multiplier", ptstr->ppist);
+		    double dMultiplier = SymbolParameterResolveValue(phsle, ptstr->ppist, "Multiplier");
 
 		    pb->dMultiplier = dMultiplier;
 
 		    //- get MembraneDependenceOffset
 
-		    double dMembraneDependenceOffset = SymbolParameterResolveValue(phsle, "MembraneDependenceOffset", ptstr->ppist);
+		    double dMembraneDependenceOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "MembraneDependenceOffset");
 
 		    pb->dMembraneDependenceOffset = dMembraneDependenceOffset;
 
 		    //- get TauDenormalizer
 
-		    double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+		    double dTauDenormalizer = SymbolParameterResolveValue(phsle, ptstr->ppist, "TauDenormalizer");
 
 		    pb->dTauDenormalizer = dTauDenormalizer;
 
@@ -2072,7 +2072,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    struct SteppedTimeConstantParameters * pdtc
 		= &pcpsdt->tc_parameters;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -2090,19 +2090,19 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    {
 		//- get threshold
 
-		double dThreshold = SymbolParameterResolveValue(phsle, "Threshold", ptstr->ppist);
+		double dThreshold = SymbolParameterResolveValue(phsle, ptstr->ppist, "Threshold");
 
 		pdtc->a.dThreshold = dThreshold;
 
 		//- get LowTarget
 
-		double dLowTarget = SymbolParameterResolveValue(phsle, "LowTarget", ptstr->ppist);
+		double dLowTarget = SymbolParameterResolveValue(phsle, ptstr->ppist, "LowTarget");
 
 		pdtc->a.dLowTarget = dLowTarget;
 
 		//- get HighTarget
 
-		double dHighTarget = SymbolParameterResolveValue(phsle, "HighTarget", ptstr->ppist);
+		double dHighTarget = SymbolParameterResolveValue(phsle, ptstr->ppist, "HighTarget");
 
 		pdtc->a.dHighTarget = dHighTarget;
 
@@ -2121,7 +2121,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    struct SteppedTimeConstantParameters * pdtc
 		= &pcpsdt->tc_parameters;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, "HH_Has_Table", ptstr->ppist);
+	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
 
 	    int iHasTable = 0;
 
@@ -2139,19 +2139,19 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    {
 		//- get DeNominatorOffset
 
-		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, "DeNominatorOffset", ptstr->ppist);
+		double dDeNominatorOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "DeNominatorOffset");
 
 		pdtc->b.dDeNominatorOffset = dDeNominatorOffset;
 
 		//- get MembraneOffset
 
-		double dMembraneOffset = SymbolParameterResolveValue(phsle, "MembraneOffset", ptstr->ppist);
+		double dMembraneOffset = SymbolParameterResolveValue(phsle, ptstr->ppist, "MembraneOffset");
 
 		pdtc->b.dMembraneOffset = dMembraneOffset;
 
 		//- get TauDenormalizer
 
-		double dTauDenormalizer = SymbolParameterResolveValue(phsle, "TauDenormalizer", ptstr->ppist);
+		double dTauDenormalizer = SymbolParameterResolveValue(phsle, ptstr->ppist, "TauDenormalizer");
 
 		pdtc->b.dTauDenormalizer = dTauDenormalizer;
 
@@ -2338,7 +2338,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 #ifdef HECCER_SOURCE_TYPING
 
 	double dModelSourceType
-	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
 	if (dModelSourceType != FLT_MAX)
 	{
@@ -2416,7 +2416,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 #ifdef HECCER_SOURCE_TYPING
 
 	double dModelSourceType
-	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
 	if (dModelSourceType != FLT_MAX)
 	{
@@ -2452,11 +2452,11 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     {
 	//- get maximal conductance
 
-	double dMaximalConductance = SymbolParameterResolveScaledValue(phsle, "G_MAX", ptstr->ppist);
+	double dMaximalConductance = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "G_MAX");
 
 	//- get reversal potential
 
-	double dReversalPotential = SymbolParameterResolveValue(phsle, "Erev", ptstr->ppist);
+	double dReversalPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
 
 	if (dMaximalConductance == FLT_MAX
 	    || dReversalPotential == FLT_MAX)
@@ -2556,7 +2556,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    //- get endogenous activation frequency
 
-	    double dFrequency = SymbolParameterResolveValue(phsle, "FREQUENCY", ptstr->ppist);
+	    double dFrequency = SymbolParameterResolveValue(phsle, ptstr->ppist, "FREQUENCY");
 
 	    //t this case should actually be handled by neurospaces ?
 
@@ -2690,7 +2690,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 #ifdef HECCER_SOURCE_TYPING
 
 	double dModelSourceType
-	    = SymbolParameterResolveValue(phsle, "MODEL_SOURCE_TYPE", ptstr->ppist);
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
 	if (dModelSourceType != FLT_MAX)
 	{
@@ -2773,7 +2773,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    //! neurospaces contains support to evaluate simple functions
 
-	    pin->dInitPotential = SymbolParameterResolveValue(phsle, "Erev", ptstr->ppist);
+	    pin->dInitPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
 
 	    //- find concentration that determines the nernst potential
 
@@ -2853,19 +2853,19 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- get initial value
 
-	double dInitValue = SymbolParameterResolveValue(phsle, "concen_init", ptstr->ppist);
+	double dInitValue = SymbolParameterResolveValue(phsle, ptstr->ppist, "concen_init");
 
 	//- get beta
 
-	double dBeta = SymbolParameterResolveScaledValue(phsle, "BETA", ptstr->ppist);
+	double dBeta = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "BETA");
 
 	//- get steady state
 
-	double dSteadyState = SymbolParameterResolveValue(phsle, "BASE", ptstr->ppist);
+	double dSteadyState = SymbolParameterResolveValue(phsle, ptstr->ppist, "BASE");
 
 	//- get tau
 
-	double dTau = SymbolParameterResolveValue(phsle, "TAU", ptstr->ppist);
+	double dTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU");
 
 	if (dInitValue == FLT_MAX
 	    || dBeta == FLT_MAX
@@ -3001,15 +3001,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//- get refractory time
 
-	double dRefractory = SymbolParameterResolveValue(phsle, "REFRACTORY", ptstr->ppist);
+	double dRefractory = SymbolParameterResolveValue(phsle, ptstr->ppist, "REFRACTORY");
 
 	//- get spiking threshold
 
-	double dThreshold = SymbolParameterResolveValue(phsle, "THRESHOLD", ptstr->ppist);
+	double dThreshold = SymbolParameterResolveValue(phsle, ptstr->ppist, "THRESHOLD");
 
 	//- get reset value, FLT_MAX for none
 
-	double dReset = SymbolParameterResolveValue(phsle, "RESET", ptstr->ppist);
+	double dReset = SymbolParameterResolveValue(phsle, ptstr->ppist, "RESET");
 
 	//- unset table in event distributor with targets, will be
 	//- filled when projections are compiled
