@@ -780,6 +780,11 @@ struct ConcentrationActivator
     int iActivator;
 
     struct ActivatorParameters parameters;
+
+    //m or using an external tables
+
+    struct HeccerTabulatedGate htg;
+
 };
 
 //s gate with a power
