@@ -1731,7 +1731,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    //t should use ParameterResolveSymbol()
 
 	    struct symtab_Parameters *pparEvents
-		= SymbolFindParameter(phsle, "EVENT_FILENAME", ptstr->ppist);
+		= SymbolFindParameter(phsle, ptstr->ppist, "EVENT_FILENAME");
 
 	    if (pparEvents)
 	    {
@@ -2719,7 +2719,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    //- get Erev parameter
 
 	    struct symtab_Parameters *pparErev
-		= SymbolGetParameter(phsle, "Erev", ptstr->ppist);
+		= SymbolGetParameter(phsle, ptstr->ppist, "Erev");
 
 	    //- get nernst function
 
@@ -3247,7 +3247,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	if (iProcess)
 	{
 	    struct symtab_Parameters *pparType
-		= SymbolFindParameter(phsle, "CHANNEL_TYPE", ptstr->ppist);
+		= SymbolFindParameter(phsle, ptstr->ppist, "CHANNEL_TYPE");
 
 	    if (pparType
 		|| SymbolHasEquation(phsle, ptstr->ppist))

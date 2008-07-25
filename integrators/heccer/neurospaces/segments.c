@@ -153,7 +153,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	{
 	    struct symtab_Parameters *pparParent
-		= SymbolFindParameter(phsle, "PARENT", ptstr->ppist);
+		= SymbolFindParameter(phsle, ptstr->ppist, "PARENT");
 
 	    if (pparParent)
 	    {
