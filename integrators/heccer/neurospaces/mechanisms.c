@@ -899,8 +899,6 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
     {
 	//! 2: forward, act
 	//! 3: backward, act
-	//! 5: forward, inact
-	//! 6: backward, inact
 
 	if (pmcd->iStatus == 2
 	    || pmcd->iStatus == 3)
@@ -1120,7 +1118,15 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
     {
 	//- if forward
 
-	if (pmcd->iStatus == 5)
+	//! 5: tau / base, conc
+
+        //! or
+
+	//! 5: forward, conc
+	//! 6: backward, conc
+
+	if (pmcd->iStatus == 5
+	    || pmcd->iStatus == 6)
 	{
 	    //- initialize table index
 
@@ -1171,6 +1177,17 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 			    break;
 			}
+		    }
+
+		    //t would prefer to have all tests for pmcd->iStatus at the same place
+
+		    if (pmcd->iStatus == 5)
+		    {
+			pcac->pac.ca.htg.pdA = pdTable;
+		    }
+		    else
+		    {
+			pcac->pac.ca.htg.pdB = pdTable;
 		    }
 		}
 		else
@@ -1254,7 +1271,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	pmcd->iStatus++;
 
-	if (pmcd->iStatus == 6)
+	//! status can go up to 6 for tau-base concentration gates
+	//! and to 7 for tabulated concentration gates
+
+	if (pmcd->iStatus == 7)
 	{
 	    pmcd->iStatus = 1;
 	}
