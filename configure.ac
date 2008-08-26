@@ -124,6 +124,7 @@ AC_SUBST(TEST_SPECIFICATION_FILES)
 AC_CONFIG_FILES([Makefile
                  glue/Makefile
                  glue/swig/perl/Makefile
+                 glue/swig/python/Makefile
                  integrators/Makefile
                  tests/Makefile
                  tests/code/Makefile
