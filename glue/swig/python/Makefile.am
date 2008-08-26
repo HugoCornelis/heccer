@@ -50,7 +50,7 @@ swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
 #t this line needs -f PIC for some architectures, and -lncurses for some architectures
 
 _SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o _SwiggableHeccer.so
+	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o _SwiggableHeccer.so -Xlinker -export-dynamic
 
 all: _SwiggableHeccer.so
 
