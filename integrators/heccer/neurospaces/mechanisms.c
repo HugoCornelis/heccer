@@ -448,9 +448,13 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    {
 		ppgc->gc.htg.iEntries = dEntries;
 
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
+		ppgc->gc.htg.hi.dStart = pmcd->pheccer->ho.dIntervalStart;
+		ppgc->gc.htg.hi.dEnd = pmcd->pheccer->ho.dIntervalEnd;
+		ppgc->gc.htg.hi.dStep = (ppgc->gc.htg.hi.dEnd - ppgc->gc.htg.hi.dStart) / ppgc->gc.htg.iEntries;;
+
+/* 		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START"); */
+/* 		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END"); */
+/* 		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP"); */
 	    }
 	    else
 	    {
@@ -507,9 +511,10 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		if (ppgc->gc.htg.hi.dStart != FLT_MAX
-		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
-		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
+/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
+		if (1)
 		{
 		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
@@ -817,9 +822,13 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		pcac->pgc.gc.htg.iEntries = dEntries;
 
-		pcac->pgc.gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
-		pcac->pgc.gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
-		pcac->pgc.gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
+		pcac->pgc.gc.htg.hi.dStart = pmcd->pheccer->ho.dIntervalStart;
+		pcac->pgc.gc.htg.hi.dEnd = pmcd->pheccer->ho.dIntervalEnd;
+		pcac->pgc.gc.htg.hi.dStep = (pcac->pgc.gc.htg.hi.dEnd - pcac->pgc.gc.htg.hi.dStart) / pcac->pgc.gc.htg.iEntries;;
+
+/* 		pcac->pgc.gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START"); */
+/* 		pcac->pgc.gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END"); */
+/* 		pcac->pgc.gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP"); */
 	    }
 	    else
 	    {
@@ -874,9 +883,13 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		pcac->pac.ca.htg.iEntries = dEntries;
 
-		pcac->pac.ca.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
-		pcac->pac.ca.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
-		pcac->pac.ca.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
+		pcac->pac.ca.htg.hi.dStart = pmcd->pheccer->ho.dConcentrationGateStart;
+		pcac->pac.ca.htg.hi.dEnd = pmcd->pheccer->ho.dConcentrationGateEnd;
+		pcac->pac.ca.htg.hi.dStep = (pcac->pac.ca.htg.hi.dEnd - pcac->pac.ca.htg.hi.dStart) / pcac->pac.ca.htg.iEntries;;
+
+/* 		pcac->pac.ca.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START"); */
+/* 		pcac->pac.ca.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END"); */
+/* 		pcac->pac.ca.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP"); */
 	    }
 	    else
 	    {
@@ -931,9 +944,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		if (ppgc->gc.htg.hi.dStart != FLT_MAX
-		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
-		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
+/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
+		if (1)
 		{
 		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
@@ -1149,9 +1163,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    if (pcac->pac.ca.htg.iEntries != INT_MAX)
 	    {
-		if (pcac->pac.ca.htg.hi.dStart != FLT_MAX
-		    && pcac->pac.ca.htg.hi.dEnd != FLT_MAX
-		    && pcac->pac.ca.htg.hi.dStep != FLT_MAX)
+/* 		if (pcac->pac.ca.htg.hi.dStart != FLT_MAX */
+/* 		    && pcac->pac.ca.htg.hi.dEnd != FLT_MAX */
+/* 		    && pcac->pac.ca.htg.hi.dStep != FLT_MAX) */
+		if (1)
 		{
 		    double *pdTable = calloc(pcac->pac.ca.htg.iEntries, sizeof(*pdTable));
 
@@ -1363,9 +1378,13 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    {
 		ppgc->gc.htg.iEntries = dEntries;
 
-		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
-		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
-		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
+		ppgc->gc.htg.hi.dStart = pmcd->pheccer->ho.dIntervalStart;
+		ppgc->gc.htg.hi.dEnd = pmcd->pheccer->ho.dIntervalEnd;
+		ppgc->gc.htg.hi.dStep = (ppgc->gc.htg.hi.dEnd - ppgc->gc.htg.hi.dStart) / ppgc->gc.htg.iEntries;;
+
+/* 		ppgc->gc.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START"); */
+/* 		ppgc->gc.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END"); */
+/* 		ppgc->gc.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP"); */
 	    }
 	    else
 	    {
@@ -1431,9 +1450,10 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		if (ppgc->gc.htg.hi.dStart != FLT_MAX
-		    && ppgc->gc.htg.hi.dEnd != FLT_MAX
-		    && ppgc->gc.htg.hi.dStep != FLT_MAX)
+/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
+/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
+		if (1)
 		{
 		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 

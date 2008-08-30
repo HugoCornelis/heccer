@@ -197,6 +197,42 @@ HeccerDiscretizeConcentrationGate
 	return(TRUE);
     }
 
+    //- if table is hardcoded
+
+    if (pca->htg.pdA
+	|| pca->htg.pdB)
+    {
+	if (!pca->htg.pdA
+	    || !pca->htg.pdB)
+	{
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 "HeccerDiscretizeConcentrationGate(): if a gate has a hardcoded table for one kinetic, it must have hardcoded tables for all kinetics.");
+
+	    return(FALSE);
+	}
+
+	//t first should do the lookup
+
+	//- store the table as is
+
+	int i = HeccerTabulatedGateStore(pheccer, &pca->htg);
+
+	if (i == -1)
+	{
+	    return(FALSE);
+	}
+
+	//- register the index
+
+	pca->iTable = i;
+
+	//- return success
+
+	return(TRUE);
+    }
+
     //- allocate structures
 
     double dStart = pheccer->ho.dConcentrationGateStart;
