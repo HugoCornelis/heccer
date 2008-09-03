@@ -173,9 +173,6 @@ int
 HeccerTabulateAny
 (struct Heccer *pheccer, void *pv, int iType);
 
-int
-HeccerTabulatedGateRegister(struct Heccer *pheccer, struct GateConcept *pgc);
-
 
 #endif
 
