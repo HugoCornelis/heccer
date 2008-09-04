@@ -152,6 +152,9 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, 
     //! note: closed interval, would probably be better to use a halve
     //! open interval.
 
+    //t HeccerConstruct() should not touch inter.
+    //t move or copy the field iSerialStart to ptsd
+
     pheccer->inter.iSerialStart = ADDRESSING_NEUROSPACES_2_HECCER(ptsd->iModel);
 
     pheccer->inter.iSerialEnd = ADDRESSING_NEUROSPACES_2_HECCER(ptsd->iModel + SymbolGetPrincipalNumOfSuccessors(phsleModel));
