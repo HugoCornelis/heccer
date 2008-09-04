@@ -183,9 +183,13 @@ sub new
 
     my $settings = shift;
 
-    #! note that ignored settings are ignore because of an empty translator.
+    #! note that ignored settings are ignored because of an empty translator.
+
+    #! what setting keys get ignored again ?
 
     my $result = Heccer::Heccer::new($package, $settings, @_, );
+
+    # if construction was successful
 
     if (ref $result)
     {
@@ -198,13 +202,15 @@ sub new
 	    $event_distributor_backend = $settings->{event_distributor}->{event_distributor_backend}->backend();
 	}
 
+	# if there is a model source
+
 	my $model_source = $settings->{model_source};
 
 	if (exists $model_source->{service_name})
 	{
-	    my $service_name = $model_source->{service_name};
-
 	    # if setting up from the neurospaces model container
+
+	    my $service_name = $model_source->{service_name};
 
 	    if ($service_name eq 'neurospaces')
 	    {
@@ -540,8 +546,8 @@ my $heccer_mapping
 							 source => 'gate_kinetic',
 							 target => 'gkB',
 							},
-				       },
-		       },
+						  },
+				  },
        gate_kinetic => {
 			internal_name => 'GateKinetic',
 		       },
@@ -804,7 +810,7 @@ sub settings
     my $settings = shift;
 
     # just apply all the settings, the missing ones are under
-    # control of heccer
+    # default control of the C code
 
     foreach my $setting (keys %$settings)
     {
