@@ -151,8 +151,8 @@ swigdir = $(prefix)/glue/swig
 
 #t use $(swigdir) here
 pythondir = $(prefix)/glue/swig/python
-nobase_python_HEADERS = Heccer.py
-python_DATA = $(srcdir)/heccer.i SwiggableHeccer.py _SwiggableHeccer.so # heccer_test.py
+nobase_python_HEADERS = Heccer/__init__.py
+python_DATA = $(srcdir)/heccer.i SwiggableHeccer.py _SwiggableHeccer.so tests/heccer_test.py
 BUILT_SOURCES = \
 	SwiggableHeccer.py \
 	swiggable_heccer_wrap.c
@@ -367,6 +367,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
+	$(mkdir_p) $(distdir)/Heccer
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
