@@ -191,11 +191,6 @@ HeccerAddressCompartmentVariable
 
     void *pvResult = NULL;
 
-    if (pheccer->iErrorCount)
-    {
-	return(NULL);
-    }
-
     //- for membrane potential
 
     if (strcasecmp(pcType, "Vm") == 0)
@@ -637,6 +632,13 @@ HeccerAddressVariable
     //- set default result : not found
 
     void *pvResult = NULL;
+
+    if (pheccer->iErrorCount)
+    {
+	return(NULL);
+    }
+
+    //- convert serial to heccer space
 
     iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iSerial);
 
