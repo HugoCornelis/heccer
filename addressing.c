@@ -191,6 +191,11 @@ HeccerAddressCompartmentVariable
 
     void *pvResult = NULL;
 
+    if (pheccer->iErrorCount)
+    {
+	return(NULL);
+    }
+
     //- for membrane potential
 
     if (strcasecmp(pcType, "Vm") == 0)
