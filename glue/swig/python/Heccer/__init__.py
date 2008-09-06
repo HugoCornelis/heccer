@@ -2,6 +2,10 @@
 
 import SwiggableHeccer
 
+class AddressError:
+    def __init__(self, cause):
+        self.cause = cause
+
 class Heccer:
     def __init__(self, options):
         if 'model_source' in options:
