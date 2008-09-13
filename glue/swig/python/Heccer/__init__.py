@@ -25,6 +25,9 @@ class Heccer:
         SwiggableHeccer.HeccerCompileP2(self.backend)
         SwiggableHeccer.HeccerCompileP3(self.backend)
 
+    def finish(self):
+        pass
+
     def timestep(self, dt):
         self.backend.dStep = dt
 
@@ -41,3 +44,5 @@ class Output:
     def AddOutput(self, name, address):
         SwiggableHeccer.OutputGeneratorAddVariable(self.backend, name, address)
 
+    def finish(self):
+        SwiggableHeccer.OutputGeneratorFinish(self.backend)
