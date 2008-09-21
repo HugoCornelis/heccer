@@ -574,8 +574,8 @@ HeccerAddressSerial2Intermediary
 ///
 /// DESCR: Lookup the table index of the given serial.
 ///
-///	The returned index is an address into ptgt->phtg.  See table.h
-///	for more information.
+///	The returned index is an address into pheccer->tgt.phtg.  See
+///	table.h for more information.
 ///
 /// **************************************************************************
 
