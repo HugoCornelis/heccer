@@ -20,6 +20,7 @@ Makefile$
 ^patches/
 ^tests/code/addressing-aggregator1$
 ^tests/code/addressing-purk-test-axon$
+^tests/code/aggregator-kc$
 ^tests/code/c1c2p1$
 ^tests/code/c1c2p2$
 ^tests/code/callout1$

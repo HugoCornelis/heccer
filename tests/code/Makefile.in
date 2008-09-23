@@ -40,14 +40,14 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 check_PROGRAMS = addressing-aggregator1$(EXEEXT) \
-	addressing-purk-test-axon$(EXEEXT) c1c2p1$(EXEEXT) \
-	c1c2p2$(EXEEXT) callout1$(EXEEXT) calloutInjector$(EXEEXT) \
-	channel1-nernst1$(EXEEXT) channel2-nernst1$(EXEEXT) \
-	channel2-nernst2$(EXEEXT) check-compartment$(EXEEXT) \
-	doublea-aggregator$(EXEEXT) doublep$(EXEEXT) fork3p$(EXEEXT) \
-	fork4p1$(EXEEXT) fork4p2$(EXEEXT) fork4p3$(EXEEXT) \
-	hh1$(EXEEXT) perfectclamp-passive1$(EXEEXT) \
-	perfectclamp-passive10$(EXEEXT) \
+	addressing-purk-test-axon$(EXEEXT) aggregator-kc$(EXEEXT) \
+	c1c2p1$(EXEEXT) c1c2p2$(EXEEXT) callout1$(EXEEXT) \
+	calloutInjector$(EXEEXT) channel1-nernst1$(EXEEXT) \
+	channel2-nernst1$(EXEEXT) channel2-nernst2$(EXEEXT) \
+	check-compartment$(EXEEXT) doublea-aggregator$(EXEEXT) \
+	doublep$(EXEEXT) fork3p$(EXEEXT) fork4p1$(EXEEXT) \
+	fork4p2$(EXEEXT) fork4p3$(EXEEXT) hh1$(EXEEXT) \
+	perfectclamp-passive1$(EXEEXT) perfectclamp-passive10$(EXEEXT) \
 	perfectclamp-passive10-2$(EXEEXT) pool1$(EXEEXT) \
 	pool1-contributors2$(EXEEXT) pool1-feedback1$(EXEEXT) \
 	pool1-feedback2$(EXEEXT) pool1-nernst$(EXEEXT) pool2$(EXEEXT) \
@@ -77,6 +77,8 @@ addressing_aggregator1_OBJECTS = addressing-aggregator1.$(OBJEXT)
 addressing_purk_test_axon_SOURCES = addressing-purk-test-axon.c
 addressing_purk_test_axon_OBJECTS =  \
 	addressing-purk-test-axon.$(OBJEXT)
+aggregator_kc_SOURCES = aggregator-kc.c
+aggregator_kc_OBJECTS = aggregator-kc.$(OBJEXT)
 c1c2p1_SOURCES = c1c2p1.c
 c1c2p1_OBJECTS = c1c2p1.$(OBJEXT)
 c1c2p2_SOURCES = c1c2p2.c
@@ -191,7 +193,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = addressing-aggregator1.c addressing-purk-test-axon.c \
-	c1c2p1.c c1c2p2.c callout1.c calloutInjector.c \
+	aggregator-kc.c c1c2p1.c c1c2p2.c callout1.c calloutInjector.c \
 	channel1-nernst1.c channel2-nernst1.c channel2-nernst2.c \
 	check-compartment.c doublea-aggregator.c doublep.c fork3p.c \
 	fork4p1.c fork4p2.c fork4p3.c hh1.c perfectclamp-passive1.c \
@@ -206,7 +208,7 @@ SOURCES = addressing-aggregator1.c addressing-purk-test-axon.c \
 	tensizesp.c triplep.c vclamp-passive.c vclamp-sodium.c \
 	version.c
 DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-axon.c \
-	c1c2p1.c c1c2p2.c callout1.c calloutInjector.c \
+	aggregator-kc.c c1c2p1.c c1c2p2.c callout1.c calloutInjector.c \
 	channel1-nernst1.c channel2-nernst1.c channel2-nernst2.c \
 	check-compartment.c doublea-aggregator.c doublep.c fork3p.c \
 	fork4p1.c fork4p2.c fork4p3.c hh1.c perfectclamp-passive1.c \
@@ -310,6 +312,8 @@ addressing_aggregator1_DEPENDENCIES = ../../libheccer.a main.c
 addressing_aggregator1_LDADD = -L../.. -lheccer -lm
 addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
 addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
+aggregator_kc_DEPENDENCIES = ../../libheccer.a main.c
+aggregator_kc_LDADD = -L../.. -lheccer -lm
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c
 c1c2p1_LDADD = -L../.. -lheccer -lm
 c1c2p2_DEPENDENCIES = ../../libheccer.a main.c
@@ -458,6 +462,9 @@ addressing-aggregator1$(EXEEXT): $(addressing_aggregator1_OBJECTS) $(addressing_
 addressing-purk-test-axon$(EXEEXT): $(addressing_purk_test_axon_OBJECTS) $(addressing_purk_test_axon_DEPENDENCIES) 
 	@rm -f addressing-purk-test-axon$(EXEEXT)
 	$(LINK) $(addressing_purk_test_axon_LDFLAGS) $(addressing_purk_test_axon_OBJECTS) $(addressing_purk_test_axon_LDADD) $(LIBS)
+aggregator-kc$(EXEEXT): $(aggregator_kc_OBJECTS) $(aggregator_kc_DEPENDENCIES) 
+	@rm -f aggregator-kc$(EXEEXT)
+	$(LINK) $(aggregator_kc_LDFLAGS) $(aggregator_kc_OBJECTS) $(aggregator_kc_LDADD) $(LIBS)
 c1c2p1$(EXEEXT): $(c1c2p1_OBJECTS) $(c1c2p1_DEPENDENCIES) 
 	@rm -f c1c2p1$(EXEEXT)
 	$(LINK) $(c1c2p1_LDFLAGS) $(c1c2p1_OBJECTS) $(c1c2p1_LDADD) $(LIBS)
@@ -626,6 +633,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-aggregator1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-purk-test-axon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aggregator-kc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1c2p1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1c2p2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/callout1.Po@am__quote@

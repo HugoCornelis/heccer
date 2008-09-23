@@ -68,6 +68,20 @@ my $test
 						 ],
 				description => "single channel currents summation, single compartment, three aggregators",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/aggregator-kc',
+				command_tests => [
+						  {
+						   description => "Are single channel currents summed correctly, single compartment, kc current ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/aggregator-kc.txt`),
+						   timeout => 10,
+						   write => undef,
+						  },
+						 ],
+				description => "single channel currents summation, single compartment, kc current",
+			       },
 			      ],
        description => "various options",
        name => 'options.t',
