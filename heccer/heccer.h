@@ -54,11 +54,11 @@ struct HeccerOptions
 
     int iIntervalSet;
 
-    //m discretized gate, membrane, interval start
+    //m discretized gate, membrane potential, interval start
 
     double dIntervalStart;
 
-    //m discretized gate, membrane, interval end
+    //m discretized gate, membrane potential, interval end
 
     double dIntervalEnd;
 
