@@ -1,5 +1,19 @@
 -*- outline -*-
 
+* serialization
+must be serialized:
+** everything in struct VM
+special cases
+*** struct MopsSpringMass.pdEvents
+*** struct MatsCallout.pco
+*** union uMC2Mat.pdValue
+**** struct MopsEventGenerate
+**** struct MopsInternalNernst
+**** struct MopsInitializeChannelErev
+**** struct MopsSingleGateConcept
+**** struct MopsExponentialDecay
+See HeccerMechanismLink(), search for all '->u' instances.
+
 * table index addressing
 Results are cast from int to void * back to int.  I guess that some of
 the functions are doing to much work, ie. there is not a clean
