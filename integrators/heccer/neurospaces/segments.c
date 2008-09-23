@@ -83,10 +83,17 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 #ifdef HECCER_SOURCE_TYPING
 
-	int iModelSourceType
-	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "SOURCE_TYPE");
+	double dModelSourceType
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
-	pinter->pcomp[iSegment].mc.iModelSourceType = iModelSourceType;
+	if (dModelSourceType != FLT_MAX)
+	{
+	    pinter->pcomp[iSegment].mc.iModelSourceType = dModelSourceType;
+	}
+	else
+	{
+	    pinter->pcomp[iSegment].mc.iModelSourceType = -1;
+	}
 
 #endif
 
