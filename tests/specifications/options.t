@@ -82,6 +82,20 @@ my $test
 						 ],
 				description => "single channel currents summation, single compartment, kc current",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/aggregator-kc-feedback',
+				command_tests => [
+						  {
+						   description => "Are single channel currents summed correctly, single compartment, kc current in feedback with a ca current ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/aggregator-kc-feedback.txt`),
+						   timeout => 10,
+						   write => undef,
+						  },
+						 ],
+				description => "single channel currents summation, single compartment, kc current in feedback with a ca current",
+			       },
 			      ],
        description => "various options",
        name => 'options.t',

@@ -28,6 +28,7 @@ check_PROGRAMS = \
 	addressing-aggregator1 \
 	addressing-purk-test-axon \
 	aggregator-kc \
+	aggregator-kc-feedback \
 	c1c2p1 \
 	c1c2p2 \
 	callout1 \
@@ -92,6 +93,8 @@ addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
 addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
 aggregator_kc_DEPENDENCIES = ../../libheccer.a main.c
 aggregator_kc_LDADD = -L../.. -lheccer -lm
+aggregator_kc_feedback_DEPENDENCIES = ../../libheccer.a main.c
+aggregator_kc_feedback_LDADD = -L../.. -lheccer -lm
 c1c2p1_DEPENDENCIES = ../../libheccer.a main.c
 c1c2p1_LDADD = -L../.. -lheccer -lm
 c1c2p2_DEPENDENCIES = ../../libheccer.a main.c
