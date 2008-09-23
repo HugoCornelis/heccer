@@ -462,7 +462,7 @@ struct MathComponentArray mca =
 {
     //m number of math components
 
-    1,
+    2,
 
     //m math component data
 
