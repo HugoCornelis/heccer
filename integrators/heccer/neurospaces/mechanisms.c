@@ -4111,7 +4111,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     if (instanceof_cell(phsle))
     {
-	printf("warning: cell found during solver_mathcomponent_finalizer()\n");
+	printf("warning: cell found during solver_mathcomponent_typer()\n");
 
 	int iBreak = 1;
     }
