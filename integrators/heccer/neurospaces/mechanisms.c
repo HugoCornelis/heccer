@@ -3743,7 +3743,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    struct symtab_HSolveListElement *phslePool
 		= SymbolResolveParameterFunctionalInput
-		(phsle, ptstr->ppist, "Erev", "Cin", 0);
+		  (phsle, ptstr->ppist, "Erev", "Cin", 0);
 
 	    //- if found
 
