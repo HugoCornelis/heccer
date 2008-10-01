@@ -46,6 +46,7 @@ Makefile$
 ^tests/code/pool1-feedback2$
 ^tests/code/pool1-nernst$
 ^tests/code/pool2$
+^tests/code/serialization$
 ^tests/code/singlea-naf$
 ^tests/code/singlea-naf-current$
 ^tests/code/singlea-naf2-aggregator$

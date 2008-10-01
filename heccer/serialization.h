@@ -16,15 +16,25 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-extern struct Heccer *pheccer;
-
-extern struct VClamp *pvc;
-
-extern struct PerfectClamp *ppc;
+#ifndef HECCER_SERIALIZATION_H
+#define HECCER_SERIALIZATION_H
 
 
-int WriteOutput(char *pcFilename);
+#include "heccer/heccer.h"
 
-int dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i);
+
+#define HECCER_SERIALIZATION_VERSION "HECCER C"
+
+
+struct Heccer *
+HeccerDeserialize(FILE *pfile);
+
+int
+HeccerSerialize
+(struct Heccer *pheccer, FILE *pfile);
+
+
+
+#endif
 
 

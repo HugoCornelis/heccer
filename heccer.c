@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/07/13) Sunday, July 13, 2008 18:47:45 hugo";
+static char *pcVersionTime="(08/10/01) Wednesday, October 1, 2008 15:55:47 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -543,6 +543,57 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 
     return(iResult);
 }
+
+
+/* /// ************************************************************************** */
+/* /// */
+/* /// SHORT: HeccerFinish() */
+/* /// */
+/* /// ARGS.: */
+/* /// */
+/* ///	pheccer...: a heccer. */
+/* /// */
+/* /// RTN..: int */
+/* /// */
+/* ///	success of operation. */
+/* /// */
+/* /// DESCR: Finish the operations performed by this heccer. */
+/* /// */
+/* ///	It is possible to continue operations. */
+/* /// */
+/* /// ************************************************************************** */
+
+/* int HeccerFinish(struct Heccer *pheccer, pfile) */
+/* { */
+/*     //- set default result: ok */
+
+/*     int iResult = 1; */
+
+/*     //- if serialization is turned on */
+
+/*     if (pheccer->ho.iOptions & HECCER_OPTION_SERIALIZE_AT_FINISH) */
+/*     { */
+/* 	//- serialize */
+
+/* 	FILE *pfile = fopen(pheccer->ho.pcSerialized, "w"); */
+
+/* 	if (!pfile) */
+/* 	{ */
+/* 	    return(0); */
+/* 	} */
+
+/* 	if (!HeccerSerialize(pheccer, pfile)) */
+/* 	{ */
+/* 	    return(0); */
+/* 	} */
+
+/* 	fclose(pfile); */
+/*     } */
+
+/*     //- return result */
+
+/*     return(iResult); */
+/* } */
 
 
 /// **************************************************************************

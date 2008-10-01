@@ -55,6 +55,10 @@ typedef union
 
 struct VM
 {
+    //m number of compartments
+
+    int iCompartments;
+
     //m compartment operations
 
     int iCops;

@@ -99,6 +99,10 @@ struct HeccerOptions
 
 #define HECCER_OPTION_PASSIVE_SYNCHANS			4
 
+//d enable serialization at finish
+
+#define HECCER_OPTION_SERIALIZE_AT_FINISH		8
+
 //d enable computation of individual currents and conductances
 
 //! so by default the contribution of each channel to the overall

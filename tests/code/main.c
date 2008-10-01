@@ -146,6 +146,31 @@ int WriteOutput(char *pcFilename)
 }
 
 
+int dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i)
+{
+    //! funny : the first '---' in the output are taken as an option
+    //! by Expect.pm, which complicates testing a bit.  So just
+    //! removed.
+
+    static int iFirst = 1;
+
+    if (iFirst)
+    {
+	iFirst = 0;
+    }
+    else
+    {
+	HECCER_TEST_TESTED_THINGS && fprintf(pfile, "-------\n");
+    }
+
+    HECCER_TEST_TESTED_THINGS && fprintf(pfile, pcMessage, i);
+
+    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, pfile, iTested);
+
+    return 1;
+}
+
+
 int main(int argc, char *argv[])
 {
     //t use argv for heccer options
@@ -205,15 +230,11 @@ int main(int argc, char *argv[])
 
     //- initial dump
 
+    dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Initiated\n", -1);
+
     //! funny : the first '---' in the output are taken as an option
     //! by Expect.pm, which complicates testing a bit.  So just
     //! removed.
-
-/*     fprintf(stdout, "-------\n"); */
-
-    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Initiated\n");
-
-    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
 
     //v final report needed ?
 
@@ -245,11 +266,7 @@ int main(int argc, char *argv[])
 
 	if (i % HECCER_TEST_REPORTING_GRANULARITY == 0)
 	{
-	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
-
-	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Iteration %i\n", i);
-
-	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
+	    dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Iteration %i\n", i);
 	}
 	else
 	{
@@ -261,11 +278,7 @@ int main(int argc, char *argv[])
 
     if (iFinalReport)
     {
-	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
-
-	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Final Iteration\n", i);
-
-	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccer, stdout, HECCER_TEST_TESTED_THINGS);
+	dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Final Iteration\n", i);
     }
 
     //- return result

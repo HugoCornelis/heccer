@@ -42,6 +42,7 @@ libheccer_a_SOURCES = \
 	output.c \
 	perfectclamp.c \
 	random.c \
+	serialization.c \
 	table.c \
 	vclamp.c \
 	vm.c
@@ -62,6 +63,7 @@ nobase_include_HEADERS = \
 	heccer/output.h \
 	heccer/perfectclamp.h \
 	heccer/random.h \
+	heccer/serialization.h \
 	heccer/service.h \
 	heccer/vclamp.h \
 	heccer/table.h \

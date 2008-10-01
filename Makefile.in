@@ -73,8 +73,9 @@ am_libheccer_a_OBJECTS = addressing.$(OBJEXT) compartment.$(OBJEXT) \
 	indexers.$(OBJEXT) intermediary.$(OBJEXT) \
 	mathcomponent.$(OBJEXT) mechanism.$(OBJEXT) \
 	minimumdegree.$(OBJEXT) output.$(OBJEXT) \
-	perfectclamp.$(OBJEXT) random.$(OBJEXT) table.$(OBJEXT) \
-	vclamp.$(OBJEXT) vm.$(OBJEXT)
+	perfectclamp.$(OBJEXT) random.$(OBJEXT) \
+	serialization.$(OBJEXT) table.$(OBJEXT) vclamp.$(OBJEXT) \
+	vm.$(OBJEXT)
 libheccer_a_OBJECTS = $(am_libheccer_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/heccer
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -213,6 +214,7 @@ libheccer_a_SOURCES = \
 	output.c \
 	perfectclamp.c \
 	random.c \
+	serialization.c \
 	table.c \
 	vclamp.c \
 	vm.c
@@ -233,6 +235,7 @@ nobase_include_HEADERS = \
 	heccer/output.h \
 	heccer/perfectclamp.h \
 	heccer/random.h \
+	heccer/serialization.h \
 	heccer/service.h \
 	heccer/vclamp.h \
 	heccer/table.h \
@@ -350,6 +353,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/perfectclamp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/table.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vclamp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vm.Po@am__quote@

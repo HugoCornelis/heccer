@@ -369,6 +369,8 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
     pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double));
 
+    pheccer->vm.iCompartments = pheccer->inter.iCompartments;
+
     //! the diagonal terms are also needed for solving the current
     //! equations, but I guess it is ok to deal with that in the
     //! mechanism compiler.  Check needed.
