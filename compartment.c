@@ -411,6 +411,8 @@ HeccerCompartmentDump
 
     //! this makes testing quite hard, needs careful thought
 
+/*     if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE) */
+/*     { */
 #ifdef lkjlkslkjasdf
 
 HECCER_SOURCE_NEUROSPACES
@@ -422,6 +424,7 @@ HECCER_SOURCE_NEUROSPACES
     fprintf(pfile, "Compartment (mc.iType) : (%i)\n", pcomp->mc.iType);
 
 #endif
+/*     } */
 
     //- index of parent compartment, -1 for none
 
@@ -532,7 +535,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
     double *pdAxres = &pheccer->vm.pdAxres[0];
     double *pdResults = &pheccer->vm.pdResults[0];
     double *pdResult = &pdResults[2];
-    double *pdVms = &pheccer->vm.pdVms[pheccer->inter.iCompartments];
+    double *pdVms = &pheccer->vm.pdVms[pheccer->vm.iCompartments];
     double dDiagonal = pdResult[1];
     double dResult = pdResult[0];
 

@@ -19,8 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can we serialize a passive model ?",
-						   read => 'abc',
-# 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization.txt`),
+ 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization.txt`),
 						   write => undef,
 						  },
 						 ],

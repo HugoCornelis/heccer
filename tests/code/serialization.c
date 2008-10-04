@@ -24,10 +24,17 @@
 #include "../../heccer/serialization.h"
 
 
-/* #define HECCER_TEST_OPTIONS ( HECCER_OPTION_SERIALIZE_AT_FINISH	\ */
-/* 	) */
+#define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
+				    | HECCER_DUMP_VM_COMPARTMENT_OPERATIONS \
+				    | HECCER_DUMP_VM_MECHANISM_DATA \
+				    | HECCER_DUMP_VM_MECHANISM_OPERATIONS \
+				    | HECCER_DUMP_VM_SUMMARY \
+				    | HECCER_DUMP_VM_AGGREGATORS \
+	)
+/* 				    | HECCER_DUMP_INDEXERS_SUMMARY \ */
+/* 				    | HECCER_DUMP_INTERMEDIARY_SUMMARY \ */
+
 #define HECCER_TEST_STEPS 0
-#define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
 
 
 struct Compartment comp[] =
@@ -234,13 +241,11 @@ int main(int argc, char *argv[])
 
     fclose(pfile2);
 
-    //- dump
+    //- dump both, must be same
 
-    //! just copied from main.c
+    tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "pheccer: before simulation\n", -1);
 
-/* #define HECCER_TEST_TESTED_THINGS 1 */
-
-    tests_dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: Deserialized\n", -1);
+    tests_dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: before simulation\n", -1);
 
     //- step both heccers
 

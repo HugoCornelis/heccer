@@ -275,13 +275,6 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
     int iResult = TRUE;
 
-    //- dump compartment data
-
-    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_DATA)
-    {
-	//! nothing here
-    }
-
     //- dump compartment operations
 
     if (iSelection & HECCER_DUMP_VM_COMPARTMENT_OPERATIONS)
@@ -332,7 +325,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
     //- compartment data : diagonals
 
-    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX)
+    if (iSelection & HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS)
     {
 	int i;
 
