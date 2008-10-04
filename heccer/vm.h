@@ -38,7 +38,7 @@ struct VM;
 #include "mechanism.h"
 
 
-typedef union
+typedef struct
 {
     //m index into mathcomponents
 
@@ -88,6 +88,10 @@ struct VM
     int iVms;
 
     double *pdVms;
+
+    //m number of math components
+
+    int iMathComponents;
 
     //m math component number to mat number convertor
 

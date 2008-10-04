@@ -146,7 +146,7 @@ int WriteOutput(char *pcFilename)
 }
 
 
-int dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i)
+int tests_dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i)
 {
     //! funny : the first '---' in the output are taken as an option
     //! by Expect.pm, which complicates testing a bit.  So just
@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 
     //- initial dump
 
-    dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Initiated\n", -1);
+    tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Initiated\n", -1);
 
     //! funny : the first '---' in the output are taken as an option
     //! by Expect.pm, which complicates testing a bit.  So just
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
 
 	if (i % HECCER_TEST_REPORTING_GRANULARITY == 0)
 	{
-	    dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Iteration %i\n", i);
+	    tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Iteration %i\n", i);
 	}
 	else
 	{
@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
 
     if (iFinalReport)
     {
-	dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Final Iteration\n", i);
+	tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "Final Iteration\n", i);
     }
 
     //- return result

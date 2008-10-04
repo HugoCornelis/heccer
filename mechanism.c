@@ -1557,6 +1557,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	if (iCountIndexCompile == 0)
 	{
+	    pheccer->vm.iMathComponents = pheccer->inter.pmca ? pheccer->inter.pmca->iMathComponents : 0;
+
 	    pheccer->vm.iMopNumber = iMopNumber;
 
 	    pheccer->vm.ppvCMatsIndex = (void **)calloc(pheccer->inter.iCompartments + 1, sizeof(void *));

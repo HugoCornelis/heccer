@@ -28,10 +28,19 @@ int
 HeccerDeserializeCompartments
 (struct Heccer *pheccer, FILE *pfile);
 
+static
+int
+HeccerDeserializeMechanisms
+(struct Heccer *pheccer, FILE *pfile);
 
 static
 int
 HeccerSerializeCompartments
+(struct Heccer *pheccer, FILE *pfile);
+
+static
+int
+HeccerSerializeMechanisms
 (struct Heccer *pheccer, FILE *pfile);
 
 
@@ -85,15 +94,39 @@ HeccerDeserialize(FILE *pfile)
 
 	if (HeccerDeserializeCompartments(pheccerResult, pfile))
 	{
-	    //!
+	    //- deserialize mechanisms
+
+	    if (HeccerDeserializeMechanisms(pheccerResult, pfile))
+	    {
+		//- link mechanisms
+
+		if (HeccerMechanismLink(pheccerResult))
+		{
+/* 		    //- deserialize aggregators */
+
+/* 		    if (HeccerDeserializeAggregators(pheccerResult, pfile)) */
+/* 		    { */
+/* 		    } */
+/* 		    else */
+/* 		    { */
+/* 			pheccerResult = NULL; */
+/* 		    } */
+		}
+		else
+		{
+		    pheccerResult = NULL;
+		}
+	    }
+	    else
+	    {
+		pheccerResult = NULL;
+	    }
 	}
 	else
 	{
 	    pheccerResult = NULL;
 	}
     }
-
-    //t mechanisms
 
     //- return result
 
@@ -218,6 +251,170 @@ HeccerDeserializeCompartments
 
 /// **************************************************************************
 ///
+/// SHORT: HeccerDeserializeMechanisms()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	pfile.....: file pointer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Deserialize the mechanisms of this heccer from the given stream.
+///
+/// **************************************************************************
+
+static
+int
+HeccerDeserializeMechanisms
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- read number of math components
+
+    if (fread(&pheccer->vm.iMathComponents, sizeof(pheccer->vm.iMathComponents), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    //m math component number to mat number convertor
+
+    //! note that this one does not index compartments, only the mechanism math components.
+
+    if (pheccer->vm.iMathComponents)
+    {
+	pheccer->vm.piMC2Mat = (uMC2Mat *)calloc(pheccer->vm.iMathComponents + 1, sizeof(pheccer->vm.piMC2Mat[0]));
+
+	if (!pheccer->vm.piMC2Mat)
+	{
+	    return(0);
+	}
+
+	if (fread(pheccer->vm.piMC2Mat, sizeof(pheccer->vm.piMC2Mat[0]), pheccer->vm.iMathComponents + 1, pfile) != pheccer->vm.iMathComponents + 1)
+	{
+	    return(0);
+	}
+    }
+
+    //m math component number to mop number convertor
+
+    if (pheccer->vm.iMathComponents)
+    {
+	pheccer->vm.piMC2Mop = (int *)calloc(pheccer->vm.iMathComponents + 1, sizeof(pheccer->vm.piMC2Mop[0]));
+
+	if (!pheccer->vm.piMC2Mop)
+	{
+	    return(0);
+	}
+
+	if (fread(pheccer->vm.piMC2Mop, sizeof(pheccer->vm.piMC2Mop[0]), pheccer->vm.iMathComponents + 1, pfile) != pheccer->vm.iMathComponents + 1)
+	{
+	    return(0);
+	}
+    }
+
+    //m mechanism operations
+
+    if (fread(&pheccer->vm.iMops, sizeof(pheccer->vm.iMops), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    pheccer->vm.pvMops = (int *)calloc(pheccer->vm.iMops, 1);
+
+    if (!pheccer->vm.pvMops)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.pvMops, 1, pheccer->vm.iMops, pfile) != pheccer->vm.iMops)
+    {
+	return(0);
+    }
+
+    //m mechanism addressables
+
+    if (fread(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1);
+
+    if (!pheccer->vm.pvMats)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
+    {
+	return(0);
+    }
+
+    //m indexing from mops or mats number towards one of the above
+
+    pheccer->vm.ppvCMatsIndex = (void **)calloc(pheccer->vm.iCompartments + 1, sizeof(void *));
+
+    if (!pheccer->vm.ppvCMatsIndex)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.ppvCMatsIndex, sizeof(pheccer->vm.ppvCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
+    {
+	return(0);
+    }
+
+
+    if (fread(&pheccer->vm.iMopNumber, sizeof(pheccer->vm.iMopNumber), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    pheccer->vm.ppvMopsIndex = (void **)calloc(pheccer->vm.iMopNumber + 1, sizeof(void *));
+
+    if (!pheccer->vm.ppvMopsIndex)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.ppvMopsIndex, sizeof(pheccer->vm.ppvMopsIndex[0]), pheccer->vm.iMopNumber + 1, pfile) != pheccer->vm.iMopNumber + 1)
+    {
+	return(0);
+    }
+
+
+    if (fread(&pheccer->vm.iMatNumber, sizeof(pheccer->vm.iMatNumber), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    pheccer->vm.ppvMatsIndex = (void **)calloc(pheccer->vm.iMatNumber + 1, sizeof(void *));
+
+    if (!pheccer->vm.ppvMatsIndex)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.ppvMatsIndex, sizeof(pheccer->vm.ppvMatsIndex[0]), pheccer->vm.iMatNumber + 1, pfile) != pheccer->vm.iMatNumber + 1)
+    {
+	return(0);
+    }
+
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
 /// SHORT: HeccerSerialize()
 ///
 /// ARGS.:
@@ -255,7 +452,9 @@ HeccerSerialize
 
     iResult = iResult && HeccerSerializeCompartments(pheccer, pfile);
 
-    //t mechanisms
+    //- serialize mechanisms
+
+    iResult = iResult && HeccerSerializeMechanisms(pheccer, pfile);
 
     //- return result
 
@@ -343,6 +542,121 @@ HeccerSerializeCompartments
     {
 	return(0);
     }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerSerializeMechanisms()
+///
+/// ARGS.:
+///
+///	pheccer...: a heccer.
+///	pfile.....: file pointer.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Serialize the mechanisms of this heccer from the given stream.
+///
+/// **************************************************************************
+
+static
+int
+HeccerSerializeMechanisms
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- read number of math components
+
+    if (fwrite(&pheccer->vm.iMathComponents, sizeof(pheccer->vm.iMathComponents), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    //m math component number to mat number convertor
+
+    //! note that this one does not index compartments, only the mechanism math components.
+
+    if (pheccer->vm.iMathComponents)
+    {
+	if (fwrite(pheccer->vm.piMC2Mat, sizeof(pheccer->vm.piMC2Mat[0]), pheccer->vm.iMathComponents + 1, pfile) != pheccer->vm.iMathComponents + 1)
+	{
+	    return(0);
+	}
+    }
+
+    //m math component number to mop number convertor
+
+    if (pheccer->vm.iMathComponents)
+    {
+	if (fwrite(pheccer->vm.piMC2Mop, sizeof(pheccer->vm.piMC2Mop[0]), pheccer->vm.iMathComponents + 1, pfile) != pheccer->vm.iMathComponents + 1)
+	{
+	    return(0);
+	}
+    }
+
+    //m mechanism operations
+
+    if (fwrite(&pheccer->vm.iMops, sizeof(pheccer->vm.iMops), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (fwrite(pheccer->vm.pvMops, 1, pheccer->vm.iMops, pfile) != pheccer->vm.iMops)
+    {
+	return(0);
+    }
+
+    //m mechanism addressables
+
+    if (fwrite(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (fwrite(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
+    {
+	return(0);
+    }
+
+    //m indexing from mops or mats number towards one of the above
+
+    if (fwrite(pheccer->vm.ppvCMatsIndex, sizeof(pheccer->vm.ppvCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
+    {
+	return(0);
+    }
+
+
+    if (fwrite(&pheccer->vm.iMopNumber, sizeof(pheccer->vm.iMopNumber), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (fwrite(pheccer->vm.ppvMopsIndex, sizeof(pheccer->vm.ppvMopsIndex[0]), pheccer->vm.iMopNumber + 1, pfile) != pheccer->vm.iMopNumber + 1)
+    {
+	return(0);
+    }
+
+
+    if (fwrite(&pheccer->vm.iMatNumber, sizeof(pheccer->vm.iMatNumber), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (fwrite(pheccer->vm.ppvMatsIndex, sizeof(pheccer->vm.ppvMatsIndex[0]), pheccer->vm.iMatNumber + 1, pfile) != pheccer->vm.iMatNumber + 1)
+    {
+	return(0);
+    }
+
 
     //- return result
 

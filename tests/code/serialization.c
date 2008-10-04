@@ -240,7 +240,7 @@ int main(int argc, char *argv[])
 
 /* #define HECCER_TEST_TESTED_THINGS 1 */
 
-    dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: Deserialized\n", -1);
+    tests_dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: Deserialized\n", -1);
 
     //- step both heccers
 
@@ -250,9 +250,9 @@ int main(int argc, char *argv[])
 
     //- dump both, must be same
 
-    dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "pheccer: after 1 second\n", -1);
+    tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "pheccer: after 1 second\n", -1);
 
-    dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: after 1 second\n", -1);
+    tests_dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: after 1 second\n", -1);
 
     //- return result
 

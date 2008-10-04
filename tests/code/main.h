@@ -25,6 +25,6 @@ extern struct PerfectClamp *ppc;
 
 int WriteOutput(char *pcFilename);
 
-int dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i);
+int tests_dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i);
 
 
