@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/10/01) Wednesday, October 1, 2008 15:55:47 hugo";
+static char *pcVersionTime="(08/10/04) Saturday, October 4, 2008 13:50:41 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -24,6 +24,7 @@ static char *pcVersionTime="(08/10/01) Wednesday, October 1, 2008 15:55:47 hugo"
 #include <string.h>
 
 #include "heccer/heccer.h"
+#include "heccer/serialization.h"
 
 
 static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
@@ -964,6 +965,83 @@ struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
     //- return result
 
     return(pheccerResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerNewFromFile()
+///
+/// ARGS.:
+///
+///	pc......: filename.
+///
+/// RTN..: struct Heccer *
+///
+///	New heccer, NULL for failure.
+///
+/// DESCR: Construct a heccer from a file.
+///
+/// **************************************************************************
+
+struct Heccer *HeccerNewFromFile(char *pc)
+{
+    //- set default result: failure
+
+    struct Heccer *pheccerResult = NULL;
+
+    //- deserialize
+
+    FILE *pfile = fopen(pc, "r");
+
+    pheccerResult= HeccerDeserialize(pfile);
+
+    fclose(pfile);
+
+    //- return result
+
+    return(pheccerResult);
+}
+
+
+/// **************************************************************************
+///
+/// SHORT: HeccerWriteToFile()
+///
+/// ARGS.:
+///
+///	pheccer.: heccer to write.
+///	pc......: filename.
+///
+/// RTN..: int
+///
+///	success of operation.
+///
+/// DESCR: Write the heccer to the file.
+///
+/// **************************************************************************
+
+int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- open file
+
+    FILE *pfile = fopen(pc, "w");
+
+    //- serialize
+
+    iResult = HeccerSerialize(pheccer, pfile);
+
+    //- close file
+
+    fclose(pfile);
+
+    //- return success
+
+    return(iResult);
 }
 
 

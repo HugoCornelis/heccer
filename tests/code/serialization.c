@@ -21,7 +21,6 @@
 
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
-#include "../../heccer/serialization.h"
 
 
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
@@ -227,19 +226,11 @@ int main(int argc, char *argv[])
 
     //- serialize
 
-    FILE *pfile1 = fopen("/tmp/heccer", "w");
-
-    HeccerSerialize(pheccer, pfile1);
-
-    fclose(pfile1);
+    HeccerWriteToFile(pheccer, "/tmp/heccer");
 
     //- deserialize
 
-    FILE *pfile2 = fopen("/tmp/heccer", "r");
-
-    struct Heccer *pheccer2 = HeccerDeserialize(pfile2);
-
-    fclose(pfile2);
+    struct Heccer *pheccer2 = HeccerNewFromFile("/tmp/heccer");
 
     //- dump both, must be same
 

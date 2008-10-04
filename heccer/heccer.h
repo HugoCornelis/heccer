@@ -331,6 +331,10 @@ HeccerNewP1
 
 struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter);
 
+struct Heccer *HeccerNewFromFile(char *pc);
+
+int HeccerWriteToFile(struct Heccer *pheccer, char *pc);
+
 
 #endif
 
