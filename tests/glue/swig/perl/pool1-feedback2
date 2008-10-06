@@ -220,6 +220,7 @@ our $config
 		    steps => 1000,
 		    tested_things => (
 				      $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_MATRIX
+				      | $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
 				      | $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_DATA
 				      | $SwiggableHeccer::HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
 				      | $SwiggableHeccer::HECCER_DUMP_VM_CHANNEL_POOL_FLUXES

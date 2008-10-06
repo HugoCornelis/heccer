@@ -155,6 +155,20 @@ sub finish
 }
 
 
+sub get_driver
+{
+    my $self = shift;
+
+    my $result
+	= {
+	   data => $self->{heccer},
+	   method => \&SwiggableHeccer::HeccerHeccs,
+	  };
+
+    return $result;
+}
+
+
 sub get_time_step
 {
     my $self = shift;
@@ -1297,6 +1311,20 @@ sub finish
 }
 
 
+sub get_driver
+{
+    my $self = shift;
+
+    my $result
+	= {
+	   data => $self->{backend},
+	   method => undef,
+	  };
+
+    return $result;
+}
+
+
 sub get_time_step
 {
     my $self = shift;
@@ -1475,6 +1503,305 @@ sub register_engine
     # return success
 
     return 1;
+}
+
+
+package Heccer::Output;
+
+
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
+sub add
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $name
+	= $options->{service_request}->{component_name}
+	    . "__"
+		. $options->{service_request}->{field};
+
+    $name =~ s/\//____/g;
+#     $name =~ s/\>/__/g;
+#     $name =~ s/\-//g;
+
+    my $result = $backend->OutputGeneratorAddVariable($name, $options->{address});
+
+    return $result;
+}
+
+
+# sub advance
+# {
+#     my $self = shift;
+
+#     my $scheduler = shift;
+
+#     my $time = shift;
+
+#     # call the appropriate method
+
+#     my $backend = $self->backend();
+
+#     my $result = $backend->OutputGeneratorAnnotatedStep($time);
+
+#     # return result
+
+#     return $result;
+# }
+
+
+sub finish
+{
+    my $self = shift;
+
+    # close files, free memory
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorFinish();
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # an output object does not have a time step
+
+    return undef;
+}
+
+
+sub get_driver
+{
+    my $self = shift;
+
+    my $result
+	= {
+	   data => $self->{backend},
+	   method => \&SwiggableHeccer::OutputGeneratorAnnotatedStep,
+	  };
+
+    return $result;
+}
+
+
+sub initiate
+{
+    my $self = shift;
+
+    #t could create the files here ?
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    if (!defined $self->{filename})
+    {
+	$self->{filename} = "/tmp/OutputGenerator";
+    }
+
+    $self->{backend} = SwiggableHeccer::OutputGeneratorNew($self->{filename});
+
+    if (!defined $self->{backend})
+    {
+	return undef;
+    }
+
+    return $self;
+}
+
+
+sub report
+{
+    my $self = shift;
+
+    #t nothing I guess ?
+}
+
+
+sub step
+{
+    my $self = shift;
+
+    my $scheduler = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+
+    return $result;
+}
+
+
+package Heccer::PerfectClamp;
+
+
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
+sub add
+{
+    my $self = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $name
+	= $options->{service_request}->{component_name}
+	    . "__"
+		. $options->{service_request}->{field};
+
+    $name =~ s/\//____/g;
+#     $name =~ s/\>/__/g;
+#     $name =~ s/\-//g;
+
+    my $result = $backend->PerfectClampAddVariable($options->{address});
+
+    return $result;
+}
+
+
+# sub advance
+# {
+#     my $self = shift;
+
+#     #t call the appropriate method or something
+
+#     return undef;
+# }
+
+
+sub finish
+{
+    my $self = shift;
+
+    # close files, free memory
+
+    my $backend = $self->backend();
+
+    $backend->PerfectClampFinish();
+}
+
+
+sub get_driver
+{
+    my $self = shift;
+
+    my $result
+	= {
+	   data => $self->{backend},
+	   method => \&SwiggableHeccer::PerfectClampSingleStep,
+	  };
+
+    return $result;
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # a perfect clamp object does not have a time step
+
+    return undef;
+}
+
+
+sub initiate
+{
+    my $self = shift;
+
+    #t perhaps need to set the command voltage here ?
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    bless $self, $package;
+
+    if (!defined $self->{name})
+    {
+	$self->{name} = "a pc";
+    }
+
+    $self->{backend} = SwiggableHeccer::PerfectClampNew($self->{name});
+
+    if (!defined $self->{backend})
+    {
+	return undef;
+    }
+
+    # make distinction between command_filename and command voltage option
+
+    if (defined $options->{command})
+    {
+	my $backend = $self->backend();
+
+	$backend->PerfectClampSetFields($options->{command}, undef);
+    }
+    elsif (defined $options->{filename})
+    {
+	my $backend = $self->backend();
+
+	#! the command voltage is ignored in this case, use an
+	#! unreasonable value to make result invalid if it would be used
+	#! (due to a bug).
+
+	$backend->PerfectClampSetFields(-10000, $options->{filename});
+    }
+    else
+    {
+	return "Heccer::PerfectClamp constructor: cannot construct a perfect clamp without command voltage and without a filename";
+    }
+
+    return $self;
+}
+
+
+sub report
+{
+    my $self = shift;
+
+    #t nothing I guess ?
+}
+
+
+sub step
+{
+    my $self = shift;
+
+    my $scheduler = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $result = $backend->PerfectClampSingleStep($options->{steps});
+
+    return $result;
 }
 
 
@@ -1844,277 +2171,6 @@ sub serve
 package Heccer::Tabulator::Result;
 
 #! nothing here, just place holder for loading tables from YAML streams.
-
-
-package Heccer::Output;
-
-
-BEGIN { our @ISA = qw(Heccer::Glue); }
-
-
-sub add
-{
-    my $self = shift;
-
-    my $options = shift;
-
-    my $backend = $self->backend();
-
-    my $name
-	= $options->{service_request}->{component_name}
-	    . "__"
-		. $options->{service_request}->{field};
-
-    $name =~ s/\//____/g;
-#     $name =~ s/\>/__/g;
-#     $name =~ s/\-//g;
-
-    my $result = $backend->OutputGeneratorAddVariable($name, $options->{address});
-
-    return $result;
-}
-
-
-# sub advance
-# {
-#     my $self = shift;
-
-#     my $scheduler = shift;
-
-#     my $time = shift;
-
-#     # call the appropriate method
-
-#     my $backend = $self->backend();
-
-#     my $result = $backend->OutputGeneratorAnnotatedStep($time);
-
-#     # return result
-
-#     return $result;
-# }
-
-
-sub finish
-{
-    my $self = shift;
-
-    # close files, free memory
-
-    my $backend = $self->backend();
-
-    $backend->OutputGeneratorFinish();
-}
-
-
-sub get_time_step
-{
-    my $self = shift;
-
-    # an output object does not have a time step
-
-    return undef;
-}
-
-
-sub initiate
-{
-    my $self = shift;
-
-    #t could create the files here ?
-}
-
-
-sub new
-{
-    my $package = shift;
-
-    my $options = shift;
-
-    my $self = { %$options, };
-
-    bless $self, $package;
-
-    if (!defined $self->{filename})
-    {
-	$self->{filename} = "/tmp/OutputGenerator";
-    }
-
-    $self->{backend} = SwiggableHeccer::OutputGeneratorNew($self->{filename});
-
-    if (!defined $self->{backend})
-    {
-	return undef;
-    }
-
-    return $self;
-}
-
-
-sub report
-{
-    my $self = shift;
-
-    #t nothing I guess ?
-}
-
-
-sub step
-{
-    my $self = shift;
-
-    my $scheduler = shift;
-
-    my $options = shift;
-
-    my $backend = $self->backend();
-
-    my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
-
-    return $result;
-}
-
-
-package Heccer::PerfectClamp;
-
-
-BEGIN { our @ISA = qw(Heccer::Glue); }
-
-
-sub add
-{
-    my $self = shift;
-
-    my $options = shift;
-
-    my $backend = $self->backend();
-
-    my $name
-	= $options->{service_request}->{component_name}
-	    . "__"
-		. $options->{service_request}->{field};
-
-    $name =~ s/\//____/g;
-#     $name =~ s/\>/__/g;
-#     $name =~ s/\-//g;
-
-    my $result = $backend->PerfectClampAddVariable($options->{address});
-
-    return $result;
-}
-
-
-# sub advance
-# {
-#     my $self = shift;
-
-#     #t call the appropriate method or something
-
-#     return undef;
-# }
-
-
-sub finish
-{
-    my $self = shift;
-
-    # close files, free memory
-
-    my $backend = $self->backend();
-
-    $backend->PerfectClampFinish();
-}
-
-
-sub get_time_step
-{
-    my $self = shift;
-
-    # a perfect clamp object does not have a time step
-
-    return undef;
-}
-
-
-sub initiate
-{
-    my $self = shift;
-
-    #t perhaps need to set the command voltage here ?
-}
-
-
-sub new
-{
-    my $package = shift;
-
-    my $options = shift;
-
-    my $self = { %$options, };
-
-    bless $self, $package;
-
-    if (!defined $self->{name})
-    {
-	$self->{name} = "a pc";
-    }
-
-    $self->{backend} = SwiggableHeccer::PerfectClampNew($self->{name});
-
-    if (!defined $self->{backend})
-    {
-	return undef;
-    }
-
-    # make distinction between command_filename and command voltage option
-
-    if (defined $options->{command})
-    {
-	my $backend = $self->backend();
-
-	$backend->PerfectClampSetFields($options->{command}, undef);
-    }
-    elsif (defined $options->{filename})
-    {
-	my $backend = $self->backend();
-
-	#! the command voltage is ignored in this case, use an
-	#! unreasonable value to make result invalid if it would be used
-	#! (due to a bug).
-
-	$backend->PerfectClampSetFields(-10000, $options->{filename});
-    }
-    else
-    {
-	return "Heccer::PerfectClamp constructor: cannot construct a perfect clamp without command voltage and without a filename";
-    }
-
-    return $self;
-}
-
-
-sub report
-{
-    my $self = shift;
-
-    #t nothing I guess ?
-}
-
-
-sub step
-{
-    my $self = shift;
-
-    my $scheduler = shift;
-
-    my $options = shift;
-
-    my $backend = $self->backend();
-
-    my $result = $backend->PerfectClampSingleStep($options->{steps});
-
-    return $result;
-}
 
 
 1;
