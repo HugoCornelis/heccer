@@ -147,39 +147,39 @@ struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
 
 typedef int (*DriverMethod)(void *pvData);
 
-struct Heccer *heccer_get_driver_data(struct Heccer *pheccer)
+void * heccer_get_driver_data(struct Heccer *pheccer)
 {
-    return(pheccer);
+    return((void *)pheccer);
 }
 
 
-DriverMethod heccer_get_driver_method(struct Heccer *pheccer)
+void * heccer_get_driver_method(struct Heccer *pheccer)
 {
-    return((DriverMethod)HeccerHeccs);
+    return((void *)HeccerHeccs);
 }
 
 
-struct OutputGenerator *output_generator_get_driver_data(struct OutputGenerator *pog)
+void * output_generator_get_driver_data(struct OutputGenerator *pog)
 {
-    return(pog);
+    return((void *)pog);
 }
 
 
-DriverMethod output_generator_get_driver_method(struct OutputGenerator *pog)
+void * output_generator_get_driver_method(struct OutputGenerator *pog)
 {
-    return((DriverMethod)OutputGeneratorAnnotatedStep);
+    return((void *)OutputGeneratorTimedStep);
 }
 
 
-struct PerfectClamp *perfect_clamp_get_driver_data(struct PerfectClamp *ppc)
+void * perfect_clamp_get_driver_data(struct PerfectClamp *ppc)
 {
-    return(ppc);
+    return((void *)ppc);
 }
 
 
-DriverMethod perfect_clamp_get_driver_method(struct PerfectClamp *ppc)
+void * perfect_clamp_get_driver_method(struct PerfectClamp *ppc)
 {
-    return((DriverMethod)PerfectClampSingleStep);
+    return((void *)PerfectClampSingleStep);
 }
 
 
