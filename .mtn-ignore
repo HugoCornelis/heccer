@@ -8,11 +8,11 @@ Makefile$
 ^docs/various.txt$
 ^doxy$
 ^doxygen/docs/
+^glue/swig/perl/Heccer.pm$
 ^glue/swig/perl/SwiggableHeccer.pm$
 ^glue/swig/perl/swiggable_heccer_wrap.c$
 ^glue/swig/python/SwiggableHeccer.py$
 ^glue/swig/python/swiggable_heccer_wrap.c$
-^heccer-.*pre-release/
 ^html/
 ^installed$
 ^installed/

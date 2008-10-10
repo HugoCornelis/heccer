@@ -161,8 +161,10 @@ sub get_driver
 
     my $result
 	= {
-	   data => $self->{heccer},
-	   method => \&SwiggableHeccer::HeccerHeccs,
+	   data => $self->{heccer}->heccer_get_driver_data(),
+	   method => $self->{heccer}->heccer_get_driver_method(),
+# 	   data => \&SwiggableHeccer::HeccerHeccs$self->{heccer},
+# 	   method => \&SwiggableHeccer::HeccerHeccs,
 	  };
 
     return $result;
@@ -402,6 +404,15 @@ sub set_addressable
 sub step
 {
     return hecc(@_);
+}
+
+
+sub version
+{
+    # $Format: "    my $version=\"${package}-${label}\";"$
+    my $version="heccer-python-2";
+
+    return $version;
 }
 
 
@@ -1317,8 +1328,10 @@ sub get_driver
 
     my $result
 	= {
-	   data => $self->{backend},
+	   data => $self->{backend}->output_generator_get_driver_data(),
 	   method => undef,
+# 	   data => $self->{backend},
+# 	   method => undef,
 	  };
 
     return $result;
@@ -1583,8 +1596,10 @@ sub get_driver
 
     my $result
 	= {
-	   data => $self->{backend},
-	   method => \&SwiggableHeccer::OutputGeneratorAnnotatedStep,
+	   data => $self->{backend}->output_generator_get_driver_data(),
+	   method => $self->{backend}->output_generator_get_driver_method(),
+# 	   data => $self->{backend},
+# 	   method => \&SwiggableHeccer::OutputGeneratorAnnotatedStep,
 	  };
 
     return $result;
@@ -1706,8 +1721,10 @@ sub get_driver
 
     my $result
 	= {
-	   data => $self->{backend},
-	   method => \&SwiggableHeccer::PerfectClampSingleStep,
+	   data => $self->{backend}->perfect_clamp_get_driver_data(),
+	   method => $self->{backend}->perfect_clamp_get_driver_method(),
+# 	   data => $self->{backend},
+# 	   method => \&SwiggableHeccer::PerfectClampSingleStep,
 	  };
 
     return $result;

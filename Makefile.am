@@ -22,6 +22,8 @@ SUBDIRS = \
 	glue \
 	tests
 
+dist_bin_SCRIPTS = bin/heccer
+
 AM_CFLAGS=-g3 -fPIC -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
 
 #CFLAGS = -O0

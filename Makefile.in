@@ -19,6 +19,7 @@
 
 
 
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -40,11 +41,11 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = .
-DIST_COMMON = $(am__configure_deps) $(nobase_dist_heccertest_DATA) \
-	$(nobase_include_HEADERS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/configure \
-	$(top_srcdir)/heccer/config.h.in COPYING INSTALL depcomp \
-	install-sh missing
+DIST_COMMON = $(am__configure_deps) $(dist_bin_SCRIPTS) \
+	$(nobase_dist_heccertest_DATA) $(nobase_include_HEADERS) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(top_srcdir)/configure $(top_srcdir)/heccer/config.h.in \
+	COPYING INSTALL depcomp install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -60,8 +61,8 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(heccertestdir)" \
-	"$(DESTDIR)$(includedir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
+	"$(DESTDIR)$(heccertestdir)" "$(DESTDIR)$(includedir)"
 libLIBRARIES_INSTALL = $(INSTALL_DATA)
 LIBRARIES = $(lib_LIBRARIES)
 AR = ar
@@ -77,6 +78,8 @@ am_libheccer_a_OBJECTS = addressing.$(OBJEXT) compartment.$(OBJEXT) \
 	serialization.$(OBJEXT) table.$(OBJEXT) vclamp.$(OBJEXT) \
 	vm.$(OBJEXT)
 libheccer_a_OBJECTS = $(am_libheccer_a_OBJECTS)
+dist_binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+SCRIPTS = $(dist_bin_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/heccer
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -196,6 +199,7 @@ SUBDIRS = \
 	glue \
 	tests
 
+dist_bin_SCRIPTS = bin/heccer
 AM_CFLAGS = -g3 -fPIC -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
 
 #CFLAGS = -O0
@@ -333,6 +337,25 @@ libheccer.a: $(libheccer_a_OBJECTS) $(libheccer_a_DEPENDENCIES)
 	-rm -f libheccer.a
 	$(libheccer_a_AR) libheccer.a $(libheccer_a_OBJECTS) $(libheccer_a_LIBADD)
 	$(RANLIB) libheccer.a
+install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	test -z "$(bindir)" || $(mkdir_p) "$(DESTDIR)$(bindir)"
+	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(dist_binSCRIPT_INSTALL) '$$d$$p' '$(DESTDIR)$(bindir)/$$f'"; \
+	    $(dist_binSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(bindir)/$$f"; \
+	  else :; fi; \
+	done
+
+uninstall-dist_binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
+	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -546,7 +569,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/heccer
+	$(mkdir_p) $(distdir)/bin $(distdir)/heccer
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -690,10 +713,10 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(LIBRARIES) $(DATA) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(SCRIPTS) $(DATA) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(heccertestdir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(heccertestdir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-recursive
@@ -744,7 +767,7 @@ info-am:
 install-data-am: install-nobase_dist_heccertestDATA \
 	install-nobase_includeHEADERS
 
-install-exec-am: install-libLIBRARIES
+install-exec-am: install-dist_binSCRIPTS install-libLIBRARIES
 
 install-info: install-info-recursive
 
@@ -771,8 +794,8 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-info-am uninstall-libLIBRARIES \
-	uninstall-nobase_dist_heccertestDATA \
+uninstall-am: uninstall-dist_binSCRIPTS uninstall-info-am \
+	uninstall-libLIBRARIES uninstall-nobase_dist_heccertestDATA \
 	uninstall-nobase_includeHEADERS
 
 uninstall-info: uninstall-info-recursive
@@ -784,17 +807,18 @@ uninstall-info: uninstall-info-recursive
 	distclean distclean-compile distclean-generic distclean-hdr \
 	distclean-recursive distclean-tags distcleancheck distdir \
 	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am \
-	install-libLIBRARIES install-man \
+	install install-am install-data install-data-am \
+	install-dist_binSCRIPTS install-exec install-exec-am \
+	install-info install-info-am install-libLIBRARIES install-man \
 	install-nobase_dist_heccertestDATA \
 	install-nobase_includeHEADERS install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic maintainer-clean-recursive \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-recursive pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-info-am \
-	uninstall-libLIBRARIES uninstall-nobase_dist_heccertestDATA \
+	uninstall uninstall-am uninstall-dist_binSCRIPTS \
+	uninstall-info-am uninstall-libLIBRARIES \
+	uninstall-nobase_dist_heccertestDATA \
 	uninstall-nobase_includeHEADERS
 
 

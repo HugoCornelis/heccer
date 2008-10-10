@@ -143,6 +143,46 @@ struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
     return &ptgt->phtg[i];
 }
 
+/// scheduler optimization
+
+typedef int (*DriverMethod)(void *pvData);
+
+struct Heccer *heccer_get_driver_data(struct Heccer *pheccer)
+{
+    return(pheccer);
+}
+
+
+DriverMethod heccer_get_driver_method(struct Heccer *pheccer)
+{
+    return((DriverMethod)HeccerHeccs);
+}
+
+
+struct OutputGenerator *output_generator_get_driver_data(struct OutputGenerator *pog)
+{
+    return(pog);
+}
+
+
+DriverMethod output_generator_get_driver_method(struct OutputGenerator *pog)
+{
+    return((DriverMethod)OutputGeneratorAnnotatedStep);
+}
+
+
+struct PerfectClamp *perfect_clamp_get_driver_data(struct PerfectClamp *ppc)
+{
+    return(ppc);
+}
+
+
+DriverMethod perfect_clamp_get_driver_method(struct PerfectClamp *ppc)
+{
+    return((DriverMethod)PerfectClampSingleStep);
+}
+
+
 /* /// math component array handling */
 
 /* struct MathComponent *math_component_array(int size) */
