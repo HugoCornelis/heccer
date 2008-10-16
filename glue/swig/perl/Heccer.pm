@@ -1658,7 +1658,16 @@ sub step
 
     my $backend = $self->backend();
 
-    my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+    my $result;
+
+    if ($self->{format}) # eq 'steps')
+    {
+	$result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+    }
+    else
+    {
+	$result = $backend->OutputGeneratorTimedStep($options->{time});
+    }
 
     return $result;
 }
