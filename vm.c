@@ -172,18 +172,18 @@ HeccerVMDumpOperators
 
 /// ***************************************************************************
 ///
-/// NAME : HeccerCommandInfoLookup()
+/// SHORT: HeccerCommandInfoLookup()
 ///
-/// SHORT : lookup info on given command
-///
-/// PARAMETERS : 
+/// ARGS.: 
 ///
 ///	phci....: array with info
 ///	iOp.....: operation to lookup
 ///
-/// RETURN : struct HeccerCommandInfo * : info on command
+/// RTN..: struct HeccerCommandInfo *
 ///
-/// DESCRIPTION : lookup info on given command
+///	info on command
+///
+/// DESCR: lookup info on given command.
 ///
 /// ***************************************************************************
 
@@ -391,11 +391,9 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 /// ***************************************************************************
 ///
-/// NAME : HeccerVMDumpOperators()
+/// SHORT: HeccerVMDumpOperators()
 ///
-/// SHORT : print operations in given array according to given info array
-///
-/// PARAMETERS : 
+/// ARGS.: 
 ///
 ///	pvm.....: heccer vm.
 ///	piArray.: array to print
@@ -404,13 +402,13 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 ///	iStart..: start index
 ///	iEnd....: ending index
 ///
-/// RETURN : int
+/// RTN..: int
 ///
 ///	success of operation.
 ///
-/// DESCRIPTION : print operations in given array.
+/// DESCR: print operations in given array according to given info array.
 ///
-/// NOTE : length of operations is ignored at the moment
+/// NOTE.: length of operations is ignored at the moment
 ///
 /// ***************************************************************************
 
