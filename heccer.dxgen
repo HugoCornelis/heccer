@@ -117,7 +117,7 @@ FULL_PATH_NAMES        = YES
 # If left blank the directory from which doxygen is run is used as the 
 # path to strip.
 
-STRIP_FROM_PATH        = /local_home/local_home/hugo/neurospaces_project/heccer/source/c/snapshots/0/
+STRIP_FROM_PATH        = /local_home/local_home/hugo/neurospaces_project/heccer/source/snapshots/0/
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of 
 # the path mentioned in the documentation of a class, which tells 
