@@ -22,7 +22,6 @@
 #include "heccer/minimumdegree.h"
 
 
-//f static prototypes
 
 static
 int
@@ -44,40 +43,36 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments);
 static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMDFindFlow()
-///
-/// ARGS.:
-///
-///	pheccer........: a heccer.
-///	iCompartments..: number of compartments.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iCompartments number of compartments.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Find natural flow in the morphology.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Find natural flow in the morphology.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	This is assumed to follow reverse current flow for a passive
 ///	morphology, hence the name of the function.
-///
-/// **************************************************************************
+/// 
 
 /// driver : select and drive the enumerator
-///
+/// 
 ///	A small variant of hines, 1986.  Recursive function, typically
 ///	driven with something like HeccerMDFlowEnumerator(p, a, b),
 ///	where the a is the soma index and b is the number of
 ///	compartments.
-///
-/// NOTE.:
-///
+/// 
+/// \note 
+/// 
 ///	This is a very specific implementation of more general minimum
 ///	degree algorithms, and is therefore suboptimal, afatiac.
-///
+/// 
 
 static
 int
@@ -98,7 +93,7 @@ HeccerMDFlowEnumerator
 
     //- if branches first scheduling
 
-    //t note : leaves first does not work yet, do not use.
+    /// \todo note : leaves first does not work yet, do not use.
 
     if (1 || pheccer->ho.iOptions & HECCER_OPTION_BRANCHES_FIRST_SCHEDULING)
     {
@@ -149,10 +144,10 @@ HeccerMDFlowEnumerator
 
 	    //- find reverse flow starting at this child
 
-	    //! depth-first is the essence of branches first.
+	    /// \note depth-first is the essence of branches first.
 
-	    //! depth-first has two flavours : pre-order, post-order,
-	    //! they are equivalent for this purpose, ie. for a heccer.
+	    /// \note depth-first has two flavours : pre-order, post-order,
+	    /// \note they are equivalent for this purpose, ie. for a heccer.
 
 	    iTarget = HeccerMDFlowEnumeratorL(pheccer, iIndex, iTarget);
 	}
@@ -160,7 +155,7 @@ HeccerMDFlowEnumerator
 
     //- no compartments : should return zero (recursively)
 
-    //! check should be made by the driver of this routine
+    /// \note check should be made by the driver of this routine
 
     return(iTarget);
 }
@@ -185,17 +180,17 @@ HeccerMDFlowEnumeratorB
 
 	//- find reverse flow starting at this child
 
-	//! depth-first is the essence of branches first.
+	/// \note depth-first is the essence of branches first.
 
-	//! depth-first has two flavours : pre-order, post-order,
-	//! they are equivalent for this purpose, ie. for a heccer.
+	/// \note depth-first has two flavours : pre-order, post-order,
+	/// \note they are equivalent for this purpose, ie. for a heccer.
 
 	iTarget = HeccerMDFlowEnumerator(pheccer, iIndex, iTarget);
     }
 
     //- no compartments : should return zero (recursively)
 
-    //! check should be made by the driver of this routine
+    /// \note check should be made by the driver of this routine
 
     return(iTarget);
 }
@@ -251,7 +246,7 @@ HeccerMDFlowEnumeratorL
 
     //- no compartments : should return zero (recursively)
 
-    //! check should be made by the driver of this routine
+    /// \note check should be made by the driver of this routine
 
     return(iTarget);
 }
@@ -295,7 +290,7 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 	{
 	    //- this is a candidate to start the reverse flow
 
-	    //! usually it will be the soma, but ok if it is a dendritic tip
+	    /// \note usually it will be the soma, but ok if it is a dendritic tip
 
 	    iStart = i;
 	}
@@ -313,14 +308,14 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
     if (iEnd != -1)
     {
-	//t this can happen if the intermediary structure is wrong,
-	//t e.g. out of bound parent index or cycles
+	/// \todo this can happen if the intermediary structure is wrong,
+	/// \todo e.g. out of bound parent index or cycles
 
-	//t also happens for multiple segments without a parent
+	/// \todo also happens for multiple segments without a parent
 
-	//t add something like HeccerError(number, message, varargs);
+	/// \todo add something like HeccerError(number, message, varargs);
 
-	//! segv
+	/// \note segv
 
 	*(int *)0 = 0;
     }
@@ -335,22 +330,18 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMDStructuralyze()
-///
-/// ARGS.:
-///
-///	pheccer........: a heccer.
-///	iCompartments..: number of compartments.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iCompartments number of compartments.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Build structural indices.
-///
-/// **************************************************************************
+/// 
+/// \brief Build structural indices.
+/// \details 
+/// 
 
 static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 {
@@ -391,7 +382,7 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 	    if (pcomp->iParent == i
 		|| pcomp->iParent >= iCompartments)
 	    {
-		//t HeccerError(number, message, varargs);
+		/// \todo HeccerError(number, message, varargs);
 
 		HeccerError
 		    (pheccer,
@@ -474,21 +465,17 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMinimumDegree()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Minimum degree enumeration for compartment matrix.
-///
-/// **************************************************************************
+/// 
+/// \brief Minimum degree enumeration for compartment matrix.
+/// \details 
+/// 
 
 int HeccerMinimumDegree(struct Heccer *pheccer)
 {
@@ -507,8 +494,8 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 
     //- do minimum degree
 
-    //! this is assumed to follow reverse current flow for a passive
-    //! morphology, hence the name of the function.
+    /// \note this is assumed to follow reverse current flow for a passive
+    /// \note morphology, hence the name of the function.
 
     iResult = iResult && HeccerMDFindFlow(pheccer, pheccer->inter.iCompartments);
 
@@ -522,23 +509,19 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMinimumDegreeDump()
-///
-/// ARGS.:
-///
-///	pmd........: minimum degree index.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pmd minimum degree index.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Perform the compartment operators once.
-///
-/// **************************************************************************
+/// 
+/// \brief Perform the compartment operators once.
+/// \details 
+/// 
 
 int
 HeccerMinimumDegreeDump

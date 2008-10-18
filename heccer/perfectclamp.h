@@ -25,23 +25,23 @@
 
 struct PerfectClamp
 {
-    //m a string identifier, for what it is worth
+    /// a string identifier, for what it is worth
 
     char *pcName;
 
-    //m number of clamped variables
+    /// number of clamped variables
 
     int iClampsActive;
 
-    //m input, solved variable
+    /// input, solved variable
 
     double *pdVoltage;
 
-    //m command voltage
+    /// command voltage
 
     double dCommand;
 
-    //m filename with command voltages
+    /// filename with command voltages
 
     char *pcFilename;
 

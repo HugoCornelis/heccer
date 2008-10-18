@@ -39,34 +39,34 @@ struct MechanismIndex;
 #endif
 
 
-//s heccer main structure
+/// \struct heccer main structure
 
 struct Intermediary
 {
-    //m compartment array
+    /// compartment array
 
     int iCompartments;
 
     struct Compartment *pcomp;
 
-    //m all other mathematical components
+    /// all other mathematical components
 
     struct MathComponentArray *pmca;
 
-    //m compartment 2 first mechanism number
+    /// compartment 2 first mechanism number
 
     int *piC2m;
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-    //m identification of the originator, mostly a cell or cell
-    //m population, but perhaps just a segment vector
+    /// identification of the originator, mostly a cell or cell
+    /// population, but perhaps just a segment vector
 
-    //m start range
+    /// start range
 
     int iSerialStart;
 
-    //m end range
+    /// end range
 
     int iSerialEnd;
 
@@ -75,7 +75,6 @@ struct Intermediary
 };
 
 
-//f prototypes
 
 int HeccerIntermediaryBuildIndex(struct Heccer *pheccer);
 

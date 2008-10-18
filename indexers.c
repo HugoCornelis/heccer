@@ -19,23 +19,19 @@
 #include "heccer/indexers.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerIndexersDump()
-///
-/// ARGS.:
-///
-///	pindexers..: heccer indexers.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pindexers heccer indexers.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Dump intermediary functions.
-///
-/// **************************************************************************
+/// 
+/// \brief Dump intermediary functions.
+/// \details 
+/// 
 
 int
 HeccerIndexersDump

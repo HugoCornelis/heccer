@@ -31,21 +31,21 @@ typedef int (*ComponentInspector)(struct Heccer *pheccer, struct TranslationServ
 
 struct TranslationService
 {
-    //m service specific data
+    /// service specific data
 
     struct TranslationServiceData *ptsd;
 
-    //t guess need to map this to the biological level as defined by
-    //t Neurospaces, not done yet.
+    /// \todo guess need to map this to the biological level as defined by
+    /// \todo Neurospaces, not done yet.
 
-    //t additionally need to map this to the 'spatial and temporal
-    //t accuracy level'.  Not sure how to do that yet.
+    /// \todo additionally need to map this to the 'spatial and temporal
+    /// \todo accuracy level'.  Not sure how to do that yet.
 
-    //m initializes segment intermediary
+    /// initializes segment intermediary
 
     ComponentInspector segments_inspector;
 
-    //m initializes mechanism intermediary
+    /// initializes mechanism intermediary
 
     ComponentInspector mechanisms_inspector;
 };

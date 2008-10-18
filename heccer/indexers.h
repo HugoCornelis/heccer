@@ -37,20 +37,19 @@ struct Indexers;
 #endif
 
 
-//s all indexing structures
+/// \struct all indexing structures
 
 struct Indexers
 {
-    //m minimum degree
+    /// minimum degree
 
     struct MinimumDegree md;
 
-    //t need a couple of things for channel reordering
+    /// \todo need a couple of things for channel reordering
 
 };
 
 
-//f prototypes
 
 int
 HeccerIndexersDump

@@ -33,19 +33,19 @@
 #endif
 
 
-//s interval discretization
+/// \struct interval discretization
 
 struct HeccerInterval
 {
-    //m start of interval
+    /// start of interval
 
     double dStart;
 
-    //m end of interval
+    /// end of interval
 
     double dEnd;
 
-    //m discretization step size
+    /// discretization step size
 
     double dStep;
 };
@@ -53,7 +53,7 @@ struct HeccerInterval
 
 struct HeccerTableApproximationOptions
 {
-    //m how do we do interpolation
+    /// how do we do interpolation
 
     int iShape;
 };
@@ -61,31 +61,31 @@ struct HeccerTableApproximationOptions
 
 struct HeccerTabulatedGate
 {
-    //m original source parameters
+    /// original source parameters
 
     void *pvParameters;
 
     size_t iSizeParameters;
 
-    //m interval of the tables
+    /// interval of the tables
 
     struct HeccerInterval hi;
 
-    //m calculation options
+    /// calculation options
 
-    //! almost tao
+    /// \note almost tao
 
     struct HeccerTableApproximationOptions htao;
 
-    //m number of entries, must always match with interval definition I guess
+    /// number of entries, must always match with interval definition I guess
 
     int iEntries;
 
-    //m A table
+    /// A table
 
     double *pdA;
 
-    //m backward table (alpha + beta)
+    /// backward table (alpha + beta)
 
     double *pdB;
 };
@@ -93,51 +93,51 @@ struct HeccerTabulatedGate
 
 struct HeccerTabulatedSpringMass
 {
-    //m original source parameters
+    /// original source parameters
 
     void *pvParameters;
 
     size_t iSizeParameters;
 
-    //m two precalculated coefficients for first exponential
+    /// two precalculated coefficients for first exponential
 
     double dX1;
     double dX2;
 
-    //m two precalculated coefficients for second exponential
+    /// two precalculated coefficients for second exponential
 
     double dY1;
     double dY2;
 };
 
 
-//d maximum number of tabulated gates
+/// \def maximum number of tabulated gates
 
 #define HECCER_TABULATED_GATES_MAX 100
 
 struct TabulatedGateTable
 {
-    //m tabulated gates (preallocated array)
+    /// tabulated gates (preallocated array)
 
     struct HeccerTabulatedGate phtg[HECCER_TABULATED_GATES_MAX];
 
-    //m number of entries used in the above
+    /// number of entries used in the above
 
     int iTabulatedGateCount;
 };
 
 
-//d maximum number of tabulated spring mass channels
+/// \def maximum number of tabulated spring mass channels
 
 #define HECCER_TABULATED_SPRINGMASS_MAX 10000
 
 struct TabulatedSpringMassTable
 {
-    //m tabulated gates (preallocated array)
+    /// tabulated gates (preallocated array)
 
     struct HeccerTabulatedSpringMass phtsm[HECCER_TABULATED_SPRINGMASS_MAX];
 
-    //m number of entries used in the above
+    /// number of entries used in the above
 
     int iTabulatedSpringMassCount;
 };
@@ -148,7 +148,6 @@ struct GateConcept;
 struct Heccer;
 
 
-//f prototypes
 
 int
 HeccerConcentrationGateTabulate

@@ -40,27 +40,23 @@ static struct MathComponentInfo pmci[] =
 };
 
 
-/// **************************************************************************
-///
-/// SHORT: MathComponentArrayCallocData()
-///
-/// ARGS.:
-///
-///	pmca...: math component array.
+/// 
+/// 
+/// \arg pmca math component array.
 ///	iTypes.: set of math component types to allocate for, -1 terminated.
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Allocate the math component data for the given set of types.
-///
+/// 
+/// \brief Allocate the math component data for the given set of types.
+/// \details 
+/// 
 ///	As a side effect, sets the number of expected math components
 ///	to the number of types, and the cursor to zero.  After this,
 ///	fill the array by calling for each math component
 ///	MathComponentArraySetAdvance().
-///
-/// **************************************************************************
+/// 
 
 int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *piTypes)
 {
@@ -123,22 +119,18 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *piTypes)
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-/// **************************************************************************
-///
-/// SHORT: MathComponentArrayLookupSerial()
-///
-/// ARGS.:
-///
-///	pmca....: math component array.
-///	iSerial.: serial to search.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pmca math component array.
+/// \arg iSerial serial to search.
+/// 
+/// \return int
+/// 
 ///	index of matching math component, -1 for not found.
-///
-/// DESCR: Look up a math component by serial.
-///
-/// **************************************************************************
+/// 
+/// \brief Look up a math component by serial.
+/// \details 
+/// 
 
 int
 MathComponentArrayLookupSerial
@@ -182,27 +174,23 @@ MathComponentArrayLookupSerial
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: MathComponentArraySetAdvance()
-///
-/// ARGS.:
-///
-///	pmca...: math component array.
-///	pmc....: math component to add.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pmca math component array.
+/// \arg pmc math component to add.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Add math component at current cursor position, advance.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Add math component at current cursor position, advance.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	There is no protection for overflows by checking the cursor
 ///	with the number of math components.
-///
-/// **************************************************************************
+/// 
 
 int
 MathComponentArraySetAdvance
@@ -241,31 +229,27 @@ MathComponentArraySetAdvance
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: MathComponentCopyNext()
-///
-/// ARGS.:
-///
-///	pmcTarget.: math component target.
-///	pmcSource.: math component source.
-///
-/// RTN..: struct MathComponent *
-///
+/// 
+/// 
+/// \arg pmcTarget math component target.
+/// \arg pmcSource math component source.
+/// 
+/// \return struct MathComponent *
+/// 
 ///	Next math component in the array, NULL for failure.
-///
-/// DESCR: Copy a math component, advance to the next math component.
-///
+/// 
+/// \brief Copy a math component, advance to the next math component.
+/// \details 
+/// 
 ///	The original content of pmcTarget is completely ignored and
 ///	overwritten.
-///
+/// 
 /// TODO:
-///
+/// 
 ///	This need an additional helper function that takes an ///
 ///	non-linear array of math components and linearizes them in
 ///	memory.
-///
-/// **************************************************************************
+/// 
 
 struct MathComponent *
 MathComponentCopyNext
@@ -302,28 +286,24 @@ MathComponentCopyNext
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: MathComponentInfoLookup()
-///
-/// ARGS.:
-///
-///	iType.: math component type.
-///
-/// RTN..: struct MathComponentInfo *
-///
+/// 
+/// 
+/// \arg iType math component type.
+/// 
+/// \return struct MathComponentInfo *
+/// 
 ///	Math component info, respecting compilation options.
-///
-/// DESCR: Lookup math component type, respecting compilation options.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Lookup math component type, respecting compilation options.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	This function is for the purpose of constructing
 ///	intermediaries from C level.  The info returned depends on
 ///	compilation options.  See the test code for an example of its
 ///	use.
-///
-/// **************************************************************************
+/// 
 
 struct MathComponentInfo * MathComponentInfoLookup(int iType)
 {
@@ -353,26 +333,22 @@ struct MathComponentInfo * MathComponentInfoLookup(int iType)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: MathComponentNext()
-///
-/// ARGS.:
-///
-///	pmc....: math component in the array.
-///
-/// RTN..: struct MathComponent *
-///
+/// 
+/// 
+/// \arg pmc math component in the array.
+/// 
+/// \return struct MathComponent *
+/// 
 ///	Next math component, NULL for failure.
-///
-/// DESCR: Access a math component, and lookup the next component.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Access a math component, and lookup the next component.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	There is no protection for overflows by checking the cursor
 ///	with the number of math components.
-///
-/// **************************************************************************
+/// 
 
 struct MathComponent * MathComponentNext(struct MathComponent *pmc)
 {

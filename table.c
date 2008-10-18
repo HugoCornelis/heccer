@@ -100,25 +100,21 @@ HeccerTabulatedGateStore
  struct HeccerTabulatedGate *phtgNew);
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerConcentrationGateTabulate()
-///
-/// ARGS.:
-///
-///	pca.....: a concentration gate concept.
-///	pheccer.: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pca a concentration gate concept.
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
+/// 
 ///	phtg....: a filled heccer tabulated gate.
-///
-/// DESCR: Fill the tables with a discretization of concentration gate
+/// 
+/// \brief Fill the tables with a discretization of concentration gate
+/// \details 
 /// kinetics.
-///
-/// **************************************************************************
+/// 
 
 int
 HeccerConcentrationGateTabulate
@@ -151,9 +147,9 @@ HeccerConcentrationGateTabulate
 
 	//- fill in A and B table
 
-	//t perhaps the table names should be redefined ?
+	/// \todo perhaps the table names should be redefined ?
 
-	//! time step normalization done elsewhere
+	/// \note time step normalization done elsewhere
 
 	phtg->pdA[i] = dEquilibrium / pca->parameters.dTau;
 
@@ -166,20 +162,16 @@ HeccerConcentrationGateTabulate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerDiscretizeConcentrationGate()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pca.......: concentration gate concept description.
-///
-/// RTN..: int : success of operation.
-///
-/// DESCR: Discretize the given concentration gate concept.
-///
-/// **************************************************************************
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pca concentration gate concept description.
+/// 
+/// \return int : success of operation.
+/// 
+/// \brief Discretize the given concentration gate concept.
+/// \details 
+/// 
 
 int
 static
@@ -213,7 +205,7 @@ HeccerDiscretizeConcentrationGate
 	    return(FALSE);
 	}
 
-	//t first should do the lookup
+	/// \todo first should do the lookup
 
 	//- store the table as is
 
@@ -273,23 +265,19 @@ HeccerDiscretizeConcentrationGate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerDiscretizeGateConcept()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pgc.......: gate concept description.
-///
-/// RTN..: int : success of operation.
-///
-/// DESCR: Discretize the given gate concept.
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pgc gate concept description.
+/// 
+/// \return int : success of operation.
+/// 
+/// \brief Discretize the given gate concept.
+/// \details 
+/// 
 ///	Note that for a single gate, this function sets up the A
 ///	and B kinetic discretization.
-///
-/// **************************************************************************
+/// 
 
 int
 static
@@ -323,7 +311,7 @@ HeccerDiscretizeGateConcept
 	    return(FALSE);
 	}
 
-	//t first should do the lookup
+	/// \todo first should do the lookup
 
 	//- store the table as is
 
@@ -383,24 +371,20 @@ HeccerDiscretizeGateConcept
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerGateConceptTabulate()
-///
-/// ARGS.:
-///
-///	pgc.....: a heccer gate concept.
-///	pheccer.: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pgc a heccer gate concept.
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
+/// 
 ///	phtg....: a filled heccer tabulated gate.
-///
-/// DESCR: Fill the tables with a discretization of the gate kinetics.
-///
-/// **************************************************************************
+/// 
+/// \brief Fill the tables with a discretization of the gate kinetics.
+/// \details 
+/// 
 
 int
 HeccerGateConceptTabulate
@@ -441,9 +425,9 @@ HeccerGateConceptTabulate
 	    double dMembraneOffset = pgc->parameters.gkA.dHHOffsetE;
 	    double dTauDenormalizer = pgc->parameters.gkA.dHHTau;
 
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
+	    /// \todo check the MCAD MMGLT macro to see how it deals with
+	    /// \todo relative errors.  The current implementation is magnitude
+	    /// \todo dependent, and obviously completely add hoc.
 
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {
@@ -535,31 +519,27 @@ HeccerGateConceptTabulate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerChannelPersistentSteadyStateDualTauTabulate()
-///
-/// ARGS.:
-///
-///	pcpsdt..: a channel with steady state and two time constants.
-///	pheccer.: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pcpsdt a channel with steady state and two time constants.
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Fill the tables with a discretization of the gate kinetics.
-///
+/// 
+/// \brief Fill the tables with a discretization of the gate kinetics.
+/// \details 
+/// 
 ///	First tables with 149 entries are created using the commonly
 ///	defined formulas for steady state and time constant (see
 ///	EDS1994).  Next the full sized tables are created using the
 ///	small tables, by using b-spline interpolation.
-///
+/// 
 ///	This is the way it was done in the Purkinje cell model, but is
 ///	only here for reasons of legacy.  This function should
 ///	normally not be used.
-///
-/// **************************************************************************
+/// 
 
 int
 static
@@ -638,9 +618,9 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 	    double dA1 = dA;
 	    double dB1 = dC;
 
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
+	    /// \todo check the MCAD MMGLT macro to see how it deals with
+	    /// \todo relative errors.  The current implementation is magnitude
+	    /// \todo dependent, and obviously completely add hoc.
 
 	    if (fabs(dA1) < 1e-17)
 	    {
@@ -730,9 +710,9 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 	    double dA2 = dB;
 	    double dB2 = dD;
 
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
+	    /// \todo check the MCAD MMGLT macro to see how it deals with
+	    /// \todo relative errors.  The current implementation is magnitude
+	    /// \todo dependent, and obviously completely add hoc.
 
 	    if (fabs(dA2) < 1e-17)
 	    {
@@ -775,31 +755,27 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerChannelPersistentSteadyStateTauTabulate()
-///
-/// ARGS.:
-///
-///	pcpst...: a heccer channel with steady state and time constant.
-///	pheccer.: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pcpst a heccer channel with steady state and time constant.
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Fill the tables with a discretization of the gate kinetics.
-///
+/// 
+/// \brief Fill the tables with a discretization of the gate kinetics.
+/// \details 
+/// 
 ///	First tables with 149 entries are created using the commonly
 ///	defined formulas for steady state and time constant (see
 ///	EDS1994).  Next the full sized tables are created using the
 ///	small tables, by using b-spline interpolation.
-///
+/// 
 ///	This is the way it was done in the Purkinje cell model, but is
 ///	only here for reasons of legacy.  This function should
 ///	normally not be used.
-///
-/// **************************************************************************
+/// 
 
 int
 static
@@ -881,9 +857,9 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 	    double dB3 = dB;
 
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
+	    /// \todo check the MCAD MMGLT macro to see how it deals with
+	    /// \todo relative errors.  The current implementation is magnitude
+	    /// \todo dependent, and obviously completely add hoc.
 
 	    if (fabs(dA3) < 1e-17)
 	    {
@@ -926,23 +902,19 @@ HeccerChannelPersistentSteadyStateTauTabulate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulateAny()
-///
-/// ARGS.:
-///
-///	pheccer.: a heccer.
-///     iType...: type of intermediary.
-///	pv......: a heccer intermediary with table parameters.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iType type of intermediary.
+/// \arg pv a heccer intermediary with table parameters.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Create the table for a channel.
-///
-/// **************************************************************************
+/// 
+/// \brief Create the table for a channel.
+/// \details 
+/// 
 
 int
 HeccerTabulateAny
@@ -1012,22 +984,18 @@ HeccerTabulateAny
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulateSpringMass()
-///
-/// ARGS.:
-///
-///	pheccer.: a heccer.
-///	pcsm....: a heccer channel with steady state and time constant.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pcsm a heccer channel with steady state and time constant.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Create the table for a spring mass channel.
-///
-/// **************************************************************************
+/// 
+/// \brief Create the table for a spring mass channel.
+/// \details 
+/// 
 
 int
 static
@@ -1067,10 +1035,10 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 
 	struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[i];
 
-	//m compute time constants derived coefficients
+	/// compute time constants derived coefficients
 
-	//! we normalize the first coefficient over the time step,
-	//! propagates through all equations.
+	/// \note we normalize the first coefficient over the time step,
+	/// \note propagates through all equations.
 
 	phtsm->dX1 = (pcsm->parameters.dTau1 * (1.0 - exp(- pheccer->dStep / pcsm->parameters.dTau1))) / pheccer->dStep;
 	phtsm->dX2 = exp(- pheccer->dStep / pcsm->parameters.dTau1);
@@ -1090,31 +1058,27 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerChannelSteadyStateSteppedTauTabulate()
-///
-/// ARGS.:
-///
-///	pheccer.: a heccer.
-///	pcsst...: a heccer channel with steady state and time constant.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pcsst a heccer channel with steady state and time constant.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Fill the tables with a discretization of the gate kinetics.
-///
+/// 
+/// \brief Fill the tables with a discretization of the gate kinetics.
+/// \details 
+/// 
 ///	First tables with 149 entries are created using the commonly
 ///	defined formulas for steady state and time constant (see
 ///	EDS1994).  Next the full sized tables are created using the
 ///	small tables, by using b-spline interpolation.
-///
+/// 
 ///	This is the way it was done in the Purkinje cell model, but is
 ///	only here for reasons of legacy.  This function should
 ///	normally not be used.
-///
-/// **************************************************************************
+/// 
 
 int
 static
@@ -1208,9 +1172,9 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 	    double dB4 = (dC / (dC + dD));
 
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
+	    /// \todo check the MCAD MMGLT macro to see how it deals with
+	    /// \todo relative errors.  The current implementation is magnitude
+	    /// \todo dependent, and obviously completely add hoc.
 
 	    if (fabs(dA4) < 1e-17)
 	    {
@@ -1307,9 +1271,9 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 	    double dB = (1.0 / dY);
 
-	    //t check the MCAD MMGLT macro to see how it deals with
-	    //t relative errors.  The current implementation is magnitude
-	    //t dependent, and obviously completely add hoc.
+	    /// \todo check the MCAD MMGLT macro to see how it deals with
+	    /// \todo relative errors.  The current implementation is magnitude
+	    /// \todo dependent, and obviously completely add hoc.
 
 	    if (fabs(dA) < 1e-17)
 	    {
@@ -1352,24 +1316,20 @@ HeccerChannelSteadyStateSteppedTauTabulate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTableDump()
-///
-/// ARGS.:
-///
-///	phtg.......: a tabulated gate.
-///	iIndex.....: index of this gate.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg phtg a tabulated gate.
+/// \arg iIndex index of this gate.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Dump tables to given stream, respecting given selection.
-///
-/// **************************************************************************
+/// 
+/// \brief Dump tables to given stream, respecting given selection.
+/// \details 
+/// 
 
 static int
 HeccerTableDump
@@ -1417,28 +1377,24 @@ HeccerTableDump
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTableInterpolate()
-///
-/// ARGS.:
-///
-///	ppdSources.......: source tables for interpolation.
-///	ppdDestinations..: destination tables for interpolation.
-///	iSourceSize......: size of source tables.
-///	iDestinationSize.: size of destination tables.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ppdSources source tables for interpolation.
+/// \arg ppdDestinations destination tables for interpolation.
+/// \arg iSourceSize size of source tables.
+/// \arg iDestinationSize size of destination tables.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Interpolate given tables, uses bezier curves.
-///
+/// 
+/// \brief Interpolate given tables, uses bezier curves.
+/// \details 
+/// 
 ///	ppdSources and ppdDestinations must be NULL terminated.
 ///	ppdDestinations must be preallocated, presumably using
 ///	HeccerTabulatedGateNew().
-///
-/// **************************************************************************
+/// 
 
 int
 HeccerTableInterpolate
@@ -1457,8 +1413,8 @@ HeccerTableInterpolate
 
     for (iGate = 0 ; ppdSources[iGate] ; iGate++)
     {
-	//! modified and optimized for heccer from
-	//! http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
+	/// \note modified and optimized for heccer from
+	/// \note http://people.scs.fsu.edu/~burkardt/cpp_src/spline/spline.C
 
 	double dRangeStep = (double)iSourceSize / (double)iDestinationSize;
 	double dActual;
@@ -1529,23 +1485,19 @@ HeccerTableInterpolate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTablesDump()
-///
-/// ARGS.:
-///
-///	ptgt.......: tabulated gate table.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ptgt tabulated gate table.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Dump intermediary functions.
-///
-/// **************************************************************************
+/// 
+/// \brief Dump intermediary functions.
+/// \details 
+/// 
 
 int
 HeccerTablesDump
@@ -1576,26 +1528,21 @@ HeccerTablesDump
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedGateCompareParameters()
-///
-/// ARGS.:
-///
-///	phtg..: an initialized gate table.
-///	pv....: parameters to use for comparison.
-///	iSize.: size of parameter block.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg phtg an initialized gate table.
+/// \arg pv parameters to use for comparison.
+/// \arg iSize size of parameter block.
+/// 
+/// \return int
+/// 
 ///	See memcmp() manual.
-///
-/// DESCR:
-///
+/// 
+/// \details 
+/// 
 ///	Compare parameters for a candidate gate with the parameters
 ///	of an existing table.
-///
-/// **************************************************************************
+/// 
 
 static
 int
@@ -1618,23 +1565,19 @@ HeccerTabulatedGateCompareParameters
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedGateLookup()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pv........: table parameter block.
-///	iSize.....: size of parameter block.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pv table parameter block.
+/// \arg iSize size of parameter block.
+/// 
+/// \return int
+/// 
 ///	tabulated gate index, -1 for failure.
-///
-/// DESCR: Lookup an existing table.
-///
-/// **************************************************************************
+/// 
+/// \brief Lookup an existing table.
+/// \details 
+/// 
 
 static
 int
@@ -1645,7 +1588,7 @@ HeccerTabulatedGateLookup
 
     int iResult = -1;
 
-    //! a protection for the case where you accidently forget to dereference
+    /// \note a protection for the case where you accidently forget to dereference
 
     if (iSize < 10)
     {
@@ -1682,24 +1625,20 @@ HeccerTabulatedGateLookup
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedGateNew()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	dStart....: start value for table.
-///	dEnd......: end value for table.
-///	iEntries..: number of entries in the table.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg dStart start value for table.
+/// \arg dEnd end value for table.
+/// \arg iEntries number of entries in the table.
+/// 
+/// \return int
+/// 
 ///	tabulated gate index, -1 for failure.
-///
-/// DESCR: Allocate a new table.
-///
-/// **************************************************************************
+/// 
+/// \brief Allocate a new table.
+/// \details 
+/// 
 
 static
 int
@@ -1764,26 +1703,21 @@ HeccerTabulatedGateNew
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedSpringMassCompareParameters()
-///
-/// ARGS.:
-///
-///	phtsm.: an initialized gate table.
-///	pv....: parameters to use for comparison.
-///	iSize.: size of parameter block.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg phtsm an initialized gate table.
+/// \arg pv parameters to use for comparison.
+/// \arg iSize size of parameter block.
+/// 
+/// \return int
+/// 
 ///	See memcmp() manual.
-///
-/// DESCR:
-///
+/// 
+/// \details 
+/// 
 ///	Compare parameters for a candidate gate with the parameters
 ///	of an existing table.
-///
-/// **************************************************************************
+/// 
 
 static
 int
@@ -1806,23 +1740,19 @@ HeccerTabulatedSpringMassCompareParameters
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedSpringMassLookup()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pv........: table parameter block.
-///	iSize.....: size of parameter block.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pv table parameter block.
+/// \arg iSize size of parameter block.
+/// 
+/// \return int
+/// 
 ///	tabulated spring mass index, -1 for failure.
-///
-/// DESCR: Lookup an existing table.
-///
-/// **************************************************************************
+/// 
+/// \brief Lookup an existing table.
+/// \details 
+/// 
 
 static
 int
@@ -1833,7 +1763,7 @@ HeccerTabulatedSpringMassLookup
 
     int iResult = -1;
 
-    //! a protection for the case where you accidently forget to dereference
+    /// \note a protection for the case where you accidently forget to dereference
 
     if (iSize < 10)
     {
@@ -1870,21 +1800,17 @@ HeccerTabulatedSpringMassLookup
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedSpringMassNew()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	tabulated spring mass index, -1 for failure.
-///
-/// DESCR: Allocate a new table.
-///
-/// **************************************************************************
+/// 
+/// \brief Allocate a new table.
+/// \details 
+/// 
 
 static
 int
@@ -1917,25 +1843,21 @@ HeccerTabulatedSpringMassNew
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerTabulatedGateStore()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	phtgNew...: tabulated gate.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg phtgNew tabulated gate.
+/// 
+/// \return int
+/// 
 ///	tabulated gate index, -1 for failure.
-///
-/// DESCR: Store a new table.
-///
+/// 
+/// \brief Store a new table.
+/// \details 
+/// 
 ///	Note that the parameters that identify the table must be
 ///	initialized correctly before this function is called.
-///
-/// **************************************************************************
+/// 
 
 static
 int

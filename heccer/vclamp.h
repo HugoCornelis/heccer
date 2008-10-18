@@ -25,54 +25,54 @@
 
 struct VClamp
 {
-    //m a string identifier, for what it is worth
+    /// a string identifier, for what it is worth
 
     char *pcName;
 
-    //m number of clamped variables
+    /// number of clamped variables
 
     int iClampsActive;
 
-    //m input, solved variables
+    /// input, solved variables
 
     double *pdVoltage;
 
     double *pdInjector;
 
-    //m command current
+    /// command current
 
     double dInjected;
 
-    //m intial resistance and capacitance
+    /// intial resistance and capacitance
 
     double dC;
     double dR;
 
-    //m resulting command voltage
+    /// resulting command voltage
 
     double dCommand;
 
-    //m gain and time constants
+    /// gain and time constants
 
-    //! setfield ^ gain 0.50 tau_i 0.02 tau_d 0.005 saturation 999.0
+    /// \note setfield ^ gain 0.50 tau_i 0.02 tau_d 0.005 saturation 999.0
 
     double dGain;
     double dTau_i;
     double dTau_d;
     double dSaturation;
 
-    //m solved state variables
+    /// solved state variables
 
     double dE;
     double dEIntegral;
     double dEDerivative;
     double dEPrevious;
 
-    //m previous time of calculations
+    /// previous time of calculations
 
     double dPreviousTime;
 
-    //m final output
+    /// final output
 
     double dOutput;
 

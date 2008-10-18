@@ -32,8 +32,8 @@
 //o
 
 
-/* //s the connection table translates model service serial in indices */
-/* //s for the EventDistributorMatrix */
+/* /// \struct the connection table translates model service serial in indices */
+/* /// \struct for the EventDistributorMatrix */
 
 /* struct ConnectionTable; */
 
@@ -42,23 +42,23 @@ struct EventDistributor;
 
 struct EventDistributorMatrix
 {
-    //m target object, a solver, a HeccerOutput, or so
+    /// target object, a solver, a HeccerOutput, or so
 
     void *pvObject;
 
-    //m target subcomponent identification
+    /// target subcomponent identification
 
     int iTarget;
 
-    //m called function
+    /// called function
 
-    //! decouples the event distributor from the target
+    /// \note decouples the event distributor from the target
 
     int (*pvFunction)();
 
-    //m serial in the model container
+    /// serial in the model container
 
-    //t check if we can share this with iTarget
+    /// \todo check if we can share this with iTarget
 
     int iSerial;
 
@@ -67,33 +67,33 @@ struct EventDistributorMatrix
 
 struct EventDistributorData
 {
-    //m number of connections in the matrix
+    /// number of connections in the matrix
 
     int iConnections;
 
-    //m last used
+    /// last used
 
     int iLast;
 
-    //m array of targets
+    /// array of targets
 
     struct EventDistributorMatrix *ppedm;
 };
 
 
-//d a event distribution function
+/// \def a event distribution function
 
 typedef int (*EventDistribute)(struct EventDistributor *ped, double dTime, int iTargets);
 
 struct EventDistributor
 {
-    //m service specific data
+    /// service specific data
 
     struct EventDistributorData *pedd;
 
-    //m hand an event over to the event distributor
+    /// hand an event over to the event distributor
 
-    //! decouples the event distributor from the source
+    /// \note decouples the event distributor from the source
 
     EventDistribute eventDistribute;
 
@@ -110,25 +110,25 @@ struct EventQueuer;
 
 struct EventQueuerMatrix
 {
-    //m target object, a solver or so
+    /// target object, a solver or so
 
     void *pvObject;
 
-    //m target site, an index into a array of double ?
+    /// target site, an index into a array of double ?
 
     int iTarget;
 
-    //m connection delay
+    /// connection delay
 
     double dDelay;
 
-    //m connection weight
+    /// connection weight
 
     double dWeight;
 
-    //m called function
+    /// called function
 
-    //! decouples the event queuer from the target
+    /// \note decouples the event queuer from the target
 
     int (*pvFunction)();
 
@@ -137,7 +137,7 @@ struct EventQueuerMatrix
 
 struct EventQueuerData
 {
-    //m array translating name service serials to event queuer target index
+    /// array translating name service serials to event queuer target index
 
 #define EVENTQUEUER_MAX_CONNECTIONS 10000
 
@@ -145,47 +145,46 @@ struct EventQueuerData
 
     int ppiSerial2ConnectionIndex[EVENTQUEUER_MAX_CONNECTIONS][2];
 
-    //m array of targets
+    /// array of targets
 
     struct EventQueuerMatrix *ppeqm;
 };
 
 
-//d a event dequeuing function
+/// \def a event dequeuing function
 
 typedef double (*EventDequeuer)(struct EventQueuer *peq, double dTime, int iTarget);
 
-//d a event enqueuing function
+/// \def a event enqueuing function
 
 typedef int (*EventEnqueuer)(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget);
 
 
 struct EventQueuer
 {
-    //m service specific data
+    /// service specific data
 
     struct EventQueuerData *peqd;
 
-/*     //m hand an event over to the event queuer */
+/*     /// hand an event over to the event queuer */
 
-/*     //! decouples the event queuer from the source */
+/*     /// \note decouples the event queuer from the source */
 
 /*     EventEnqueuer eventEnqueue; */
 
-    //m forward an event from queuer to receiver
+    /// forward an event from queuer to receiver
 
-    //! decouples the event queuer from the receiver
+    /// \note decouples the event queuer from the receiver
 
     EventDequeuer eventDequeue;
 
 };
 
 
-//f prototypes
 
-//! The parameter list of EventDistributorAddConnection() assumes that
-//! the output objects are always heccer output generators.  Internally
-//! this does not matter, just for ease of development.
+/// \note The parameter list of EventDistributorAddConnection() assumes that
+/// \note the output objects are always heccer output generators.  Internally
+/// \note this does not matter, just for ease of development.
 
 struct OutputGenerator;
 

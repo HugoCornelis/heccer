@@ -53,34 +53,33 @@
 #include "mathcomponent.h"
 
 
-//s internal results, computed by heccer byte code
+/// \struct internal results, computed by heccer byte code
 
 struct InternalResults
 {
-    //m membrane potential for this compartment
+    /// membrane potential for this compartment
 
     double dVm;
 
-    //! other potentially interesting things may follow: total
-    //! currents per channel, etc.
+    /// \note other potentially interesting things may follow: total
+    /// \note currents per channel, etc.
 };
 
 
-//s external results, computed by an external function
+/// \struct external results, computed by an external function
 
 struct ExternalResults
 {
-    //m external conductance, this is just an example
+    /// external conductance, this is just an example
 
     double dConductance;
 
-    //m external current, another example
+    /// external current, another example
 
     double dCurrent;
 };
 
 
-//f external function
 
 struct Callout;
 
@@ -89,36 +88,36 @@ int ExternalFunction
 (struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per);
 
 
-//s call out intermediary
+/// \struct call out intermediary
 
-//! prefix all the intermediary struct's with something common, for
-//! readability.
+/// \note prefix all the intermediary struct's with something common, for
+/// \note readability.
 
 struct Callout
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m external alien data
+    /// external alien data
 
     void *pvAlien;
 
-    //m internal results
+    /// internal results
 
     struct InternalResults *pir;
 
-    //m external results
+    /// external results
 
     struct ExternalResults *per;
 
-    //m external function
+    /// external function
 
     ExternalFunction *pef;
 
-    //! descriptive values can follow here
+    /// \note descriptive values can follow here
 
-    //! and if convenient, internal and external results can follow thereafter
+    /// \note and if convenient, internal and external results can follow thereafter
 };
 
 

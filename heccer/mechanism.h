@@ -26,101 +26,101 @@
 #include "table.h"
 
 
-//s spring mass parameters
+/// \struct spring mass parameters
 
 struct SpringMassParameters
 {
-    //m first time constant
+    /// first time constant
 
     double dTau1;
 
-    //m second time constant
+    /// second time constant
 
     double dTau2;
 };
 
-//s spring mass channel (synaptic channel)
+/// \struct spring mass channel (synaptic channel)
 
 struct ChannelSpringMass
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance
+    /// maximal conductance
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m random activation frequency
+    /// random activation frequency
 
     double dFrequency;
 
-    //m first exponential initial value
+    /// first exponential initial value
 
     double dInitX;
 
-    //m second exponential initial value
+    /// second exponential initial value
 
     double dInitY;
 
-    //m corresponding index in tables, set to -1 for initialization.
+    /// corresponding index in tables, set to -1 for initialization.
 
     int iTable;
 
-    //m event time table (FLT_MAX terminated)
+    /// event time table (FLT_MAX terminated)
 
     double *pdEventTimes;
 
-    //m yaml file with event time table, the previous must be NULL.
+    /// yaml file with event time table, the previous must be NULL.
 
-    //! during compilation, the file is converted to a double array
-    //! and fills the previous entry.
+    /// \note during compilation, the file is converted to a double array
+    /// \note and fills the previous entry.
 
     char *pcEventTimes;
 
-    //m parameters
+    /// parameters
 
     struct SpringMassParameters parameters;
 };
 
 
-//s expential decaying ion concentration
+/// \struct expential decaying ion concentration
 
 struct ExponentialDecay
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m initial value
+    /// initial value
 
     double dInitValue;
 
-    //m beta
+    /// beta
 
     double dBeta;
 
-    //m steady state
+    /// steady state
 
     double dSteadyState;
 
-    //m tau
+    /// tau
 
     double dTau;
 
-    //m external contribution delivered by these intermediaries
+    /// external contribution delivered by these intermediaries
 
 #define EXPONENTIALDECAY_CONTRIBUTORS 4
 
@@ -128,11 +128,11 @@ struct ExponentialDecay
 };
 
 
-/* //s GHK, not sure if correct, use at own risk */
+/* /// \struct GHK, not sure if correct, use at own risk */
 
 /* struct GHK */
 /* { */
-/*     //m administration overhead */
+/*     /// administration overhead */
 
 /*     struct MathComponent mc; */
 
@@ -143,11 +143,11 @@ struct ExponentialDecay
 /* }; */
 
 
-/* //s channel magnesium blocking */
+/* /// \struct channel magnesium blocking */
 
 /* struct MGBlocker */
 /* { */
-/*     //m administration overhead */
+/*     /// administration overhead */
 
 /*     struct MathComponent mc; */
 
@@ -157,11 +157,11 @@ struct ExponentialDecay
 /* }; */
 
 
-//s nernst potential: constant
+/// \struct nernst potential: constant
 
 struct ConstantNernst
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
@@ -171,147 +171,147 @@ struct ConstantNernst
 };
 
 
-//s nernst potential: external variable
+/// \struct nernst potential: external variable
 
 struct ExternalNernst
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m nernst constant
+    /// nernst constant
 
     double dConstant;
 
-    //m constant internal concentration
+    /// constant internal concentration
 
     double dInternal;
 
-    //m link to external concentration
+    /// link to external concentration
 
     int iExternal;
 
-    //m initial nernst potential
+    /// initial nernst potential
 
     double dInitPotential;
 };
 
 
-//s nernst potential: internal variable
+/// \struct nernst potential: internal variable
 
 struct InternalNernst
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m nernst constant
+    /// nernst constant
 
     double dConstant;
 
-    //m link to internal concentration
+    /// link to internal concentration
 
     int iInternal;
 
-    //m constant external concentration
+    /// constant external concentration
 
     double dExternal;
 
-    //m initial nernst potential
+    /// initial nernst potential
 
     double dInitPotential;
 };
 
 
-//s spike generator
+/// \struct spike generator
 
 struct SpikeGenerator
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m refractory time
+    /// refractory time
 
     double dRefractory;
 
-    //m spiking threshold
+    /// spiking threshold
 
     double dThreshold;
 
-    //m reset value, FLT_MAX for none
+    /// reset value, FLT_MAX for none
 
     double dReset;
 
-    //m table in event distributor with targets
+    /// table in event distributor with targets
 
     int iTable;
 };
 
 
-//s transition model for a gate concept
+/// \struct transition model for a gate concept
 
 struct GateKinetic
 {
-    //! need parameters as follows:
+    /// \note need parameters as follows:
 
-    //! 1   A
-    //! 2a  (ct1 * Vm                (factor is present or not, membrane dependence)
-    //! 2b            - V0)          (membrane offset)
-    //! 3   /                        (choose between division and multiplication)
-    //! 4   (ct2 +
-    //! 5    exp((Vm - V0)
-    //! 6        / B))
+    /// \note 1   A
+    /// \note 2a  (ct1 * Vm                (factor is present or not, membrane dependence)
+    /// \note 2b            - V0)          (membrane offset)
+    /// \note 3   /                        (choose between division and multiplication)
+    /// \note 4   (ct2 +
+    /// \note 5    exp((Vm - V0)
+    /// \note 6        / B))
 
-    //! and relating, in YAML, to table 1 in EDS1994:
+    /// \note and relating, in YAML, to table 1 in EDS1994:
 
-    //! 1: A, E
-    //! 2: not done, always DBL_MAX
-    //! 3: division
-    //! 4: B, F
-    //! 5: -C, -G
-    //! 6: D, H
+    /// \note 1: A, E
+    /// \note 2: not done, always DBL_MAX
+    /// \note 3: division
+    /// \note 4: B, F
+    /// \note 5: -C, -G
+    /// \note 6: D, H
 
-    //m 1: multiplier
+    /// 1: multiplier
 
     double dHHScale;
 
-    //m 2a: multiplier membrane dependence, 0.0 for no dependence
+    /// 2a: multiplier membrane dependence, 0.0 for no dependence
 
     double dHHMult;
 
-    //m 2b: multiplier membrane dependence offset, 0.0 for no dependence
+    /// 2b: multiplier membrane dependence offset, 0.0 for no dependence
 
     double dHHOffsetM;
 
-    //m 3: choose between nominator or denominator, 1 means nominator, -1
-    //m means denominator
+    /// 3: choose between nominator or denominator, 1 means nominator, -1
+    /// means denominator
 
     int iHHFactorFlag;
 
-    //m 4: nominator or denominator offset
+    /// 4: nominator or denominator offset
 
     double dHHAdd;
 
-    //m 5: membrane offset
+    /// 5: membrane offset
 
     double dHHOffsetE;
 
-    //m 6: denormalized time constant
+    /// 6: denormalized time constant
 
     double dHHTau;
 
 };
 
-//s channel gate concept
+/// \struct channel gate concept
 
 struct GateConceptParameters
 {
-    //m forward kinetiks, commonly denoted with alpha or non-perm to perm rate
+    /// forward kinetiks, commonly denoted with alpha or non-perm to perm rate
 
     struct GateKinetic gkA;
 
-    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
+    /// backward kinetiks, commonly denoted with beta or perm to non-perm rate
 
     struct GateKinetic gkB;
 
@@ -319,99 +319,99 @@ struct GateConceptParameters
 
 struct GateConcept
 {
-    //m initial value, commonly forward over backward steady states
+    /// initial value, commonly forward over backward steady states
 
     double dInitActivation;
 
-    //m corresponding index in tables, set to -1 for initialization.
+    /// corresponding index in tables, set to -1 for initialization.
 
     int iTable;
 
-    //m or parameterized
+    /// or parameterized
 
     struct GateConceptParameters parameters;
 
-    //m or using an external tables
+    /// or using an external tables
 
     struct HeccerTabulatedGate htg;
 
 };
 
-//s gate with a power
+/// \struct gate with a power
 
 struct PoweredGateConcept
 {
-    //m power, for a standard heccer, something between 1 and 4 or so.
+    /// power, for a standard heccer, something between 1 and 4 or so.
 
-    //! you need more ?  Let me know, I will adapt the code (or check
-    //! for yourself what needs to be done in the byte code emulator,
-    //! not difficult to do, but let me know in any case).
+    /// \note you need more ?  Let me know, I will adapt the code (or check
+    /// \note for yourself what needs to be done in the byte code emulator,
+    /// \note not difficult to do, but let me know in any case).
 
     int iPower;
 
-    //m gate definition
+    /// gate definition
 
     struct GateConcept gc;
 };
 
-//s HH alike channel, activation and inactivation
+/// \struct HH alike channel, activation and inactivation
 
 struct ChannelActInact
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance when all channels are permissive
+    /// maximal conductance when all channels are permissive
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m activation description
+    /// activation description
 
     struct PoweredGateConcept pgcActivation;
 
-    //m inactivation description
+    /// inactivation description
 
     struct PoweredGateConcept pgcInactivation;
 };
 
-//s HH alike channel, only activation
+/// \struct HH alike channel, only activation
 
 struct ChannelAct
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance when all channels are permissive
+    /// maximal conductance when all channels are permissive
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m activation description
+    /// activation description
 
     struct PoweredGateConcept pgc;
 
@@ -419,27 +419,27 @@ struct ChannelAct
 
 struct DualTauParameters
 {
-    //m fast component steady state
+    /// fast component steady state
 
     double dSteadyState;
 
-    //m tau
+    /// tau
 
     struct dualtaucomponent
     {
-	//m 1: nominator multiplier
+	/// 1: nominator multiplier
 
 	double dMultiplier;
 
-	//m 2: denominator offset
+	/// 2: denominator offset
 
 	double dDeNominatorOffset;
 
-	//m 5: membrane offset
+	/// 5: membrane offset
 
 	double dMembraneOffset;
 
-	//m 6: denormalized time constant
+	/// 6: denormalized time constant
 
 	double dTauDenormalizer;
 
@@ -449,47 +449,47 @@ struct DualTauParameters
 
 struct ChannelPersistentSteadyStateDualTau
 {
-    //m administrative overhead
+    /// administrative overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance when all channels are permissive
+    /// maximal conductance when all channels are permissive
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m first power
+    /// first power
 
     int iFirstPower;
 
-    //m second power
+    /// second power
 
     int iSecondPower;
 
-    //m first gate table, -1 for initialization
+    /// first gate table, -1 for initialization
 
     int iFirstTable;
 
-    //m second gate table, -1 for initialization
+    /// second gate table, -1 for initialization
 
     int iSecondTable;
 
-    //m first gate initial value
+    /// first gate initial value
 
     double dFirstInitActivation;
 
-    //m second gate initial value
+    /// second gate initial value
 
     double dSecondInitActivation;
 
@@ -501,91 +501,91 @@ struct ChannelPersistentSteadyStateDualTau
 
 struct ChannelPersistentSteadyStateTau
 {
-    //m administrative overhead
+    /// administrative overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance when all channels are permissive
+    /// maximal conductance when all channels are permissive
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m power
+    /// power
 
     int iPower;
 
-    //m gate table, -1 for initialization
+    /// gate table, -1 for initialization
 
     int iTable;
 
-    //m gate initial value
+    /// gate initial value
 
     double dInitActivation;
 
     struct SteadyStateParameters
     {
-	//m steady state definition
+	/// steady state definition
 
 	struct single_steady_state
 	{
-	    //m 1: nominator
+	    /// 1: nominator
 
 	    double dNominator;
 
-	    //m 2: denominator multiplier 1
+	    /// 2: denominator multiplier 1
 
 	    double dMultiplier1;
 
-	    //m 5: membrane offset 1
+	    /// 5: membrane offset 1
 
 	    double dMembraneOffset1;
 
-	    //m 6: denormalized time constant 1
+	    /// 6: denormalized time constant 1
 
 	    double dTauDenormalizer1;
 
-	    //m 2: denominator multiplier 2
+	    /// 2: denominator multiplier 2
 
 	    double dMultiplier2;
 
-	    //m 5: membrane offset 2
+	    /// 5: membrane offset 2
 
 	    double dMembraneOffset2;
 
-	    //m 6: denormalized time constant 2
+	    /// 6: denormalized time constant 2
 
 	    double dTauDenormalizer2;
 
 	} ss;
 
-	//m time constant definition
+	/// time constant definition
 
 	struct single_time_constant
 	{
-	    //m 1: nominator
+	    /// 1: nominator
 
 	    double dNominator;
 
-	    //m 2: denominator offset
+	    /// 2: denominator offset
 
 	    double dDeNominatorOffset;
 
-	    //m 5: membrane offset 1
+	    /// 5: membrane offset 1
 
 	    double dMembraneOffset;
 
-	    //m 6: denormalized time constant 1
+	    /// 6: denormalized time constant 1
 
 	    double dTauDenormalizer;
 
@@ -595,52 +595,52 @@ struct ChannelPersistentSteadyStateTau
 };
 
 
-//s gate steady state definition
+/// \struct gate steady state definition
 
 struct DualSteadyStateParameters
 {
-    //m first kinetiks
+    /// first kinetiks
 
     struct dual_steadystate_kinetic
     {
-	//m part a
+	/// part a
 
 	struct dual_steadystate_kinetic_part_a
 	{
-	    //m 1: multiplier
+	    /// 1: multiplier
 	
 	    double dMultiplier;
 	
-	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
+	    /// 2: multiplier membrane dependence offset, 0.0 for no offset
 	
 	    double dMembraneDependenceOffset;
 	
-	    //m 4: nominator or denominator offset
+	    /// 4: nominator or denominator offset
 	
 	    double dDeNominatorOffset;
 	
-	    //m 5: membrane offset
+	    /// 5: membrane offset
 	
 	    double dMembraneOffset;
 	
-	    //m 6: denormalized time constant
+	    /// 6: denormalized time constant
 	
 	    double dTauDenormalizer;
 	} a;
 
-	//m part b
+	/// part b
 
 	struct dual_steadystate_kinetic_part_b
 	{
-	    //m 1: multiplier
+	    /// 1: multiplier
 
 	    double dMultiplier;
 
-	    //m 2: multiplier membrane dependence, 0.0 for no dependence
+	    /// 2: multiplier membrane dependence, 0.0 for no dependence
 
 	    double dTauDenormalizer;
 
-	    //m 2: multiplier membrane dependence offset, 0.0 for no offset
+	    /// 2: multiplier membrane dependence offset, 0.0 for no offset
 	
 	    double dMembraneDependenceOffset;
 	
@@ -648,118 +648,118 @@ struct DualSteadyStateParameters
 
     } first;
 
-    //m second kinetiks
+    /// second kinetiks
 
     struct dual_steadystate_kinetic second;
 };
 
-//s gate time constant definition
+/// \struct gate time constant definition
 
 struct SteppedTimeConstantParameters
 {
-    //m part a
+    /// part a
 
     struct
     {
-	//m threshold
+	/// threshold
 
 	double dThreshold;
 
-	//m low membrane potential target value
+	/// low membrane potential target value
 
 	double dLowTarget;
 
-	//m above membrane potential target value
+	/// above membrane potential target value
 
 	double dHighTarget;
 
     } a;
 
-    //m part b
+    /// part b
 
     struct
     {
-	//m 4: nominator or denominator offset
+	/// 4: nominator or denominator offset
 
 	double dDeNominatorOffset;
 
-	//m 5: membrane offset
+	/// 5: membrane offset
 
 	double dMembraneOffset;
 
-	//m 6: denormalized time constant
+	/// 6: denormalized time constant
 
 	double dTauDenormalizer;
 
     } b;
 };
 
-//s HH alike channel, steady state and time constant
+/// \struct HH alike channel, steady state and time constant
 
 struct ChannelSteadyStateSteppedTau
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance when all channels are permissive
+    /// maximal conductance when all channels are permissive
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m first power
+    /// first power
 
     int iFirstPower;
 
-    //m second power
+    /// second power
 
     int iSecondPower;
 
-    //m first table, -1 for initialization
+    /// first table, -1 for initialization
 
     int iFirstTable;
 
-    //m second table, -1 for initialization
+    /// second table, -1 for initialization
 
     int iSecondTable;
 
-    //m first initial value
+    /// first initial value
 
     double dFirstInitActivation;
 
-    //m second initial value
+    /// second initial value
 
     double dSecondInitActivation;
 
-    //m steady state definition
+    /// steady state definition
 
     struct DualSteadyStateParameters ss_parameters;
 
-    //m time constant definition
+    /// time constant definition
 
     struct SteppedTimeConstantParameters tc_parameters;
 };
 
-//s activator concept, mostly related to concentration pools
+/// \struct activator concept, mostly related to concentration pools
 
 struct ActivatorParameters
 {
-    //m basal level, A in EDS1994
+    /// basal level, A in EDS1994
 
     double dBasalLevel;
 
-    //m time constant, B in EDS1994
+    /// time constant, B in EDS1994
 
     double dTau;
 
@@ -767,68 +767,68 @@ struct ActivatorParameters
 
 struct ConcentrationActivator
 {
-    //m initial value, commonly steady state
+    /// initial value, commonly steady state
 
     double dInitActivation;
 
-    //m corresponding index in tables, set to -1 for initialization.
+    /// corresponding index in tables, set to -1 for initialization.
 
     int iTable;
 
-    //m is activated by the output of this mechanism, must be filled in
+    /// is activated by the output of this mechanism, must be filled in
 
     int iActivator;
 
     struct ActivatorParameters parameters;
 
-    //m or using an external tables
+    /// or using an external tables
 
     struct HeccerTabulatedGate htg;
 
 };
 
-//s gate with a power
+/// \struct gate with a power
 
 struct PoweredActivatorConcept
 {
-    //m power, for a standard heccer, something between 1 and 4 or so.
+    /// power, for a standard heccer, something between 1 and 4 or so.
 
     int iPower;
 
-    //m activator definition
+    /// activator definition
 
     struct ConcentrationActivator ca;
 };
 
-//s HH alike channel, activation and concentration dependent
+/// \struct HH alike channel, activation and concentration dependent
 
 struct ChannelActConc
 {
-    //m administration overhead
+    /// administration overhead
 
     struct MathComponent mc;
 
-    //m initial reversal potential
+    /// initial reversal potential
 
     double dReversalPotential;
 
-    //m get reversal potential from this intermediary, -1 for none
+    /// get reversal potential from this intermediary, -1 for none
 
     int iReversalPotential;
 
-    //m maximal conductance when all channels are permissive
+    /// maximal conductance when all channels are permissive
 
     double dMaximalConductance;
 
-    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
     int iPool;
 
-    //m potential dependence description
+    /// potential dependence description
 
     struct PoweredGateConcept pgc;
 
-    //m activator dependence description
+    /// activator dependence description
 
     struct PoweredActivatorConcept pac;
 };
@@ -837,7 +837,6 @@ struct ChannelActConc
 struct Heccer;
 
 
-//f prototypes
 
 int HeccerMechanismCompile(struct Heccer *pheccer);
 

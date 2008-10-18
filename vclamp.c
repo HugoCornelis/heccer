@@ -25,23 +25,19 @@
 #include "heccer/vclamp.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: VClampAddVariable()
-///
-/// ARGS.:
-///
-///	pvc.........: voltage clamper.
+/// 
+/// 
+/// \arg pvc voltage clamper.
 ///	pvVoltage...: pointer to the voltage variable, assumed is double *
-///	pvInjector..: pointer to the variable for injected current.
-///
-/// RTN..: int
-///
+/// \arg pvInjector pointer to the variable for injected current.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Clamp the given voltage variable, using the given injector.
-///
-/// **************************************************************************
+/// 
+/// \brief Clamp the given voltage variable, using the given injector.
+/// \details 
+/// 
 
 int
 VClampAddVariable
@@ -70,21 +66,17 @@ VClampAddVariable
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: VClampFinish()
-///
-/// ARGS.:
-///
-///	pvc...: voltage clamper.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pvc voltage clamper.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Free the voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief Free the voltage clamper.
+/// \details 
+/// 
 
 int VClampFinish(struct VClamp * pvc)
 {
@@ -102,21 +94,17 @@ int VClampFinish(struct VClamp * pvc)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: VClampInitiate()
-///
-/// ARGS.:
-///
-///	pvc...: voltage clamper.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pvc voltage clamper.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Initiate the voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief Initiate the voltage clamper.
+/// \details 
+/// 
 
 int VClampInitiate(struct VClamp * pvc)
 {
@@ -126,7 +114,7 @@ int VClampInitiate(struct VClamp * pvc)
 
     //- just clear out some varialbes...
 
-    //t should initialize from a stream as heccer does.
+    /// \todo should initialize from a stream as heccer does.
 
     pvc->dEIntegral = 0;
     pvc->dEPrevious = 0;
@@ -138,21 +126,17 @@ int VClampInitiate(struct VClamp * pvc)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: VClampNew()
-///
-/// ARGS.:
-///
-///	pcName..: name of this object.
-///
-/// RTN..: struct VClamp *
-///
+/// 
+/// 
+/// \arg pcName name of this object.
+/// 
+/// \return struct VClamp *
+/// 
 ///	voltage clamper, NULL for failure.
-///
-/// DESCR: voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief voltage clamper.
+/// \details 
+/// 
 
 struct VClamp * VClampNew(char *pcName)
 {
@@ -181,33 +165,29 @@ struct VClamp * VClampNew(char *pcName)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: VClampSetFields()
-///
-/// ARGS.:
-///
-///	dInjected.....: injected current.
-///	dC............: parallel initial capacitance.
-///	dR............: initial resistance.
-///	dCommand_init.: initial command voltage.
-///	dGain.........: gain value.
-///	dTau_i........: integrating time constant.
+/// 
+/// 
+/// \arg dInjected injected current.
+/// \arg dC parallel initial capacitance.
+/// \arg dR initial resistance.
+/// \arg dCommand_init initial command voltage.
+/// \arg dGain gain value.
+/// \arg dTau_i integrating time constant.
 ///	dTau_d........: derivative time constant.
 ///	dSaturation...: saturation value.
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: set operation fields of voltage clamper.
-///
-/// NOTE.:
-///
+/// 
+/// \brief set operation fields of voltage clamper.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	The initial command voltage should probably have a separate
 ///	setter method.
-///
-/// **************************************************************************
+/// 
 
 int
 VClampSetFields
@@ -244,26 +224,22 @@ VClampSetFields
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: VClampSingleStep()
-///
-/// ARGS.:
-///
-///	pvc...: voltage clamper.
-///	dTime.: current simulation time.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pvc voltage clamper.
+/// \arg dTime current simulation time.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compute new currents to correct voltages.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Compute new currents to correct voltages.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	Old current values are overwritten.
-///
-/// **************************************************************************
+/// 
 
 int VClampSingleStep(struct VClamp * pvc, double dTime)
 {

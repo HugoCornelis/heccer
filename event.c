@@ -20,22 +20,18 @@
 #include "heccer/heccer.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerEventGenerate()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
+/// 
+/// 
+/// \arg pheccer a heccer.
 ///	iTargets..: index of targets table, in the event distributor.
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Generate event for specified targets.
-///
-/// **************************************************************************
+/// 
+/// \brief Generate event for specified targets.
+/// \details 
+/// 
 
 int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 {
@@ -55,7 +51,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
     }
     else
     {
-	//t HeccerError(number, message, varargs);
+	/// \todo HeccerError(number, message, varargs);
 
 	fprintf
 	    (stderr,
@@ -68,22 +64,18 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerEventReceive()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iTarget...: target identifier (of the event receiver object).
-///
-/// RTN..: double
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iTarget target identifier (of the event receiver object).
+/// 
+/// \return double
+/// 
 ///	Activation delivered by the events, FLT_MAX for failure.
-///
-/// DESCR: Receive event arriving at the specified target.
-///
-/// **************************************************************************
+/// 
+/// \brief Receive event arriving at the specified target.
+/// \details 
+/// 
 
 double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 {
@@ -101,15 +93,15 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
     {
 	dResult = peq->eventDequeue(peq, pheccer->dTime, iTarget);
 
-	//t call HeccerEventSet() for next event time.
+	/// \todo call HeccerEventSet() for next event time.
 
-	//t dNext == next event time
+	/// \todo dNext == next event time
 
-	//t HeccerEventSet(pheccer, iTarget, dNext);
+	/// \todo HeccerEventSet(pheccer, iTarget, dNext);
     }
     else
     {
-	//t HeccerError(number, message, varargs);
+	/// \todo HeccerError(number, message, varargs);
 
 	fprintf
 	    (stderr,
@@ -122,23 +114,19 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerEventSet()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iTarget...: index of target.
-///	dTime.....: firing time of event.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iTarget index of target.
+/// \arg dTime firing time of event.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Associate an event with its target.
-///
-/// **************************************************************************
+/// 
+/// \brief Associate an event with its target.
+/// \details 
+/// 
 
 int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
 {
@@ -148,7 +136,7 @@ int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
 
     //- get type specific data
 
-    //! somehow this needs to use the addressing module or so, preferably during compilation
+    /// \note somehow this needs to use the addressing module or so, preferably during compilation
 
     struct MatsSpringMass *pmats = (struct MatsSpringMass *)&((double *)pheccer->vm.pvMats)[iTarget];
 

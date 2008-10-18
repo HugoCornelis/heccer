@@ -25,17 +25,17 @@
 
 struct OutputGenerator
 {
-    //m number of variables
+    /// number of variables
 
     int iVariablesAllocated;
 
     int iVariablesActive;
 
-    //m all variables
+    /// all variables
 
     double **ppdVariables;
 
-    //m output file stream
+    /// output file stream
 
     char *pcFilename;
 

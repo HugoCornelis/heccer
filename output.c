@@ -27,23 +27,19 @@
 #define ALLOCATE_VARIABLES 10000
 
 
-/// **************************************************************************
-///
-/// SHORT: OutputGeneratorAddVariable()
-///
-/// ARGS.:
-///
-///	pog.........: output generator.
-///	pcName......: name of the variable.
+/// 
+/// 
+/// \arg pog output generator.
+/// \arg pcName name of the variable.
 ///	pvVariable..: pointer to the variable, assumed is double *
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Schedule a variable for output.
-///
-/// **************************************************************************
+/// 
+/// \brief Schedule a variable for output.
+/// \details 
+/// 
 
 int
 OutputGeneratorAddVariable
@@ -70,22 +66,18 @@ OutputGeneratorAddVariable
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: OutputGeneratorAnnotatedStep()
-///
-/// ARGS.:
-///
-///	pog...: output generator.
-///	pc....: annotation for current values.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pog output generator.
+/// \arg pc annotation for current values.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Output all variable values, with the given annotation.
-///
-/// **************************************************************************
+/// 
+/// \brief Output all variable values, with the given annotation.
+/// \details 
+/// 
 
 int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 {
@@ -97,7 +89,7 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     if (pc)
     {
-	//t choose between yaml style and xplot style using options
+	/// \todo choose between yaml style and xplot style using options
 
 	fprintf(pog->pfileOutput, "%s", pc);
 
@@ -121,21 +113,17 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: OutputGeneratorFinish()
-///
-/// ARGS.:
-///
-///	pog...: output generator.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pog output generator.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Close files, destruct the output generator.
-///
-/// **************************************************************************
+/// 
+/// \brief Close files, destruct the output generator.
+/// \details 
+/// 
 
 int OutputGeneratorFinish(struct OutputGenerator * pog)
 {
@@ -159,7 +147,7 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 
     free(pog->ppdVariables);
 
-    //! prevent accidental misuse
+    /// \note prevent accidental misuse
 
     pog->iVariablesAllocated = -9238;
 
@@ -171,21 +159,17 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: OutputGeneratorNew()
-///
-/// ARGS.:
-///
-///	pcFilename..: file name to write output to.
-///
-/// RTN..: struct OutputGenerator *
-///
+/// 
+/// 
+/// \arg pcFilename file name to write output to.
+/// 
+/// \return struct OutputGenerator *
+/// 
 ///	Output generator, NULL for failure.
-///
-/// DESCR: Output generator.
-///
-/// **************************************************************************
+/// 
+/// \brief Output generator.
+/// \details 
+/// 
 
 struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 {
@@ -225,7 +209,7 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 
 /*     if (!pogResult->pfileOutput) */
     {
-	//t file name taken from options
+	/// \todo file name taken from options
 
 	pogResult->pfileOutput = fopen(pogResult->pcFilename, "w");
 
@@ -241,25 +225,21 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: OutputGeneratorTimedStep()
-///
-/// ARGS.:
-///
-///	pog...: output generator.
-///	dTime.: simulation time.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pog output generator.
+/// \arg dTime simulation time.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Output all variable values, at the given time.
-///
+/// 
+/// \brief Output all variable values, at the given time.
+/// \details 
+/// 
 ///	This gets remapped to OutputGeneratorAnnotatedStep(), with the
 ///	time as annotation.
-///
-/// **************************************************************************
+/// 
 
 int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime)
 {

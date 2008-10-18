@@ -30,23 +30,23 @@
 
 struct Compartment
 {
-    //m administrative overhead
+    /// administrative overhead
 
     struct MathComponent mc;
 
-    //m index of parent compartment, -1 for none
+    /// index of parent compartment, -1 for none
 
     int iParent;
 
-/*     //m first mechanism */
+/*     /// first mechanism */
 
 /*     struct MathComponent *pmcMechanisms; */
 
-/*     //m number of mechanisms */
+/*     /// number of mechanisms */
 
 /*     int iMechanisms; */
 
-    //m descriptive values, alphabetical order
+    /// descriptive values, alphabetical order
 
     double dCm;
     double dEm;
@@ -57,7 +57,6 @@ struct Compartment
 };
 
 
-//f prototypes
 
 int HeccerCompartmentCompile(struct Heccer *pheccer);
 

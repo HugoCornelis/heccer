@@ -22,24 +22,20 @@
 #include "heccer/intermediary.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerIntermediaryBuildIndex()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Index intermediary mechanism structures.
-///
+/// 
+/// \brief Index intermediary mechanism structures.
+/// \details 
+/// 
 ///	The index can afterwards be used for lookups, see
 ///	HeccerMechanismLookup().
-///
-/// **************************************************************************
+/// 
 
 int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 {
@@ -229,7 +225,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	}
 	default:
 	{
-	    //t HeccerError(number, message, varargs);
+	    /// \todo HeccerError(number, message, varargs);
 
 	    fprintf
 		(stderr,
@@ -245,23 +241,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerIntermediaryDump()
-///
-/// ARGS.:
-///
-///	pinter.....: heccer intermediary.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pinter heccer intermediary.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Dump intermediary functions.
-///
-/// **************************************************************************
+/// 
+/// \brief Dump intermediary functions.
+/// \details 
+/// 
 
 int
 HeccerIntermediaryDump
@@ -293,7 +285,7 @@ HeccerIntermediaryDump
 	iResult = iResult && HeccerCompartmentDump(&pcomp[i], pfile, iSelection);
     }
 
-    //t mechanisms
+    /// \todo mechanisms
 
     //- return result
 
@@ -301,29 +293,25 @@ HeccerIntermediaryDump
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerIntermediaryLookup()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	i.........: math component number to lookup.
-///
-/// RTN..: struct MathComponent *
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg i math component number to lookup.
+/// 
+/// \return struct MathComponent *
+/// 
 ///	math component structure, NULL for failure.
-///
-/// DESCR: Lookup the math component structure with the given number.
-///
+/// 
+/// \brief Lookup the math component structure with the given number.
+/// \details 
+/// 
 ///	First call HeccerIntermediaryBuildIndex().
-///
-/// NOTE.:
-///
+/// 
+/// \note 
+/// 
 ///	This function should be renamed to _mechanism_, instead of
 ///	_intermediary_.
-///
-/// **************************************************************************
+/// 
 
 struct MathComponent *
 HeccerIntermediaryLookup(struct Heccer *pheccer, int i)

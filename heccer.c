@@ -30,21 +30,17 @@ static char *pcVersionTime="(08/10/04) Saturday, October 4, 2008 13:50:41 hugo";
 static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAggregatorsInitialize()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	Result of operation.
-///
-/// DESCR: Zero out result arrays for aggregation operators.
-///
-/// **************************************************************************
+/// 
+/// \brief Zero out result arrays for aggregation operators.
+/// \details 
+/// 
 
 static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
 {
@@ -67,21 +63,17 @@ static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAggregatorsCompile()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	Result of operation.
-///
-/// DESCR: Allocate result arrays for aggregation operators.
-///
-/// **************************************************************************
+/// 
+/// \brief Allocate result arrays for aggregation operators.
+/// \details 
+/// 
 
 int HeccerAggregatorsCompile(struct Heccer *pheccer)
 {
@@ -111,21 +103,17 @@ int HeccerAggregatorsCompile(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCanCompile()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	Model can be compiled.
-///
-/// DESCR: Can the model be compiled, given the current options ?
-///
-/// **************************************************************************
+/// 
+/// \brief Can the model be compiled, given the current options ?
+/// \details 
+/// 
 
 int HeccerCanCompile(struct Heccer *pheccer)
 {
@@ -168,21 +156,17 @@ int HeccerCanCompile(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompileP1()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compile a model into an intermediary format.
-///
-/// **************************************************************************
+/// 
+/// \brief Compile a model into an intermediary format.
+/// \details 
+/// 
 
 int HeccerCompileP1(struct Heccer *pheccer)
 {
@@ -230,9 +214,9 @@ int HeccerCompileP1(struct Heccer *pheccer)
     }
     else
     {
-	//t do something sensible here
+	/// \todo do something sensible here
 
-	//t HeccerError()
+	/// \todo HeccerError()
     }
 
     //- return result
@@ -241,31 +225,27 @@ int HeccerCompileP1(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompileP2()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Analyze the model, build indices for optimization.
-///
+/// 
+/// \brief Analyze the model, build indices for optimization.
+/// \details 
+/// 
 ///	Internally, Heccer addresses mechanisms using their
 ///	compartment's schedule number.  So the minimum degree
 ///	algorithm must run first before the mechanisms can be
 ///	compiled.
-///
-/// NOTE.:
-///
+/// 
+/// \note 
+/// 
 ///	This function can be used for testing internals of heccer,
 ///	just be sure to provide a consistent intermediary image.
-///
-/// **************************************************************************
+/// 
 
 int HeccerCompileP2(struct Heccer *pheccer)
 {
@@ -301,28 +281,24 @@ int HeccerCompileP2(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompileP3()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compile the intermediary format into byte code.
-///
+/// 
+/// \brief Compile the intermediary format into byte code.
+/// \details 
+/// 
 ///	 Uses indices, initialized with HeccerCompileP2().
-///
-/// NOTE.:
-///
+/// 
+/// \note 
+/// 
 ///	This function can be used for testing internals of heccer,
 ///	just be sure to provide a consistent intermediary image.
-///
-/// **************************************************************************
+/// 
 
 int HeccerCompileP3(struct Heccer *pheccer)
 {
@@ -349,7 +325,7 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
     iResult = iResult && HeccerMechanismLink(pheccer);
 
-    //t perhaps should discretize channels overhere ?
+    /// \todo perhaps should discretize channels overhere ?
 
     //- allocate memory for aggragate results
 
@@ -361,29 +337,25 @@ int HeccerCompileP3(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerDump()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: stdio file.
-///	iSelection: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Call the dump functions, with the given selection.
-///
+/// 
+/// \brief Call the dump functions, with the given selection.
+/// \details 
+/// 
 ///	The selection is the boolean or of zero or more of the following :
-///
-///
-///
+/// 
+/// 
+/// 
 ///	The shorthand HECCER_DUMP_ALL selects everything.
-///
-/// **************************************************************************
+/// 
 
 int HeccerDumpV(struct Heccer *pheccer)
 {
@@ -476,23 +448,19 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerError()
-///
-/// ARGS.:
-///
-///	pheccer..: a heccer.
-///	pcContext: context of error.
-///	pcError..: error string.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pcContext context of error.
+/// \arg pcError error string.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Register an error, print to stderr.
-///
-/// **************************************************************************
+/// 
+/// \brief Register an error, print to stderr.
+/// \details 
+/// 
 
 int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 {
@@ -554,11 +522,12 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 /* /// */
 /* ///	pheccer...: a heccer. */
 /* /// */
-/* /// RTN..: int */
+/* /// \return int */
 /* /// */
 /* ///	success of operation. */
 /* /// */
-/* /// DESCR: Finish the operations performed by this heccer. */
+/* /// \brief Finish the operations performed by this heccer. */
+/// \details 
 /* /// */
 /* ///	It is possible to continue operations. */
 /* /// */
@@ -597,19 +566,15 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 /* } */
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerGetVersion()
-///
-/// ARGS.:
-///
-/// RTN..: char *
-///
+/// 
+/// 
+/// \return char *
+/// 
 ///	Version identifier.
-///
-/// DESCR: Obtain version identifier.
-///
-/// **************************************************************************
+/// 
+/// \brief Obtain version identifier.
+/// \details 
+/// 
 
 char * HeccerGetVersion(void)
 {
@@ -620,21 +585,17 @@ char * HeccerGetVersion(void)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerHecc()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compute one step of simulation time.
-///
-/// **************************************************************************
+/// 
+/// \brief Compute one step of simulation time.
+/// \details 
+/// 
 
 static int HeccerHecc(struct Heccer *pheccer)
 {
@@ -660,22 +621,22 @@ static int HeccerHecc(struct Heccer *pheccer)
 	iResult = iResult && HeccerAggregatorsInitialize(pheccer);
     }
 
-    //! I am undecided where to make the difference between CN and BE.
-    //! From cosmetic viewpoint, here we should only delegate to
-    //! HeccerMechanismHecc() and HeccerCompartmentHecc().
-    //! Then the difference can be made by looking at the options
-    //! (bad~?), or by having byte-code generated for the two specific
-    //! cases (slower~?).
+    /// \note I am undecided where to make the difference between CN and BE.
+    /// \note From cosmetic viewpoint, here we should only delegate to
+    /// \note HeccerMechanismHecc() and HeccerCompartmentHecc().
+    /// \note Then the difference can be made by looking at the options
+    /// \note (bad~?), or by having byte-code generated for the two specific
+    /// \note cases (slower~?).
 
-    //! On the other hand, this is less work for the moment and delays
-    //! the decisions involved in the above (perhaps even unnecessary
-    //! to be made~?).
+    /// \note On the other hand, this is less work for the moment and delays
+    /// \note the decisions involved in the above (perhaps even unnecessary
+    /// \note to be made~?).
 
     //- perform mechanism operations (including concentration pools)
 
-    //! doing it like this, assumes that the mechanism values are
-    //! correctly given to HeccerInitiate() at time (now - dt/2).  Does
-    //! not make a practical difference.
+    /// \note doing it like this, assumes that the mechanism values are
+    /// \note correctly given to HeccerInitiate() at time (now - dt/2).  Does
+    /// \note not make a practical difference.
 
     iResult = iResult && HeccerMechanismSolveCN(pheccer);
 
@@ -692,22 +653,18 @@ static int HeccerHecc(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerHeccs()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	dTime.....: current time.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg dTime current time.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Call HeccerHecc() until dTime.
-///
-/// **************************************************************************
+/// 
+/// \brief Call HeccerHecc() until dTime.
+/// \details 
+/// 
 
 int HeccerHeccs(struct Heccer *pheccer, double dTime)
 {
@@ -730,9 +687,9 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 
 	iResult = iResult && HeccerHecc(pheccer);
 
-	//! perhaps should move the advance of the local time to this
-	//! point ?  Would allow to remove this test ...
-	//! I don't care for the moment.
+	/// \note perhaps should move the advance of the local time to this
+	/// \note point ?  Would allow to remove this test ...
+	/// \note I don't care for the moment.
 
 	if (iResult == FALSE)
 	{
@@ -746,22 +703,19 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerInitiate()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Fill the data arrays with initial values.
-///
-/// TODO.:
-///
+/// 
+/// \brief Fill the data arrays with initial values.
+/// \details 
+/// 
+/// \todo 
+/// 
 ///	I guess it should be possible to override the initial value
 ///	array using an additional argument.  Providing NULL means not
 ///	overriden.  Probably the initial values should be separated
@@ -769,8 +723,7 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 ///	In that case, we can also annotate the initial values with
 ///	flags, e.g. indicating that they are calculated or not (for
 ///	channel equilibrium state fi.).
-///
-/// **************************************************************************
+/// 
 
 int HeccerInitiate(struct Heccer *pheccer)
 {
@@ -799,27 +752,23 @@ int HeccerInitiate(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerNew()
-///
-/// ARGS.:
-///
+/// 
+/// 
 ///	pc.....: name of this heccer, may be NULL.
-///	pts....: translation service.
-///	ped....: event distribution service.
-///	peq....: event queuing service.
-///
-/// RTN..: struct Heccer *
-///
+/// \arg pts translation service.
+/// \arg ped event distribution service.
+/// \arg peq event queuing service.
+/// 
+/// \return struct Heccer *
+/// 
 ///	Instantiated heccer, NULL for failure.
-///
-/// DESCR: Create a new heccer using defaults.
-///
+/// 
+/// \brief Create a new heccer using defaults.
+/// \details 
+/// 
 ///	Defaults include option values and time step.  Look at the
 ///	code to see what they really are.
-///
-/// **************************************************************************
+/// 
 
 struct Heccer *
 HeccerNew
@@ -847,26 +796,22 @@ HeccerNew
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerNewP1()
-///
-/// ARGS.:
-///
+/// 
+/// 
 ///	pc.......: name of this heccer, may be NULL.
-///	pts......: identification service.
-///	ped......: event distribution service.
-///	peq......: event queuing service.
-///	iOptions.: see heccer.h.
-///	dStep....: required time step (from the time constants of the model).
-///
-/// RTN..: struct Heccer *
-///
+/// \arg pts identification service.
+/// \arg ped event distribution service.
+/// \arg peq event queuing service.
+/// \arg iOptions see heccer.h.
+/// \arg dStep required time step (from the time constants of the model).
+/// 
+/// \return struct Heccer *
+/// 
 ///	Instantiated heccer, NULL for failure.
-///
-/// DESCR: Create a new heccer.
-///
-/// **************************************************************************
+/// 
+/// \brief Create a new heccer.
+/// \details 
+/// 
 
 struct Heccer *
 HeccerNewP1
@@ -931,22 +876,18 @@ HeccerNewP1
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerNewP2()
-///
-/// ARGS.:
-///
+/// 
+/// 
 ///	pc......: name of this heccer, may be NULL.
-///	pinter..: intermediary with a complete numerical model definition.
-///
-/// RTN..: struct Heccer *
-///
+/// \arg pinter intermediary with a complete numerical model definition.
+/// 
+/// \return struct Heccer *
+/// 
 ///	Instantiated heccer, NULL for failure.
-///
-/// DESCR: Create a new heccer.
-///
-/// **************************************************************************
+/// 
+/// \brief Create a new heccer.
+/// \details 
+/// 
 
 struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 {
@@ -968,21 +909,17 @@ struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerNewFromFile()
-///
-/// ARGS.:
-///
-///	pc......: filename.
-///
-/// RTN..: struct Heccer *
-///
+/// 
+/// 
+/// \arg pc filename.
+/// 
+/// \return struct Heccer *
+/// 
 ///	New heccer, NULL for failure.
-///
-/// DESCR: Construct a heccer from a file.
-///
-/// **************************************************************************
+/// 
+/// \brief Construct a heccer from a file.
+/// \details 
+/// 
 
 struct Heccer *HeccerNewFromFile(char *pc)
 {
@@ -1004,22 +941,18 @@ struct Heccer *HeccerNewFromFile(char *pc)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerWriteToFile()
-///
-/// ARGS.:
-///
-///	pheccer.: heccer to write.
-///	pc......: filename.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer heccer to write.
+/// \arg pc filename.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Write the heccer to the file.
-///
-/// **************************************************************************
+/// 
+/// \brief Write the heccer to the file.
+/// \details 
+/// 
 
 int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
 {

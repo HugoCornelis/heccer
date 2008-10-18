@@ -24,21 +24,17 @@
 #include "heccer/heccer.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompileCompartments()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compile the intermediary of the compartments to byte code.
-///
-/// **************************************************************************
+/// 
+/// \brief Compile the intermediary of the compartments to byte code.
+/// \details 
+/// 
 
 int HeccerCompartmentCompile(struct Heccer *pheccer)
 {
@@ -132,11 +128,11 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
 	    //- compute reverse contribution (genesis raxial)
 
-	    //t check old hsolve code, this computation seems
-	    //t contradictory to me, mixes up child and parent
-	    //t properties. ...
-	    //t ... ok, done, perhaps this is a bug in hsolve ?
-	    //t have to check the computations carefully again.
+	    /// \todo check old hsolve code, this computation seems
+	    /// \todo contradictory to me, mixes up child and parent
+	    /// \todo properties. ...
+	    /// \todo ... ok, done, perhaps this is a bug in hsolve ?
+	    /// \todo have to check the computations carefully again.
 
 	    double dReverse = -dt / (pheccer->inter.pcomp[iIntermediary].dCm * pheccer->inter.pcomp[iModelNumber].dRa);
 
@@ -222,7 +218,7 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 	    {
 		//- can only occur once in a row, so next sets diagonal
 
-		//t easy consistency check
+		/// \todo easy consistency check
 
 		iSkipped = 0;
 	    }
@@ -278,11 +274,11 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
 		//- compute reverse contribution (genesis raxial)
 
-		//t check old hsolve code, this computation seems
-		//t contradictory to me, mixes up child and parent
-		//t properties. ...
-		//t ... ok, done, perhaps this is a bug in hsolve ?
-		//t have to check the computations carefully again.
+		/// \todo check old hsolve code, this computation seems
+		/// \todo contradictory to me, mixes up child and parent
+		/// \todo properties. ...
+		/// \todo ... ok, done, perhaps this is a bug in hsolve ?
+		/// \todo have to check the computations carefully again.
 
 		double dReverse = -dt / (pheccer->inter.pcomp[iIntermediary].dCm * pheccer->inter.pcomp[iModelNumber].dRa);
 
@@ -371,9 +367,9 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
     pheccer->vm.iCompartments = pheccer->inter.iCompartments;
 
-    //! the diagonal terms are also needed for solving the current
-    //! equations, but I guess it is ok to deal with that in the
-    //! mechanism compiler.  Check needed.
+    /// \note the diagonal terms are also needed for solving the current
+    /// \note equations, but I guess it is ok to deal with that in the
+    /// \note mechanism compiler.  Check needed.
 
     //- return result
 
@@ -381,23 +377,19 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompartmentDump()
-///
-/// ARGS.:
-///
-///	pcomp......: a compartment.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pcomp a compartment.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Dump compartment parameters to the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Dump compartment parameters to the given stream.
+/// \details 
+/// 
 
 int
 HeccerCompartmentDump
@@ -409,7 +401,7 @@ HeccerCompartmentDump
 
     //- administrative overhead
 
-    //! this makes testing quite hard, needs careful thought
+    /// \note this makes testing quite hard, needs careful thought
 
 /*     if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE) */
 /*     { */
@@ -433,14 +425,14 @@ HECCER_SOURCE_NEUROSPACES
 	fprintf(pfile, "Compartment (iParent) : (%i)\n", pcomp->iParent);
     }
 
-/*     //m number of mechanisms */
+/*     /// number of mechanisms */
 
 /*     if (iSelection & HECCER_DUMP_INTERMEDIARY_STRUCTURE) */
 /*     { */
 /* 	fprintf(pfile, "Compartment (iMechanisms) : (%i)\n", pcomp->iMechanisms); */
 /*     } */
 
-    //m descriptive values, alphabetical order
+    /// descriptive values, alphabetical order
 
     if (iSelection & HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS)
     {
@@ -463,21 +455,17 @@ HECCER_SOURCE_NEUROSPACES
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompartmentInitiate()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Fill the compartment arrays with initial values.
-///
-/// **************************************************************************
+/// 
+/// \brief Fill the compartment arrays with initial values.
+/// \details 
+/// 
 
 int HeccerCompartmentInitiate(struct Heccer *pheccer)
 {
@@ -497,11 +485,11 @@ int HeccerCompartmentInitiate(struct Heccer *pheccer)
 
 	//- fill in initial membrane potential
 
-	//! if I use initial vm of zero, I get NaN for vm ?
+	/// \note if I use initial vm of zero, I get NaN for vm ?
 
 	pheccer->vm.pdVms[iSchedule] = pheccer->inter.pcomp[i].dInitVm;
 
-	//t fill in precomputed values for channels
+	/// \todo fill in precomputed values for channels
 
     }    
 
@@ -511,21 +499,17 @@ int HeccerCompartmentInitiate(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCompartmentSolveCN()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Perform the compartment operators once.
-///
-/// **************************************************************************
+/// 
+/// \brief Perform the compartment operators once.
+/// \details 
+/// 
 
 int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 {
@@ -550,7 +534,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
         if (iCop == HECCER_COP_FORWARD_ELIMINATION)
 	{
-	    //! pdResults[piCops[0] + 1] contains other diagonal term
+	    /// \note pdResults[piCops[0] + 1] contains other diagonal term
 
             double d = pdAxres[0] / pdResults[piCops[0] + 1];
 	    dDiagonal -= pdAxres[1] * d;
@@ -602,8 +586,8 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 
     //- last row done separately
 
-    //t should try to incorporate this in the next loop
-    //t I have the feeling the loop is coded in the wrong way.
+    /// \todo should try to incorporate this in the next loop
+    /// \todo I have the feeling the loop is coded in the wrong way.
 
 /*     SOLVE_ROW(dResult, dResult / dDiagonal); */
 
@@ -652,7 +636,7 @@ int HeccerCompartmentSolveCN(struct Heccer *pheccer)
 	{
 	    //- solve the matrix row
 
-	    //! pdResult[1] contains the diagonal
+	    /// \note pdResult[1] contains the diagonal
 
 /* 	    SOLVE_ROW(dResult, dResult / pdResult[1]); */
 

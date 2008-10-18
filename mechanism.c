@@ -43,28 +43,24 @@ HeccerMechanismReadDoubleFile
 (struct Heccer *pheccer, char *pcFilename, double **ppdValues);
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerCheckParameters()
-///
-/// ARGS.:
-///
-///	pheccer.......: a heccer.
-///	pcDescription.: description of these parameters.
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pcDescription description of these parameters.
 ///	va_list.......: -1 terminated list of boolean values.
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Check parameters utility function.
-///
+/// 
+/// \brief Check parameters utility function.
+/// \details 
+/// 
 ///	Just give a list of boolean expressions, telling if the
 ///	parameters comply or not, a description where they occur.
 ///	This function will call HeccerError() for any FALSE boolean in
 ///	the stdarg list.
-///
-/// **************************************************************************
+/// 
 
 static
 int
@@ -99,7 +95,7 @@ HeccerCheckParameters
 
 	    sprintf(pcMessage, "%s invalid", pcDescription);
 
-	    //t HeccerError(number, message, varargs);
+	    /// \todo HeccerError(number, message, varargs);
 
 	    HeccerError
 		(pheccer,
@@ -126,26 +122,22 @@ HeccerCheckParameters
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMechanismCompile()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compile the intermediary of the mechanisms to byte code.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Compile the intermediary of the mechanisms to byte code.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	Compartment leak is a current, so it is considered to be a
 ///	mechanism.
-///
-/// **************************************************************************
+/// 
 
 int HeccerMechanismCompile(struct Heccer *pheccer)
 {
@@ -233,12 +225,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    SETMOP_COMPARTMENT(ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-	    //! Em/Rm
-	    //! injected current
-	    //! dt/cm
-	    //! diagonal
-	    //!
-	    //! injected current needs a separate entry for interfacing.
+	    /// \note Em/Rm
+	    /// \note injected current
+	    /// \note dt/cm
+	    /// \note diagonal
+	    ///
+	    /// \note injected current needs a separate entry for interfacing.
 
 	    //- get intermediary number for the current compartment
 
@@ -250,8 +242,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    double dEm = pheccer->inter.pcomp[iIntermediary].dEm;
 
-	    //t perhaps better to do current injection with a
-	    //t hardcoded injector callout ?
+	    /// \todo perhaps better to do current injection with a
+	    /// \todo hardcoded injector callout ?
 
 	    double dInject = pheccer->inter.pcomp[iIntermediary].dInject;
 
@@ -275,13 +267,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    //- fill in compartment constants
 
-	    //! note : pdDiagonals was computed with schedule numbers.
+	    /// \note note : pdDiagonals was computed with schedule numbers.
 
-	    //t these need an extra check, probably wrong.
+	    /// \todo these need an extra check, probably wrong.
 
-	    //t perhaps need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START
-	    //t and SETMAT_COMPARTMENT_FINISH
-	    //t between those two, we compile in the mechanisms.
+	    /// \todo perhaps need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START
+	    /// \todo and SETMAT_COMPARTMENT_FINISH
+	    /// \todo between those two, we compile in the mechanisms.
 
 	    SETMAT_COMPARTMENT(ppvCMatsIndex, iSchedule, ppvMatsIndex, iMatNumber, pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
@@ -293,7 +285,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    if (pheccer->inter.pmca && iStart > pheccer->inter.pmca->iMathComponents)
 	    {
-		//t HeccerError(number, message, varargs);
+		/// \todo HeccerError(number, message, varargs);
 
 		HeccerError
 		    (pheccer,
@@ -415,7 +407,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    if (pcsm->pcEventTimes
 			&& pcsm->pdEventTimes)
 		    {
-			//t HeccerError(number, message, varargs);
+			/// \todo HeccerError(number, message, varargs);
 
 			HeccerError
 			    (pheccer,
@@ -425,7 +417,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 #ifdef HECCER_SOURCE_NEUROSPACES
 			     pcsm->mc.iSerial,
 #else
-			     //t bhlkjwe, should have a char * here
+			     /// \todo bhlkjwe, should have a char * here
 
 			     -1,
 #endif
@@ -445,7 +437,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			if (iDoubles == -1
 			    || !pcsm->pdEventTimes)
 			{
-			    //t HeccerError(number, message, varargs);
+			    /// \todo HeccerError(number, message, varargs);
 
 			    HeccerError
 				(pheccer,
@@ -456,7 +448,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 #ifdef HECCER_SOURCE_NEUROSPACES
 				 pcsm->mc.iSerial,
 #else
-				 //t bhlkjwe, should have a char * here
+				 /// \todo bhlkjwe, should have a char * here
 
 				 -1,
 #endif
@@ -467,7 +459,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			    return(FALSE);
 			}
 
-			//! it would probably be a good idea to be able to go back to the original specification.
+			/// \note it would probably be a good idea to be able to go back to the original specification.
 
 			//- mark end of array
 
@@ -505,13 +497,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t would it be useful to retabulate here ?
+		    /// \todo would it be useful to retabulate here ?
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pcsm->iPool != -1)
 		    {
@@ -519,7 +511,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -660,19 +652,19 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pca->pgc.gc.iTable, pca->pgc.iPower,-1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pca->pgc.gc.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t retabulate cannot be done yet, do not know yet how many tables
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pca->iPool != -1)
 		    {
@@ -680,7 +672,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -782,7 +774,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcActivation.gc.iTable, pcai->pgcActivation.iPower,-1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcActivation.gc.dInitActivation);
 
@@ -794,19 +786,19 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcai->pgcInactivation.gc.iTable, pcai->pgcInactivation.iPower,-1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcInactivation.gc.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t retabulate cannot be done yet, do not know yet how many tables
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pcai->iPool != -1)
 		    {
@@ -814,7 +806,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -916,7 +908,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pgc.gc.iTable, pcac->pgc.iPower,-1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pgc.gc.dInitActivation);
 
@@ -926,10 +918,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iTabulatedBasalActivator
 			= HeccerTabulateAny(pheccer, &pcac->pac.ca, MATH_TYPE_Concentration);
 
-		    //! gate computations are just fetching things from tables, and
-		    //! multiplying the conductances, so it is not relevant if these
-		    //! computations are done for membrane potential dependent gates or
-		    //! concentration dependent gates.
+		    /// \note gate computations are just fetching things from tables, and
+		    /// \note multiplying the conductances, so it is not relevant if these
+		    /// \note computations are done for membrane potential dependent gates or
+		    /// \note concentration dependent gates.
 
 		    //- get math component number
 
@@ -946,19 +938,19 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcac->pac.ca.iTable, pcac->pac.iPower, iMatsActivator);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pac.ca.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t retabulate cannot be done yet, do not know yet how many tables
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pcac->iPool != -1)
 		    {
@@ -966,7 +958,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -1117,7 +1109,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iFirstTable, pcsst->iFirstPower, -1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dFirstInitActivation);
 
@@ -1127,13 +1119,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t retabulate cannot be done yet, do not know yet how many tables
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pcsst->iPool != -1)
 		    {
@@ -1141,7 +1133,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -1240,7 +1232,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iFirstTable, pcpsdt->iFirstPower, -1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcpsdt->dFirstInitActivation);
 
@@ -1256,13 +1248,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t retabulate cannot be done yet, do not know yet how many tables
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pcpsdt->iPool != -1)
 		    {
@@ -1270,7 +1262,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -1369,19 +1361,19 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpst->iTable, pcpst->iPower, -1);
 
-		    //! at the beginning of a simulation, you would expect this to be the steady state value
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
 		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcpst->dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    //t retabulate cannot be done yet, do not know yet how many tables
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
 
 		    //- register pool index
 
-		    //t for reasons of easy initialization, this should be a check for zero.
-		    //t this means that I have to offset all mechanisms with 1
-		    //t (mmm, the hines solver did the same, but for other reasons).
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
 
 		    if (pcpst->iPool != -1)
 		    {
@@ -1389,7 +1381,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			//! initial flux is assumed to be zero, always
+			/// \note initial flux is assumed to be zero, always
 
 			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
 
@@ -1452,11 +1444,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- set operators and operands
 
-		    //! INT_MAX means the membrane potential is the source
+		    /// \note INT_MAX means the membrane potential is the source
 
-		    //! for other things, fill in the matindex of the
-		    //! source, the linker will link the mechanisms
-		    //! together (untested).
+		    /// \note for other things, fill in the matindex of the
+		    /// \note source, the linker will link the mechanisms
+		    /// \note together (untested).
 
 		    int iSource = INT_MAX;
 
@@ -1464,11 +1456,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    if (iTable == INT_MAX)
 		    {
-			//t from ssp viewpoint, the distributor_service is already setup, and knows that it connects to this spikegen
+			/// \todo from ssp viewpoint, the distributor_service is already setup, and knows that it connects to this spikegen
 
-			//t the distributor_service builds a table that converts model container serials to entries in the connection matrix
+			/// \todo the distributor_service builds a table that converts model container serials to entries in the connection matrix
 
-			//t here we use that table, to convert the serial to the index in the connection matrix
+			/// \todo here we use that table, to convert the serial to the index in the connection matrix
 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -1479,23 +1471,23 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			struct EventDistributor *ped = pheccer->ped;
 
-			//t EventDistributor does not know about anything yet, this cannot work.
+			/// \todo EventDistributor does not know about anything yet, this cannot work.
 
-			//t we need to register (indirectly) the
-			//t memory location of iTable, probably by
-			//t storing the iMopNumber in an index intended
-			//t for resolving connections after CompileP3.
+			/// \todo we need to register (indirectly) the
+			/// \todo memory location of iTable, probably by
+			/// \todo storing the iMopNumber in an index intended
+			/// \todo for resolving connections after CompileP3.
 
 			iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
 
-			//t so hardcoded solution that makes the spiker1 test case work
+			/// \todo so hardcoded solution that makes the spiker1 test case work
 
 			iTable = 0;
 		    }
 
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
 
-		    //t we are not in the refractory period, check randomspike2 for initial refractory probability calculation.
+		    /// \todo we are not in the refractory period, check randomspike2 for initial refractory probability calculation.
 
 		    double dRefractoryTime = -1.0;
 
@@ -1518,7 +1510,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		default:
 		{
-		    //t HeccerError(number, message, varargs);
+		    /// \todo HeccerError(number, message, varargs);
 
 		    HeccerError
 			(pheccer,
@@ -1534,12 +1526,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	//- sanity : is next compartment's mechanism invalid ?
 
-	//! so pheccer->inter.piC2m can be NULL if no compartments have been found.
+	/// \note so pheccer->inter.piC2m can be NULL if no compartments have been found.
 
 	if (pheccer->inter.piC2m
 	    && pheccer->inter.piC2m[iSchedule] != -1)
 	{
-	    //t HeccerError(number, message, varargs);
+	    /// \todo HeccerError(number, message, varargs);
 
 	    HeccerError
 		(pheccer,
@@ -1577,7 +1569,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    if (pheccer->inter.pmca)
 	    {
-		//! note that this one does not index compartments, only the mechanism math components.
+		/// \note note that this one does not index compartments, only the mechanism math components.
 
 		pheccer->vm.piMC2Mat = (uMC2Mat *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(uMC2Mat));
 
@@ -1615,21 +1607,17 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMechanismLink()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Link mechanism operations.
-///
-/// **************************************************************************
+/// 
+/// \brief Link mechanism operations.
+/// \details 
+/// 
 
 int HeccerMechanismLink(struct Heccer *pheccer)
 {
@@ -1710,7 +1698,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
 
-		//t iDiscreteSource must be linked here ?
+		/// \todo iDiscreteSource must be linked here ?
 
 		break;
 	    }
@@ -2014,7 +2002,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		    {
 			//- set pointer value to a sentinel value
 
-			//! this will generate a warning on some architectures
+			/// \note this will generate a warning on some architectures
 
 			pmops->uSource.pdValue = (double *)-1;
 		    }
@@ -2055,7 +2043,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 	    default:
 	    {
-		//t HeccerError(number, message, varargs);
+		/// \todo HeccerError(number, message, varargs);
 
 		HeccerError
 		    (pheccer,
@@ -2063,7 +2051,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		     "unknown mechanism operation (%i)",
 		     piMop[0]);
 
-		//! the best we can do is advance the pointer with one
+		/// \note the best we can do is advance the pointer with one
 
 		piMop = &piMop[1];
 
@@ -2077,7 +2065,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
     if (piMop[0] != HECCER_MOP_FINISH)
     {
-	//t add something like HeccerError(number, message, varargs);
+	/// \todo add something like HeccerError(number, message, varargs);
 
 	HeccerError
 	    (pheccer,
@@ -2086,9 +2074,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	     piMop[0],
 	     HECCER_MOP_FINISH);
 
-	//t depending on options, bail out
+	/// \todo depending on options, bail out
 
-	//t set status : illegal mop hecc.
+	/// \todo set status : illegal mop hecc.
     }
 
     //- return result
@@ -2097,25 +2085,21 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMechanismReadDoubleFile()
-///
-/// ARGS.:
-///
-///	pheccer....: a heccer.
-///	pcFilename.: filename to read.
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pcFilename filename to read.
 ///	ppdValues..: values that have been read, NULL for failure.
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	Number of doubles read, -1 for failure.
-///
+/// 
 ///	ppdValues..: values that have been read, NULL for failure.
-///
-/// DESCR: Read a file with doubles, -1 terminated.
-///
-/// **************************************************************************
+/// 
+/// \brief Read a file with doubles, -1 terminated.
+/// \details 
+/// 
 
 static
 int
@@ -2166,7 +2150,7 @@ HeccerMechanismReadDoubleFile
 	{
 	    //- if not an element of a yaml array
 
-	    //! hardcoded indentation, 4 spaces required
+	    /// \note hardcoded indentation, 4 spaces required
 
 	    if ((pc[0] == ' '
 		 && pc[1] == ' '
@@ -2249,21 +2233,17 @@ HeccerMechanismReadDoubleFile
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMechanismSolveCN()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Perform the mechanisms operators once.
-///
-/// **************************************************************************
+/// 
+/// \brief Perform the mechanisms operators once.
+/// \details 
+/// 
 
 int HeccerMechanismSolveCN(struct Heccer *pheccer)
 {
@@ -2379,7 +2359,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dCompartmentCurrents += per->dCurrent;
 
-		//t check signaling
+		/// \todo check signaling
 
 		break;
 	    }
@@ -2420,7 +2400,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    {
 			//- add one to the activation, and apply decay
 
-			//! weight not normalized to the time step
+			/// \note weight not normalized to the time step
 
 			pmats->dX += phtsm->dX1;
 
@@ -2439,13 +2419,13 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    {
 			//- add one to the activation, and apply decay
 
-			//! fixed weight of 1, normalized to the time step
+			/// \note fixed weight of 1, normalized to the time step
 
 			pmats->dX += phtsm->dX1;
 
 			//- go to the next event
 
-			//t should be a variable ?
+			/// \todo should be a variable ?
 
 			pmops->iEvent++;
 		    }
@@ -2456,7 +2436,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		if (pmats->dNextEvent != -1.0
 		    && pmats->dNextEvent < pheccer->dTime
 
-		    //! target index for this object
+		    /// \note target index for this object
 
 		    && pmops->iDiscreteTarget != -1)
 		{
@@ -2472,7 +2452,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    }
 		    else
 		    {
-			//t HeccerError(number, message, varargs);
+			/// \todo HeccerError(number, message, varargs);
 
 			HeccerError
 			    (pheccer,
@@ -2533,7 +2513,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- computer nernst potential
 
-		//t produces invalid things if pdInternal is not set.
+		/// \todo produces invalid things if pdInternal is not set.
 
 		double dPotential = log(dExternal / dInternal) * dConstant;
 
@@ -2613,9 +2593,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		piMop = (int *)&pmops[1];
 
-		//t this is a nop for the moment, but when table
-		//t rearrangements get in, this should load the
-		//t table pointed to by the current membrane potential.
+		/// \todo this is a nop for the moment, but when table
+		/// \todo rearrangements get in, this should load the
+		/// \todo table pointed to by the current membrane potential.
 
 		break;
 	    }
@@ -2648,7 +2628,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- fetch tables
 
-		//t table rearrangements
+		/// \todo table rearrangements
 
 		struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
 
@@ -2672,8 +2652,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		{
 		    //- state is membrane potential
 
-		    //t move this to load membrane potential
-		    //t need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+		    /// \todo move this to load membrane potential
+		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
 
 		    dState = dVm;
 		}
@@ -2696,7 +2676,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		double dA = pdA[iIndex];
 		double dB = pdB[iIndex];
 
-		//t move to channel rearrangements
+		/// \todo move to channel rearrangements
 
 		dB = 1.0 + pheccer->dStep / 2.0 * dB;
 
@@ -2746,7 +2726,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		}
 		else
 		{
-		    //t HeccerError(number, message, varargs);
+		    /// \todo HeccerError(number, message, varargs);
 
 		    HeccerError
 			(pheccer,
@@ -2846,19 +2826,19 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- fetch external contribution
 
-		//! so after the channel mat comes the flux mat.  This
-		//! is a hack ... which could be solved, by having an
-		//! intermediary that linearizes and specifies
-		//! _all_ the equations (so including fluxes).
+		/// \note so after the channel mat comes the flux mat.  This
+		/// \note is a hack ... which could be solved, by having an
+		/// \note intermediary that linearizes and specifies
+		/// \note _all_ the equations (so including fluxes).
 
-		//t In other words, the test 'if (pcac->iPool != -1)'
-		//t should be removed and the removal should be
-		//t counterbalanced by the neccessary specifications
-		//t for a flux in the intermediary.  Then, these
-		//t specifications are compiled to HECCER_MOP_FLUXPOOL
-		//t byte code.
+		/// \todo In other words, the test 'if (pcac->iPool != -1)'
+		/// \todo should be removed and the removal should be
+		/// \todo counterbalanced by the neccessary specifications
+		/// \todo for a flux in the intermediary.  Then, these
+		/// \todo specifications are compiled to HECCER_MOP_FLUXPOOL
+		/// \todo byte code.
 
-		//t needs a careful check again.
+		/// \todo needs a careful check again.
 
 		double dExternal = 0.0;
 
@@ -2990,7 +2970,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			    if (!iResult)
 			    {
-				//t HeccerError(number, message, varargs);
+				/// \todo HeccerError(number, message, varargs);
 
 				HeccerError
 				    (pheccer,
@@ -3021,9 +3001,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- set the membrane potential
 
-		//t what if the user mixes this with active currents ?
-		//t this is ok for simple integrate and fire,
-		//t but for more complicated models I am not sure.
+		/// \todo what if the user mixes this with active currents ?
+		/// \todo this is ok for simple integrate and fire,
+		/// \todo but for more complicated models I am not sure.
 
 		pdVm[0] = dVmNew;
 
@@ -3032,7 +3012,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    default:
 	    {
-		//t HeccerError(number, message, varargs);
+		/// \todo HeccerError(number, message, varargs);
 
 		HeccerError
 		    (pheccer,
@@ -3040,7 +3020,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		     "unknown mechanism operation (%i)",
 		     piMop[0]);
 
-		//! the best we can do is advance the pointer with one
+		/// \note the best we can do is advance the pointer with one
 
 		piMop = &piMop[1];
 
@@ -3055,7 +3035,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	{
 	    //- compute the membrane potential right here
 
-	    //t differentiation needed between CN and BE ?
+	    /// \todo differentiation needed between CN and BE ?
 
 	    double dResult = ((dVm + dCompartmentCurrents * pmatsc->dCapacity)
 			      / (dConductances * pmatsc->dCapacity + pmatsc->dDiagonal));
@@ -3089,7 +3069,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     if (piMop[0] != HECCER_MOP_FINISH)
     {
-	//t add something like HeccerError(number, message, varargs);
+	/// \todo add something like HeccerError(number, message, varargs);
 
 	HeccerError
 	    (pheccer,
@@ -3098,9 +3078,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	     piMop[0],
 	     HECCER_MOP_FINISH);
 
-	//t depending on options, bail out
+	/// \todo depending on options, bail out
 
-	//t set status : illegal mop hecc.
+	/// \todo set status : illegal mop hecc.
     }
 
     //- return result
@@ -3109,30 +3089,26 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerMechanismSort()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Sort mechanisms according to different characteristics.
-///
+/// 
+/// \brief Sort mechanisms according to different characteristics.
+/// \details 
+/// 
 ///	Mechanisms are sorted using a regular quicksort.  A full order
 ///	is enforced by looking at the serial identification number in
 ///	the intermediary (as last resort for unordered mechanisms).
-///
-/// NOTE.:
-///
+/// 
+/// \note 
+/// 
 ///	Compartment leak is a current, so it is considered to be a
 ///	mechanism.
-///
-/// **************************************************************************
+/// 
 
 int HeccerMechanismSort(struct Heccer *pheccer)
 {
@@ -3158,16 +3134,16 @@ int HeccerMechanismSort(struct Heccer *pheccer)
 	     iMechanismModel < pheccer->inter.piC2m[iCompartmentModel + 1] ;
 	     iMechanismModel++)
 	{
-	    //t build array with mechanism references into the intermediary
+	    /// \todo build array with mechanism references into the intermediary
 
-	    //t because of the structure of the intermediary, we do
-	    //t not need this, do we ?
+	    /// \todo because of the structure of the intermediary, we do
+	    /// \todo not need this, do we ?
 	}
     }
 
-    //t qsort mechanisms per compartment
+    /// \todo qsort mechanisms per compartment
 
-    //t sort on Erev, see adaptive time step paper and hsolve implementation.
+    /// \todo sort on Erev, see adaptive time step paper and hsolve implementation.
 
     //- return result
 

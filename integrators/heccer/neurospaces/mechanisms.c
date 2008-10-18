@@ -38,11 +38,11 @@
 
 struct TableAllocatorData
 {
-    //m symbol with value array
+    /// symbol with value array
 
     struct symtab_HSolveListElement *phsle;
 
-    //m context of the symbol
+    /// context of the symbol
 
     struct PidinStack *ppist;
 };
@@ -78,25 +78,25 @@ struct MathComponentErrorReport
 
 struct MathComponentData
 {
-    //m solution engine
+    /// solution engine
 
     struct Heccer *pheccer;
 
-    //m compartment number
+    /// compartment number
 
     int iCompartment;
 
-    //m compartment 2 mechanism convertor
+    /// compartment 2 mechanism convertor
 
     int *piC2m;
 
-    //m current compartment
+    /// current compartment
 
     struct symtab_HSolveListElement *phsleCompartment;
 
     struct PidinStack *ppistCompartment;
 
-    //m array of all math component types
+    /// array of all math component types
 
     int iDescendants;
 
@@ -104,15 +104,15 @@ struct MathComponentData
 
     int *piTypes;
 
-    //m current mathcomponent
+    /// current mathcomponent
 
     struct MathComponent * pmc;
 
-    //m number of spikegens
+    /// number of spikegens
 
     int iSpikeGens;
 
-    //m operational status: positive is positive, negative is negative (error)
+    /// operational status: positive is positive, negative is negative (error)
 
     int iStatus;
 
@@ -120,7 +120,7 @@ struct MathComponentData
 
     char *pcMessage;
 
-    //m channels that contribute to a pool
+    /// channels that contribute to a pool
 
     int iConnectors;
 
@@ -251,9 +251,9 @@ MathComponentPrintErrorReport(struct MathComponentData * pmcd);
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc)
 {
-    //t I think this function can be removed completely, because the
-    //t connectivity can be translated directly from the model in
-    //t neurospaces, no need for this indirection.
+    /// \todo I think this function can be removed completely, because the
+    /// \todo connectivity can be translated directly from the model in
+    /// \todo neurospaces, no need for this indirection.
 
     //- set default result : none
 
@@ -366,8 +366,8 @@ MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType, struct
     {
 	//- abort the traversal, fatal failure
 
-	//t the current serial and type cursor give an indication
-	//t of what model component caused the failure
+	/// \todo the current serial and type cursor give an indication
+	/// \todo of what model component caused the failure
 
 	MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE, ppist);
     }
@@ -475,8 +475,8 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
     else if (instanceof_gate_kinetic(phsle))
     {
-	//! 2: forward, act
-	//! 3: backward, act
+	/// \note 2: forward, act
+	/// \note 3: backward, act
 
 	if (pmcd->iStatus == 2
 	    || pmcd->iStatus == 3)
@@ -544,7 +544,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 			}
 		    }
 
-		    //t would prefer to have all tests for pmcd->iStatus at the same place
+		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
 
 		    if (pmcd->iStatus == 2)
 		    {
@@ -910,8 +910,8 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
     else if (instanceof_gate_kinetic(phsle))
     {
-	//! 2: forward, act
-	//! 3: backward, act
+	/// \note 2: forward, act
+	/// \note 3: backward, act
 
 	if (pmcd->iStatus == 2
 	    || pmcd->iStatus == 3)
@@ -978,7 +978,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    //t would prefer to have all tests for pmcd->iStatus at the same place
+		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
 
 		    if (pmcd->iStatus == 2)
 		    {
@@ -1132,12 +1132,12 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
     {
 	//- if forward
 
-	//! 5: tau / base, conc
+	/// \note 5: tau / base, conc
 
-        //! or
+        /// \note or
 
-	//! 5: forward, conc
-	//! 6: backward, conc
+	/// \note 5: forward, conc
+	/// \note 6: backward, conc
 
 	if (pmcd->iStatus == 5
 	    || pmcd->iStatus == 6)
@@ -1194,7 +1194,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    //t would prefer to have all tests for pmcd->iStatus at the same place
+		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
 
 		    if (pmcd->iStatus == 5)
 		    {
@@ -1286,8 +1286,8 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	pmcd->iStatus++;
 
-	//! status can go up to 6 for tau-base concentration gates
-	//! and to 7 for tabulated concentration gates
+	/// \note status can go up to 6 for tau-base concentration gates
+	/// \note and to 7 for tabulated concentration gates
 
 	if (pmcd->iStatus == 7)
 	{
@@ -1407,10 +1407,10 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
     else if (instanceof_gate_kinetic(phsle))
     {
-	//! 2: forward, act
-	//! 3: backward, act
-	//! 5: forward, inact
-	//! 6: backward, inact
+	/// \note 2: forward, act
+	/// \note 3: backward, act
+	/// \note 5: forward, inact
+	/// \note 6: backward, inact
 
 	if (pmcd->iStatus == 2
 	    || pmcd->iStatus == 3
@@ -1484,15 +1484,15 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			}
 		    }
 
-		    //t would prefer to have all tests for pmcd->iStatus at the same place
+		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
 
 		    if (pmcd->iStatus == 2
 			|| pmcd->iStatus == 5)
-		    {   //t store number of entries in the table
+		    {   /// \todo store number of entries in the table
 			ppgc->gc.htg.pdA = pdTable;
 		    }
 		    else
-		    {   //t compare number of entries with stored number
+		    {   /// \todo compare number of entries with stored number
 			ppgc->gc.htg.pdB = pdTable;
 		    }
 		}
@@ -1832,8 +1832,8 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
     else if (instanceof_gate_kinetic(phsle))
     {
-	//! 2: tau 1
-	//! 3: tau 2
+	/// \note 2: tau 1
+	/// \note 3: tau 2
 
 	if (pmcd->iStatus == 2
 	    || pmcd->iStatus == 3)
@@ -2393,7 +2393,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	{
 	    //- get filename of event list
 
-	    //t should use ParameterResolveSymbol()
+	    /// \todo should use ParameterResolveSymbol()
 
 	    struct symtab_Parameters *pparEvents
 		= SymbolFindParameter(phsle, ptstr->ppist, "EVENT_FILENAME");
@@ -2402,8 +2402,8 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    {
 		char *pcEvents = ParameterGetString(pparEvents);
 
-		//t hardcoded connection with the neurospaces model container.
-		//t filename qualification must come in a separate software component.
+		/// \todo hardcoded connection with the neurospaces model container.
+		/// \todo filename qualification must come in a separate software component.
 
 		char *pcEventsQualified
 		    = NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
@@ -2422,8 +2422,8 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		pcsm->pcEventTimes = pcEventsQualified;
 	    }
 
-	    //t not sure yet about connectivity, needs a separate pass
-	    //t as in the genesis/hsolve/neurospaces implementation.
+	    /// \todo not sure yet about connectivity, needs a separate pass
+	    /// \todo as in the genesis/hsolve/neurospaces implementation.
 
 	}
 	else
@@ -2456,8 +2456,8 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    double dTau2 = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU2");
 	    pcsm->parameters.dTau2 = dTau2;
 
-	    //t perhaps if only tau1 is defined, I should make tau2
-	    //t equal to tau1 and treat it as a single exponential
+	    /// \todo perhaps if only tau1 is defined, I should make tau2
+	    /// \todo equal to tau1 and treat it as a single exponential
 
 	    if (dTau1 == FLT_MAX)
 	    {
@@ -2515,7 +2515,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	}
     }
 
-    //t have to do attachment points
+    /// \todo have to do attachment points
 
     //- otherwise
 
@@ -3228,7 +3228,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	{
 	    //- ok, skip
 
-	    //! this will be taken care of during compilation of the projections.
+	    /// \note this will be taken care of during compilation of the projections.
 
 	    iType = -2;
 	}
@@ -3356,7 +3356,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	{
 	    //- currently the nernst intermediary always comes after the channel
 
-	    //! this can be dependent on the other functions present, notably mgblocking.
+	    /// \note this can be dependent on the other functions present, notably mgblocking.
 
 	    iReversalPotential = pmc->iSerial + 1;
 	}
@@ -3439,7 +3439,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    double dFrequency = SymbolParameterResolveValue(phsle, ptstr->ppist, "FREQUENCY");
 
-	    //t this case should actually be handled by neurospaces ?
+	    /// \todo this case should actually be handled by neurospaces ?
 
 	    if (dFrequency == FLT_MAX)
 	    {
@@ -3448,10 +3448,10 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcsm->dFrequency = dFrequency;
 
-	    //t not sure about this one
-	    //t
-	    //t I think, because it is a low level component for I/O to the model, the setting
-	    //t should not be done over neurospaces, but over ssp parameter settings.
+	    /// \todo not sure about this one
+	    ///
+	    /// \todo I think, because it is a low level component for I/O to the model, the setting
+	    /// \todo should not be done over neurospaces, but over ssp parameter settings.
 
 	    pcsm->pdEventTimes = NULL;
 	}
@@ -3467,17 +3467,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pcac->iPool = -1;
 
-	    //m contributes to this concentration pool, -1 for none, boolean indicator only.
+	    /// contributes to this concentration pool, -1 for none, boolean indicator only.
 
 	    struct PidinStack *ppistPool
 		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
 
 	    if (ppistPool)
 	    {
-/* 		//t this is a hack to get things to work right now, */
-/* 		//t see TODOs in neurospaces */
+/* 		/// \todo this is a hack to get things to work right now, */
+/* 		/// \todo see TODOs in neurospaces */
 
-/* 		//t this hack will not work when components are in different groups or so */
+/* 		/// \todo this hack will not work when components are in different groups or so */
 
 /* 		int iSerialDifference */
 /* 		    = piolPool->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent; */
@@ -3507,7 +3507,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	if (pmcd->iStatus > 0)
 	{
-	    //! push and pop, the quick hack
+	    /// \note push and pop, the quick hack
 
 	    int iStatus = pmcd->iStatus;
 
@@ -3735,7 +3735,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    pin->dConstant = dConstant;
 	    pin->dExternal = dCOut;
 
-	    //! neurospaces contains support to evaluate simple functions
+	    /// \note neurospaces contains support to evaluate simple functions
 
 	    pin->dInitPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
 
@@ -3761,10 +3761,10 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		    break;
 		}
 
-		//t this is a hack to get things to work right now,
-		//t see TODOs in neurospaces
+		/// \todo this is a hack to get things to work right now,
+		/// \todo see TODOs in neurospaces
 
-		//t this hack will not work when components are in different groups or so
+		/// \todo this hack will not work when components are in different groups or so
 
 		int iSerialDifference
 		    = phslePool->smapPrincipal.iParent - phsle->smapPrincipal.iParent;
@@ -3784,7 +3784,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    }
 	    else
 	    {
-		//t fallback to constant nernst, requires changes in the typer
+		/// \todo fallback to constant nernst, requires changes in the typer
 
 		MathComponentDataStatusSet(pmcd, STATUS_CONSTANT_NERNST, ptstr->ppist);
 
@@ -3807,7 +3807,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iFunctions++;
 	}
 
-	//t mgblocking
+	/// \todo mgblocking
 
 	break;
     }
@@ -3931,10 +3931,10 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		    break;
 		}
 
-/* 		//t this is a hack to get things to work right now, */
-/* 		//t see TODOs in neurospaces */
+/* 		/// \todo this is a hack to get things to work right now, */
+/* 		/// \todo see TODOs in neurospaces */
 
-/* 		//t this hack will not work when components are in different groups or so */
+/* 		/// \todo this hack will not work when components are in different groups or so */
 
 /* 		int iSerialDifference */
 /* 		    = piolExternal->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent; */
@@ -3995,7 +3995,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     case MATH_TYPE_SpikeGenerator:
     {
-	//t for spikegens: initialize struct SpikeGenerator
+	/// \todo for spikegens: initialize struct SpikeGenerator
 
 	//- get math component data
 
@@ -4181,7 +4181,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	{
 	    //- ok, skip
 
-	    //! this will be taken care of during compilation of the projections.
+	    /// \note this will be taken care of during compilation of the projections.
 
 	    iType = -2;
 	}
@@ -4214,10 +4214,10 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     else if (instanceof_channel(phsle))
     {
-	//t clearly there should be global filter for this: given a
-	//t component, should we process it or not ?  This filter should
-	//t then be used by the other functions too, to see what must go
-	//t to the intermediary.
+	/// \todo clearly there should be global filter for this: given a
+	/// \todo component, should we process it or not ?  This filter should
+	/// \todo then be used by the other functions too, to see what must go
+	/// \todo to the intermediary.
 
 	//- default: we do not process channels
 
@@ -4282,7 +4282,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		if (pcType && strncasecmp(pcType, "ChannelPersistentSteadyStateTau", strlen("ChannelPersistentSteadyStateTau")) == 0)
 		{
-		    //t MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
+		    /// \todo MATH_TYPE_ChannelPersistentSteadyStateTau: steady state with two parts (km)
 
 		    iType = MATH_TYPE_ChannelPersistentSteadyStateTau;
 		}
@@ -4294,21 +4294,21 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		}
 		else if (pcType && strncasecmp(pcType, "ChannelSteadyStateSteppedTau", strlen("ChannelSteadyStateSteppedTau")) == 0)
 		{
-		    //t MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr)
+		    /// \todo MATH_TYPE_ChannelSteadyStateSteppedTau: steady state with 2x2 parts, tau with 2 parts (kdr)
 
 		    iType = MATH_TYPE_ChannelSteadyStateSteppedTau;
 		}
 		else if (pcType && strncasecmp(pcType, "ChannelActConc", strlen("ChannelActConc")) == 0)
 		{
-		    //t when the concen was not bound, the test above fails.
-		    //t need a separate name for the concen gate or so
+		    /// \todo when the concen was not bound, the test above fails.
+		    /// \todo need a separate name for the concen gate or so
 
 		    iType = MATH_TYPE_ChannelActConc;
 		}
 		else if (pcType && strncasecmp(pcType, "ChannelActInact", strlen("ChannelActInact")) == 0)
 		{
-		    //t when the concen was not bound, the test above fails.
-		    //t need a separate name for the concen gate or so
+		    /// \todo when the concen was not bound, the test above fails.
+		    /// \todo need a separate name for the concen gate or so
 
 		    iType = MATH_TYPE_ChannelActInact;
 		}
@@ -4350,7 +4350,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		//- if the channel has a nernst function
 
-		//t need a separate loop for registering the type or so.
+		/// \todo need a separate loop for registering the type or so.
 
 		if (SymbolHasNernstErev(phsle, ptstr->ppist))
 		{
@@ -4359,15 +4359,15 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    //t differentiate between internal and external nernst,
-		    //t possibly also differentiate with constant nernst
+		    /// \todo differentiate between internal and external nernst,
+		    /// \todo possibly also differentiate with constant nernst
 
 		    iType = MATH_TYPE_InternalNernst;
 		}
 
-		//t MATH_TYPE_MGBlocker
+		/// \todo MATH_TYPE_MGBlocker
 
-		//t check for attachments (synchans)
+		/// \todo check for attachments (synchans)
 	    }
 	    else
 	    {
@@ -4386,8 +4386,8 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		iResult = TSTR_PROCESSOR_ABORT;
 
-		//t deal with channels that are linked with a table
-		//t generated externally (using genesis2)
+		/// \todo deal with channels that are linked with a table
+		/// \todo generated externally (using genesis2)
 	    }
 	}
 	else
@@ -4437,25 +4437,25 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	struct MathComponentData mcd = {
 
-	    //m solution engine
+	    /// solution engine
 
 	    pheccer,
 
-	    //m compartment number
+	    /// compartment number
 
 	    0,
 
-	    //m compartment 2 mechanism convertor
+	    /// compartment 2 mechanism convertor
 
 	    NULL,
 
-	    //m current compartment
+	    /// current compartment
 
 	    NULL,
 
 	    NULL,
 
-	    //m array of all math component types
+	    /// array of all math component types
 
 	    0,
 
@@ -4463,15 +4463,15 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	    NULL,
 
-	    //m current mathcomponent
+	    /// current mathcomponent
 
 	    NULL,
 
-	    //m number of spikegens
+	    /// number of spikegens
 
 	    0,
 
-	    //m operational status: positive is positive, negative is negative (error)
+	    /// operational status: positive is positive, negative is negative (error)
 
 	    1,
 
@@ -4479,9 +4479,9 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	    "",
 
-	    //m channels that contribute to a pool
+	    /// channels that contribute to a pool
 
-	    //! to set the iPool boolean indicator
+	    /// \note to set the iPool boolean indicator
 
 	    0,
 
@@ -4489,7 +4489,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	};
 
-	//t should try to get rid of this allocation somehow
+	/// \todo should try to get rid of this allocation somehow
 
 #define MAXIMUM_NUMBER_OF_CHANNEL_CONTRIBUTORS 100000
 
@@ -4510,14 +4510,14 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	//- allow maximally this number of functions
 
-	//t to remove this 'opportunistic hack', neurospaces should
-	//t (1) serve the model a bit cleaner,
-	//t (2) by incorporating the functions into the symbol hierarchy.
-	//t See relevant comments in symbol hierarchy.
+	/// \todo to remove this 'opportunistic hack', neurospaces should
+	/// \todo (1) serve the model a bit cleaner,
+	/// \todo (2) by incorporating the functions into the symbol hierarchy.
+	/// \todo See relevant comments in symbol hierarchy.
 
 #define MAXIMUM_NUMBER_OF_FUNCTIONS 100000
 
-	//! + 1 for '-1' terminator
+	/// \note + 1 for '-1' terminator
 
 	iDescendants += MAXIMUM_NUMBER_OF_FUNCTIONS + 1;
 
@@ -4574,7 +4574,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 			    mcd.pmc = pmca->pmc;
 
-			    //t not sure if recycling is still allowed ...
+			    /// \todo not sure if recycling is still allowed ...
 
 			    ptstr->iStatus = TSTR_STATUS_NEW;
 			    ptstr->pfProcessor = solver_mathcomponent_processor;
@@ -4629,7 +4629,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 	    }
 	}
 
-	//t sort the registry
+	/// \todo sort the registry
 
 	//- link the mathcomponents together
 
@@ -4639,8 +4639,8 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	TstrDelete(ptstr);
 
-	//t decide if we want to keep piTypes or not, it might
-	//t be useful to keep.
+	/// \todo decide if we want to keep piTypes or not, it might
+	/// \todo be useful to keep.
 
 	//- delete channel contributors registry
 
@@ -4969,7 +4969,7 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	    //- if solved internal concentration
 
-	    //! must not be -1
+	    /// \note must not be -1
 
 	    if (pin->iInternal != -1)
 	    {
@@ -5081,7 +5081,7 @@ Type2Processor(int iType)
     }
     else
     {
-	//t segv
+	/// \todo segv
 
 	((int *)0)[0] = 0;
     }

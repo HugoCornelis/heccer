@@ -40,32 +40,32 @@ struct VM;
 
 typedef struct
 {
-    //m index into mathcomponents
+    /// index into mathcomponents
 
     int iMat;
 
-    //m direct value
+    /// direct value
 
     double *pdValue;
 
 }
     uMC2Mat;
 
-//s vm related (name subject to change)
+/// \struct vm related (name subject to change)
 
 struct VM
 {
-    //m number of compartments
+    /// number of compartments
 
     int iCompartments;
 
-    //m compartment operations
+    /// compartment operations
 
     int iCops;
 
     int *piCops;
 
-    //m compartment data
+    /// compartment data
 
     int iDiagonals;
 
@@ -75,35 +75,35 @@ struct VM
 
     double *pdAxres;
 
-    //m results
+    /// results
 
     int iResults;
 
     double *pdResults;
 
-    //t pdVm is accessible from outside, so should be moved to a
-    //t separate place ?
-    //t will become clear when addressing gets in place.
+    /// \todo pdVm is accessible from outside, so should be moved to a
+    /// \todo separate place ?
+    /// \todo will become clear when addressing gets in place.
 
     int iVms;
 
     double *pdVms;
 
-    //m number of math components
+    /// number of math components
 
     int iMathComponents;
 
-    //m math component number to mat number convertor
+    /// math component number to mat number convertor
 
-    //! note that this one does not index compartments, only the mechanism math components.
+    /// \note note that this one does not index compartments, only the mechanism math components.
 
     uMC2Mat *piMC2Mat;
 
-    //m math component number to mop number convertor
+    /// math component number to mop number convertor
 
     int *piMC2Mop;
 
-    //m mechanism operations
+    /// mechanism operations
 
     int iMopNumber;
 
@@ -111,9 +111,9 @@ struct VM
 
     void *pvMops;
 
-    //m mechanism addressables
+    /// mechanism addressables
 
-    //t same as for pdVms applies, see above.
+    /// \todo same as for pdVms applies, see above.
 
     int iMatNumber;
 
@@ -121,7 +121,7 @@ struct VM
 
     void *pvMats;
 
-    //m indexing from mops or mats number towards one of the above
+    /// indexing from mops or mats number towards one of the above
 
     void **ppvCMatsIndex;
 
@@ -129,19 +129,19 @@ struct VM
 
     void **ppvMatsIndex;
 
-    //m aggregate currents etc.
+    /// aggregate currents etc.
 
     int iAggregators;
 
     double *pdAggregators;
 
-/*     //m fluxes link channels and pools */
+/*     /// fluxes link channels and pools */
 
 /*     int iFluxes; */
 
 /*     double *pdFluxes; */
 
-/*     //m concentrations link pools and channels */
+/*     /// concentrations link pools and channels */
 
 /*     int iConcentrations; */
 
@@ -166,14 +166,14 @@ struct VM
 	     })							\
 	 : ({ iMopNumber++; 1; }) ) )
 
-//t can be automated by taking an array and diffing casted to char *
-//t pointers to sequent entries ?
+/// \todo can be automated by taking an array and diffing casted to char *
+/// \todo pointers to sequent entries ?
 
 #define ALIGNER8(s) ((((sizeof(s) - 1) >> 3) + 1) << 3)
 
 #define ALIGNER4(s) ((((sizeof(s) - 1) >> 3) + 1) << 2)
 
-//d mats are aligned to 8 bytes
+/// \def mats are aligned to 8 bytes
 
 #define MAT_ALIGNER ALIGNER8
 
@@ -227,36 +227,36 @@ struct MatsCompartment
 
 struct MopsSpringMass
 {
-    //m operator : HECCER_MOP_TRIPLEEXPONENTIAL
+    /// operator : HECCER_MOP_TRIPLEEXPONENTIAL
 
     int iOperator;
 
-    //m time table next event
+    /// time table next event
 
     int iEvent;
 
     double *pdEvents;
 
-    //m discrete event mapper indices, -1 for none
+    /// discrete event mapper indices, -1 for none
 
     int iDiscreteTarget;
 
-    //m index into sm tables
+    /// index into sm tables
 
     int iTable;
 
-    //m random activation frequency
+    /// random activation frequency
 
     double dFrequency;
 };
 
 struct MatsSpringMass
 {
-    //m time to next event from source
+    /// time to next event from source
 
     double dNextEvent;
 
-    //m two activation values
+    /// two activation values
 
     double dX;
     double dY;
@@ -306,32 +306,32 @@ struct MatsSpringMass
 
 struct MopsEventGenerate
 {
-    //m operator : HECCER_MOP_EVENTGENERATOR
+    /// operator : HECCER_MOP_EVENTGENERATOR
 
     int iOperator;
 
-    //m source, sentinel for membrane potential
+    /// source, sentinel for membrane potential
 
     uMC2Mat uSource;
 
-    //m threshold logic
+    /// threshold logic
 
     double dThreshold;
 
     double dRefractoryReset;
 
-    //m index into target tables
+    /// index into target tables
 
     int iTable;
 };
 
 struct MatsEventGenerate
 {
-    //m refractory counter, negative means not in refractory period
+    /// refractory counter, negative means not in refractory period
 
     double dRefractory;
 
-    //m spiking or not
+    /// spiking or not
 
     double dSpike;
 };
@@ -376,11 +376,11 @@ struct MatsEventGenerate
 
 struct MopsReset
 {
-    //m operator : HECCER_MOP_RESET
+    /// operator : HECCER_MOP_RESET
 
     int iOperator;
 
-    //m reset value
+    /// reset value
 
     double dReset;
 };
@@ -407,11 +407,11 @@ struct MatsCallout
 {
 /*     double d; */
 
-/*     //m the external solver (or glue to) */
+/*     /// the external solver (or glue to) */
 
 /*     ExternalFunction *pfCall; */
 
-    //m currently points to intermediary
+    /// currently points to intermediary
 
     struct Callout *pco;
 };
@@ -452,19 +452,19 @@ struct MatsCallout
 
 struct MopsInternalNernst
 {
-    //m operator : HECCER_MOP_INTERNALNERNST
+    /// operator : HECCER_MOP_INTERNALNERNST
 
     int iOperator;
 
-    //m constant
+    /// constant
 
     double dConstant;
 
-    //m external concentration
+    /// external concentration
 
     double dExternal;
 
-    //m variable internal concentration
+    /// variable internal concentration
 
     uMC2Mat uInternal;
 };
@@ -472,7 +472,7 @@ struct MopsInternalNernst
 
 struct MatsInternalNernst
 {
-    //m nernst potential
+    /// nernst potential
 
     double dPotential;
 };
@@ -516,15 +516,15 @@ struct MatsInternalNernst
 
 struct MopsInitializeChannel
 {
-    //m operation : HECCER_MOP_INITIALIZECHANNEL
+    /// operation : HECCER_MOP_INITIALIZECHANNEL
 
     int iOperator;
 
-    //m constant reversal potential
+    /// constant reversal potential
 
     double dReversalPotential;
 
-    //m maximal channel conductance
+    /// maximal channel conductance
 
     double dMaximalConductance;
 };
@@ -552,15 +552,15 @@ struct MopsInitializeChannel
 
 struct MopsInitializeChannelErev
 {
-    //m operation : HECCER_MOP_INITIALIZECHANNELEK
+    /// operation : HECCER_MOP_INITIALIZECHANNELEK
 
     int iOperator;
 
-    //m variable reversal potential
+    /// variable reversal potential
 
     uMC2Mat uReversalPotential;
 
-    //m maximal channel conductance
+    /// maximal channel conductance
 
     double dMaximalConductance;
 };
@@ -588,16 +588,16 @@ struct MopsInitializeChannelErev
 
 struct MopsStoreChannelConductance
 {
-    //m operator : HECCER_MOP_STORECHANNELCONDUCTANCE
+    /// operator : HECCER_MOP_STORECHANNELCONDUCTANCE
 
     int iOperator;
 };
 
-//t needs to be renamed to MatsStoreChannelConductance
+/// \todo needs to be renamed to MatsStoreChannelConductance
 
 struct MatsStoreChannelConductance
 {
-    //m single channel conductance
+    /// single channel conductance
 
     double dChannelConductance;
 };
@@ -621,10 +621,10 @@ struct MatsStoreChannelConductance
 
 struct MopsVoltageTableDependency
 {
-    //t so in principle the following operation is only needed once
-    //t per compartment.  Still have to figure out how.
+    /// \todo so in principle the following operation is only needed once
+    /// \todo per compartment.  Still have to figure out how.
 
-    //m operator : HECCER_MOP_LOADVOLTAGETABLE
+    /// operator : HECCER_MOP_LOADVOLTAGETABLE
 
     int iOperator;
 };
@@ -648,7 +648,7 @@ struct MopsVoltageTableDependency
 
 struct MopsUpdateCompartmentCurrent
 {
-    //m operator : HECCER_MOP_UPDATECOMPARTMENTCURRENT
+    /// operator : HECCER_MOP_UPDATECOMPARTMENTCURRENT
 
     int iOperator;
 };
@@ -672,19 +672,19 @@ struct MopsUpdateCompartmentCurrent
 
 struct MopsSingleGateConcept
 {
-    //m operator : HECCER_MOP_CONCEPTGATE
+    /// operator : HECCER_MOP_CONCEPTGATE
 
     int iOperator;
 
-    //m table index
+    /// table index
 
     int iTableIndex;
 
-    //m power to apply
+    /// power to apply
 
     int iPower;
 
-    //m possibly solved dependence
+    /// possibly solved dependence
 
     uMC2Mat uState;
 };
@@ -720,7 +720,7 @@ struct MopsSingleGateConcept
 
 struct MatsSingleGateConcept
 {
-    //m gate activation
+    /// gate activation
 
     double dActivation;
 };
@@ -745,23 +745,23 @@ struct MatsSingleGateConcept
 
 struct MopsExponentialDecay
 {
-    //m operator : HECCER_MOP_EXPONENTIALDECAY
+    /// operator : HECCER_MOP_EXPONENTIALDECAY
 
     int iOperator;
 
-    //m beta
+    /// beta
 
     double dBeta;
 
-    //m steady state
+    /// steady state
 
     double dSteadyState;
 
-    //m tau
+    /// tau
 
     double dTau;
 
-    //m possibly solved external flux contribution
+    /// possibly solved external flux contribution
 
     uMC2Mat puExternal[EXPONENTIALDECAY_CONTRIBUTORS];
 };
@@ -769,7 +769,7 @@ struct MopsExponentialDecay
 
 struct MatsExponentialDecay
 {
-    //m resulting state
+    /// resulting state
 
     double dState;
 };
@@ -818,18 +818,18 @@ struct MatsExponentialDecay
 
 struct MopsFluxPool
 {
-    //m operator : HECCER_MOP_FLUXPOOL
+    /// operator : HECCER_MOP_FLUXPOOL
 
     int iOperator;
 
-/*     //m pool index */
+/*     /// pool index */
 
 /*     int iPool; */
 };
 
 struct MatsFluxPool
 {
-    //m resulting flux
+    /// resulting flux
 
     double dFlux;
 };
@@ -870,7 +870,7 @@ struct MatsFluxPool
 
 struct MopsRegisterChannelCurrent
 {
-    //m operator : HECCER_MOP_REGISTERCHANNELCURRENT
+    /// operator : HECCER_MOP_REGISTERCHANNELCURRENT
 
     int iOperator;
 };
@@ -894,18 +894,18 @@ struct MopsRegisterChannelCurrent
 
 struct MopsStoreSingleChannelCurrent
 {
-    //m operator : HECCER_MOP_STORESINGLECHANNELCURRENT
+    /// operator : HECCER_MOP_STORESINGLECHANNELCURRENT
 
     int iOperator;
 };
 
 struct MatsStoreSingleChannelCurrent
 {
-    //m single channel conductance
+    /// single channel conductance
 
     double dConductance;
 
-    //m single channel current
+    /// single channel current
 
     double dCurrent;
 
@@ -947,11 +947,11 @@ struct MatsStoreSingleChannelCurrent
 
 struct MopsAggregateCurrent
 {
-    //m operator : HECCER_MOP_AGGREGATECURRENT
+    /// operator : HECCER_MOP_AGGREGATECURRENT
 
     int iOperator;
 
-    //m index into the aggregate results array
+    /// index into the aggregate results array
 
     int iIndex;
 };
@@ -977,7 +977,7 @@ struct MopsAggregateCurrent
 	     : ({ iMopNumber++; 1; }) ) )
 
 
-//d operations for compartments
+/// \def operations for compartments
 
 #define HECCER_COP_FORWARD_ELIMINATION		1
 #define HECCER_COP_BACKWARD_SUBSTITUTION	2
@@ -999,7 +999,7 @@ struct MopsAggregateCurrent
 #define HECCER_COP_BE_SKIP_DIAGONAL	( 5 || 32 )
 
 
-//d operations for mechanisms
+/// \def operations for mechanisms
 
 #define HECCER_MOP_COMPARTMENT 1
 #define HECCER_MOP_FINISH 2
@@ -1025,14 +1025,13 @@ struct MopsAggregateCurrent
 #define HECCER_MOP_AGGREGATECURRENT 60
 
 
-//d all operators for mechanisms have an opcode larger than ...
+/// \def all operators for mechanisms have an opcode larger than ...
 
-//t but perhaps this should be done using flags, not sure.
+/// \todo but perhaps this should be done using flags, not sure.
 
 #define HECCER_MOP_COMPARTMENT_BARRIER 9
 
 
-//f prototypes
 
 int
 HeccerVMDump

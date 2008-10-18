@@ -44,24 +44,20 @@ HeccerAddressSerial2Intermediary
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressableSet()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///	dValue....: new value for this variable.
-///
-/// RTN..: char *
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// \arg dValue new value for this variable.
+/// 
+/// \return char *
+/// 
 ///	error code, NULL for success.
-///
-/// DESCR: Set a variable in a compiled model.
-///
-/// **************************************************************************
+/// 
+/// \brief Set a variable in a compiled model.
+/// \details 
+/// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 char *
@@ -94,23 +90,19 @@ HeccerAddressableSet
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressAggregator()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///
-/// RTN..: void *
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// 
+/// \return void *
+/// 
 ///	address of the aggregator, NULL for failure.
-///
-/// DESCR: Get the address of an aggregator.
-///
-/// **************************************************************************
+/// 
+/// \brief Get the address of an aggregator.
+/// \details 
+/// 
 
 void *
 HeccerAddressAggregator
@@ -165,23 +157,19 @@ HeccerAddressAggregator
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressCompartmentVariable()
-///
-/// ARGS.:
-///
-///	pheccer.......: a heccer.
-///	iIntermediary.: index of compartment in the intermediary.
-///	pcType........: name of requested variable.
-///
-/// RTN..: void *
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iIntermediary index of compartment in the intermediary.
+/// \arg pcType name of requested variable.
+/// 
+/// \return void *
+/// 
 ///	pointer to the requested field, NULL for failure.
-///
-/// DESCR: Find the simulation sequence of a given variable.
-///
-/// **************************************************************************
+/// 
+/// \brief Find the simulation sequence of a given variable.
+/// \details 
+/// 
 
 void *
 HeccerAddressCompartmentVariable
@@ -244,23 +232,19 @@ HeccerAddressCompartmentVariable
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressCompartmentSerial2Intermediary()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// 
+/// \return int
+/// 
 ///	index into the intermediary, -1 for not found.
-///
-/// DESCR: Lookup the index of the given serial.
-///
-/// **************************************************************************
+/// 
+/// \brief Lookup the index of the given serial.
+/// \details 
+/// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 static
@@ -286,7 +270,7 @@ HeccerAddressCompartmentSerial2Intermediary
 
 	if (pcomp->mc.iSerial == iSerial)
 	{
-	    //t check if the field type is 'compatible' with the math component
+	    /// \todo check if the field type is 'compatible' with the math component
 
 	    //- set result : current index
 
@@ -305,23 +289,19 @@ HeccerAddressCompartmentSerial2Intermediary
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressMechanismSerial2Intermediary()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// 
+/// \return int
+/// 
 ///	index into the intermediary, -1 for not found.
-///
-/// DESCR: Lookup the index of the given serial.
-///
-/// **************************************************************************
+/// 
+/// \brief Lookup the index of the given serial.
+/// \details 
+/// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 static
@@ -367,23 +347,19 @@ HeccerAddressMechanismSerial2Intermediary
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressMechanismVariable()
-///
-/// ARGS.:
-///
-///	pheccer.......: a heccer.
-///	iIntermediary.: index of mechanism in the intermediary.
-///	pcType........: name of requested variable.
-///
-/// RTN..: void *
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iIntermediary index of mechanism in the intermediary.
+/// \arg pcType name of requested variable.
+/// 
+/// \return void *
+/// 
 ///	pointer to the requested field, NULL for failure.
-///
-/// DESCR: Find the simulation sequence of a given variable.
-///
-/// **************************************************************************
+/// 
+/// \brief Find the simulation sequence of a given variable.
+/// \details 
+/// 
 
 void *
 HeccerAddressMechanismVariable
@@ -395,7 +371,7 @@ HeccerAddressMechanismVariable
 
     //- lookup the field operand, we first search for mat entries
 
-    //! negative offset for now
+    /// \note negative offset for now
 
     struct field_2_operator
     {
@@ -444,7 +420,7 @@ HeccerAddressMechanismVariable
 
 	printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
 
-	//! note that this is implicitly assumed to be a pointer to double.
+	/// \note note that this is implicitly assumed to be a pointer to double.
 
 	pvResult = &((double *)pheccer->vm.ppvMatsIndex[iMat])[pF2P[iField].iOffset];
     }
@@ -488,9 +464,9 @@ HeccerAddressMechanismVariable
 
 	    printf("table index is %i\n", pmops->iTableIndex);
 
-	    //! normally the default for iTableIndex is -1, which is
-	    //! returned as an error indicator if there is no table
-	    //! associated with this gate.
+	    /// \note normally the default for iTableIndex is -1, which is
+	    /// \note returned as an error indicator if there is no table
+	    /// \note associated with this gate.
 
 	    pvResult = (int *)pmops->iTableIndex;
 	}
@@ -502,26 +478,22 @@ HeccerAddressMechanismVariable
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressSerial2Intermediary()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// 
+/// \return int
+/// 
 ///	index into the intermediary, -1 for not found.
-///
-/// DESCR: Lookup the index of the given serial.
-///
+/// 
+/// \brief Lookup the index of the given serial.
+/// \details 
+/// 
 ///	Note that depending on the field, you get an index into
 ///	mechanisms or an index into the compartments.
-///
-/// **************************************************************************
+/// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 static
@@ -558,26 +530,22 @@ HeccerAddressSerial2Intermediary
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressTableIndex()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// 
+/// \return int
+/// 
 ///	index into table array, -1 for failure.
-///
-/// DESCR: Lookup the table index of the given serial.
-///
+/// 
+/// \brief Lookup the table index of the given serial.
+/// \details 
+/// 
 ///	The returned index is an address into pheccer->tgt.phtg.  See
 ///	table.h for more information.
-///
-/// **************************************************************************
+/// 
 
 int
 HeccerAddressTableIndex
@@ -591,7 +559,7 @@ HeccerAddressTableIndex
 
     void *pvResult = HeccerAddressVariable(pheccer, iSerial, pcType);
 
-    //t should be cleaner than this
+    /// \todo should be cleaner than this
 
     //- convert result to int
 
@@ -603,26 +571,22 @@ HeccerAddressTableIndex
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerAddressVariable()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	iSerial...: identification number.
-///	pcType....: name of requested variable.
-///
-/// RTN..: void *
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg iSerial identification number.
+/// \arg pcType name of requested variable.
+/// 
+/// \return void *
+/// 
 ///	pointer to the requested field, NULL for failure.
-///
-/// DESCR: Find the simulation sequence of a given variable.
-///
+/// 
+/// \brief Find the simulation sequence of a given variable.
+/// \details 
+/// 
 ///	In all cases, as of the moment of writing, the pointer is a
 ///	pointer to a double.
-///
-/// **************************************************************************
+/// 
 
 void *
 HeccerAddressVariable
@@ -689,7 +653,7 @@ HeccerAddressVariable
     }
     else
     {
-	//! this cannot be, internal error
+	/// \note this cannot be, internal error
 
 	HeccerError
 	    (pheccer,

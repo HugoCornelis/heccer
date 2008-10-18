@@ -25,22 +25,18 @@
 #include "heccer/perfectclamp.h"
 
 
-/// **************************************************************************
-///
-/// SHORT: PerfectClampAddVariable()
-///
-/// ARGS.:
-///
-///	ppc.........: voltage clamper.
+/// 
+/// 
+/// \arg ppc voltage clamper.
 ///	pvVoltage...: pointer to the voltage variable, assumed is double *
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Clamp the given voltage variable.
-///
-/// **************************************************************************
+/// 
+/// \brief Clamp the given voltage variable.
+/// \details 
+/// 
 
 int
 PerfectClampAddVariable
@@ -67,21 +63,17 @@ PerfectClampAddVariable
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: PerfectClampFinish()
-///
-/// ARGS.:
-///
-///	ppc...: voltage clamper.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ppc voltage clamper.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Free the voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief Free the voltage clamper.
+/// \details 
+/// 
 
 int PerfectClampFinish(struct PerfectClamp * ppc)
 {
@@ -113,21 +105,17 @@ int PerfectClampFinish(struct PerfectClamp * ppc)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: PerfectClampInitiate()
-///
-/// ARGS.:
-///
-///	ppc...: voltage clamper.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ppc voltage clamper.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Initiate the voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief Initiate the voltage clamper.
+/// \details 
+/// 
 
 int PerfectClampInitiate(struct PerfectClamp * ppc)
 {
@@ -141,21 +129,17 @@ int PerfectClampInitiate(struct PerfectClamp * ppc)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: PerfectClampNew()
-///
-/// ARGS.:
-///
-///	pcName..: name of this object.
-///
-/// RTN..: struct PerfectClamp *
-///
+/// 
+/// 
+/// \arg pcName name of this object.
+/// 
+/// \return struct PerfectClamp *
+/// 
 ///	voltage clamper, NULL for failure.
-///
-/// DESCR: voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief voltage clamper.
+/// \details 
+/// 
 
 struct PerfectClamp * PerfectClampNew(char *pcName)
 {
@@ -184,22 +168,18 @@ struct PerfectClamp * PerfectClampNew(char *pcName)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: PerfectClampSetFields()
-///
-/// ARGS.:
-///
+/// 
+/// 
 ///	dCommand.....: command voltage, ignored if a filename is given.
 ///	pcFilename...: filename, file contains sequence of command voltages.
-///
-/// RTN..: int
-///
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: set operation fields of voltage clamper.
-///
-/// **************************************************************************
+/// 
+/// \brief set operation fields of voltage clamper.
+/// \details 
+/// 
 
 int
 PerfectClampSetFields
@@ -227,7 +207,7 @@ PerfectClampSetFields
 
 	//- open file
 
-	//! I need the qualification service overhere.
+	/// \note I need the qualification service overhere.
 
 	ppc->pfile = fopen(pcFilename, "r");
 
@@ -242,7 +222,7 @@ PerfectClampSetFields
 
 	//- file stays open during simulation
 
-	//! we could also cache the file in memory, depending on an option or so.
+	/// \note we could also cache the file in memory, depending on an option or so.
     }
 
     //- return result
@@ -251,26 +231,22 @@ PerfectClampSetFields
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: PerfectClampSingleStep()
-///
-/// ARGS.:
-///
-///	ppc...: voltage clamper.
-///	dTime.: current simulation time.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ppc voltage clamper.
+/// \arg dTime current simulation time.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Compute new currents to correct voltages.
-///
-/// NOTE.:
-///
+/// 
+/// \brief Compute new currents to correct voltages.
+/// \details 
+/// 
+/// \note 
+/// 
 ///	Old current values are overwritten.
-///
-/// **************************************************************************
+/// 
 
 int PerfectClampSingleStep(struct PerfectClamp * ppc, double dTime)
 {

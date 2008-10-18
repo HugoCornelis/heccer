@@ -24,23 +24,23 @@
 
 struct HeccerCommandInfo
 {
-    //m operation value
+    /// operation value
 
     int iValue;
 
-    //m name of command
+    /// name of command
 
     char *pcName;
 
-    //m length of command (number of operands + 1)
+    /// length of command (number of operands + 1)
 
     int iLength;
 
-    //m number of secondary operands, expressed in doubles
+    /// number of secondary operands, expressed in doubles
 
     int iSecondaries;
 
-    //m sizeof secondaries
+    /// sizeof secondaries
 
     int iSecondariesSize;
 };
@@ -48,19 +48,19 @@ struct HeccerCommandInfo
 
 struct HeccerCommandTable
 {
-    //m initialization status
+    /// initialization status
 
     int iStatus;
 
-    //m number of commands
+    /// number of commands
 
     int iCommands;
 
-    //m -1 means no formatted output
+    /// -1 means no formatted output
 
     int iFormatted;
 
-    //m command info
+    /// command info
 
     struct HeccerCommandInfo * phci;
 };
@@ -150,7 +150,6 @@ static void SortTable(struct HeccerCommandTable *phct)
 }
 
 
-//f static prototypes
 
 static
 struct HeccerCommandInfo *
@@ -170,22 +169,18 @@ HeccerVMDumpOperators
  FILE *pfile);
 
 
-/// ***************************************************************************
-///
-/// SHORT: HeccerCommandInfoLookup()
-///
-/// ARGS.: 
-///
-///	phci....: array with info
-///	iOp.....: operation to lookup
-///
-/// RTN..: struct HeccerCommandInfo *
-///
+/// 
+/// 
+/// \arg phci array with info
+/// \arg iOp operation to lookup
+/// 
+/// \return struct HeccerCommandInfo *
+/// 
 ///	info on command
-///
-/// DESCR: lookup info on given command.
-///
-/// ***************************************************************************
+/// 
+/// \brief lookup info on given command.
+/// \details 
+/// 
 
 static
 struct HeccerCommandInfo *
@@ -210,7 +205,7 @@ HeccerCommandInfoLookup
     iLower = 0;
     iUpper = phct->iCommands - 1;
 
-    //! binary search
+    /// \note binary search
 
     //- search until the range to search in becomes invalid
 
@@ -251,23 +246,19 @@ HeccerCommandInfoLookup
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerVMDump()
-///
-/// ARGS.:
-///
-///	pvm........: heccer vm.
-///	pfile......: stdio file.
-///	iSelection.: selection to dump.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pvm heccer vm.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Dump VM functions.
-///
-/// **************************************************************************
+/// 
+/// \brief Dump VM functions.
+/// \details 
+/// 
 
 int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 {
@@ -283,8 +274,8 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 	int *piCops = pvm->piCops;
 
-	//! cops are allocated as integers, dump array expects char's,
-	//! so that is why we have to multiply here.
+	/// \note cops are allocated as integers, dump array expects char's,
+	/// \note so that is why we have to multiply here.
 
 	HeccerVMDumpOperators("Compartment operations", pvm, &piCops[0], NULL, &hctCops, 0, iCops * sizeof(int), pfile);
     }
@@ -389,28 +380,24 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 }
 
 
-/// ***************************************************************************
-///
-/// SHORT: HeccerVMDumpOperators()
-///
-/// ARGS.: 
-///
-///	pvm.....: heccer vm.
-///	piArray.: array to print
-///	iSize...: size of one array entry
-///	phct....: table with info on array to print
-///	iStart..: start index
-///	iEnd....: ending index
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pvm heccer vm.
+/// \arg piArray array to print
+/// \arg iSize size of one array entry
+/// \arg phct table with info on array to print
+/// \arg iStart start index
+/// \arg iEnd ending index
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: print operations in given array according to given info array.
-///
-/// NOTE.: length of operations is ignored at the moment
-///
-/// ***************************************************************************
+/// 
+/// \brief print operations in given array according to given info array.
+/// \details 
+/// 
+/// \note  length of operations is ignored at the moment
+/// 
 
 static
 int
@@ -440,10 +427,10 @@ HeccerVMDumpOperators
 
     //- loop from start to end
 
-    //! dump array expects char's but goes over the array as if they
-    //! are int's.
+    /// \note dump array expects char's but goes over the array as if they
+    /// \note are int's.
 
-    //t fix char's int's mismatch somehow.
+    /// \todo fix char's int's mismatch somehow.
 
     int i;
 
@@ -489,7 +476,7 @@ HeccerVMDumpOperators
 	    {
 		if (phct->iFormatted)
 		{
-		    //t so only for five doubles ...
+		    /// \todo so only for five doubles ...
 
 		    char pc[100] = "";
 

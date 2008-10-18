@@ -205,24 +205,20 @@ static int EventListInsert(EventList *pel)
 #endif
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorAddOutputConnection()
-///
-/// ARGS.:
-///
-///	ped....: event distributor.
-///	pog....: output object.
+/// 
+/// 
+/// \arg ped event distributor.
+/// \arg pog output object.
 ///	iType..: 1: OutputGeneratorTimedStep() used to send the event.
-///	iTarget: 
-///
-/// RTN..: int
-///
+/// \arg iTarget 
+/// 
+/// \return int
+/// 
 ///	number of allocated connections, -1 for failure.
-///
-/// DESCR: Add an output connection to the connection matrix.
-///
-/// **************************************************************************
+/// 
+/// \brief Add an output connection to the connection matrix.
+/// \details 
+/// 
 
 int
 EventDistributorAddConnection
@@ -246,9 +242,9 @@ EventDistributorAddConnection
 
 	ppedm->pvObject = pog;
 
-	//! output objects don't have an internal target for now,
-	//! could be changed in the future.  -1 means undefined, see
-	//! spiker1 test case.
+	/// \note output objects don't have an internal target for now,
+	/// \note could be changed in the future.  -1 means undefined, see
+	/// \note spiker1 test case.
 
 	ppedm->iTarget = -1;
 
@@ -268,22 +264,18 @@ EventDistributorAddConnection
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorDataGetEntry()
-///
-/// ARGS.:
-///
-///	pedd......: event distributor data.
-///	iEntry....: entry number to get access to.
-///
-/// RTN..: struct EventDistributorMatrix *
-///
+/// 
+/// 
+/// \arg pedd event distributor data.
+/// \arg iEntry entry number to get access to.
+/// 
+/// \return struct EventDistributorMatrix *
+/// 
 ///	a single entry in the connection matrix, NULL for failure.
-///
-/// DESCR: Get access to an entry in the connection matrix.
-///
-/// **************************************************************************
+/// 
+/// \brief Get access to an entry in the connection matrix.
+/// \details 
+/// 
 
 struct EventDistributorMatrix *
 EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
@@ -302,21 +294,17 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorDataNew()
-///
-/// ARGS.:
-///
-///	iConnections..: number of connections in the matrix.
-///
-/// RTN..: struct EventDistributorData *
-///
+/// 
+/// 
+/// \arg iConnections number of connections in the matrix.
+/// 
+/// \return struct EventDistributorData *
+/// 
 ///	a connection matrix, NULL for failure.
-///
-/// DESCR: Construct an empty connection matrix.
-///
-/// **************************************************************************
+/// 
+/// \brief Construct an empty connection matrix.
+/// \details 
+/// 
 
 struct EventDistributorData *
 EventDistributorDataNew(int iConnections)
@@ -342,33 +330,29 @@ EventDistributorDataNew(int iConnections)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorInitiate()
-///
-/// ARGS.:
-///
-///	ped.....: event distributor.
-///	iType...: type of setup to perform.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ped event distributor.
+/// \arg iType type of setup to perform.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Initiate the event distributor service.
-///
+/// 
+/// \brief Initiate the event distributor service.
+/// \details 
+/// 
 ///	Initiation means setup internal state, at this moment this
 ///	only involves initializing the distribution function.
-///
-///
+/// 
+/// 
 /// NOTE:
-///
+/// 
 ///	I consider this function a hack that gets around swig
 ///	deficiencies in an acceptable way (or I don't have enough
 ///	knowledge of swig).  To extend: add new iType values, and map
 ///	to your own functions.
-///
-/// **************************************************************************
+/// 
 
 int
 EventDistributorInitiate
@@ -397,21 +381,17 @@ EventDistributorInitiate
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorNew()
-///
-/// ARGS.:
-///
-///	ppedm...: event distributor connection matrix.
-///
-/// RTN..: struct EventDistributor
-///
+/// 
+/// 
+/// \arg ppedm event distributor connection matrix.
+/// 
+/// \return struct EventDistributor
+/// 
 ///	An event distributor.
-///
-/// DESCR: Allocate an event distributor.
-///
-/// **************************************************************************
+/// 
+/// \brief Allocate an event distributor.
+/// \details 
+/// 
 
 struct EventDistributor *
 EventDistributorNew
@@ -438,22 +418,18 @@ EventDistributorNew
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorSerial2Index()
-///
-/// ARGS.:
-///
-///	ped.......: an event distributor.
-///	iSerial...: serial of a bio component that generates spikes.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ped an event distributor.
+/// \arg iSerial serial of a bio component that generates spikes.
+/// 
+/// \return int
+/// 
 ///	corresponding index in the connection matrix, -1 for not found.
-///
-/// DESCR: Lookup a spikegen serial, return the internal index.
-///
-/// **************************************************************************
+/// 
+/// \brief Lookup a spikegen serial, return the internal index.
+/// \details 
+/// 
 
 int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
 {
@@ -489,22 +465,18 @@ int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventDistributorSend()
-///
-/// ARGS.:
-///
-///	ped.......: an event distributor.
-///	iTargets..: index of target objects and target ports.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg ped an event distributor.
+/// \arg iTargets index of target objects and target ports.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Distribute an event over the targets.
-///
-/// **************************************************************************
+/// 
+/// \brief Distribute an event over the targets.
+/// \details 
+/// 
 
 int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets)
 {
@@ -528,9 +500,9 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 	//- call the target object
 
-	//! possibly calls directly to HeccerOutput,
-	//! possibly calls to the EventQueuer to queue the object
-	//! other hooks possible.
+	/// \note possibly calls directly to HeccerOutput,
+	/// \note possibly calls to the EventQueuer to queue the object
+	/// \note other hooks possible.
 
 	iResult = iResult && ppedm->pvFunction(ppedm->pvObject, dTime, iTarget);
 
@@ -545,22 +517,18 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerDequeue()
-///
-/// ARGS.:
-///
-///	peq.......: an event queuer.
-///	iTarget...: target object index.
-///
-/// RTN..: double
-///
+/// 
+/// 
+/// \arg peq an event queuer.
+/// \arg iTarget target object index.
+/// 
+/// \return double
+/// 
 ///	Sum of weights of arriving events, FLT_MAX for failure.
-///
-/// DESCR: Dequeue events for the given target, return the summed weights.
-///
-/// **************************************************************************
+/// 
+/// \brief Dequeue events for the given target, return the summed weights.
+/// \details 
+/// 
 
 double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 {
@@ -570,7 +538,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     //- loop over events for this target until this time
 
-    //t loop over events for this target until this time
+    /// \todo loop over events for this target until this time
 
     struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
 
@@ -604,24 +572,20 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerEnqueue()
-///
-/// ARGS.:
-///
-///	peq.......: an event queuer.
-///	dTime.....: time the event arrives.
-///	iSource...: source identifier.
-///	iTarget...: target identifier.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg peq an event queuer.
+/// \arg dTime time the event arrives.
+/// \arg iSource source identifier.
+/// \arg iTarget target identifier.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Put an event in the queue untill it fires.
-///
-/// **************************************************************************
+/// 
+/// \brief Put an event in the queue untill it fires.
+/// \details 
+/// 
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget)
 {
@@ -662,21 +626,17 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerNew()
-///
-/// ARGS.:
-///
-///	ppeqm...: event queuer connection matrix.
-///
-/// RTN..: struct EventQueuer
-///
+/// 
+/// 
+/// \arg ppeqm event queuer connection matrix.
+/// 
+/// \return struct EventQueuer
+/// 
 ///	An event queuer.
-///
-/// DESCR: Allocate an event queuer.
-///
-/// **************************************************************************
+/// 
+/// \brief Allocate an event queuer.
+/// \details 
+/// 
 
 struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 {
@@ -714,21 +674,17 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerProcess()
-///
-/// ARGS.:
-///
-///	peq...: event queuer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg peq event queuer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Process events in the queue, forward the ones that should fire.
-///
-/// **************************************************************************
+/// 
+/// \brief Process events in the queue, forward the ones that should fire.
+/// \details 
+/// 
 
 int iTarget = -1;
 
@@ -768,10 +724,10 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 	ppeqm = &peq->peqd->ppeqm[iTarget];
 
-	//t This code SEGV on './configure --with-random', with optimization turned on.
-	//t It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
-	//t This behaviour was noticed when using sglib, and when using the builtin
-	//t event queue.
+	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
+	/// \todo It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
+	/// \todo This behaviour was noticed when using sglib, and when using the builtin
+	/// \todo event queue.
 
 	while (ppeqm && ppeqm->pvFunction)
 	{
@@ -795,22 +751,18 @@ int EventQueuerProcess(struct EventQueuer *peq)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerSerial2ConnectionIndex()
-///
-/// ARGS.:
-///
-///	peq.......: an event queuer.
-///	iSerial...: serial to convert.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg peq an event queuer.
+/// \arg iSerial serial to convert.
+/// 
+/// \return int
+/// 
 ///	connection matrix index, -1 for failure.
-///
-/// DESCR: Convert an external serial to a connection matrix index.
-///
-/// **************************************************************************
+/// 
+/// \brief Convert an external serial to a connection matrix index.
+/// \details 
+/// 
 
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 {
@@ -822,7 +774,7 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 
     if (peq && peq->peqd && peq->peqd->iConnectionIndices > 0)
     {
-	//! binary search
+	/// \note binary search
 
 	//- init top and bottom counters
 
@@ -865,23 +817,19 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerSerial2ConnectionIndexAdd()
-///
-/// ARGS.:
-///
-///	peq.......: an event queuer.
-///	iSerial...: serial to convert.
-///	iIndex....: connection index.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg peq an event queuer.
+/// \arg iSerial serial to convert.
+/// \arg iIndex connection index.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Add an external serial to that was added to the connection matrix.
-///
-/// **************************************************************************
+/// 
+/// \brief Add an external serial to that was added to the connection matrix.
+/// \details 
+/// 
 
 int
 EventQueuerSerial2ConnectionIndexAdd
@@ -910,7 +858,7 @@ EventQueuerSerial2ConnectionIndexAdd
 	}
 	else
 	{
-	    //t HeccerError(number, message, varargs);
+	    /// \todo HeccerError(number, message, varargs);
 
 	    fprintf
 		(stderr,
@@ -924,21 +872,17 @@ EventQueuerSerial2ConnectionIndexAdd
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: EventQueuerSerial2ConnectionIndexSort()
-///
-/// ARGS.:
-///
-///	peq.......: an event queuer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg peq an event queuer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Sort the serial 2 connection index array.
-///
-/// **************************************************************************
+/// 
+/// \brief Sort the serial 2 connection index array.
+/// \details 
+/// 
 
 static int comparator(const void *pv1, const void *pv2)
 {
@@ -957,7 +901,7 @@ static int comparator(const void *pv1, const void *pv2)
     }
     else
     {
-	//t HeccerError(number, message, varargs);
+	/// \todo HeccerError(number, message, varargs);
 
 	fprintf
 	    (stderr,

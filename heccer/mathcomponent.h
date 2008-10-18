@@ -25,13 +25,13 @@
 struct MathComponent
 {
 
-    //m type of structure
+    /// type of structure
 
     int iType;
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-    //m identification
+    /// identification
 
     int iSerial;
 
@@ -39,10 +39,10 @@ struct MathComponent
 
 #ifdef HECCER_SOURCE_TYPING
 
-    //m model source type number
+    /// model source type number
 
-    //! source typing is used to compute aggregate currents ao
-    //! things.
+    /// \note source typing is used to compute aggregate currents ao
+    /// \note things.
 
     int iModelSourceType;
 
@@ -50,7 +50,7 @@ struct MathComponent
 
 #ifdef HECCER_SIZED_MATH_STRUCTURES
 
-    //m size of this structure
+    /// size of this structure
 
     int iSize;
 
@@ -84,19 +84,19 @@ struct MathComponent
 
 struct MathComponentArray
 {
-    //m number of math components
+    /// number of math components
 
     int iMathComponents;
 
-    //m math component data
+    /// math component data
 
     struct MathComponent *pmc;
 
-    //m math component index, initialize to NULL
+    /// math component index, initialize to NULL
 
     struct MathComponent **ppmcIndex;
 
-    //m cursor for iterations
+    /// cursor for iterations
 
     int iCursor;
 

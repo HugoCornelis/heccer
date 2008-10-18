@@ -44,22 +44,18 @@ HeccerSerializeMechanisms
 (struct Heccer *pheccer, FILE *pfile);
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerDeserialize()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: file pointer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Deserialize this heccer from the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Deserialize this heccer from the given stream.
+/// \details 
+/// 
 
 struct Heccer *
 HeccerDeserialize(FILE *pfile)
@@ -83,8 +79,8 @@ HeccerDeserialize(FILE *pfile)
 	return(NULL);
     }
 
-    //t deserialize main structure instead of ...
-    //t ... construct a default heccer
+    /// \todo deserialize main structure instead of ...
+    /// \todo ... construct a default heccer
 
     pheccerResult = HeccerNew(NULL, NULL, NULL, NULL);
 
@@ -134,22 +130,18 @@ HeccerDeserialize(FILE *pfile)
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerDeserializeCompartments()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: file pointer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Deserialize the compartments of this heccer from the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Deserialize the compartments of this heccer from the given stream.
+/// \details 
+/// 
 
 static
 int
@@ -249,22 +241,18 @@ HeccerDeserializeCompartments
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerDeserializeMechanisms()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: file pointer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Deserialize the mechanisms of this heccer from the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Deserialize the mechanisms of this heccer from the given stream.
+/// \details 
+/// 
 
 static
 int
@@ -282,9 +270,9 @@ HeccerDeserializeMechanisms
 	return(0);
     }
 
-    //m math component number to mat number convertor
+    /// math component number to mat number convertor
 
-    //! note that this one does not index compartments, only the mechanism math components.
+    /// \note note that this one does not index compartments, only the mechanism math components.
 
     if (pheccer->vm.iMathComponents)
     {
@@ -301,7 +289,7 @@ HeccerDeserializeMechanisms
 	}
     }
 
-    //m math component number to mop number convertor
+    /// math component number to mop number convertor
 
     if (pheccer->vm.iMathComponents)
     {
@@ -318,7 +306,7 @@ HeccerDeserializeMechanisms
 	}
     }
 
-    //m mechanism operations
+    /// mechanism operations
 
     if (fread(&pheccer->vm.iMops, sizeof(pheccer->vm.iMops), 1, pfile) != 1)
     {
@@ -337,7 +325,7 @@ HeccerDeserializeMechanisms
 	return(0);
     }
 
-    //m mechanism addressables
+    /// mechanism addressables
 
     if (fread(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
     {
@@ -356,7 +344,7 @@ HeccerDeserializeMechanisms
 	return(0);
     }
 
-    //m indexing from mops or mats number towards one of the above
+    /// indexing from mops or mats number towards one of the above
 
     pheccer->vm.ppvCMatsIndex = (void **)calloc(pheccer->vm.iCompartments + 1, sizeof(void *));
 
@@ -413,22 +401,18 @@ HeccerDeserializeMechanisms
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerSerialize()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: file pointer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Serialize this heccer to the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Serialize this heccer to the given stream.
+/// \details 
+/// 
 
 int
 HeccerSerialize
@@ -446,7 +430,7 @@ HeccerSerialize
 	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
 	 pfile);
 
-    //t serialize main structure
+    /// \todo serialize main structure
 
     //- serialize compartments
 
@@ -462,22 +446,18 @@ HeccerSerialize
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerSerializeCompartments()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: file pointer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Serialize the compartments of this heccer to the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Serialize the compartments of this heccer to the given stream.
+/// \details 
+/// 
 
 static
 int
@@ -549,22 +529,18 @@ HeccerSerializeCompartments
 }
 
 
-/// **************************************************************************
-///
-/// SHORT: HeccerSerializeMechanisms()
-///
-/// ARGS.:
-///
-///	pheccer...: a heccer.
-///	pfile.....: file pointer.
-///
-/// RTN..: int
-///
+/// 
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
 ///	success of operation.
-///
-/// DESCR: Serialize the mechanisms of this heccer from the given stream.
-///
-/// **************************************************************************
+/// 
+/// \brief Serialize the mechanisms of this heccer from the given stream.
+/// \details 
+/// 
 
 static
 int
@@ -582,9 +558,9 @@ HeccerSerializeMechanisms
 	return(0);
     }
 
-    //m math component number to mat number convertor
+    /// math component number to mat number convertor
 
-    //! note that this one does not index compartments, only the mechanism math components.
+    /// \note note that this one does not index compartments, only the mechanism math components.
 
     if (pheccer->vm.iMathComponents)
     {
@@ -594,7 +570,7 @@ HeccerSerializeMechanisms
 	}
     }
 
-    //m math component number to mop number convertor
+    /// math component number to mop number convertor
 
     if (pheccer->vm.iMathComponents)
     {
@@ -604,7 +580,7 @@ HeccerSerializeMechanisms
 	}
     }
 
-    //m mechanism operations
+    /// mechanism operations
 
     if (fwrite(&pheccer->vm.iMops, sizeof(pheccer->vm.iMops), 1, pfile) != 1)
     {
@@ -616,7 +592,7 @@ HeccerSerializeMechanisms
 	return(0);
     }
 
-    //m mechanism addressables
+    /// mechanism addressables
 
     if (fwrite(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
     {
@@ -628,7 +604,7 @@ HeccerSerializeMechanisms
 	return(0);
     }
 
-    //m indexing from mops or mats number towards one of the above
+    /// indexing from mops or mats number towards one of the above
 
     if (fwrite(pheccer->vm.ppvCMatsIndex, sizeof(pheccer->vm.ppvCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
     {

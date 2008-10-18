@@ -27,7 +27,7 @@ struct Heccer;
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
-//d number of function allowed per symbol as a shift operand
+/// \def number of function allowed per symbol as a shift operand
 
 #define NEUROSPACES_2_HECCER_MAX_FUNCTIONS 2
 
@@ -35,10 +35,9 @@ struct Heccer;
 
 #define ADDRESSING_HECCER_2_NEUROSPACES(iHeccer) ((iHeccer) >> NEUROSPACES_2_HECCER_MAX_FUNCTIONS)
 
-//t should add defines for assigning function IDs.
-//t
-//t note that this would be solved automatically if the
-//t neurospaces model_container would do full traversals.
+/// \todo should add defines for assigning function IDs.
+/// \todo note that this would be solved automatically if the
+/// \todo neurospaces model_container would do full traversals.
 
 
 void *

@@ -73,7 +73,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	//- register identification
 
-	//! note: assumes pp define HECCER_SOURCE_NEUROSPACES
+	/// \note note: assumes pp define HECCER_SOURCE_NEUROSPACES
 
 	int iSerial = PidinStackToSerial(ptstr->ppist);
 
@@ -99,7 +99,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	//- register parameters
 
-	//t check for error returns, abort traversal if necessary
+	/// \todo check for error returns, abort traversal if necessary
 
 	double dCm
 	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "CM");
@@ -164,7 +164,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	    if (pparParent)
 	    {
-		//t I can just subtract the cell's segment ID ?
+		/// \todo I can just subtract the cell's segment ID ?
 
 		struct PidinStack *ppistParent
 		    = ParameterResolveToPidinStack(pparParent, ptstr->ppist);
@@ -175,7 +175,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		    int iParent = PidinStackToSerial(ppistParent);
 
-		    //t check for error
+		    /// \todo check for error
 
 		    if (iParent != INT_MAX)
 		    {
@@ -185,7 +185,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		    }
 		    else
 		    {
-			//! parent does not exist
+			/// \note parent does not exist
 
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
@@ -283,7 +283,7 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 	    iResult = FALSE;
 	}
 
-	//t should use SolverInfoPrincipalSerial2SegmentSerial() for this
+	/// \todo should use SolverInfoPrincipalSerial2SegmentSerial() for this
 
 	//- link the segments together using the parent link
 
@@ -310,8 +310,8 @@ static int cellsolver_linksegments(struct Heccer *pheccer)
 
     int iResult = TRUE;
 
-    //! this can never fail: multiple parent and multiple root
-    //! diagnosis is left to the minimum degree logic.
+    /// \note this can never fail: multiple parent and multiple root
+    /// \note diagnosis is left to the minimum degree logic.
 
     //- loop over all compartments
 

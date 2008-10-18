@@ -27,7 +27,6 @@
 #endif
 
 
-//f prototypes
 
 int HeccerEventGenerate(struct Heccer *pheccer, int iTargets);
 

@@ -27,31 +27,30 @@ struct Heccer;
 struct MinimumDegree;
 
 
-//s minimum degree indexing
+/// \struct minimum degree indexing
 
 struct MinimumDegree
 {
-    //m copy of ...
+    /// copy of ...
 
     int iEntries;
 
-    //m structural analyzers
+    /// structural analyzers
 
     int *piChildren;
 
     int **ppiChildren;
 
-    //m unordered to flow
+    /// unordered to flow
 
     int *piForward;
 
-    //m flow to unordered
+    /// flow to unordered
 
     int *piBackward;
 };
 
 
-//f prototypes
 
 int HeccerMinimumDegree(struct Heccer *pheccer);
 
