@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/10/04) Saturday, October 4, 2008 13:50:41 hugo";
+static char *pcVersionTime="(08/10/20) Monday, October 20, 2008 15:49:57 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -578,7 +578,7 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 
 char * HeccerGetVersion(void)
 {
-    // $Format: "    static char *pcVersion=\"${label}\";"$
+    // $Format: "    static char *pcVersion=\"${package}-${label}\";"$
     static char *pcVersion="python-2";
 
     return(pcVersion);

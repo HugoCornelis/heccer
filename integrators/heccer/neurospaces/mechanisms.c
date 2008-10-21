@@ -21,7 +21,7 @@
 #include <string.h>
 #include <strings.h>
 
-#include <neurospaces/attachment.h>
+#include <neurospaces/components/attachment.h>
 #include <neurospaces/function.h>
 #include <neurospaces/parsersupport.h>
 #include <neurospaces/pidinstack.h>
