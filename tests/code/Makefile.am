@@ -26,7 +26,7 @@ CFLAGS=-O0
 
 check_PROGRAMS = \
 	addressing-aggregator1 \
-	addressing-purk-test-axon \
+	addressing-purk-test-segment \
 	aggregator-kc \
 	aggregator-kc-feedback \
 	c1c2p1 \
@@ -90,8 +90,8 @@ noinst_HEADERS = \
 
 addressing_aggregator1_DEPENDENCIES = ../../libheccer.a main.c
 addressing_aggregator1_LDADD = -L../.. -lheccer -lm
-addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
-addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
+addressing_purk_test_segment_DEPENDENCIES = ../../libheccer.a main.c
+addressing_purk_test_segment_LDADD = -L../.. -lheccer -lm
 aggregator_kc_DEPENDENCIES = ../../libheccer.a main.c
 aggregator_kc_LDADD = -L../.. -lheccer -lm
 aggregator_kc_feedback_DEPENDENCIES = ../../libheccer.a main.c

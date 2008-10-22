@@ -34,7 +34,7 @@ is doing.
 
 * running tests
 The tests sometimes rely on the output file /tmp/output, which
-sometimes can be owned by a foriegn user.  So the tests fail.  These
+sometimes can be owned by a foreign user.  So the tests fail.  These
 tests are suspect:
 
   active_multiple.t:
@@ -80,8 +80,8 @@ tests are suspect:
         description: 'Is the full purkinje cell model behaviour ok, soma current injection ?'
     11:
       error: 2:EOF
-      purkinje undocumented axon segment:
-        description: Is the undocumented purkinje axon solved correctly ?
+      purkinje simplified segment:
+        description: Is the simplified purkinje segment solved correctly ?
     9:
       error: 3:Child PID 5539 exited with status 65280
       'full purkinje model, synchans endogenous firing':
