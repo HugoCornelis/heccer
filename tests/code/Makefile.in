@@ -40,7 +40,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 check_PROGRAMS = addressing-aggregator1$(EXEEXT) \
-	addressing-purk-test-axon$(EXEEXT) aggregator-kc$(EXEEXT) \
+	addressing-purk-test-segment$(EXEEXT) aggregator-kc$(EXEEXT) \
 	aggregator-kc-feedback$(EXEEXT) c1c2p1$(EXEEXT) \
 	c1c2p2$(EXEEXT) callout1$(EXEEXT) calloutInjector$(EXEEXT) \
 	channel1-nernst1$(EXEEXT) channel2-nernst1$(EXEEXT) \
@@ -76,9 +76,9 @@ CONFIG_HEADER = $(top_builddir)/heccer/config.h
 CONFIG_CLEAN_FILES =
 addressing_aggregator1_SOURCES = addressing-aggregator1.c
 addressing_aggregator1_OBJECTS = addressing-aggregator1.$(OBJEXT)
-addressing_purk_test_axon_SOURCES = addressing-purk-test-axon.c
-addressing_purk_test_axon_OBJECTS =  \
-	addressing-purk-test-axon.$(OBJEXT)
+addressing_purk_test_segment_SOURCES = addressing-purk-test-segment.c
+addressing_purk_test_segment_OBJECTS =  \
+	addressing-purk-test-segment.$(OBJEXT)
 aggregator_kc_SOURCES = aggregator-kc.c
 aggregator_kc_OBJECTS = aggregator-kc.$(OBJEXT)
 aggregator_kc_feedback_SOURCES = aggregator-kc-feedback.c
@@ -198,7 +198,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = addressing-aggregator1.c addressing-purk-test-axon.c \
+SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	aggregator-kc.c aggregator-kc-feedback.c c1c2p1.c c1c2p2.c \
 	callout1.c calloutInjector.c channel1-nernst1.c \
 	channel2-nernst1.c channel2-nernst2.c check-compartment.c \
@@ -214,7 +214,7 @@ SOURCES = addressing-aggregator1.c addressing-purk-test-axon.c \
 	table-kc.c table-kdr.c table-kdr2.c table-kh.c table-km.c \
 	table-naf.c table-nap.c tensizesp.c triplep.c vclamp-passive.c \
 	vclamp-sodium.c version.c
-DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-axon.c \
+DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	aggregator-kc.c aggregator-kc-feedback.c c1c2p1.c c1c2p2.c \
 	callout1.c calloutInjector.c channel1-nernst1.c \
 	channel2-nernst1.c channel2-nernst2.c check-compartment.c \
@@ -318,8 +318,8 @@ noinst_HEADERS = \
 
 addressing_aggregator1_DEPENDENCIES = ../../libheccer.a main.c
 addressing_aggregator1_LDADD = -L../.. -lheccer -lm
-addressing_purk_test_axon_DEPENDENCIES = ../../libheccer.a main.c
-addressing_purk_test_axon_LDADD = -L../.. -lheccer -lm
+addressing_purk_test_segment_DEPENDENCIES = ../../libheccer.a main.c
+addressing_purk_test_segment_LDADD = -L../.. -lheccer -lm
 aggregator_kc_DEPENDENCIES = ../../libheccer.a main.c
 aggregator_kc_LDADD = -L../.. -lheccer -lm
 aggregator_kc_feedback_DEPENDENCIES = ../../libheccer.a main.c
@@ -471,9 +471,9 @@ clean-checkPROGRAMS:
 addressing-aggregator1$(EXEEXT): $(addressing_aggregator1_OBJECTS) $(addressing_aggregator1_DEPENDENCIES) 
 	@rm -f addressing-aggregator1$(EXEEXT)
 	$(LINK) $(addressing_aggregator1_LDFLAGS) $(addressing_aggregator1_OBJECTS) $(addressing_aggregator1_LDADD) $(LIBS)
-addressing-purk-test-axon$(EXEEXT): $(addressing_purk_test_axon_OBJECTS) $(addressing_purk_test_axon_DEPENDENCIES) 
-	@rm -f addressing-purk-test-axon$(EXEEXT)
-	$(LINK) $(addressing_purk_test_axon_LDFLAGS) $(addressing_purk_test_axon_OBJECTS) $(addressing_purk_test_axon_LDADD) $(LIBS)
+addressing-purk-test-segment$(EXEEXT): $(addressing_purk_test_segment_OBJECTS) $(addressing_purk_test_segment_DEPENDENCIES) 
+	@rm -f addressing-purk-test-segment$(EXEEXT)
+	$(LINK) $(addressing_purk_test_segment_LDFLAGS) $(addressing_purk_test_segment_OBJECTS) $(addressing_purk_test_segment_LDADD) $(LIBS)
 aggregator-kc$(EXEEXT): $(aggregator_kc_OBJECTS) $(aggregator_kc_DEPENDENCIES) 
 	@rm -f aggregator-kc$(EXEEXT)
 	$(LINK) $(aggregator_kc_LDFLAGS) $(aggregator_kc_OBJECTS) $(aggregator_kc_LDADD) $(LIBS)
@@ -650,7 +650,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-aggregator1.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-purk-test-axon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-purk-test-segment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aggregator-kc-feedback.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aggregator-kc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1c2p1.Po@am__quote@
