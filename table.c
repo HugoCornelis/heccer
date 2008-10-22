@@ -1536,7 +1536,7 @@ HeccerTablesDump
 /// 
 /// \return int
 /// 
-///	See memcmp() manual.
+///	See memcmp() manual, if sizes differ then -2 is returned.
 /// 
 /// \details 
 /// 
@@ -1552,6 +1552,14 @@ HeccerTabulatedGateCompareParameters
     //- set default result : match
 
     int iResult = 0;
+
+    if( iSize != phtg->iSizeParameters )
+    {
+
+      return -2;
+
+    }
+
 
     //- set result : compare memory regions, using smallest size
 
