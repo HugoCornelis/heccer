@@ -3596,8 +3596,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    //- get nernst function
 
 	    struct symtab_Function *pfunNernst
-		= ParameterGetFunction(pparErev);
-
+	      = ParameterContextGetFunction(pparErev,ptstr->ppist);
+	    //ParameterGetFunction(pparErev);
+	      
 	    //- fetch parameters
 
 	    struct symtab_Parameters *pparCIn
