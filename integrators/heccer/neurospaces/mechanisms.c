@@ -3594,10 +3594,25 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		= SymbolGetParameter(phsle, ptstr->ppist, "Erev");
 
 	    //- get nernst function
+	    struct PidinStack *ppistNernst = 
+	      ParameterContextGetFunctionContext(pparErev,ptstr->ppist);
 
-	    struct symtab_Function *pfunNernst
-	      = ParameterContextGetFunction(pparErev,ptstr->ppist);
-	    //ParameterGetFunction(pparErev);
+
+	    struct symtab_Function *pfunNernst = NULL;
+
+	    if(ppistNernst)
+	    {
+
+	      pfunNernst = ParameterContextGetFunction(pparErev,ptstr->ppist);
+
+	    }
+	    else
+	    {
+
+	      pfunNernst = ParameterGetFunction(pparErev);
+
+	    }
+
 	      
 	    //- fetch parameters
 
@@ -3663,11 +3678,15 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    }
 
 	    //- calculate parameter values
-
-	    double dCIn = ParameterResolveValue(pparCIn, ptstr->ppist);
-	    double dCOut = ParameterResolveValue(pparCOut, ptstr->ppist);
-	    double dValency = ParameterResolveValue(pparValency, ptstr->ppist);
-	    double dT = ParameterResolveValue(pparT, ptstr->ppist);
+	    
+	    double dCIn = ParameterResolveValue(pparCIn, 
+						(ppistNernst) ? ppistNernst:ptstr->ppist);
+	    double dCOut = ParameterResolveValue(pparCOut,
+						 (ppistNernst) ? ppistNernst:ptstr->ppist);
+	    double dValency = ParameterResolveValue(pparValency,
+						    (ppistNernst) ? ppistNernst:ptstr->ppist);
+	    double dT = ParameterResolveValue(pparT,
+					      (ppistNernst) ? ppistNernst:ptstr->ppist);
 
 	    if (dCIn == FLT_MAX)
 	    {
@@ -3738,13 +3757,13 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    /// \note neurospaces contains support to evaluate simple functions
 
-	    pin->dInitPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
+	    pin->dInitPotential = SymbolParameterResolveValue(phsle,ptstr->ppist,"Erev");
 
 	    //- find concentration that determines the nernst potential
 
 	    struct symtab_HSolveListElement *phslePool
 		= SymbolResolveParameterFunctionalInput
-		  (phsle, ptstr->ppist, "Erev", "Cin", 0);
+		  (phsle, (ppistNernst) ? ppistNernst:ptstr->ppist, "Erev", "Cin", 0);
 
 	    //- if found
 
