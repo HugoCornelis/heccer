@@ -3763,7 +3763,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    struct symtab_HSolveListElement *phslePool
 		= SymbolResolveParameterFunctionalInput
-		  (phsle, (ppistNernst) ? ppistNernst:ptstr->ppist, "Erev", "Cin", 0);
+		  (phsle, ptstr->ppist, "Erev", "Cin", 0);
 
 	    //- if found
 
@@ -3779,7 +3779,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		    iResult = TSTR_PROCESSOR_ABORT;
 
 		    break;
-		}
+ 		} 
 
 		/// \todo this is a hack to get things to work right now,
 		/// \todo see TODOs in neurospaces
