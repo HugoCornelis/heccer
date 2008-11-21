@@ -1352,7 +1352,11 @@ sub initiate
 {
     my $self = shift;
 
-    #t could create the files here ?
+    # create files
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorInitiate();
 }
 
 
@@ -1610,7 +1614,11 @@ sub initiate
 {
     my $self = shift;
 
-    #t could create the files here ?
+    # create files
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorInitiate();
 }
 
 

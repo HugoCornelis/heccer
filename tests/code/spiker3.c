@@ -947,9 +947,13 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
+    OutputGeneratorInitiate(pogSpikeSource);
+
     //- create output elements
 
     pogVmSource = OutputGeneratorNew("/tmp/output_vm_source");
+
+    OutputGeneratorInitiate(pogVmSource);
 
 //d prepare output of membrane potential and spikes
 

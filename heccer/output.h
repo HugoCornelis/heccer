@@ -50,6 +50,8 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc);
 
 int OutputGeneratorFinish(struct OutputGenerator * pog);
 
+int OutputGeneratorInitiate(struct OutputGenerator * pog);
+
 struct OutputGenerator * OutputGeneratorNew(char *pcFilename);
 
 int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime);

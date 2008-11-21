@@ -246,6 +246,8 @@ int main(int argc, char *argv[])
 
     pogVm = OutputGeneratorNew("/tmp/output");
 
+    OutputGeneratorInitiate(pogVm);
+
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_INITIATE \

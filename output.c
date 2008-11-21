@@ -122,7 +122,6 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 ///	success of operation.
 /// 
 /// \brief Close files, destruct the output generator.
-/// \details 
 /// 
 
 int OutputGeneratorFinish(struct OutputGenerator * pog)
@@ -152,6 +151,47 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
     pog->iVariablesAllocated = -9238;
 
     free(pog);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// 
+/// \arg pog output generator.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Open files.
+/// 
+
+int OutputGeneratorInitiate(struct OutputGenerator * pog)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+/*     //- if file not opened yet */
+
+/*     if (!pog->pfileOutput) */
+    {
+	/// \todo what again did I mean with this todo ?
+
+	/// \todo file name taken from options
+
+	//- open file
+
+	pog->pfileOutput = fopen(pog->pcFilename, "w");
+
+	if (!pog->pfileOutput)
+	{
+	    return(0);
+	}
+    }
 
     //- return result
 
@@ -204,20 +244,6 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
     pogResult->pcFilename = calloc(1 + strlen(pcFilename), sizeof(char));
 
     strcpy(pogResult->pcFilename, pcFilename);
-
-    //- if file not opened yet
-
-/*     if (!pogResult->pfileOutput) */
-    {
-	/// \todo file name taken from options
-
-	pogResult->pfileOutput = fopen(pogResult->pcFilename, "w");
-
-	if (!pogResult->pfileOutput)
-	{
-	    return(NULL);
-	}
-    }
 
     //- return result
 

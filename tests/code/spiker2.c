@@ -1176,6 +1176,8 @@ int main(int argc, char *argv[])
 
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
+    OutputGeneratorInitiate(pogSpikeSource);
+
     //- link spiking element to output generator
 
     pedm[0].pvObject = pogSpikeSource;
@@ -1193,6 +1195,8 @@ int main(int argc, char *argv[])
     //- create output elements
 
     pogVmSource = OutputGeneratorNew("/tmp/output_vm_source");
+
+    OutputGeneratorInitiate(pogVmSource);
 
 //d prepare output of membrane potential and spikes
 
