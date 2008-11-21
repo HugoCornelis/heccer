@@ -1417,6 +1417,18 @@ sub new
 }
 
 
+sub pause
+{
+    my $self = shift;
+
+    # flush files
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorFlush();
+}
+
+
 sub report
 {
     my $self = shift;
@@ -1645,6 +1657,18 @@ sub new
     }
 
     return $self;
+}
+
+
+sub flush
+{
+    my $self = shift;
+
+    # flush files
+
+    my $backend = $self->backend();
+
+    $backend->OutputGeneratorFlush();
 }
 
 

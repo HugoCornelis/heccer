@@ -28,7 +28,6 @@
 
 
 /// 
-/// 
 /// \arg pog output generator.
 /// \arg pcName name of the variable.
 ///	pvVariable..: pointer to the variable, assumed is double *
@@ -66,7 +65,6 @@ OutputGeneratorAddVariable
 }
 
 
-/// 
 /// 
 /// \arg pog output generator.
 /// \arg pc annotation for current values.
@@ -114,7 +112,6 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
 
 /// 
-/// 
 /// \arg pog output generator.
 /// 
 /// \return int
@@ -159,6 +156,39 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 
 
 /// 
+/// \arg pog output generator.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Flush files.
+/// 
+
+int OutputGeneratorFlush(struct OutputGenerator * pog)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+    //- if file
+
+    if (pog->pfileOutput)
+    {
+	//- close file
+
+	if (fflush(pog->pfileOutput) == EOF)
+	{
+	    iResult = 0;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
 /// 
 /// \arg pog output generator.
 /// 
@@ -199,7 +229,6 @@ int OutputGeneratorInitiate(struct OutputGenerator * pog)
 }
 
 
-/// 
 /// 
 /// \arg pcFilename file name to write output to.
 /// 
@@ -251,7 +280,6 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 }
 
 
-/// 
 /// 
 /// \arg pog output generator.
 /// \arg dTime simulation time.
