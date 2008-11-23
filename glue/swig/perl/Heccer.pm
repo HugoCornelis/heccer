@@ -1660,7 +1660,7 @@ sub new
 }
 
 
-sub flush
+sub pause
 {
     my $self = shift;
 
