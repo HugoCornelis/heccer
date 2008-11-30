@@ -13,7 +13,6 @@ my $test
 				command => 'tests/code/perfectclamp-passive1',
 				command_tests => [
 						  {
-						   comment => 'note that perfect clamps have only been validated with passive compartments.',
 						   description => "Can a single passive compartment be clamped ?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive1.txt`),
 						  },
@@ -26,9 +25,9 @@ my $test
 				command => 'tests/code/perfectclamp-passive10',
 				command_tests => [
 						  {
-						   comment => 'note that perfect clamps have only been validated with passive compartments.',
 						   description => "Can ten passive compartments be clamped ?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive10.txt`),
+						   timeout => 20,
 						  },
 						 ],
 				description => "perfectclamp functionality, ten passive compartments",
@@ -39,9 +38,9 @@ my $test
 				command => 'tests/code/perfectclamp-passive10-2',
 				command_tests => [
 						  {
-						   comment => 'note that perfect clamps have only been validated with passive compartments.',
 						   description => "Can ten passive compartments be clamped (2) ?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive10-2.txt`),
+						   timeout => 20,
 						  },
 						 ],
 				description => "perfectclamp functionality, ten passive compartments (2)",
