@@ -88,8 +88,7 @@ HeccerDeserialize(FILE *pfile)
 	return(NULL);
     }
 
-    /// \todo deserialize main structure instead of ...
-    /// \todo ... construct a default heccer
+    //- construct a default heccer
 
     pheccerResult = HeccerNew(NULL, NULL, NULL, NULL);
 

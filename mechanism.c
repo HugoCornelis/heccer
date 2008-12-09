@@ -44,17 +44,17 @@ HeccerMechanismReadDoubleFile
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pcDescription description of these parameters.
-///	va_list.......: -1 terminated list of boolean values.
+/// \arg va_list -1 terminated list of boolean values.
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief Check parameters utility function.
-/// \details 
+///
+/// \details
 /// 
 ///	Just give a list of boolean expressions, telling if the
 ///	parameters comply or not, a description where they occur.
@@ -95,8 +95,6 @@ HeccerCheckParameters
 
 	    sprintf(pcMessage, "%s invalid", pcDescription);
 
-	    /// \todo HeccerError(number, message, varargs);
-
 	    HeccerError
 		(pheccer,
 		 NULL,
@@ -123,7 +121,6 @@ HeccerCheckParameters
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -131,7 +128,6 @@ HeccerCheckParameters
 ///	success of operation.
 /// 
 /// \brief Compile the intermediary of the mechanisms to byte code.
-/// \details 
 /// 
 /// \note 
 /// 
@@ -277,30 +273,26 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    SETMAT_COMPARTMENT(ppvCMatsIndex, iSchedule, ppvMatsIndex, iMatNumber, pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
-	    //- loop over mechanisms for this compartment
-
-	    int iMathComponent;
+	    //- lookup the start of the mechanisms for this compartment
 
 	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
 
 	    if (pheccer->inter.pmca && iStart > pheccer->inter.pmca->iMathComponents)
 	    {
-		/// \todo HeccerError(number, message, varargs);
-
 		HeccerError
 		    (pheccer,
 		     NULL,
 		     "trying to fetch math component number %i, which is out of range",
 		     iStart);
 
-		//- return error
-
 		return(FALSE);
 	    }
 
-	    //- lookup the start of the mechanisms for this compartment
-
 	    struct MathComponent *pmc = HeccerIntermediaryLookup(pheccer, iStart);
+
+	    //- loop over mechanisms for this compartment
+
+	    int iMathComponent;
 
 	    for (iMathComponent = iStart ;
 		 iMathComponent < pheccer->inter.piC2m[iIntermediary] ;
@@ -407,8 +399,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    if (pcsm->pcEventTimes
 			&& pcsm->pdEventTimes)
 		    {
-			/// \todo HeccerError(number, message, varargs);
-
 			HeccerError
 			    (pheccer,
 			     NULL,
@@ -437,8 +427,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			if (iDoubles == -1
 			    || !pcsm->pdEventTimes)
 			{
-			    /// \todo HeccerError(number, message, varargs);
-
 			    HeccerError
 				(pheccer,
 				 NULL,
@@ -1510,8 +1498,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		default:
 		{
-		    /// \todo HeccerError(number, message, varargs);
-
 		    HeccerError
 			(pheccer,
 			 NULL,
@@ -1531,8 +1517,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	if (pheccer->inter.piC2m
 	    && pheccer->inter.piC2m[iSchedule] != -1)
 	{
-	    /// \todo HeccerError(number, message, varargs);
-
 	    HeccerError
 		(pheccer,
 		 NULL,
@@ -1608,7 +1592,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -1616,7 +1599,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Link mechanism operations.
-/// \details 
 /// 
 
 int HeccerMechanismLink(struct Heccer *pheccer)
@@ -2043,8 +2025,6 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 	    default:
 	    {
-		/// \todo HeccerError(number, message, varargs);
-
 		HeccerError
 		    (pheccer,
 		     NULL,
@@ -2065,8 +2045,6 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
     if (piMop[0] != HECCER_MOP_FINISH)
     {
-	/// \todo add something like HeccerError(number, message, varargs);
-
 	HeccerError
 	    (pheccer,
 	     NULL,
@@ -2086,10 +2064,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pcFilename filename to read.
-///	ppdValues..: values that have been read, NULL for failure.
+/// \arg ppdValues values that have been read, NULL for failure.
 /// 
 /// \return int
 /// 
@@ -2098,7 +2075,6 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 ///	ppdValues..: values that have been read, NULL for failure.
 /// 
 /// \brief Read a file with doubles, -1 terminated.
-/// \details 
 /// 
 
 static
@@ -2234,7 +2210,6 @@ HeccerMechanismReadDoubleFile
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -2242,7 +2217,6 @@ HeccerMechanismReadDoubleFile
 ///	success of operation.
 /// 
 /// \brief Perform the mechanisms operators once.
-/// \details 
 /// 
 
 int HeccerMechanismSolveCN(struct Heccer *pheccer)
@@ -2452,8 +2426,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    }
 		    else
 		    {
-			/// \todo HeccerError(number, message, varargs);
-
 			HeccerError
 			    (pheccer,
 			     NULL,
@@ -2726,8 +2698,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		}
 		else
 		{
-		    /// \todo HeccerError(number, message, varargs);
-
 		    HeccerError
 			(pheccer,
 			 NULL,
@@ -2970,8 +2940,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			    if (!iResult)
 			    {
-				/// \todo HeccerError(number, message, varargs);
-
 				HeccerError
 				    (pheccer,
 				     NULL,
@@ -3012,8 +2980,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	    default:
 	    {
-		/// \todo HeccerError(number, message, varargs);
-
 		HeccerError
 		    (pheccer,
 		     NULL,
@@ -3069,8 +3035,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     if (piMop[0] != HECCER_MOP_FINISH)
     {
-	/// \todo add something like HeccerError(number, message, varargs);
-
 	HeccerError
 	    (pheccer,
 	     NULL,
@@ -3090,7 +3054,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -3098,7 +3061,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Sort mechanisms according to different characteristics.
-/// \details 
+///
+/// \details
 /// 
 ///	Mechanisms are sorted using a regular quicksort.  A full order
 ///	is enforced by looking at the serial identification number in
