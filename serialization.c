@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "heccer/heccer.h"
 #include "heccer/serialization.h"
@@ -26,6 +27,11 @@
 static
 int
 HeccerDeserializeCompartments
+(struct Heccer *pheccer, FILE *pfile);
+
+static
+int
+HeccerDeserializeMain
 (struct Heccer *pheccer, FILE *pfile);
 
 static
@@ -40,11 +46,15 @@ HeccerSerializeCompartments
 
 static
 int
+HeccerSerializeMain
+(struct Heccer *pheccer, FILE *pfile);
+
+static
+int
 HeccerSerializeMechanisms
 (struct Heccer *pheccer, FILE *pfile);
 
 
-/// 
 /// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
@@ -54,7 +64,6 @@ HeccerSerializeMechanisms
 ///	success of operation.
 /// 
 /// \brief Deserialize this heccer from the given stream.
-/// \details 
 /// 
 
 struct Heccer *
@@ -86,27 +95,36 @@ HeccerDeserialize(FILE *pfile)
 
     if (pheccerResult)
     {
-	//- deserialize compartments
+	//- deserialize main struct
 
-	if (HeccerDeserializeCompartments(pheccerResult, pfile))
+	if (HeccerDeserializeMain(pheccerResult, pfile))
 	{
-	    //- deserialize mechanisms
+	    //- deserialize compartments
 
-	    if (HeccerDeserializeMechanisms(pheccerResult, pfile))
+	    if (HeccerDeserializeCompartments(pheccerResult, pfile))
 	    {
-		//- link mechanisms
+		//- deserialize mechanisms
 
-		if (HeccerMechanismLink(pheccerResult))
+		if (HeccerDeserializeMechanisms(pheccerResult, pfile))
 		{
-/* 		    //- deserialize aggregators */
+		    //- link mechanisms
 
-/* 		    if (HeccerDeserializeAggregators(pheccerResult, pfile)) */
-/* 		    { */
-/* 		    } */
-/* 		    else */
-/* 		    { */
-/* 			pheccerResult = NULL; */
-/* 		    } */
+		    if (HeccerMechanismLink(pheccerResult))
+		    {
+/* 			//- deserialize aggregators */
+
+/* 			if (HeccerDeserializeAggregators(pheccerResult, pfile)) */
+/* 			{ */
+/* 			} */
+/* 			else */
+/* 			{ */
+/* 			    pheccerResult = NULL; */
+/* 			} */
+		    }
+		    else
+		    {
+			pheccerResult = NULL;
+		    }
 		}
 		else
 		{
@@ -118,10 +136,6 @@ HeccerDeserialize(FILE *pfile)
 		pheccerResult = NULL;
 	    }
 	}
-	else
-	{
-	    pheccerResult = NULL;
-	}
     }
 
     //- return result
@@ -131,7 +145,6 @@ HeccerDeserialize(FILE *pfile)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -140,7 +153,6 @@ HeccerDeserialize(FILE *pfile)
 ///	success of operation.
 /// 
 /// \brief Deserialize the compartments of this heccer from the given stream.
-/// \details 
 /// 
 
 static
@@ -242,6 +254,51 @@ HeccerDeserializeCompartments
 
 
 /// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the main struct of this heccer from the given
+/// stream.
+/// 
+
+static
+int
+HeccerDeserializeMain
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- read main structure
+
+    if (fread(pheccer, sizeof(*pheccer), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    //- process the substructures to void them
+
+    memset(&pheccer->inter, 0, sizeof(pheccer->inter));
+
+    memset(&pheccer->indexers, 0, sizeof(pheccer->indexers));
+
+    memset(&pheccer->tgt, 0, sizeof(pheccer->tgt));
+
+    memset(&pheccer->tsmt, 0, sizeof(pheccer->tsmt));
+
+    memset(&pheccer->vm, 0, sizeof(pheccer->vm));
+
+    //- return result
+
+    return(iResult);
+}
+
+
 /// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
@@ -251,7 +308,6 @@ HeccerDeserializeCompartments
 ///	success of operation.
 /// 
 /// \brief Deserialize the mechanisms of this heccer from the given stream.
-/// \details 
 /// 
 
 static
@@ -402,7 +458,6 @@ HeccerDeserializeMechanisms
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -411,7 +466,6 @@ HeccerDeserializeMechanisms
 ///	success of operation.
 /// 
 /// \brief Serialize this heccer to the given stream.
-/// \details 
 /// 
 
 int
@@ -430,7 +484,9 @@ HeccerSerialize
 	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
 	 pfile);
 
-    /// \todo serialize main structure
+    //- serialize main structure
+
+    iResult = iResult && HeccerSerializeMain(pheccer, pfile);
 
     //- serialize compartments
 
@@ -447,7 +503,6 @@ HeccerSerialize
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -456,7 +511,6 @@ HeccerSerialize
 ///	success of operation.
 /// 
 /// \brief Serialize the compartments of this heccer to the given stream.
-/// \details 
 /// 
 
 static
@@ -530,6 +584,39 @@ HeccerSerializeCompartments
 
 
 /// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the main struct of this heccer to the given
+/// stream.
+/// 
+
+static
+int
+HeccerSerializeMain
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- write data: Vm
+
+    if (fwrite(pheccer, sizeof(*pheccer), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
 /// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
@@ -538,8 +625,8 @@ HeccerSerializeCompartments
 /// 
 ///	success of operation.
 /// 
-/// \brief Serialize the mechanisms of this heccer from the given stream.
-/// \details 
+/// \brief Serialize the mechanisms of this heccer from the given
+/// stream.
 /// 
 
 static

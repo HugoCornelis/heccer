@@ -99,8 +99,8 @@ VM Membrane Potentials (pdVms[1]) : (-0.068)
 VM Membrane Potentials (pdVms[2]) : (-0.068)
 -------
 pheccer2: before simulation
-Heccer (pcName) : ((null))
-Heccer (iStatus) : (10)
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
@@ -196,8 +196,8 @@ VM Membrane Potentials (pdVms[1]) : (-0.08)
 VM Membrane Potentials (pdVms[2]) : (-0.08)
 -------
 pheccer2: after 1 second
-Heccer (pcName) : ((null))
-Heccer (iStatus) : (10)
+Heccer (pcName) : (unnamed test)
+Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
 Heccer Options (dIntervalStart) : (-0.1)
