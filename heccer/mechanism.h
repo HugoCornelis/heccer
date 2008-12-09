@@ -840,6 +840,8 @@ struct Heccer;
 
 int HeccerMechanismCompile(struct Heccer *pheccer);
 
+int HeccerMechanismIndex(struct Heccer *pheccer);
+
 int HeccerMechanismLink(struct Heccer *pheccer);
 
 int HeccerMechanismSolveCN(struct Heccer *pheccer);

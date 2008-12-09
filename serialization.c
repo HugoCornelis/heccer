@@ -491,6 +491,10 @@ HeccerSerialize
 
     iResult = iResult && HeccerSerializeCompartments(pheccer, pfile);
 
+    //- unlink mechanisms
+
+    iResult = iResult && HeccerMechanismIndex(pheccer);
+
     //- serialize mechanisms
 
     iResult = iResult && HeccerSerializeMechanisms(pheccer, pfile);
