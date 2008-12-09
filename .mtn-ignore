@@ -45,6 +45,16 @@ Makefile$
 ^tests/code/pool1-nernst$
 ^tests/code/pool2$
 ^tests/code/serialization$
+^tests/code/serialization-c1c2p1$
+^tests/code/serialization-c1c2p2$
+^tests/code/serialization-doublep$
+^tests/code/serialization-fork3p$
+^tests/code/serialization-fork4p1$
+^tests/code/serialization-fork4p2$
+^tests/code/serialization-fork4p3$
+^tests/code/serialization-singlep$
+^tests/code/serialization-tensizesp$
+^tests/code/serialization-triplep$
 ^tests/code/singlea-naf$
 ^tests/code/singlea-naf-current$
 ^tests/code/singlea-naf2-aggregator$

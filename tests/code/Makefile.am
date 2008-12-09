@@ -53,7 +53,16 @@ check_PROGRAMS = \
 	pool1-feedback2 \
 	pool1-nernst \
 	pool2 \
+	serialization-c1c2p1 \
+	serialization-c1c2p2 \
+	serialization-doublep \
+	serialization-fork3p \
+	serialization-fork4p1 \
+	serialization-fork4p2 \
+	serialization-fork4p3 \
 	serialization-singlep \
+	serialization-tensizesp \
+	serialization-triplep \
 	singlea-naf \
 	singlea-naf-current \
 	singlea-naf2-aggregator \
@@ -144,8 +153,26 @@ pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
 pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
+serialization_c1c2p1_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_c1c2p1_LDADD = -L../.. -lheccer -lm
+serialization_c1c2p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_c1c2p2_LDADD = -L../.. -lheccer -lm
+serialization_doublep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_doublep_LDADD = -L../.. -lheccer -lm
+serialization_fork3p_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_fork3p_LDADD = -L../.. -lheccer -lm
+serialization_fork4p1_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_fork4p1_LDADD = -L../.. -lheccer -lm
+serialization_fork4p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_fork4p2_LDADD = -L../.. -lheccer -lm
+serialization_fork4p3_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_fork4p3_LDADD = -L../.. -lheccer -lm
 serialization_singlep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_singlep_LDADD = -L../.. -lheccer -lm
+serialization_tensizesp_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_tensizesp_LDADD = -L../.. -lheccer -lm
+serialization_triplep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_triplep_LDADD = -L../.. -lheccer -lm
 singlea_naf2_aggregator_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf2_aggregator_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c

@@ -73,7 +73,7 @@ struct Compartment comp[] =
 
 /*     double dInject;		 */
 
-	0,
+	1e-8,
 
 /*     double dRa; */
 
@@ -109,7 +109,7 @@ struct Compartment comp[] =
 
 /*     double dCm; */
 
-	4.57537e-11, // unscaled 0.0164,
+	5.755329373e-12, // unscaled 0.0164,
 
 /*     double dEm; */
 
@@ -125,66 +125,17 @@ struct Compartment comp[] =
 
 /*     double dRa; */
 
-	360502, // unscaled 2.5,
+	772813.4375, // unscaled 2.5,
 
 /*     double dRm; */
 
-	3.58441e+08, // unscaled 1
-    },
-
-    {
-	//m administrative overhead
-
-	{
-	    //m type of structure
-
-	    MATH_TYPE_Compartment,
-	},
-
-	//m index of parent compartment, -1 for none
-
-	1,
-
-/* 	//m first mechanism */
-
-/* 	NULL, */
-
-/* 	//m number of mechanisms */
-
-/* 	0, */
-
-	//m descriptive values, alphabetical order
-
-/*     double dCm; */
-
-	4.57537e-11, // unscaled 0.0164,
-
-/*     double dEm; */
-
-	-0.08,
-
-/*     double dInitVm; */
-
-	-0.068,
-
-/*     double dInject;		 */
-
-	0,
-
-/*     double dRa; */
-
-	360502, // unscaled 2.5,
-
-/*     double dRm; */
-
-	3.58441e+08, // unscaled 1
+	8.548598272e9, // unscaled 3
     },
 };
 
 
 int piC2m[] =
 {
-    0,
     0,
     0,
     -1,
@@ -195,7 +146,7 @@ struct Intermediary inter =
 {
     //m compartment array
 
-    3,
+    2,
 
     comp,
 

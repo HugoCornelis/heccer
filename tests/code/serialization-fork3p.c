@@ -143,7 +143,7 @@ struct Compartment comp[] =
 
 	//m index of parent compartment, -1 for none
 
-	1,
+	0,
 
 /* 	//m first mechanism */
 
