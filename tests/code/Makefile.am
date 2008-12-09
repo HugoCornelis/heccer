@@ -53,7 +53,7 @@ check_PROGRAMS = \
 	pool1-feedback2 \
 	pool1-nernst \
 	pool2 \
-	serialization \
+	serialization-singlep \
 	singlea-naf \
 	singlea-naf-current \
 	singlea-naf2-aggregator \
@@ -144,8 +144,8 @@ pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
 pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
-serialization_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
-serialization_LDADD = -L../.. -lheccer -lm
+serialization_singlep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_singlep_LDADD = -L../.. -lheccer -lm
 singlea_naf2_aggregator_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf2_aggregator_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c

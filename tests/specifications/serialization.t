@@ -15,15 +15,15 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/code/serialization',
+				command => 'tests/code/serialization-singlep',
 				command_tests => [
 						  {
 						   description => "Can we serialize a passive model ?",
- 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization.txt`),
+ 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-singlep.txt`),
 						   write => undef,
 						  },
 						 ],
-				description => "passive model serialization",
+				description => "single compartment passive model serialization",
 			       },
 			      ],
        description => "serialization",

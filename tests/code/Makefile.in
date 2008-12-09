@@ -52,7 +52,7 @@ check_PROGRAMS = addressing-aggregator1$(EXEEXT) \
 	perfectclamp-passive10-2$(EXEEXT) pool1$(EXEEXT) \
 	pool1-contributors2$(EXEEXT) pool1-feedback1$(EXEEXT) \
 	pool1-feedback2$(EXEEXT) pool1-nernst$(EXEEXT) pool2$(EXEEXT) \
-	serialization$(EXEEXT) singlea-naf$(EXEEXT) \
+	serialization-singlep$(EXEEXT) singlea-naf$(EXEEXT) \
 	singlea-naf-current$(EXEEXT) singlea-naf2-aggregator$(EXEEXT) \
 	singlep$(EXEEXT) spiker1$(EXEEXT) spiker2$(EXEEXT) \
 	spiker3$(EXEEXT) springmass1$(EXEEXT) springmass2$(EXEEXT) \
@@ -131,8 +131,8 @@ pool1_nernst_SOURCES = pool1-nernst.c
 pool1_nernst_OBJECTS = pool1-nernst.$(OBJEXT)
 pool2_SOURCES = pool2.c
 pool2_OBJECTS = pool2.$(OBJEXT)
-serialization_SOURCES = serialization.c
-serialization_OBJECTS = serialization.$(OBJEXT)
+serialization_singlep_SOURCES = serialization-singlep.c
+serialization_singlep_OBJECTS = serialization-singlep.$(OBJEXT)
 singlea_naf_SOURCES = singlea-naf.c
 singlea_naf_OBJECTS = singlea-naf.$(OBJEXT)
 singlea_naf_current_SOURCES = singlea-naf-current.c
@@ -206,7 +206,7 @@ SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	fork4p3.c hh1.c perfectclamp-passive1.c \
 	perfectclamp-passive10.c perfectclamp-passive10-2.c pool1.c \
 	pool1-contributors2.c pool1-feedback1.c pool1-feedback2.c \
-	pool1-nernst.c pool2.c serialization.c singlea-naf.c \
+	pool1-nernst.c pool2.c serialization-singlep.c singlea-naf.c \
 	singlea-naf-current.c singlea-naf2-aggregator.c singlep.c \
 	spiker1.c spiker2.c spiker3.c springmass1.c springmass2.c \
 	springmass3.c springmass4.c table-cap.c table-cat.c \
@@ -222,7 +222,7 @@ DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	fork4p3.c hh1.c perfectclamp-passive1.c \
 	perfectclamp-passive10.c perfectclamp-passive10-2.c pool1.c \
 	pool1-contributors2.c pool1-feedback1.c pool1-feedback2.c \
-	pool1-nernst.c pool2.c serialization.c singlea-naf.c \
+	pool1-nernst.c pool2.c serialization-singlep.c singlea-naf.c \
 	singlea-naf-current.c singlea-naf2-aggregator.c singlep.c \
 	spiker1.c spiker2.c spiker3.c springmass1.c springmass2.c \
 	springmass3.c springmass4.c table-cap.c table-cat.c \
@@ -372,8 +372,8 @@ pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
 pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
-serialization_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
-serialization_LDADD = -L../.. -lheccer -lm
+serialization_singlep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_singlep_LDADD = -L../.. -lheccer -lm
 singlea_naf2_aggregator_DEPENDENCIES = ../../libheccer.a main.c
 singlea_naf2_aggregator_LDADD = -L../.. -lheccer -lm
 singlea_naf_DEPENDENCIES = ../../libheccer.a main.c
@@ -552,9 +552,9 @@ pool1-nernst$(EXEEXT): $(pool1_nernst_OBJECTS) $(pool1_nernst_DEPENDENCIES)
 pool2$(EXEEXT): $(pool2_OBJECTS) $(pool2_DEPENDENCIES) 
 	@rm -f pool2$(EXEEXT)
 	$(LINK) $(pool2_LDFLAGS) $(pool2_OBJECTS) $(pool2_LDADD) $(LIBS)
-serialization$(EXEEXT): $(serialization_OBJECTS) $(serialization_DEPENDENCIES) 
-	@rm -f serialization$(EXEEXT)
-	$(LINK) $(serialization_LDFLAGS) $(serialization_OBJECTS) $(serialization_LDADD) $(LIBS)
+serialization-singlep$(EXEEXT): $(serialization_singlep_OBJECTS) $(serialization_singlep_DEPENDENCIES) 
+	@rm -f serialization-singlep$(EXEEXT)
+	$(LINK) $(serialization_singlep_LDFLAGS) $(serialization_singlep_OBJECTS) $(serialization_singlep_LDADD) $(LIBS)
 singlea-naf$(EXEEXT): $(singlea_naf_OBJECTS) $(singlea_naf_DEPENDENCIES) 
 	@rm -f singlea-naf$(EXEEXT)
 	$(LINK) $(singlea_naf_LDFLAGS) $(singlea_naf_OBJECTS) $(singlea_naf_LDADD) $(LIBS)
@@ -677,7 +677,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pool1-nernst.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pool1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pool2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-singlep.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/singlea-naf-current.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/singlea-naf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/singlea-naf2-aggregator.Po@am__quote@
