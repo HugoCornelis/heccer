@@ -1517,7 +1517,7 @@ HeccerTablesDump
 
     for (i = 0 ; i < ptgt->iTabulatedGateCount ; i++)
     {
-	//- dump compartment
+	//- dump table
 
 	iResult = iResult && HeccerTableDump(&ptgt->phtg[i], i, pfile, iSelection);
     }
