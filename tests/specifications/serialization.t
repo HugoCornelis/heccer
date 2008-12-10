@@ -150,6 +150,20 @@ my $test
 						 ],
 				description => "tensizesp ten passive compartments with different properties and injected current",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/serialization-singlea-naf',
+				command_tests => [
+						  {
+						   description => "Can we serialize a single compartment with a naf conductance ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-singlea-naf.txt`),
+						   timeout => 5,
+						   write => undef,
+						  },
+						 ],
+				description => "a single compartment with a naf conductance",
+			       },
 			      ],
        description => "serialization",
        name => 'serialization.t',
