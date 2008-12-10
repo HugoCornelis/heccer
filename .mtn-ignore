@@ -52,6 +52,7 @@ Makefile$
 ^tests/code/serialization-fork4p1$
 ^tests/code/serialization-fork4p2$
 ^tests/code/serialization-fork4p3$
+^tests/code/serialization-singlea-naf$
 ^tests/code/serialization-singlep$
 ^tests/code/serialization-tensizesp$
 ^tests/code/serialization-triplep$

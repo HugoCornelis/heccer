@@ -101,7 +101,6 @@ HeccerTabulatedGateStore
 
 
 /// 
-/// 
 /// \arg pca a concentration gate concept.
 /// \arg pheccer a heccer.
 /// 
@@ -112,7 +111,6 @@ HeccerTabulatedGateStore
 ///	phtg....: a filled heccer tabulated gate.
 /// 
 /// \brief Fill the tables with a discretization of concentration gate
-/// \details 
 /// kinetics.
 /// 
 
@@ -163,14 +161,12 @@ HeccerConcentrationGateTabulate
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pca concentration gate concept description.
 /// 
 /// \return int : success of operation.
 /// 
 /// \brief Discretize the given concentration gate concept.
-/// \details 
 /// 
 
 int
@@ -266,14 +262,14 @@ HeccerDiscretizeConcentrationGate
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pgc gate concept description.
 /// 
 /// \return int : success of operation.
 /// 
 /// \brief Discretize the given gate concept.
-/// \details 
+///
+/// \details
 /// 
 ///	Note that for a single gate, this function sets up the A
 ///	and B kinetic discretization.
@@ -372,7 +368,6 @@ HeccerDiscretizeGateConcept
 
 
 /// 
-/// 
 /// \arg pgc a heccer gate concept.
 /// \arg pheccer a heccer.
 /// 
@@ -383,7 +378,6 @@ HeccerDiscretizeGateConcept
 ///	phtg....: a filled heccer tabulated gate.
 /// 
 /// \brief Fill the tables with a discretization of the gate kinetics.
-/// \details 
 /// 
 
 int
@@ -520,7 +514,6 @@ HeccerGateConceptTabulate
 
 
 /// 
-/// 
 /// \arg pcpsdt a channel with steady state and two time constants.
 /// \arg pheccer a heccer.
 /// 
@@ -529,7 +522,8 @@ HeccerGateConceptTabulate
 ///	success of operation.
 /// 
 /// \brief Fill the tables with a discretization of the gate kinetics.
-/// \details 
+///
+/// \details
 /// 
 ///	First tables with 149 entries are created using the commonly
 ///	defined formulas for steady state and time constant (see
@@ -756,7 +750,6 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
 
 /// 
-/// 
 /// \arg pcpst a heccer channel with steady state and time constant.
 /// \arg pheccer a heccer.
 /// 
@@ -765,7 +758,8 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 ///	success of operation.
 /// 
 /// \brief Fill the tables with a discretization of the gate kinetics.
-/// \details 
+///
+/// \details
 /// 
 ///	First tables with 149 entries are created using the commonly
 ///	defined formulas for steady state and time constant (see
@@ -903,7 +897,6 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iType type of intermediary.
 /// \arg pv a heccer intermediary with table parameters.
@@ -913,7 +906,6 @@ HeccerChannelPersistentSteadyStateTauTabulate
 ///	success of operation.
 /// 
 /// \brief Create the table for a channel.
-/// \details 
 /// 
 
 int
@@ -985,7 +977,6 @@ HeccerTabulateAny
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pcsm a heccer channel with steady state and time constant.
 /// 
@@ -994,7 +985,6 @@ HeccerTabulateAny
 ///	success of operation.
 /// 
 /// \brief Create the table for a spring mass channel.
-/// \details 
 /// 
 
 int
@@ -1059,7 +1049,6 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pcsst a heccer channel with steady state and time constant.
 /// 
@@ -1068,6 +1057,7 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 ///	success of operation.
 /// 
 /// \brief Fill the tables with a discretization of the gate kinetics.
+///
 /// \details 
 /// 
 ///	First tables with 149 entries are created using the commonly
@@ -1317,7 +1307,6 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 
 /// 
-/// 
 /// \arg phtg a tabulated gate.
 /// \arg iIndex index of this gate.
 /// \arg pfile stdio file.
@@ -1328,7 +1317,6 @@ HeccerChannelSteadyStateSteppedTauTabulate
 ///	success of operation.
 /// 
 /// \brief Dump tables to given stream, respecting given selection.
-/// \details 
 /// 
 
 static int
@@ -1378,7 +1366,6 @@ HeccerTableDump
 
 
 /// 
-/// 
 /// \arg ppdSources source tables for interpolation.
 /// \arg ppdDestinations destination tables for interpolation.
 /// \arg iSourceSize size of source tables.
@@ -1389,7 +1376,8 @@ HeccerTableDump
 ///	success of operation.
 /// 
 /// \brief Interpolate given tables, uses bezier curves.
-/// \details 
+///
+/// \details
 /// 
 ///	ppdSources and ppdDestinations must be NULL terminated.
 ///	ppdDestinations must be preallocated, presumably using
@@ -1486,7 +1474,6 @@ HeccerTableInterpolate
 
 
 /// 
-/// 
 /// \arg ptgt tabulated gate table.
 /// \arg pfile stdio file.
 /// \arg iSelection selection to dump.
@@ -1495,8 +1482,7 @@ HeccerTableInterpolate
 /// 
 ///	success of operation.
 /// 
-/// \brief Dump intermediary functions.
-/// \details 
+/// \brief Dump tables.
 /// 
 
 int
@@ -1529,6 +1515,107 @@ HeccerTablesDump
 
 
 /// 
+/// \arg ptgt tabulated gate table.
+/// \arg pfile stdio file.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the A-B values inside a table.
+///
+/// \details HeccerTableValuesDeserialize() uses phtg->iEntries to
+/// determine the table sizes, allocate memory and read the actual
+/// tables values from the file.  No checking for little-endian etc.
+/// 
+
+int
+HeccerTableValuesDeserialize
+(struct HeccerTabulatedGate *phtg, FILE *pfile)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- deserialize A part
+
+    if (phtg->iEntries)
+    {
+	phtg->pdA = (double *)calloc(phtg->iEntries + 1, sizeof(phtg->pdA[0]));
+
+	if (!phtg->pdA)
+	{
+	    return(0);
+	}
+
+	if (fread(phtg->pdA, sizeof(phtg->pdA[0]), phtg->iEntries + 1, pfile) != phtg->iEntries + 1)
+	{
+	    return(0);
+	}
+    }
+
+    //- serialize B part
+
+    if (phtg->iEntries)
+    {
+	phtg->pdB = (double *)calloc(phtg->iEntries + 1, sizeof(phtg->pdB[0]));
+
+	if (!phtg->pdB)
+	{
+	    return(0);
+	}
+
+	if (fread(phtg->pdB, sizeof(phtg->pdB[0]), phtg->iEntries + 1, pfile) != phtg->iEntries + 1)
+	{
+	    return(0);
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg ptgt tabulated gate table.
+/// \arg pfile stdio file.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the A-B values inside a table.
+/// 
+
+int
+HeccerTableValuesSerialize
+(struct HeccerTabulatedGate *phtg, FILE *pfile)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- serialize A part
+
+    if (fwrite(&phtg->pdA[0], sizeof(phtg->pdA[0]), phtg->iEntries + 1, pfile) != phtg->iEntries + 1)
+    {
+	return(0);
+    }
+
+    //- serialize B part
+
+    if (fwrite(&phtg->pdB[0], sizeof(phtg->pdB[0]), phtg->iEntries + 1, pfile) != phtg->iEntries + 1)
+    {
+	return(0);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
 /// 
 /// \arg phtg an initialized gate table.
 /// \arg pv parameters to use for comparison.
@@ -1538,7 +1625,7 @@ HeccerTablesDump
 /// 
 ///	See memcmp() manual, if sizes differ then -2 is returned.
 /// 
-/// \details 
+/// \details
 /// 
 ///	Compare parameters for a candidate gate with the parameters
 ///	of an existing table.
@@ -1553,13 +1640,14 @@ HeccerTabulatedGateCompareParameters
 
     int iResult = 0;
 
-    if( iSize != phtg->iSizeParameters )
+    //- if sizes differ
+
+    if (iSize != phtg->iSizeParameters)
     {
+	//- return -2
 
-      return -2;
-
+	return -2;
     }
-
 
     //- set result : compare memory regions, using smallest size
 
@@ -1574,7 +1662,6 @@ HeccerTabulatedGateCompareParameters
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pv table parameter block.
 /// \arg iSize size of parameter block.
@@ -1584,7 +1671,6 @@ HeccerTabulatedGateCompareParameters
 ///	tabulated gate index, -1 for failure.
 /// 
 /// \brief Lookup an existing table.
-/// \details 
 /// 
 
 static
@@ -1634,7 +1720,6 @@ HeccerTabulatedGateLookup
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg dStart start value for table.
 /// \arg dEnd end value for table.
@@ -1645,7 +1730,6 @@ HeccerTabulatedGateLookup
 ///	tabulated gate index, -1 for failure.
 /// 
 /// \brief Allocate a new table.
-/// \details 
 /// 
 
 static
@@ -1712,7 +1796,6 @@ HeccerTabulatedGateNew
 
 
 /// 
-/// 
 /// \arg phtsm an initialized gate table.
 /// \arg pv parameters to use for comparison.
 /// \arg iSize size of parameter block.
@@ -1721,7 +1804,7 @@ HeccerTabulatedGateNew
 /// 
 ///	See memcmp() manual.
 /// 
-/// \details 
+/// \details
 /// 
 ///	Compare parameters for a candidate gate with the parameters
 ///	of an existing table.
@@ -1749,7 +1832,6 @@ HeccerTabulatedSpringMassCompareParameters
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pv table parameter block.
 /// \arg iSize size of parameter block.
@@ -1759,7 +1841,6 @@ HeccerTabulatedSpringMassCompareParameters
 ///	tabulated spring mass index, -1 for failure.
 /// 
 /// \brief Lookup an existing table.
-/// \details 
 /// 
 
 static
@@ -1809,7 +1890,6 @@ HeccerTabulatedSpringMassLookup
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -1817,7 +1897,6 @@ HeccerTabulatedSpringMassLookup
 ///	tabulated spring mass index, -1 for failure.
 /// 
 /// \brief Allocate a new table.
-/// \details 
 /// 
 
 static
@@ -1852,7 +1931,6 @@ HeccerTabulatedSpringMassNew
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg phtgNew tabulated gate.
 /// 
@@ -1861,7 +1939,8 @@ HeccerTabulatedSpringMassNew
 ///	tabulated gate index, -1 for failure.
 /// 
 /// \brief Store a new table.
-/// \details 
+///
+/// \details
 /// 
 ///	Note that the parameters that identify the table must be
 ///	initialized correctly before this function is called.

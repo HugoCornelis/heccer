@@ -286,11 +286,28 @@ HeccerDeserializeMain
 
     memset(&pheccer->indexers, 0, sizeof(pheccer->indexers));
 
-    memset(&pheccer->tgt, 0, sizeof(pheccer->tgt));
+/*     memset(&pheccer->tgt, 0, sizeof(pheccer->tgt)); */
 
     memset(&pheccer->tsmt, 0, sizeof(pheccer->tsmt));
 
-    memset(&pheccer->vm, 0, sizeof(pheccer->vm));
+/*     memset(&pheccer->vm, 0, sizeof(pheccer->vm)); */
+
+    //- loop over all tables
+
+    struct TabulatedGateTable *ptgt = &pheccer->tgt;
+
+    int i;
+
+    for (i = 0 ; i < ptgt->iTabulatedGateCount ; i++)
+    {
+	//- zero out parameters pointer
+
+	ptgt->phtg[i].pvParameters = NULL;
+
+	//- dump table values
+
+	iResult = iResult && HeccerTableValuesDeserialize(&ptgt->phtg[i], pfile);
+    }
 
     //- return result
 
@@ -308,6 +325,14 @@ HeccerDeserializeMain
 /// 
 /// \brief Deserialize the mechanisms of this heccer from the given stream.
 /// 
+
+long HeccerFilePos(FILE *pfile);
+
+long HeccerFilePos(FILE *pfile)
+{
+    return ftell(pfile);
+}
+
 
 static
 int
@@ -614,6 +639,23 @@ HeccerSerializeMain
 	return(0);
     }
 
+    //- loop over all tables
+
+    struct TabulatedGateTable *ptgt = &pheccer->tgt;
+
+    int i;
+
+    for (i = 0 ; i < ptgt->iTabulatedGateCount ; i++)
+    {
+	//- zero out parameters pointer
+
+	ptgt->phtg[i].pvParameters = NULL;
+
+	//- dump table values
+
+	iResult = iResult && HeccerTableValuesSerialize(&ptgt->phtg[i], pfile);
+    }
+
     //- return result
 
     return(iResult);
@@ -641,7 +683,9 @@ HeccerSerializeMechanisms
 
     int iResult = 1;
 
-    //- read number of math components
+    //- write number of math components
+
+    long l = ftell(pfile);
 
     if (fwrite(&pheccer->vm.iMathComponents, sizeof(pheccer->vm.iMathComponents), 1, pfile) != 1)
     {
