@@ -2625,7 +2625,8 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
 
-		/// \todo iDiscreteSource must be linked here ?
+		/// \todo pmops->pdEvents is pointer to event list,
+		/// must be serialized.
 
 		break;
 	    }
