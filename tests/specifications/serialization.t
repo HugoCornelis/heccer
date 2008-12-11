@@ -164,6 +164,20 @@ my $test
 						 ],
 				description => "a single compartment with a naf conductance",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/serialization-pool2',
+				command_tests => [
+						  {
+						   description => "Can we serialize two compartments with two pools ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-pool2.txt`),
+						   timeout => 5,
+						   write => undef,
+						  },
+						 ],
+				description => "two compartments with two pools",
+			       },
 			      ],
        description => "serialization",
        name => 'serialization.t',

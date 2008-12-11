@@ -64,6 +64,10 @@ int main(int argc, char *argv[])
 }
 
 
+#ifdef main
+#undef main
+#endif
+
 #define main(argc,argv) simulate(argc,argv)
 
 //t this prototype can give warning and perhaps errors.

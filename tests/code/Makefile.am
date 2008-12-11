@@ -60,6 +60,7 @@ check_PROGRAMS = \
 	serialization-fork4p1 \
 	serialization-fork4p2 \
 	serialization-fork4p3 \
+	serialization-pool2 \
 	serialization-singlea-naf \
 	serialization-singlep \
 	serialization-tensizesp \
@@ -168,6 +169,8 @@ serialization_fork4p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_fork4p2_LDADD = -L../.. -lheccer -lm
 serialization_fork4p3_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_fork4p3_LDADD = -L../.. -lheccer -lm
+serialization_pool2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_pool2_LDADD = -L../.. -lheccer -lm
 serialization_singlea_naf_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_singlea_naf_LDADD = -L../.. -lheccer -lm
 serialization_singlep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
