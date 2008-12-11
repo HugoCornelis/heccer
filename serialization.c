@@ -108,7 +108,7 @@ HeccerDeserialize(FILE *pfile)
 		{
 		    //- link mechanisms
 
-		    if (HeccerMechanismLink(pheccerResult))
+		    if (HeccerMechanismIndex2Pointer(pheccerResult))
 		    {
 /* 			//- deserialize aggregators */
 
@@ -518,7 +518,7 @@ HeccerSerialize
 
     //- unlink mechanisms
 
-    iResult = iResult && HeccerMechanismIndex(pheccer);
+    iResult = iResult && HeccerMechanismPointer2Index(pheccer);
 
     //- serialize mechanisms
 

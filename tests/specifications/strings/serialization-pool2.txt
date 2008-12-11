@@ -142,7 +142,7 @@ Mechanism operations
 00006 :: REGISTERCHANNELCURRENT
 00007 :: FLUXPOOL							 0
 00008 :: EXPONENTIALDECAY 188248 4e-05 1.05
-			 (0.0389187) (nil) (nil) (nil)							 4e-05
+			 (0) (nil) (nil) (nil)							 4e-05
 00009 :: COMPARTMENT							 -2.23189e-10 0 218562 1.28342
 00010 :: INITIALIZECHANNEL 0.137526 1.39493e-08
 00011 :: LOADVOLTAGETABLE
@@ -152,7 +152,7 @@ Mechanism operations
 00015 :: REGISTERCHANNELCURRENT
 00016 :: FLUXPOOL							 0
 00017 :: EXPONENTIALDECAY 1.51581e+06 4e-05 1.1
-			 (nil) (nil) (nil) (nil)							 4e-05
+			 (0) (nil) (nil) (nil)							 4e-05
 00018 :: FINISH
 VM Axial Resistances (pdAxres[0]) : (-0.282813)
 VM Axial Resistances (pdAxres[1]) : (-2.2483)

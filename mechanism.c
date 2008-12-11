@@ -1598,14 +1598,14 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 /// 
 ///	success of operation.
 /// 
-/// \brief Link mechanism operations.
+/// \brief Convert mat indices to pointers.
 ///
-/// \details HeccerMechanismLink() converts indices in the mops to
-/// pointers.  HeccerMechanismIndex() converts points in the mops to
-/// indices.
+/// \details HeccerMechanismIndex2Pointer() converts mat indices in
+/// the mops to mat pointers.  HeccerMechanismPointer2Index() converts
+/// mat pointers in the mops to mat indices.
 /// 
 
-int HeccerMechanismIndex(struct Heccer *pheccer)
+int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -1707,21 +1707,21 @@ int HeccerMechanismIndex(struct Heccer *pheccer)
 
 		//- get index of internal concentration
 
-		double *pdInternal = pmops->uInternal.pdValue;
+		int iInternal = pmops->uInternal.iMat;
 
-		if (pdInternal)
+		if (iInternal != -1)
 		{
 		    //- get solved dependency
 
-		    int iConcentration = pdInternal - (double *)pheccer->vm.pvMats;
+		    double *pdConcentration = &((double *)pheccer->vm.pvMats)[iInternal];
 
 		    //- store solved internal concentration
 
-		    pmops->uInternal.iMat = iConcentration;
+		    pmops->uInternal.pdValue = pdConcentration;
 		}
 		else
 		{
-		    pmops->uInternal.iMat = -1;
+		    pmops->uInternal.pdValue = NULL;
 		}
 
 		break;
@@ -1752,21 +1752,21 @@ int HeccerMechanismIndex(struct Heccer *pheccer)
 
 		//- get index of reversal potential
 
-		double *pdReversalPotential = pmops->uReversalPotential.pdValue;
+		int iReversalPotential = pmops->uReversalPotential.iMat;
 
-		if (pdReversalPotential)
+		if (iReversalPotential != -1)
 		{
 		    //- get solved dependency
 
-		    int iNernst = pdReversalPotential - (double *)pheccer->vm.pvMats;
+		    double *pdNernst = &((double *)pheccer->vm.pvMats)[iReversalPotential];
 
 		    //- store solved nernst potential
 
-		    pmops->uReversalPotential.iMat = iNernst;
+		    pmops->uReversalPotential.pdValue = pdNernst;
 		}
 		else
 		{
-		    pmops->uReversalPotential.iMat = -1;
+		    pmops->uReversalPotential.pdValue = NULL;
 		}
 
 		break;
@@ -1822,21 +1822,21 @@ int HeccerMechanismIndex(struct Heccer *pheccer)
 
 		//- get possibly solved dependence
 
-		double *pdMatsActivator = pmops->uState.pdValue;
+		int iMatsActivator = pmops->uState.iMat;
 
-		if (pdMatsActivator)
+		if (iMatsActivator != -1)
 		{
 		    //- get solved dependency
 
-		    int iMatsActivator = pdMatsActivator - (double *)pheccer->vm.pvMats;
+		    double *pdMatsActivator = &((double *)pheccer->vm.pvMats)[iMatsActivator];
 
 		    //- store solved dependency
 
-		    pmops->uState.iMat = iMatsActivator;
+		    pmops->uState.pdValue = pdMatsActivator;
 		}
 		else
 		{
-		    pmops->uState.iMat = -1;
+		    pmops->uState.pdValue = NULL;
 		}
 
 		break;
@@ -1907,32 +1907,21 @@ int HeccerMechanismIndex(struct Heccer *pheccer)
 
 		for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
 		{
-		    double *pdExternal = pmops->puExternal[i].pdValue;
+		    int iExternal = pmops->puExternal[i].iMat;
 
-		    if (pdExternal)
+		    if (iExternal != -1)
 		    {
-			int iOffset = 0;
-
-			//- if individual channel currents are enabled
-
-			if (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS)
-			{
-			    //- there is a mat entry in between, subtract one from the index
-
-			    iOffset = -1;
-			}
-
 			//- get solved dependency
 
-			int iFlux = pdExternal - (double *)pheccer->vm.pvMats;
+			double *pdFlux = &((double *)pheccer->vm.pvMats)[iExternal];
 
 			//- store solved external flux contribution
 
-			pmops->puExternal[i].iMat = iFlux;
+			pmops->puExternal[i].pdValue = pdFlux;
 		    }
 		    else
 		    {
-			pmops->puExternal[i].iMat = -1;
+			pmops->puExternal[i].pdValue = NULL;
 		    }
 		}
 
@@ -1980,34 +1969,34 @@ int HeccerMechanismIndex(struct Heccer *pheccer)
 
 /* 		for (i = 0 ; i < EVENT_SOURCES ; i++) */
 		{
-		    double *pdSource = pmops->uSource.pdValue;
+		    int iSource = pmops->uSource.iMat;
 
 		    //- if should be current membrane potential
 
-		    /// \note this will generate a warning on some architectures
-
-		    if (pdSource == (double *)-1)
+		    if (iSource == INT_MAX)
 		    {
 			//- set pointer value to a sentinel value
 
-			pmops->uSource.iMat = INT_MAX;
+			/// \note this will generate a warning on some architectures
+
+			pmops->uSource.pdValue = (double *)-1;
 		    }
 
 		    //- if linked to a mechanism value
 
-		    else if (pdSource)
+		    else if (iSource != -1)
 		    {
 			//- get solved dependency
 
-			int iSource = pdSource - (double *)pheccer->vm.pvMats;
+			double *pdSource = &((double *)pheccer->vm.pvMats)[iSource];
 
 			//- store solved external flux contribution
 
-			pmops->uSource.iMat = iSource;
+			pmops->uSource.pdValue = pdSource;
 		    }
 		    else
 		    {
-			pmops->uSource.iMat = -1;
+			pmops->uSource.pdValue = NULL;
 		    }
 		}
 
@@ -2455,7 +2444,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 /* 		int i; */
 
 /* 		for (i = 0 ; i < EVENT_SOURCES ; i++) */
-/* 		{ */
+		{
 		    int iSource = pmops->uSource.iMat;
 
 		    //- if should be current membrane potential
@@ -2485,7 +2474,483 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 		    {
 			pmops->uSource.pdValue = NULL;
 		    }
-/* 		} */
+		}
+
+		break;
+	    }
+
+	    //- for a reset operation
+
+	    case HECCER_MOP_RESET:
+	    {
+		//- go to next operator
+
+		struct MopsReset *pmops = (struct MopsReset *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    default:
+	    {
+		HeccerError
+		    (pheccer,
+		     NULL,
+		     "unknown mechanism operation (%i)",
+		     piMop[0]);
+
+		/// \note the best we can do is advance the pointer with one
+
+		piMop = &piMop[1];
+
+		break;
+	    }
+	    }
+	}
+    }
+
+    //- check sanity of operator array
+
+    if (piMop[0] != HECCER_MOP_FINISH)
+    {
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "piMop[0] is %i, should be %i",
+	     piMop[0],
+	     HECCER_MOP_FINISH);
+
+	/// \todo depending on options, bail out
+
+	/// \todo set status : illegal mop hecc.
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Link mechanism operations.
+///
+/// \details HeccerMechanismIndex2Pointer() converts mat indices in
+/// the mops to mat pointers.  HeccerMechanismPointer2Index() converts
+/// mat pointers in the mops to mat indices.
+/// 
+
+int HeccerMechanismPointer2Index(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    int *piMop = (int *)pheccer->vm.pvMops;
+
+    void *pvMats = pheccer->vm.pvMats;
+
+    //- loop over mechanism operators
+
+    while (piMop[0] == HECCER_MOP_COMPARTMENT)
+    {
+	//- go to next operator
+
+	piMop = &piMop[1];
+
+	//- get compartment mechanism data
+
+	struct MatsCompartment *pmatsc
+	    = (struct MatsCompartment *)pvMats;
+
+	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+
+	//- loop over mechanism operators
+
+	while (piMop[0] > HECCER_MOP_COMPARTMENT_BARRIER)
+	{
+	    //- look at next mechanism
+
+	    switch (piMop[0])
+	    {
+	    //- for aggregate current
+
+	    case HECCER_MOP_AGGREGATECURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsAggregateCurrent *pmops = (struct MopsAggregateCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for a call out
+
+	    case HECCER_MOP_CALLOUT:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		//- go to next type specific data
+
+		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+
+		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+
+		break;
+	    }
+
+	    //- for a spring mass equation
+
+	    case HECCER_MOP_SPRINGMASS:
+	    {
+		//- go to next operator
+
+		struct MopsSpringMass *pmops = (struct MopsSpringMass *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+
+		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+
+		/// \todo iDiscreteSource must be linked here ?
+
+		break;
+	    }
+
+	    //- for a nernst operation with internal variable concentration
+
+	    case HECCER_MOP_INTERNALNERNST:
+	    {
+		//- go to next operator
+
+		struct MopsInternalNernst *pmops = (struct MopsInternalNernst *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+
+		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+
+		//- get index of internal concentration
+
+		double *pdInternal = pmops->uInternal.pdValue;
+
+		if (pdInternal)
+		{
+		    //- get solved dependency
+
+		    int iConcentration = pdInternal - (double *)pheccer->vm.pvMats;
+
+		    //- store solved internal concentration
+
+		    pmops->uInternal.iMat = iConcentration;
+		}
+		else
+		{
+		    pmops->uInternal.iMat = -1;
+		}
+
+		break;
+	    }
+
+	    //- for single channel initialization
+
+	    case HECCER_MOP_INITIALIZECHANNEL:
+	    {
+		//- go to next operator
+
+		struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for single channel initialization with variable reversal potential
+
+	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    {
+		//- go to next operator
+
+		struct MopsInitializeChannelErev *pmops = (struct MopsInitializeChannelErev *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- get index of reversal potential
+
+		double *pdReversalPotential = pmops->uReversalPotential.pdValue;
+
+		if (pdReversalPotential)
+		{
+		    //- get solved dependency
+
+		    int iNernst = pdReversalPotential - (double *)pheccer->vm.pvMats;
+
+		    //- store solved nernst potential
+
+		    pmops->uReversalPotential.iMat = iNernst;
+		}
+		else
+		{
+		    pmops->uReversalPotential.iMat = -1;
+		}
+
+		break;
+	    }
+
+	    //- to compute a channel's conductance
+
+	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		//- store the current conductance
+
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
+
+		//- go to next type specific data
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- for a new membrane potential
+
+	    case HECCER_MOP_LOADVOLTAGETABLE:
+	    {
+		//- go to next operator
+
+		struct MopsVoltageTableDependency *pmops = (struct MopsVoltageTableDependency *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- for a conceptual gate (HH alike, with powers)
+
+	    case HECCER_MOP_CONCEPTGATE:
+	    {
+		//- go to next operator
+
+		struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- get possibly solved dependence
+
+		double *pdMatsActivator = pmops->uState.pdValue;
+
+		if (pdMatsActivator)
+		{
+		    //- get solved dependency
+
+		    int iMatsActivator = pdMatsActivator - (double *)pheccer->vm.pvMats;
+
+		    //- store solved dependency
+
+		    pmops->uState.iMat = iMatsActivator;
+		}
+		else
+		{
+		    pmops->uState.iMat = -1;
+		}
+
+		break;
+	    }
+
+	    //- register single channel contribution
+
+	    case HECCER_MOP_REGISTERCHANNELCURRENT:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		break;
+	    }
+
+	    //- add channel contribution to compartmental currents
+
+	    case HECCER_MOP_UPDATECOMPARTMENTCURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsUpdateCompartmentCurrent *pmops = (struct MopsUpdateCompartmentCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		break;
+	    }
+
+	    //- compute current for single channel
+
+	    case HECCER_MOP_STORESINGLECHANNELCURRENT:
+	    {
+		//- go to next operator
+
+		struct MopsStoreSingleChannelCurrent *pmops = (struct MopsStoreSingleChannelCurrent *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- compute exponential decay, mostly an ion concentration
+
+	    case HECCER_MOP_EXPONENTIALDECAY:
+	    {
+		//- go to next operator
+
+		struct MopsExponentialDecay *pmops = (struct MopsExponentialDecay *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- get possibly solved external flux contributions
+
+		int i;
+
+		for (i = 0 ; i < EXPONENTIALDECAY_CONTRIBUTORS ; i++)
+		{
+		    double *pdExternal = pmops->puExternal[i].pdValue;
+
+		    if (pdExternal)
+		    {
+			int iOffset = 0;
+
+			//- if individual channel currents are enabled
+
+			if (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS)
+			{
+			    //- there is a mat entry in between, subtract one from the index
+
+			    iOffset = -1;
+			}
+
+			//- get solved dependency
+
+			int iFlux = pdExternal - (double *)pheccer->vm.pvMats;
+
+			//- store solved external flux contribution
+
+			pmops->puExternal[i].iMat = iFlux;
+		    }
+		    else
+		    {
+			pmops->puExternal[i].iMat = -1;
+		    }
+		}
+
+		break;
+	    }
+
+	    //- register current contribution to a pool
+
+	    case HECCER_MOP_FLUXPOOL:
+	    {
+		//- go to next operator
+
+		struct MopsFluxPool *pmops = (struct MopsFluxPool *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		break;
+	    }
+
+	    //- for an event generator
+
+	    case HECCER_MOP_EVENTGENERATE:
+	    {
+		//- go to next operator
+
+		struct MopsEventGenerate *pmops = (struct MopsEventGenerate *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
+
+		pvMats = (void *)&pmats[1];
+
+		//- get source for comparison
+
+/* 		int i; */
+
+/* 		for (i = 0 ; i < EVENT_SOURCES ; i++) */
+		{
+		    double *pdSource = pmops->uSource.pdValue;
+
+		    //- if should be current membrane potential
+
+		    /// \note this will generate a warning on some architectures
+
+		    if (pdSource == (double *)-1)
+		    {
+			//- set pointer value to a sentinel value
+
+			pmops->uSource.iMat = INT_MAX;
+		    }
+
+		    //- if linked to a mechanism value
+
+		    else if (pdSource)
+		    {
+			//- get solved dependency
+
+			int iSource = pdSource - (double *)pheccer->vm.pvMats;
+
+			//- store solved external flux contribution
+
+			pmops->uSource.iMat = iSource;
+		    }
+		    else
+		    {
+			pmops->uSource.iMat = -1;
+		    }
+		}
 
 		break;
 	    }
