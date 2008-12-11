@@ -47,6 +47,7 @@ Makefile$
 ^tests/code/serialization$
 ^tests/code/serialization-c1c2p1$
 ^tests/code/serialization-c1c2p2$
+^tests/code/serialization-channel2-nernst2$
 ^tests/code/serialization-doublep$
 ^tests/code/serialization-fork3p$
 ^tests/code/serialization-fork4p1$

@@ -53,6 +53,7 @@ check_PROGRAMS = addressing-aggregator1$(EXEEXT) \
 	pool1-contributors2$(EXEEXT) pool1-feedback1$(EXEEXT) \
 	pool1-feedback2$(EXEEXT) pool1-nernst$(EXEEXT) pool2$(EXEEXT) \
 	serialization-c1c2p1$(EXEEXT) serialization-c1c2p2$(EXEEXT) \
+	serialization-channel2-nernst2$(EXEEXT) \
 	serialization-doublep$(EXEEXT) serialization-fork3p$(EXEEXT) \
 	serialization-fork4p1$(EXEEXT) serialization-fork4p2$(EXEEXT) \
 	serialization-fork4p3$(EXEEXT) \
@@ -144,6 +145,10 @@ serialization_c1c2p1_SOURCES = serialization-c1c2p1.c
 serialization_c1c2p1_OBJECTS = serialization-c1c2p1.$(OBJEXT)
 serialization_c1c2p2_SOURCES = serialization-c1c2p2.c
 serialization_c1c2p2_OBJECTS = serialization-c1c2p2.$(OBJEXT)
+serialization_channel2_nernst2_SOURCES =  \
+	serialization-channel2-nernst2.c
+serialization_channel2_nernst2_OBJECTS =  \
+	serialization-channel2-nernst2.$(OBJEXT)
 serialization_doublep_SOURCES = serialization-doublep.c
 serialization_doublep_OBJECTS = serialization-doublep.$(OBJEXT)
 serialization_fork3p_SOURCES = serialization-fork3p.c
@@ -243,19 +248,20 @@ SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	perfectclamp-passive10.c perfectclamp-passive10-2.c pool1.c \
 	pool1-contributors2.c pool1-feedback1.c pool1-feedback2.c \
 	pool1-nernst.c pool2.c serialization-c1c2p1.c \
-	serialization-c1c2p2.c serialization-doublep.c \
-	serialization-fork3p.c serialization-fork4p1.c \
-	serialization-fork4p2.c serialization-fork4p3.c \
-	serialization-pool1-feedback2.c serialization-pool2.c \
-	serialization-singlea-naf.c serialization-singlep.c \
-	serialization-tensizesp.c serialization-triplep.c \
-	singlea-naf.c singlea-naf-current.c singlea-naf2-aggregator.c \
-	singlep.c spiker1.c spiker2.c spiker3.c springmass1.c \
-	springmass2.c springmass3.c springmass4.c table-cap.c \
-	table-cat.c table-dual-kdr.c table-dual-km.c table-k2.c \
-	table-ka.c table-kc.c table-kdr.c table-kdr2.c table-kh.c \
-	table-km.c table-naf.c table-nap.c tensizesp.c triplep.c \
-	vclamp-passive.c vclamp-sodium.c version.c
+	serialization-c1c2p2.c serialization-channel2-nernst2.c \
+	serialization-doublep.c serialization-fork3p.c \
+	serialization-fork4p1.c serialization-fork4p2.c \
+	serialization-fork4p3.c serialization-pool1-feedback2.c \
+	serialization-pool2.c serialization-singlea-naf.c \
+	serialization-singlep.c serialization-tensizesp.c \
+	serialization-triplep.c singlea-naf.c singlea-naf-current.c \
+	singlea-naf2-aggregator.c singlep.c spiker1.c spiker2.c \
+	spiker3.c springmass1.c springmass2.c springmass3.c \
+	springmass4.c table-cap.c table-cat.c table-dual-kdr.c \
+	table-dual-km.c table-k2.c table-ka.c table-kc.c table-kdr.c \
+	table-kdr2.c table-kh.c table-km.c table-naf.c table-nap.c \
+	tensizesp.c triplep.c vclamp-passive.c vclamp-sodium.c \
+	version.c
 DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	aggregator-kc.c aggregator-kc-feedback.c c1c2p1.c c1c2p2.c \
 	callout1.c calloutInjector.c channel1-nernst1.c \
@@ -265,19 +271,20 @@ DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	perfectclamp-passive10.c perfectclamp-passive10-2.c pool1.c \
 	pool1-contributors2.c pool1-feedback1.c pool1-feedback2.c \
 	pool1-nernst.c pool2.c serialization-c1c2p1.c \
-	serialization-c1c2p2.c serialization-doublep.c \
-	serialization-fork3p.c serialization-fork4p1.c \
-	serialization-fork4p2.c serialization-fork4p3.c \
-	serialization-pool1-feedback2.c serialization-pool2.c \
-	serialization-singlea-naf.c serialization-singlep.c \
-	serialization-tensizesp.c serialization-triplep.c \
-	singlea-naf.c singlea-naf-current.c singlea-naf2-aggregator.c \
-	singlep.c spiker1.c spiker2.c spiker3.c springmass1.c \
-	springmass2.c springmass3.c springmass4.c table-cap.c \
-	table-cat.c table-dual-kdr.c table-dual-km.c table-k2.c \
-	table-ka.c table-kc.c table-kdr.c table-kdr2.c table-kh.c \
-	table-km.c table-naf.c table-nap.c tensizesp.c triplep.c \
-	vclamp-passive.c vclamp-sodium.c version.c
+	serialization-c1c2p2.c serialization-channel2-nernst2.c \
+	serialization-doublep.c serialization-fork3p.c \
+	serialization-fork4p1.c serialization-fork4p2.c \
+	serialization-fork4p3.c serialization-pool1-feedback2.c \
+	serialization-pool2.c serialization-singlea-naf.c \
+	serialization-singlep.c serialization-tensizesp.c \
+	serialization-triplep.c singlea-naf.c singlea-naf-current.c \
+	singlea-naf2-aggregator.c singlep.c spiker1.c spiker2.c \
+	spiker3.c springmass1.c springmass2.c springmass3.c \
+	springmass4.c table-cap.c table-cat.c table-dual-kdr.c \
+	table-dual-km.c table-k2.c table-ka.c table-kc.c table-kdr.c \
+	table-kdr2.c table-kh.c table-km.c table-naf.c table-nap.c \
+	tensizesp.c triplep.c vclamp-passive.c vclamp-sodium.c \
+	version.c
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -424,6 +431,8 @@ serialization_c1c2p1_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_c1c2p1_LDADD = -L../.. -lheccer -lm
 serialization_c1c2p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_c1c2p2_LDADD = -L../.. -lheccer -lm
+serialization_channel2_nernst2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_channel2_nernst2_LDADD = -L../.. -lheccer -lm
 serialization_doublep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_doublep_LDADD = -L../.. -lheccer -lm
 serialization_fork3p_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
@@ -630,6 +639,9 @@ serialization-c1c2p1$(EXEEXT): $(serialization_c1c2p1_OBJECTS) $(serialization_c
 serialization-c1c2p2$(EXEEXT): $(serialization_c1c2p2_OBJECTS) $(serialization_c1c2p2_DEPENDENCIES) 
 	@rm -f serialization-c1c2p2$(EXEEXT)
 	$(LINK) $(serialization_c1c2p2_LDFLAGS) $(serialization_c1c2p2_OBJECTS) $(serialization_c1c2p2_LDADD) $(LIBS)
+serialization-channel2-nernst2$(EXEEXT): $(serialization_channel2_nernst2_OBJECTS) $(serialization_channel2_nernst2_DEPENDENCIES) 
+	@rm -f serialization-channel2-nernst2$(EXEEXT)
+	$(LINK) $(serialization_channel2_nernst2_LDFLAGS) $(serialization_channel2_nernst2_OBJECTS) $(serialization_channel2_nernst2_LDADD) $(LIBS)
 serialization-doublep$(EXEEXT): $(serialization_doublep_OBJECTS) $(serialization_doublep_DEPENDENCIES) 
 	@rm -f serialization-doublep$(EXEEXT)
 	$(LINK) $(serialization_doublep_LDFLAGS) $(serialization_doublep_OBJECTS) $(serialization_doublep_LDADD) $(LIBS)
@@ -787,6 +799,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pool2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-c1c2p1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-c1c2p2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-channel2-nernst2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-doublep.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-fork3p.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialization-fork4p1.Po@am__quote@

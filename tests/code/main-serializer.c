@@ -17,7 +17,9 @@
 
 
 #define HECCER_TEST_STEPS 0
-
+#ifndef HECCER_TEST_SERIALIZATION_SIMULATION_TIME
+#define HECCER_TEST_SERIALIZATION_SIMULATION_TIME 1.0
+#endif
 
 #include "main.h"
 
@@ -48,9 +50,9 @@ int main(int argc, char *argv[])
 
     //- step both heccers
 
-    HeccerHeccs(pheccer, 1.0);
+    HeccerHeccs(pheccer, HECCER_TEST_SERIALIZATION_SIMULATION_TIME);
 
-    HeccerHeccs(pheccer2, 1.0);
+    HeccerHeccs(pheccer2, HECCER_TEST_SERIALIZATION_SIMULATION_TIME);
 
     //- dump both, must be same
 

@@ -55,6 +55,7 @@ check_PROGRAMS = \
 	pool2 \
 	serialization-c1c2p1 \
 	serialization-c1c2p2 \
+	serialization-channel2-nernst2 \
 	serialization-doublep \
 	serialization-fork3p \
 	serialization-fork4p1 \
@@ -160,6 +161,8 @@ serialization_c1c2p1_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_c1c2p1_LDADD = -L../.. -lheccer -lm
 serialization_c1c2p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_c1c2p2_LDADD = -L../.. -lheccer -lm
+serialization_channel2_nernst2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_channel2_nernst2_LDADD = -L../.. -lheccer -lm
 serialization_doublep_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_doublep_LDADD = -L../.. -lheccer -lm
 serialization_fork3p_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c

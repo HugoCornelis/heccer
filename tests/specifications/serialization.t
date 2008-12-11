@@ -192,6 +192,20 @@ my $test
 						 ],
 				description => "compartment with a pool with a feedback loop, reversed order",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/serialization-channel2-nernst2',
+				command_tests => [
+						  {
+						   description => "Can we serialize two solved nernst potentials applied for two channel reversal potentials ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-channel2-nernst2.txt`),
+						   timeout => 5,
+						   write => undef,
+						  },
+						 ],
+				description => "compartment with a pool with a feedback loop, reversed order",
+			       },
 			      ],
        description => "serialization",
        name => 'serialization.t',
