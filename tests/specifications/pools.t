@@ -130,13 +130,13 @@ my $test
 				command => 'tests/code/channel2-nernst2',
 				command_tests => [
 						  {
-						   description => "Are two solved nernst potential applied for two channel reversal potentials ?",
+						   description => "Are two solved nernst potentials applied for two channel reversal potentials ?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/channel2-nernst2.txt`),
 						   timeout => 10,
 						   write => undef,
 						  },
 						 ],
-				description => "two solved nernst potential application for two channel reversal potentials",
+				description => "two solved nernst potentials application for two channel reversal potentials",
 			       },
 			      ],
        description => "pool integration & related",
