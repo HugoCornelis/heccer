@@ -60,6 +60,7 @@ check_PROGRAMS = \
 	serialization-fork4p1 \
 	serialization-fork4p2 \
 	serialization-fork4p3 \
+	serialization-pool1-feedback2 \
 	serialization-pool2 \
 	serialization-singlea-naf \
 	serialization-singlep \
@@ -139,10 +140,10 @@ hh1_DEPENDENCIES = ../../libheccer.a main.c
 hh1_LDADD = -L../.. -lheccer -lm
 perfectclamp_passive1_DEPENDENCIES = ../../libheccer.a main.c
 perfectclamp_passive1_LDADD = -L../.. -lheccer -lm
-perfectclamp_passive10_DEPENDENCIES = ../../libheccer.a main.c
-perfectclamp_passive10_LDADD = -L../.. -lheccer -lm
 perfectclamp_passive10_2_DEPENDENCIES = ../../libheccer.a main.c
 perfectclamp_passive10_2_LDADD = -L../.. -lheccer -lm
+perfectclamp_passive10_DEPENDENCIES = ../../libheccer.a main.c
+perfectclamp_passive10_LDADD = -L../.. -lheccer -lm
 pool1_DEPENDENCIES = ../../libheccer.a main.c
 pool1_LDADD = -L../.. -lheccer -lm
 pool1_contributors2_DEPENDENCIES = ../../libheccer.a main.c
@@ -169,6 +170,8 @@ serialization_fork4p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_fork4p2_LDADD = -L../.. -lheccer -lm
 serialization_fork4p3_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_fork4p3_LDADD = -L../.. -lheccer -lm
+serialization_pool1_feedback2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
+serialization_pool1_feedback2_LDADD = -L../.. -lheccer -lm
 serialization_pool2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_pool2_LDADD = -L../.. -lheccer -lm
 serialization_singlea_naf_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c

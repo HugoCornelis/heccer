@@ -178,6 +178,20 @@ my $test
 						 ],
 				description => "two compartments with two pools",
 			       },
+			       {
+				arguments => [
+					     ],
+				command => 'tests/code/serialization-pool1-feedback2',
+				command_tests => [
+						  {
+						   description => "Can we serialize a compartment with a pool with a feedback loop, reversed order ?",
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-pool1-feedback2.txt`),
+						   timeout => 5,
+						   write => undef,
+						  },
+						 ],
+				description => "compartment with a pool with a feedback loop, reversed order",
+			       },
 			      ],
        description => "serialization",
        name => 'serialization.t',
