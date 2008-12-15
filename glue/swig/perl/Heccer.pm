@@ -290,10 +290,11 @@ sub new
 	    {
 		# no other services supported
 
-		return "Heccer does only know neurospaces as a service.
+		return
+"Heccer does only know neurospaces as a service.
 If you need a different service, you have to install
-the appropriate integrator plugin for Heccer, and let the perl
-package know how to call the integrator.";
+the appropriate integrator plugin for Heccer,
+and let the perl package know how to call the integrator.";
 	    }
 	}
 
