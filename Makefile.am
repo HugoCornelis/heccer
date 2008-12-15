@@ -71,6 +71,9 @@ nobase_include_HEADERS = \
 	heccer/table.h \
 	heccer/vm.h
 
+CLEANFILES = \
+	$(top_srcdir)/docs/doxygen.tag
+
 heccertestdir=$(prefix)/heccer
 nobase_dist_heccertest_DATA=@TEST_SPECIFICATION_FILES@
 
@@ -90,6 +93,9 @@ dist-keywords:
 # The variable EXTRA_DIST could also be used here.
 
 am__tar = ${AMTAR} chf - --format=posix "$$tardir"
+
+clean-local:
+	$(RM) -rf $(top_srcdir)/docs/html
 
 dist-hook: dist-keywords
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
@@ -132,3 +138,5 @@ html-upload-prepare:
 html-upload: html-upload-prepare
 	scp -pr html/htdocs/* hcornelis,neurospaces@web.sourceforge.net:/home/groups/n/ne/neurospaces/htdocs/
 
+doxygen: doxygen.cfg
+	$(DOXYGEN) doxygen.cfg

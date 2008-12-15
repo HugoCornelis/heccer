@@ -36,6 +36,9 @@ AM_INIT_AUTOMAKE(heccer, python-2)
 AC_PROG_CC
 AC_PROG_RANLIB
 
+AC_PATH_PROGS(DOXYGEN,doxygen)
+
+
 # Checks for options
 
 AC_ARG_ENABLE(random, AS_HELP_STRING([--with-random   use the builtin random number generator (recommended not to use the builtin)]) )

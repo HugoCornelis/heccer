@@ -5,6 +5,8 @@ heccer_check_ric-neurospaces-03.out
 
 Makefile$
 ^docs/various.txt$
+^docs/html
+^docs/doxygen.tag$
 ^doxy$
 ^doxygen/docs/
 ^glue/swig/perl/SwiggableHeccer.pm$
