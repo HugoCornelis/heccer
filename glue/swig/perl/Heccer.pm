@@ -109,15 +109,18 @@ sub compile3
 }
 
 
-sub deserialize
+sub deserialize2
 {
+    my $old_self = shift;
+
     my $filename = shift;
 
     my $backend = SwiggableHeccer::HeccerDeserializeFromFilename($filename);
 
     my $self
 	= {
-	   heccer => SwiggableHeccer::HeccerDeserializeFromFilename($filename),
+	   %$old_self,
+	   heccer => $backend,
 	  };
 
     bless $self, __PACKAGE__;

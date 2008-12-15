@@ -721,8 +721,6 @@ HeccerSerializeMechanisms
 
     //- write number of math components
 
-    long l = ftell(pfile);
-
     if (fwrite(&pheccer->vm.iMathComponents, sizeof(pheccer->vm.iMathComponents), 1, pfile) != 1)
     {
 	return(0);
