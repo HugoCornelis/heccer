@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/12/09) Tuesday, December 9, 2008 08:56:18 hugo";
+static char *pcVersionTime="(08/12/15) Monday, December 15, 2008 06:29:35 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -909,11 +909,11 @@ struct Heccer *HeccerNewFromFile(char *pc)
 
     //- deserialize
 
-    FILE *pfile = fopen(pc, "r");
+    FILE *pfile = HeccerSerializationOpenRead(pc);
 
     pheccerResult= HeccerDeserialize(pfile);
 
-    fclose(pfile);
+    HeccerSerializationClose(pfile);
 
     //- return result
 
@@ -940,7 +940,7 @@ int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
 
     //- open file
 
-    FILE *pfile = fopen(pc, "w");
+    FILE *pfile = HeccerSerializationOpenWrite(pc);
 
     //- serialize
 
@@ -948,7 +948,7 @@ int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
 
     //- close file
 
-    fclose(pfile);
+    HeccerSerializationClose(pfile);
 
     //- return success
 

@@ -73,20 +73,20 @@ HeccerDeserialize(FILE *pfile)
 
     struct Heccer *pheccerResult = NULL;
 
-    //- read the serialization version ID
+/*     //- read the serialization version ID */
 
-    char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1];
+/*     char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1]; */
 
-    fread
-	(pcSerializationVersion,
-	 sizeof(char),
-	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
-	 pfile);
+/*     fread */
+/* 	(pcSerializationVersion, */
+/* 	 sizeof(char), */
+/* 	 strlen(HECCER_SERIALIZATION_VERSION) + 1, */
+/* 	 pfile); */
 
-    if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION))
-    {
-	return(NULL);
-    }
+/*     if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION)) */
+/*     { */
+/* 	return(NULL); */
+/*     } */
 
     //- construct a default heccer
 
@@ -650,6 +650,94 @@ HeccerDeserializeMechanismStructure
 
 
 /// 
+/// \arg pfile serialization stream.
+/// 
+/// \return int
+/// 
+///	See fclose().
+/// 
+/// \brief Close a serialization stream.
+/// 
+
+int
+HeccerSerializationClose(FILE *pfile)
+{
+    return(fclose(pfile));
+}
+
+
+/// 
+/// \arg pcFilename filename.
+/// 
+/// \return FILE *
+/// 
+///	serialization stream.
+/// 
+/// \brief Open a serialization stream for reading.
+/// 
+
+FILE *
+HeccerSerializationOpenRead(char *pcFilename)
+{
+    //- set default result: open stream
+
+    FILE *pfileResult = fopen(pcFilename, "r");
+
+    //- read the serialization version ID
+
+    char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1];
+
+    fread
+	(pcSerializationVersion,
+	 sizeof(char),
+	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
+	 pfileResult);
+
+    if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION))
+    {
+	fclose(pfileResult);
+
+	return(NULL);
+    }
+
+    //- return result
+
+    return(pfileResult);
+}
+
+
+/// 
+/// \arg pcFilename filename.
+/// 
+/// \return FILE *
+/// 
+///	serialization stream.
+/// 
+/// \brief Open a serialization stream for writing.
+/// 
+
+FILE *
+HeccerSerializationOpenWrite(char *pcFilename)
+{
+    //- set default result: open stream
+
+    FILE *pfileResult = fopen(pcFilename, "w");
+
+    //- write the serialization version ID
+
+    fwrite
+	(HECCER_SERIALIZATION_VERSION,
+	 sizeof(char),
+	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
+	 pfileResult);
+
+    //- return result
+
+    return(pfileResult);
+}
+
+
+/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -668,13 +756,13 @@ HeccerSerialize
 
     int iResult = 1;
 
-    //- write the serialization version ID
+/*     //- write the serialization version ID */
 
-    fwrite
-	(HECCER_SERIALIZATION_VERSION,
-	 sizeof(char),
-	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
-	 pfile);
+/*     fwrite */
+/* 	(HECCER_SERIALIZATION_VERSION, */
+/* 	 sizeof(char), */
+/* 	 strlen(HECCER_SERIALIZATION_VERSION) + 1, */
+/* 	 pfile); */
 
     //- serialize main structure
 

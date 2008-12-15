@@ -37,6 +37,9 @@ int
 HeccerDeserializeCompartmentStructure
 (struct Heccer *pheccer, FILE *pfile);
 
+struct Heccer *
+HeccerDeserializeFromFilename(char *pcFilename);
+
 int
 HeccerDeserializeMechanismState
 (struct Heccer *pheccer, FILE *pfile);
@@ -45,8 +48,14 @@ int
 HeccerDeserializeMechanismStructure
 (struct Heccer *pheccer, FILE *pfile);
 
-struct Heccer *
-HeccerDeserializeFromFilename(char *pcFilename);
+int
+HeccerSerializationClose(FILE *pfile);
+
+FILE *
+HeccerSerializationOpenRead(char *pcFilename);
+
+FILE *
+HeccerSerializationOpenWrite(char *pcFilename);
 
 int
 HeccerSerialize

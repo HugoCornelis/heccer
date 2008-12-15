@@ -129,6 +129,31 @@ sub deserialize2
 }
 
 
+sub deserialize_state
+{
+    my $self = shift;
+
+    my $filename = shift;
+
+    my $result = 1;
+
+    my $backend = $self->backend();
+
+    my $file = SwiggableHeccer::HeccerSerializationOpen($filename, "r");
+
+    $result = $result && $backend->HeccerDeserializeCompartmentState($file);
+
+    $result = $result && $backend->HeccerDeserializeMechanismState($file);
+
+    if (SwiggableHeccer::HeccerSerializationClose($file) != 0)
+    {
+	$result = 0;
+    }
+
+    return $result;
+}
+
+
 sub dump
 {
     my $self = shift;
@@ -431,6 +456,31 @@ sub serialize
     my $backend = $self->backend();
 
     return $backend->HeccerSerializeToFilename($filename);
+}
+
+
+sub serialize_state
+{
+    my $self = shift;
+
+    my $filename = shift;
+
+    my $result = 1;
+
+    my $backend = $self->backend();
+
+    my $file = SwiggableHeccer::HeccerSerializationOpen($filename, "w");
+
+    $result = $result && $backend->HeccerSerializeCompartmentState($file);
+
+    $result = $result && $backend->HeccerSerializeMechanismState($file);
+
+    if (SwiggableHeccer::HeccerSerializationClose($file) != 0)
+    {
+	$result = 0;
+    }
+
+    return $result;
 }
 
 
