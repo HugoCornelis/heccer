@@ -109,6 +109,23 @@ sub compile3
 }
 
 
+sub deserialize
+{
+    my $filename = shift;
+
+    my $backend = SwiggableHeccer::HeccerDeserializeFromFilename($filename);
+
+    my $self
+	= {
+	   heccer => SwiggableHeccer::HeccerDeserializeFromFilename($filename),
+	  };
+
+    bless $self, __PACKAGE__;
+
+    return $self;
+}
+
+
 sub dump
 {
     my $self = shift;
@@ -399,6 +416,18 @@ sub set_addressable
     my $result = $self->{heccer}->HeccerAddressableSet($fieldinfo->{serial}, $fieldinfo->{type}, $value);
 
     return $result;
+}
+
+
+sub serialize
+{
+    my $self = shift;
+
+    my $filename = shift;
+
+    my $backend = $self->backend();
+
+    return $backend->HeccerSerializeToFilename($filename);
 }
 
 

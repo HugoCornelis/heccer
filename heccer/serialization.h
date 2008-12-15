@@ -23,16 +23,22 @@
 #include "heccer/heccer.h"
 
 
-#define HECCER_SERIALIZATION_VERSION "HECCER C"
+#define HECCER_SERIALIZATION_VERSION "HECCER 00000001"
 
 
 struct Heccer *
 HeccerDeserialize(FILE *pfile);
 
+struct Heccer *
+HeccerDeserializeFromFilename(char *pcFilename);
+
 int
 HeccerSerialize
 (struct Heccer *pheccer, FILE *pfile);
 
+int
+HeccerSerializeToFilename
+(struct Heccer *pheccer, char *pcFilename);
 
 
 #endif

@@ -253,6 +253,42 @@ HeccerDeserializeCompartments
 
 
 /// 
+/// \arg pfile file pointer.
+/// 
+/// \return struct Heccer *
+/// 
+///	a heccer, NULL for failure.
+/// 
+/// \brief Deserialize a heccer from the given filename.
+/// 
+
+struct Heccer *
+HeccerDeserializeFromFilename(char *pcFilename)
+{
+    //- set default result: failure
+
+    struct Heccer *pheccerResult = NULL;
+
+    //- open file
+
+    FILE *pfile = fopen(pcFilename, "r");
+
+    if (!pfile)
+    {
+	return(NULL);
+    }
+
+    //- deserialize heccer from opened file
+
+    pheccerResult = HeccerDeserialize(pfile);
+
+    //- return result
+
+    return(pheccerResult);
+}
+
+
+/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -767,6 +803,45 @@ HeccerSerializeMechanisms
 	return(0);
     }
 
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the mechanisms of this heccer from the given
+/// stream.
+/// 
+
+int
+HeccerSerializeToFilename
+(struct Heccer *pheccer, char *pcFilename)
+{
+    //- set default result: failure
+
+    int iResult = 0;
+
+    //- open file
+
+    FILE *pfile = fopen(pcFilename, "w");
+
+    if (!pfile)
+    {
+	return(0);
+    }
+
+    //- serialize heccer to file
+
+    iResult = HeccerSerialize(pheccer, pfile);
 
     //- return result
 
