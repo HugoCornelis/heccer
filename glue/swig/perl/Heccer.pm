@@ -139,7 +139,7 @@ sub deserialize_state
 
     my $backend = $self->backend();
 
-    my $file = SwiggableHeccer::HeccerSerializationOpen($filename, "r");
+    my $file = SwiggableHeccer::HeccerSerializationOpenRead($filename);
 
     $result = $result && $backend->HeccerDeserializeCompartmentState($file);
 
@@ -469,7 +469,7 @@ sub serialize_state
 
     my $backend = $self->backend();
 
-    my $file = SwiggableHeccer::HeccerSerializationOpen($filename, "w");
+    my $file = SwiggableHeccer::HeccerSerializationOpenWrite($filename);
 
     $result = $result && $backend->HeccerSerializeCompartmentState($file);
 
