@@ -198,12 +198,19 @@ HeccerDeserializeCompartmentState
 
     //- read data: axres
 
-    if (fread(&pheccer->vm.iAxres, sizeof(pheccer->vm.iAxres), 1, pfile) != 1)
+    int iAxres;
+
+    if (fread(&iAxres, sizeof(iAxres), 1, pfile) != 1)
     {
 	return(0);
     }
 
-    pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double));
+    if (pheccer->vm.iAxres != iAxres)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double)); */
 
     if (!pheccer->vm.pdAxres)
     {
@@ -217,12 +224,19 @@ HeccerDeserializeCompartmentState
 
     //- read data: results
 
-    if (fread(&pheccer->vm.iResults, sizeof(pheccer->vm.iResults), 1, pfile) != 1)
+    int iResults;
+
+    if (fread(&iResults, sizeof(iResults), 1, pfile) != 1)
     {
 	return(0);
     }
 
-    pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double));
+    if (pheccer->vm.iResults != iResults)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double)); */
 
     if (!pheccer->vm.pdResults)
     {
@@ -236,12 +250,19 @@ HeccerDeserializeCompartmentState
 
     //- read data: Vm
 
-    if (fread(&pheccer->vm.iVms, sizeof(pheccer->vm.iVms), 1, pfile) != 1)
+    int iVms;
+
+    if (fread(&iVms, sizeof(iVms), 1, pfile) != 1)
     {
 	return(0);
     }
 
-    pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double));
+    if (pheccer->vm.iVms != iVms)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double)); */
 
     if (!pheccer->vm.pdVms)
     {
@@ -488,12 +509,19 @@ HeccerDeserializeMechanismState
 
     /// mechanism addressables
 
-    if (fread(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
+    int iMats;
+
+    if (fread(&iMats, sizeof(iMats), 1, pfile) != 1)
     {
 	return(0);
     }
 
-    pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1);
+    if (pheccer->vm.iMats != iMats)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1); */
 
     if (!pheccer->vm.pvMats)
     {
