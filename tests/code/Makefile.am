@@ -98,6 +98,8 @@ check_PROGRAMS = \
 	version
 
 noinst_HEADERS = \
+	main-serializer.c \
+	main-serializer.h \
 	main.c \
 	main.h
 
