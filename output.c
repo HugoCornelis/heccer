@@ -173,7 +173,7 @@ int OutputGeneratorFlush(struct OutputGenerator * pog)
 
     if (pog->pfileOutput)
     {
-	//- close file
+	//- flush file buffers to disk
 
 	if (fflush(pog->pfileOutput) == EOF)
 	{
