@@ -96,6 +96,8 @@ am__tar = ${AMTAR} chf - --format=posix "$$tardir"
 
 clean-local:
 	$(RM) -rf $(top_srcdir)/docs/html
+	$(RM) -rf $(top_srcdir)/docs/laxtex
+	$(RM) -rf $(top_srcdir)/docs/rtf
 
 dist-hook: dist-keywords
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
