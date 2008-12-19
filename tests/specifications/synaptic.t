@@ -80,7 +80,7 @@ my $test
 						   write => undef,
 						  },
 						 ],
-				description => "synaptic (springmass) channel integration, larger time step",
+				description => "synaptic (springmass) channel integration, events from a file",
 			       },
 			      ],
        description => "synaptic channels",

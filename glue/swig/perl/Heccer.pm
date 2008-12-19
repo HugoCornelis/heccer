@@ -109,6 +109,51 @@ sub compile3
 }
 
 
+sub deserialize2
+{
+    my $old_self = shift;
+
+    my $filename = shift;
+
+    my $backend = SwiggableHeccer::HeccerDeserializeFromFilename($filename);
+
+    my $self
+	= {
+	   %$old_self,
+	   heccer => $backend,
+	  };
+
+    bless $self, __PACKAGE__;
+
+    return $self;
+}
+
+
+sub deserialize_state
+{
+    my $self = shift;
+
+    my $filename = shift;
+
+    my $result = 1;
+
+    my $backend = $self->backend();
+
+    my $file = SwiggableHeccer::HeccerSerializationOpenRead($filename);
+
+    $result = $result && $backend->HeccerDeserializeCompartmentState($file);
+
+    $result = $result && $backend->HeccerDeserializeMechanismState($file);
+
+    if (SwiggableHeccer::HeccerSerializationClose($file) != 0)
+    {
+	$result = 0;
+    }
+
+    return $result;
+}
+
+
 sub dump
 {
     my $self = shift;
@@ -290,10 +335,11 @@ sub new
 	    {
 		# no other services supported
 
-		return "Heccer does only know neurospaces as a service.
+		return
+"Heccer does only know neurospaces as a service.
 If you need a different service, you have to install
-the appropriate integrator plugin for Heccer, and let the perl
-package know how to call the integrator.";
+the appropriate integrator plugin for Heccer,
+and let the perl package know how to call the integrator.";
 	    }
 	}
 
@@ -396,6 +442,43 @@ sub set_addressable
     my $value = shift;
 
     my $result = $self->{heccer}->HeccerAddressableSet($fieldinfo->{serial}, $fieldinfo->{type}, $value);
+
+    return $result;
+}
+
+
+sub serialize
+{
+    my $self = shift;
+
+    my $filename = shift;
+
+    my $backend = $self->backend();
+
+    return $backend->HeccerSerializeToFilename($filename);
+}
+
+
+sub serialize_state
+{
+    my $self = shift;
+
+    my $filename = shift;
+
+    my $result = 1;
+
+    my $backend = $self->backend();
+
+    my $file = SwiggableHeccer::HeccerSerializationOpenWrite($filename);
+
+    $result = $result && $backend->HeccerSerializeCompartmentState($file);
+
+    $result = $result && $backend->HeccerSerializeMechanismState($file);
+
+    if (SwiggableHeccer::HeccerSerializationClose($file) != 0)
+    {
+	$result = 0;
+    }
 
     return $result;
 }

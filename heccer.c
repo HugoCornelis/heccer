@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/10/20) Monday, October 20, 2008 15:49:57 hugo";
+static char *pcVersionTime="(08/12/15) Monday, December 15, 2008 06:29:35 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -31,7 +31,6 @@ static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -39,7 +38,6 @@ static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
 ///	Result of operation.
 /// 
 /// \brief Zero out result arrays for aggregation operators.
-/// \details 
 /// 
 
 static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
@@ -64,7 +62,6 @@ static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -72,7 +69,6 @@ static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
 ///	Result of operation.
 /// 
 /// \brief Allocate result arrays for aggregation operators.
-/// \details 
 /// 
 
 int HeccerAggregatorsCompile(struct Heccer *pheccer)
@@ -104,7 +100,6 @@ int HeccerAggregatorsCompile(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -112,7 +107,6 @@ int HeccerAggregatorsCompile(struct Heccer *pheccer)
 ///	Model can be compiled.
 /// 
 /// \brief Can the model be compiled, given the current options ?
-/// \details 
 /// 
 
 int HeccerCanCompile(struct Heccer *pheccer)
@@ -157,7 +151,6 @@ int HeccerCanCompile(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -165,7 +158,6 @@ int HeccerCanCompile(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Compile a model into an intermediary format.
-/// \details 
 /// 
 
 int HeccerCompileP1(struct Heccer *pheccer)
@@ -226,7 +218,6 @@ int HeccerCompileP1(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -234,7 +225,8 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Analyze the model, build indices for optimization.
-/// \details 
+///
+/// \details
 /// 
 ///	Internally, Heccer addresses mechanisms using their
 ///	compartment's schedule number.  So the minimum degree
@@ -282,7 +274,6 @@ int HeccerCompileP2(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -290,7 +281,8 @@ int HeccerCompileP2(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Compile the intermediary format into byte code.
-/// \details 
+///
+/// \details
 /// 
 ///	 Uses indices, initialized with HeccerCompileP2().
 /// 
@@ -338,7 +330,6 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile stdio file.
 /// \arg iSelection selection to dump.
@@ -348,7 +339,8 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Call the dump functions, with the given selection.
-/// \details 
+///
+/// \details
 /// 
 ///	The selection is the boolean or of zero or more of the following :
 /// 
@@ -449,7 +441,6 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pcContext context of error.
 /// \arg pcError error string.
@@ -459,7 +450,6 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 ///	success of operation.
 /// 
 /// \brief Register an error, print to stderr.
-/// \details 
 /// 
 
 int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
@@ -573,7 +563,6 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 ///	Version identifier.
 /// 
 /// \brief Obtain version identifier.
-/// \details 
 /// 
 
 char * HeccerGetVersion(void)
@@ -586,7 +575,6 @@ char * HeccerGetVersion(void)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -594,7 +582,6 @@ char * HeccerGetVersion(void)
 ///	success of operation.
 /// 
 /// \brief Compute one step of simulation time.
-/// \details 
 /// 
 
 static int HeccerHecc(struct Heccer *pheccer)
@@ -654,7 +641,6 @@ static int HeccerHecc(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg dTime current time.
 /// 
@@ -663,7 +649,6 @@ static int HeccerHecc(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Call HeccerHecc() until dTime.
-/// \details 
 /// 
 
 int HeccerHeccs(struct Heccer *pheccer, double dTime)
@@ -704,7 +689,6 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -712,7 +696,6 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 ///	success of operation.
 /// 
 /// \brief Fill the data arrays with initial values.
-/// \details 
 /// 
 /// \todo 
 /// 
@@ -754,7 +737,7 @@ int HeccerInitiate(struct Heccer *pheccer)
 
 /// 
 /// 
-///	pc.....: name of this heccer, may be NULL.
+/// \arg pc name of this heccer, may be NULL.
 /// \arg pts translation service.
 /// \arg ped event distribution service.
 /// \arg peq event queuing service.
@@ -764,7 +747,8 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///	Instantiated heccer, NULL for failure.
 /// 
 /// \brief Create a new heccer using defaults.
-/// \details 
+///
+/// \details
 /// 
 ///	Defaults include option values and time step.  Look at the
 ///	code to see what they really are.
@@ -798,7 +782,7 @@ HeccerNew
 
 /// 
 /// 
-///	pc.......: name of this heccer, may be NULL.
+/// \arg pc name of this heccer, may be NULL.
 /// \arg pts identification service.
 /// \arg ped event distribution service.
 /// \arg peq event queuing service.
@@ -810,7 +794,6 @@ HeccerNew
 ///	Instantiated heccer, NULL for failure.
 /// 
 /// \brief Create a new heccer.
-/// \details 
 /// 
 
 struct Heccer *
@@ -878,7 +861,7 @@ HeccerNewP1
 
 /// 
 /// 
-///	pc......: name of this heccer, may be NULL.
+/// \arg pc name of this heccer, may be NULL.
 /// \arg pinter intermediary with a complete numerical model definition.
 /// 
 /// \return struct Heccer *
@@ -886,7 +869,6 @@ HeccerNewP1
 ///	Instantiated heccer, NULL for failure.
 /// 
 /// \brief Create a new heccer.
-/// \details 
 /// 
 
 struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
@@ -910,7 +892,6 @@ struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 
 
 /// 
-/// 
 /// \arg pc filename.
 /// 
 /// \return struct Heccer *
@@ -918,7 +899,6 @@ struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 ///	New heccer, NULL for failure.
 /// 
 /// \brief Construct a heccer from a file.
-/// \details 
 /// 
 
 struct Heccer *HeccerNewFromFile(char *pc)
@@ -929,11 +909,11 @@ struct Heccer *HeccerNewFromFile(char *pc)
 
     //- deserialize
 
-    FILE *pfile = fopen(pc, "r");
+    FILE *pfile = HeccerSerializationOpenRead(pc);
 
     pheccerResult= HeccerDeserialize(pfile);
 
-    fclose(pfile);
+    HeccerSerializationClose(pfile);
 
     //- return result
 
@@ -941,7 +921,6 @@ struct Heccer *HeccerNewFromFile(char *pc)
 }
 
 
-/// 
 /// 
 /// \arg pheccer heccer to write.
 /// \arg pc filename.
@@ -951,7 +930,6 @@ struct Heccer *HeccerNewFromFile(char *pc)
 ///	success of operation.
 /// 
 /// \brief Write the heccer to the file.
-/// \details 
 /// 
 
 int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
@@ -962,7 +940,7 @@ int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
 
     //- open file
 
-    FILE *pfile = fopen(pc, "w");
+    FILE *pfile = HeccerSerializationOpenWrite(pc);
 
     //- serialize
 
@@ -970,7 +948,7 @@ int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
 
     //- close file
 
-    fclose(pfile);
+    HeccerSerializationClose(pfile);
 
     //- return success
 
