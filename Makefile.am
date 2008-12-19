@@ -140,3 +140,6 @@ html-upload: html-upload-prepare
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
+
+docs: doxygen html-upload-prepare
+

@@ -210,7 +210,10 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
-/*     pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double)); */
+    if (!pheccer->vm.pdAxres)
+    {
+	pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double));
+    }
 
     if (!pheccer->vm.pdAxres)
     {
@@ -236,7 +239,10 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
-/*     pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double)); */
+    if (!pheccer->vm.pdResults)
+    {
+	pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double));
+    }
 
     if (!pheccer->vm.pdResults)
     {
@@ -262,7 +268,10 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
-/*     pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double)); */
+    if (!pheccer->vm.pdVms)
+    {
+	pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double));
+    }
 
     if (!pheccer->vm.pdVms)
     {
@@ -521,7 +530,10 @@ HeccerDeserializeMechanismState
 	return(0);
     }
 
-/*     pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1); */
+    if (!pheccer->vm.pvMats)
+    {
+	pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1);
+    }
 
     if (!pheccer->vm.pvMats)
     {
