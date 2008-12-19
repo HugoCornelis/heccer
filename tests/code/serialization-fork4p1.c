@@ -33,8 +33,6 @@
 /* 				    | HECCER_DUMP_INDEXERS_SUMMARY \ */
 /* 				    | HECCER_DUMP_INTERMEDIARY_SUMMARY \ */
 
-#define HECCER_TEST_STEPS 0
-
 
 struct Compartment comp[] =
 {
@@ -181,11 +179,60 @@ struct Compartment comp[] =
 
 	3.58441e+08, // unscaled 1
     },
+
+    {
+	//m administrative overhead
+
+	{
+	    //m type of structure
+
+	    MATH_TYPE_Compartment,
+	},
+
+	//m index of parent compartment, -1 for none
+
+	0,
+
+/* 	//m first mechanism */
+
+/* 	NULL, */
+
+/* 	//m number of mechanisms */
+
+/* 	0, */
+
+	//m descriptive values, alphabetical order
+
+/*     double dCm; */
+
+	4.57537e-11, // unscaled 0.0164,
+
+/*     double dEm; */
+
+	-0.08,
+
+/*     double dInitVm; */
+
+	-0.068,
+
+/*     double dInject;		 */
+
+	0,
+
+/*     double dRa; */
+
+	360502, // unscaled 2.5,
+
+/*     double dRm; */
+
+	3.58441e+08, // unscaled 1
+    },
 };
 
 
 int piC2m[] =
 {
+    0,
     0,
     0,
     0,
@@ -197,7 +244,7 @@ struct Intermediary inter =
 {
     //m compartment array
 
-    3,
+    4,
 
     comp,
 
@@ -211,58 +258,8 @@ struct Intermediary inter =
 };
 
 
-#include "main.h"
+#include "main-serializer.h"
 
-
-int main(int argc, char *argv[])
-{
-    //- set default result : ok
-
-    int iResult = EXIT_SUCCESS;
-
-    //- do the simulation (no steps, only compile)
-
-    simulate(argc,argv);
-
-    //- serialize
-
-    HeccerWriteToFile(pheccer, "/tmp/heccer");
-
-    //- deserialize
-
-    struct Heccer *pheccer2 = HeccerNewFromFile("/tmp/heccer");
-
-    //- dump both, must be same
-
-    tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "pheccer: before simulation\n", -1);
-
-    tests_dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: before simulation\n", -1);
-
-    //- step both heccers
-
-    HeccerHeccs(pheccer, 1.0);
-
-    HeccerHeccs(pheccer2, 1.0);
-
-    //- dump both, must be same
-
-    tests_dump(pheccer, stdout, HECCER_TEST_TESTED_THINGS, "pheccer: after 1 second\n", -1);
-
-    tests_dump(pheccer2, stdout, HECCER_TEST_TESTED_THINGS, "pheccer2: after 1 second\n", -1);
-
-    //- return result
-
-    return(iResult);
-}
-
-
-#define main(argc,argv) simulate(argc,argv)
-
-//t this prototype can give warning and perhaps errors.
-
-int main(int argc, char *argv[]);
-
-
-#include "main.c"
+#include "main-serializer.c"
 
 

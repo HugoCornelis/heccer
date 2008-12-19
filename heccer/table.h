@@ -162,6 +162,14 @@ HeccerTablesDump
 (struct TabulatedGateTable *ptgt, FILE *pfile, int iSelection);
 
 int
+HeccerTableValuesDeserialize
+(struct HeccerTabulatedGate *phtg, FILE *pfile);
+
+int
+HeccerTableValuesSerialize
+(struct HeccerTabulatedGate *phtg, FILE *pfile);
+
+int
 HeccerTableInterpolate
 (double *ppdSources[],
  double *ppdDestinations[],

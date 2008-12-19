@@ -23,7 +23,6 @@
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -31,7 +30,8 @@
 ///	success of operation.
 /// 
 /// \brief Index intermediary mechanism structures.
-/// \details 
+///
+/// \details
 /// 
 ///	The index can afterwards be used for lookups, see
 ///	HeccerMechanismLookup().
@@ -242,7 +242,6 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pinter heccer intermediary.
 /// \arg pfile stdio file.
 /// \arg iSelection selection to dump.
@@ -252,7 +251,6 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Dump intermediary functions.
-/// \details 
 /// 
 
 int
@@ -294,7 +292,6 @@ HeccerIntermediaryDump
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg i math component number to lookup.
 /// 
@@ -303,11 +300,12 @@ HeccerIntermediaryDump
 ///	math component structure, NULL for failure.
 /// 
 /// \brief Lookup the math component structure with the given number.
-/// \details 
+///
+/// \details
 /// 
 ///	First call HeccerIntermediaryBuildIndex().
 /// 
-/// \note 
+/// \note
 /// 
 ///	This function should be renamed to _mechanism_, instead of
 ///	_intermediary_.

@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "heccer/heccer.h"
 #include "heccer/serialization.h"
@@ -26,6 +27,11 @@
 static
 int
 HeccerDeserializeCompartments
+(struct Heccer *pheccer, FILE *pfile);
+
+static
+int
+HeccerDeserializeMain
 (struct Heccer *pheccer, FILE *pfile);
 
 static
@@ -40,11 +46,15 @@ HeccerSerializeCompartments
 
 static
 int
+HeccerSerializeMain
+(struct Heccer *pheccer, FILE *pfile);
+
+static
+int
 HeccerSerializeMechanisms
 (struct Heccer *pheccer, FILE *pfile);
 
 
-/// 
 /// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
@@ -54,7 +64,6 @@ HeccerSerializeMechanisms
 ///	success of operation.
 /// 
 /// \brief Deserialize this heccer from the given stream.
-/// \details 
 /// 
 
 struct Heccer *
@@ -64,49 +73,57 @@ HeccerDeserialize(FILE *pfile)
 
     struct Heccer *pheccerResult = NULL;
 
-    //- read the serialization version ID
+/*     //- read the serialization version ID */
 
-    char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1];
+/*     char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1]; */
 
-    fread
-	(pcSerializationVersion,
-	 sizeof(char),
-	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
-	 pfile);
+/*     fread */
+/* 	(pcSerializationVersion, */
+/* 	 sizeof(char), */
+/* 	 strlen(HECCER_SERIALIZATION_VERSION) + 1, */
+/* 	 pfile); */
 
-    if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION))
-    {
-	return(NULL);
-    }
+/*     if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION)) */
+/*     { */
+/* 	return(NULL); */
+/*     } */
 
-    /// \todo deserialize main structure instead of ...
-    /// \todo ... construct a default heccer
+    //- construct a default heccer
 
     pheccerResult = HeccerNew(NULL, NULL, NULL, NULL);
 
     if (pheccerResult)
     {
-	//- deserialize compartments
+	//- deserialize main struct
 
-	if (HeccerDeserializeCompartments(pheccerResult, pfile))
+	if (HeccerDeserializeMain(pheccerResult, pfile))
 	{
-	    //- deserialize mechanisms
+	    //- deserialize compartments
 
-	    if (HeccerDeserializeMechanisms(pheccerResult, pfile))
+	    if (HeccerDeserializeCompartments(pheccerResult, pfile))
 	    {
-		//- link mechanisms
+		//- deserialize mechanisms
 
-		if (HeccerMechanismLink(pheccerResult))
+		if (HeccerDeserializeMechanisms(pheccerResult, pfile))
 		{
-/* 		    //- deserialize aggregators */
+		    //- link mechanisms
 
-/* 		    if (HeccerDeserializeAggregators(pheccerResult, pfile)) */
-/* 		    { */
-/* 		    } */
-/* 		    else */
-/* 		    { */
-/* 			pheccerResult = NULL; */
-/* 		    } */
+		    if (HeccerMechanismIndex2Pointer(pheccerResult))
+		    {
+/* 			//- deserialize aggregators */
+
+/* 			if (HeccerDeserializeAggregators(pheccerResult, pfile)) */
+/* 			{ */
+/* 			} */
+/* 			else */
+/* 			{ */
+/* 			    pheccerResult = NULL; */
+/* 			} */
+		    }
+		    else
+		    {
+			pheccerResult = NULL;
+		    }
 		}
 		else
 		{
@@ -118,10 +135,6 @@ HeccerDeserialize(FILE *pfile)
 		pheccerResult = NULL;
 	    }
 	}
-	else
-	{
-	    pheccerResult = NULL;
-	}
     }
 
     //- return result
@@ -131,7 +144,6 @@ HeccerDeserialize(FILE *pfile)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -140,12 +152,148 @@ HeccerDeserialize(FILE *pfile)
 ///	success of operation.
 /// 
 /// \brief Deserialize the compartments of this heccer from the given stream.
-/// \details 
 /// 
 
 static
 int
 HeccerDeserializeCompartments
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- deserialize structure
+
+    iResult = iResult && HeccerDeserializeCompartmentStructure(pheccer, pfile);
+
+    //- deserialize state
+
+    iResult = iResult && HeccerDeserializeCompartmentState(pheccer, pfile);
+
+    //- return result
+
+    return(iResult);
+}
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the compartment state of this heccer from the
+/// given stream.
+/// 
+
+int
+HeccerDeserializeCompartmentState
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- read data: axres
+
+    int iAxres;
+
+    if (fread(&iAxres, sizeof(iAxres), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (pheccer->vm.iAxres != iAxres)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double)); */
+
+    if (!pheccer->vm.pdAxres)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.pdAxres, sizeof(pheccer->vm.pdAxres[0]), pheccer->vm.iAxres, pfile) != pheccer->vm.iAxres)
+    {
+	return(0);
+    }
+
+    //- read data: results
+
+    int iResults;
+
+    if (fread(&iResults, sizeof(iResults), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (pheccer->vm.iResults != iResults)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double)); */
+
+    if (!pheccer->vm.pdResults)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.pdResults, sizeof(pheccer->vm.pdResults[0]), pheccer->vm.iResults, pfile) != pheccer->vm.iResults)
+    {
+	return(0);
+    }
+
+    //- read data: Vm
+
+    int iVms;
+
+    if (fread(&iVms, sizeof(iVms), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (pheccer->vm.iVms != iVms)
+    {
+	return(0);
+    }
+
+/*     pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double)); */
+
+    if (!pheccer->vm.pdVms)
+    {
+	return(0);
+    }
+
+    if (fread(pheccer->vm.pdVms, sizeof(pheccer->vm.pdVms[0]), pheccer->vm.iVms, pfile) != pheccer->vm.iVms)
+    {
+	return(0);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the compartment structure of this heccer from
+/// the given stream.
+/// 
+
+int
+HeccerDeserializeCompartmentStructure
 (struct Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
@@ -178,59 +326,209 @@ HeccerDeserializeCompartments
 	return(0);
     }
 
-    //- read data: axres
+    //- return result
 
-    if (fread(&pheccer->vm.iAxres, sizeof(pheccer->vm.iAxres), 1, pfile) != 1)
+    return(iResult);
+}
+
+
+/// 
+/// \arg pfile file pointer.
+/// 
+/// \return struct Heccer *
+/// 
+///	a heccer, NULL for failure.
+/// 
+/// \brief Deserialize a heccer from the given filename.
+/// 
+
+struct Heccer *
+HeccerDeserializeFromFilename(char *pcFilename)
+{
+    //- set default result: failure
+
+    struct Heccer *pheccerResult = NULL;
+
+    //- open file
+
+    FILE *pfile = fopen(pcFilename, "r");
+
+    if (!pfile)
+    {
+	return(NULL);
+    }
+
+    //- deserialize heccer from opened file
+
+    pheccerResult = HeccerDeserialize(pfile);
+
+    //- return result
+
+    return(pheccerResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the main struct of this heccer from the given
+/// stream.
+/// 
+
+static
+int
+HeccerDeserializeMain
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- read main structure
+
+    if (fread(pheccer, sizeof(*pheccer), 1, pfile) != 1)
     {
 	return(0);
     }
 
-    pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double));
+    //- process the substructures to void them
 
-    if (!pheccer->vm.pdAxres)
+    memset(&pheccer->inter, 0, sizeof(pheccer->inter));
+
+    memset(&pheccer->indexers, 0, sizeof(pheccer->indexers));
+
+/*     memset(&pheccer->tgt, 0, sizeof(pheccer->tgt)); */
+
+    memset(&pheccer->tsmt, 0, sizeof(pheccer->tsmt));
+
+/*     memset(&pheccer->vm, 0, sizeof(pheccer->vm)); */
+
+    //- loop over all tables
+
+    struct TabulatedGateTable *ptgt = &pheccer->tgt;
+
+    int i;
+
+    for (i = 0 ; i < ptgt->iTabulatedGateCount ; i++)
+    {
+	//- zero out parameters pointer
+
+	ptgt->phtg[i].pvParameters = NULL;
+
+	//- dump table values
+
+	iResult = iResult && HeccerTableValuesDeserialize(&ptgt->phtg[i], pfile);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pfile file pointer.
+/// 
+/// \return long
+/// 
+///	file position pointer.
+/// 
+/// \brief Determine the file position pointer/offset for the given
+/// stream.
+///
+/// \note The only reason to have this function here is to make its
+/// declaration visible to the debugger.
+/// 
+
+long HeccerFilePos(FILE *pfile);
+
+long HeccerFilePos(FILE *pfile)
+{
+    return ftell(pfile);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the mechanisms of this heccer from the given stream.
+/// 
+
+static
+int
+HeccerDeserializeMechanisms
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- deserialize structure
+
+    iResult = iResult && HeccerDeserializeMechanismStructure(pheccer, pfile);
+
+    //- deserialize state
+
+    iResult = iResult && HeccerDeserializeMechanismState(pheccer, pfile);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Deserialize the mechanism state of this heccer from the
+/// given stream.
+/// 
+
+int
+HeccerDeserializeMechanismState
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    /// mechanism addressables
+
+    int iMats;
+
+    if (fread(&iMats, sizeof(iMats), 1, pfile) != 1)
     {
 	return(0);
     }
 
-    if (fread(pheccer->vm.pdAxres, sizeof(pheccer->vm.pdAxres[0]), pheccer->vm.iAxres, pfile) != pheccer->vm.iAxres)
+    if (pheccer->vm.iMats != iMats)
     {
 	return(0);
     }
 
-    //- read data: results
+/*     pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1); */
 
-    if (fread(&pheccer->vm.iResults, sizeof(pheccer->vm.iResults), 1, pfile) != 1)
+    if (!pheccer->vm.pvMats)
     {
 	return(0);
     }
 
-    pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double));
-
-    if (!pheccer->vm.pdResults)
-    {
-	return(0);
-    }
-
-    if (fread(pheccer->vm.pdResults, sizeof(pheccer->vm.pdResults[0]), pheccer->vm.iResults, pfile) != pheccer->vm.iResults)
-    {
-	return(0);
-    }
-
-    //- read data: Vm
-
-    if (fread(&pheccer->vm.iVms, sizeof(pheccer->vm.iVms), 1, pfile) != 1)
-    {
-	return(0);
-    }
-
-    pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double));
-
-    if (!pheccer->vm.pdVms)
-    {
-	return(0);
-    }
-
-    if (fread(pheccer->vm.pdVms, sizeof(pheccer->vm.pdVms[0]), pheccer->vm.iVms, pfile) != pheccer->vm.iVms)
+    if (fread(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
     {
 	return(0);
     }
@@ -242,7 +540,6 @@ HeccerDeserializeCompartments
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -250,13 +547,12 @@ HeccerDeserializeCompartments
 /// 
 ///	success of operation.
 /// 
-/// \brief Deserialize the mechanisms of this heccer from the given stream.
-/// \details 
+/// \brief Deserialize the mechanism structure of this heccer from the
+/// given stream.
 /// 
 
-static
 int
-HeccerDeserializeMechanisms
+HeccerDeserializeMechanismStructure
 (struct Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
@@ -325,25 +621,6 @@ HeccerDeserializeMechanisms
 	return(0);
     }
 
-    /// mechanism addressables
-
-    if (fread(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
-    {
-	return(0);
-    }
-
-    pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1);
-
-    if (!pheccer->vm.pvMats)
-    {
-	return(0);
-    }
-
-    if (fread(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
-    {
-	return(0);
-    }
-
     /// indexing from mops or mats number towards one of the above
 
     pheccer->vm.ppvCMatsIndex = (void **)calloc(pheccer->vm.iCompartments + 1, sizeof(void *));
@@ -394,7 +671,6 @@ HeccerDeserializeMechanisms
 	return(0);
     }
 
-
     //- return result
 
     return(iResult);
@@ -402,6 +678,93 @@ HeccerDeserializeMechanisms
 
 
 /// 
+/// \arg pfile serialization stream.
+/// 
+/// \return int
+/// 
+///	See fclose().
+/// 
+/// \brief Close a serialization stream.
+/// 
+
+int
+HeccerSerializationClose(FILE *pfile)
+{
+    return(fclose(pfile));
+}
+
+
+/// 
+/// \arg pcFilename filename.
+/// 
+/// \return FILE *
+/// 
+///	serialization stream.
+/// 
+/// \brief Open a serialization stream for reading.
+/// 
+
+FILE *
+HeccerSerializationOpenRead(char *pcFilename)
+{
+    //- set default result: open stream
+
+    FILE *pfileResult = fopen(pcFilename, "r");
+
+    //- read the serialization version ID
+
+    char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1];
+
+    fread
+	(pcSerializationVersion,
+	 sizeof(char),
+	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
+	 pfileResult);
+
+    if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION))
+    {
+	fclose(pfileResult);
+
+	return(NULL);
+    }
+
+    //- return result
+
+    return(pfileResult);
+}
+
+
+/// 
+/// \arg pcFilename filename.
+/// 
+/// \return FILE *
+/// 
+///	serialization stream.
+/// 
+/// \brief Open a serialization stream for writing.
+/// 
+
+FILE *
+HeccerSerializationOpenWrite(char *pcFilename)
+{
+    //- set default result: open stream
+
+    FILE *pfileResult = fopen(pcFilename, "w");
+
+    //- write the serialization version ID
+
+    fwrite
+	(HECCER_SERIALIZATION_VERSION,
+	 sizeof(char),
+	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
+	 pfileResult);
+
+    //- return result
+
+    return(pfileResult);
+}
+
+
 /// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
@@ -411,7 +774,6 @@ HeccerDeserializeMechanisms
 ///	success of operation.
 /// 
 /// \brief Serialize this heccer to the given stream.
-/// \details 
 /// 
 
 int
@@ -422,19 +784,25 @@ HeccerSerialize
 
     int iResult = 1;
 
-    //- write the serialization version ID
+/*     //- write the serialization version ID */
 
-    fwrite
-	(HECCER_SERIALIZATION_VERSION,
-	 sizeof(char),
-	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
-	 pfile);
+/*     fwrite */
+/* 	(HECCER_SERIALIZATION_VERSION, */
+/* 	 sizeof(char), */
+/* 	 strlen(HECCER_SERIALIZATION_VERSION) + 1, */
+/* 	 pfile); */
 
-    /// \todo serialize main structure
+    //- serialize main structure
+
+    iResult = iResult && HeccerSerializeMain(pheccer, pfile);
 
     //- serialize compartments
 
     iResult = iResult && HeccerSerializeCompartments(pheccer, pfile);
+
+    //- unlink mechanisms
+
+    iResult = iResult && HeccerMechanismPointer2Index(pheccer);
 
     //- serialize mechanisms
 
@@ -447,7 +815,6 @@ HeccerSerialize
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
 /// 
@@ -456,7 +823,6 @@ HeccerSerialize
 ///	success of operation.
 /// 
 /// \brief Serialize the compartments of this heccer to the given stream.
-/// \details 
 /// 
 
 static
@@ -468,24 +834,39 @@ HeccerSerializeCompartments
 
     int iResult = 1;
 
-    //- write number of compartments
+    //- serialize structure
 
-    if (fwrite(&pheccer->vm.iCompartments, sizeof(pheccer->vm.iCompartments), 1, pfile) != 1)
-    {
-	return(0);
-    }
+    iResult = iResult && HeccerSerializeCompartmentStructure(pheccer, pfile);
 
-    //- write compartment operations
+    //- serialize state
 
-    if (fwrite(&pheccer->vm.iCops, sizeof(pheccer->vm.iCops), 1, pfile) != 1)
-    {
-	return(0);
-    }
+    iResult = iResult && HeccerSerializeCompartmentState(pheccer, pfile);
 
-    if (fwrite(pheccer->vm.piCops, sizeof(pheccer->vm.piCops[0]), pheccer->vm.iCops, pfile) != pheccer->vm.iCops)
-    {
-	return(0);
-    }
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the compartment state of this heccer to the given
+/// stream.
+/// 
+
+int
+HeccerSerializeCompartmentState
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
 
     //- write data: axres
 
@@ -530,6 +911,50 @@ HeccerSerializeCompartments
 
 
 /// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the compartment structure of this heccer to the
+/// given stream.
+/// 
+
+int
+HeccerSerializeCompartmentStructure
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- write number of compartments
+
+    if (fwrite(&pheccer->vm.iCompartments, sizeof(pheccer->vm.iCompartments), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    //- write compartment operations
+
+    if (fwrite(&pheccer->vm.iCops, sizeof(pheccer->vm.iCops), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (fwrite(pheccer->vm.piCops, sizeof(pheccer->vm.piCops[0]), pheccer->vm.iCops, pfile) != pheccer->vm.iCops)
+    {
+	return(0);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
 /// 
 /// \arg pheccer a heccer.
 /// \arg pfile file pointer.
@@ -538,8 +963,59 @@ HeccerSerializeCompartments
 /// 
 ///	success of operation.
 /// 
-/// \brief Serialize the mechanisms of this heccer from the given stream.
-/// \details 
+/// \brief Serialize the main struct of this heccer to the given
+/// stream.
+/// 
+
+static
+int
+HeccerSerializeMain
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- write data: Vm
+
+    if (fwrite(pheccer, sizeof(*pheccer), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    //- loop over all tables
+
+    struct TabulatedGateTable *ptgt = &pheccer->tgt;
+
+    int i;
+
+    for (i = 0 ; i < ptgt->iTabulatedGateCount ; i++)
+    {
+	//- zero out parameters pointer
+
+	ptgt->phtg[i].pvParameters = NULL;
+
+	//- dump table values
+
+	iResult = iResult && HeccerTableValuesSerialize(&ptgt->phtg[i], pfile);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the mechanisms of this heccer from the given
+/// stream.
 /// 
 
 static
@@ -551,7 +1027,79 @@ HeccerSerializeMechanisms
 
     int iResult = 1;
 
-    //- read number of math components
+    //- serialize structure
+
+    iResult = iResult && HeccerSerializeMechanismStructure(pheccer, pfile);
+
+    //- serialize state
+
+    iResult = iResult && HeccerSerializeMechanismState(pheccer, pfile);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the mechanism state of this heccer from the given
+/// stream.
+/// 
+
+int
+HeccerSerializeMechanismState
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    /// mechanism addressables
+
+    if (fwrite(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
+    {
+	return(0);
+    }
+
+    if (fwrite(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
+    {
+	return(0);
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the mechanism structure of this heccer from the
+/// given stream.
+/// 
+
+int
+HeccerSerializeMechanismStructure
+(struct Heccer *pheccer, FILE *pfile)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+    //- write number of math components
 
     if (fwrite(&pheccer->vm.iMathComponents, sizeof(pheccer->vm.iMathComponents), 1, pfile) != 1)
     {
@@ -592,18 +1140,6 @@ HeccerSerializeMechanisms
 	return(0);
     }
 
-    /// mechanism addressables
-
-    if (fwrite(&pheccer->vm.iMats, sizeof(pheccer->vm.iMats), 1, pfile) != 1)
-    {
-	return(0);
-    }
-
-    if (fwrite(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
-    {
-	return(0);
-    }
-
     /// indexing from mops or mats number towards one of the above
 
     if (fwrite(pheccer->vm.ppvCMatsIndex, sizeof(pheccer->vm.ppvCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
@@ -633,6 +1169,44 @@ HeccerSerializeMechanisms
 	return(0);
     }
 
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pfile file pointer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Serialize the mechanisms of this heccer from the given
+/// stream.
+/// 
+
+int
+HeccerSerializeToFilename
+(struct Heccer *pheccer, char *pcFilename)
+{
+    //- set default result: failure
+
+    int iResult = 0;
+
+    //- open file
+
+    FILE *pfile = fopen(pcFilename, "w");
+
+    if (!pfile)
+    {
+	return(0);
+    }
+
+    //- serialize heccer to file
+
+    iResult = HeccerSerialize(pheccer, pfile);
 
     //- return result
 

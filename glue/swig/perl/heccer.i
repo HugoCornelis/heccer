@@ -57,6 +57,7 @@
 #include "heccer/mechanism.h"
 #include "heccer/output.h"
 #include "heccer/perfectclamp.h"
+#include "heccer/serialization.h"
 #include "heccer/table.h"
 
 //t so this should depend on the configuration
@@ -214,6 +215,7 @@ void * perfect_clamp_get_driver_method(struct PerfectClamp *ppc)
 %include "heccer/mechanism.h"
 %include "heccer/output.h"
 %include "heccer/perfectclamp.h"
+%include "heccer/serialization.h"
 %include "heccer/table.h"
 
 //t so this should depend on the configuration

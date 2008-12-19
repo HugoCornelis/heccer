@@ -30,14 +30,13 @@
 /// 
 /// \arg pog output generator.
 /// \arg pcName name of the variable.
-///	pvVariable..: pointer to the variable, assumed is double *
+/// \arg pvVariable pointer to the variable, assumed is double *
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief Schedule a variable for output.
-/// \details 
 /// 
 
 int
@@ -74,7 +73,6 @@ OutputGeneratorAddVariable
 ///	success of operation.
 /// 
 /// \brief Output all variable values, with the given annotation.
-/// \details 
 /// 
 
 int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
@@ -175,7 +173,7 @@ int OutputGeneratorFlush(struct OutputGenerator * pog)
 
     if (pog->pfileOutput)
     {
-	//- close file
+	//- flush file buffers to disk
 
 	if (fflush(pog->pfileOutput) == EOF)
 	{
@@ -237,7 +235,6 @@ int OutputGeneratorInitiate(struct OutputGenerator * pog)
 ///	Output generator, NULL for failure.
 /// 
 /// \brief Output generator.
-/// \details 
 /// 
 
 struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
@@ -289,10 +286,9 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 ///	success of operation.
 /// 
 /// \brief Output all variable values, at the given time.
-/// \details 
-/// 
-///	This gets remapped to OutputGeneratorAnnotatedStep(), with the
-///	time as annotation.
+///
+/// \details This gets remapped to OutputGeneratorAnnotatedStep(),
+/// with the time as annotation.
 /// 
 
 int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime)
