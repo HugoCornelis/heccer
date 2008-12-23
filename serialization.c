@@ -186,6 +186,10 @@ HeccerDeserializeCompartments
 /// 
 /// \brief Deserialize the compartment state of this heccer from the
 /// given stream.
+///
+/// \details If state arrays were already allocated, their contents
+/// will be overriden.  In that case an additional check for same
+/// sizes is done.
 /// 
 
 int
@@ -205,7 +209,8 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
-    if (pheccer->vm.iAxres != iAxres)
+    if (pheccer->vm.pdAxres
+	&& pheccer->vm.iAxres != iAxres)
     {
 	return(0);
     }
@@ -219,6 +224,8 @@ HeccerDeserializeCompartmentState
     {
 	return(0);
     }
+
+    pheccer->vm.iAxres = iAxres;
 
     if (fread(pheccer->vm.pdAxres, sizeof(pheccer->vm.pdAxres[0]), pheccer->vm.iAxres, pfile) != pheccer->vm.iAxres)
     {
@@ -234,7 +241,8 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
-    if (pheccer->vm.iResults != iResults)
+    if (pheccer->vm.pdResults
+	&& pheccer->vm.iResults != iResults)
     {
 	return(0);
     }
@@ -248,6 +256,8 @@ HeccerDeserializeCompartmentState
     {
 	return(0);
     }
+
+    pheccer->vm.iResults = iResults;
 
     if (fread(pheccer->vm.pdResults, sizeof(pheccer->vm.pdResults[0]), pheccer->vm.iResults, pfile) != pheccer->vm.iResults)
     {
@@ -263,7 +273,8 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
-    if (pheccer->vm.iVms != iVms)
+    if (pheccer->vm.pdVms
+	&& pheccer->vm.iVms != iVms)
     {
 	return(0);
     }
@@ -277,6 +288,8 @@ HeccerDeserializeCompartmentState
     {
 	return(0);
     }
+
+    pheccer->vm.iVms = iVms;
 
     if (fread(pheccer->vm.pdVms, sizeof(pheccer->vm.pdVms[0]), pheccer->vm.iVms, pfile) != pheccer->vm.iVms)
     {
@@ -415,7 +428,7 @@ HeccerDeserializeMain
 
     memset(&pheccer->tsmt, 0, sizeof(pheccer->tsmt));
 
-/*     memset(&pheccer->vm, 0, sizeof(pheccer->vm)); */
+    memset(&pheccer->vm, 0, sizeof(pheccer->vm));
 
     //- loop over all tables
 
@@ -525,7 +538,8 @@ HeccerDeserializeMechanismState
 	return(0);
     }
 
-    if (pheccer->vm.iMats != iMats)
+    if (pheccer->vm.pvMats
+	&& pheccer->vm.iMats != iMats)
     {
 	return(0);
     }
@@ -539,6 +553,8 @@ HeccerDeserializeMechanismState
     {
 	return(0);
     }
+
+    pheccer->vm.iMats = iMats;
 
     if (fread(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
     {
