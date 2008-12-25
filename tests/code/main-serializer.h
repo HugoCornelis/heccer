@@ -19,3 +19,6 @@
 #include "main.h"
 
 
+int serializer_tests(struct Heccer *pheccer1, struct Heccer *pheccer2);
+
+
