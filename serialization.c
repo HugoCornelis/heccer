@@ -215,6 +215,8 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
+    pheccer->vm.iAxres = iAxres;
+
     if (!pheccer->vm.pdAxres)
     {
 	pheccer->vm.pdAxres = (double *)calloc(pheccer->vm.iAxres, sizeof(double));
@@ -224,8 +226,6 @@ HeccerDeserializeCompartmentState
     {
 	return(0);
     }
-
-    pheccer->vm.iAxres = iAxres;
 
     if (fread(pheccer->vm.pdAxres, sizeof(pheccer->vm.pdAxres[0]), pheccer->vm.iAxres, pfile) != pheccer->vm.iAxres)
     {
@@ -247,6 +247,8 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
+    pheccer->vm.iResults = iResults;
+
     if (!pheccer->vm.pdResults)
     {
 	pheccer->vm.pdResults = (double *)calloc(pheccer->vm.iResults, sizeof(double));
@@ -256,8 +258,6 @@ HeccerDeserializeCompartmentState
     {
 	return(0);
     }
-
-    pheccer->vm.iResults = iResults;
 
     if (fread(pheccer->vm.pdResults, sizeof(pheccer->vm.pdResults[0]), pheccer->vm.iResults, pfile) != pheccer->vm.iResults)
     {
@@ -279,6 +279,8 @@ HeccerDeserializeCompartmentState
 	return(0);
     }
 
+    pheccer->vm.iVms = iVms;
+
     if (!pheccer->vm.pdVms)
     {
 	pheccer->vm.pdVms = (double *)calloc(pheccer->vm.iVms, sizeof(double));
@@ -288,8 +290,6 @@ HeccerDeserializeCompartmentState
     {
 	return(0);
     }
-
-    pheccer->vm.iVms = iVms;
 
     if (fread(pheccer->vm.pdVms, sizeof(pheccer->vm.pdVms[0]), pheccer->vm.iVms, pfile) != pheccer->vm.iVms)
     {

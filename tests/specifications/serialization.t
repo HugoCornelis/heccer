@@ -24,6 +24,7 @@ my $test
 						  },
 						 ],
 				description => "single compartment passive model serialization",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -37,6 +38,7 @@ my $test
 						  },
 						 ],
 				description => "double compartment passive model serialization",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -51,6 +53,7 @@ my $test
 						  },
 						 ],
 				description => "triplet passive compartment serialization.",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -65,6 +68,7 @@ my $test
 						  },
 						 ],
 				description => "fork3p fork of three passive compartments.",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -79,6 +83,7 @@ my $test
 						  },
 						 ],
 				description => "fork4p1 fork of four passive compartments, first alternative.",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -93,6 +98,7 @@ my $test
 						  },
 						 ],
 				description => "fork4p2 fork of four passive compartments, second alternative.",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -107,6 +113,7 @@ my $test
 						  },
 						 ],
 				description => "fork4p3 fork of four passive compartments, third alternative.",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -121,6 +128,7 @@ my $test
 						  },
 						 ],
 				description => "c1c2p1 two passive compartments with injected current",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -135,6 +143,7 @@ my $test
 						  },
 						 ],
 				description => "c1c2p2 two passive compartments with asymetric properties and injected current",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -149,6 +158,7 @@ my $test
 						  },
 						 ],
 				description => "tensizesp ten passive compartments with different properties and injected current",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -163,6 +173,7 @@ my $test
 						  },
 						 ],
 				description => "a single compartment with a naf conductance",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -177,6 +188,7 @@ my $test
 						  },
 						 ],
 				description => "two compartments with two pools",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -191,6 +203,7 @@ my $test
 						  },
 						 ],
 				description => "compartment with a pool with a feedback loop, reversed order",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			       {
 				arguments => [
@@ -205,6 +218,7 @@ my $test
 						  },
 						 ],
 				description => "compartment with a pool with a feedback loop, reversed order",
+# 				disabled => 'temporary disabled for testing purposes',
 			       },
 			      ],
        description => "serialization",
