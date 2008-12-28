@@ -79,7 +79,7 @@ int serializer_tests(struct Heccer *pheccer1, struct Heccer *pheccer2)
     VM_TEST_EQUAL(iMops);
     VM_TEST_UNEQUAL_POINTERS(pvMops);
 
-    VM_TEST_UNEQUAL_POINTERS(ppvCMatsIndex);
+    VM_TEST_UNEQUAL_POINTERS(ppdCMatsIndex);
 
     VM_TEST_EQUAL(iMopNumber);
     VM_TEST_UNEQUAL_POINTERS(ppvMopsIndex);

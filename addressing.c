@@ -205,7 +205,7 @@ HeccerAddressCompartmentVariable
 	//- get entry in mat array
 
 	struct MatsCompartment *pmatsc
-	    = (struct MatsCompartment *)pheccer->vm.ppvCMatsIndex[iSchedule];
+	    = (struct MatsCompartment *)pheccer->vm.ppdCMatsIndex[iSchedule];
 
 	//- set result
 

@@ -194,7 +194,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
     void *pvMops = NULL;
     double *pdMats = NULL;
-    void **ppvCMatsIndex = NULL;
+    double **ppdCMatsIndex = NULL;
     void **ppvMopsIndex = NULL;
     void **ppvMatsIndex = NULL;
     int *piMC2Mop = NULL;
@@ -271,7 +271,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    /// \todo and SETMAT_COMPARTMENT_FINISH
 	    /// \todo between those two, we compile in the mechanisms.
 
-	    SETMAT_COMPARTMENT(ppvCMatsIndex, iSchedule, ppvMatsIndex, iMatNumber, pdMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
+	    SETMAT_COMPARTMENT(ppdCMatsIndex, iSchedule, ppvMatsIndex, iMatNumber, pdMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
 	    //- lookup the start of the mechanisms for this compartment
 
@@ -1537,9 +1537,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    pheccer->vm.iMopNumber = iMopNumber;
 
-	    pheccer->vm.ppvCMatsIndex = (void **)calloc(pheccer->inter.iCompartments + 1, sizeof(void *));
+	    pheccer->vm.ppdCMatsIndex = (double **)calloc(pheccer->inter.iCompartments + 1, sizeof(double *));
 
-	    ppvCMatsIndex = pheccer->vm.ppvCMatsIndex;
+	    ppdCMatsIndex = pheccer->vm.ppdCMatsIndex;
 
 	    pheccer->vm.ppvMopsIndex = (void **)calloc(iMopNumber + 1, sizeof(void *));
 

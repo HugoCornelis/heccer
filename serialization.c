@@ -651,14 +651,14 @@ HeccerDeserializeMechanismStructure
 
     /// indexing from mops or mats number towards one of the above
 
-    pheccer->vm.ppvCMatsIndex = (void **)calloc(pheccer->vm.iCompartments + 1, sizeof(void *));
+    pheccer->vm.ppdCMatsIndex = (double **)calloc(pheccer->vm.iCompartments + 1, sizeof(double *));
 
-    if (!pheccer->vm.ppvCMatsIndex)
+    if (!pheccer->vm.ppdCMatsIndex)
     {
 	return(0);
     }
 
-    if (fread(pheccer->vm.ppvCMatsIndex, sizeof(pheccer->vm.ppvCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
+    if (fread(pheccer->vm.ppdCMatsIndex, sizeof(pheccer->vm.ppdCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
     {
 	return(0);
     }
@@ -1170,7 +1170,7 @@ HeccerSerializeMechanismStructure
 
     /// indexing from mops or mats number towards one of the above
 
-    if (fwrite(pheccer->vm.ppvCMatsIndex, sizeof(pheccer->vm.ppvCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
+    if (fwrite(pheccer->vm.ppdCMatsIndex, sizeof(pheccer->vm.ppdCMatsIndex[0]), pheccer->vm.iCompartments + 1, pfile) != pheccer->vm.iCompartments + 1)
     {
 	return(0);
     }
