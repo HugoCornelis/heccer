@@ -193,7 +193,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
     int iCountIndexCompile;
 
     void *pvMops = NULL;
-    void *pvMats = NULL;
+    double *pdMats = NULL;
     void **ppvCMatsIndex = NULL;
     void **ppvMopsIndex = NULL;
     void **ppvMatsIndex = NULL;
@@ -271,7 +271,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    /// \todo and SETMAT_COMPARTMENT_FINISH
 	    /// \todo between those two, we compile in the mechanisms.
 
-	    SETMAT_COMPARTMENT(ppvCMatsIndex, iSchedule, ppvMatsIndex, iMatNumber, pvMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
+	    SETMAT_COMPARTMENT(ppvCMatsIndex, iSchedule, ppvMatsIndex, iMatNumber, pdMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
 	    //- lookup the start of the mechanisms for this compartment
 
@@ -316,7 +316,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_CALLOUT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMAT_CALLOUT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcall);
+		    SETMAT_CALLOUT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcall);
 
 		    break;
 		}
@@ -481,7 +481,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    double dNextEvent = -1.0;
 
-		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent);
+		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -501,7 +501,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -513,7 +513,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -577,7 +577,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_INTERNALNERNST(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pin->dConstant, pin->dExternal, iMatsActivator);
 
-		    SETMAT_INTERNALNERNST(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pin->dInitPotential);
+		    SETMAT_INTERNALNERNST(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pin->dInitPotential);
 
 		    break;
 		}
@@ -642,7 +642,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pca->pgc.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pca->pgc.gc.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -662,7 +662,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -674,7 +674,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -764,7 +764,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcActivation.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcai->pgcActivation.gc.dInitActivation);
 
 		    //- tabulate inactivation, Genesis Y
 		    //- create A table, alpha, create B table, alpha + beta
@@ -776,7 +776,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcai->pgcInactivation.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcai->pgcInactivation.gc.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -796,7 +796,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -808,7 +808,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -898,7 +898,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pgc.gc.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcac->pgc.gc.dInitActivation);
 
 		    //- tabulate concentration dependence, Genesis Z
 		    //- create A table, alpha, create B table, alpha + beta
@@ -928,7 +928,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcac->pac.ca.dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcac->pac.ca.dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -948,7 +948,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -960,7 +960,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -1037,7 +1037,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), piExternal);
 
-		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pexdec->dInitValue);
+		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pexdec->dInitValue);
 
 		    break;
 		}
@@ -1099,11 +1099,11 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dFirstInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcsst->dFirstInitActivation);
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iSecondTable, pcsst->iSecondPower, -1);
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcsst->dSecondInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcsst->dSecondInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1123,7 +1123,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -1135,7 +1135,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -1222,7 +1222,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcpsdt->dFirstInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcpsdt->dFirstInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1232,7 +1232,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iSecondTable, pcpsdt->iSecondPower, -1);
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcpsdt->dSecondInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcpsdt->dSecondInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1252,7 +1252,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -1264,7 +1264,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -1351,7 +1351,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, pcpst->dInitActivation);
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, pcpst->dInitActivation);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1371,7 +1371,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0);
 
 		    }
 
@@ -1383,7 +1383,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
 
 		    }
 
@@ -1481,7 +1481,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    double dSpike = 0.0;
 
-		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pvMats, iMats, dRefractoryTime, dSpike);
+		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppvMatsIndex, iMatNumber, pdMats, iMats, dRefractoryTime, dSpike);
 
 		    //- if there is a reset value set
 
@@ -1577,9 +1577,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    pheccer->vm.iMops = iMops;
 
-	    pheccer->vm.pvMats = (void *)calloc(iMats, 1);
+	    pheccer->vm.pdMats = (double *)calloc(iMats, 1);
 
-	    pvMats = pheccer->vm.pvMats;
+	    pdMats = pheccer->vm.pdMats;
 
 	    pheccer->vm.iMats = iMats;
 	}
@@ -1613,7 +1613,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
     int *piMop = (int *)pheccer->vm.pvMops;
 
-    void *pvMats = pheccer->vm.pvMats;
+    double *pdMats = pheccer->vm.pdMats;
 
     //- loop over mechanism operators
 
@@ -1626,9 +1626,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 	//- get compartment mechanism data
 
 	struct MatsCompartment *pmatsc
-	    = (struct MatsCompartment *)pvMats;
+	    = (struct MatsCompartment *)pdMats;
 
-	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+	pdMats = (double *)&((struct MatsCompartment *)pdMats)[1];
 
 	//- loop over mechanism operators
 
@@ -1661,9 +1661,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+		struct MatsCallout * pcall = (struct MatsCallout *)pdMats;
 
-		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		pdMats = (double *)&((struct MatsCallout *)pdMats)[1];
 
 		break;
 	    }
@@ -1680,9 +1680,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats;
 
-		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+		pdMats = (double *)&((struct MatsSpringMass *)pdMats)[1];
 
 		/// \todo iDiscreteSource must be linked here ?
 
@@ -1701,9 +1701,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pdMats;
 
-		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+		pdMats = (double *)&((struct MatsInternalNernst *)pdMats)[1];
 
 		//- get index of internal concentration
 
@@ -1713,7 +1713,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 		{
 		    //- get solved dependency
 
-		    double *pdConcentration = &((double *)pheccer->vm.pvMats)[iInternal];
+		    double *pdConcentration = &pheccer->vm.pdMats[iInternal];
 
 		    //- store solved internal concentration
 
@@ -1758,7 +1758,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 		{
 		    //- get solved dependency
 
-		    double *pdNernst = &((double *)pheccer->vm.pvMats)[iReversalPotential];
+		    double *pdNernst = &pheccer->vm.pdMats[iReversalPotential];
 
 		    //- store solved nernst potential
 
@@ -1782,11 +1782,11 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- store the current conductance
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
 
 		//- go to next type specific data
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -1816,9 +1816,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get possibly solved dependence
 
@@ -1828,7 +1828,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 		{
 		    //- get solved dependency
 
-		    double *pdMatsActivator = &((double *)pheccer->vm.pvMats)[iMatsActivator];
+		    double *pdMatsActivator = &pheccer->vm.pdMats[iMatsActivator];
 
 		    //- store solved dependency
 
@@ -1878,9 +1878,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -1897,9 +1897,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get possibly solved external flux contributions
 
@@ -1913,7 +1913,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 		    {
 			//- get solved dependency
 
-			double *pdFlux = &((double *)pheccer->vm.pvMats)[iExternal];
+			double *pdFlux = &pheccer->vm.pdMats[iExternal];
 
 			//- store solved external flux contribution
 
@@ -1940,9 +1940,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -1959,9 +1959,9 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get source for comparison
 
@@ -1988,7 +1988,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 		    {
 			//- get solved dependency
 
-			double *pdSource = &((double *)pheccer->vm.pvMats)[iSource];
+			double *pdSource = &pheccer->vm.pdMats[iSource];
 
 			//- store solved external flux contribution
 
@@ -2078,7 +2078,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
     int *piMop = (int *)pheccer->vm.pvMops;
 
-    void *pvMats = pheccer->vm.pvMats;
+    void *pdMats = pheccer->vm.pdMats;
 
     //- loop over mechanism operators
 
@@ -2091,9 +2091,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	//- get compartment mechanism data
 
 	struct MatsCompartment *pmatsc
-	    = (struct MatsCompartment *)pvMats;
+	    = (struct MatsCompartment *)pdMats;
 
-	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+	pdMats = (double *)&((struct MatsCompartment *)pdMats)[1];
 
 	//- loop over mechanism operators
 
@@ -2126,9 +2126,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+		struct MatsCallout * pcall = (struct MatsCallout *)pdMats;
 
-		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		pdMats = (double *)&((struct MatsCallout *)pdMats)[1];
 
 		break;
 	    }
@@ -2145,9 +2145,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats;
 
-		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+		pdMats = (double *)&((struct MatsSpringMass *)pdMats)[1];
 
 		/// \todo iDiscreteSource must be linked here ?
 
@@ -2166,9 +2166,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pdMats;
 
-		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+		pdMats = (double *)&((struct MatsInternalNernst *)pdMats)[1];
 
 		//- get index of internal concentration
 
@@ -2247,11 +2247,11 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- store the current conductance
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
 
 		//- go to next type specific data
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -2281,9 +2281,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get possibly solved dependence
 
@@ -2343,9 +2343,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -2362,9 +2362,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get possibly solved external flux contributions
 
@@ -2416,9 +2416,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -2435,9 +2435,9 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get source for comparison
 
@@ -2554,7 +2554,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
     int *piMop = (int *)pheccer->vm.pvMops;
 
-    void *pvMats = pheccer->vm.pvMats;
+    double *pdMats = pheccer->vm.pdMats;
 
     //- loop over mechanism operators
 
@@ -2567,9 +2567,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 	//- get compartment mechanism data
 
 	struct MatsCompartment *pmatsc
-	    = (struct MatsCompartment *)pvMats;
+	    = (struct MatsCompartment *)pdMats;
 
-	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+	pdMats = (double *)&((struct MatsCompartment *)pdMats)[1];
 
 	//- loop over mechanism operators
 
@@ -2602,9 +2602,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+		struct MatsCallout * pcall = (struct MatsCallout *)pdMats;
 
-		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		pdMats = (double *)&((struct MatsCallout *)pdMats)[1];
 
 		break;
 	    }
@@ -2621,9 +2621,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats;
 
-		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+		pdMats = (double *)&((struct MatsSpringMass *)pdMats)[1];
 
 		/// \todo pmops->pdEvents is pointer to event list,
 		/// must be serialized.
@@ -2643,9 +2643,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pdMats;
 
-		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+		pdMats = (double *)&((struct MatsInternalNernst *)pdMats)[1];
 
 		//- get index of internal concentration
 
@@ -2655,7 +2655,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 		{
 		    //- get solved dependency
 
-		    int iConcentration = pdInternal - (double *)pheccer->vm.pvMats;
+		    int iConcentration = pdInternal - pheccer->vm.pdMats;
 
 		    //- store solved internal concentration
 
@@ -2700,7 +2700,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 		{
 		    //- get solved dependency
 
-		    int iNernst = pdReversalPotential - (double *)pheccer->vm.pvMats;
+		    int iNernst = pdReversalPotential - pheccer->vm.pdMats;
 
 		    //- store solved nernst potential
 
@@ -2724,11 +2724,11 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- store the current conductance
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
 
 		//- go to next type specific data
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -2758,9 +2758,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get possibly solved dependence
 
@@ -2770,7 +2770,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 		{
 		    //- get solved dependency
 
-		    int iMatsActivator = pdMatsActivator - (double *)pheccer->vm.pvMats;
+		    int iMatsActivator = pdMatsActivator - pheccer->vm.pdMats;
 
 		    //- store solved dependency
 
@@ -2820,9 +2820,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -2839,9 +2839,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get possibly solved external flux contributions
 
@@ -2866,7 +2866,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 			//- get solved dependency
 
-			int iFlux = pdExternal - (double *)pheccer->vm.pvMats;
+			int iFlux = pdExternal - pheccer->vm.pdMats;
 
 			//- store solved external flux contribution
 
@@ -2893,9 +2893,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -2912,9 +2912,9 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get source for comparison
 
@@ -2941,7 +2941,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 		    {
 			//- get solved dependency
 
-			int iSource = pdSource - (double *)pheccer->vm.pvMats;
+			int iSource = pdSource - pheccer->vm.pdMats;
 
 			//- store solved external flux contribution
 
@@ -3177,7 +3177,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
     double *pdVm = &pheccer->vm.pdVms[0];
 
-    void *pvMats = pheccer->vm.pvMats;
+    double *pdMats = pheccer->vm.pdMats;
 
     double *pdResults = &pheccer->vm.pdResults[0];
 
@@ -3192,9 +3192,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	//- get compartment mechanism data
 
 	struct MatsCompartment *pmatsc
-	    = (struct MatsCompartment *)pvMats;
+	    = (struct MatsCompartment *)pdMats;
 
-	pvMats = (void *)&((struct MatsCompartment *)pvMats)[1];
+	pdMats = (double *)&((struct MatsCompartment *)pdMats)[1];
 
 	//- get membrane potential
 
@@ -3251,9 +3251,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsCallout * pcall = (struct MatsCallout *)pvMats;
+		struct MatsCallout * pcall = (struct MatsCallout *)pdMats;
 
-		pvMats = (void *)&((struct MatsCallout *)pvMats)[1];
+		pdMats = (double *)&((struct MatsCallout *)pdMats)[1];
 
 		//- get function pointer
 
@@ -3296,9 +3296,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats;
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats;
 
-		pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1];
+		pdMats = (double *)&((struct MatsSpringMass *)pdMats)[1];
 
 		//- get pointer to table
 
@@ -3412,9 +3412,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pvMats;
+		struct MatsInternalNernst * pnernst = (struct MatsInternalNernst *)pdMats;
 
-		pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1];
+		pdMats = (double *)&((struct MatsInternalNernst *)pdMats)[1];
 
 		//- fetch variables
 
@@ -3490,13 +3490,13 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- store the current conductance
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pvMats;
+		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
 
 		pmats->dChannelConductance = dChannelConductance;
 
 		//- go to next type specific data
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		break;
 	    }
@@ -3530,9 +3530,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pvMats;
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- get type specific constants and variables
 
@@ -3704,9 +3704,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pvMats;
+		struct MatsStoreSingleChannelCurrent * pmats = (struct MatsStoreSingleChannelCurrent *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- store the current, use appropriate indexing
 
@@ -3728,9 +3728,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pvMats;
+		struct MatsExponentialDecay * pmats = (struct MatsExponentialDecay *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		double dBeta = pmops->dBeta;
 
@@ -3795,9 +3795,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pvMats;
+		struct MatsFluxPool * pmats = (struct MatsFluxPool *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- register contribution
 
@@ -3818,9 +3818,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- go to next type specific data
 
-		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pvMats;
+		struct MatsEventGenerate * pmats = (struct MatsEventGenerate *)pdMats;
 
-		pvMats = (void *)&pmats[1];
+		pdMats = (double *)&pmats[1];
 
 		//- if spiking
 

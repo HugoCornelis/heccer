@@ -138,7 +138,7 @@ int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
 
     /// \note somehow this needs to use the addressing module or so, preferably during compilation
 
-    struct MatsSpringMass *pmats = (struct MatsSpringMass *)&((double *)pheccer->vm.pvMats)[iTarget];
+    struct MatsSpringMass *pmats = (struct MatsSpringMass *)&pheccer->vm.pdMats[iTarget];
 
     //- if there is no next event
 

@@ -286,9 +286,9 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
     {
 	int iMats = pvm->iMats;
 
-	void *pvMats = pvm->pvMats;
+	void *pdMats = pvm->pdMats;
 
-/* 	HeccerVMDumpData("Mechanism data", pvm, pvMats, NULL, 0, iMats, pfile); */
+/* 	HeccerVMDumpData("Mechanism data", pvm, pdMats, NULL, 0, iMats, pfile); */
     }
 
     //- dump mechanism operations
@@ -299,7 +299,7 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 	int *piMops = (int *)pvm->pvMops;
 
-	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], pvm->pvMats, &hctMops, 0, iMops, pfile);
+	HeccerVMDumpOperators("Mechanism operations", pvm, &piMops[0], pvm->pdMats, &hctMops, 0, iMops, pfile);
     }
 
 /*     //- dump channel to pool fluxes */

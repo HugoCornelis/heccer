@@ -90,7 +90,7 @@ int serializer_tests(struct Heccer *pheccer1, struct Heccer *pheccer2)
     //- test mechanism state
 
     VM_TEST_EQUAL(iMats);
-    VM_TEST_UNEQUAL_POINTERS(pvMats);
+    VM_TEST_UNEQUAL_POINTERS(pdMats);
 
     return(iResult);
 }

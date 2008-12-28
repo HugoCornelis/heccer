@@ -119,7 +119,7 @@ struct VM
 
     int iMats;
 
-    void *pvMats;
+    double *pdMats;
 
     /// indexing from mops or mats number towards one of the above
 

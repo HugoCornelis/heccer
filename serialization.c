@@ -538,25 +538,25 @@ HeccerDeserializeMechanismState
 	return(0);
     }
 
-    if (pheccer->vm.pvMats
+    if (pheccer->vm.pdMats
 	&& pheccer->vm.iMats != iMats)
     {
 	return(0);
     }
 
-    if (!pheccer->vm.pvMats)
+    if (!pheccer->vm.pdMats)
     {
-	pheccer->vm.pvMats = (int *)calloc(pheccer->vm.iMats, 1);
+	pheccer->vm.pdMats = (double *)calloc(pheccer->vm.iMats, 1);
     }
 
-    if (!pheccer->vm.pvMats)
+    if (!pheccer->vm.pdMats)
     {
 	return(0);
     }
 
     pheccer->vm.iMats = iMats;
 
-    if (fread(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
+    if (fread(pheccer->vm.pdMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
     {
 	return(0);
     }
@@ -1096,7 +1096,7 @@ HeccerSerializeMechanismState
 	return(0);
     }
 
-    if (fwrite(pheccer->vm.pvMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
+    if (fwrite(pheccer->vm.pdMats, 1, pheccer->vm.iMats, pfile) != pheccer->vm.iMats)
     {
 	return(0);
     }
