@@ -93,20 +93,20 @@ HeccerAddressableSet
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
 /// 
-/// \return void *
+/// \return double *
 /// 
 ///	address of the aggregator, NULL for failure.
 /// 
 /// \brief Get the address of an aggregator.
 /// 
 
-void *
+double *
 HeccerAddressAggregator
 (struct Heccer *pheccer, int iSerial, char *pcType)
 {
     //- set default result: not found
 
-    char *pvResult = NULL;
+    double *pdResult = NULL;
 
     //- process as an aggregator variable
 
@@ -124,7 +124,7 @@ HeccerAddressAggregator
 	    {
 		//- set result
 
-		pvResult = (void *)&pheccer->vm.pdAggregators[iIndex];
+		pdResult = &pheccer->vm.pdAggregators[iIndex];
 	    }
 	    else
 	    {
@@ -149,7 +149,7 @@ HeccerAddressAggregator
 
     //- return resulting address if variable was found
 
-    return(pvResult);
+    return(pdResult);
 }
 
 
@@ -158,20 +158,20 @@ HeccerAddressAggregator
 /// \arg iIntermediary index of compartment in the intermediary.
 /// \arg pcType name of requested variable.
 /// 
-/// \return void *
+/// \return double *
 /// 
 ///	pointer to the requested field, NULL for failure.
 /// 
 /// \brief Find the simulation sequence of a given variable.
 /// 
 
-void *
+double *
 HeccerAddressCompartmentVariable
 (struct Heccer *pheccer, int iIntermediary, char *pcType)
 {
     //- set default result : not found
 
-    void *pvResult = NULL;
+    double *pdResult = NULL;
 
     //- for membrane potential
 
@@ -183,9 +183,7 @@ HeccerAddressCompartmentVariable
 
 	//- set result
 
-	double *pdResult = &pheccer->vm.pdVms[iSchedule];
-
-	pvResult = (void *)pdResult;
+	pdResult = &pheccer->vm.pdVms[iSchedule];
     }
 
     //- for injected current
@@ -203,9 +201,7 @@ HeccerAddressCompartmentVariable
 
 	//- set result
 
-	double *pdResult = &pmatsc->dInjected;
-
-	pvResult = (void *)pdResult;
+	pdResult = &pmatsc->dInjected;
     }
 
     //- for total membrane current
@@ -222,7 +218,7 @@ HeccerAddressCompartmentVariable
 
     //- return result
 
-    return(pvResult);
+    return(pdResult);
 }
 
 
@@ -342,20 +338,20 @@ HeccerAddressMechanismSerial2Intermediary
 /// \arg iIntermediary index of mechanism in the intermediary.
 /// \arg pcType name of requested variable.
 /// 
-/// \return void *
+/// \return double *
 /// 
 ///	pointer to the requested field, NULL for failure.
 /// 
 /// \brief Find the simulation sequence of a given variable.
 /// 
 
-void *
+double *
 HeccerAddressMechanismVariable
 (struct Heccer *pheccer, int iIndex, char *pcType)
 {
     //- set default result : not found
 
-    void *pvResult = NULL;
+    double *pdResult = NULL;
 
     //- lookup the field operand, we first search for mat entries
 
@@ -410,7 +406,7 @@ HeccerAddressMechanismVariable
 
 	/// \note note that this is implicitly assumed to be a pointer to double.
 
-	pvResult = &pheccer->vm.ppdMatsIndex[iMat][pF2P[iField].iOffset];
+	pdResult = &pheccer->vm.ppdMatsIndex[iMat][pF2P[iField].iOffset];
     }
 
     //- else
@@ -456,13 +452,13 @@ HeccerAddressMechanismVariable
 	    /// \note returned as an error indicator if there is no table
 	    /// \note associated with this gate.
 
-	    pvResult = (int *)pmops->iTableIndex;
+	    pdResult = (double *)pmops->iTableIndex;
 	}
     }
 
     //- return result
 
-    return(pvResult);
+    return(pdResult);
 }
 
 
@@ -564,7 +560,7 @@ HeccerAddressTableIndex
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
 /// 
-/// \return void *
+/// \return double *
 /// 
 ///	pointer to the requested field, NULL for failure.
 /// 
@@ -576,14 +572,14 @@ HeccerAddressTableIndex
 ///	pointer to a double.
 /// 
 
-void *
+double *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType)
 #ifdef HECCER_SOURCE_NEUROSPACES
 {
     //- set default result : not found
 
-    void *pvResult = NULL;
+    double *pdResult = NULL;
 
     if (pheccer->iErrorCount)
     {
@@ -600,9 +596,9 @@ HeccerAddressVariable
     {
 	//- address as an aggregator
 
-	pvResult = HeccerAddressAggregator(pheccer, iSerial, pcType);
+	pdResult = HeccerAddressAggregator(pheccer, iSerial, pcType);
 
-	return(pvResult);
+	return(pdResult);
     }
 
     //- if serial not within range
@@ -632,11 +628,11 @@ HeccerAddressVariable
 	    || strcasecmp(pcType, "Im") == 0
 	    || strcasecmp(pcType, "Ileak") == 0)
 	{
-	    pvResult = HeccerAddressCompartmentVariable(pheccer, iIntermediary, pcType);
+	    pdResult = HeccerAddressCompartmentVariable(pheccer, iIntermediary, pcType);
 	}
 	else
 	{
-	    pvResult = HeccerAddressMechanismVariable(pheccer, iIntermediary, pcType);
+	    pdResult = HeccerAddressMechanismVariable(pheccer, iIntermediary, pcType);
 	}
     }
     else
@@ -656,7 +652,7 @@ HeccerAddressVariable
 
     //- return result
 
-    return(pvResult);
+    return(pdResult);
 }
 #else
 {

@@ -40,7 +40,7 @@ struct Heccer;
 /// \todo neurospaces model_container would do full traversals.
 
 
-void *
+double *
 HeccerAddressAggregator
 (struct Heccer *pheccer, int iSerial, char *pcType);
 
@@ -48,11 +48,11 @@ char *
 HeccerAddressableSet
 (struct Heccer *pheccer, int iSerial, char *pcType, double dValue);
 
-void *
+double *
 HeccerAddressCompartmentVariable
 (struct Heccer *pheccer, int iIntermediary, char *pcField);
 
-void *
+double *
 HeccerAddressMechanismVariable
 (struct Heccer *pheccer, int iIndex, char *pcField);
 
@@ -60,13 +60,13 @@ int
 HeccerAddressTableIndex
 (struct Heccer *pheccer, int iSerial, char *pcField);
 
-void *
+double *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType);
 
 #else
 
-void *
+double *
 HeccerAddressVariable
 (struct Heccer *pheccer, int iSerial, char *pcType);
 
