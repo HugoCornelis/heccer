@@ -85,7 +85,7 @@ int serializer_tests(struct Heccer *pheccer1, struct Heccer *pheccer2)
     VM_TEST_UNEQUAL_POINTERS(ppvMopsIndex);
 
     VM_TEST_EQUAL(iMatNumber);
-    VM_TEST_UNEQUAL_POINTERS(ppvMatsIndex);
+    VM_TEST_UNEQUAL_POINTERS(ppdMatsIndex);
 
     //- test mechanism state
 

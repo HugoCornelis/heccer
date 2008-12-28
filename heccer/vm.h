@@ -127,7 +127,7 @@ struct VM
 
     void **ppvMopsIndex;
 
-    void **ppvMatsIndex;
+    double **ppdMatsIndex;
 
     /// aggregate currents etc.
 
@@ -204,19 +204,19 @@ struct MatsCompartment
 	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_COMPARTMENT(ppdCMatsIndex,iCNumber,ppvMatsIndex,iMatNumber,pvMats,iMats,dL,dI,dC,dD) \
-    ((pvMats)								\
-     ? ({ struct MatsCompartment *pmats = (struct MatsCompartment *)pvMats ; \
+#define SETMAT_COMPARTMENT(ppdCMatsIndex,iCNumber,ppdMatsIndex,iMatNumber,pdMats,iMats,dL,dI,dC,dD) \
+    ((pdMats)								\
+     ? ({ struct MatsCompartment *pmats = (struct MatsCompartment *)pdMats ; \
 	     pmats->dLeak = (dL) ; pmats->dInjected = (dI) ;		\
 	     pmats->dCapacity = (dC) ;					\
 	     pmats->dDiagonal = (dD) ;					\
-	     ppdCMatsIndex[iCNumber] = pvMats;				\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsCompartment *)pvMats)[1] ;	\
+	     ppdCMatsIndex[iCNumber] = pdMats;				\
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsCompartment *)pdMats)[1] ;	\
 	     1 ;							\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsCompartment);	\
@@ -284,18 +284,18 @@ struct MatsSpringMass
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dInitX,dInitY,dNE) \
-    ((pvMats)								\
-     ? ({ struct MatsSpringMass *pmats = (struct MatsSpringMass *)pvMats ; \
+#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dInitX,dInitY,dNE) \
+    ((pdMats)								\
+     ? ({ struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats ; \
 	     pmats->dX = (dInitX) ;					\
 	     pmats->dY = (dInitY) ;					\
 	     pmats->dNextEvent = (dNE) ;				\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsSpringMass *)pvMats)[1] ;	\
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsSpringMass *)pdMats)[1] ;	\
 	     1;								\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsSpringMass);		\
@@ -356,17 +356,17 @@ struct MatsEventGenerate
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_EVENTGENERATE(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dR,dS) \
-    ((pvMats)								\
-     ? ({ struct MatsEventGenerate *pmats = (struct MatsEventGenerate *)pvMats ; \
+#define SETMAT_EVENTGENERATE(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dR,dS) \
+    ((pdMats)								\
+     ? ({ struct MatsEventGenerate *pmats = (struct MatsEventGenerate *)pdMats ; \
 	     pmats->dRefractory = (dR) ;				\
 	     pmats->dSpike = (dS) ;					\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsEventGenerate *)pvMats)[1] ; \
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsEventGenerate *)pdMats)[1] ; \
 	     1;								\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsEventGenerate);	\
@@ -432,16 +432,16 @@ struct MatsCallout
 	     })							\
 	 : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_CALLOUT(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,p)		\
-    ((pvMats)								\
-     ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pvMats ;	\
+#define SETMAT_CALLOUT(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,p)		\
+    ((pdMats)								\
+     ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pdMats ;	\
 	     pmats->pco = (p) ;						\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsCallout *)pvMats)[1] ;	\
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsCallout *)pdMats)[1] ;	\
 	     1 ;							\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsCallout);		\
@@ -496,16 +496,16 @@ struct MatsInternalNernst
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_INTERNALNERNST(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dP) \
-    ((pvMats)								\
-     ? ({ struct MatsInternalNernst *pmats = (struct MatsInternalNernst *)pvMats ; \
+#define SETMAT_INTERNALNERNST(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dP) \
+    ((pdMats)								\
+     ? ({ struct MatsInternalNernst *pmats = (struct MatsInternalNernst *)pdMats ; \
 	     pmats->dPotential = (dP) ;					\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsInternalNernst *)pvMats)[1] ; \
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsInternalNernst *)pdMats)[1] ; \
 	     1;								\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsInternalNernst);	\
@@ -725,16 +725,16 @@ struct MatsSingleGateConcept
     double dActivation;
 };
 
-#define SETMAT_POWEREDGATECONCEPT(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dA) \
-    ((pvMats)								\
-     ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pvMats ; \
+#define SETMAT_POWEREDGATECONCEPT(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dA) \
+    ((pdMats)								\
+     ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pdMats ; \
 	     pmats->dActivation = (dA) ;				\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsSingleGateConcept *)pvMats)[1] ; \
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsSingleGateConcept *)pdMats)[1] ; \
 	     1 ;							\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsSingleGateConcept);	\
@@ -798,16 +798,16 @@ struct MatsExponentialDecay
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_EXPONENTIALDECAY(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dS) \
-    ((pvMats)								\
-     ? ({ struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pvMats ; \
+#define SETMAT_EXPONENTIALDECAY(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dS) \
+    ((pdMats)								\
+     ? ({ struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pdMats ; \
 	     pmats->dState = (dS) ;					\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsExponentialDecay *)pvMats)[1] ; \
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsExponentialDecay *)pdMats)[1] ; \
 	     1;								\
 	 })								\
      : (								\
-	 (ppvMatsIndex)							\
+	 (ppdMatsIndex)							\
 	 ? ({								\
 		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
 		 (iMats) += MAT_ALIGNER(struct MatsExponentialDecay);	\
@@ -851,15 +851,15 @@ struct MatsFluxPool
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_FLUXPOOL(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dF)	\
-    ((pvMats)								\
-     ? ({ struct MatsFluxPool *pmats = (struct MatsFluxPool *)pvMats ;	\
+#define SETMAT_FLUXPOOL(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dF)	\
+    ((pdMats)								\
+     ? ({ struct MatsFluxPool *pmats = (struct MatsFluxPool *)pdMats ;	\
 	     pmats->dFlux = (dF) ;					\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsFluxPool *)pvMats)[1] ;	\
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsFluxPool *)pdMats)[1] ;	\
 	     1;								\
 	 }) : (								\
-	     (ppvMatsIndex)						\
+	     (ppdMatsIndex)						\
 	     ? ({							\
 		     piMC2Mat[iMathComponent].iMat = iMatNumber++;	\
 		     (iMats) += MAT_ALIGNER(struct MatsFluxPool);	\
@@ -927,16 +927,16 @@ struct MatsStoreSingleChannelCurrent
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_STORESINGLECHANNELCURRENT(iMathComponent,piMC2Mat,ppvMatsIndex,iMatNumber,pvMats,iMats,dCo,dCu) \
-    ((pvMats)								\
-     ? ({ struct MatsStoreSingleChannelCurrent *pmats = (struct MatsStoreSingleChannelCurrent *)pvMats ; \
+#define SETMAT_STORESINGLECHANNELCURRENT(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dCo,dCu) \
+    ((pdMats)								\
+     ? ({ struct MatsStoreSingleChannelCurrent *pmats = (struct MatsStoreSingleChannelCurrent *)pdMats ; \
 	     pmats->dConductance = (dCo) ;				\
 	     pmats->dCurrent = (dCu) ;					\
-	     ppvMatsIndex[iMatNumber++] = pvMats;			\
-	     pvMats = (void *)&((struct MatsStoreSingleChannelCurrent *)pvMats)[1] ; \
+	     ppdMatsIndex[iMatNumber++] = pdMats;			\
+	     pdMats = (void *)&((struct MatsStoreSingleChannelCurrent *)pdMats)[1] ; \
 	     1;								\
 	 }) : (								\
-	     (ppvMatsIndex)						\
+	     (ppdMatsIndex)						\
 	     ? ({							\
 		     piMC2Mat[iMathComponent].iMat = iMatNumber++;	\
 		     (iMats) += MAT_ALIGNER(struct MatsStoreSingleChannelCurrent); \
