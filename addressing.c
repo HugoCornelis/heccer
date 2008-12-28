@@ -45,7 +45,6 @@ HeccerAddressSerial2Intermediary
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -56,7 +55,6 @@ HeccerAddressSerial2Intermediary
 ///	error code, NULL for success.
 /// 
 /// \brief Set a variable in a compiled model.
-/// \details 
 /// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -91,7 +89,6 @@ HeccerAddressableSet
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -101,7 +98,6 @@ HeccerAddressableSet
 ///	address of the aggregator, NULL for failure.
 /// 
 /// \brief Get the address of an aggregator.
-/// \details 
 /// 
 
 void *
@@ -158,7 +154,6 @@ HeccerAddressAggregator
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iIntermediary index of compartment in the intermediary.
 /// \arg pcType name of requested variable.
@@ -168,7 +163,6 @@ HeccerAddressAggregator
 ///	pointer to the requested field, NULL for failure.
 /// 
 /// \brief Find the simulation sequence of a given variable.
-/// \details 
 /// 
 
 void *
@@ -233,7 +227,6 @@ HeccerAddressCompartmentVariable
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -243,7 +236,6 @@ HeccerAddressCompartmentVariable
 ///	index into the intermediary, -1 for not found.
 /// 
 /// \brief Lookup the index of the given serial.
-/// \details 
 /// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -290,7 +282,6 @@ HeccerAddressCompartmentSerial2Intermediary
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -300,7 +291,6 @@ HeccerAddressCompartmentSerial2Intermediary
 ///	index into the intermediary, -1 for not found.
 /// 
 /// \brief Lookup the index of the given serial.
-/// \details 
 /// 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -348,7 +338,6 @@ HeccerAddressMechanismSerial2Intermediary
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iIntermediary index of mechanism in the intermediary.
 /// \arg pcType name of requested variable.
@@ -358,7 +347,6 @@ HeccerAddressMechanismSerial2Intermediary
 ///	pointer to the requested field, NULL for failure.
 /// 
 /// \brief Find the simulation sequence of a given variable.
-/// \details 
 /// 
 
 void *
@@ -479,7 +467,6 @@ HeccerAddressMechanismVariable
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -489,6 +476,7 @@ HeccerAddressMechanismVariable
 ///	index into the intermediary, -1 for not found.
 /// 
 /// \brief Lookup the index of the given serial.
+///
 /// \details 
 /// 
 ///	Note that depending on the field, you get an index into
@@ -531,7 +519,6 @@ HeccerAddressSerial2Intermediary
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -541,6 +528,7 @@ HeccerAddressSerial2Intermediary
 ///	index into table array, -1 for failure.
 /// 
 /// \brief Lookup the table index of the given serial.
+///
 /// \details 
 /// 
 ///	The returned index is an address into pheccer->tgt.phtg.  See
@@ -572,7 +560,6 @@ HeccerAddressTableIndex
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iSerial identification number.
 /// \arg pcType name of requested variable.
@@ -582,6 +569,7 @@ HeccerAddressTableIndex
 ///	pointer to the requested field, NULL for failure.
 /// 
 /// \brief Find the simulation sequence of a given variable.
+///
 /// \details 
 /// 
 ///	In all cases, as of the moment of writing, the pointer is a
