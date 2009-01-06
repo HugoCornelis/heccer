@@ -493,7 +493,7 @@ sub step
 sub version
 {
     # $Format: "    my $version=\"${package}-${label}\";"$
-    my $version="heccer-python-2";
+    my $version="heccer-python-3";
 
     return $version;
 }
