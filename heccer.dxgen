@@ -25,7 +25,7 @@ PROJECT_NAME = "heccer"
 # if some version control system is used.
 
 # $Format: "PROJECT_NUMBER = \"${label}\""$
-PROJECT_NUMBER = "python-2"
+PROJECT_NUMBER = "cf4a068565733e3d58db9dc9c04ef8d879c70b05-0"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 

@@ -14,9 +14,9 @@ my $test
 				command_tests => [
 						  {
 						   # $Format: "description => \"Does the version information match with ${package}-${label} ?\","$
-description => "Does the version information match with heccer-python-2 ?",
+description => "Does the version information match with heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0 ?",
 						   # $Format: "read => \"${package}-${label}\","$
-read => "heccer-python-2",
+read => "heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0",
 						   write => "version",
 						  },
 						 ],

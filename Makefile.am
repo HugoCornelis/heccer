@@ -105,6 +105,11 @@ dist-hook: dist-keywords
 	$(RM) -fr `find $(distdir) -name _Inline`
 	cp $(srcdir)/license.txt $(distdir)
 	cp -R $(srcdir)/docs $(distdir)
+	rm -rf $(distdir)/docs/html
+	rm -rf $(distdir)/docs/latex
+	rm -rf $(distdir)/docs/man
+	rm -rf $(distdir)/docs/html
+	rm -rf $(distdir)/docs/rtf
 	$(srcdir)/install-sh -d $(distdir)/tests
 	$(srcdir)/install-sh -d $(distdir)/tests/html
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/algorithms

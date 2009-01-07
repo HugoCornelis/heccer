@@ -568,7 +568,7 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 char * HeccerGetVersion(void)
 {
     // $Format: "    static char *pcVersion=\"${package}-${label}\";"$
-    static char *pcVersion="heccer-python-2";
+    static char *pcVersion="heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0";
 
     return(pcVersion);
 }
