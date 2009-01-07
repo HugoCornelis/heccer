@@ -15,8 +15,10 @@ my $test
 						  {
 						   # $Format: "description => \"Does the version information match with ${package}-${label} ?\","$
 description => "Does the version information match with heccer-python-3 ?",
+
 						   # $Format: "read => \"${package}-${label}\","$
 read => "heccer-python-3",
+
 						   write => "version",
 						  },
 						 ],

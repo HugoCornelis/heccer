@@ -12,6 +12,7 @@ use strict;
 {
     # $Format: "system 'mkdir --parents \"/tmp/${package}/${label}\"'"$
 system 'mkdir --parents "/tmp/heccer/python-3"'
+
 }
 
 if ($?)
@@ -22,7 +23,13 @@ if ($?)
 
 {
     # $Format: "system \"cp '${package}-${label}.tar.gz' '/tmp/${package}/${label}'\""$
+<<<<<<< variant A
 system "cp 'heccer-python-3.tar.gz' '/tmp/heccer/python-3'"
+>>>>>>> variant B
+system "cp 'heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0.tar.gz' '/tmp/heccer/cf4a068565733e3d58db9dc9c04ef8d879c70b05-0'"
+####### Ancestor
+system "cp 'heccer-python-2.tar.gz' '/tmp/heccer/python-2'"
+======= end
 }
 
 if ($?)
@@ -33,7 +40,13 @@ if ($?)
 
 {
     # $Format: "chdir \"/tmp/${package}/${label}\""$
+<<<<<<< variant A
 chdir "/tmp/heccer/python-3"
+>>>>>>> variant B
+chdir "/tmp/heccer/cf4a068565733e3d58db9dc9c04ef8d879c70b05-0"
+####### Ancestor
+chdir "/tmp/heccer/python-2"
+======= end
 }
 
 if ($?)
@@ -44,7 +57,13 @@ if ($?)
 
 {
     # $Format: "system \"tar xfz '${package}-${label}.tar.gz'\""$
+<<<<<<< variant A
 system "tar xfz 'heccer-python-3.tar.gz'"
+>>>>>>> variant B
+system "tar xfz 'heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0.tar.gz'"
+####### Ancestor
+system "tar xfz 'heccer-python-2.tar.gz'"
+======= end
 }
 
 if ($?)
@@ -55,7 +74,13 @@ if ($?)
 
 {
     # $Format: "chdir \"${package}-${label}\""$
+<<<<<<< variant A
 chdir "heccer-python-3"
+>>>>>>> variant B
+chdir "heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0"
+####### Ancestor
+chdir "heccer-python-2"
+======= end
 }
 
 if ($?)
