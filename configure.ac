@@ -20,13 +20,8 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-<<<<<<< variant A
 AC_INIT(heccer, python-3, hugo.cornelis@gmail.com)
->>>>>>> variant B
-AC_INIT(heccer, cf4a068565733e3d58db9dc9c04ef8d879c70b05-0, hugo.cornelis@gmail.com)
-####### Ancestor
-AC_INIT(heccer, python-2, hugo.cornelis@gmail.com)
-======= end
+
 
 AC_CONFIG_SRCDIR([compartment.c])
 AC_CONFIG_HEADER([heccer/config.h])
