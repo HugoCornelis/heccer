@@ -20,7 +20,7 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, python-3, hugo.cornelis@gmail.com)
+AC_INIT(heccer, python-5, hugo.cornelis@gmail.com)
 
 
 # AC_CONFIG_SRCDIR([compartment.h])
@@ -31,7 +31,7 @@ dnl all subdirs
 # AC_CONFIG_SUBDIRS(swig/perl)
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-<<<<<<< variant A
+AM_INIT_AUTOMAKE(heccer, python-5)
 AM_INIT_AUTOMAKE(heccer, python-3)
 >>>>>>> variant B
 AM_INIT_AUTOMAKE(heccer, cf4a068565733e3d58db9dc9c04ef8d879c70b05-0)

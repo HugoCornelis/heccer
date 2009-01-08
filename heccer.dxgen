@@ -25,7 +25,7 @@ PROJECT_NAME = "heccer"
 # if some version control system is used.
 
 # $Format: "PROJECT_NUMBER = \"${label}\""$
-PROJECT_NUMBER = "python-3"
+PROJECT_NUMBER = "python-5"
 
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
