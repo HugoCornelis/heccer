@@ -25,7 +25,6 @@
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -33,7 +32,6 @@
 ///	success of operation.
 /// 
 /// \brief Compile the intermediary of the compartments to byte code.
-/// \details 
 /// 
 
 int HeccerCompartmentCompile(struct Heccer *pheccer)
@@ -378,7 +376,6 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pcomp a compartment.
 /// \arg pfile stdio file.
 /// \arg iSelection selection to dump.
@@ -388,7 +385,6 @@ int HeccerCompartmentCompile(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Dump compartment parameters to the given stream.
-/// \details 
 /// 
 
 int
@@ -456,7 +452,6 @@ HECCER_SOURCE_NEUROSPACES
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -464,7 +459,6 @@ HECCER_SOURCE_NEUROSPACES
 ///	success of operation.
 /// 
 /// \brief Fill the compartment arrays with initial values.
-/// \details 
 /// 
 
 int HeccerCompartmentInitiate(struct Heccer *pheccer)
@@ -500,7 +494,6 @@ int HeccerCompartmentInitiate(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -508,7 +501,6 @@ int HeccerCompartmentInitiate(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Perform the compartment operators once.
-/// \details 
 /// 
 
 int HeccerCompartmentSolveCN(struct Heccer *pheccer)
