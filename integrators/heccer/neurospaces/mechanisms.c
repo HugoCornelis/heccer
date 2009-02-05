@@ -4614,7 +4614,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 				MathComponentDataStatusSet(&mcd, STATUS_CONSISTENCY, ptstr->ppist);
 
 				MathComponentError(&mcd,STATUS_CONSISTENCY,
-						   "Number of model math components during processing does not with during typing.");
+						   "Number of model math components during processing does not match with number during typing.");
 
 				iResult = FALSE;
 			    }
