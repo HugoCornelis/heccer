@@ -3173,7 +3173,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     else if (instanceof_gate_kinetic(phsle)
 	     || instanceof_h_h_gate(phsle)
 	     || instanceof_concentration_gate_kinetic(phsle)
-	     || instanceof_equation(phsle))
+	     || instanceof_equation_exponential(phsle))
     {
 	//- ok, skip
 
@@ -4173,7 +4173,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
     else if (instanceof_gate_kinetic(phsle)
 	     || instanceof_h_h_gate(phsle)
 	     || instanceof_concentration_gate_kinetic(phsle)
-	     || instanceof_equation(phsle))
+	     || instanceof_equation_exponential(phsle))
     {
 	//- ok, skip
 
