@@ -2439,7 +2439,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
     //- if equation
 
-    else if (instanceof_equation(phsle))
+    else if (instanceof_equation_exponential(phsle))
     {
 	if (pmcd->iStatus == 1
 	    || pmcd->iStatus == 2)
