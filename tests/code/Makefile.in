@@ -40,7 +40,8 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 check_PROGRAMS = addressing-aggregator1$(EXEEXT) \
-	addressing-purk-test-segment$(EXEEXT) aggregator-kc$(EXEEXT) \
+	addressing-purk-test-segment$(EXEEXT) \
+	addressing-synchan$(EXEEXT) aggregator-kc$(EXEEXT) \
 	aggregator-kc-feedback$(EXEEXT) c1c2p1$(EXEEXT) \
 	c1c2p2$(EXEEXT) callout1$(EXEEXT) calloutInjector$(EXEEXT) \
 	channel1-nernst1$(EXEEXT) channel2-nernst1$(EXEEXT) \
@@ -89,6 +90,8 @@ addressing_aggregator1_OBJECTS = addressing-aggregator1.$(OBJEXT)
 addressing_purk_test_segment_SOURCES = addressing-purk-test-segment.c
 addressing_purk_test_segment_OBJECTS =  \
 	addressing-purk-test-segment.$(OBJEXT)
+addressing_synchan_SOURCES = addressing-synchan.c
+addressing_synchan_OBJECTS = addressing-synchan.$(OBJEXT)
 aggregator_kc_SOURCES = aggregator-kc.c
 aggregator_kc_OBJECTS = aggregator-kc.$(OBJEXT)
 aggregator_kc_feedback_SOURCES = aggregator-kc-feedback.c
@@ -240,11 +243,11 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
-	aggregator-kc.c aggregator-kc-feedback.c c1c2p1.c c1c2p2.c \
-	callout1.c calloutInjector.c channel1-nernst1.c \
-	channel2-nernst1.c channel2-nernst2.c check-compartment.c \
-	doublea-aggregator.c doublep.c fork3p.c fork4p1.c fork4p2.c \
-	fork4p3.c hh1.c perfectclamp-passive1.c \
+	addressing-synchan.c aggregator-kc.c aggregator-kc-feedback.c \
+	c1c2p1.c c1c2p2.c callout1.c calloutInjector.c \
+	channel1-nernst1.c channel2-nernst1.c channel2-nernst2.c \
+	check-compartment.c doublea-aggregator.c doublep.c fork3p.c \
+	fork4p1.c fork4p2.c fork4p3.c hh1.c perfectclamp-passive1.c \
 	perfectclamp-passive10.c perfectclamp-passive10-2.c pool1.c \
 	pool1-contributors2.c pool1-feedback1.c pool1-feedback2.c \
 	pool1-nernst.c pool2.c serialization-c1c2p1.c \
@@ -263,11 +266,11 @@ SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
 	tensizesp.c triplep.c vclamp-passive.c vclamp-sodium.c \
 	version.c
 DIST_SOURCES = addressing-aggregator1.c addressing-purk-test-segment.c \
-	aggregator-kc.c aggregator-kc-feedback.c c1c2p1.c c1c2p2.c \
-	callout1.c calloutInjector.c channel1-nernst1.c \
-	channel2-nernst1.c channel2-nernst2.c check-compartment.c \
-	doublea-aggregator.c doublep.c fork3p.c fork4p1.c fork4p2.c \
-	fork4p3.c hh1.c perfectclamp-passive1.c \
+	addressing-synchan.c aggregator-kc.c aggregator-kc-feedback.c \
+	c1c2p1.c c1c2p2.c callout1.c calloutInjector.c \
+	channel1-nernst1.c channel2-nernst1.c channel2-nernst2.c \
+	check-compartment.c doublea-aggregator.c doublep.c fork3p.c \
+	fork4p1.c fork4p2.c fork4p3.c hh1.c perfectclamp-passive1.c \
 	perfectclamp-passive10.c perfectclamp-passive10-2.c pool1.c \
 	pool1-contributors2.c pool1-feedback1.c pool1-feedback2.c \
 	pool1-nernst.c pool2.c serialization-c1c2p1.c \
@@ -378,6 +381,8 @@ addressing_aggregator1_DEPENDENCIES = ../../libheccer.a main.c
 addressing_aggregator1_LDADD = -L../.. -lheccer -lm
 addressing_purk_test_segment_DEPENDENCIES = ../../libheccer.a main.c
 addressing_purk_test_segment_LDADD = -L../.. -lheccer -lm
+addressing_synchan_DEPENDENCIES = ../../libheccer.a main.c
+addressing_synchan_LDADD = -L../.. -lheccer -lm
 aggregator_kc_DEPENDENCIES = ../../libheccer.a main.c
 aggregator_kc_LDADD = -L../.. -lheccer -lm
 aggregator_kc_feedback_DEPENDENCIES = ../../libheccer.a main.c
@@ -558,6 +563,9 @@ addressing-aggregator1$(EXEEXT): $(addressing_aggregator1_OBJECTS) $(addressing_
 addressing-purk-test-segment$(EXEEXT): $(addressing_purk_test_segment_OBJECTS) $(addressing_purk_test_segment_DEPENDENCIES) 
 	@rm -f addressing-purk-test-segment$(EXEEXT)
 	$(LINK) $(addressing_purk_test_segment_LDFLAGS) $(addressing_purk_test_segment_OBJECTS) $(addressing_purk_test_segment_LDADD) $(LIBS)
+addressing-synchan$(EXEEXT): $(addressing_synchan_OBJECTS) $(addressing_synchan_DEPENDENCIES) 
+	@rm -f addressing-synchan$(EXEEXT)
+	$(LINK) $(addressing_synchan_LDFLAGS) $(addressing_synchan_OBJECTS) $(addressing_synchan_LDADD) $(LIBS)
 aggregator-kc$(EXEEXT): $(aggregator_kc_OBJECTS) $(aggregator_kc_DEPENDENCIES) 
 	@rm -f aggregator-kc$(EXEEXT)
 	$(LINK) $(aggregator_kc_LDFLAGS) $(aggregator_kc_OBJECTS) $(aggregator_kc_LDADD) $(LIBS)
@@ -774,6 +782,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-aggregator1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-purk-test-segment.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addressing-synchan.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aggregator-kc-feedback.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aggregator-kc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1c2p1.Po@am__quote@
