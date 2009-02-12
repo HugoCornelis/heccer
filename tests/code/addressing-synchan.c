@@ -26,7 +26,7 @@
 
 
 #define HECCER_TEST_REPORTING_GRANULARITY 2000
-#define HECCER_TEST_STEPS 2000
+#define HECCER_TEST_STEPS 30
 #define HECCER_TEST_TIME_STEP (1e-5)
 
 
@@ -258,12 +258,28 @@ struct Intermediary inter =
     //m compartment 2 first mechanism number
 
     piC2m,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+    //m identification of the originator, mostly a cell or cell
+    //m population, but perhaps just a segment vector
+
+    //m start range
+
+    ADDRESSING_NEUROSPACES_2_HECCER(1000 - 1),
+
+    //m end range
+
+    ADDRESSING_NEUROSPACES_2_HECCER(9000),
+
+#endif
+
 };
 
 
-struct OutputGenerator * pogVm = NULL;
+struct OutputGenerator * pogActivation = NULL;
 
-double *pdVm = NULL;
+double *pdActivation = NULL;
 
 char pcStep[100] = "";
 
@@ -280,19 +296,19 @@ int main(int argc, char *argv[])
 
     //- create output elements
 
-    pogVm = OutputGeneratorNew("/tmp/output");
+    pogActivation = OutputGeneratorNew("/tmp/output");
 
-    OutputGeneratorInitiate(pogVm);
+    OutputGeneratorInitiate(pogActivation);
 
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_INITIATE \
-    pdVm = HeccerAddressVariable(pheccer, 2000, "activation"); \
-    OutputGeneratorAddVariable(pogVm, "Vm", pdVm)
+    pdActivation = HeccerAddressVariable(pheccer, 2000, "activation"); \
+    OutputGeneratorAddVariable(pogActivation, "Activation", pdActivation)
 
 //d generate output of membrane potential each step
 
-#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogVm, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogActivation, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
 
 #endif
 
@@ -304,7 +320,7 @@ int main(int argc, char *argv[])
 
     //- finish the simulation output
 
-    OutputGeneratorFinish(pogVm);
+    OutputGeneratorFinish(pogActivation);
 
     //- add the simulation output to the program output
 
