@@ -44,20 +44,20 @@ VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068)
-mat number for intermediary mechanism 0 is mat 1, starts at 4, offset is 0
-mat number for intermediary mechanism 0 is mat 2, starts at 5, offset is 0
-mat number for intermediary mechanism 1 is mat 3, starts at 6, offset is 0
-mat number for intermediary mechanism 1 is mat 4, starts at 7, offset is 0
-mat number for intermediary mechanism 2 is mat 5, starts at 8, offset is 0
-mat number for intermediary mechanism 3 is mat 6, starts at 9, offset is 0
-mat number for intermediary mechanism 3 is mat 7, starts at 10, offset is 0
-mat number for intermediary mechanism 0 is mat 1, starts at 4, offset is 0
-mat number for intermediary mechanism 0 is mat 2, starts at 5, offset is 0
-mat number for intermediary mechanism 1 is mat 3, starts at 6, offset is 0
-mat number for intermediary mechanism 1 is mat 4, starts at 7, offset is 0
-mat number for intermediary mechanism 2 is mat 5, starts at 8, offset is 0
-mat number for intermediary mechanism 3 is mat 6, starts at 9, offset is 0
-mat number for intermediary mechanism 3 is mat 7, starts at 10, offset is 0
+mat number for intermediary mechanism 0 is mat 1, mat index 4, offset is 0
+mat number for intermediary mechanism 0 is mat 2, mat index 5, offset is 0
+mat number for intermediary mechanism 1 is mat 3, mat index 6, offset is 0
+mat number for intermediary mechanism 1 is mat 4, mat index 7, offset is 0
+mat number for intermediary mechanism 2 is mat 5, mat index 8, offset is 0
+mat number for intermediary mechanism 3 is mat 6, mat index 9, offset is 0
+mat number for intermediary mechanism 3 is mat 7, mat index 10, offset is 0
+mat number for intermediary mechanism 0 is mat 1, mat index 4, offset is 0
+mat number for intermediary mechanism 0 is mat 2, mat index 5, offset is 0
+mat number for intermediary mechanism 1 is mat 3, mat index 6, offset is 0
+mat number for intermediary mechanism 1 is mat 4, mat index 7, offset is 0
+mat number for intermediary mechanism 2 is mat 5, mat index 8, offset is 0
+mat number for intermediary mechanism 3 is mat 6, mat index 9, offset is 0
+mat number for intermediary mechanism 3 is mat 7, mat index 10, offset is 0
 Membrane potential is -0.068
 CaT state m is 0.0394782
 CaT state h is 0.0821138
