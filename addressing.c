@@ -367,6 +367,7 @@ HeccerAddressMechanismVariable
     struct field_2_operator pF2P[] =
     {
 	{	"Ca",		0,	0, },
+	{	"activation",	0,	1, },
 	{	"spike",	0,	1, },
 	{	"state_h",	0,	0, },
 	{	"state_m",	-1,	0, },
@@ -394,15 +395,18 @@ HeccerAddressMechanismVariable
 
 	int iMat = pheccer->vm.piMC2Mat[iIndex].iMat;
 
-	//- apply the operand
+	//! a single mechanism can give rise to multiple mat entries,
+	//! so the following two steps:
+
+	//- apply the operand, tekes us to the correct mat entry
 
 	iMat += iOperand;
 
-	//- apply offset
+	//- apply offset, takes us to the correct subentry of this mat entry
 
-	int iOffset = pheccer->vm.ppdMatsIndex[iMat] - pheccer->vm.pdMats;
+	int iMatIndex = pheccer->vm.ppdMatsIndex[iMat] - pheccer->vm.pdMats;
 
-	printf("mat number for intermediary mechanism %i is mat %i, starts at %i, offset is %i\n", iIndex, iMat, iOffset, pF2P[iField].iOffset);
+	printf("mat number for intermediary mechanism %i is mat %i, mat index %i, offset is %i\n", iIndex, iMat, iMatIndex, pF2P[iField].iOffset);
 
 	//- set result: pointer to double
 
