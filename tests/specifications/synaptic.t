@@ -48,7 +48,7 @@ my $test
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, endogenous firing (works only with the linux rng) ?",
 						   disabled => (`cat $::config->{core_directory}/heccer/config.h` =~ m/define RANDOM.*ran1/ ? 1 : 0),
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass3.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass3.txt && cat $::config->{core_directory}/tests/specifications/strings/springmass3-output.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },

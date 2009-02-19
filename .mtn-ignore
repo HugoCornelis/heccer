@@ -23,6 +23,7 @@ Makefile$
 ^patches/
 ^tests/code/addressing-aggregator1$
 ^tests/code/addressing-purk-test-segment$
+^tests/code/addressing-synchan$
 ^tests/code/aggregator-kc$
 ^tests/code/aggregator-kc-feedback$
 ^tests/code/c1c2p1$
