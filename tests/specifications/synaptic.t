@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, smaller time step ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass1.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass1.txt && cat $::config->{core_directory}/tests/specifications/strings/springmass1-output.txt`),
 						   timeout => 8,
 						   write => undef,
 						  },

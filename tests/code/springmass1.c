@@ -263,7 +263,9 @@ int main(int argc, char *argv[])
 
 //d generate output of membrane potential each step
 
-#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogVm, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+/* #define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogVm, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed") */
+
+#define HECCER_TEST_OUTPUT OutputGeneratorTimedStep(pogVm, pheccer->dTime);
 
     //- do the simulation
 
