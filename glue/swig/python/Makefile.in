@@ -38,6 +38,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+build_triplet = @build@
+host_triplet = @host@
+target_triplet = @target@
 subdir = glue/swig/python
 DIST_COMMON = $(nobase_python_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in install-sh missing
@@ -75,6 +78,8 @@ ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
 AMTAR = @AMTAR@
+AR = @AR@
+ARFLAGS = @ARFLAGS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -93,6 +98,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+GREP = @GREP@
 HECCER_INTEGRATORS = @HECCER_INTEGRATORS@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -111,15 +117,20 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PYTHON = @PYTHON@
+PYTHONHOME = @PYTHONHOME@
+PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
+PYTHON_PLATFORM = @PYTHON_PLATFORM@
+PYTHON_PREFIX = @PYTHON_PREFIX@
+PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+SWIG_LIBS = @SWIG_LIBS@
 TEST_SPECIFICATION_FILES = @TEST_SPECIFICATION_FILES@
 VERSION = @VERSION@
 ac_ct_CC = @ac_ct_CC@
-ac_ct_RANLIB = @ac_ct_RANLIB@
-ac_ct_STRIP = @ac_ct_STRIP@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__include = @am__include@
@@ -128,30 +139,52 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
+build = @build@
 build_alias = @build_alias@
+build_cpu = @build_cpu@
+build_os = @build_os@
+build_vendor = @build_vendor@
 datadir = @datadir@
+datarootdir = @datarootdir@
+docdir = @docdir@
+dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+host = @host@
 host_alias = @host_alias@
+host_cpu = @host_cpu@
+host_os = @host_os@
+host_vendor = @host_vendor@
+htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
 libexecdir = @libexecdir@
+localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+pdfdir = @pdfdir@
+pkgpyexecdir = @pkgpyexecdir@
+pkgpythondir = @pkgpythondir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
-sbindir = @sbindir@
-sharedstatedir = @sharedstatedir@
-sysconfdir = @sysconfdir@
-target_alias = @target_alias@
-SUBDIRS = 
-swigdir = $(prefix)/glue/swig
+psdir = @psdir@
+pyexecdir = @pyexecdir@
 
 #t use $(swigdir) here
 pythondir = $(prefix)/glue/swig/python
+sbindir = @sbindir@
+sharedstatedir = @sharedstatedir@
+sysconfdir = @sysconfdir@
+target = @target@
+target_alias = @target_alias@
+target_cpu = @target_cpu@
+target_os = @target_os@
+target_vendor = @target_vendor@
+SUBDIRS = 
+swigdir = $(prefix)/glue/swig
 nobase_python_HEADERS = Heccer/__init__.py
 python_DATA = $(srcdir)/heccer.i SwiggableHeccer.py _SwiggableHeccer.so tests/heccer_test.py
 BUILT_SOURCES = \
@@ -177,9 +210,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  glue/swig/python/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  glue/swig/python/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  glue/swig/python/Makefile
+	  $(AUTOMAKE) --gnu  glue/swig/python/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -522,15 +555,18 @@ dist-hook:
 	cp $(srcdir)/tests/*.py $(distdir)/tests
 
 SwiggableHeccer.py swiggable_heccer_wrap.c: $(swig_DATA)
-	swig -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
+	swig -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i 
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc -g -DPRE_PROTO_TRAVERSAL -I/usr/include/python2.4 -I/usr/local/neurospaces/instrumentor -I$(builddir)../../.. -I$(srcdir)/../../.. -I$(builddir)../../../hierarchy/output/symbols -I$(srcdir)/../../../hierarchy/output/symbols/ -c swiggable_heccer_wrap.c -fPIC -Xlinker -export-dynamic
+	gcc -g -DPRE_PROTO_TRAVERSAL -I$(PYTHON_PREFIX)/include/python$(PYTHON_VERSION) -I/usr/local/neurospaces/instrumentor -I$(builddir)../../.. -I$(srcdir)/../../.. -I$(builddir)../../../hierarchy/output/symbols -I$(srcdir)/../../../hierarchy/output/symbols/ -c swiggable_heccer_wrap.c -fPIC
+
+# -Xlinker export-dynamic -export-dynamic
 
 #t this line needs -f PIC for some architectures, and -lncurses for some architectures
 
 _SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o _SwiggableHeccer.so -Xlinker -export-dynamic
+	gcc -g -shared swiggable_heccer_wrap.o $(SWIG_LIBS) -fPIC -o _SwiggableHeccer.so
+#	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o _SwiggableHeccer.so -Xlinker -export-dynamic
 
 all: _SwiggableHeccer.so
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

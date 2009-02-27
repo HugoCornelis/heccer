@@ -22,6 +22,8 @@ AC_PREREQ(2.59)
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
 AC_INIT(heccer, python-5, hugo.cornelis@gmail.com)
 
+dnl Obtain operating system information.
+AC_CANONICAL_TARGET
 
 AC_CONFIG_SRCDIR([compartment.c])
 AC_CONFIG_HEADER([heccer/config.h])
@@ -40,6 +42,25 @@ AC_PROG_RANLIB
 
 AC_PATH_PROGS(DOXYGEN,doxygen)
 
+dnl Check for Python and it's headers
+AM_PATH_PYTHON(,[],[
+   echo "Python is not installed."
+   exit -1
+])
+
+
+case $PYTHON_PREFIX in
+  *)   
+    PYTHON_PREFIX=`echo $PYTHON | sed -e "s,[[^/]]*$,,;s,/$,,;s,^$,.,"`
+    PYTHON_PREFIX=`echo $PYTHON_PREFIX | sed -e "s,[[^/]]*$,,;s,/$,,;s,^$,.,"`
+    PYTHONHOME=$PYTHON_PREFIX
+    AC_SUBST(PYTHON_PREFIX)
+    AC_SUBST(PYTHONHOME)
+
+    AC_MSG_CHECKING([Python header location])
+    AC_MSG_RESULT([$PYTHON_PREFIX/include/python$PYTHON_VERSION])
+  ;;
+esac
 
 # Checks for options
 
@@ -120,9 +141,42 @@ AC_C_CONST
 # Checks for library functions.
 AC_CHECK_FUNCS([localeconv strchr])
 
+
+dnl This does macro substitutions for certain opertaing systems and 
+dnl architectures 
+AC_MSG_CHECKING([OS specifics...])
+AC_MSG_RESULT([Host is running $host_os.])
+dnl {{{
+case "$host_os" in
+  darwin*)
+    AC_MSG_CHECKING([Using libtool for MAC OS X.])
+    AR=libtool
+    ARFLAGS='-static -c -o'
+    AC_SUBST(AR)
+    AC_SUBST(ARFLAGS)
+    SWIG_LIBS='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -undefined dynamic_lookup'
+    AC_SUBST(SWIG_LIBS)
+    AC_MSG_RESULT([done.])
+
+    ;;
+  *)
+    AR='ar'
+    ARFLAGS='cru'
+    AC_SUBST(AR)
+    AC_SUBST(ARFLAGS)
+    AC_MSG_CHECKING([ranlib invocation ])
+    AC_MSG_RESULT([$AR $ARFLAGS])
+    SWIG_LIBS='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory  -Xlinker -export-dynamic'
+    AC_SUBST(SWIG_LIBS)
+  ;;
+esac
+dnl }}}
+
+
+
 # determine the test library to install
 
-TEST_SPECIFICATION_FILES=`echo -n "tests/introduction.html " && find tests/specifications -name "*.t" -printf "%p " && find tests/specifications/strings -name "*.txt" -printf "%p " && find tests/data -name "*.yml" -printf "%p "`
+TEST_SPECIFICATION_FILES=`/bin/echo -n "tests/introduction.html " && find tests/specifications -name "*.t" | perl -pe 's/\n/ /g' && find tests/specifications/strings -name "*.txt" | perl -pe 's/\n/ /g' && find tests/data -name "*.yml" | perl -pe 's/\n/ /g'`
 AC_SUBST(TEST_SPECIFICATION_FILES)
 
 

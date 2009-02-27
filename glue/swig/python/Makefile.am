@@ -42,15 +42,19 @@ BUILT_SOURCES = \
 	swiggable_heccer_wrap.c
 
 SwiggableHeccer.py swiggable_heccer_wrap.c: $(swig_DATA)
-	swig -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
+	swig -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i 
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc -g -DPRE_PROTO_TRAVERSAL -I/usr/include/python2.4 -I/usr/local/neurospaces/instrumentor -I$(builddir)../../.. -I$(srcdir)/../../.. -I$(builddir)../../../hierarchy/output/symbols -I$(srcdir)/../../../hierarchy/output/symbols/ -c swiggable_heccer_wrap.c -fPIC -Xlinker -export-dynamic
+	gcc -g -DPRE_PROTO_TRAVERSAL -I$(PYTHON_PREFIX)/include/python$(PYTHON_VERSION) -I/usr/local/neurospaces/instrumentor -I$(builddir)../../.. -I$(srcdir)/../../.. -I$(builddir)../../../hierarchy/output/symbols -I$(srcdir)/../../../hierarchy/output/symbols/ -c swiggable_heccer_wrap.c -fPIC
+
+# -Xlinker export-dynamic -export-dynamic
 
 #t this line needs -f PIC for some architectures, and -lncurses for some architectures
 
+
 _SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o _SwiggableHeccer.so -Xlinker -export-dynamic
+	gcc -g -shared swiggable_heccer_wrap.o $(SWIG_LIBS) -fPIC -o _SwiggableHeccer.so
+#	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o _SwiggableHeccer.so -Xlinker -export-dynamic
 
 all: _SwiggableHeccer.so
 
