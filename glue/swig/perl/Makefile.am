@@ -50,12 +50,16 @@ SwiggableHeccer.pm swiggable_heccer_wrap.c: $(swig_DATA)
 #t the configuration should say if this depends on neurospaces or not
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc -I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -c swiggable_heccer_wrap.c -fPIC `perl -MExtUtils::Embed -e ccopts`
+	gcc $(SWIGCOMPILELINKSFORPERL) -c swiggable_heccer_wrap.c
+
+#	gcc -I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -c swiggable_heccer_wrap.c -fPIC `perl -MExtUtils::Embed -e ccopts`
 
 SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc -g -shared swiggable_heccer_wrap.o $(SWIG_LIBS) -fPIC -o SwiggableHeccer.so
+	gcc $(SWIGLDLINKSFORPERL) -o SwiggableHeccer.so
 
-#	gcc -g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -o SwiggableHeccer.so
+
+
+
 
 all: SwiggableHeccer.so
 

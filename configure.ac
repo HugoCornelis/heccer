@@ -58,7 +58,12 @@ case $PYTHON_PREFIX in
     AC_SUBST(PYTHONHOME)
 
     AC_MSG_CHECKING([Python header location])
+    PYTHON_HEADERS='$(PYTHON_PREFIX)/include/python$(PYTHON_VERSION)'
+    AC_SUBST(PYTHON_HEADERS)
     AC_MSG_RESULT([$PYTHON_PREFIX/include/python$PYTHON_VERSION])
+
+    PYTHON_EXE='$(PYTHON_PREFIX)/bin/python'
+    AC_SUBST(PYTHON_EXE)
   ;;
 esac
 
@@ -149,25 +154,128 @@ AC_MSG_RESULT([Host is running $host_os.])
 dnl {{{
 case "$host_os" in
   darwin*)
+    #
+    # These are settings specific to MAC OS X.
+    #
+    dnl {{{{
     AC_MSG_CHECKING([Using libtool for MAC OS X.])
     AR=libtool
     ARFLAGS='-static -c -o'
     AC_SUBST(AR)
     AC_SUBST(ARFLAGS)
-    SWIG_LIBS='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -undefined dynamic_lookup'
-    AC_SUBST(SWIG_LIBS)
-    AC_MSG_RESULT([done.])
 
+    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
+	-I$(srcdir)/../../.. \
+	-I$(top_builddir) \
+	-ffloat-store \
+	-I../../.. \
+	-include heccer/config.h \
+	-g \
+	-O0 \
+	-dynamic \
+	-fPIC \
+	`perl -MExtUtils::Embed -e ccopts`'
+    AC_SUBST(SWIGCOMPILELINKSFORPERL)
+
+    SWIGLDLINKSFORPERL='-L../../.. \
+	-lheccer -L../../../integrators \
+	-lhneurospaces \
+	-L/usr/local/lib/model-container \
+	-lneurospacesread \
+	-L/usr/local/lib/neurospaces/algorithms/symbol \
+	-lsymbol_algorithms \
+	-lncurses -lreadline \
+	-bundle \
+	-undefined suppress \
+	-flat_namespace'
+    AC_SUBST(SWIGLDLINKSFORPERL)
+
+    SWIGCOMPILELINKSFORPYTHON='-I$(PYTHON_HEADERS) \
+	-I/usr/local/neurospaces/instrumentor \
+	-I.../../.. \
+	-I./../../.. \
+	-I.../../../hierarchy/output/symbols \
+	-I./../../../hierarchy/output/symbols/'
+    AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
+
+    SWIGLDLINKSFORPYTHON='-I$(PYTHON_HEADERS) \
+	-I../../../integrators/heccer/neurospaces/ \
+	-framework Python \
+	-bundle \
+	-bundle_loader $(PYTHON_EXE)'
+    AC_SUBST(SWIGLDLINKSFORPYTHON)
+
+    AC_MSG_RESULT([done.])
+    dnl }}} end MAC OS X settings
     ;;
   *)
+    dnl {{{
     AR='ar'
     ARFLAGS='cru'
     AC_SUBST(AR)
     AC_SUBST(ARFLAGS)
     AC_MSG_CHECKING([ranlib invocation ])
     AC_MSG_RESULT([$AR $ARFLAGS])
-    SWIG_LIBS='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory  -Xlinker -export-dynamic'
-    AC_SUBST(SWIG_LIBS)
+
+    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
+	-I$(srcdir)/../../.. \
+	-I$(top_builddir) \
+	-ffloat-store \
+	-I../../.. \
+	-include heccer/config.h \
+	-g \
+	-O0 \
+	-fPIC \
+	`perl -MExtUtils::Embed -e ccopts`'
+    AC_SUBST(SWIGCOMPILELINKSFORPERL)
+
+    SWIGLDLINKSFORPERL='-g \
+	-shared swiggable_heccer_wrap.o \
+	-L../../.. \
+	-lheccer \
+	-L../../../integrators \
+	-lhneurospaces \
+	-L/usr/local/lib/model-container \
+	-lneurospacesread \
+	-L/usr/local/lib/neurospaces/algorithms/symbol \
+	-lsymbol_algorithms \
+	-lncurses \
+	-lreadline \
+	-lhistory \
+	-fPIC'
+    AC_SUBST(SWIGLDLINKSFORPERL)
+
+    SWIGCOMPILELINKSFORPYTHON='-g \
+	-DPRE_PROTO_TRAVERSAL \
+	-I$(PYTHON_HEADERS) \
+	-I/usr/local/neurospaces/instrumentor \
+	-I$(builddir)../../.. \
+	-I$(srcdir)/../../.. \
+	-I$(builddir)../../../hierarchy/output/symbols \
+	-I$(srcdir)/../../../hierarchy/output/symbols/ \
+	-fPIC \
+	-Xlinker \
+	-export-dynamic'
+    AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
+
+    SWIGLDLINKSFORPYTHON='-g \
+	-shared swiggable_heccer_wrap.o \
+	-L../../.. \
+	-lheccer \
+	-L../../../integrators \
+	-lhneurospaces \
+	-L/usr/local/lib/model-container \
+	-lneurospacesread \
+	-L/usr/local/lib/neurospaces/algorithms/symbol \
+	-lsymbol_algorithms \
+	-lncurses \
+	-lreadline \
+	-lhistory \
+	-Xlinker \
+	-export-dynamic'
+    AC_SUBST(SWIGLDLINKSFORPYTHON)
+    dnl }}} End of General Settings
+  
   ;;
 esac
 dnl }}}
