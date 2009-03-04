@@ -179,7 +179,7 @@ case "$host_os" in
 
     SWIGLDLINKSFORPERL='-L../../.. \
 	-lheccer -L../../../integrators \
-	-lhneurospaces \
+	-lneurospaces \
 	-L/usr/local/lib/model-container \
 	-lneurospacesread \
 	-L/usr/local/lib/neurospaces/algorithms/symbol \
@@ -218,11 +218,10 @@ case "$host_os" in
     AC_MSG_RESULT([$AR $ARFLAGS])
 
     SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
-	-I$(srcdir)/../../.. \
+	 -I$(srcdir)/../../.. \
 	-I$(top_builddir) \
 	-ffloat-store \
-	-I../../.. \
-	-include heccer/config.h \
+	-I../../.. -include heccer/config.h \
 	-g \
 	-O0 \
 	-fPIC \
@@ -248,13 +247,13 @@ case "$host_os" in
     SWIGCOMPILELINKSFORPYTHON='-g \
 	-DPRE_PROTO_TRAVERSAL \
 	-I$(PYTHON_HEADERS) \
-	-I/usr/local/neurospaces/instrumentor \
+	 -I/usr/local/neurospaces/instrumentor \
 	-I$(builddir)../../.. \
 	-I$(srcdir)/../../.. \
 	-I$(builddir)../../../hierarchy/output/symbols \
 	-I$(srcdir)/../../../hierarchy/output/symbols/ \
-	-fPIC \
-	-Xlinker \
+	-fPIC \	
+	-Xlinker \ 
 	-export-dynamic'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
 
@@ -266,11 +265,12 @@ case "$host_os" in
 	-lhneurospaces \
 	-L/usr/local/lib/model-container \
 	-lneurospacesread \
-	-L/usr/local/lib/neurospaces/algorithms/symbol \
+	-L/usr/local/lib/neurospaces/algorithms/symbol \ 
 	-lsymbol_algorithms \
 	-lncurses \
 	-lreadline \
 	-lhistory \
+	-fPIC \
 	-Xlinker \
 	-export-dynamic'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
