@@ -4,6 +4,8 @@ heccer_check_ric-neurospaces-02.out
 heccer_check_ric-neurospaces-03.out
 
 Makefile$
+*Makefile.in$
+configure$
 ^docs/various.txt$
 ^docs/html
 ^docs/doxygen.tag$

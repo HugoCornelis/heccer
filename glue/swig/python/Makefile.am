@@ -49,7 +49,7 @@ swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
 
 
 _SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.so
+	gcc $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PERLLIB_EXTENSION)
 
 
 all: _SwiggableHeccer.so
@@ -58,6 +58,6 @@ CLEANFILES = \
 	SwiggableHeccer.py \
 	swiggable_heccer_wrap.c \
 	swiggable_heccer_wrap.o \
-	_SwiggableHeccer.so
+	_SwiggableHeccer.$(PERLLIB_EXTENSION)
 
 

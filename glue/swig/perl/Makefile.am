@@ -55,7 +55,7 @@ swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
 #	gcc -I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -c swiggable_heccer_wrap.c -fPIC `perl -MExtUtils::Embed -e ccopts`
 
 SwiggableHeccer.so: swiggable_heccer_wrap.o
-	gcc $(SWIGLDLINKSFORPERL) -o SwiggableHeccer.so
+	gcc $(SWIGLDLINKSFORPERL) -o SwiggableHeccer.$(PERLLIB_EXTENSION)
 
 
 
@@ -67,7 +67,7 @@ CLEANFILES = \
 	SwiggableHeccer.pm \
 	swiggable_heccer_wrap.c \
 	swiggable_heccer_wrap.o \
-	SwiggableHeccer.so
+	SwiggableHeccer.$(PERLLIB_EXTENSION)
 
 TESTS = heccer_test.pm
 

@@ -163,6 +163,10 @@ case "$host_os" in
     ARFLAGS='-static -c -o'
     AC_SUBST(AR)
     AC_SUBST(ARFLAGS)
+    AC_MSG_RESULT([$AR $ARFLAGS])
+
+    PERLLIB_EXTENSION='dylib'
+    AC_SUBST(PERLLIB_EXTENSION)
 
     SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
 	-I$(srcdir)/../../.. \
@@ -179,7 +183,7 @@ case "$host_os" in
 
     SWIGLDLINKSFORPERL='-L../../.. \
 	-lheccer -L../../../integrators \
-	-lneurospaces \
+	-lhneurospaces \
 	-L/usr/local/lib/model-container \
 	-lneurospacesread \
 	-L/usr/local/lib/neurospaces/algorithms/symbol \
@@ -216,6 +220,9 @@ case "$host_os" in
     AC_SUBST(ARFLAGS)
     AC_MSG_CHECKING([ranlib invocation ])
     AC_MSG_RESULT([$AR $ARFLAGS])
+
+    PERLLIB_EXTENSION='so'
+    AC_SUBST(PERLLIB_EXTENSION)
 
     SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
 	 -I$(srcdir)/../../.. \
