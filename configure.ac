@@ -178,8 +178,13 @@ case "$host_os" in
 	-O0 \
 	-dynamic \
 	-fPIC \
-	`perl -MExtUtils::Embed -e ccopts`'
+	`perl -MExtUtils::Embed -e ccopts | perl -pe 's/\-arch\s\S+\s//g'`'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
+
+    SWIGCOMPILECOMMAND_PERL='gcc \
+        $(SWIGCOMPILELINKSFORPERL) \
+        -c swiggable_heccer_wrap.c'
+    AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
     SWIGLDLINKSFORPERL='-L../../.. \
 	-lheccer -L../../../integrators \
@@ -194,6 +199,18 @@ case "$host_os" in
 	-flat_namespace'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
+    SWIGLINKCOMMAND_PERL='ld \
+	$(SWIGLDLINKSFORPERL) \
+	-o SwiggableHeccer.$(PERLLIB_EXTENSION) \
+	swiggable_heccer_wrap.o'
+    AC_SUBST(SWIGLINKCOMMAND_PERL)
+
+
+
+
+    PYTHONLIB_EXTENSION='dylib'
+    AC_SUBST(PYHONLIB_EXTENSION)
+
     SWIGCOMPILELINKSFORPYTHON='-I$(PYTHON_HEADERS) \
 	-I/usr/local/neurospaces/instrumentor \
 	-I.../../.. \
@@ -202,16 +219,32 @@ case "$host_os" in
 	-I./../../../hierarchy/output/symbols/'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
 
-    SWIGLDLINKSFORPYTHON='-I$(PYTHON_HEADERS) \
-	-I../../../integrators/heccer/neurospaces/ \
-	-framework Python \
+    SWIGCOMPILECOMMAND_PYTHON='gcc \
+        $(SWIGCOMPILELINKSFORPYTHON) \
+        -c swiggable_heccer_wrap.c'
+    AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
+
+    SWIGLDLINKSFORPYTHON='-L$(PYTHON_HEADERS) \
+        -framework Python \
+        -flat_namespace \
+        -undefined suppress \
 	-bundle \
 	-bundle_loader $(PYTHON_EXE)'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
 
+    SWIGLINKCOMMAND_PYTHON='ld \
+	$(SWIGLDLINKSFORPYTHON) \
+	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) \
+	swiggable_heccer_wrap.o'
+    AC_SUBST(SWIGLINKCOMMAND_PYTHON)
+
     AC_MSG_RESULT([done.])
     dnl }}} end MAC OS X settings
     ;;
+
+
+
+
   *)
     dnl {{{
     AR='ar'
@@ -235,6 +268,11 @@ case "$host_os" in
 	`perl -MExtUtils::Embed -e ccopts`'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
 
+    SWIGCOMPILECOMMAND_PERL='gcc \
+        $(SWIGCOMPILELINKSFORPERL) \
+        -c swiggable_heccer_wrap.c' 
+    AC_SUBST(SWIGCOMPILECOMMAND_PERL)
+
     SWIGLDLINKSFORPERL='-g \
 	-shared swiggable_heccer_wrap.o \
 	-L../../.. \
@@ -251,6 +289,14 @@ case "$host_os" in
 	-fPIC'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
+    SWIGLINKCOMMAND_PERL='ld \
+	$(SWIGLDLINKSFORPERL) \
+	-o SwiggableHeccer.$(PERLLIB_EXTENSION) \
+	swiggable_heccer_wrap.o'
+    AC_SUBST(SWIGCOMPILECOMMAND_PERL)
+
+
+
     SWIGCOMPILELINKSFORPYTHON='-g \
 	-DPRE_PROTO_TRAVERSAL \
 	-I$(PYTHON_HEADERS) \
@@ -263,6 +309,13 @@ case "$host_os" in
 	-Xlinker \ 
 	-export-dynamic'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
+
+    SWIGCOMPILECOMMAND_PYTHON='gcc \
+       $(SWIGCOMPILELINKSFORPYTHON) \
+       -c swiggable_heccer_wrap.c'
+    AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
+
+
 
     SWIGLDLINKSFORPYTHON='-g \
 	-shared swiggable_heccer_wrap.o \
@@ -281,6 +334,13 @@ case "$host_os" in
 	-Xlinker \
 	-export-dynamic'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
+
+    SWIGLINKCOMMAND_PYTHON='gcc \
+	$(SWIGLDLINKSFORPYTHON) \
+	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
+    AC_SUBST(SWIGLINKCOMMAND_PYTHON)
+
+
     dnl }}} End of General Settings
   
   ;;

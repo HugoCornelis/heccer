@@ -50,12 +50,11 @@ SwiggableHeccer.pm swiggable_heccer_wrap.c: $(swig_DATA)
 #t the configuration should say if this depends on neurospaces or not
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc $(SWIGCOMPILELINKSFORPERL) -c swiggable_heccer_wrap.c
+	$(SWIGCOMPILECOMMAND_PERL)
 
-#	gcc -I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -c swiggable_heccer_wrap.c -fPIC `perl -MExtUtils::Embed -e ccopts`
 
 SwiggableHeccer.$(PERLLIB_EXTENSION): swiggable_heccer_wrap.o
-	gcc $(SWIGLDLINKSFORPERL) -o SwiggableHeccer.$(PERLLIB_EXTENSION)
+	$(SWIGLINKCOMMAND_PERL)
 
 
 

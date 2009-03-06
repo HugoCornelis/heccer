@@ -45,19 +45,19 @@ SwiggableHeccer.py swiggable_heccer_wrap.c: $(swig_DATA)
 	swig -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i 
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	gcc $(SWIGCOMPILELINKSFORPYTHON) -c swiggable_heccer_wrap.c -fPIC
+	$(SWIGCOMPILECOMMAND_PYTHON)
 
 
-_SwiggableHeccer.$(PERLLIB_EXTENSION): swiggable_heccer_wrap.o
-	gcc $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PERLLIB_EXTENSION)
+_SwiggableHeccer.$(PYTHONLIB_EXTENSION): swiggable_heccer_wrap.o
+	$(SWIGLINKCOMMAND_PYTHON)
 
 
-all: _SwiggableHeccer.$(PERLLIB_EXTENSION)
+all: _SwiggableHeccer.$(PYTHONLIB_EXTENSION)
 
 CLEANFILES = \
 	SwiggableHeccer.py \
 	swiggable_heccer_wrap.c \
 	swiggable_heccer_wrap.o \
-	_SwiggableHeccer.$(PERLLIB_EXTENSION)
+	_SwiggableHeccer.$(PYTHONLIB_EXTENSION)
 
 
