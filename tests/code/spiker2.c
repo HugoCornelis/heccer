@@ -1246,22 +1246,6 @@ int main(int argc, char *argv[])
 }
 
 
-//o To use this file :
-//o
-//o set the variable 'inter' to an intermediary representation,
-//o #define HECCER_TEST_STEPS 1
-//o #define HECCER_TEST_TESTED_THINGS to a dump selection,
-//o and so on for the defines below, when not set they get a
-//o sensible default value.
-//o #include this file, compile, run and parse the output.
-//o
-//o Heccer construction can also be done using the
-//o HECCER_TEST_CONSTRUCT macro, in which case the global variable
-//o pheccer must be preallocated.
-//o
-//o Tests with multiple heccers must not use this file.
-//o
-
 #ifndef HECCER_TEST_CONSTRUCT_SOURCE
 #define HECCER_TEST_CONSTRUCT_SOURCE \
     memcpy(&pheccerSource->inter, &interSource, sizeof(interSource));	\
