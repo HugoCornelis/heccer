@@ -246,6 +246,7 @@ case "$host_os" in
 
 
   *)
+  
     dnl {{{
     AR='ar'
     ARFLAGS='cru'
@@ -257,6 +258,7 @@ case "$host_os" in
     PERLLIB_EXTENSION='so'
     AC_SUBST(PERLLIB_EXTENSION)
 
+
     SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
 	 -I$(srcdir)/../../.. \
 	-I$(top_builddir) \
@@ -267,11 +269,6 @@ case "$host_os" in
 	-fPIC \
 	`perl -MExtUtils::Embed -e ccopts`'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
-
-    SWIGCOMPILECOMMAND_PERL='gcc \
-        $(SWIGCOMPILELINKSFORPERL) \
-        -c swiggable_heccer_wrap.c' 
-    AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
     SWIGLDLINKSFORPERL='-g \
 	-shared swiggable_heccer_wrap.o \
@@ -289,13 +286,8 @@ case "$host_os" in
 	-fPIC'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
-    SWIGLINKCOMMAND_PERL='ld \
-	$(SWIGLDLINKSFORPERL) \
-	-o SwiggableHeccer.$(PERLLIB_EXTENSION) \
-	swiggable_heccer_wrap.o'
-    AC_SUBST(SWIGCOMPILECOMMAND_PERL)
-
-
+    PYTHONLIB_EXTENSION='so'
+    AC_SUBST(PYTHONLIB_EXTENSION)
 
     SWIGCOMPILELINKSFORPYTHON='-g \
 	-DPRE_PROTO_TRAVERSAL \
@@ -309,13 +301,6 @@ case "$host_os" in
 	-Xlinker \ 
 	-export-dynamic'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
-
-    SWIGCOMPILECOMMAND_PYTHON='gcc \
-       $(SWIGCOMPILELINKSFORPYTHON) \
-       -c swiggable_heccer_wrap.c'
-    AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
-
-
 
     SWIGLDLINKSFORPYTHON='-g \
 	-shared swiggable_heccer_wrap.o \
@@ -334,15 +319,8 @@ case "$host_os" in
 	-Xlinker \
 	-export-dynamic'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
-
-    SWIGLINKCOMMAND_PYTHON='gcc \
-	$(SWIGLDLINKSFORPYTHON) \
-	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
-    AC_SUBST(SWIGLINKCOMMAND_PYTHON)
-
-
     dnl }}} End of General Settings
-  
+
   ;;
 esac
 dnl }}}
