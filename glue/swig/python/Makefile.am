@@ -51,7 +51,6 @@ swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
 _SwiggableHeccer.$(PYTHONLIB_EXTENSION): swiggable_heccer_wrap.o
 	$(SWIGLINKCOMMAND_PYTHON)
 
-
 all: _SwiggableHeccer.$(PYTHONLIB_EXTENSION)
 
 CLEANFILES = \

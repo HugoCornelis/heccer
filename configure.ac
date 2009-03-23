@@ -186,6 +186,8 @@ case "$host_os" in
         -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
+ 
+
     SWIGLDLINKSFORPERL='-L../../.. \
 	-lheccer -L../../../integrators \
 	-lhneurospaces \
@@ -270,6 +272,12 @@ case "$host_os" in
 	`perl -MExtUtils::Embed -e ccopts`'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
 
+   SWIGCOMPILECOMMAND_PERL='gcc \
+        $(SWIGCOMPILELINKSFORPERL) \
+        -c swiggable_heccer_wrap.c'
+    AC_SUBST(SWIGCOMPILECOMMAND_PERL)
+
+
     SWIGLDLINKSFORPERL='-g \
 	-shared swiggable_heccer_wrap.o \
 	-L../../.. \
@@ -279,12 +287,14 @@ case "$host_os" in
 	-L/usr/local/lib/model-container \
 	-lneurospacesread \
 	-L/usr/local/lib/neurospaces/algorithms/symbol \
-	-lsymbol_algorithms \
-	-lncurses \
-	-lreadline \
-	-lhistory \
-	-fPIC'
+	-lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC'
     AC_SUBST(SWIGLDLINKSFORPERL)
+
+    SWIGLINKCOMMAND_PERL='gcc \
+	$(SWIGLDLINKSFORPERL) \
+	-o SwiggableHeccer.$(PERLLIB_EXTENSION)'
+    AC_SUBST(SWIGLINKCOMMAND_PERL)
+
 
     PYTHONLIB_EXTENSION='so'
     AC_SUBST(PYTHONLIB_EXTENSION)
@@ -301,6 +311,11 @@ case "$host_os" in
 	-Xlinker \ 
 	-export-dynamic'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
+
+   SWIGCOMPILECOMMAND_PYTHON='gcc \
+      $(SWIGCOMPILELINKSFORPYTHON) \
+      -c swiggable_heccer_wrap.c'
+   AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
 
     SWIGLDLINKSFORPYTHON='-g \
 	-shared swiggable_heccer_wrap.o \
@@ -319,6 +334,11 @@ case "$host_os" in
 	-Xlinker \
 	-export-dynamic'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
+
+    SWIGLINKCOMMAND_PYTHON='gcc \
+        $(SWIGLDLINKSFORPYTHON) \
+	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
+    AC_SUBST(SWIGLINKCOMMAND_PYTHON)
     dnl }}} End of General Settings
 
   ;;
