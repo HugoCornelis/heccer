@@ -107,3 +107,5 @@ stamp-h1$
 tar.gz$
 .+\.dylib$
 .*Makefile\.in$
+^aclocal\.m4$
+^config\.sub$
