@@ -1543,8 +1543,77 @@ sub step
 }
 
 
-package Heccer::Glue;
+package Heccer::Dumper;
 
+
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
+sub dump
+{
+    my $self = shift;
+
+    my $ssp_analyzer = shift;
+
+    my $options = shift;
+
+    # lookup the object with the tables
+
+    my $scheduler = $ssp_analyzer->{scheduler};
+
+    # lookup the heccer
+
+    my $solver = $scheduler->lookup_solver_engine($options->{source});
+
+    if (!defined $solver)
+    {
+	die "$0: Heccer::Dumper::dump(): solver not found";
+    }
+
+    $self->{ssp_engine} = $solver;
+
+    my $backend = $solver->backend();
+
+    if (!$backend->isa("Heccer"))
+    {
+	die "$0: Heccer::Dumper::dump(): $backend is not a Heccer object";
+    }
+
+    # get access to the low level C structure
+
+    my $heccer = $backend->backend();
+
+    $self->{backend} = $backend;
+
+    $backend->dump(@_);
+
+    1;
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift || {};
+
+    my $self
+	= {
+	   #! this gets called before Heccer is instantiated so there
+	   #! is no backend yet.
+
+	   backend => undef,
+
+	   %$options,
+	  };
+
+    bless $self, $package;
+
+    return $self;
+}
+
+
+package Heccer::Glue;
 
 
 sub backend
