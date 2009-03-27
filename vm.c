@@ -487,7 +487,14 @@ HeccerVMDumpOperators
 		    {
 			void *pv = (void *)&piOperators[i / sizeof(int) + 1];
 
-			if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNEL)
+#ifdef USE_ID_DISASSEM
+			if (phciCurrent->iValue == HECCER_MOP_COMPARTMENT)
+			{
+			    sprintf(pc, " [%i]", piOperators[i]);
+			}
+			else
+#endif
+			    if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNEL)
 			{
 			    struct MopsInitializeChannel *pmops
 				= (struct MopsInitializeChannel *)&piOperators[i / sizeof(int)];
