@@ -24,6 +24,7 @@
 #include <string.h>
 
 #include "heccer/addressing.h"
+#include "heccer/config.h"
 #include "heccer/compartment.h"
 #include "heccer/event.h"
 #include "heccer/heccer.h"
@@ -217,9 +218,13 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	for (iSchedule = 0 ; iSchedule < pheccer->inter.iCompartments ; iSchedule++)
 	{
+	    //- get intermediary number for the current compartment
+
+	    int iIntermediary = pheccer->indexers.md.piBackward[iSchedule];
+
 	    //- fill in compartment operation
 
-	    SETMOP_COMPARTMENT(ppvMopsIndex, iMopNumber, pvMops, iMops);
+	    SETMOP_COMPARTMENT(ppvMopsIndex, &pheccer->inter.pcomp[iIntermediary].mc, iMopNumber, pvMops, iMops);
 
 	    /// \note Em/Rm
 	    /// \note injected current
@@ -227,10 +232,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 	    /// \note diagonal
 	    ///
 	    /// \note injected current needs a separate entry for interfacing.
-
-	    //- get intermediary number for the current compartment
-
-	    int iIntermediary = pheccer->indexers.md.piBackward[iSchedule];
 
 	    //- retreive compartment constants
 
@@ -1623,6 +1624,14 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 	piMop = &piMop[1];
 
+#ifdef USE_ID_DISASSEM
+
+	//- go to next operator
+
+	piMop = &piMop[1];
+
+#endif
+
 	//- get compartment mechanism data
 
 	struct MatsCompartment *pmatsc
@@ -2087,6 +2096,14 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 	//- go to next operator
 
 	piMop = &piMop[1];
+
+#ifdef USE_ID_DISASSEM
+
+	//- go to next operator
+
+	piMop = &piMop[1];
+
+#endif
 
 	//- get compartment mechanism data
 
@@ -2563,6 +2580,14 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 	//- go to next operator
 
 	piMop = &piMop[1];
+
+#ifdef USE_ID_DISASSEM
+
+	//- go to next operator
+
+	piMop = &piMop[1];
+
+#endif
 
 	//- get compartment mechanism data
 
@@ -3188,6 +3213,14 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	//- go to next operator
 
 	piMop = &piMop[1];
+
+#ifdef USE_ID_DISASSEM
+
+	//- go to next operator
+
+	piMop = &piMop[1];
+
+#endif
 
 	//- get compartment mechanism data
 

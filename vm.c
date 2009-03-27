@@ -90,7 +90,11 @@ static struct HeccerCommandTable hctCops =
 static struct HeccerCommandInfo phciMops[] =
 {
     {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					0,	sizeof(struct MatsCallout),	},
+#ifdef USE_ID_DISASSEM
+    {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			2 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
+#else
     {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
+#endif
     {	HECCER_MOP_CONCEPTGATE,			"CONCEPTGATE",			sizeof(struct MopsSingleGateConcept),			1,	sizeof(struct MatsSingleGateConcept),	},
     {	HECCER_MOP_EVENTGENERATE,		"EVENTGENERATE",		sizeof(struct MopsEventGenerate),			2,	sizeof(struct MatsEventGenerate),	},
     {	HECCER_MOP_EXPONENTIALDECAY,		"EXPONENTIALDECAY",		sizeof(struct MopsExponentialDecay),			1,	sizeof(struct MatsExponentialDecay),	},

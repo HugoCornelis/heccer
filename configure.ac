@@ -99,6 +99,21 @@ else
 
 fi
 
+AC_ARG_ENABLE(random, AS_HELP_STRING([--with-id-disassem   output serial ids of compartments in the disassembler]) )
+if test x"$with_id_disassem" == "xyes" ; then
+
+    echo "outputting serial ids of compartments in the disassembler"
+
+    AC_DEFINE(USE_ID_DISASSEM, 1, [outputting serial ids of compartments in the disassembler])
+
+else
+
+    echo "not outputting serial ids of compartments in the disassembler"
+
+    AC_DEFINE(USE_ID_DISASSEM, 0, [not outputting serial ids of compartments in the disassembler])
+
+fi
+
 # integrators: integrate with model-container of neurospaces ?
 
 AC_ARG_ENABLE(neurospaces, AS_HELP_STRING([--without-neurospaces   don't use neurospaces as modeling component]) )

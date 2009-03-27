@@ -187,7 +187,31 @@ struct MatsCompartment
 };
 
 
-#define SETMOP_COMPARTMENT(ppvMopsIndex,iMopNumber,pvMops,iMops)	\
+#ifdef USE_ID_DISASSEM
+
+#define SETMOP_COMPARTMENT(ppvMopsIndex,pmc,iMopNumber,pvMops,iMops)	\
+    ((pvMops)								\
+     ? ({								\
+	     ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT;		\
+	     (pvMops) = (void *)&((int *)pvMops)[1];			\
+	     ((int *)pvMops)[0] = (pmc)->iSerial;			\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&((int *)pvMops)[1];			\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMopsIndex)							\
+	 ? ({								\
+		 iMopNumber++;						\
+		 (iMops) += sizeof(int);				\
+		 (iMops) += sizeof(int);				\
+		 1;							\
+	     })								\
+	 : ({ iMopNumber++; 1; }) ) )
+
+#else
+
+#define SETMOP_COMPARTMENT(ppvMopsIndex,pmc,iMopNumber,pvMops,iMops)	\
     ((pvMops)								\
      ? ({								\
 	     ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT;		\
@@ -203,6 +227,9 @@ struct MatsCompartment
 		 1;							\
 	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
+
+#endif
+
 
 #define SETMAT_COMPARTMENT(ppdCMatsIndex,iCNumber,ppdMatsIndex,iMatNumber,pdMats,iMats,dL,dI,dC,dD) \
     ((pdMats)								\
