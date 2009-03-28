@@ -51,7 +51,7 @@ my $test
 						   {
 						    description => "Can we serialize a triplep compartment passive model ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-triplep.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -66,7 +66,7 @@ my $test
 						   {
 						    description => "Can we serialize a fork3p compartment passive model ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-fork3p.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -126,7 +126,7 @@ my $test
 						   {
 						    description => "Can we serialize a c1c2p1 compartment passive model ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-c1c2p1.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -141,7 +141,7 @@ my $test
 						   {
 						    description => "Can we serialize a c1c2p2 compartment passive model ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-c1c2p2.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -171,7 +171,7 @@ my $test
 						   {
 						    description => "Can we serialize a single compartment with a naf conductance ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-singlea-naf.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -186,7 +186,7 @@ my $test
 						   {
 						    description => "Can we serialize two compartments with two pools ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-pool2.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -201,7 +201,7 @@ my $test
 						   {
 						    description => "Can we serialize a compartment with a pool with a feedback loop, reversed order ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-pool1-feedback2.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
@@ -216,7 +216,7 @@ my $test
 						   {
 						    description => "Can we serialize two solved nernst potentials applied for two channel reversal potentials ?",
 						    read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/serialization-channel2-nernst2.txt`),
-						    timeout => 5,
+						    timeout => 15,
 						    write => undef,
 						   },
 						  ],
