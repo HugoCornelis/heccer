@@ -90,7 +90,7 @@ static struct HeccerCommandTable hctCops =
 static struct HeccerCommandInfo phciMops[] =
 {
     {	HECCER_MOP_CALLOUT,			"CALLOUT",			1 * sizeof(int),					0,	sizeof(struct MatsCallout),	},
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
     {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			2 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
 #else
     {	HECCER_MOP_COMPARTMENT,			"COMPARTMENT",			1 * sizeof(int),					4,	sizeof(struct MatsCompartment),	},
@@ -487,7 +487,7 @@ HeccerVMDumpOperators
 		    {
 			void *pv = (void *)&piOperators[i / sizeof(int) + 1];
 
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
 			if (phciCurrent->iValue == HECCER_MOP_COMPARTMENT)
 			{
 			    sprintf(pc, " [%i]", piOperators[i]);

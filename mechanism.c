@@ -1624,7 +1624,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 
 	piMop = &piMop[1];
 
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
 
 	//- go to next operator
 
@@ -2097,7 +2097,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 
 	piMop = &piMop[1];
 
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
 
 	//- go to next operator
 
@@ -2581,7 +2581,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 
 	piMop = &piMop[1];
 
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
 
 	//- go to next operator
 
@@ -3214,7 +3214,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	piMop = &piMop[1];
 
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
 
 	//- go to next operator
 

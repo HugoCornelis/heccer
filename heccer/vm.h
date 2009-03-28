@@ -187,7 +187,7 @@ struct MatsCompartment
 };
 
 
-#ifdef USE_ID_DISASSEM
+#if (USE_ID_DISASSEM)
 
 #define SETMOP_COMPARTMENT(ppvMopsIndex,pmc,iMopNumber,pvMops,iMops)	\
     ((pvMops)								\
