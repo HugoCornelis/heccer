@@ -6,6 +6,9 @@
 // note: included l'hopital rule on tabchannel defs to avoid
 // singularity giving genesis error (returns -inf, breaks code)
 
+// this script is a validation script for when this makes it to the
+// tabulator of heccer.  Contributed by Nathan Lepora.
+
 // ======================================================
 // Parameters - Channel Conductancies 
 // ======================================================

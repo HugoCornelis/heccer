@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* Implement rule de l'hopital in the tabulator.
+See tests/genesis/hopital for a validation example.
+
 * serialization
 must be serialized:
 ** everything in struct VM
