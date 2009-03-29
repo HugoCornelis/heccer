@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
 
@@ -32,6 +33,34 @@ struct Compartment compSoma =
 	//m type of structure
 
 	MATH_TYPE_Compartment,
+
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+	/// identification
+
+	ADDRESSING_NEUROSPACES_2_HECCER(3),
+
+#endif
+
+#ifdef HECCER_SOURCE_TYPING
+
+	/// model source type number
+
+	/// \note source typing is used to compute aggregate currents ao
+	/// \note things.
+
+	-1,
+
+#endif
+
+#ifdef HECCER_SIZED_MATH_STRUCTURES
+
+	/// size of this structure
+
+	sizeof(struct Compartment),
+
+#endif
+
     },
 
     //m index of parent compartment, -1 for none

@@ -18,6 +18,7 @@
 
 #include <string.h>
 
+#include "heccer/addressing.h"
 #include "heccer/heccer.h"
 #include "heccer/vm.h"
 
@@ -485,12 +486,12 @@ HeccerVMDumpOperators
 		    char pc[100] = "";
 
 		    {
-			void *pv = (void *)&piOperators[i / sizeof(int) + 1];
+/* 			void *pv = (void *)&piOperators[i / sizeof(int) + 1]; */
 
 #if (USE_ID_DISASSEM)
 			if (phciCurrent->iValue == HECCER_MOP_COMPARTMENT)
 			{
-			    sprintf(pc, " [%i]", piOperators[i]);
+			    sprintf(pc, " [%i]", ADDRESSING_HECCER_2_NEUROSPACES(piOperators[i / sizeof(int) + 1]));
 			}
 			else
 #endif
