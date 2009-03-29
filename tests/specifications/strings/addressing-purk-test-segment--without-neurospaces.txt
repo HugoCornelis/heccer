@@ -44,13 +44,6 @@ VM Diagonals (pdDiagonals[0]) : (1.00061)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068)
-mat number for 0 is 1 at offset 4
-mat number for 0 is 2 at offset 5
-mat number for 1 is 3 at offset 6
-mat number for 1 is 4 at offset 7
-mat number for 2 is 5 at offset 8
-mat number for 3 is 6 at offset 9
-mat number for 3 is 7 at offset 10
 Membrane potential is -0.068
 CaT state m is 0.0394782
 CaT state h is 0.0821138
