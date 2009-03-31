@@ -168,7 +168,7 @@ my $test
 			       },
 			      ],
        description => "passive model testing",
-       name => 'passive.t',
+       name => 'glue/swig/perl/passive.t',
       };
 
 

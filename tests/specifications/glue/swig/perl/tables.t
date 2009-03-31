@@ -42,7 +42,7 @@ my $test
 			       },
 			      ],
        description => "Gate tabulation",
-       name => 'tables.t',
+       name => 'glue/swig/perl/tables.t',
       };
 
 

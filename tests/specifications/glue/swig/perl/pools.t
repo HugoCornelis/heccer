@@ -70,7 +70,7 @@ my $test
 			       },
 			      ],
        description => "pool integration",
-       name => 'pools.t',
+       name => 'glue/swig/perl/pools.t',
       };
 
 
