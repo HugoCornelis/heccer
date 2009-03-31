@@ -183,43 +183,18 @@ case "$host_os" in
     PERLLIB_EXTENSION='dylib'
     AC_SUBST(PERLLIB_EXTENSION)
 
-    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor \
-	-I$(srcdir)/../../.. \
-	-I$(top_builddir) \
-	-ffloat-store \
-	-I../../.. \
-	-include heccer/config.h \
-	-g \
-	-O0 \
-	-dynamic \
-	-fPIC \
-	`perl -MExtUtils::Embed -e ccopts | perl -pe 's/\-arch\s\S+\s//g'`'
+    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor 	-I$(srcdir)/../../.. 	-I$(top_builddir) 	-ffloat-store 	-I../../.. 	-include heccer/config.h 	-g 	-O0 	-dynamic 	-fPIC 	`perl -MExtUtils::Embed -e ccopts | perl -pe 's/\-arch\s\S+\s//g'`'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
 
-    SWIGCOMPILECOMMAND_PERL='gcc \
-        $(SWIGCOMPILELINKSFORPERL) \
-        -c swiggable_heccer_wrap.c'
+    SWIGCOMPILECOMMAND_PERL='gcc         $(SWIGCOMPILELINKSFORPERL)         -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
  
 
-    SWIGLDLINKSFORPERL='-L../../.. \
-	-lheccer -L../../../integrators \
-	-lhneurospaces \
-	-L/usr/local/lib/model-container \
-	-lneurospacesread \
-	-L/usr/local/lib/neurospaces/algorithms/symbol \
-	-lsymbol_algorithms \
-	-lncurses -lreadline \
-	-bundle \
-	-undefined suppress \
-	-flat_namespace'
+    SWIGLDLINKSFORPERL='-L../../.. 	-lheccer -L../../../integrators 	-lhneurospaces 	-L/usr/local/lib/model-container 	-lneurospacesread 	-L/usr/local/lib/neurospaces/algorithms/symbol 	-lsymbol_algorithms 	-lncurses -lreadline 	-bundle 	-undefined suppress 	-flat_namespace'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
-    SWIGLINKCOMMAND_PERL='ld \
-	$(SWIGLDLINKSFORPERL) \
-	-o SwiggableHeccer.$(PERLLIB_EXTENSION) \
-	swiggable_heccer_wrap.o'
+    SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) 	swiggable_heccer_wrap.o'
     AC_SUBST(SWIGLINKCOMMAND_PERL)
 
 
@@ -228,31 +203,16 @@ case "$host_os" in
     PYTHONLIB_EXTENSION='dylib'
     AC_SUBST(PYHONLIB_EXTENSION)
 
-    SWIGCOMPILELINKSFORPYTHON='-I$(PYTHON_HEADERS) \
-	-I/usr/local/neurospaces/instrumentor \
-	-I.../../.. \
-	-I./../../.. \
-	-I.../../../hierarchy/output/symbols \
-	-I./../../../hierarchy/output/symbols/'
+    SWIGCOMPILELINKSFORPYTHON='-I$(PYTHON_HEADERS) 	-I/usr/local/neurospaces/instrumentor 	-I.../../.. 	-I./../../.. 	-I.../../../hierarchy/output/symbols 	-I./../../../hierarchy/output/symbols/'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
 
-    SWIGCOMPILECOMMAND_PYTHON='gcc \
-        $(SWIGCOMPILELINKSFORPYTHON) \
-        -c swiggable_heccer_wrap.c'
+    SWIGCOMPILECOMMAND_PYTHON='gcc         $(SWIGCOMPILELINKSFORPYTHON)         -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
 
-    SWIGLDLINKSFORPYTHON='-L$(PYTHON_HEADERS) \
-        -framework Python \
-        -flat_namespace \
-        -undefined suppress \
-	-bundle \
-	-bundle_loader $(PYTHON_EXE)'
+    SWIGLDLINKSFORPYTHON='-L$(PYTHON_HEADERS)         -framework Python         -flat_namespace         -undefined suppress 	-bundle 	-bundle_loader $(PYTHON_EXE)'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
 
-    SWIGLINKCOMMAND_PYTHON='ld \
-	$(SWIGLDLINKSFORPYTHON) \
-	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) \
-	swiggable_heccer_wrap.o'
+    SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) swiggable_heccer_wrap.o'
     AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 
     AC_MSG_RESULT([done.])
