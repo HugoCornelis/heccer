@@ -56,7 +56,7 @@ case $PYTHON_PREFIX in
     PYTHONHOME=$PYTHON_PREFIX
     AC_SUBST(PYTHON_PREFIX)
     AC_SUBST(PYTHONHOME)
-
+				
     AC_MSG_CHECKING([Python header location])
     PYTHON_HEADERS='$(PYTHON_PREFIX)/include/python$(PYTHON_VERSION)'
     AC_SUBST(PYTHON_HEADERS)
@@ -153,6 +153,10 @@ fi
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([float.h limits.h locale.h stdlib.h string.h])
+
+AC_CHECK_HEADERS([neurospaces/neurospaces.h],[],
+[echo "Error: neurospaces headers are not installed in standard location."])
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
