@@ -98,6 +98,7 @@ clean-local:
 	$(RM) -rf $(top_srcdir)/docs/html
 	$(RM) -rf $(top_srcdir)/docs/latex
 	$(RM) -rf $(top_srcdir)/docs/rtf
+	$(RM) -rf $(top_srcdir)/docs/heccer
 
 dist-hook: dist-keywords
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
@@ -144,6 +145,10 @@ html-upload-prepare:
 
 html-upload: html-upload-prepare
 	scp -pr html/htdocs/* hcornelis,neurospaces@web.sourceforge.net:/home/groups/n/ne/neurospaces/htdocs/
+
+
+doxygen-upload: doxygen
+	scp -r docs/heccer docs@repo-genesis3.cbi.utsa.edu:~/doxygen
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
