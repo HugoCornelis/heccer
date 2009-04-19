@@ -398,7 +398,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
     struct ChannelAct * pca = (struct ChannelAct *)pmc;
 
-    //- if conceptual gate
+    //- if hh gate
 
     if (instanceof_h_h_gate(phsle))
     {
@@ -769,7 +769,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
     struct ChannelActConc * pcac = (struct ChannelActConc *)pmc;
 
-    //- if conceptual gate
+    //- if hh gate
 
     if (instanceof_h_h_gate(phsle))
     {
@@ -1323,7 +1323,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
     struct ChannelActInact * pcai = (struct ChannelActInact *)pmc;
 
-    //- if conceptual gate
+    //- if hh gate
 
     if (instanceof_h_h_gate(phsle))
     {
@@ -1701,7 +1701,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
     struct ChannelPersistentSteadyStateDualTau * pcpsdt
 	= (struct ChannelPersistentSteadyStateDualTau *)pmc;
 
-    //- if conceptual gate
+    //- if hh gate
 
     if (instanceof_h_h_gate(phsle))
     {
@@ -2004,7 +2004,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
     struct ChannelPersistentSteadyStateTau * pcpst
 	= (struct ChannelPersistentSteadyStateTau *)pmc;
 
-    //- if conceptual gate
+    //- if hh gate
 
     if (instanceof_h_h_gate(phsle))
     {
@@ -2573,7 +2573,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
     struct ChannelSteadyStateSteppedTau * pcpsdt
 	= (struct ChannelSteadyStateSteppedTau *)pmc;
 
-    //- if conceptual gate
+    //- if hh gate
 
     if (instanceof_h_h_gate(phsle))
     {
