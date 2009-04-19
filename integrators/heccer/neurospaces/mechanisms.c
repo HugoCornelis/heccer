@@ -36,16 +36,16 @@
 #include "heccer/service.h"
 
 
-struct TableAllocatorData
-{
-    /// symbol with value array
+/* struct TableAllocatorData */
+/* { */
+/*     /// symbol with value array */
 
-    struct symtab_HSolveListElement *phsle;
+/*     struct symtab_HSolveListElement *phsle; */
 
-    /// context of the symbol
+/*     /// context of the symbol */
 
-    struct PidinStack *ppist;
-};
+/*     struct PidinStack *ppist; */
+/* }; */
 
 
 
@@ -185,9 +185,9 @@ static
 int
 MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType, struct PidinStack *ppist);
 
-static
-double
-TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue);
+/* static */
+/* double */
+/* TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue); */
 
 static
 int
@@ -516,7 +516,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 /* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
 		if (1)
 		{
-		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -727,24 +727,24 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 }
 
 
-static
-double
-TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue)
-{
-    //- construct parameter name
+/* static */
+/* double */
+/* TableAllocatorProcessor(struct TableAllocatorData *ptd, int iValue) */
+/* { */
+/*     //- construct parameter name */
 
-    char pcValue[100];
+/*     char pcValue[100]; */
 
-    sprintf(pcValue, "value[%i]", iValue);
+/*     sprintf(pcValue, "value[%i]", iValue); */
 
-    //- resolve value
+/*     //- resolve value */
 
-    double dResult = SymbolParameterResolveValue(ptd->phsle, ptd->ppist, pcValue);
+/*     double dResult = SymbolParameterResolveValue(ptd->phsle, ptd->ppist, pcValue); */
 
-    //- return result
+/*     //- return result */
 
-    return(dResult);
-}
+/*     return(dResult); */
+/* } */
 
 
 static
@@ -949,7 +949,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 /* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
 		if (1)
 		{
-		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -1168,7 +1168,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 /* 		    && pcac->pac.ca.htg.hi.dStep != FLT_MAX) */
 		if (1)
 		{
-		    double *pdTable = calloc(pcac->pac.ca.htg.iEntries, sizeof(*pdTable));
+		    double *pdTable = (double *)calloc(pcac->pac.ca.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -1455,7 +1455,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 /* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
 		if (1)
 		{
-		    double *pdTable = calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
