@@ -61,12 +61,12 @@ HeccerTabulatedGateCompareParameters
 
 static
 int
-HeccerTabulatedGateLookup
+HeccerTabulatedGateLookupParameters
 (struct Heccer *pheccer, void *pv, size_t iSize);
 
 static
 int
-HeccerTabulatedGateNew
+HeccerTabulatedGateNewForParameters
 (struct Heccer *pheccer,
  void *pvParameters,
  size_t iSize,
@@ -95,7 +95,13 @@ HeccerTabulatedSpringMassNew
 
 static
 int
-HeccerTabulatedGateStore
+HeccerTabulatedGateLookupTable
+(struct Heccer *pheccer,
+ struct HeccerTabulatedGate *phtg);
+
+static
+int
+HeccerTabulatedGateStoreTable
 (struct Heccer *pheccer,
  struct HeccerTabulatedGate *phtgNew);
 
@@ -201,15 +207,22 @@ HeccerDiscretizeConcentrationGate
 	    return(FALSE);
 	}
 
-	/// \todo first should do the lookup
+	//- lookup table
 
-	//- store the table as is
+	int i = HeccerTabulatedGateLookupTable(pheccer, &pca->htg);
 
-	int i = HeccerTabulatedGateStore(pheccer, &pca->htg);
+	//- if not found
 
 	if (i == -1)
 	{
-	    return(FALSE);
+	    //- store the table as is
+
+	    i = HeccerTabulatedGateStoreTable(pheccer, &pca->htg);
+
+	    if (i == -1)
+	    {
+		return(FALSE);
+	    }
 	}
 
 	//- register the index
@@ -229,13 +242,13 @@ HeccerDiscretizeConcentrationGate
 
     //- lookup the table parameters ...
 
-    int i = HeccerTabulatedGateLookup(pheccer, &pca->parameters, sizeof(pca->parameters));
+    int i = HeccerTabulatedGateLookupParameters(pheccer, &pca->parameters, sizeof(pca->parameters));
 
     if (i == -1)
     {
 	//- ... or create a new table for these parameters
 
-	i = HeccerTabulatedGateNew(pheccer, &pca->parameters, sizeof(pca->parameters), dStart, dEnd, iEntries);
+	i = HeccerTabulatedGateNewForParameters(pheccer, &pca->parameters, sizeof(pca->parameters), dStart, dEnd, iEntries);
 
 	if (i == -1)
 	{
@@ -307,15 +320,22 @@ HeccerDiscretizeGateConcept
 	    return(FALSE);
 	}
 
-	/// \todo first should do the lookup
+	//- lookup table
 
-	//- store the table as is
+	int i = HeccerTabulatedGateLookupTable(pheccer, &pgc->htg);
 
-	int i = HeccerTabulatedGateStore(pheccer, &pgc->htg);
+	//- if not found
 
 	if (i == -1)
 	{
-	    return(FALSE);
+	    //- store the table as is
+
+	    i = HeccerTabulatedGateStoreTable(pheccer, &pgc->htg);
+
+	    if (i == -1)
+	    {
+		return(FALSE);
+	    }
 	}
 
 	//- register the index
@@ -335,13 +355,13 @@ HeccerDiscretizeGateConcept
 
     //- lookup the table parameters ...
 
-    int i = HeccerTabulatedGateLookup(pheccer, &pgc->parameters, sizeof(pgc->parameters));
+    int i = HeccerTabulatedGateLookupParameters(pheccer, &pgc->parameters, sizeof(pgc->parameters));
 
     if (i == -1)
     {
 	//- ... or create a new table for these parameters
 
-	i = HeccerTabulatedGateNew(pheccer, &pgc->parameters, sizeof(pgc->parameters), dStart, dEnd, iEntries);
+	i = HeccerTabulatedGateNewForParameters(pheccer, &pgc->parameters, sizeof(pgc->parameters), dStart, dEnd, iEntries);
 
 	if (i == -1)
 	{
@@ -546,6 +566,9 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
     //- if already registered
 
+    //! note that this test evaluates to true during the second and
+    //! third mechanism compilation phase.
+
     if (pcpsdt->iFirstTable != -1)
     {
 	return(TRUE);
@@ -559,13 +582,13 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
     //- lookup the table parameters ...
 
-    int i = HeccerTabulatedGateLookup(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1));
+    int i = HeccerTabulatedGateLookupParameters(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1));
 
     if (i == -1)
     {
 	//- ... or create a new table for these parameters
 
-	i = HeccerTabulatedGateNew(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1), dStart, dEnd, iEntries);
+	i = HeccerTabulatedGateNewForParameters(pheccer, &pcpsdt->parameters1, sizeof(pcpsdt->parameters1), dStart, dEnd, iEntries);
 
 	if (i == -1)
 	{
@@ -653,13 +676,13 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
     //- lookup the table parameters ...
 
-    int j = HeccerTabulatedGateLookup(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2));
+    int j = HeccerTabulatedGateLookupParameters(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2));
 
     if (j == -1)
     {
 	//- ... or create a new table for these parameters
 
-	j = HeccerTabulatedGateNew(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2), dStart, dEnd, iEntries);
+	j = HeccerTabulatedGateNewForParameters(pheccer, &pcpsdt->parameters2, sizeof(pcpsdt->parameters2), dStart, dEnd, iEntries);
 
 	if (j == -1)
 	{
@@ -782,6 +805,9 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
     //- if already registered
 
+    //! note that this test evaluates to true during the second and
+    //! third mechanism compilation phase.
+
     if (pcpst->iTable != -1)
     {
 	return(TRUE);
@@ -795,13 +821,13 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
     //- lookup the table parameters ...
 
-    int i = HeccerTabulatedGateLookup(pheccer, &pcpst->parameters, sizeof(pcpst->parameters));
+    int i = HeccerTabulatedGateLookupParameters(pheccer, &pcpst->parameters, sizeof(pcpst->parameters));
 
     if (i == -1)
     {
 	//- ... or create a new table for these parameters
 
-	i = HeccerTabulatedGateNew(pheccer, &pcpst->parameters, sizeof(pcpst->parameters), dStart, dEnd, iEntries);
+	i = HeccerTabulatedGateNewForParameters(pheccer, &pcpst->parameters, sizeof(pcpst->parameters), dStart, dEnd, iEntries);
 
 	if (i == -1)
 	{
@@ -898,8 +924,9 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 /// 
 /// \arg pheccer a heccer.
-/// \arg iType type of intermediary.
 /// \arg pv a heccer intermediary with table parameters.
+/// \arg iPrototype prototype number, -1 for none.
+/// \arg iType type of intermediary.
 /// 
 /// \return int
 /// 
@@ -910,7 +937,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 int
 HeccerTabulateAny
-(struct Heccer *pheccer, void *pv, int iType)
+(struct Heccer *pheccer, void *pv, int iPrototype, int iType)
 {
     //- set default result: failure
 
@@ -922,6 +949,10 @@ HeccerTabulateAny
     {
     case MATH_TYPE_Concentration:
     {
+	//! channel act-conc once
+
+	//! one table
+
 	struct ConcentrationActivator *pca = (struct ConcentrationActivator *)pv;
 
 	iResult = HeccerDiscretizeConcentrationGate(pheccer, pca);
@@ -930,6 +961,10 @@ HeccerTabulateAny
     }
     case MATH_TYPE_GateConcept:
     {
+	//! channel act once, channel act-inact twice, channel act-conc once
+
+	//! one table
+
 	struct GateConcept *pgc = (struct GateConcept *)pv;
  
 	iResult = HeccerDiscretizeGateConcept(pheccer, pgc);
@@ -938,6 +973,10 @@ HeccerTabulateAny
     }
     case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
     {
+	//! called once per channel
+
+	//! two tables
+
 	struct ChannelPersistentSteadyStateDualTau *pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pv;
 
 	iResult = HeccerChannelPersistentSteadyStateDualTauTabulate(pcpsdt, pheccer);
@@ -946,6 +985,10 @@ HeccerTabulateAny
     }
     case MATH_TYPE_ChannelPersistentSteadyStateTau:
     {
+	//! called once per channel
+
+	//! one table
+
 	struct ChannelPersistentSteadyStateTau *pcpst = (struct ChannelPersistentSteadyStateTau *)pv;
 
 	iResult = HeccerChannelPersistentSteadyStateTauTabulate(pcpst, pheccer);
@@ -954,6 +997,10 @@ HeccerTabulateAny
     }
     case MATH_TYPE_ChannelSpringMass:
     {
+	//! called once per channel
+
+	//! one table
+
 	struct ChannelSpringMass *pcsm = (struct ChannelSpringMass *)pv;
 
 	iResult = HeccerTabulateSpringMass(pheccer, pcsm);
@@ -962,6 +1009,10 @@ HeccerTabulateAny
     }
     case MATH_TYPE_ChannelSteadyStateSteppedTau:
     {
+	//! called once per channel
+
+	//! two tables
+
 	struct ChannelSteadyStateSteppedTau *pcsst = (struct ChannelSteadyStateSteppedTau *)pv;
 
 	iResult = HeccerChannelSteadyStateSteppedTauTabulate(pcsst, pheccer);
@@ -1081,6 +1132,9 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
     //- if already registered
 
+    //! note that this test evaluates to true during the second and
+    //! third mechanism compilation phase.
+
     if (pcsst->iFirstTable != -1)
     {
 	return(TRUE);
@@ -1094,13 +1148,13 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
     //- lookup the table parameters ...
 
-    int i = HeccerTabulatedGateLookup(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters));
+    int i = HeccerTabulatedGateLookupParameters(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters));
 
     if (i == -1)
     {
 	//- ... or create a new table for these parameters
 
-	i = HeccerTabulatedGateNew(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters), dStart, dEnd, iEntries);
+	i = HeccerTabulatedGateNewForParameters(pheccer, &pcsst->ss_parameters, sizeof(pcsst->ss_parameters), dStart, dEnd, iEntries);
 
 	if (i == -1)
 	{
@@ -1203,13 +1257,13 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
     //- lookup the table parameters ...
 
-    int j = HeccerTabulatedGateLookup(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters));
+    int j = HeccerTabulatedGateLookupParameters(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters));
 
     if (j == -1)
     {
 	//- ... or create a new table for these parameters
 
-	j = HeccerTabulatedGateNew(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters), dStart, dEnd, iEntries);
+	j = HeccerTabulatedGateNewForParameters(pheccer, &pcsst->tc_parameters, sizeof(pcsst->tc_parameters), dStart, dEnd, iEntries);
 
 	if (j == -1)
 	{
@@ -1675,7 +1729,7 @@ HeccerTabulatedGateCompareParameters
 
 static
 int
-HeccerTabulatedGateLookup
+HeccerTabulatedGateLookupParameters
 (struct Heccer *pheccer, void *pv, size_t iSize)
 {
     //- set default result : not found
@@ -1734,7 +1788,7 @@ HeccerTabulatedGateLookup
 
 static
 int
-HeccerTabulatedGateNew
+HeccerTabulatedGateNewForParameters
 (struct Heccer *pheccer,
  void *pvParameters,
  size_t iSize,
@@ -1932,6 +1986,38 @@ HeccerTabulatedSpringMassNew
 
 /// 
 /// \arg pheccer a heccer.
+/// \arg phtg tabulated gate.
+/// 
+/// \return int
+/// 
+///	tabulated gate index, -1 for failure.
+/// 
+/// \brief Lookup table.
+///
+/// \details
+/// 
+///	Note that the parameters that identify the table must be
+///	initialized correctly before this function is called.
+/// 
+
+static
+int
+HeccerTabulatedGateLookupTable
+(struct Heccer *pheccer,
+ struct HeccerTabulatedGate *phtg)
+{
+    //- set default result: not found
+
+    int iResult = -1;
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
 /// \arg phtgNew tabulated gate.
 /// 
 /// \return int
@@ -1948,7 +2034,7 @@ HeccerTabulatedSpringMassNew
 
 static
 int
-HeccerTabulatedGateStore
+HeccerTabulatedGateStoreTable
 (struct Heccer *pheccer,
  struct HeccerTabulatedGate *phtgNew)
 {

@@ -56,6 +56,14 @@ struct MathComponent
 
 #endif
 
+#ifdef HECCER_SOURCE_NEUROSPACES
+
+    /// prototype identification
+
+    int iPrototype;
+
+#endif
+
 };
 
 

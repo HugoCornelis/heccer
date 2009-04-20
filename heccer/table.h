@@ -178,7 +178,7 @@ HeccerTableInterpolate
 
 int
 HeccerTabulateAny
-(struct Heccer *pheccer, void *pv, int iType);
+(struct Heccer *pheccer, void *pv, int iPrototype, int iType);
 
 
 #endif
