@@ -925,7 +925,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 /// 
 /// \arg pheccer a heccer.
 /// \arg pv a heccer intermediary with table parameters.
-/// \arg iPrototype prototype number, -1 for none.
+/// \arg iPrototype prototype number, INT_MAX for none.
 /// \arg iType type of intermediary.
 /// 
 /// \return int
