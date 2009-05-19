@@ -2010,6 +2010,27 @@ HeccerTabulatedGateLookupTable
 
     int iResult = -1;
 
+    //- loop over all tables pointers
+
+    int i;
+
+    for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount ; i++)
+    {
+	//- if pointers match
+
+	if (pheccer->tgt.phtg[i].pdA == phtg->pdA
+	    && pheccer->tgt.phtg[i].pdB == phtg->pdB)
+	{
+	    //- set result
+
+	    iResult = i;
+
+	    //- break search loop
+
+	    break;
+	}
+    }
+
     //- return result
 
     return(iResult);

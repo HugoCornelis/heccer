@@ -302,7 +302,7 @@ static int RegisterTable(double *pdValues, double *pdTable)
 {
     //- set default result: failure
 
-    int iResult = 0;
+    int iResult = -1;
 
     //- if max number of tables reached
 
@@ -310,7 +310,7 @@ static int RegisterTable(double *pdValues, double *pdTable)
     {
 	//- return failure
 
-	return(0);
+	return(-1);
     }
 
     //- register the identifiers
@@ -329,7 +329,9 @@ static int RegisterTable(double *pdValues, double *pdTable)
 
     iIdentifiedTables++;
 
-    //- return result
+    //- return result: table index
+
+    iResult = iIdentifiedTables - 1;
 
     return(iResult);
 }
@@ -622,7 +624,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 			}
 		    }
 
-		    RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdCache, pdTable);
 		}
 
 		if (pmcd->iStatus == 2)
@@ -1042,7 +1044,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdCache, pdTable);
 		}
 
 		if (pmcd->iStatus == 2)
@@ -1242,7 +1244,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdCache, pdTable);
 		}
 
 		if (pmcd->iStatus == 5)
@@ -1520,7 +1522,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			}
 		    }
 
-		    RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdCache, pdTable);
 		}
 
 		if (pmcd->iStatus == 2
