@@ -245,8 +245,94 @@ int
 MathComponentPrintErrorReport(struct MathComponentData * pmcd);
 
 
+static double * LookupTable(double *pdValues);
+
+static int RegisterTable(double *pdValues, double *pdTable);
 
 
+// \def number of entries used to identify a table.  Note that this
+// number is hardcoded throughout this source file.
+
+#define NUMBER_OF_CACHE_IDENTIFIERS 5
+
+static double ppdTableIdentifiers[100][NUMBER_OF_CACHE_IDENTIFIERS];
+
+static double *ppdIdentifiedTables[100];
+
+int iIdentifiedTables = 0;
+
+
+static double * LookupTable(double *pdValues)
+{
+    //- set default result: not found
+
+    double *pdResult = NULL;
+
+    //- loop through all identified tables
+
+    int i;
+
+    for (i = 0 ; i < iIdentifiedTables ; i++)
+    {
+	//- if tables match
+
+	if (pdValues[0] == ppdTableIdentifiers[i][0]
+	    && pdValues[1] == ppdTableIdentifiers[i][1]
+	    && pdValues[2] == ppdTableIdentifiers[i][2]
+	    && pdValues[3] == ppdTableIdentifiers[i][3]
+	    && pdValues[4] == ppdTableIdentifiers[i][4])
+	{
+	    //- set result
+
+	    pdResult = ppdIdentifiedTables[i];
+
+	    //- break loop
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(pdResult);
+}
+
+
+static int RegisterTable(double *pdValues, double *pdTable)
+{
+    //- set default result: failure
+
+    int iResult = 0;
+
+    //- if max number of tables reached
+
+    if (iIdentifiedTables >= 100)
+    {
+	//- return failure
+
+	return(0);
+    }
+
+    //- register the identifiers
+
+    ppdTableIdentifiers[iIdentifiedTables][0] = pdValues[0];
+    ppdTableIdentifiers[iIdentifiedTables][1] = pdValues[1];
+    ppdTableIdentifiers[iIdentifiedTables][2] = pdValues[2];
+    ppdTableIdentifiers[iIdentifiedTables][3] = pdValues[3];
+    ppdTableIdentifiers[iIdentifiedTables][4] = pdValues[4];
+
+    //- register the table that was identified
+
+    ppdIdentifiedTables[iIdentifiedTables] = pdTable;
+
+    //- increment number of identified tables
+
+    iIdentifiedTables++;
+
+    //- return result
+
+    return(iResult);
+}
 
 
 static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathComponent * pmc)
@@ -494,27 +580,19 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    //- if a hardcoded table is present
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
-
-	    int iHasTable = 0;
-
-	    if (dHasTable != FLT_MAX)
-	    {
-		iHasTable = dHasTable;
-	    }
-
-	    if (iHasTable)
-	    {
-/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
-
-	    }
-
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
-/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
-/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
-		if (1)
+		double pdCache[5];
+
+		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
+		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
+		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
+		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
+		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+
+		double *pdTable = LookupTable(pdCache);
+
+		if (!pdTable)
 		{
 		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
@@ -544,24 +622,16 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 			}
 		    }
 
-		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
+		    RegisterTable(pdCache, pdTable);
+		}
 
-		    if (pmcd->iStatus == 2)
-		    {
-			ppgc->gc.htg.pdA = pdTable;
-		    }
-		    else
-		    {
-			ppgc->gc.htg.pdB = pdTable;
-		    }
+		if (pmcd->iStatus == 2)
+		{
+		    ppgc->gc.htg.pdA = pdTable;
 		}
 		else
 		{
-		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
-
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_Has_Table");
-
-		    iResult = TSTR_PROCESSOR_ABORT;
+		    ppgc->gc.htg.pdB = pdTable;
 		}
 	    }
 
@@ -927,27 +997,21 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    ppgc->gc.iTable = -1;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
-
-	    int iHasTable = 0;
-
-	    if (dHasTable != FLT_MAX)
-	    {
-		iHasTable = dHasTable;
-	    }
-
-	    if (iHasTable)
-	    {
-/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
-
-	    }
+	    //- if a hardcoded table is present
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
-/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
-/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
-		if (1)
+		double pdCache[5];
+
+		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
+		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
+		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
+		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
+		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+
+		double *pdTable = LookupTable(pdCache);
+
+		if (!pdTable)
 		{
 		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
@@ -978,26 +1042,16 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
+		    RegisterTable(pdCache, pdTable);
+		}
 
-		    if (pmcd->iStatus == 2)
-		    {
-			ppgc->gc.htg.pdA = pdTable;
-		    }
-		    else
-		    {
-			ppgc->gc.htg.pdB = pdTable;
-		    }
+		if (pmcd->iStatus == 2)
+		{
+		    ppgc->gc.htg.pdA = pdTable;
 		}
 		else
 		{
-		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
-					       ptstr->ppist);
-
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,
-				       "HH_NUMBER_OF_TABLE_ENTRIES");
-
-		    iResult = TSTR_PROCESSOR_ABORT;
+		    ppgc->gc.htg.pdB = pdTable;
 		}
 	    }
 
@@ -1146,27 +1200,21 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    pcac->pac.ca.iTable = -1;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
-
-	    int iHasTable = 0;
-
-	    if (dHasTable != FLT_MAX)
-	    {
-		iHasTable = dHasTable;
-	    }
-
-	    if (iHasTable)
-	    {
-/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
-
-	    }
+	    //- if a hardcoded table is present
 
 	    if (pcac->pac.ca.htg.iEntries != INT_MAX)
 	    {
-/* 		if (pcac->pac.ca.htg.hi.dStart != FLT_MAX */
-/* 		    && pcac->pac.ca.htg.hi.dEnd != FLT_MAX */
-/* 		    && pcac->pac.ca.htg.hi.dStep != FLT_MAX) */
-		if (1)
+		double pdCache[5];
+
+		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
+		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
+		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
+		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
+		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+
+		double *pdTable = LookupTable(pdCache);
+
+		if (!pdTable)
 		{
 		    double *pdTable = (double *)calloc(pcac->pac.ca.htg.iEntries, sizeof(*pdTable));
 
@@ -1194,22 +1242,16 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
+		    RegisterTable(pdCache, pdTable);
+		}
 
-		    if (pmcd->iStatus == 5)
-		    {
-			pcac->pac.ca.htg.pdA = pdTable;
-		    }
-		    else
-		    {
-			pcac->pac.ca.htg.pdB = pdTable;
-		    }
+		if (pmcd->iStatus == 5)
+		{
+		    pcac->pac.ca.htg.pdA = pdTable;
 		}
 		else
 		{
-		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
-
-		    iResult = TSTR_PROCESSOR_ABORT;
+		    pcac->pac.ca.htg.pdB = pdTable;
 		}
 	    }
 
@@ -1433,27 +1475,21 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    ppgc->gc.iTable = -1;
 
-	    double dHasTable = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_Has_Table");
-
-	    int iHasTable = 0;
-
-	    if (dHasTable != FLT_MAX)
-	    {
-		iHasTable = dHasTable;
-	    }
-
-	    if (iHasTable)
-	    {
-/* 		printf("warning: iHasTable has value %i\n", iHasTable); */
-
-	    }
+	    //- if a hardcoded table is present
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-/* 		if (ppgc->gc.htg.hi.dStart != FLT_MAX */
-/* 		    && ppgc->gc.htg.hi.dEnd != FLT_MAX */
-/* 		    && ppgc->gc.htg.hi.dStep != FLT_MAX) */
-		if (1)
+		double pdCache[5];
+
+		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
+		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
+		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
+		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
+		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+
+		double *pdTable = LookupTable(pdCache);
+
+		if (!pdTable)
 		{
 		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
@@ -1484,27 +1520,17 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			}
 		    }
 
-		    /// \todo would prefer to have all tests for pmcd->iStatus at the same place
+		    RegisterTable(pdCache, pdTable);
+		}
 
-		    if (pmcd->iStatus == 2
-			|| pmcd->iStatus == 5)
-		    {   /// \todo store number of entries in the table
-			ppgc->gc.htg.pdA = pdTable;
-		    }
-		    else
-		    {   /// \todo compare number of entries with stored number
-			ppgc->gc.htg.pdB = pdTable;
-		    }
+		if (pmcd->iStatus == 2
+		    || pmcd->iStatus == 5)
+		{   /// \todo store number of entries in the table
+		    ppgc->gc.htg.pdA = pdTable;
 		}
 		else
-		{
-		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
-					       ptstr->ppist);
-
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,
-				       "HH_NUMBER_OF_TABLE_ENTRIES");
-
-		    iResult = TSTR_PROCESSOR_ABORT;
+		{   /// \todo compare number of entries with stored number
+		    ppgc->gc.htg.pdB = pdTable;
 		}
 	    }
 
@@ -3204,6 +3230,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
 
+	    pmc->iPrototype
+		= SymbolParameterResolveValue(phsle, ptstr->ppist, "PROTOTYPE_IDENTIFIER");
+
 #ifdef HECCER_SOURCE_TYPING
 
 	    double dModelSourceType
@@ -3281,6 +3310,9 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    int iNeurospaces = PidinStackToSerial(ptstr->ppist);
 
 	    pmc->iSerial = ADDRESSING_NEUROSPACES_2_HECCER(iNeurospaces);
+
+	    pmc->iPrototype
+		= SymbolParameterResolveValue(phsle, ptstr->ppist, "PROTOTYPE_IDENTIFIER");
 
 #ifdef HECCER_SOURCE_TYPING
 
@@ -3570,7 +3602,11 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    //- set type and serial
 
 	    pin->mc.iType = MATH_TYPE_InternalNernst;
+
 	    pin->mc.iSerial = iNernst;
+
+	    pmc->iPrototype
+		= SymbolParameterResolveValue(phsle, ptstr->ppist, "PROTOTYPE_IDENTIFIER");
 
 #ifdef HECCER_SOURCE_TYPING
 
