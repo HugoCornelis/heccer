@@ -596,7 +596,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		if (!pdTable)
 		{
-		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+		    pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -1015,7 +1015,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		if (!pdTable)
 		{
-		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+		    pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -1218,7 +1218,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		if (!pdTable)
 		{
-		    double *pdTable = (double *)calloc(pcac->pac.ca.htg.iEntries, sizeof(*pdTable));
+		    pdTable = (double *)calloc(pcac->pac.ca.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
@@ -1493,7 +1493,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		if (!pdTable)
 		{
-		    double *pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
+		    pdTable = (double *)calloc(ppgc->gc.htg.iEntries, sizeof(*pdTable));
 
 		    int i;
 
