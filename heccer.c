@@ -1,4 +1,4 @@
-static char *pcVersionTime="(08/12/15) Monday, December 15, 2008 06:29:35 hugo";
+static char *pcVersionTime="(09/06/01) Monday, June 1, 2009 10:37:00 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -603,7 +603,7 @@ static int HeccerHecc(struct Heccer *pheccer)
 
     //- initialize the aggregate results
 
-    if (pheccer->vm.pdAggregators)
+    if (pheccer->vm.pdAggregators && pheccer->vm.iAggregators)
     {
 	iResult = iResult && HeccerAggregatorsInitialize(pheccer);
     }
