@@ -3973,7 +3973,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 	    }
 	    }
 	}
-		
+
 	//- for single compartment neurons
 
 	if (pheccer->vm.iVms == 1)
