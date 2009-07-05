@@ -3187,7 +3187,11 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     //- if structure only
 
-    else if (instanceof_group(phsle)
+    // cell can happen when G2 neutrals are translated to cell
+    // symbols, and are used as signalling objects in G2 scripts.
+
+    else if (instanceof_cell(phsle)
+	     || instanceof_group(phsle)
 	     || instanceof_segment(phsle)
 	     || instanceof_v_segment(phsle))
     {
@@ -4141,7 +4145,11 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	MathComponentDataStatusSet(pmcd, STATUS_CONSISTENCY, ptstr->ppist);
 
-	MathComponentError(pmcd,STATUS_CONSISTENCY,"Spike Generator is not consistent.");
+	char pc[100];
+
+	sprintf(pc, "type of %i is unexpected here.", iType);
+
+	MathComponentError(pmcd, STATUS_CONSISTENCY, pc);
       
 	iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4197,7 +4205,11 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     //- if structure only
 
-    else if (instanceof_group(phsle)
+    // cell can happen when G2 neutrals are translated to cell
+    // symbols, and are used as signalling objects in G2 scripts.
+
+    else if (instanceof_cell(phsle)
+	     || instanceof_group(phsle)
 	     || instanceof_segment(phsle)
 	     || instanceof_v_segment(phsle))
     {
