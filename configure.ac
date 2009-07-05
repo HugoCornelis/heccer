@@ -166,7 +166,7 @@ AC_C_CONST
 AC_CHECK_FUNCS([localeconv strchr])
 
 
-dnl This does macro substitutions for certain opertaing systems and 
+dnl This does macro substitutions for certain operating systems and 
 dnl architectures 
 AC_MSG_CHECKING([OS specifics...])
 AC_MSG_RESULT([Host is running $host_os.])
