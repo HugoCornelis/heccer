@@ -40,7 +40,7 @@ use Heccer;
 use SwiggableHeccer;
 
 
-print "hello there\n";
+print "Heccer module loaded\n";
 
 
 sub c1c2p2
