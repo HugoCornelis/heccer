@@ -34,7 +34,7 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, 
 
     pheccer->ped = ped;
 
-    //- the service core is neurospaces
+    //- the modeling service is neurospaces
 
     struct Neurospaces *pneuro = (struct Neurospaces *)pvNeurospaces;
 
