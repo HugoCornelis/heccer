@@ -10,5 +10,5 @@ directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-a
 directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-antonio-1/shell
 directory /local_home/local_home/hugo/genesis/source/uname/Linux/snapshots/san-antonio-1/sys
 break do_chip_hh4ni_update
-set args pool1.g
+set args addressing-current.g
 echo .gdbinit: Done .gdbinit\n

@@ -370,8 +370,8 @@ HeccerAddressMechanismVariable
 /* 	{	"G",		0,	0, }, */
 /* 	{	"I",		0,	0, }, */
 	{	"activation",	0,	1, },
-	{	"conductance",	-1,	0, },
-	{	"current",	0,	0, },
+	{	"conductance",	0,	0, },
+	{	"current",	0,	1, },
 	{	"spike",	0,	1, },
 	{	"state_h",	0,	0, },
 	{	"state_m",	-1,	0, },

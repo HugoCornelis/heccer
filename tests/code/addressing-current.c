@@ -25,6 +25,7 @@
 #include "../../heccer/output.h"
 
 
+#define HECCER_TEST_OPTIONS (HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS)
 #define HECCER_TEST_REPORTING_GRANULARITY 100
 #define HECCER_TEST_STEPS 1000
 #define HECCER_TEST_TESTED_THINGS ( HECCER_DUMP_VM_COMPARTMENT_MATRIX \
@@ -147,7 +148,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.0078406449371415214,
+	    0.7611933982, // 0.0078406449371415214,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -235,7 +236,7 @@ struct ChannelActInact caiNaF =
 	{
 	    //m initial value, commonly forward over backward steady states
 
-	    0.26397776926502026,
+	    0.0009204060852,
 
 	    //m corresponding index in tables, set to -1 for initialization.
 
@@ -371,7 +372,9 @@ struct Intermediary inter =
 };
 
 
-struct OutputGenerator * pogCurrent = NULL;
+struct OutputGenerator * pog = NULL;
+
+double *pdConductance = NULL;
 
 double *pdCurrent = NULL;
 
@@ -390,19 +393,21 @@ int main(int argc, char *argv[])
 
     //- create output elements
 
-    pogCurrent = OutputGeneratorNew("/tmp/output");
+    pog = OutputGeneratorNew("/tmp/output");
 
-    OutputGeneratorInitiate(pogCurrent);
+    OutputGeneratorInitiate(pog);
 
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_INITIATE \
+    pdConductance = HeccerAddressVariable(pheccer, 2000, "conductance"); \
     pdCurrent = HeccerAddressVariable(pheccer, 2000, "current"); \
-    OutputGeneratorAddVariable(pogCurrent, "Current", pdCurrent)
+    OutputGeneratorAddVariable(pog, "Conductance", pdConductance); \
+    OutputGeneratorAddVariable(pog, "Current", pdCurrent)
 
 //d generate output of membrane potential each step
 
-#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogCurrent, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pog, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
 
 #endif
 
@@ -414,11 +419,11 @@ int main(int argc, char *argv[])
 
     //- finish the simulation output
 
-    OutputGeneratorFinish(pogCurrent);
+    OutputGeneratorFinish(pog);
 
-    //- add the simulation output to the program output
+/*     //- add the simulation output to the program output */
 
-    WriteOutput("/tmp/output");
+/*     WriteOutput("/tmp/output"); */
 
 #endif
 
@@ -429,6 +434,8 @@ int main(int argc, char *argv[])
 
     double *pdVmExternal = HeccerAddressVariable(pheccer, 1000, "Vm");
 
+    double *pdConductanceExternal = HeccerAddressVariable(pheccer, 2000, "conductance");
+
     double *pdCurrentExternal = HeccerAddressVariable(pheccer, 2000, "current");
 
 #endif
@@ -437,6 +444,8 @@ int main(int argc, char *argv[])
 
     double *pdVmInternal = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");
 
+    double *pdConductanceInternal = HeccerAddressMechanismVariable(pheccer, 0, "conductance");
+
     double *pdCurrentInternal = HeccerAddressMechanismVariable(pheccer, 0, "current");
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -444,6 +453,13 @@ int main(int argc, char *argv[])
     if (pdVmInternal != pdVmExternal)
     {
 	fprintf(stdout, "*** Error: (pdVmInternal != pdVmExternal)\n");
+
+	exit(EXIT_FAILURE);
+    }
+
+    if (pdConductanceInternal != pdConductanceExternal)
+    {
+	fprintf(stdout, "*** Error: (pdConductanceInternal != pdConductanceExternal)\n");
 
 	exit(EXIT_FAILURE);
     }
@@ -459,7 +475,9 @@ int main(int argc, char *argv[])
 
     fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
 
-    fprintf(stdout, "Current state m is %g\n", pdCurrentInternal[0]);
+    fprintf(stdout, "Conductance is %g\n", pdConductanceInternal[0]);
+
+    fprintf(stdout, "Current is %g\n", pdCurrentInternal[0]);
 
     //- return result
 
