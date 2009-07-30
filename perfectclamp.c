@@ -26,16 +26,14 @@
 
 
 /// 
-/// 
 /// \arg ppc voltage clamper.
-///	pvVoltage...: pointer to the voltage variable, assumed is double *
+/// \arg pvVoltage pointer to the voltage variable, assumed is double *
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief Clamp the given voltage variable.
-/// \details 
 /// 
 
 int
@@ -64,7 +62,6 @@ PerfectClampAddVariable
 
 
 /// 
-/// 
 /// \arg ppc voltage clamper.
 /// 
 /// \return int
@@ -72,7 +69,6 @@ PerfectClampAddVariable
 ///	success of operation.
 /// 
 /// \brief Free the voltage clamper.
-/// \details 
 /// 
 
 int PerfectClampFinish(struct PerfectClamp * ppc)
@@ -106,7 +102,6 @@ int PerfectClampFinish(struct PerfectClamp * ppc)
 
 
 /// 
-/// 
 /// \arg ppc voltage clamper.
 /// 
 /// \return int
@@ -114,7 +109,6 @@ int PerfectClampFinish(struct PerfectClamp * ppc)
 ///	success of operation.
 /// 
 /// \brief Initiate the voltage clamper.
-/// \details 
 /// 
 
 int PerfectClampInitiate(struct PerfectClamp * ppc)
@@ -130,7 +124,6 @@ int PerfectClampInitiate(struct PerfectClamp * ppc)
 
 
 /// 
-/// 
 /// \arg pcName name of this object.
 /// 
 /// \return struct PerfectClamp *
@@ -138,7 +131,6 @@ int PerfectClampInitiate(struct PerfectClamp * ppc)
 ///	voltage clamper, NULL for failure.
 /// 
 /// \brief voltage clamper.
-/// \details 
 /// 
 
 struct PerfectClamp * PerfectClampNew(char *pcName)
@@ -169,16 +161,15 @@ struct PerfectClamp * PerfectClampNew(char *pcName)
 
 
 /// 
-/// 
-///	dCommand.....: command voltage, ignored if a filename is given.
-///	pcFilename...: filename, file contains sequence of command voltages.
+/// \arg ppc voltage clamper.
+/// \arg dCommand command voltage, ignored if a filename is given.
+/// \arg pcFilename filename, file contains sequence of command voltages.
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief set operation fields of voltage clamper.
-/// \details 
 /// 
 
 int
@@ -232,7 +223,6 @@ PerfectClampSetFields
 
 
 /// 
-/// 
 /// \arg ppc voltage clamper.
 /// \arg dTime current simulation time.
 /// 
@@ -241,7 +231,6 @@ PerfectClampSetFields
 ///	success of operation.
 /// 
 /// \brief Compute new currents to correct voltages.
-/// \details 
 /// 
 /// \note 
 /// 
