@@ -367,7 +367,11 @@ HeccerAddressMechanismVariable
     struct field_2_operator pF2P[] =
     {
 	{	"Ca",		0,	0, },
+/* 	{	"G",		0,	0, }, */
+/* 	{	"I",		0,	0, }, */
 	{	"activation",	0,	1, },
+	{	"conductance",	-1,	0, },
+	{	"current",	0,	0, },
 	{	"spike",	0,	1, },
 	{	"state_h",	0,	0, },
 	{	"state_m",	-1,	0, },
@@ -398,7 +402,7 @@ HeccerAddressMechanismVariable
 	//! a single mechanism can give rise to multiple mat entries,
 	//! so the following two steps:
 
-	//- apply the operand, tekes us to the correct mat entry
+	//- apply the operand, takes us to the correct mat entry
 
 	iMat += iOperand;
 

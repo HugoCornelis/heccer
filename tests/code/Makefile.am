@@ -24,6 +24,7 @@ CFLAGS=-O0
 
 check_PROGRAMS = \
 	addressing-aggregator1 \
+	addressing-current \
 	addressing-purk-test-segment \
 	addressing-synchan \
 	aggregator-kc \
@@ -104,6 +105,8 @@ noinst_HEADERS = \
 
 addressing_aggregator1_DEPENDENCIES = ../../libheccer.a main.c
 addressing_aggregator1_LDADD = -L../.. -lheccer -lm
+addressing_current_DEPENDENCIES = ../../libheccer.a main.c
+addressing_current_LDADD = -L../.. -lheccer -lm
 addressing_purk_test_segment_DEPENDENCIES = ../../libheccer.a main.c
 addressing_purk_test_segment_LDADD = -L../.. -lheccer -lm
 addressing_synchan_DEPENDENCIES = ../../libheccer.a main.c
