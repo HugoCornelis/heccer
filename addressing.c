@@ -367,8 +367,8 @@ HeccerAddressMechanismVariable
     struct field_2_operator pF2P[] =
     {
 	{	"Ca",		0,	0, },
-/* 	{	"G",		0,	0, }, */
-/* 	{	"I",		0,	0, }, */
+	{	"G",		0,	0, },
+	{	"I",		0,	1, },
 	{	"activation",	0,	1, },
 	{	"conductance",	0,	0, },
 	{	"current",	0,	1, },
