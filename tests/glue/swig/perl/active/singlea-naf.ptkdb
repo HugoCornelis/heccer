@@ -1,24 +1,13 @@
 $files = {
-           '_<tests/glue/swig/perl/active/singlea-naf' => [
-                                                            {
-                                                              'expr' => undef,
-                                                              'value' => '1',
-                                                              'text' => 'require \'main\';
-',
-                                                              'fname' => 'tests/glue/swig/perl/active/singlea-naf',
-                                                              'type' => 'user',
-                                                              'line' => '173'
-                                                            }
-                                                          ],
            '_<tests/glue/swig/perl/main' => [
                                               {
                                                 'expr' => undef,
                                                 'value' => '1',
-                                                'text' => 'foreach my $i (0 .. ($config->{settings}->{steps} || $config->{defaults}->{steps}) - 1)
+                                                'text' => '$heccer->compile();
 ',
                                                 'fname' => 'tests/glue/swig/perl/main',
                                                 'type' => 'user',
-                                                'line' => '113'
+                                                'line' => '99'
                                               }
                                             ]
          };

@@ -71,20 +71,25 @@ sub compile
 
     # if a channel current or conductance must be calculated
 
-    my $outputs = $scheduler->get_engine_outputs($self);
+    my $has_current_output;
 
-    my $has_current_output
-	= scalar
-	    grep
-	    {
-		(
-		 $_->{field} eq 'I'
-		 or $_->{field} eq 'G'
-		 or $_->{field} eq 'current'
-		 or $_->{field} eq 'conductance'
-		)
-	    }
-		@$outputs;
+    if ($scheduler)
+    {
+	my $outputs = $scheduler->get_engine_outputs($self);
+
+	$has_current_output
+	    = scalar
+		grep
+		{
+		    (
+		     $_->{field} eq 'I'
+		     or $_->{field} eq 'G'
+		     or $_->{field} eq 'current'
+		     or $_->{field} eq 'conductance'
+		    )
+		}
+		    @$outputs;
+    }
 
     if ($has_current_output)
     {

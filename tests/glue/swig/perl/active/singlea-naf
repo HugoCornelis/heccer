@@ -26,6 +26,7 @@ BEGIN
 {
     # during tests
 
+    push @INC, './glue/swig/perl';
     push @INC, '../glue/swig/perl';
 
     # during distcheck
