@@ -69,15 +69,53 @@ sub compile
 
     my $options = shift;
 
+    # if a channel current or conductance must be calculated
+
+    my $outputs = $scheduler->get_engine_outputs($self);
+
+    my $has_current_output
+	= scalar
+	    grep
+	    {
+		(
+		 $_->{field} eq 'I'
+		 or $_->{field} eq 'G'
+		 or $_->{field} eq 'current'
+		 or $_->{field} eq 'conductance'
+		)
+	    }
+		@$outputs;
+
+    if ($has_current_output)
+    {
+	# set option that enables these calculations
+
+	my $heccer_options = $self->{heccer}->swig_ho_get();
+
+	my $options = $heccer_options->swig_iOptions_get();
+
+	$options |= $SwiggableHeccer::HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS;
+
+	$heccer_options->swig_iOptions_set($options);
+
+	#! swig works by reference, so setting in ho also sets in heccer
+    }
+
+    # get status
+
     my $status = $self->{heccer}->swig_iStatus_get();
 
     if ($status le $SwiggableHeccer::HECCER_STATUS_PHASE_1)
     {
+	# compile
+
 	if (!$self->compile1())
 	{
 	    return 0;
 	}
     }
+
+    # continue compile
 
     return $self->compile2();
 }
