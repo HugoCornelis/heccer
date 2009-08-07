@@ -312,11 +312,11 @@ sub new
 
 	if (exists $model_source->{service_name})
 	{
-	    # if setting up from the neurospaces model container
+	    # if setting up from a model container
 
 	    my $service_name = $model_source->{service_name};
 
-	    if ($service_name eq 'neurospaces')
+	    if ($service_name eq 'model_container')
 	    {
 		my $service_backend = $model_source->{service_backend}->backend();
 
@@ -330,7 +330,7 @@ sub new
 
 		if (!$success)
 		{
-		    return "HeccerConstruct from neurospaces failed";
+		    return "HeccerConstruct() from the model_container failed";
 		}
 
 		# if there was an intermediary
@@ -371,7 +371,7 @@ sub new
 
 		if (!$success)
 		{
-		    return "HeccerConstruct from heccer_intermediary failed";
+		    return "HeccerConstruct() from heccer_intermediary failed";
 		}
 	    }
 	    else
@@ -379,10 +379,10 @@ sub new
 		# no other services supported
 
 		return
-"Heccer does only know neurospaces as a service.
-If you need a different service, you have to install
-the appropriate integrator plugin for Heccer,
-and let the perl package know how to call the integrator.";
+"Heccer does only know a model_container as a service.  If you need a
+different service, you have to install the appropriate integrator
+plugin for Heccer, and let the perl package know how to call the
+integrator.";
 	    }
 	}
 
