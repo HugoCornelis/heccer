@@ -147,8 +147,8 @@ html-upload: html-upload-prepare
 	scp -pr html/htdocs/* hcornelis,neurospaces@web.sourceforge.net:/home/groups/n/ne/neurospaces/htdocs/
 
 
-doxygen-upload: doxygen
-	scp -r docs/heccer docs@repo-genesis3.cbi.utsa.edu:~/doxygen
+# doxygen-upload: doxygen
+# 	scp -r docs/heccer docs@repo-genesis3.cbi.utsa.edu:~/doxygen
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
