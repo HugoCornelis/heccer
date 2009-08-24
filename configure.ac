@@ -42,6 +42,8 @@ AC_PROG_RANLIB
 
 AC_PATH_PROGS(DOXYGEN,doxygen)
 
+AC_PATH_PROGS(DOT,dot)
+
 dnl Check for Python and it's headers
 AM_PATH_PYTHON(,[],[
    echo "Python is not installed."
