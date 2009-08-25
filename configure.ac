@@ -41,8 +41,8 @@ AC_PROG_CC
 AC_PROG_RANLIB
 
 AC_PATH_PROGS(DOXYGEN,doxygen)
-
 AC_PATH_PROGS(DOT,dot)
+AC_PATH_PROGS(SOURCE_HIGHLIGHT,source-highlight)
 
 dnl Check for Python and it's headers
 AM_PATH_PYTHON(,[],[

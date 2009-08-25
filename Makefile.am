@@ -134,21 +134,17 @@ html-upload-prepare:
 	( cd tests && ./tests_2_html --introduction introduction.html )
 	rm -fr html/htdocs/neurospaces_project/heccer/
 	echo removing following files:
-	find ~/HTML/ -name "*swiggable*wrap*" -ls
-	find ~/HTML/ -name "*swiggable*wrap*" -exec rm \{\} \;
-	mkdir --parents html/htdocs/neurospaces_project/heccer
-	mkdir --parents html/htdocs/neurospaces_project/heccer/html_source
+	find html/ -name "*swiggable*wrap*" -ls
+	find html/ -name "*swiggable*wrap*" -exec rm \{\} \;
+	mkdir -p html/htdocs/neurospaces_project/heccer
+	mkdir -p html/htdocs/neurospaces_project/heccer/html_source
 	tar cfh - tests/html | ( cd html/htdocs/neurospaces_project/heccer && tar vxf - )
 # remove swig generated large files.
-	rm -fr ~/HTML/local_home/local_home/hugo/neurospaces_project/heccer/source/c/snapshots/0/glue
-	( cd ~/HTML/local_home/local_home/hugo && tar cfh - Xrefs/heccer heccer neurospaces_project/heccer ) | ( cd html/htdocs/neurospaces_project/heccer/html_source && tar vxf - )
+#rm -fr ~/HTML/local_home/local_home/hugo/neurospaces_project/heccer/source/c/snapshots/0/glue
+#( cd ~/HTML/local_home/local_home/hugo && tar cfh - Xrefs/heccer heccer neurospaces_project/heccer ) | ( cd html/htdocs/neurospaces_project/heccer/html_source && tar vxf - )
 
 html-upload: html-upload-prepare
 	scp -pr html/htdocs/* hcornelis,neurospaces@web.sourceforge.net:/home/groups/n/ne/neurospaces/htdocs/
-
-
-# doxygen-upload: doxygen
-# 	scp -r docs/heccer docs@repo-genesis3.cbi.utsa.edu:~/doxygen
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
