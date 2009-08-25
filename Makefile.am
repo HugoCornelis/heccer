@@ -154,4 +154,4 @@ doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
 
 docs: doxygen html-upload-prepare
-
+	echo "Generated doxygen and regression tests."
