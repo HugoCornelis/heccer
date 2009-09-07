@@ -14,10 +14,10 @@ my $test
 				command_tests => [
 						  {
 						   # $Format: "description => \"Does the version information match with ${package}-${label} ?\","$
-description => "Does the version information match with heccer-python-5 ?",
+description => "Does the version information match with heccer-userdocs-3 ?",
 
 						   # $Format: "read => \"${package}-${label}\","$
-read => "heccer-python-5",
+read => "heccer-userdocs-3",
 
 						   write => "version",
 						  },
