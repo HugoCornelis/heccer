@@ -20,7 +20,7 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, userdocs-3, hugo.cornelis@gmail.com)
+AC_INIT(heccer, userdocs-4, hugo.cornelis@gmail.com)
 AC_INIT(heccer, python-3, hugo.cornelis@gmail.com)
 >>>>>>> variant B
 AC_INIT(heccer, cf4a068565733e3d58db9dc9c04ef8d879c70b05-0, hugo.cornelis@gmail.com)
@@ -31,7 +31,7 @@ AC_INIT(heccer, python-2, hugo.cornelis@gmail.com)
 AC_CONFIG_SRCDIR([singlep.c])
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, userdocs-3)
+AM_INIT_AUTOMAKE(heccer, userdocs-4)
 
 
 # Checks for programs.

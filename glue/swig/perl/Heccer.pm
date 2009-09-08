@@ -536,7 +536,7 @@ sub step
 sub version
 {
     # $Format: "    my $version=\"${package}-${label}\";"$
-    my $version="heccer-userdocs-3";
+    my $version="heccer-userdocs-4";
 
 
     return $version;
