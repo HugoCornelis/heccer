@@ -11,7 +11,7 @@ use strict;
 
 {
     # $Format: "system 'mkdir --parents \"/tmp/${package}/${label}\"'"$
-system 'mkdir --parents "/tmp/heccer/userdocs-4"'
+system 'mkdir --parents "/tmp/heccer/userdocs-6"'
 
 }
 
@@ -23,7 +23,7 @@ if ($?)
 
 {
     # $Format: "system \"cp '${package}-${label}.tar.gz' '/tmp/${package}/${label}'\""$
-system "cp 'heccer-userdocs-4.tar.gz' '/tmp/heccer/userdocs-4'"
+system "cp 'heccer-userdocs-6.tar.gz' '/tmp/heccer/userdocs-6'"
 system "cp 'heccer-python-3.tar.gz' '/tmp/heccer/python-3'"
 >>>>>>> variant B
 system "cp 'heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0.tar.gz' '/tmp/heccer/cf4a068565733e3d58db9dc9c04ef8d879c70b05-0'"
@@ -40,7 +40,7 @@ if ($?)
 
 {
     # $Format: "chdir \"/tmp/${package}/${label}\""$
-chdir "/tmp/heccer/userdocs-4"
+chdir "/tmp/heccer/userdocs-6"
 chdir "/tmp/heccer/python-3"
 >>>>>>> variant B
 chdir "/tmp/heccer/cf4a068565733e3d58db9dc9c04ef8d879c70b05-0"
@@ -57,7 +57,7 @@ if ($?)
 
 {
     # $Format: "system \"tar xfz '${package}-${label}.tar.gz'\""$
-system "tar xfz 'heccer-userdocs-4.tar.gz'"
+system "tar xfz 'heccer-userdocs-6.tar.gz'"
 system "tar xfz 'heccer-python-3.tar.gz'"
 >>>>>>> variant B
 system "tar xfz 'heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0.tar.gz'"
@@ -74,7 +74,7 @@ if ($?)
 
 {
     # $Format: "chdir \"${package}-${label}\""$
-chdir "heccer-userdocs-4"
+chdir "heccer-userdocs-6"
 chdir "heccer-python-3"
 >>>>>>> variant B
 chdir "heccer-cf4a068565733e3d58db9dc9c04ef8d879c70b05-0"
