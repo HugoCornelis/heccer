@@ -30,37 +30,43 @@
 #endif
 
 
-//o
-//o An event is an abstraction of a point in time where a solved variable
-//o crossed a (possibly solved) threshold.  The events are delivered to
-//o an event distributor, that distributes the events to event queuers.
-//o An event queuer queues the event until it is delivered to a target,
-//o normally the target is a solver.
-//o
-//o An event list is the core of the implementation of an event queuer.
-//o Other possible implementation candidates are:
-//o
-//o 1. A heap, for variable event list size, with an average number
-//o    of events above 10000, for those simulation times where there
-//o    are events in the queue.  Bursting networks are typical examples.
-//o
-//o 2. An adaptive calendar queue, for a number of events that is
-//o    about constant, for networks that are uniformly active.
-//o
-//o 3. An Splay tree is a candidate too, see the Neuron simulator.  I have
-//o    strong doubts that it performs better than a heap for neural
-//o    simulations.
-//o
-//o From my own experience, the used algorithm for the event queue is of
-//o minor importance for simulation of networks with detailed cell
-//o morphologies using the Genesis simulator, because Genesis distributes
-//o the events to many, many independent queues, such that each queue size
-//o is very small (for the simulations that I have investigated, less than
-//o 100 events).  A simple sorted list does better than any complicated
-//o data structure, according to my results (unpublished, it is difficult
-//o to publish anything that fails, which is sad, as we learn the most
-//o from our mistakes).
-//o 
+/*!
+ * \file pidinstack.c
+ * \author Hugo Cornelis
+ *
+ *
+ * An event is an abstraction of a point in time where a solved variable
+ * crossed a (possibly solved) threshold.  The events are delivered to
+ * an event distributor, that distributes the events to event queuers.
+ * An event queuer queues the event until it is delivered to a target,
+ * normally the target is a solver.
+ *
+ * An event list is the core of the implementation of an event queuer.
+ * Other possible implementation candidates are:
+ *
+ * 1. A heap, for variable event list size, with an average number
+ *    of events above 10000, for those simulation times where there
+ *    are events in the queue.  Bursting networks are typical examples.
+ *
+ * 2. An adaptive calendar queue, for a number of events that is
+ *    about constant, for networks that are uniformly active.
+ *
+ * 3. An Splay tree is a candidate too, see the Neuron simulator.  I have
+ *    strong doubts that it performs better than a heap for neural
+ *    simulations.
+ *
+ * From my own experience, the used algorithm for the event queue is of
+ * minor importance for simulation of networks with detailed cell
+ * morphologies using the Genesis simulator, because Genesis distributes
+ * the events to many, many independent queues, such that each queue size
+ * is very small (for the simulations that I have investigated, less than
+ * 100 events).  A simple sorted list does better than any complicated
+ * data structure, according to my results (unpublished, it is difficult
+ * to publish anything that fails, which is sad, as we learn the most
+ * from our mistakes).
+ *
+ */
+
 
 typedef struct EventList
 {
@@ -206,10 +212,9 @@ static int EventListInsert(EventList *pel)
 
 
 /// 
-/// 
 /// \arg ped event distributor.
 /// \arg pog output object.
-///	iType..: 1: OutputGeneratorTimedStep() used to send the event.
+/// \arg iType 1: OutputGeneratorTimedStep() used to send the event.
 /// \arg iTarget 
 /// 
 /// \return int
@@ -217,7 +222,6 @@ static int EventListInsert(EventList *pel)
 ///	number of allocated connections, -1 for failure.
 /// 
 /// \brief Add an output connection to the connection matrix.
-/// \details 
 /// 
 
 int
@@ -265,7 +269,6 @@ EventDistributorAddConnection
 
 
 /// 
-/// 
 /// \arg pedd event distributor data.
 /// \arg iEntry entry number to get access to.
 /// 
@@ -274,7 +277,6 @@ EventDistributorAddConnection
 ///	a single entry in the connection matrix, NULL for failure.
 /// 
 /// \brief Get access to an entry in the connection matrix.
-/// \details 
 /// 
 
 struct EventDistributorMatrix *
@@ -295,7 +297,6 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 
 
 /// 
-/// 
 /// \arg iConnections number of connections in the matrix.
 /// 
 /// \return struct EventDistributorData *
@@ -303,7 +304,6 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 ///	a connection matrix, NULL for failure.
 /// 
 /// \brief Construct an empty connection matrix.
-/// \details 
 /// 
 
 struct EventDistributorData *
@@ -331,7 +331,6 @@ EventDistributorDataNew(int iConnections)
 
 
 /// 
-/// 
 /// \arg ped event distributor.
 /// \arg iType type of setup to perform.
 /// 
@@ -340,13 +339,13 @@ EventDistributorDataNew(int iConnections)
 ///	success of operation.
 /// 
 /// \brief Initiate the event distributor service.
+///
 /// \details 
 /// 
 ///	Initiation means setup internal state, at this moment this
 ///	only involves initializing the distribution function.
 /// 
-/// 
-/// NOTE:
+/// \note
 /// 
 ///	I consider this function a hack that gets around swig
 ///	deficiencies in an acceptable way (or I don't have enough
@@ -382,7 +381,6 @@ EventDistributorInitiate
 
 
 /// 
-/// 
 /// \arg ppedm event distributor connection matrix.
 /// 
 /// \return struct EventDistributor
@@ -390,7 +388,6 @@ EventDistributorInitiate
 ///	An event distributor.
 /// 
 /// \brief Allocate an event distributor.
-/// \details 
 /// 
 
 struct EventDistributor *
@@ -419,7 +416,6 @@ EventDistributorNew
 
 
 /// 
-/// 
 /// \arg ped an event distributor.
 /// \arg iSerial serial of a bio component that generates spikes.
 /// 
@@ -428,7 +424,6 @@ EventDistributorNew
 ///	corresponding index in the connection matrix, -1 for not found.
 /// 
 /// \brief Lookup a spikegen serial, return the internal index.
-/// \details 
 /// 
 
 int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
@@ -466,7 +461,6 @@ int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
 
 
 /// 
-/// 
 /// \arg ped an event distributor.
 /// \arg iTargets index of target objects and target ports.
 /// 
@@ -475,7 +469,6 @@ int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
 ///	success of operation.
 /// 
 /// \brief Distribute an event over the targets.
-/// \details 
 /// 
 
 int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets)
@@ -518,7 +511,6 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 
 /// 
-/// 
 /// \arg peq an event queuer.
 /// \arg iTarget target object index.
 /// 
@@ -527,7 +519,6 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 ///	Sum of weights of arriving events, FLT_MAX for failure.
 /// 
 /// \brief Dequeue events for the given target, return the summed weights.
-/// \details 
 /// 
 
 double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
@@ -573,7 +564,6 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
 
 /// 
-/// 
 /// \arg peq an event queuer.
 /// \arg dTime time the event arrives.
 /// \arg iSource source identifier.
@@ -584,7 +574,6 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 ///	success of operation.
 /// 
 /// \brief Put an event in the queue untill it fires.
-/// \details 
 /// 
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget)
@@ -627,7 +616,6 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
 
 /// 
-/// 
 /// \arg ppeqm event queuer connection matrix.
 /// 
 /// \return struct EventQueuer
@@ -635,7 +623,6 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 ///	An event queuer.
 /// 
 /// \brief Allocate an event queuer.
-/// \details 
 /// 
 
 struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
@@ -675,7 +662,6 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 
 
 /// 
-/// 
 /// \arg peq event queuer.
 /// 
 /// \return int
@@ -683,7 +669,6 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 ///	success of operation.
 /// 
 /// \brief Process events in the queue, forward the ones that should fire.
-/// \details 
 /// 
 
 int iTarget = -1;
@@ -752,7 +737,6 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 
 /// 
-/// 
 /// \arg peq an event queuer.
 /// \arg iSerial serial to convert.
 /// 
@@ -761,7 +745,6 @@ int EventQueuerProcess(struct EventQueuer *peq)
 ///	connection matrix index, -1 for failure.
 /// 
 /// \brief Convert an external serial to a connection matrix index.
-/// \details 
 /// 
 
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
@@ -818,7 +801,6 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 
 
 /// 
-/// 
 /// \arg peq an event queuer.
 /// \arg iSerial serial to convert.
 /// \arg iIndex connection index.
@@ -828,7 +810,6 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 ///	success of operation.
 /// 
 /// \brief Add an external serial to that was added to the connection matrix.
-/// \details 
 /// 
 
 int
@@ -873,7 +854,6 @@ EventQueuerSerial2ConnectionIndexAdd
 
 
 /// 
-/// 
 /// \arg peq an event queuer.
 /// 
 /// \return int
@@ -881,7 +861,6 @@ EventQueuerSerial2ConnectionIndexAdd
 ///	success of operation.
 /// 
 /// \brief Sort the serial 2 connection index array.
-/// \details 
 /// 
 
 static int comparator(const void *pv1, const void *pv2)
