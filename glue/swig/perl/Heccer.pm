@@ -1246,7 +1246,7 @@ sub compile
 
     my $outputs = $scheduler->{outputs};
 
-    my $connections = scalar grep { $_->{distributor_service} } @$outputs;
+    my $connections = scalar grep { $_->{field} eq 'spike' } @$outputs;
 
     my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
@@ -1267,7 +1267,7 @@ sub compile
 
     my $count = 0;
 
-    foreach my $output (grep { $_->{distributor_service} } @$outputs)
+    foreach my $output (grep { $_->{field} eq 'spike' } @$outputs)
     {
 	# get output component name
 
@@ -1330,7 +1330,7 @@ sub compile
 
 # 	       $result;
 # 	   }
-# 	   grep { $_->{distributor_service} } @$outputs,
+# 	   grep { $_->{field} eq 'spike' } @$outputs,
 # 	  ];
 
 #     foreach my $connection_table_entry (@$connection_table_entries)
