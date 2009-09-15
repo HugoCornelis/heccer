@@ -53,7 +53,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
 	fprintf
 	    (stderr,
-	     "Heccer the hecc : generating events, but there is no event distribution service.\n");
+	     "Heccer the hecc: generating events, but there is no event distribution service.\n");
     }
 
     //- return result
@@ -101,7 +101,7 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 
 	fprintf
 	    (stderr,
-	     "Heccer the hecc : receiving events, but there is no event queueing service.\n");
+	     "Heccer the hecc: receiving events, but there is no event queueing service.\n");
     }
 
     //- return result

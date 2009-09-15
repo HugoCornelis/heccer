@@ -229,7 +229,7 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 
 	    fprintf
 		(stderr,
-		 "Heccer the hecc : unknown pmc->iType (%i)\n", iType);
+		 "Heccer the hecc: unknown pmc->iType (%i)\n", iType);
 	    break;
 	}
 	}

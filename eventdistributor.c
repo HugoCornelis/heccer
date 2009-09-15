@@ -843,7 +843,7 @@ EventQueuerSerial2ConnectionIndexAdd
 
 	    fprintf
 		(stderr,
-		 "Heccer the hecc : connection matrix translator overflow (please increase EVENTQUEUER_MAX_CONNECTIONS in the source).\n");
+		 "Heccer the hecc: connection matrix translator overflow (please increase EVENTQUEUER_MAX_CONNECTIONS in the source).\n");
 	}
     }
 
@@ -884,7 +884,7 @@ static int comparator(const void *pv1, const void *pv2)
 
 	fprintf
 	    (stderr,
-	     "Heccer the hecc : connection matrix index comparator() encounters entries with the same serial.\n");
+	     "Heccer the hecc: connection matrix index comparator() encounters entries with the same serial.\n");
 
 	return(0);
     }

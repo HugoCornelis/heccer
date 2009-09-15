@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/06/01) Monday, June 1, 2009 10:37:00 hugo";
+static char *pcVersionTime="(09/09/15) Tuesday, September 15, 2009 07:22:06 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -462,7 +462,7 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 
     //- print to stderr
 
-    fprintf(stderr, "Heccer the hecc :");
+    fprintf(stderr, "Heccer the hecc: ");
 
 /*     if (pcContext) */
 /*     { */
