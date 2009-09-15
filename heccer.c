@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/09/15) Tuesday, September 15, 2009 07:22:06 hugo";
+static char *pcVersionTime="(09/09/15) Tuesday, September 15, 2009 07:51:06 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -345,7 +345,6 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///	The selection is the boolean or of zero or more of the following :
 /// 
 /// 
-/// 
 ///	The shorthand HECCER_DUMP_ALL selects everything.
 /// 
 
@@ -557,7 +556,6 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 
 
 /// 
-/// 
 /// \return char *
 /// 
 ///	Version identifier.
@@ -736,7 +734,6 @@ int HeccerInitiate(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pc name of this heccer, may be NULL.
 /// \arg pts translation service.
 /// \arg ped event distribution service.
@@ -780,7 +777,6 @@ HeccerNew
 }
 
 
-/// 
 /// 
 /// \arg pc name of this heccer, may be NULL.
 /// \arg pts identification service.
@@ -859,7 +855,6 @@ HeccerNewP1
 }
 
 
-/// 
 /// 
 /// \arg pc name of this heccer, may be NULL.
 /// \arg pinter intermediary with a complete numerical model definition.
