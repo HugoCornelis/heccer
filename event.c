@@ -21,16 +21,14 @@
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
-///	iTargets..: index of targets table, in the event distributor.
+/// \arg iTargets index of targets table, in the event distributor.
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief Generate event for specified targets.
-/// \details 
 /// 
 
 int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
@@ -65,7 +63,6 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iTarget target identifier (of the event receiver object).
 /// 
@@ -74,7 +71,6 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 ///	Activation delivered by the events, FLT_MAX for failure.
 /// 
 /// \brief Receive event arriving at the specified target.
-/// \details 
 /// 
 
 double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
@@ -115,7 +111,6 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iTarget index of target.
 /// \arg dTime firing time of event.
@@ -125,7 +120,6 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 ///	success of operation.
 /// 
 /// \brief Associate an event with its target.
-/// \details 
 /// 
 
 int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
