@@ -20,7 +20,7 @@ dnl //////////////////////////////////////////////////////////////////////////
 AC_PREREQ(2.59)
 
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, userdocs-6, hugo.cornelis@gmail.com)
+AC_INIT(heccer, 1bbb77ee3b2b51952249db25e41129ce548e8b57-0, hugo.cornelis@gmail.com)
 
 dnl Obtain operating system information.
 AC_CANONICAL_TARGET
@@ -33,7 +33,7 @@ dnl dnl all subdirs
 dnl AC_CONFIG_SUBDIRS(tests/code glue)
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, userdocs-6)
+AM_INIT_AUTOMAKE(heccer, 1bbb77ee3b2b51952249db25e41129ce548e8b57-0)
 
 
 # Checks for programs.
