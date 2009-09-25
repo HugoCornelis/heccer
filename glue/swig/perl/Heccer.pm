@@ -114,9 +114,11 @@ sub compile
     {
 	# compile
 
-	if (!$self->compile1())
+	my $compilation_result = $self->compile1();
+
+	if ($compilation_result)
 	{
-	    return 0;
+	    return $compilation_result;
 	}
     }
 
@@ -130,7 +132,14 @@ sub compile1
 {
     my $self = shift;
 
-    return $self->{heccer}->HeccerCompileP1();
+    if ($self->{heccer}->HeccerCompileP1())
+    {
+	return '';
+    }
+    else
+    {
+	return "HeccerCompileP1() failed";
+    }
 }
 
 
@@ -138,9 +147,14 @@ sub compile2
 {
     my $self = shift;
 
-    return $self->{heccer}->HeccerCompileP2()
-
-	&& $self->compile3();
+    if ($self->{heccer}->HeccerCompileP2())
+    {
+	return $self->compile3();
+    }
+    else
+    {
+	return "HeccerCompileP2() failed";
+    }
 }
 
 
@@ -148,7 +162,14 @@ sub compile3
 {
     my $self = shift;
 
-    return $self->{heccer}->HeccerCompileP3();
+    if ($self->{heccer}->HeccerCompileP3())
+    {
+	return '';
+    }
+    else
+    {
+	return "HeccerCompileP3() failed";
+    }
 }
 
 
