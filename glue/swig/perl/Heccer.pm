@@ -1738,7 +1738,7 @@ sub register_engine
 
     if (defined $modelname)
     {
-	die "$0: " . __PACKAGE__ . " cannot register_engine() for a named model ($modelname)";
+	return "$0: " . __PACKAGE__ . " cannot register_engine() for a named model ($modelname)";
     }
 
 #     if (!$engine->isa('Heccer::Intermediary::Compiler'))
@@ -1748,7 +1748,7 @@ sub register_engine
 
     # return success
 
-    return 1;
+    return undef;
 }
 
 
