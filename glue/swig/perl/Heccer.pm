@@ -2355,7 +2355,14 @@ sub dump
 
     # return result
 
-    return $result;
+    if ($result)
+    {
+	return undef;
+    }
+    else
+    {
+	return $result;
+    }
 }
 
 
