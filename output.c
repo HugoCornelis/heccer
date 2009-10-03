@@ -145,6 +145,8 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 
     free(pog->ppdVariables);
 
+    free(pogResult->pcFilename);
+
     /// \note prevent accidental misuse
 
     pog->iVariablesAllocated = -9238;
