@@ -145,7 +145,7 @@ int OutputGeneratorFinish(struct OutputGenerator * pog)
 
     free(pog->ppdVariables);
 
-    free(pogResult->pcFilename);
+    free(pog->pcFilename);
 
     /// \note prevent accidental misuse
 
