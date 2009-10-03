@@ -1534,6 +1534,10 @@ sub new
 	return undef;
     }
 
+    # set the base value to zero, such that only values different from zero are recorded
+
+    $self->{backend}->swig_dBase_set(0);
+
     # lookup the event_distributor service
 
     my $event_source = $options->{event_source};

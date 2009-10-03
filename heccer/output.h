@@ -35,6 +35,10 @@ struct OutputGenerator
 
     double **ppdVariables;
 
+    /// base value: only values different from this are recorded
+
+    double dBase;
+
     /// output file stream
 
     char *pcFilename;

@@ -16,6 +16,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <float.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -269,7 +270,20 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 
     pogResult->pcFilename = calloc(1 + strlen(pcFilename), sizeof(char));
 
+    if (!pogResult->pcFilename)
+    {
+	free(pogResult->ppdVariables);
+
+	free(pogResult);
+
+	return(NULL);
+    }
+
     strcpy(pogResult->pcFilename, pcFilename);
+
+    //- initialize base value: FLT_MAX
+
+    pogResult->dBase = FLT_MAX;
 
     //- return result
 
