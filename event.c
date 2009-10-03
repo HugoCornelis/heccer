@@ -41,19 +41,26 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
     struct EventDistributor *ped = pheccer->ped;
 
-    //- tell the distributor to distribute the event over the targets
-
-    if (ped->eventDistribute)
+    if (ped)
     {
-	iResult = ped->eventDistribute(ped, pheccer->dTime, iTargets);
+	//- tell the distributor to distribute the event over the targets
+
+	if (ped->eventDistribute)
+	{
+	    iResult = ped->eventDistribute(ped, pheccer->dTime, iTargets);
+	}
+	else
+	{
+	    /// \todo HeccerError(number, message, varargs);
+
+	    fprintf
+		(stderr,
+		 "Heccer the hecc: generating events, but there is no valid event distribution service.\n");
+	}
     }
     else
     {
-	/// \todo HeccerError(number, message, varargs);
-
-	fprintf
-	    (stderr,
-	     "Heccer the hecc: generating events, but there is no event distribution service.\n");
+	iResult = 1;
     }
 
     //- return result

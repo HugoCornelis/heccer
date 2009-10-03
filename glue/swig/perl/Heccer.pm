@@ -1542,25 +1542,28 @@ sub new
 
     my $event_source = $options->{event_source};
 
-    my $scheduler = $self->{scheduler};
-
-    my $ssp_distributor = $scheduler->lookup_object($event_source);
-
-    if (!$ssp_distributor)
+    if ($event_source)
     {
-	die "$0: " . __PACKAGE__ . " cannot construct, $event_source not found as an ssp service";
-    }
+	my $scheduler = $self->{scheduler};
 
-    my $distributor = $ssp_distributor->backend();
+	my $ssp_distributor = $scheduler->lookup_object($event_source);
 
-    if (!$distributor)
-    {
-	die "$0: " . __PACKAGE__ . " cannot construct, $event_source has no low-level backend";
-    }
+	if (!$ssp_distributor)
+	{
+	    die "$0: " . __PACKAGE__ . " cannot construct, $event_source not found as an ssp service";
+	}
 
-    if (!$distributor->add_output($self))
-    {
-	die "$0: " . __PACKAGE__ . " cannot construct";
+	my $distributor = $ssp_distributor->backend();
+
+	if (!$distributor)
+	{
+	    die "$0: " . __PACKAGE__ . " cannot construct, $event_source has no low-level backend";
+	}
+
+	if (!$distributor->add_output($self))
+	{
+	    die "$0: " . __PACKAGE__ . " cannot construct";
+	}
     }
 
     # return result
@@ -1599,15 +1602,18 @@ sub step
 
     my $backend = $self->backend();
 
-    # event output is not dependent on advancing time
+    my $result;
 
-#     my $result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+    if ($self->{format}) # eq 'steps')
+    {
+	$result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
+    }
+    else
+    {
+	$result = $backend->OutputGeneratorTimedStep($options->{time});
+    }
 
-#     return $result;
-
-    # return success
-
-    return 1;
+    return $result;
 }
 
 
@@ -1817,16 +1823,6 @@ sub finish
 }
 
 
-sub get_time_step
-{
-    my $self = shift;
-
-    # an output object does not have a time step
-
-    return undef;
-}
-
-
 sub get_driver
 {
     my $self = shift;
@@ -1840,6 +1836,16 @@ sub get_driver
 	  };
 
     return $result;
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # an output object does not have a time step
+
+    return undef;
 }
 
 

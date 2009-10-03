@@ -82,16 +82,11 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     int iResult = 1;
 
-    //- write out the annotation
+    //- default: we assume no output
 
-    if (pc)
-    {
-	/// \todo choose between yaml style and xplot style using options
+    int iOutput = 0;
 
-	fprintf(pog->pfileOutput, "%s", pc);
-
-/* 	fprintf(pog->pfileOutput, "%s:", pc); */
-    }
+    char pcVariables[1000] = "";
 
     //- write out all the variables
 
@@ -99,13 +94,43 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     for (i = 0 ; i < pog->iVariablesActive ; i++)
     {
+	//- if the variable differs from the base value
+
 	if (*pog->ppdVariables[i] != pog->dBase)
 	{
-	    fprintf(pog->pfileOutput, " %g", *pog->ppdVariables[i]);
+	    char pcVariable[100] = "";
+
+	    //- add it to the output
+
+	    sprintf(pcVariable, " %g", *pog->ppdVariables[i]);
+
+	    strcat(pcVariables, pcVariable);
+
+	    //- register we have output
+
+	    iOutput = 1;
 	}
     }
 
-    fprintf(pog->pfileOutput, "\n");
+    //- if there was any output
+
+    if (iOutput)
+    {
+/* 	//- create the annotation */
+
+/* 	if (pc) */
+/* 	{ */
+/* 	    /// \todo choose between yaml style and xplot style using options */
+
+/* 	    fprintf(pog->pfileOutput, "%s", pc); */
+
+/* 	    fprintf(pog->pfileOutput, "%s:", pc); */
+/* 	} */
+
+	//- write the output to the file
+
+	fprintf(pog->pfileOutput, "%s%s\n", pc ? pc : "", pcVariables);
+    }
 
     //- return result
 

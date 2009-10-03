@@ -1460,18 +1460,25 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			struct EventDistributor *ped = pheccer->ped;
 
-			/// \todo EventDistributor does not know about anything yet, this cannot work.
+			/// there are two cases: spiker1 and spiker4
+			/// spiker1 does have an event distributor service / solver
+			/// spiker4 connects the addressable directly to the output solver
 
-			/// \todo we need to register (indirectly) the
-			/// \todo memory location of iTable, probably by
-			/// \todo storing the iMopNumber in an index intended
-			/// \todo for resolving connections after CompileP3.
+			if (ped)
+			{
+			    /// \todo EventDistributor does not know about anything yet, this cannot work.
 
-			iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
+			    /// \todo we need to register (indirectly) the
+			    /// \todo memory location of iTable, probably by
+			    /// \todo storing the iMopNumber in an index intended
+			    /// \todo for resolving connections after CompileP3.
 
-			/// \todo so hardcoded solution that makes the spiker1 test case work
+			    iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
 
-			iTable = 0;
+			    /// \todo so hardcoded solution that makes the spiker1 test case work
+
+				iTable = 0;
+			}
 		    }
 
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
