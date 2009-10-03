@@ -99,7 +99,10 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     for (i = 0 ; i < pog->iVariablesActive ; i++)
     {
-	fprintf(pog->pfileOutput, " %g", *pog->ppdVariables[i]);
+	if (*pog->ppdVariables[i] != pog->dBase)
+	{
+	    fprintf(pog->pfileOutput, " %g", *pog->ppdVariables[i]);
+	}
     }
 
     fprintf(pog->pfileOutput, "\n");
