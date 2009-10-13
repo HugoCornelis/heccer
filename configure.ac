@@ -156,9 +156,15 @@ fi
 AC_HEADER_STDC
 AC_CHECK_HEADERS([float.h limits.h locale.h stdlib.h string.h])
 
+# see for example http://www.nabble.com/AC_CHECK_HEADER-%2B-extra-compiler-flags-td10318845.html#a10319498
+
+SAVE_CPPFLAGS=$CPPFLAGS
+CPPFLAGS="-I/usr/local/neurospaces/instrumentor -DPRE_PROTO_TRAVERSAL"
+
 AC_CHECK_HEADERS([neurospaces/neurospaces.h],[],
 [echo "Error: neurospaces headers are not installed in standard location."])
 
+CPPFLAGS=$SAVE_CPPFLAGS
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
