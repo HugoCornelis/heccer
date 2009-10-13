@@ -84,7 +84,7 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     //- default: we assume no output
 
-    int iOutput = 0;
+    int iOutput = 1;
 
     char pcVariables[1000] = "";
 
