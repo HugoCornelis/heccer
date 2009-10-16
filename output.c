@@ -82,6 +82,22 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
     int iResult = 1;
 
+    //- if we are not at the correct resolution time step
+
+    if (pog->iResolution > 0)
+    {
+	pog->iResolutionStep--;
+
+	if (pog->iResolutionStep > 0)
+	{
+	    //- nothing to output, return success
+
+	    return(1);
+	}
+
+	pog->iResolutionStep = pog->iResolution;
+    }
+
     //- default: we assume no output
 
     int iOutput = 1;

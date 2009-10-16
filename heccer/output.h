@@ -44,6 +44,23 @@ struct OutputGenerator
     char *pcFilename;
 
     FILE *pfileOutput;
+
+    /// output format
+
+    char *pcFormat;
+
+    /// output resolution: modulo factor
+
+    int iResolution;
+
+    /// output resolution: current step
+
+    int iResolutionStep;
+
+/*     /// simulation time */
+
+/*     double dSimulationTime; */
+
 };
 
 int
