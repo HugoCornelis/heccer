@@ -1883,6 +1883,18 @@ sub new
 	return undef;
     }
 
+    if ($self->{resolution})
+    {
+	if ($self->{format} ne 'steps')
+	{
+	    die "$0: output generator options contain a resolution specification, but are not running in 'steps' format.";
+	}
+
+	$self->{backend}->swig_iResolutionStep_set(0);
+
+	$self->{backend}->swig_iResolution_set($self->{resolution});
+    }
+
     return $self;
 }
 
