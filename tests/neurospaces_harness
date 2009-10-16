@@ -1118,8 +1118,8 @@ sub report_exit
 		   {
 		    description => $test_report->{description},
 		    ($option_report_disabled ? (disabled => $test_report->{disabled}) : ()),
-		    errors => $test_report->{errors},
-		    global => $test_report->{global},
+		    ($option_show ? () : (errors => $test_report->{errors})),
+		    ($option_show ? () : (global => $test_report->{global})),
 		    ($error_count ? (target => $test_report->{target}) : ()),
 		    ($option_show ? (selected => $test_report->{selected}) : ()),
 		   },
