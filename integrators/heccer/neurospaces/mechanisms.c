@@ -3117,6 +3117,12 @@ solver_mathcomponent_finalizer(struct TreespaceTraversal *ptstr, void *pvUserdat
     {
 	printf("warning: cell found during solver_mathcomponent_finalizer()\n");
 
+	printf("warning:     ");
+
+	PidinStackPrint(ptstr->ppist, stdout);
+
+	printf("\n");
+
 	int iBreak = 1;
     }
 
@@ -3158,6 +3164,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     if (instanceof_cell(phsle))
     {
 	printf("warning: cell found during solver_mathcomponent_processor()\n");
+
+	printf("warning:     ");
+
+	PidinStackPrint(ptstr->ppist, stdout);
+
+	printf("\n");
 
 	int iBreak = 1;
     }
@@ -4178,6 +4190,12 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
     if (instanceof_cell(phsle))
     {
 	printf("warning: cell found during solver_mathcomponent_typer()\n");
+
+	printf("warning:     ");
+
+	PidinStackPrint(ptstr->ppist, stdout);
+
+	printf("\n");
 
 	int iBreak = 1;
     }
