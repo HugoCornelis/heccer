@@ -339,7 +339,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			    pheccer,
 			    "MATH_TYPE_ChannelSpringMass parameters",
 			    (pcsm->dReversalPotential > -1 && pcsm->dReversalPotential < 1),
-			    (pcsm->parameters.dTau1 != pcsm->parameters.dTau2),
+/* 			    (pcsm->parameters.dTau1 != pcsm->parameters.dTau2), */
 			    -1
 			    );
 
