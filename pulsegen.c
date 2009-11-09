@@ -71,11 +71,14 @@ int PulseGenSetFields
 
 //-------------------------------------------------------------------
 /*!
+ * \fun int PulseGenStep(struct PulseGen *ppg)
+ * \return -1 on error, 1 on success, 0 for no operation.
  *
+ * Processes a single time step for a pulsegen object.
  */
 
 //-------------------------------------------------------------------
-int PulseGenProcess(struct PulseGen *ppg)
+int PulseGenSingleStep(struct PulseGen *ppg)
 {
 
   int iInput;
