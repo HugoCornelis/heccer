@@ -43,6 +43,7 @@ libheccer_a_SOURCES = \
 	minimumdegree.c \
 	output.c \
 	perfectclamp.c \
+	pulsegen.c \
 	random.c \
 	serialization.c \
 	table.c \
@@ -64,6 +65,7 @@ nobase_include_HEADERS = \
 	heccer/mechanism.h \
 	heccer/output.h \
 	heccer/perfectclamp.h \
+	heccer/pulsegen.h \
 	heccer/random.h \
 	heccer/serialization.h \
 	heccer/service.h \
