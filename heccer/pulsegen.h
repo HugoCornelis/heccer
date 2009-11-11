@@ -38,7 +38,8 @@ struct PulseGen
   double dTriggerTime;
   int iTriggerMode;
 
-  double dPreviousInput;
+  
+  int iPreviousInput;
 
   /// solved variables
 
