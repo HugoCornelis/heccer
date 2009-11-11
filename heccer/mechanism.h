@@ -833,6 +833,35 @@ struct ChannelActConc
     struct PoweredActivatorConcept pac;
 };
 
+/// \struct HH alike channel, concentration dependent
+
+struct ChannelConc
+{
+    /// administration overhead
+
+    struct MathComponent mc;
+
+    /// initial reversal potential
+
+    double dReversalPotential;
+
+    /// get reversal potential from this intermediary, -1 for none
+
+    int iReversalPotential;
+
+    /// maximal conductance when all channels are permissive
+
+    double dMaximalConductance;
+
+    /// contributes to this concentration pool, -1 for none, boolean indicator only.
+
+    int iPool;
+
+    /// activator dependence description
+
+    struct PoweredActivatorConcept pac;
+};
+
 
 struct Heccer;
 

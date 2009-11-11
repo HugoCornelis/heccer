@@ -29,6 +29,7 @@ static struct MathComponentInfo pmci[] =
     MATH_TYPE_ChannelAct,		((char *)&((struct ChannelAct *)0)[1]) - ((char *)&((struct ChannelAct *)0)[0]),
     MATH_TYPE_ChannelActConc,		((char *)&((struct ChannelActConc *)0)[1]) - ((char *)&((struct ChannelActConc *)0)[0]),
     MATH_TYPE_ChannelActInact,		((char *)&((struct ChannelActInact *)0)[1]) - ((char *)&((struct ChannelActInact *)0)[0]),
+    MATH_TYPE_ChannelConc,		((char *)&((struct ChannelConc *)0)[1]) - ((char *)&((struct ChannelConc *)0)[0]),
     MATH_TYPE_ChannelPersistentSteadyStateDualTau,	((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[1]) - ((char *)&((struct ChannelPersistentSteadyStateDualTau *)0)[0]),
     MATH_TYPE_ChannelPersistentSteadyStateTau,	((char *)&((struct ChannelPersistentSteadyStateTau *)0)[1]) - ((char *)&((struct ChannelPersistentSteadyStateTau *)0)[0]),
     MATH_TYPE_ChannelSpringMass,	((char *)&((struct ChannelSpringMass *)0)[1]) - ((char *)&((struct ChannelSpringMass *)0)[0]),
@@ -41,15 +42,15 @@ static struct MathComponentInfo pmci[] =
 
 
 /// 
-/// 
 /// \arg pmca math component array.
-///	iTypes.: set of math component types to allocate for, -1 terminated.
+/// \arg iTypes set of math component types to allocate for, -1 terminated.
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief Allocate the math component data for the given set of types.
+///
 /// \details 
 /// 
 ///	As a side effect, sets the number of expected math components
@@ -120,7 +121,6 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *piTypes)
 #ifdef HECCER_SOURCE_NEUROSPACES
 
 /// 
-/// 
 /// \arg pmca math component array.
 /// \arg iSerial serial to search.
 /// 
@@ -129,7 +129,6 @@ int MathComponentArrayCallocData(struct MathComponentArray *pmca, int *piTypes)
 ///	index of matching math component, -1 for not found.
 /// 
 /// \brief Look up a math component by serial.
-/// \details 
 /// 
 
 int
@@ -175,7 +174,6 @@ MathComponentArrayLookupSerial
 
 
 /// 
-/// 
 /// \arg pmca math component array.
 /// \arg pmc math component to add.
 /// 
@@ -184,7 +182,6 @@ MathComponentArrayLookupSerial
 ///	success of operation.
 /// 
 /// \brief Add math component at current cursor position, advance.
-/// \details 
 /// 
 /// \note 
 /// 
@@ -230,7 +227,6 @@ MathComponentArraySetAdvance
 
 
 /// 
-/// 
 /// \arg pmcTarget math component target.
 /// \arg pmcSource math component source.
 /// 
@@ -239,12 +235,13 @@ MathComponentArraySetAdvance
 ///	Next math component in the array, NULL for failure.
 /// 
 /// \brief Copy a math component, advance to the next math component.
+///
 /// \details 
 /// 
 ///	The original content of pmcTarget is completely ignored and
 ///	overwritten.
 /// 
-/// TODO:
+/// \todo
 /// 
 ///	This need an additional helper function that takes an ///
 ///	non-linear array of math components and linearizes them in
@@ -287,7 +284,6 @@ MathComponentCopyNext
 
 
 /// 
-/// 
 /// \arg iType math component type.
 /// 
 /// \return struct MathComponentInfo *
@@ -295,7 +291,6 @@ MathComponentCopyNext
 ///	Math component info, respecting compilation options.
 /// 
 /// \brief Lookup math component type, respecting compilation options.
-/// \details 
 /// 
 /// \note 
 /// 
@@ -334,7 +329,6 @@ struct MathComponentInfo * MathComponentInfoLookup(int iType)
 
 
 /// 
-/// 
 /// \arg pmc math component in the array.
 /// 
 /// \return struct MathComponent *
@@ -342,7 +336,6 @@ struct MathComponentInfo * MathComponentInfoLookup(int iType)
 ///	Next math component, NULL for failure.
 /// 
 /// \brief Access a math component, and lookup the next component.
-/// \details 
 /// 
 /// \note 
 /// 
