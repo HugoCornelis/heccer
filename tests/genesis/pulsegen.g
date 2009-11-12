@@ -24,29 +24,31 @@ setfield ^ level1 50.0 width1 3.0 delay1 5.0 level2 -20.0 width2 5.0  \
 addmsg /gate /pulse2 INPUT output
 
 
-/*
-** graphics
-*/
-create xform /PGform [200,100,600,700] -title "Pulse Generator Demo"
 
-create xgraph /PGform/graph0 [10,50,580,200] -title "free run mode"
-setfield ^ ymin -100 ymax 100
-addmsg /pulse0 /PGform/graph0 PLOT output *pulse *blue
+create asc_file /pulse0_out 
+setfield /pulse0_out    filename "pulse0.txt" flush 1  leave_open 1 append 1  float_format %0.9g
+addmsg       /pulse0     /pulse0_out       SAVE output
+call /pulse0_out OUT_OPEN
+call /pulse0_out OUT_WRITE "pulse0 output"        // Write a header
 
-create xgraph /PGform/graph1 [10,260,580,200] -title  \
-    "triggered mode (with delay)"
-setfield ^ ymin -100 ymax 100
-addmsg /trig /PGform/graph1 PLOT output *trig *red
-addmsg /pulse1 /PGform/graph1 PLOT output *pulse *blue
 
-create xgraph /PGform/graph2 [10,470,580,200] -title  \
-    "gated mode (leading edge triggers)"
-setfield ^ ymin -100 ymax 100
-addmsg /gate /PGform/graph2 PLOT output *gate *red
-addmsg /pulse2 /PGform/graph2 PLOT output *pulse *blue
+
+create asc_file /pulse1_out 
+setfield /pulse1_out    filename "pulse1.txt" flush 1  leave_open 1 append 1  float_format %0.9g
+addmsg       /pulse1     /pulse1_out       SAVE output
+call /pulse1_out OUT_OPEN
+call /pulse1_out OUT_WRITE "pulse1 output"        // Write a header
+
+
+
+create asc_file /pulse2_out 
+setfield /pulse2_out    filename "pulse2.txt" flush 1  leave_open 1 append 1  float_format %0.9g
+addmsg       /pulse2     /pulse2_out       SAVE output
+call /pulse2_out OUT_OPEN
+call /pulse2_out OUT_WRITE "pulse2 output"        // Write a header
+
 
 reset
 setclock 0 0.5
 step 200
-
-xshow PGform
+ 
