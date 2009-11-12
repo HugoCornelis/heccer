@@ -991,6 +991,142 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    break;
 		}
 
+		//- for a channel with only an external dependence
+
+		case MATH_TYPE_ChannelConc:
+		{
+		    //- get type specific data
+
+		    struct ChannelConc *pcc = (struct ChannelConc *)pmc;
+
+		    pmc = MathComponentNext(&pcc->mc);
+
+		    //- check parameters
+
+		    HeccerCheckParameters
+			(
+			    pheccer,
+			    "MATH_TYPE_ChannelConc parameters",
+			    -1
+			    );
+
+		    //- for a constant reversal potential
+
+		    if (pcc->iReversalPotential == -1)
+		    {
+			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcc->dMaximalConductance, pcc->dReversalPotential);
+		    }
+
+		    //- else a solved reversal potential
+
+		    else
+		    {
+			//- get math component number
+
+			int iMathComponentReversalPotential = pcc->iReversalPotential;
+
+			int iMatsReversalPotential = -1;
+
+			if (iMathComponentReversalPotential != -1)
+			{
+			    //- convert math component to mat number, convert mat number to mat addressable
+
+			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
+			}
+
+			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcc->dMaximalConductance, iMatsReversalPotential);
+		    }
+
+		    //- tabulate concentration dependence, Genesis Z
+		    //- create A table, alpha, create B table, alpha + beta
+
+		    int iTabulatedBasalActivator
+			= HeccerTabulateAny(pheccer, &pcc->pac.ca, pcc->mc.iPrototype, MATH_TYPE_Concentration);
+
+		    /// \note gate computations are just fetching things from tables, and
+		    /// \note multiplying the conductances, so it is not relevant if these
+		    /// \note computations are done for membrane potential dependent gates or
+		    /// \note concentration dependent gates.
+
+		    //- get math component number
+
+		    int iMathComponentActivator = pcc->pac.ca.iActivator;
+
+		    int iMatsActivator = -1;
+
+		    if (iMathComponentActivator != -1)
+		    {
+			//- convert math component to mat number, convert mat number to mat addressable
+
+			iMatsActivator = piMC2Mat ? piMC2Mat[iMathComponentActivator].iMat : -1;
+		    }
+
+		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcc->pac.ca.iTable, pcc->pac.iPower, iMatsActivator);
+
+		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
+
+		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcc->pac.ca.dInitActivation);
+
+		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+		    /// \todo retabulate cannot be done yet, do not know yet how many tables
+
+		    //- register pool index
+
+		    /// \todo for reasons of easy initialization, this should be a check for zero.
+		    /// \todo this means that I have to offset all mechanisms with 1
+		    /// \todo (mmm, the hines solver did the same, but for other reasons).
+
+		    if (pcc->iPool != -1)
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_FLUXPOOL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			/// \note initial flux is assumed to be zero, always
+
+			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+
+		    }
+
+		    //- compute individual channel contributions
+
+		    if ( (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS) )
+		    {
+			SETMOP_REGISTERCHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+
+		    }
+
+		    //- compute aggregate current and conductance for this mathematical component type
+
+		    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_AGGREGATORS)
+			&& pcc->mc.iModelSourceType != -1)
+		    {
+			int iAggregator = pcc->mc.iModelSourceType;
+
+			SETMOP_AGGREGATECURRENT(&pheccer->vm, iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iAggregator);
+
+		    }
+
+		    //- register result from tabulation for outcome of this function
+
+		    iResult = iResult && iTabulatedBasalActivator;
+
+		    if (!iResult)
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Compilation of ChannelConc failed");
+		    }
+
+		    break;
+		}
+
 		//- for an exponential decaying variable
 
 		case MATH_TYPE_ExponentialDecay:

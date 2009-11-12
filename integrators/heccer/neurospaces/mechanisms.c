@@ -195,6 +195,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 static
 int
+solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
+
+static
+int
 solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
 static
@@ -1334,6 +1338,266 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	/// \note and to 7 for tabulated concentration gates
 
 	if (pmcd->iStatus == 7)
+	{
+	    pmcd->iStatus = 1;
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+static
+int
+solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *pvUserdata)
+{
+    //- set default result : ok
+
+    int iResult = TSTR_PROCESSOR_SUCCESS;
+
+    //- get actual symbol
+
+    struct symtab_HSolveListElement *phsle = (struct symtab_HSolveListElement *)TstrGetActual(ptstr);
+
+    //- get user data
+
+    struct MathComponentData * pmcd = (struct MathComponentData *)pvUserdata;
+
+    //- get current math component
+
+    struct MathComponent * pmc = pmcd->pmc;
+
+    struct ChannelConc * pcc = (struct ChannelConc *)pmc;
+
+    //- if hh gate
+
+    if (instanceof_h_h_gate(phsle))
+    {
+	if (pmcd->iStatus == 1)
+	{
+	    //- initial table index
+
+	    pcc->pac.ca.iTable = -1;
+
+	    //- get power
+
+	    double dPower = SymbolParameterResolveValue(phsle, ptstr->ppist, "POWER");
+
+	    int iPower = dPower;
+
+	    pcc->pac.iPower = iPower;
+
+	    //- get initial state
+
+	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
+
+	    pcc->pac.ca.dInitActivation = dInitActivation;
+
+
+	    if (dPower == FLT_MAX)
+	    {
+
+		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
+
+		MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"POWER");
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+
+	    if( dInitActivation == FLT_MAX)
+	    {
+		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
+
+		MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"state_init");
+
+		iResult = TSTR_PROCESSOR_ABORT;
+	    }
+
+
+
+	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
+
+	    if (dEntries != FLT_MAX)
+	    {
+		pcc->pac.ca.htg.iEntries = dEntries;
+
+		pcc->pac.ca.htg.hi.dStart = pmcd->pheccer->ho.dConcentrationGateStart;
+		pcc->pac.ca.htg.hi.dEnd = pmcd->pheccer->ho.dConcentrationGateEnd;
+		pcc->pac.ca.htg.hi.dStep = (pcc->pac.ca.htg.hi.dEnd - pcc->pac.ca.htg.hi.dStart) / pcc->pac.ca.htg.iEntries;;
+
+/* 		pcc->pac.ca.htg.hi.dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START"); */
+/* 		pcc->pac.ca.htg.hi.dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END"); */
+/* 		pcc->pac.ca.htg.hi.dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP"); */
+	    }
+	    else
+	    {
+		pcc->pac.ca.htg.iEntries = INT_MAX;
+	    }
+	}
+	else
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist);
+
+	    MathComponentError(pmcd,STATUS_UNKNOWN_TYPE,"Unknown Object Type.");
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- if activator
+
+    else if (instanceof_concentration_gate_kinetic(phsle))
+    {
+	//- if forward
+
+	/// \note 5: tau / base, conc
+
+        /// \note or
+
+	/// \note 5: forward, conc
+	/// \note 6: backward, conc
+
+	if (pmcd->iStatus == 2
+	    || pmcd->iStatus == 3)
+	{
+	    //- initialize table index
+
+	    pcc->pac.ca.iTable = -1;
+
+	    //- if a hardcoded table is present
+
+	    if (pcc->pac.ca.htg.iEntries != INT_MAX)
+	    {
+		double pdCache[5];
+
+		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
+		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
+		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
+		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
+		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+
+		double *pdTable = LookupTable(pdCache);
+
+		if (!pdTable)
+		{
+		    pdTable = (double *)calloc(pcc->pac.ca.htg.iEntries, sizeof(*pdTable));
+
+		    int i;
+
+		    for (i = 0 ; i < pcc->pac.ca.htg.iEntries ; i++)
+		    {
+			char pcTable[50];
+
+			sprintf(pcTable, "table[%i]", i);
+
+			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
+
+			if (d != FLT_MAX)
+			{
+			    pdTable[i] = d;
+			}
+			else
+			{
+			    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
+
+			    iResult = TSTR_PROCESSOR_ABORT;
+
+			    break;
+			}
+		    }
+
+		    int iTable = RegisterTable(pdCache, pdTable);
+		}
+
+		if (pmcd->iStatus == 5)
+		{
+		    pcc->pac.ca.htg.pdA = pdTable;
+		}
+		else
+		{
+		    pcc->pac.ca.htg.pdB = pdTable;
+		}
+	    }
+
+	    //- else parameterized
+
+	    else
+	    {
+		//- basal level, A in EDS1994
+
+		double dBasalLevel = SymbolParameterResolveValue(phsle, ptstr->ppist, "Base");
+
+		pcc->pac.ca.parameters.dBasalLevel = dBasalLevel;
+
+		//- time constant, B in EDS1994
+
+		double dTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "Tau");
+
+		pcc->pac.ca.parameters.dTau = dTau;
+
+		if (dBasalLevel == FLT_MAX)
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
+					       ptstr->ppist);
+
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"Base");
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+
+
+
+		if ( dTau == FLT_MAX )
+		{
+
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
+					       ptstr->ppist);
+
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"Tau");
+
+		    iResult = TSTR_PROCESSOR_ABORT;		  
+
+		}
+
+	    }
+	}
+	else
+	{
+	    MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE, 
+				       ptstr->ppist);
+
+	    MathComponentError(pmcd,STATUS_UNKNOWN_TYPE,"Unknown Object Type.");
+
+	    iResult = TSTR_PROCESSOR_ABORT;
+	}
+    }
+
+    //- otherwise
+
+    else
+    {
+	//- an error
+
+	MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE,ptstr->ppist);
+
+	MathComponentError(pmcd,STATUS_UNKNOWN_TYPE,
+			   "Unknown Object Type, not a concentration gate.");
+    }
+
+    //- if no error
+
+    if (pmcd->iStatus > 0)
+    {
+	//- increment the status to indicate what component we have processed
+
+	pmcd->iStatus++;
+
+	/// \note status can go up to 6 for tau-base concentration gates
+	/// \note and to 7 for tabulated concentration gates
+
+	if (pmcd->iStatus == 4)
 	{
 	    pmcd->iStatus = 1;
 	}
@@ -3364,6 +3628,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
     case MATH_TYPE_ChannelAct:
     case MATH_TYPE_ChannelActConc:
     case MATH_TYPE_ChannelActInact:
+    case MATH_TYPE_ChannelConc:
     case MATH_TYPE_ChannelPersistentSteadyStateDualTau:
     case MATH_TYPE_ChannelPersistentSteadyStateTau:
     case MATH_TYPE_ChannelSpringMass:
@@ -3542,6 +3807,45 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    else
 	    {
 		pcac->pac.ca.iActivator = -1;
+	    }
+	}
+	else if (iType == MATH_TYPE_ChannelConc)
+	{
+	    struct ChannelConc * pcc = (struct ChannelConc *)pmc;
+
+	    pcc->dMaximalConductance = dMaximalConductance;
+
+	    pcc->dReversalPotential = dReversalPotential;
+
+	    pcc->iReversalPotential = iReversalPotential;
+
+	    pcc->iPool = -1;
+
+	    /// contributes to this concentration pool, -1 for none, boolean indicator only.
+
+	    struct PidinStack *ppistPool
+		= SymbolResolveInput(phsle, ptstr->ppist, "concen", 0);
+
+	    if (ppistPool)
+	    {
+/* 		/// \todo this is a hack to get things to work right now, */
+/* 		/// \todo see TODOs in neurospaces */
+
+/* 		/// \todo this hack will not work when components are in different groups or so */
+
+/* 		int iSerialDifference */
+/* 		    = piolPool->hsle.smapPrincipal.iParent - phsle->smapPrincipal.iParent; */
+
+		int iPool = PidinStackToSerial(ppistPool);
+
+		pcc->pac.ca.iActivator = ADDRESSING_NEUROSPACES_2_HECCER(iPool);
+
+		PidinStackFree(ppistPool);
+
+	    }
+	    else
+	    {
+		pcc->pac.ca.iActivator = -1;
 	    }
 	}
 	else
@@ -4393,6 +4697,12 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		    iType = MATH_TYPE_ChannelActConc;
 		}
+		else if (pcType && strncasecmp(pcType, "ChannelConc", strlen("ChannelConc")) == 0)
+		{
+		    //- MATH_TYPE_ChannelConc
+
+		    iType = MATH_TYPE_ChannelConc;
+		}
 		else if (pcType && strncasecmp(pcType, "ChannelActInact", strlen("ChannelActInact")) == 0)
 		{
 		    /// \todo when the concen was not bound, the test above fails.
@@ -5051,6 +5361,56 @@ static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathCom
 
 	    break;
 	}
+	case MATH_TYPE_ChannelConc:
+	{
+	    struct ChannelConc * pcc = (struct ChannelConc *)pmc;
+
+	    //- if channel in contributors registry
+
+	    pcc->iPool = ConnectionSource2Target(pmcd, pmc);
+
+	    int iPoolSerial = pcc->iPool;
+
+	    if (iPoolSerial != -1)
+	    {
+		int iPoolIndex = MathComponentArrayLookupSerial(pmca, iPoolSerial);
+
+		pcc->iPool = iPoolIndex;
+	    }
+
+	    //- translate iActivator
+
+	    if (pcc->pac.ca.iActivator != -1)
+	    {
+		int iActivator = MathComponentArrayLookupSerial(pmca, pcc->pac.ca.iActivator);
+
+		pcc->pac.ca.iActivator = iActivator;
+	    }
+
+/* 	    //- or */
+
+/* 	    else */
+/* 	    { */
+/* 		//- an error */
+
+/*      MathComponentDataStatusSet(pmcd, STATUS_CONSISTENCY); , ptstr->ppist */
+
+/* 		iResult = FALSE; */
+/* 	    } */
+
+     //- if solved reversal potential
+
+     if (pcc->iReversalPotential != -1)
+ {
+     //- translate the serial to an index
+
+     int iReversalPotential = MathComponentArrayLookupSerial(pmca, pcc->iReversalPotential);
+
+     pcc->iReversalPotential = iReversalPotential;
+ }
+
+	    break;
+	}
 	case MATH_TYPE_InternalNernst:
 	{
 	    struct InternalNernst * pin = (struct InternalNernst *)pmc;
@@ -5146,6 +5506,10 @@ Type2Processor(int iType)
     else if (iType == MATH_TYPE_ChannelActConc)
     {
 	pfResult = solver_channel_activation_concentration_processor;
+    }
+    else if (iType == MATH_TYPE_ChannelConc)
+    {
+	pfResult = solver_channel_concentration_processor;
     }
     else if (iType == MATH_TYPE_ChannelSteadyStateSteppedTau)
     {

@@ -26,9 +26,8 @@
 
 
 /// 
-/// 
 /// \arg pvc voltage clamper.
-///	pvVoltage...: pointer to the voltage variable, assumed is double *
+/// \arg pvVoltage pointer to the voltage variable, assumed is double *
 /// \arg pvInjector pointer to the variable for injected current.
 /// 
 /// \return int
@@ -36,7 +35,6 @@
 ///	success of operation.
 /// 
 /// \brief Clamp the given voltage variable, using the given injector.
-/// \details 
 /// 
 
 int
@@ -67,7 +65,6 @@ VClampAddVariable
 
 
 /// 
-/// 
 /// \arg pvc voltage clamper.
 /// 
 /// \return int
@@ -75,7 +72,6 @@ VClampAddVariable
 ///	success of operation.
 /// 
 /// \brief Free the voltage clamper.
-/// \details 
 /// 
 
 int VClampFinish(struct VClamp * pvc)
@@ -95,7 +91,6 @@ int VClampFinish(struct VClamp * pvc)
 
 
 /// 
-/// 
 /// \arg pvc voltage clamper.
 /// 
 /// \return int
@@ -103,7 +98,6 @@ int VClampFinish(struct VClamp * pvc)
 ///	success of operation.
 /// 
 /// \brief Initiate the voltage clamper.
-/// \details 
 /// 
 
 int VClampInitiate(struct VClamp * pvc)
@@ -127,7 +121,6 @@ int VClampInitiate(struct VClamp * pvc)
 
 
 /// 
-/// 
 /// \arg pcName name of this object.
 /// 
 /// \return struct VClamp *
@@ -135,7 +128,6 @@ int VClampInitiate(struct VClamp * pvc)
 ///	voltage clamper, NULL for failure.
 /// 
 /// \brief voltage clamper.
-/// \details 
 /// 
 
 struct VClamp * VClampNew(char *pcName)
@@ -166,22 +158,20 @@ struct VClamp * VClampNew(char *pcName)
 
 
 /// 
-/// 
 /// \arg dInjected injected current.
 /// \arg dC parallel initial capacitance.
 /// \arg dR initial resistance.
 /// \arg dCommand_init initial command voltage.
 /// \arg dGain gain value.
 /// \arg dTau_i integrating time constant.
-///	dTau_d........: derivative time constant.
-///	dSaturation...: saturation value.
+/// \arg dTau_d derivative time constant.
+/// \arg dSaturation saturation value.
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
 /// \brief set operation fields of voltage clamper.
-/// \details 
 /// 
 /// \note 
 /// 
@@ -225,7 +215,6 @@ VClampSetFields
 
 
 /// 
-/// 
 /// \arg pvc voltage clamper.
 /// \arg dTime current simulation time.
 /// 
@@ -234,7 +223,6 @@ VClampSetFields
 ///	success of operation.
 /// 
 /// \brief Compute new currents to correct voltages.
-/// \details 
 /// 
 /// \note 
 /// 

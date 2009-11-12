@@ -67,9 +67,10 @@ struct MathComponent
 };
 
 
+#define MATH_TYPE_ChannelAct 13
+#define MATH_TYPE_ChannelConc 14
 #define MATH_TYPE_ChannelActConc 8
 #define MATH_TYPE_ChannelActInact 7
-#define MATH_TYPE_ChannelAct 13
 #define MATH_TYPE_ChannelPersistentSteadyStateDualTau 12
 #define MATH_TYPE_ChannelPersistentSteadyStateTau 11
 #define MATH_TYPE_ChannelSpringMass 9
@@ -77,8 +78,8 @@ struct MathComponent
 #define MATH_TYPE_Compartment 1
 #define MATH_TYPE_ExponentialDecay 2
 #define MATH_TYPE_GHK 3
-#define MATH_TYPE_MGBlocker 4
 #define MATH_TYPE_InternalNernst 5
+#define MATH_TYPE_MGBlocker 4
 #define MATH_TYPE_SpikeGenerator 6
 
 #define MATH_TYPE_Concentration 20
