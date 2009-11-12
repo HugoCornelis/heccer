@@ -43,7 +43,7 @@
 
 //-------------------------------------------------------------------
 /*!
- * \fun int PulseGenSetFields(struct PulseGen *ppg,double dLevel1, double dWidth1,
+ * \fun int PulseGenSetFields(struct simobj_PulseGen *ppg,double dLevel1, double dWidth1,
  double dDelay1,double dLevel2,double dWidth2,double dDelay2,int iTriggerMode,double *pdPulseOut)
 * \param ppg A pointer to a PulseGen struct.
 * \param dLevel1 level of pulse1
@@ -60,7 +60,7 @@
 //-------------------------------------------------------------------
 int PulseGenSetFields
 (
- struct PulseGen *ppg,
+ struct simobj_PulseGen *ppg,
  double dLevel1,
  double dWidth1,
  double dDelay1,
@@ -94,14 +94,14 @@ int PulseGenSetFields
 
 //-------------------------------------------------------------------
 /*!
- * \fun int PulseGenStep(struct PulseGen *ppg)
+ * \fun int PulseGenStep(struct simobj_PulseGen *ppg)
  * \return -1 on error, 1 on success, 0 for no operation.
  *
  * Processes a single time step for a pulsegen object.
  */
 
 //-------------------------------------------------------------------
-int PulseGenSingleStep(struct PulseGen *ppg)
+int PulseGenSingleStep(struct simobj_PulseGen *ppg, double dTime)
 {
 
   int iInput;
@@ -120,11 +120,85 @@ int PulseGenSingleStep(struct PulseGen *ppg)
   }
 
 
+  iInput = 0;
   /*
    * Still working out what I'm going to do about all of
    * the message passing that's supposed to happen here.
    *
    */
+
+
+
+  //
+  // Here we perform actions based on the trigger mode.
+  // Note: some of the comments here are lifted straight
+  // from the GENESIS 2 file.
+  //
+  if( ppg->iTriggerMode == FREE_RUN )
+  {
+
+    dTT = fmod(dTime,dTCycle);
+
+  }
+  else if( ppg->iTriggerMode == EXT_GATE )
+  {
+
+    /* gate low */
+    if( iInput == 0 )
+    {
+      /* output = baselevel */
+      dTT = dTCycle;
+    }
+    else
+    {
+      /* gate high */
+
+      if(ppg->iPreviousInput == 0)
+      {
+	/* low -> high */
+	ppg->dTriggerTime = dTime;
+      }
+
+      dTT = fmod(dTime - ppg->dTriggerTime,dTCycle);
+    }
+
+    ppg->iPreviousInput = iInput;
+
+  }
+  else if( ppg->iTriggerMode == EXT_TRIG )
+  {
+    /* trig low */
+    if( iInput == 0 )
+    {
+      /* never triggered */
+      if(ppg->dTriggerTime < 0.0)
+      {
+	/* output = baselevel */
+	dTT = dTCycle;
+      }
+      else
+      {
+	dTT = dTime - ppg->dTriggerTime;
+      }
+
+
+    }
+    else /* trig high */ 
+    {
+      /* low -> high */
+      if( ppg->iPreviousInput == 0 )
+      {
+	ppg->dTriggerTime = dTime;
+      }
+
+      /* don't use fmod here */
+      dTT = dTime - ppg->dTriggerTime;
+
+    }
+
+    ppg->iPreviousInput = iInput;
+
+  }
 
 
   //
@@ -165,18 +239,18 @@ int PulseGenSingleStep(struct PulseGen *ppg)
 
 //-------------------------------------------------------------------
 /*!
- * \fun struct PulseGen * PulseGenNew(char *pcName)
+ * \fun struct simobj_PulseGen * PulseGenNew(char *pcName)
  * \param pcName The name for this pulsegen object.
  * \return A pointer to a struct on success, NULL on error.
  *
  */
 //-------------------------------------------------------------------
-struct PulseGen * PulseGenNew(char *pcName)
+struct simobj_PulseGen * PulseGenNew(char *pcName)
 {
 
-  struct PulseGen *ppgResult = NULL;
+  struct simobj_PulseGen *ppgResult = NULL;
 
-  ppgResult = (struct PulseGen*)calloc(1,sizeof(struct PulseGen));
+  ppgResult = (struct simobj_PulseGen*)calloc(1,sizeof(struct simobj_PulseGen));
 
   if(!ppgResult)
   {
@@ -193,14 +267,14 @@ struct PulseGen * PulseGenNew(char *pcName)
 
 //-------------------------------------------------------------------
 /*!
- *  \fun int PulseGenReset(struct PulseGen *ppg)
+ *  \fun int PulseGenReset(struct simobj_PulseGen *ppg)
  *  \param ppg A pointer to a PulseGen simulation object.
  *  \return 0 on error, 1 on success.
  *
  *  Sets values for the pulse generator to their deault state.
  */
 //-------------------------------------------------------------------
-int PulseGenReset(struct PulseGen *ppg)
+int PulseGenReset(struct simobj_PulseGen *ppg)
 {
 
   if(!ppg)
@@ -232,14 +306,14 @@ int PulseGenReset(struct PulseGen *ppg)
 
 //-------------------------------------------------------------------
 /*!
- *  \fun int PulseGenFinish(struct PulseGen *ppg)
+ *  \fun int PulseGenFinish(struct simobj_PulseGen *ppg)
  *  \param ppg A pointer to a PulseGen simulation object.
  *  \return 0 on error, 1 on success.
  *
  *  Frees an allocated PulseGen object.
  */
 //-------------------------------------------------------------------
-int PulseGenFinish(struct PulseGen *ppg)
+int PulseGenFinish(struct simobj_PulseGen *ppg)
 {
 
   if(!ppg)
@@ -256,14 +330,14 @@ int PulseGenFinish(struct PulseGen *ppg)
 
 //-------------------------------------------------------------------
 /*!
- *  \fun int PulseGenAddInput(struct PulseGen *ppg,void pvInput)
+ *  \fun int PulseGenAddInput(struct simobj_PulseGen *ppg,void pvInput)
  *  \param ppg A pointer to a PulseGen simulation object.
  *  \return 0 on no operation, 1 on success.
  *
  *  Adds an Input to a Pulsegen
  */
 //-------------------------------------------------------------------
-int PulseGenAddInput(struct PulseGen *ppg, void *pvInput)
+int PulseGenAddInput(struct simobj_PulseGen *ppg, void *pvInput)
 {
 
   if(!ppg)
@@ -285,14 +359,14 @@ int PulseGenAddInput(struct PulseGen *ppg, void *pvInput)
 
 //-------------------------------------------------------------------
 /*!
- *  \fun int PulseGenAddInput(struct PulseGen *ppg,void pvInput)
+ *  \fun int PulseGenAddInput(struct simobj_PulseGen *ppg,void pvInput)
  *  \param ppg A pointer to a PulseGen simulation object.
  *  \return 0 on no operation, 1 on success.
  *
  *  Adds an Output to a Pulsegen
  */
 //-------------------------------------------------------------------
-int PulseGenAddOutput(struct PulseGen *ppg, void *pvOutput)
+int PulseGenAddOutput(struct simobj_PulseGen *ppg, void *pvOutput)
 {
 
   if(!ppg)

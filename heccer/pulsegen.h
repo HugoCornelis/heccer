@@ -20,7 +20,7 @@
 #define EXT_GATE	2
 
 
-struct PulseGen
+struct simobj_PulseGen
 {
 
   char *pcName;
@@ -59,21 +59,21 @@ struct PulseGen
 
 
 
-struct PulseGen * PulseGenNew(char *pcName);
+struct simobj_PulseGen * PulseGenNew(char *pcName);
 
-int PulseGenFinish(struct PulseGen *ppg);
+int PulseGenFinish(struct simobj_PulseGen *ppg);
 
-int PulseGenAddInput(struct PulseGen *ppg, void *pvInput);
+int PulseGenAddInput(struct simobj_PulseGen *ppg, void *pvInput);
 
-int PulseGenAddOutput(struct PulseGen *ppg, void *pvOutput);
+int PulseGenAddOutput(struct simobj_PulseGen *ppg, void *pvOutput);
 
-int PulseGenReset(struct PulseGen *ppg);
+int PulseGenReset(struct simobj_PulseGen *ppg);
 
-int PulseGenSingleStep(struct PulseGen *ppg);
+int PulseGenSingleStep(struct simobj_PulseGen *ppg, double dTime);
 
 int PulseGenSetFields
 (
- struct PulseGen *ppg,
+ struct simobj_PulseGen *ppg,
  double dLevel1,
  double dWidth1,
  double dDelay1,
