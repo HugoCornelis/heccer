@@ -1,12 +1,35 @@
 //-------------------------------------------------------------------
 /*!
- *  \file pulsegen.c
- *  \author Mando Rodriguez
- *
- *  This file holds the implementation for the pulsegen algorithm 
- *  implementation for use in generating pulses:  single pulses, double pulses 
- *  (each with its own level and width), and pulse trains (of single pulses or pairs).
- *  It can be triggered, gated, or allowed to free run.
+*  \file pulsegen.c
+*  \author Mando Rodriguez
+*
+*  This file holds the implementation for PulseGen which has been
+*  ported from GENESIS 2.3. Taken from the development notes:
+* 
+* This device can generate a variety of pulse patterns:  single pulses, double
+* pulses (each with its own level and width), and pulse trains (of single
+* pulses or pairs).  It can be triggered, gated, or allowed to free run.
+* 
+* In combination with a spikegen object, it can be used to generate bursts of
+* spikes for use as synaptic input.  (See Scripts/neuron/inputs.g.)
+* 
+* The following diagram illustrates the relationships between the fields:
+* 
+*                       +-----------------+ level1
+*   trigger             |                 |
+*      |                |                 |        +-------------+ level2
+*      |                |                 |        |             |
+*      V                |                 |        |             |
+*      +--- baselevel --+                 +--------+             +----
+* 
+*      <---- delay1 ----><---- width1 ---->         <-- width2 -->
+*                        <--------- delay2 -------->
+* If delay2 <= width1, then level2 starts imediately after the end of the
+* pulse at level1.  This means that if delay2, width2 and level2 are not set
+* and remain at their default values of 0, there will be only one type of
+* pulse.  It will repeat after a time delay1 after the end of the pulse
+* (free run mode) or a time delay1 after it is triggered (trigger or gate
+* mode).
  */
 //-------------------------------------------------------------------
 #include <math.h>
@@ -97,6 +120,42 @@ int PulseGenSingleStep(struct PulseGen *ppg)
   }
 
 
+  /*
+   * Still working out what I'm going to do about all of
+   * the message passing that's supposed to happen here.
+   *
+   */
+
+
+  //
+  // Post processing, we set our output 
+  // from the results of the step.
+  //
+  if( dTT < ppg->dDelay1 || dTT >= dTCycle )
+  {
+
+    (*ppg->pdPulseOut) = ppg->dBaseLevel;
+
+  }
+  else if( dTT < (ppg->dDelay1 + ppg->dWidth1) )
+  {
+    
+    (*ppg->pdPulseOut) = ppg->dLevel1;
+
+  }
+  else if( dTT < (ppg->dDelay1 + ppg->dDelay2) )
+  {
+
+    (*ppg->pdPulseOut) = ppg->dBaseLevel;
+
+  }
+  else
+  {
+
+    (*ppg->pdPulseOut) = ppg->dLevel2;
+    
+  }
+
 
   return 1;
 
@@ -106,13 +165,13 @@ int PulseGenSingleStep(struct PulseGen *ppg)
 
 //-------------------------------------------------------------------
 /*!
- * \fun struct PulseGen * PulseGenCalloc(char *pcName)
+ * \fun struct PulseGen * PulseGenNew(char *pcName)
  * \param pcName The name for this pulsegen object.
  * \return A pointer to a struct on success, NULL on error.
  *
  */
 //-------------------------------------------------------------------
-struct PulseGen * PulseGenCalloc(char *pcName)
+struct PulseGen * PulseGenNew(char *pcName)
 {
 
   struct PulseGen *ppgResult = NULL;
@@ -150,7 +209,7 @@ int PulseGenReset(struct PulseGen *ppg)
     return 0;
   }
 
-  ppg->dPreviousInput = 0.0;
+  ppg->iPreviousInput = 0.0;
   ppg->iTriggerMode = -1;
   
   if(!ppg->pdPulseOut)
@@ -169,3 +228,86 @@ int PulseGenReset(struct PulseGen *ppg)
   return 1;
 
 }
+
+
+//-------------------------------------------------------------------
+/*!
+ *  \fun int PulseGenFinish(struct PulseGen *ppg)
+ *  \param ppg A pointer to a PulseGen simulation object.
+ *  \return 0 on error, 1 on success.
+ *
+ *  Frees an allocated PulseGen object.
+ */
+//-------------------------------------------------------------------
+int PulseGenFinish(struct PulseGen *ppg)
+{
+
+  if(!ppg)
+  {
+    return 0;
+  }
+
+  free(ppg);
+
+  return 1;
+
+}
+
+
+//-------------------------------------------------------------------
+/*!
+ *  \fun int PulseGenAddInput(struct PulseGen *ppg,void pvInput)
+ *  \param ppg A pointer to a PulseGen simulation object.
+ *  \return 0 on no operation, 1 on success.
+ *
+ *  Adds an Input to a Pulsegen
+ */
+//-------------------------------------------------------------------
+int PulseGenAddInput(struct PulseGen *ppg, void *pvInput)
+{
+
+  if(!ppg)
+  {
+    return 0;
+  }
+
+  if(ppg->pdPulseIn != NULL)
+  {
+    return 0;
+  }
+
+  ppg->pdPulseIn = (double *)pvInput;
+
+  return 1;
+
+}
+
+
+//-------------------------------------------------------------------
+/*!
+ *  \fun int PulseGenAddInput(struct PulseGen *ppg,void pvInput)
+ *  \param ppg A pointer to a PulseGen simulation object.
+ *  \return 0 on no operation, 1 on success.
+ *
+ *  Adds an Output to a Pulsegen
+ */
+//-------------------------------------------------------------------
+int PulseGenAddOutput(struct PulseGen *ppg, void *pvOutput)
+{
+
+  if(!ppg)
+  {
+    return 0;
+  }
+
+  if(ppg->pdPulseOut != NULL)
+  {
+    return 0;
+  }
+
+  ppg->pdPulseOut = (double *)pvOutput;
+
+  return 1;
+
+}
+

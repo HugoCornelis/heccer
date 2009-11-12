@@ -41,10 +41,16 @@ struct PulseGen
   
   int iPreviousInput;
 
+  /// An input value referenced via pointer. 
+  /// Since we don't have "messages" we'll use 
+  /// a pointer for now.
+  
+  double *pdPulseIn;
+
+
   /// solved variables
 
   double *pdPulseOut;
-
 
 
 };
@@ -53,7 +59,18 @@ struct PulseGen
 
 
 
-struct PulseGen * PulseGenCalloc(char *pcName);
+struct PulseGen * PulseGenNew(char *pcName);
+
+int PulseGenFinish(struct PulseGen *ppg);
+
+int PulseGenAddInput(struct PulseGen *ppg, void *pvInput);
+
+int PulseGenAddOutput(struct PulseGen *ppg, void *pvOutput);
+
+int PulseGenReset(struct PulseGen *ppg);
+
+int PulseGenSingleStep(struct PulseGen *ppg);
+
 int PulseGenSetFields
 (
  struct PulseGen *ppg,
