@@ -121,13 +121,15 @@ int PulseGenSingleStep(struct simobj_PulseGen *ppg, double dTime)
 
 
   iInput = 0;
+
+  /*INPUT*/
   /*
-   * Still working out what I'm going to do about all of
-   * the message passing that's supposed to happen here.
-   *
+   * For the script PulseGenDemo.g the only message we
+   * handle is input, which is simply setting the iInput value to 1.
+   * The other three types of messages will need more work:
+   * LEVEL, WIDTH, DELAY 
    */
-
-
+  iInput = 1;
 
   //
   // Here we perform actions based on the trigger mode.

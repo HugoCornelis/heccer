@@ -31,6 +31,8 @@ struct VClamp *pvc = NULL;
 
 struct PerfectClamp *ppc = NULL;
 
+struct simobj_PulseGen *ppg = NULL;
+
 
 //o To use this file :
 //o

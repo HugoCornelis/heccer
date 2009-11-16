@@ -22,6 +22,7 @@ extern struct VClamp *pvc;
 
 extern struct PerfectClamp *ppc;
 
+extern struct simobj_PulseGen *ppg;
 
 int WriteOutput(char *pcFilename);
 
