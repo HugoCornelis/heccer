@@ -39,7 +39,7 @@ class Output:
         return SwiggableHeccer.OutputGeneratorTimedStep(self.backend, time)
 
     def compile(self):
-        pass
+        return SwiggableHeccer.OutputGeneratorInitiate(self.backend)
 
     def AddOutput(self, name, address):
         SwiggableHeccer.OutputGeneratorAddVariable(self.backend, name, address)
