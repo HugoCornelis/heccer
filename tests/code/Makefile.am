@@ -53,6 +53,7 @@ check_PROGRAMS = \
 	pool1-feedback2 \
 	pool1-nernst \
 	pool2 \
+	pulsegen-freerun \
 	serialization-c1c2p1 \
 	serialization-c1c2p2 \
 	serialization-channel2-nernst2 \
@@ -163,6 +164,8 @@ pool1_nernst_DEPENDENCIES = ../../libheccer.a main.c
 pool1_nernst_LDADD = -L../.. -lheccer -lm
 pool2_DEPENDENCIES = ../../libheccer.a main.c
 pool2_LDADD = -L../.. -lheccer -lm
+pulsegen_freerun_DEPENDENCIES = ../../libheccer.a main.c
+pulsegen_freerun_LDADD = -L../.. -lheccer -lm
 serialization_c1c2p1_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c
 serialization_c1c2p1_LDADD = -L../.. -lheccer -lm
 serialization_c1c2p2_DEPENDENCIES = ../../libheccer.a main.c main-serializer.c

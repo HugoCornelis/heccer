@@ -67,8 +67,8 @@ int PulseGenSetFields
  double dLevel2,
  double dWidth2,
  double dDelay2,
- int iTriggerMode,
- double *pdPulseOut
+ double dBaseLevel,
+ int iTriggerMode
 )
 {
 
@@ -83,8 +83,8 @@ int PulseGenSetFields
   ppg->dDelay1 = dDelay1;
   ppg->dLevel2 = dLevel2;
   ppg->dWidth2 = dWidth2;
+  ppg->dBaseLevel = dBaseLevel;
   ppg->iTriggerMode = iTriggerMode;
-  ppg->pdPulseOut = pdPulseOut;
 
   return 1;
 }
@@ -290,7 +290,7 @@ int PulseGenReset(struct simobj_PulseGen *ppg)
   
   if(!ppg->pdPulseOut)
   {
-    fprint(stderr,"%s","Error: No PulseOut defined, can't reset output.\n");
+    fprintf(stderr,"%s","Error: No PulseOut defined, can't reset output.\n");
 
     // We return 0 here even to the other variables have been correctly
     // reset.
@@ -368,7 +368,7 @@ int PulseGenAddInput(struct simobj_PulseGen *ppg, void *pvInput)
  *  Adds an Output to a Pulsegen
  */
 //-------------------------------------------------------------------
-int PulseGenAddOutput(struct simobj_PulseGen *ppg, void *pvOutput)
+int PulseGenAddVariable(struct simobj_PulseGen *ppg, void *pvOutput)
 {
 
   if(!ppg)

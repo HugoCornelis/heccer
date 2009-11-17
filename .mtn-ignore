@@ -98,6 +98,9 @@ Makefile$
 ^tests/code/vclamp-passive$
 ^tests/code/vclamp-sodium$
 ^tests/code/version$
+^tests/code/pulsegen-freerun$
+^tests/code/pulsegen-exttrig$
+^tests/code/pulsegen-extgate$
 ^tests/html/
 ^tests/output
 _Inline

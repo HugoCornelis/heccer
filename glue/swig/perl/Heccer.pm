@@ -2476,152 +2476,150 @@ sub serve
 #
 # This is our function set for Pulsegen
 #
-# package Heccer::PulseGen;
+package Heccer::PulseGen;
 
 
-# BEGIN { our @ISA = qw(Heccer::Glue); }
+BEGIN { our @ISA = qw(Heccer::Glue); }
 
 
-# sub add
-# {
-#     my $self = shift;
+sub add
+{
+    my $self = shift;
 
-#     my $options = shift;
+    my $options = shift;
 
-#     my $backend = $self->backend();
+    my $backend = $self->backend();
 
-#     my $name
-# 	= $options->{service_request}->{component_name}
-# 	    . "__"
-# 		. $options->{service_request}->{field};
+    my $name
+	= $options->{service_request}->{component_name}
+	    . "__"
+		. $options->{service_request}->{field};
 
-#     $name =~ s/\//____/g;
-# #     $name =~ s/\>/__/g;
-# #     $name =~ s/\-//g;
+    $name =~ s/\//____/g;
 
-#     my $result = $backend->PerfectClampAddVariable($options->{address});
+    my $result = $backend->PulseGenAddVariable($options->{address});
 
-#     return $result;
-# }
+    return $result;
+}
 
 
-# sub finish
-# {
-#     my $self = shift;
+sub finish
+{
+    my $self = shift;
 
-#     # close files, free memory
+    # close files, free memory
 
-#     my $backend = $self->backend();
+    my $backend = $self->backend();
 
-#     $backend->PerfectClampFinish();
-# }
-
-
-# sub get_driver
-# {
-#     my $self = shift;
-
-#     my $result
-# 	= {
-# 	   data => $self->{backend}->perfect_clamp_get_driver_data(),
-# 	   method => $self->{backend}->perfect_clamp_get_driver_method(),
-# # 	   data => $self->{backend},
-# # 	   method => \&SwiggableHeccer::PerfectClampSingleStep,
-# 	  };
-
-#     return $result;
-# }
+    $backend->PulseGenFinish();
+}
 
 
-# sub get_time_step
-# {
-#     my $self = shift;
+sub get_driver
+{
+    my $self = shift;
 
-#     # a perfect clamp object does not have a time step
+    my $result
+	= {
+	   data => $self->{backend}->pulse_gen_get_driver_data(),
+	   method => $self->{backend}->pulse_gen_get_driver_method(),
+# 	   data => $self->{backend},
+# 	   method => \&SwiggableHeccer::PerfectClampSingleStep,
+	  };
 
-#     return undef;
-# }
-
-
-# sub initiate
-# {
-#     my $self = shift;
-
-#     #t perhaps need to set the command voltage here ?
-# }
+    return $result;
+}
 
 
-# sub new
-# {
-#     my $package = shift;
+sub get_time_step
+{
+    my $self = shift;
 
-#     my $options = shift;
+    # a perfect clamp object does not have a time step
 
-#     my $self = { %$options, };
-
-#     bless $self, $package;
-
-#     if (!defined $self->{name})
-#     {
-# 	$self->{name} = "a pc";
-#     }
-
-#     $self->{backend} = SwiggableHeccer::PerfectClampNew($self->{name});
-
-#     if (!defined $self->{backend})
-#     {
-# 	return undef;
-#     }
-
-#     # make distinction between command_filename and command voltage option
-
-#     if (defined $options->{command})
-#     {
-# 	my $backend = $self->backend();
-
-# 	$backend->PerfectClampSetFields($options->{command}, undef);
-#     }
-#     elsif (defined $options->{filename})
-#     {
-# 	my $backend = $self->backend();
-
-# 	#! the command voltage is ignored in this case, use an
-# 	#! unreasonable value to make result invalid if it would be used
-# 	#! (due to a bug).
-
-# 	$backend->PerfectClampSetFields(-10000, $options->{filename});
-#     }
-#     else
-#     {
-# 	return "Heccer::PerfectClamp constructor: cannot construct a perfect clamp without command voltage and without a filename";
-#     }
-
-#     return $self;
-# }
+    return undef;
+}
 
 
-# sub report
-# {
-#     my $self = shift;
+sub initiate
+{
+    my $self = shift;
 
-#     #t nothing I guess ?
-# }
+    #t perhaps need to set the command voltage here ?
+}
 
 
-# sub step
-# {
-#     my $self = shift;
+sub new
+{
+    my $package = shift;
 
-#     my $scheduler = shift;
+    my $options = shift;
 
-#     my $options = shift;
+    my $self = { %$options, };
 
-#     my $backend = $self->backend();
+    bless $self, $package;
 
-#     my $result = $backend->PerfectClampSingleStep($options->{steps});
+    if (!defined $self->{name})
+    {
+	$self->{name} = "a pc";
+    }
 
-#     return $result;
-# }
+    $self->{backend} = SwiggableHeccer::PulseGenNew($self->{name});
+
+    if (!defined $self->{backend})
+    {
+	return undef;
+    }
+
+    # make distinction between command_filename and command voltage option
+
+    if (defined $options->{command})
+    {
+	my $backend = $self->backend();
+
+	$backend->PulseGenSetFields($options->{command}, undef);
+    }
+    elsif (defined $options->{filename})
+    {
+	my $backend = $self->backend();
+
+	#! the command voltage is ignored in this case, use an
+	#! unreasonable value to make result invalid if it would be used
+	#! (due to a bug).
+
+	$backend->PulseGenSetFields(-10000, $options->{filename});
+    }
+    else
+    {
+	return "Heccer::PulseGen constructor: cannot construct a perfect clamp without command voltage and without a filename";
+    }
+
+    return $self;
+}
+
+
+sub report
+{
+    my $self = shift;
+
+    #t nothing I guess ?
+}
+
+
+sub step
+{
+    my $self = shift;
+
+    my $scheduler = shift;
+
+    my $options = shift;
+
+    my $backend = $self->backend();
+
+    my $result = $backend->PulseGenSingleStep($options->{steps});
+
+    return $result;
+}
 
 
 

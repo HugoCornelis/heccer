@@ -65,7 +65,7 @@ int PulseGenFinish(struct simobj_PulseGen *ppg);
 
 int PulseGenAddInput(struct simobj_PulseGen *ppg, void *pvInput);
 
-int PulseGenAddOutput(struct simobj_PulseGen *ppg, void *pvOutput);
+int PulseGenAddVariable(struct simobj_PulseGen *ppg, void *pvOutput);
 
 int PulseGenReset(struct simobj_PulseGen *ppg);
 
@@ -80,8 +80,8 @@ int PulseGenSetFields
  double dLevel2,
  double dWidth2,
  double dDelay2,
- int iTriggerMode,
- double *pdPulseOut
+ double dBaseLevel,
+ int iTriggerMode
  );
 
 #endif
