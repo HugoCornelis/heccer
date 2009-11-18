@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
     double dBaseLevel = 10.0;
 
-    int iTriggerMode = FREE_RUN;
+    int iTriggerMode = EXT_GATE;
 
 
     PulseGenSetFields(ppg, dLevel1, dWidth2, dDelay1, dLevel2, dWidth2, dDelay2, dBaseLevel, iTriggerMode);

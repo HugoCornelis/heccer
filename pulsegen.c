@@ -3,6 +3,7 @@
 *  \file pulsegen.c
 *  \author Mando Rodriguez
 *
+*  Original code by M. Nelson Caltech 4/89 
 *  This file holds the implementation for PulseGen which has been
 *  ported from GENESIS 2.3. Taken from the development notes:
 * 
