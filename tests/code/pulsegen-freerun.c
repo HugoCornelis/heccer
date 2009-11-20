@@ -47,15 +47,6 @@ struct Compartment compSoma =
     //m index of parent compartment, -1 for none
 
     -1,
-
-/*     //m first mechanism */
-
-/*     NULL, */
-
-/*     //m number of mechanisms */
-
-/*     0, */
-
     //m descriptive values, alphabetical order
 
 /*     double dCm; */
@@ -134,15 +125,15 @@ int main(int argc, char *argv[])
 
     PulseGenSetFields(ppg, dLevel1, dWidth2, dDelay1, dLevel2, dWidth2, dDelay2, dBaseLevel, iTriggerMode);
 
-//d connect the voltage clamp object with the compartment of interest
+//d connect the pulsegen object with the compartment of interest
 
 #define HECCER_TEST_INITIATE \
     double *pdVm = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");	\
     PulseGenAddVariable(ppg, pdVm)
 
-//d schedule the voltage clamper
+//d schedule the pulsegen
 
-#define HECCER_TEST_SCHEDULE PulseGenSingleStep(ppg, (dSimulationTime - HECCER_TEST_TIME_GRANULARITY))
+#define HECCER_TEST_SCHEDULE PulseGenSingleStep(ppg, (dSimulationTime))
 
     //- do the simulation
 
