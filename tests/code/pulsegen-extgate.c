@@ -113,11 +113,11 @@ int main(int argc, char *argv[])
 {
     //- allocate a voltage clamp object
 
-    ppg = PulseGenNew("pulsegen freerun");
+    ppg = PulseGenNew("pulsegen gated mode (leading edge triggers)");
 
 
     //! setfield ^ level1 50.0 width1 3.0 delay1 5.0 level2 -20.0 width2 5.0  \
-    //             delay2 8.0 baselevel 10.0 trig_mode 0
+    //             delay2 8.0 baselevel 10.0 trig_mode 2
 
     double dLevel1 = 50.0;
     double dWidth1 = 3.0;
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     int iTriggerMode = EXT_GATE;
 
 
-    PulseGenSetFields(ppg, dLevel1, dWidth2, dDelay1, dLevel2, dWidth2, dDelay2, dBaseLevel, iTriggerMode);
+    PulseGenSetFields(ppg, dLevel1, dWidth1, dDelay1, dLevel2, dWidth2, dDelay2, dBaseLevel, iTriggerMode);
 
 //d connect the voltage clamp object with the compartment of interest
 
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
 
 //d schedule the voltage clamper
 
-#define HECCER_TEST_SCHEDULE PulseGenSingleStep(ppg, (dSimulationTime - HECCER_TEST_TIME_GRANULARITY))
+#define HECCER_TEST_SCHEDULE PulseGenSingleStep(ppg, dSimulationTime)
 
     //- do the simulation
 

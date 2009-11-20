@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
     int iTriggerMode = FREE_RUN;
 
 
-    PulseGenSetFields(ppg, dLevel1, dWidth2, dDelay1, dLevel2, dWidth2, dDelay2, dBaseLevel, iTriggerMode);
+    PulseGenSetFields(ppg, dLevel1, dWidth1, dDelay1, dLevel2, dWidth2, dDelay2, dBaseLevel, iTriggerMode);
 
 //d connect the pulsegen object with the compartment of interest
 

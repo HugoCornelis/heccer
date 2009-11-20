@@ -130,7 +130,7 @@ int PulseGenSingleStep(struct simobj_PulseGen *ppg, double dTime)
    * The other three types of messages will need more work:
    * LEVEL, WIDTH, DELAY 
    */
-  iInput = 1;
+  //iInput = 1;
 
   //
   // Here we perform actions based on the trigger mode.
