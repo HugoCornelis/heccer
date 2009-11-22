@@ -1,15 +1,15 @@
-Heccer the hecc: HeccerMechanismCompile(): compartment 4 parameters (dCm == 0.000000, dEm == 1000.000000, dRm == 0.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 3 parameters (dCm == 0.000000, dEm == -0.080000, dRm == 0.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 1 parameters (dCm == 0.000000, dEm == 1000.000000, dRm == 8548598272.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 0 parameters (dCm == 0.000000, dEm == -0.080000, dRm == 358440928.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 4 parameters (dCm == 0.000000, dEm == 1000.000000, dRm == 0.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 3 parameters (dCm == 0.000000, dEm == -0.080000, dRm == 0.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 1 parameters (dCm == 0.000000, dEm == 1000.000000, dRm == 8548598272.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 0 parameters (dCm == 0.000000, dEm == -0.080000, dRm == 358440928.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 4 parameters (dCm == 0.000000, dEm == 1000.000000, dRm == 0.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 3 parameters (dCm == 0.000000, dEm == -0.080000, dRm == 0.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 1 parameters (dCm == 0.000000, dEm == 1000.000000, dRm == 8548598272.000000) invalid
-Heccer the hecc: HeccerMechanismCompile(): compartment 0 parameters (dCm == 0.000000, dEm == -0.080000, dRm == 358440928.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 4 parameters (dCm == 0.000000, dEm == 1000.000000, dInitVm == -0.068000 dRm == 0.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 3 parameters (dCm == 0.000000, dEm == -0.080000, dInitVm == -0.068000 dRm == 0.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 1 parameters (dCm == 0.000000, dEm == 1000.000000, dInitVm == -0.068000 dRm == 8548598272.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 0 parameters (dCm == 0.000000, dEm == -0.080000, dInitVm == -0.068000 dRm == 358440928.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 4 parameters (dCm == 0.000000, dEm == 1000.000000, dInitVm == -0.068000 dRm == 0.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 3 parameters (dCm == 0.000000, dEm == -0.080000, dInitVm == -0.068000 dRm == 0.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 1 parameters (dCm == 0.000000, dEm == 1000.000000, dInitVm == -0.068000 dRm == 8548598272.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 0 parameters (dCm == 0.000000, dEm == -0.080000, dInitVm == -0.068000 dRm == 358440928.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 4 parameters (dCm == 0.000000, dEm == 1000.000000, dInitVm == -0.068000 dRm == 0.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 3 parameters (dCm == 0.000000, dEm == -0.080000, dInitVm == -0.068000 dRm == 0.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 1 parameters (dCm == 0.000000, dEm == 1000.000000, dInitVm == -0.068000 dRm == 8548598272.000000) invalid
+Heccer the hecc: HeccerMechanismCompile(): compartment 0 parameters (dCm == 0.000000, dEm == -0.080000, dInitVm == -0.068000 dRm == 358440928.000000) invalid
 Initiated
 -------
 Iteration 0
