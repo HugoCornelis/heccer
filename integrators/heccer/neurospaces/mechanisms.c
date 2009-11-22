@@ -4253,14 +4253,26 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (dInitValue == 0
-	    || dBeta == 0)
+	if (dBeta == 0)
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist);
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 
 	    fprintf(stdout, "STATUS_ILLEGAL_PARAMETER_VALUES for the following:\n");
+
+	    PidinStackTo_stdout(ptstr->ppist);
+	}
+
+	if (dInitValue == 0)
+	{
+/* 	    MathComponentDataStatusSet(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist); */
+
+/* 	    iResult = TSTR_PROCESSOR_ABORT; */
+
+/* 	    fprintf(stdout, "STATUS_ILLEGAL_PARAMETER_VALUES for the following:\n"); */
+
+	    fprintf(stdout, "*** Warning: zero initial value for the concentration of the following:\n");
 
 	    PidinStackTo_stdout(ptstr->ppist);
 	}
