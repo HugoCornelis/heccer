@@ -162,6 +162,19 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	    break;
 	}
 
+	//- for a channel with a concentration dependence
+
+	case MATH_TYPE_ChannelConc:
+	{
+	    //- get type specific data
+
+	    struct ChannelConc *pcc = (struct ChannelConc *)pmc;
+
+	    pmc = MathComponentNext(&pcc->mc);
+
+	    break;
+	}
+
 	//- for a channel given with steady state and a stepped time constant
 
 	case MATH_TYPE_ChannelSteadyStateSteppedTau:
@@ -225,11 +238,12 @@ int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
 	}
 	default:
 	{
-	    /// \todo HeccerError(number, message, varargs);
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 "unknown pmc->iType (%i)",
+		 iType);
 
-	    fprintf
-		(stderr,
-		 "Heccer the hecc: unknown pmc->iType (%i)\n", iType);
 	    break;
 	}
 	}

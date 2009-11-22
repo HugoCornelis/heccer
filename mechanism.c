@@ -745,7 +745,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pca->pgc.gc.iTable, dInitVm, dInitActivation);
 			}
 
 			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
@@ -876,7 +876,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedActivation, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcai->pgcActivation.gc.iTable, dInitVm, dInitActivation);
 			}
 
 			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
@@ -897,7 +897,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedInactivation, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcai->pgcInactivation.gc.iTable, dInitVm, dInitActivation);
 			}
 
 			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
@@ -1028,7 +1028,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedMembraneDependence, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcac->pgc.gc.iTable, dInitVm, dInitActivation);
 			}
 
 			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
@@ -1067,7 +1067,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-/* 			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedBasalActivator, dInitVm, dInitActivation); */
+/* 			    dInitActivation = HeccerGateInitActivation(pheccer, pcac->pac.ca.iTable, dInitVm, dInitActivation); */
 
 			    HeccerError
 				(pheccer,
@@ -1217,7 +1217,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-/* 			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedBasalActivator, dInitVm, dInitActivation); */
+/* 			    dInitActivation = HeccerGateInitActivation(pheccer, pcc->pac.ca.iTable, dInitVm, dInitActivation); */
 
 			    HeccerError
 				(pheccer,
@@ -1402,7 +1402,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcsst->iFirstTable, dInitVm, dInitActivation);
 
 /* 			    HeccerError */
 /* 				(pheccer, */
@@ -1420,7 +1420,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated + 1, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcsst->iSecondTable, dInitVm, dInitActivation);
 
 /* 			    HeccerError */
 /* 				(pheccer, */
@@ -1553,7 +1553,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcpsdt->iFirstTable, dInitVm, dInitActivation);
 
 /* 			    HeccerError */
 /* 				(pheccer, */
@@ -1577,7 +1577,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated + 1, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcpsdt->iSecondTable, dInitVm, dInitActivation);
 
 /* 			    HeccerError */
 /* 				(pheccer, */
@@ -1710,7 +1710,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			if (dInitActivation == -1)
 			{
-			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+			    dInitActivation = HeccerGateInitActivation(pheccer, pcpst->iTable, dInitVm, dInitActivation);
 
 /* 			    HeccerError */
 /* 				(pheccer, */
