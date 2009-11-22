@@ -38,6 +38,10 @@ HeccerCheckParameters
  char *pcDescription,
  ...);
 
+static double
+HeccerGateInitActivation
+(struct Heccer *pheccer, int iTable, double dInitVm, double dInitActivation);
+
 static
 int
 HeccerMechanismReadDoubleFile
@@ -118,6 +122,96 @@ HeccerCheckParameters
     //- return result
 
     return(iResult);
+}
+
+
+/// 
+/// 
+/// \arg pgc a gate concept.
+/// \arg dInitActivation negative initial activation code.
+/// 
+/// \return double
+/// 
+///	initial gate value.
+/// 
+/// \brief Recompute an initial gate code to an initial gate value.
+///
+
+static double
+HeccerGateInitActivation
+(struct Heccer *pheccer, int iTable, double dInitVm, double dInitActivation)
+{
+    //- set default result: failure
+
+    double dResult = FLT_MAX;
+
+    //- if code is -1
+
+    if (dInitActivation == -1)
+    {
+	// \todo nicely copied from HeccerMechanismSolveCN(), needs a
+	// macro?
+
+	//- fetch tables
+
+	/// \todo table rearrangements
+
+	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
+
+	double *pdA = phtg->pdA;
+	double *pdB = phtg->pdB;
+
+	double dState;
+
+	//- for a concentration dependent gate
+
+	double *pdState = NULL;
+
+	double dVm = dInitVm;
+
+	if (pdState)
+	{
+	    //- state is coming from a solved mechanism variable
+
+	    dState = *pdState;
+	}
+
+	//- else is a membrane potential dependent gate
+
+	else
+	{
+	    //- state is membrane potential
+
+	    /// \todo move this to load membrane potential
+	    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+
+	    dState = dVm;
+	}
+
+	//- discretize and offset the state
+
+	int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
+
+	if (iIndex < 0)
+	{
+	    iIndex = 0;
+	}
+	else if (iIndex >= phtg->iEntries)
+	{
+	    iIndex = phtg->iEntries - 1;
+	}
+
+	//- fetch A and B gate rates
+
+	double dA = pdA[iIndex];
+	double dB = pdB[iIndex];
+
+	dResult = dA / dB;
+    }
+
+    //- return result
+
+    return(dResult);
 }
 
 
@@ -239,6 +333,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    double dEm = pheccer->inter.pcomp[iIntermediary].dEm;
 
+	    double dInitVm = pheccer->inter.pcomp[iIntermediary].dInitVm;
+
 	    /// \todo perhaps better to do current injection with a
 	    /// \todo hardcoded injector callout ?
 
@@ -250,7 +346,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    char pcDescription[1000];
 
-	    sprintf(pcDescription, "HeccerMechanismCompile(): compartment %i parameters (dCm == %f, dEm == %f, dRm == %f)", iIntermediary, dCm, dEm, dRm);
+	    sprintf(pcDescription, "HeccerMechanismCompile(): compartment %i parameters (dCm == %f, dEm == %f, dInitVm == %f dRm == %f)", iIntermediary, dCm, dEm, dInitVm, dRm);
 
 	    HeccerCheckParameters
 		(
@@ -258,6 +354,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    pcDescription,
 		    (dCm != 0),
 		    (dEm >= -1 && dEm <= 1),
+		    (dInitVm > -0.1 && dInitVm < 0.5),
 		    (dRm != 0),
 		    -1
 		    );
@@ -643,7 +740,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pca->pgc.gc.dInitActivation);
+		    {
+			double dInitActivation = pca->pgc.gc.dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -765,7 +871,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcai->pgcActivation.gc.dInitActivation);
+		    {
+			double dInitActivation = pcai->pgcActivation.gc.dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedActivation, dInitVm, dInitActivation);
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    //- tabulate inactivation, Genesis Y
 		    //- create A table, alpha, create B table, alpha + beta
@@ -777,7 +892,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcai->pgcInactivation.gc.dInitActivation);
+		    {
+			double dInitActivation = pcai->pgcInactivation.gc.dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedInactivation, dInitVm, dInitActivation);
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -899,7 +1023,16 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcac->pgc.gc.dInitActivation);
+		    {
+			double dInitActivation = pcac->pgc.gc.dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedMembraneDependence, dInitVm, dInitActivation);
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    //- tabulate concentration dependence, Genesis Z
 		    //- create A table, alpha, create B table, alpha + beta
@@ -929,7 +1062,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcac->pac.ca.dInitActivation);
+		    {
+			double dInitActivation = pcac->pac.ca.dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+/* 			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedBasalActivator, dInitVm, dInitActivation); */
+
+			    HeccerError
+				(pheccer,
+				 NULL,
+				 "Compilation of MATH_TYPE_ChannelActConc failed, illegal initial gate state");
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1065,7 +1212,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcc->pac.ca.dInitActivation);
+		    {
+			double dInitActivation = pcc->pac.ca.dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+/* 			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulatedBasalActivator, dInitVm, dInitActivation); */
+
+			    HeccerError
+				(pheccer,
+				 NULL,
+				 "Compilation of MATH_TYPE_ChannelConc failed, illegal initial gate state");
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1236,11 +1397,39 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcsst->dFirstInitActivation);
+		    {
+			double dInitActivation = pcsst->dFirstInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelSteadyStateSteppedTau failed, illegal initial gate state"); */
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iSecondTable, pcsst->iSecondPower, -1);
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcsst->dSecondInitActivation);
+		    {
+			double dInitActivation = pcsst->dSecondInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated + 1, dInitVm, dInitActivation);
+
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelSteadyStateSteppedTau failed, illegal initial gate state"); */
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1359,7 +1548,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcpsdt->dFirstInitActivation);
+		    {
+			double dInitActivation = pcpsdt->dFirstInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelPersistentSteadyStateDualTau failed, illegal initial gate state"); */
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1369,7 +1572,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcpsdt->iSecondTable, pcpsdt->iSecondPower, -1);
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcpsdt->dSecondInitActivation);
+		    {
+			double dInitActivation = pcpsdt->dSecondInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated + 1, dInitVm, dInitActivation);
+
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelPersistentSteadyStateDualTau failed, illegal initial gate state"); */
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -1488,7 +1705,21 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    /// \note at the beginning of a simulation, you would expect this to be the steady state value
 
-		    SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcpst->dInitActivation);
+		    {
+			double dInitActivation = pcpst->dInitActivation;
+
+			if (dInitActivation == -1)
+			{
+			    dInitActivation = HeccerGateInitActivation(pheccer, iTabulated, dInitVm, dInitActivation);
+
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelPersistentSteadyStateTau failed, illegal initial gate state"); */
+			}
+
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
