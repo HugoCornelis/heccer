@@ -1511,7 +1511,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		    int iTable = RegisterTable(pdCache, pdTable);
 		}
 
-		if (pmcd->iStatus == 5)
+		if (pmcd->iStatus == 2)
 		{
 		    pcc->pac.ca.htg.pdA = pdTable;
 		}
