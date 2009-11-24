@@ -1069,10 +1069,14 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			{
 /* 			    dInitActivation = HeccerGateInitActivation(pheccer, pcac->pac.ca.iTable, dInitVm, dInitActivation); */
 
-			    HeccerError
-				(pheccer,
-				 NULL,
-				 "Compilation of MATH_TYPE_ChannelActConc failed, illegal initial gate state");
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelActConc failed, illegal initial gate state"); */
+
+			    //- this is a G2 compatibility thing, does not make sense, but sometimes ...
+
+			    dInitActivation = 0;
 			}
 
 			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
@@ -1219,10 +1223,14 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			{
 /* 			    dInitActivation = HeccerGateInitActivation(pheccer, pcc->pac.ca.iTable, dInitVm, dInitActivation); */
 
-			    HeccerError
-				(pheccer,
-				 NULL,
-				 "Compilation of MATH_TYPE_ChannelConc failed, illegal initial gate state");
+/* 			    HeccerError */
+/* 				(pheccer, */
+/* 				 NULL, */
+/* 				 "Compilation of MATH_TYPE_ChannelConc failed, illegal initial gate state"); */
+
+			    //- this is a G2 compatibility thing, does not make sense, but sometimes ...
+
+			    dInitActivation = 0;
 			}
 
 			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
@@ -4007,9 +4015,22 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dA = pheccer->dStep * dA;
 
-		//- compute gate activation state
+		//- for instantaneous gates
 
-		dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
+		int iInstantaneous = (iPower < 0);
+
+		if (iInstantaneous)
+		{
+		    dActivation = dA / dB;
+
+		    iPower = -iPower;
+		}
+		else
+		{
+		    //- compute gate activation state for the CN rule
+
+		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
+		}
 
 		//- and store it for the next cycle
 

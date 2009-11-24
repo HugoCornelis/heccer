@@ -482,7 +482,7 @@ HeccerGateConceptTabulate
 	{
 	    double dMultiplier = pgc->parameters.gkB.dHHScale;
 	    double dMembraneDependence = pgc->parameters.gkB.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkA.dHHOffsetM;
+	    double dMembraneDependenceOffset = pgc->parameters.gkB.dHHOffsetM;
 	    int iNominator = pgc->parameters.gkB.iHHFactorFlag;
 	    double dDeNominatorOffset = pgc->parameters.gkB.dHHAdd;
 	    double dMembraneOffset = pgc->parameters.gkB.dHHOffsetE;
