@@ -4015,9 +4015,22 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		dA = pheccer->dStep * dA;
 
-		//- compute gate activation state
+		//- for instantaneous gates
 
-		dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
+		int iInstantaneous = (iPower < 0);
+
+		if (iInstantaneous)
+		{
+		    dActivation = dA / dB;
+
+		    iPower = -iPower;
+		}
+		else
+		{
+		    //- compute gate activation state for the CN rule
+
+		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
+		}
 
 		//- and store it for the next cycle
 
