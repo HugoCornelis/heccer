@@ -512,6 +512,28 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    ppgc->gc.dInitActivation = dInitActivation;
 
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dPower != FLT_MAX)
+			{
+			    ppgc->iPower = - ppgc->iPower;
+			}
+		    }
+		}
+	    }
+
 	    if (dPower == FLT_MAX)
 	    {
 
@@ -869,6 +891,28 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    pcac->pgc.gc.dInitActivation = dInitActivation;
 
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dPower != FLT_MAX)
+			{
+			    pcac->pgc.iPower = - pcac->pgc.iPower;
+			}
+		    }
+		}
+	    }
+
 	    if (dPower == FLT_MAX)
 	    {
 
@@ -931,6 +975,27 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    pcac->pac.ca.dInitActivation = dInitActivation;
 
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dPower != FLT_MAX)
+			{
+			    pcac->pac.iPower = - pcac->pac.iPower;
+			}
+		    }
+		}
+	    }
 
 	    if (dPower == FLT_MAX)
 	    {
@@ -1395,6 +1460,27 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 	    pcc->pac.ca.dInitActivation = dInitActivation;
 
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dPower != FLT_MAX)
+			{
+			    pcc->pac.iPower = - pcc->pac.iPower;
+			}
+		    }
+		}
+	    }
 
 	    if (dPower == FLT_MAX)
 	    {
@@ -1656,6 +1742,28 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 
 	    ppgc->gc.dInitActivation = dInitActivation;
+
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dPower != FLT_MAX)
+			{
+			    ppgc->iPower = - ppgc->iPower;
+			}
+		    }
+		}
+	    }
 
 	    if (dPower == FLT_MAX)
 	    {
@@ -2315,7 +2423,30 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	    //- get initial states
 
 	    double dInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
+
 	    pcpst->dInitActivation = dInitActivation;
+
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dPower != FLT_MAX)
+			{
+			    pcpst->iPower = - pcpst->iPower;
+			}
+		    }
+		}
+	    }
 
 	    if (dPower == FLT_MAX)
 	    {
@@ -2796,6 +2927,28 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		pcsm->dInitY = dInitY;
 	    }
 
+/* 	    //- get instantaneous flag */
+
+/* 	    struct symtab_Parameters *pparInstantaneous */
+/* 		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous"); */
+
+/* 	    if (pparInstantaneous) */
+/* 	    { */
+/* 		char *pcInstantaneous */
+/* 		    = ParameterGetString(pparInstantaneous); */
+
+/* 		if (pcInstantaneous) */
+/* 		{ */
+/* 		    if (strcmp(pcInstantaneous, "yes") == 0) */
+/* 		    { */
+/* 			if (dPower != FLT_MAX) */
+/* 			{ */
+/* 			    dPower = -dPower; */
+/* 			} */
+/* 		    } */
+/* 		} */
+/* 	    } */
+
 	}
 	else
 	{
@@ -2886,6 +3039,28 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    double dFirstInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 	    pcpsdt->dFirstInitActivation = dFirstInitActivation;
 
+	    //- get first instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous_first");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dFirstPower != FLT_MAX)
+			{
+			    pcpsdt->iFirstPower = - pcpsdt->iFirstPower;
+			}
+		    }
+		}
+	    }
+
 	    if (dFirstPower == FLT_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2924,6 +3099,28 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    double dSecondInitActivation = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init");
 	    pcpsdt->dSecondInitActivation = dSecondInitActivation;
+
+	    //- get instantaneous flag
+
+	    struct symtab_Parameters *pparInstantaneous
+		= SymbolFindParameter(phsle, ptstr->ppist, "instantaneous_second");
+
+	    if (pparInstantaneous)
+	    {
+		char *pcInstantaneous
+		    = ParameterGetString(pparInstantaneous);
+
+		if (pcInstantaneous)
+		{
+		    if (strcmp(pcInstantaneous, "yes") == 0)
+		    {
+			if (dSecondPower != FLT_MAX)
+			{
+			    pcpsdt->iSecondPower = - pcpsdt->iSecondPower;
+			}
+		    }
+		}
+	    }
 
 	    if (dSecondPower == FLT_MAX)
 	    {

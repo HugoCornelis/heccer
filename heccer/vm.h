@@ -724,7 +724,7 @@ struct MopsSingleGateConcept
 	     pmops->iPower = (iP) ;					\
 	     pmops->uState.iMat = (iS) ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
-	     ((iP) <= 0)						\
+	     ((iP) > 6 || (iP) < -6)					\
 		 ? ({							\
 			 HeccerError					\
 			     (pheccer,					\
