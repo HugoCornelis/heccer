@@ -13,9 +13,9 @@ my $test
 				command => 'tests/code/pulsegen-freerun',
 				command_tests => [
 						  {
-						   disabled => 'Still working on output',
+
 						   description => "Can a single pulsegen object output amplitude in free run mode ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen0.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-freerun.txt`),
 						  },
 						 ],
 				description => "pulsegen functionality, can we output a current in free run mode?",
@@ -26,13 +26,12 @@ my $test
 				command => 'tests/code/pulsegen-extgate',
 				command_tests => [
 						  {
-						   disabled => 'Still working on output',
 						   description => " Can a single pulsegen object output amplitude in ext gate mode?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen1.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-extgate.txt`),
 						   timeout => 20,
 						  },
 						 ],
-				description => "pulsegen functionality, can we output a current in ext gated mode with leading edge triggers ?",
+				description => "pulsegen functionality, can we output a constant pulse with no trigger ?",
 			       },
 			       {
 				arguments => [
@@ -40,13 +39,12 @@ my $test
 				command => 'tests/code/pulsegen-exttrig',
 				command_tests => [
 						  {
-						   disabled => 'Still working on output',
 						   description => "Can a single pulsegen object output amplitude in ext gate mode ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsgen2.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsgen-exttrig.txt`),
 						   timeout => 20,
 						  },
 						 ],
-				description => "pulsegen functionality, can we output a current in ext triggered mode with delay ?",
+				description => "pulsegen functionality, can we output a constant pulse with no gate input ?",
 			       },
 			      ],
        description => "pulsegen simulation object",

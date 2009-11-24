@@ -84,6 +84,7 @@ int PulseGenSetFields
   ppg->dDelay1 = dDelay1;
   ppg->dLevel2 = dLevel2;
   ppg->dWidth2 = dWidth2;
+  ppg->dDelay2 = dDelay2;
   ppg->dBaseLevel = dBaseLevel;
   ppg->iTriggerMode = iTriggerMode;
 
@@ -100,7 +101,6 @@ int PulseGenSetFields
  *
  * Processes a single time step for a pulsegen object.
  */
-
 //-------------------------------------------------------------------
 int PulseGenSingleStep(struct simobj_PulseGen *ppg, double dTime)
 {
@@ -263,6 +263,13 @@ struct simobj_PulseGen * PulseGenNew(char *pcName)
   }
 
   ppgResult->pcName = strdup(pcName);
+
+  //
+  // This sets the new pulsegen to a "never triggered" 
+  // state. Not sure how to handle it recieving a message
+  // to "trigger" it.
+  //
+  ppgResult->dTriggerTime = -1;
 
   return ppgResult;
 
