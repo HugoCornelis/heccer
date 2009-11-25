@@ -266,6 +266,33 @@ static double *ppdIdentifiedTables[100];
 int iIdentifiedTables = 0;
 
 
+static int
+CreateTableCache
+(struct symtab_HSolveListElement *phsle, struct PidinStack *ppist, double *pdCache)
+{
+    //- define the identifiers
+
+    double pdIdentifiers[NUMBER_OF_CACHE_IDENTIFIERS];
+
+    pdIdentifiers[0] = SymbolParameterResolveValue(phsle, ppist, "table[0]");
+    pdIdentifiers[1] = SymbolParameterResolveValue(phsle, ppist, "table[1]");
+    pdIdentifiers[2] = SymbolParameterResolveValue(phsle, ppist, "table[2]");
+    pdIdentifiers[3] = SymbolParameterResolveValue(phsle, ppist, "table[3]");
+    pdIdentifiers[4] = SymbolParameterResolveValue(phsle, ppist, "table[4]");
+
+    //- register the identifiers
+
+    int i;
+
+    for (i = 0 ; i < NUMBER_OF_CACHE_IDENTIFIERS ; i++)
+    {
+	pdCache[i] = pdIdentifiers[i];
+    }
+
+    return 1;
+}
+
+
 static double * LookupTable(double *pdValues)
 {
     //- set default result: not found
@@ -629,11 +656,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    {
 		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
-		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
-		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
-		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
-		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
-		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
 
 		double *pdTable = LookupTable(pdCache);
 
@@ -1091,11 +1114,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
-		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
-		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
-		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
-		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
-		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
 
 		double *pdTable = LookupTable(pdCache);
 
@@ -1294,11 +1313,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
-		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
-		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
-		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
-		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
-		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
 
 		double *pdTable = LookupTable(pdCache);
 
@@ -1575,11 +1590,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 	    {
 		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
-		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
-		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
-		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
-		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
-		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
 
 		double *pdTable = LookupTable(pdCache);
 
@@ -1872,11 +1883,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    {
 		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
-		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
-		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
-		pdCache[2] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[2]");
-		pdCache[3] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[3]");
-		pdCache[4] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[4]");
+		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
 
 		double *pdTable = LookupTable(pdCache);
 
