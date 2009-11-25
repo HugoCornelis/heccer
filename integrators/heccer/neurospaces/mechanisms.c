@@ -278,13 +278,29 @@ static double * LookupTable(double *pdValues)
 
     for (i = 0 ; i < iIdentifiedTables ; i++)
     {
+	//- assume tables match
+
+	int iMatch = 1;
+
+	int j;
+
+	//- if one of the entries does not match
+
+	for (j = 0 ; j < NUMBER_OF_CACHE_IDENTIFIERS ; j++)
+	{
+	    if (pdValues[j] != ppdTableIdentifiers[i][j])
+	    {
+		//- register they don't match
+
+		iMatch = 0;
+
+		break;
+	    }
+	}
+
 	//- if tables match
 
-	if (pdValues[0] == ppdTableIdentifiers[i][0]
-	    && pdValues[1] == ppdTableIdentifiers[i][1]
-	    && pdValues[2] == ppdTableIdentifiers[i][2]
-	    && pdValues[3] == ppdTableIdentifiers[i][3]
-	    && pdValues[4] == ppdTableIdentifiers[i][4])
+	if (iMatch)
 	{
 	    //- set result
 
@@ -319,11 +335,12 @@ static int RegisterTable(double *pdValues, double *pdTable)
 
     //- register the identifiers
 
-    ppdTableIdentifiers[iIdentifiedTables][0] = pdValues[0];
-    ppdTableIdentifiers[iIdentifiedTables][1] = pdValues[1];
-    ppdTableIdentifiers[iIdentifiedTables][2] = pdValues[2];
-    ppdTableIdentifiers[iIdentifiedTables][3] = pdValues[3];
-    ppdTableIdentifiers[iIdentifiedTables][4] = pdValues[4];
+    int i;
+
+    for (i = 0 ; i < NUMBER_OF_CACHE_IDENTIFIERS ; i++)
+    {
+	ppdTableIdentifiers[iIdentifiedTables][i] = pdValues[i];
+    }
 
     //- register the table that was identified
 
@@ -610,7 +627,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[5];
+		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
 		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
 		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
@@ -1072,7 +1089,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[5];
+		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
 		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
 		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
@@ -1275,7 +1292,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    if (pcac->pac.ca.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[5];
+		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
 		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
 		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
@@ -1556,7 +1573,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 	    if (pcc->pac.ca.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[5];
+		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
 		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
 		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
@@ -1853,7 +1870,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[5];
+		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
 
 		pdCache[0] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[0]");
 		pdCache[1] = SymbolParameterResolveValue(phsle, ptstr->ppist, "table[1]");
