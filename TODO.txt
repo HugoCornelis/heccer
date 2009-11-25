@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* implement the tabulator as an SSP service
+This should solve most interface problems with the tabulator.
+
 * write documentation for heccer callouts
 
 * Implement rule de l'hopital in the tabulator.
