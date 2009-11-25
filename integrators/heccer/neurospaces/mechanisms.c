@@ -278,6 +278,8 @@ CreateTableCache
 
     double pdIdentifiers[NUMBER_OF_CACHE_IDENTIFIERS];
 
+    // \todo use an heuristic to define the identifiers.
+
     pdIdentifiers[0] = SymbolParameterResolveValue(phsle, ppist, "table[0]");
     pdIdentifiers[1] = SymbolParameterResolveValue(phsle, ppist, "table[1]");
     pdIdentifiers[2] = SymbolParameterResolveValue(phsle, ppist, "table[2]");
