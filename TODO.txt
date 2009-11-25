@@ -1,5 +1,11 @@
 -*- outline -*-
 
+* add tests for instantaneous gates
+the traub91 model in ns-sli serves as an example.
+
+* add tests for channels with concen dependent gates only
+the traub91 model in ns-sli serves as an example.
+
 * implement the tabulator as an SSP service
 This should solve most interface problems with the tabulator.
 
