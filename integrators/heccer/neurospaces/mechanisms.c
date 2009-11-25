@@ -249,6 +249,10 @@ int
 MathComponentPrintErrorReport(struct MathComponentData * pmcd);
 
 
+static int
+CreateTableCache
+(struct symtab_HSolveListElement *phsle, struct PidinStack *ppist, double *pdCache);
+
 static double * LookupTable(double *pdValues);
 
 static int RegisterTable(double *pdValues, double *pdTable);
