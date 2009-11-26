@@ -4009,24 +4009,31 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		double dA = pdA[iIndex];
 		double dB = pdB[iIndex];
 
-		/// \todo move to channel rearrangements
-
-		dB = 1.0 + pheccer->dStep / 2.0 * dB;
-
-		dA = pheccer->dStep * dA;
-
 		//- for instantaneous gates
 
 		int iInstantaneous = (iPower < 0);
 
 		if (iInstantaneous)
 		{
+		    //- compute activation directly
+
 		    dActivation = dA / dB;
 
 		    iPower = -iPower;
 		}
+
+		//- else
+
 		else
 		{
+		    //- apply CN logic
+
+		    /// \todo move to channel rearrangements
+
+		    dB = 1.0 + pheccer->dStep / 2.0 * dB;
+
+		    dA = pheccer->dStep * dA;
+
 		    //- compute gate activation state for the CN rule
 
 		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
