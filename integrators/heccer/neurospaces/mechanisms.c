@@ -250,8 +250,8 @@ MathComponentPrintErrorReport(struct MathComponentData * pmcd);
 
 
 static int
-CreateTableCache
-(struct symtab_HSolveListElement *phsle, struct PidinStack *ppist, double *pdCache);
+CreateTableIdentifiers
+(struct symtab_HSolveListElement *phsle, struct PidinStack *ppist, int iEntries, double *pdCache);
 
 static double * LookupTable(double *pdValues);
 
@@ -261,9 +261,9 @@ static int RegisterTable(double *pdValues, double *pdTable);
 // \def number of entries used to identify a table.  Note that this
 // number is hardcoded throughout this source file.
 
-#define NUMBER_OF_CACHE_IDENTIFIERS 5
+#define NUMBER_OF_IDENTIFIERS 5
 
-static double ppdTableIdentifiers[100][NUMBER_OF_CACHE_IDENTIFIERS];
+static double ppdTableIdentifiers[100][NUMBER_OF_IDENTIFIERS];
 
 static double *ppdIdentifiedTables[100];
 
@@ -271,31 +271,51 @@ int iIdentifiedTables = 0;
 
 
 static int
-CreateTableCache
-(struct symtab_HSolveListElement *phsle, struct PidinStack *ppist, double *pdCache)
+CreateTableIdentifiers
+(struct symtab_HSolveListElement *phsle, struct PidinStack *ppist, int iEntries, double *pdIdentification)
 {
+    int i;
+
+    //- set default result: success
+
+    int iResult = 1;
+
     //- define the identifiers
 
-    double pdIdentifiers[NUMBER_OF_CACHE_IDENTIFIERS];
+    double pdValues[NUMBER_OF_IDENTIFIERS];
 
-    // \todo use an heuristic to define the identifiers.
+    //- if one of the entries does not match
 
-    pdIdentifiers[0] = SymbolParameterResolveValue(phsle, ppist, "table[0]");
-    pdIdentifiers[1] = SymbolParameterResolveValue(phsle, ppist, "table[1]");
-    pdIdentifiers[2] = SymbolParameterResolveValue(phsle, ppist, "table[2]");
-    pdIdentifiers[3] = SymbolParameterResolveValue(phsle, ppist, "table[3]");
-    pdIdentifiers[4] = SymbolParameterResolveValue(phsle, ppist, "table[4]");
+    for (i = 0 ; i < NUMBER_OF_IDENTIFIERS ; i++)
+    {
+	char pcValue[100];
+
+	//- use an heuristic to define the identifiers.
+
+	int iTable = (iEntries - 1) / (i + 1);
+
+	sprintf(pcValue, "table[%i]", iTable);
+
+	pdValues[i] = SymbolParameterResolveValue(phsle, ppist, pcValue);
+
+	if (pdValues[i] == FLT_MAX)
+	{
+	    iResult = 0;
+
+/* 	    break; */
+	}
+    }
 
     //- register the identifiers
 
-    int i;
-
-    for (i = 0 ; i < NUMBER_OF_CACHE_IDENTIFIERS ; i++)
+    for (i = 0 ; i < NUMBER_OF_IDENTIFIERS ; i++)
     {
-	pdCache[i] = pdIdentifiers[i];
+	pdIdentification[i] = pdValues[i];
     }
 
-    return 1;
+    //- return result
+
+    return(iResult);
 }
 
 
@@ -319,7 +339,7 @@ static double * LookupTable(double *pdValues)
 
 	//- if one of the entries does not match
 
-	for (j = 0 ; j < NUMBER_OF_CACHE_IDENTIFIERS ; j++)
+	for (j = 0 ; j < NUMBER_OF_IDENTIFIERS ; j++)
 	{
 	    if (pdValues[j] != ppdTableIdentifiers[i][j])
 	    {
@@ -370,7 +390,7 @@ static int RegisterTable(double *pdValues, double *pdTable)
 
     int i;
 
-    for (i = 0 ; i < NUMBER_OF_CACHE_IDENTIFIERS ; i++)
+    for (i = 0 ; i < NUMBER_OF_IDENTIFIERS ; i++)
     {
 	ppdTableIdentifiers[iIdentifiedTables][i] = pdValues[i];
     }
@@ -660,11 +680,11 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
+		double pdIdentification[NUMBER_OF_IDENTIFIERS];
 
-		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
+		int iIdentified = CreateTableIdentifiers(phsle, ptstr->ppist, ppgc->gc.htg.iEntries, pdIdentification);
 
-		double *pdTable = LookupTable(pdCache);
+		double *pdTable = LookupTable(pdIdentification);
 
 		if (!pdTable)
 		{
@@ -696,7 +716,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 			}
 		    }
 
-		    int iTable = RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdIdentification, pdTable);
 		}
 
 		if (pmcd->iStatus == 2)
@@ -1118,11 +1138,11 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
+		double pdIdentification[NUMBER_OF_IDENTIFIERS];
 
-		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
+		int iIdentified = CreateTableIdentifiers(phsle, ptstr->ppist, ppgc->gc.htg.iEntries, pdIdentification);
 
-		double *pdTable = LookupTable(pdCache);
+		double *pdTable = LookupTable(pdIdentification);
 
 		if (!pdTable)
 		{
@@ -1155,7 +1175,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    int iTable = RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdIdentification, pdTable);
 		}
 
 		if (pmcd->iStatus == 2)
@@ -1317,11 +1337,11 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    if (pcac->pac.ca.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
+		double pdIdentification[NUMBER_OF_IDENTIFIERS];
 
-		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
+		int iIdentified = CreateTableIdentifiers(phsle, ptstr->ppist, pcac->pac.ca.htg.iEntries, pdIdentification);
 
-		double *pdTable = LookupTable(pdCache);
+		double *pdTable = LookupTable(pdIdentification);
 
 		if (!pdTable)
 		{
@@ -1351,7 +1371,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 		    }
 
-		    int iTable = RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdIdentification, pdTable);
 		}
 
 		if (pmcd->iStatus == 5)
@@ -1594,11 +1614,11 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 	    if (pcc->pac.ca.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
+		double pdIdentification[NUMBER_OF_IDENTIFIERS];
 
-		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
+		int iIdentified = CreateTableIdentifiers(phsle, ptstr->ppist, pcc->pac.ca.htg.iEntries, pdIdentification);
 
-		double *pdTable = LookupTable(pdCache);
+		double *pdTable = LookupTable(pdIdentification);
 
 		if (!pdTable)
 		{
@@ -1628,7 +1648,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 			}
 		    }
 
-		    int iTable = RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdIdentification, pdTable);
 		}
 
 		if (pmcd->iStatus == 2)
@@ -1887,11 +1907,11 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    if (ppgc->gc.htg.iEntries != INT_MAX)
 	    {
-		double pdCache[NUMBER_OF_CACHE_IDENTIFIERS];
+		double pdIdentification[NUMBER_OF_IDENTIFIERS];
 
-		int iCached = CreateTableCache(phsle, ptstr->ppist, pdCache);
+		int iIdentified = CreateTableIdentifiers(phsle, ptstr->ppist, ppgc->gc.htg.iEntries, pdIdentification);
 
-		double *pdTable = LookupTable(pdCache);
+		double *pdTable = LookupTable(pdIdentification);
 
 		if (!pdTable)
 		{
@@ -1924,7 +1944,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			}
 		    }
 
-		    int iTable = RegisterTable(pdCache, pdTable);
+		    int iTable = RegisterTable(pdIdentification, pdTable);
 		}
 
 		if (pmcd->iStatus == 2
