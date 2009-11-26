@@ -4196,7 +4196,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    //- get Erev parameter
 
 	    struct symtab_Parameters *pparErev
-		= SymbolGetParameter(phsle, ptstr->ppist, "Erev");
+		= SymbolFindParameter(phsle, ptstr->ppist, "Erev");
 
 	    //- get nernst function
 	    struct PidinStack *ppistNernst = 
