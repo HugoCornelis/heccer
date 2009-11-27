@@ -44,7 +44,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iCompartments number of compartments.
 /// 
@@ -53,7 +52,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
 ///	success of operation.
 /// 
 /// \brief Find natural flow in the morphology.
-/// \details 
 /// 
 /// \note 
 /// 
@@ -331,7 +329,6 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// \arg iCompartments number of compartments.
 /// 
@@ -340,7 +337,6 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 ///	success of operation.
 /// 
 /// \brief Build structural indices.
-/// \details 
 /// 
 
 static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
@@ -466,7 +462,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 
 
 /// 
-/// 
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -474,7 +469,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
 ///	success of operation.
 /// 
 /// \brief Minimum degree enumeration for compartment matrix.
-/// \details 
 /// 
 
 int HeccerMinimumDegree(struct Heccer *pheccer)
@@ -510,7 +504,6 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 
 
 /// 
-/// 
 /// \arg pmd minimum degree index.
 /// \arg pfile stdio file.
 /// \arg iSelection selection to dump.
@@ -520,7 +513,6 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Perform the compartment operators once.
-/// \details 
 /// 
 
 int
