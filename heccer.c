@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/27) Friday, November 27, 2009 09:42:03 hugo";
+static char *pcVersionTime="(09/11/27) Friday, November 27, 2009 14:53:50 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -233,7 +233,9 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///
 /// \note 
 /// 
-///	This changes the cable properties in the intermediary.
+///	This changes the dRa cable properties of selected compartments
+///	in the intermediary (namely those compartments with neighbours
+///	that have a different length).
 /// 
 
 static int HeccerApplyLinearCable(struct Heccer *pheccer)
