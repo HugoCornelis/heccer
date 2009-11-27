@@ -40,8 +40,6 @@ HeccerMDFlowEnumeratorL
 
 static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments);
 
-static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments);
-
 
 /// 
 /// \arg pheccer a heccer.
@@ -330,6 +328,124 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
 /// 
 /// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Minimum degree enumeration for compartment matrix.
+/// 
+
+int HeccerMinimumDegree(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    if (pheccer->inter.iCompartments == 0)
+    {
+	return(TRUE);
+    }
+
+    //- build structural indices
+
+    iResult = iResult && HeccerMDStructuralyze(pheccer, pheccer->inter.iCompartments);
+
+    //- do minimum degree
+
+    /// \note this is assumed to follow reverse current flow for a passive
+    /// \note morphology, hence the name of the function.
+
+    iResult = iResult && HeccerMDFindFlow(pheccer, pheccer->inter.iCompartments);
+
+/*     //- sort children according to flow */
+
+/*     iResult = iResult && HeccerMDSortChildren(pheccer, pheccer->inter.iCompartments); */
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pmd minimum degree index.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Perform the compartment operators once.
+/// 
+
+int
+HeccerMinimumDegreeDump
+(struct MinimumDegree *pmd, FILE *pfile, int iSelection)
+{
+    //- set default result
+
+    int iResult = TRUE;
+
+    //- index of parent compartment, -1 for none
+
+    if (iSelection & HECCER_DUMP_INDEXERS_SUMMARY)
+    {
+	fprintf(pfile, "MinimumDegree (iEntries) : (%i)\n", pmd->iEntries);
+    }
+
+    //- structural analyzers
+
+    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
+    {
+	int i;
+
+	for (i = 0 ; i < pmd->iEntries ; i++)
+	{
+	    fprintf(pfile, "MinimumDegree (piChildren[%i]) : (%i)\n", i, pmd->piChildren[i]);
+
+	    int j;
+
+	    for (j = 0 ; j < pmd->piChildren[i] ; j++)
+	    {
+		fprintf(pfile, "MinimumDegree (piChildren[%i][%i]) : (%i)\n", i, j, pmd->ppiChildren[i][j]);
+	    }
+	}
+    }
+
+    //- unordered to flow
+
+    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
+    {
+	int i;
+
+	for (i = 0 ; i < pmd->iEntries ; i++)
+	{
+	    fprintf(pfile, "MinimumDegree (piForward[%i]) : (%i)\n", i, pmd->piForward[i]);
+	}
+    }
+
+    //- flow to unordered
+
+    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
+    {
+	int i;
+
+	for (i = 0 ; i < pmd->iEntries ; i++)
+	{
+	    fprintf(pfile, "MinimumDegree (piBackward[%i]) : (%i)\n", i, pmd->piBackward[i]);
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
 /// \arg iCompartments number of compartments.
 /// 
 /// \return int
@@ -339,7 +455,7 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 /// \brief Build structural indices.
 /// 
 
-static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
+int HeccerStructuralyze(struct Heccer *pheccer, int iCompartments)
 {
     //- set default result : ok
 
@@ -458,124 +574,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer, int iCompartments)
     //- return result
 
     return(/* piParents &&  */piChildren && ppiChildren);
-}
-
-
-/// 
-/// \arg pheccer a heccer.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Minimum degree enumeration for compartment matrix.
-/// 
-
-int HeccerMinimumDegree(struct Heccer *pheccer)
-{
-    //- set default result : ok
-
-    int iResult = TRUE;
-
-    if (pheccer->inter.iCompartments == 0)
-    {
-	return(TRUE);
-    }
-
-    //- build structural indices
-
-    iResult = iResult && HeccerMDStructuralyze(pheccer, pheccer->inter.iCompartments);
-
-    //- do minimum degree
-
-    /// \note this is assumed to follow reverse current flow for a passive
-    /// \note morphology, hence the name of the function.
-
-    iResult = iResult && HeccerMDFindFlow(pheccer, pheccer->inter.iCompartments);
-
-/*     //- sort children according to flow */
-
-/*     iResult = iResult && HeccerMDSortChildren(pheccer, pheccer->inter.iCompartments); */
-
-    //- return result
-
-    return(iResult);
-}
-
-
-/// 
-/// \arg pmd minimum degree index.
-/// \arg pfile stdio file.
-/// \arg iSelection selection to dump.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Perform the compartment operators once.
-/// 
-
-int
-HeccerMinimumDegreeDump
-(struct MinimumDegree *pmd, FILE *pfile, int iSelection)
-{
-    //- set default result
-
-    int iResult = TRUE;
-
-    //- index of parent compartment, -1 for none
-
-    if (iSelection & HECCER_DUMP_INDEXERS_SUMMARY)
-    {
-	fprintf(pfile, "MinimumDegree (iEntries) : (%i)\n", pmd->iEntries);
-    }
-
-    //- structural analyzers
-
-    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
-    {
-	int i;
-
-	for (i = 0 ; i < pmd->iEntries ; i++)
-	{
-	    fprintf(pfile, "MinimumDegree (piChildren[%i]) : (%i)\n", i, pmd->piChildren[i]);
-
-	    int j;
-
-	    for (j = 0 ; j < pmd->piChildren[i] ; j++)
-	    {
-		fprintf(pfile, "MinimumDegree (piChildren[%i][%i]) : (%i)\n", i, j, pmd->ppiChildren[i][j]);
-	    }
-	}
-    }
-
-    //- unordered to flow
-
-    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
-    {
-	int i;
-
-	for (i = 0 ; i < pmd->iEntries ; i++)
-	{
-	    fprintf(pfile, "MinimumDegree (piForward[%i]) : (%i)\n", i, pmd->piForward[i]);
-	}
-    }
-
-    //- flow to unordered
-
-    if (iSelection & HECCER_DUMP_INDEXERS_STRUCTURE)
-    {
-	int i;
-
-	for (i = 0 ; i < pmd->iEntries ; i++)
-	{
-	    fprintf(pfile, "MinimumDegree (piBackward[%i]) : (%i)\n", i, pmd->piBackward[i]);
-	}
-    }
-
-    //- return result
-
-    return(iResult);
 }
 
 

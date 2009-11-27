@@ -58,6 +58,8 @@ int
 HeccerMinimumDegreeDump
 (struct MinimumDegree *pmd, FILE *pfile, int iSelection);
 
+int HeccerStructuralyze(struct Heccer *pheccer, int iCompartments);
+
 
 #endif
 
