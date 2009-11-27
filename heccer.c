@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/09/15) Tuesday, September 15, 2009 07:51:06 hugo";
+static char *pcVersionTime="(09/11/27) Friday, November 27, 2009 09:42:03 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -28,6 +28,10 @@ static char *pcVersionTime="(09/09/15) Tuesday, September 15, 2009 07:51:06 hugo
 
 
 static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
+
+static int HeccerApplyLinearCable(struct Heccer *pheccer);
+
+static int HeccerApplyOptions(struct Heccer *pheccer);
 
 
 /// 
@@ -224,6 +228,85 @@ int HeccerCompileP1(struct Heccer *pheccer)
 /// 
 ///	success of operation.
 /// 
+/// \brief Recalculates compartment diameters and lengths of linear
+/// cables for improved accuracy
+///
+/// \note 
+/// 
+///	This changes the cable properties in the intermediary.
+/// 
+
+static int HeccerApplyLinearCable(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- apply options to the model
+
+    if (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_LINEAR_MODE)
+    {
+	int i;
+
+	for (i = 0 ; i < pheccer->inter.iCompartments ; i++)
+	{
+	    //- get intermediary number for the current compartment
+
+	    int iIntermediary = pheccer->indexers.md.piBackward[i];
+
+	}
+
+	pheccer->ho.iOptions |= HECCER_OPTION_ENABLE_LINEAR_MODE_APPLIED;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Apply options that affect the intermediary representation.
+///
+/// \details
+/// 
+///	Currently calls HeccerApplyLinearCable() if the option
+///	HECCER_OPTION_ENABLE_LINEAR_MODE is set.
+/// 
+/// \note 
+/// 
+///	This can change the cable properties in the intermediary.
+/// 
+
+static int HeccerApplyOptions(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- apply options to the model
+
+    iResult = iResult && HeccerApplyLinearCable(pheccer);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
 /// \brief Analyze the model, build indices for optimization.
 ///
 /// \details
@@ -258,6 +341,10 @@ int HeccerCompileP2(struct Heccer *pheccer)
     {
 	iResult = FALSE;
     }
+
+    //- apply options to the model
+
+    iResult = iResult && HeccerApplyOptions(pheccer);
 
     //- do minimum degree
 

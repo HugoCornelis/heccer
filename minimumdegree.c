@@ -40,6 +40,8 @@ HeccerMDFlowEnumeratorL
 
 static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments);
 
+static int HeccerMDStructuralyze(struct Heccer *pheccer);
+
 
 /// 
 /// \arg pheccer a heccer.
@@ -349,7 +351,7 @@ int HeccerMinimumDegree(struct Heccer *pheccer)
 
     //- build structural indices
 
-    iResult = iResult && HeccerMDStructuralyze(pheccer, pheccer->inter.iCompartments);
+    iResult = iResult && HeccerMDStructuralyze(pheccer);
 
     //- do minimum degree
 
@@ -455,11 +457,13 @@ HeccerMinimumDegreeDump
 /// \brief Build structural indices.
 /// 
 
-int HeccerStructuralyze(struct Heccer *pheccer, int iCompartments)
+static int HeccerMDStructuralyze(struct Heccer *pheccer)
 {
     //- set default result : ok
 
     int iResult = TRUE;
+
+    int iCompartments = pheccer->inter.iCompartments;
 
     struct MinimumDegree *pmd = &pheccer->indexers.md;
 

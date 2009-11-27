@@ -115,6 +115,14 @@ struct HeccerOptions
 
 #define HECCER_OPTION_ENABLE_AGGREGATORS 64
 
+/// \def recalc compartment diameters and lengths of linear cables for improved accuracy
+
+#define HECCER_OPTION_ENABLE_LINEAR_MODE 128
+
+/// \def sais if HECCER_OPTION_ENABLE_LINEAR_MODE has been applied
+
+#define HECCER_OPTION_ENABLE_LINEAR_MODE_APPLIED 256
+
 
 /// \def discretized gate, interval start
 
