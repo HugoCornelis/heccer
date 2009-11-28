@@ -159,7 +159,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 #ifdef USE_ENABLE_LINEAR_MODE
 
 	double dLength
-	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "LENGTH");
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "LENGTH");
 
 	if (dLength == FLT_MAX)
 	{
@@ -167,7 +167,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	}
 
 	double dDia
-	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "DIA");
+	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "DIA");
 
 	if (dDia == FLT_MAX)
 	{
