@@ -528,7 +528,7 @@ Total of $test_report->{global}->{test_count} tests (encountered $error_count er
 		}
 	    }
 
-	    # loop over all tests for this module
+	    # loop over all tests for this command
 
 	    my $command_tests = $command_definition->{command_tests};
 
@@ -1032,7 +1032,7 @@ sub report_error_add
 
     $error_count++;
 
-    print STDERR "*** Error: $error ($description, $module_name)\n";
+    print STDERR "*** Error: $error ($description, $module_name, error_count $error_count)\n";
 
     # fill in the error report
 
@@ -1078,7 +1078,7 @@ sub report_error_add
 
 	my $expected_filename = "/tmp/text_$config->{package}->{name}_$error_count.expected";
 
-	my $expected_file = new IO::File ">$expected_filename";
+	my $expected_file = IO::File->new(">$expected_filename");
 
 	print $expected_file $expected;
 
@@ -1086,7 +1086,7 @@ sub report_error_add
 
 	my $seen_filename = "/tmp/text_$config->{package}->{name}_$error_count.seen";
 
-	my $seen_file = new IO::File ">$seen_filename";
+	my $seen_file = IO::File->new(">$seen_filename");
 
 	print $seen_file $seen;
 
