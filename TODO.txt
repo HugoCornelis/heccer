@@ -14,20 +14,6 @@ This should solve most interface problems with the tabulator.
 * Implement rule de l'hopital in the tabulator.
 See tests/genesis/hopital for a validation example.
 
-* serialization
-must be serialized:
-** everything in struct VM
-special cases
-*** struct MopsSpringMass.pdEvents
-*** struct MatsCallout.pco
-*** union uMC2Mat.pdValue
-**** struct MopsEventGenerate
-**** struct MopsInternalNernst
-**** struct MopsInitializeChannelErev
-**** struct MopsSingleGateConcept
-**** struct MopsExponentialDecay
-See HeccerMechanismLink(), search for all '->u' instances.
-
 * table index addressing
 Results are cast from int to void * back to int.  I guess that some of
 the functions are doing to much work, ie. there is not a clean
@@ -49,19 +35,6 @@ is doing.
 * addressing, output generator and vclamp
 Variables should be (double *) instead of (void *).
 
-* passive-only option
-** open issues
-probably both of these, for interfacing consistency:
-*** should be at level of the integrator ?
-So mechanisms never propagate to the intermediary ?
-*** should be at the level of the compiler ?
-So mechanisms are filtered out by the compilers ?
-**** in HeccerMechanismCompile()
-All the mechanisms, except springmass are skipped.  This is supposed
-to be tracked automatically by the mechanism indexing, so should work
-like that.
-** implement tests for the passive-only option
-
 * some tests don't work on ric-neurospaces-02
 check files heccer-tables.output and heccer-spikes.output.  Perhaps
 related to not recompiling heccer and integrating the proper
@@ -69,8 +42,6 @@ neurospaces library.
 
 * running tests on a user machine
 requires mtn installed, because the test.config tries to execute mtn.
-
-* the tests/tests directory is part of the distribution, somehow.
 
 * add springmass channels to the perl glue
 ** add events
@@ -85,14 +56,6 @@ then set the variable to compile the neurospaces integrator (or not).
 
 * add the mtn revision to the dist, somehow.
 
-* the output of the tests sometimes goes to /tmp/output
-Must be a unique filename due to ownership.  New users cannot remove
-the file when it is owned by a different user.
-       #include <stdio.h>
-       char *tmpnam(char *s);
-and write the name of the generated filename to the test output in
-case needed.
-
 * Perhaps I should drand48() for Linux rng
 Is declared obsoleted, see man page.
 
@@ -100,13 +63,6 @@ Is declared obsoleted, see man page.
 Because ->iPool is only used as a boolean indicator, we can replace it
 with ->dInitFlux, with a value of FLT_MAX meaning no flux must be
 calculated.
-
-* internal state serializer
-** serializes the complete internal state
-** can be used from SSP, to save the full state of a model
-** files can be reloaded by a stand-alone heccer for debugging
-** depending on options, only serializes the model state
-and not the model structure.
 
 * integrators
 rename to 'interfaces', to stress the loose coupling.
