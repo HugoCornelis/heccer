@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/27) Friday, November 27, 2009 14:53:50 hugo";
+static char *pcVersionTime="(09/11/28) Saturday, November 28, 2009 08:42:19 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -18,6 +18,7 @@ static char *pcVersionTime="(09/11/27) Friday, November 27, 2009 14:53:50 hugo";
 //////////////////////////////////////////////////////////////////////////////
 
 
+#include <math.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -246,7 +247,10 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 
     //- apply options to the model
 
-    if (pheccer->ho.iOptions & HECCER_OPTION_ENABLE_LINEAR_MODE)
+#ifdef USE_ENABLE_LINEAR_MODE
+
+    if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_LINEAR_MODE)
+	&& !(pheccer->ho.iCorrections & HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED))
     {
 	int i;
 
@@ -254,12 +258,46 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 	{
 	    //- get intermediary number for the current compartment
 
-	    int iIntermediary = pheccer->indexers.md.piBackward[i];
+	    int iChild = pheccer->indexers.md.piBackward[i];
 
+	    int iParent = pheccer->inter.pcomp[iChild].iParent;
+
+	    if (iParent != -1)
+	    {
+		//- get parent length and diameter
+
+		double dLengthParent = pheccer->inter.pcomp[iParent].dLength;
+
+		double dDiaParent = pheccer->inter.pcomp[iParent].dDia;
+
+		//- get child length and diameter
+
+		double dLengthChild = pheccer->inter.pcomp[iChild].dLength;
+
+		double dDiaChild = pheccer->inter.pcomp[iChild].dDia;
+
+		//- new_len*new_dia (preserve surface area)
+
+		double dA = dLengthParent * dDiaParent;
+
+		//- preserve length/x-area
+
+		double dB = (dLengthParent / (dDiaParent * dDiaParent) + dLengthChild / (dDiaChild * dDiaChild)) / 2.0;
+
+		double dNewLength = dA * pow((dB / dA), (1.0 / 3.0));
+
+		double dNewDia = dA / dNewLength;
+
+		//- rescale parent axial resistance to shift the point of computation
+
+		pheccer->inter.pcomp[iParent].dRa *= (dNewLength / dLengthParent) * (dDiaParent / dNewDia);
+	    }
 	}
 
 	pheccer->ho.iOptions |= HECCER_OPTION_ENABLE_LINEAR_MODE_APPLIED;
     }
+
+#endif
 
     //- return result
 

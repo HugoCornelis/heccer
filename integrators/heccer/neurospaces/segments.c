@@ -156,6 +156,29 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	pinter->pcomp[iSegment].dRa = dRa;
 	pinter->pcomp[iSegment].dRm = dRm;
 
+#ifdef USE_ENABLE_LINEAR_MODE
+
+	double dLength
+	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "LENGTH");
+
+	if (dLength == FLT_MAX)
+	{
+	    pheccer->ho.iCorrections |= HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED;
+	}
+
+	double dDia
+	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "DIA");
+
+	if (dDia == FLT_MAX)
+	{
+	    pheccer->ho.iCorrections |= HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED;
+	}
+
+	pinter->pcomp[iSegment].dDia = dDia;
+	pinter->pcomp[iSegment].dLength = dLength;
+
+#endif
+
 	//- register serial of parent
 
 	{

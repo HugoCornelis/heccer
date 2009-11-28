@@ -23,6 +23,9 @@
 #include <stdio.h>
 
 
+#define USE_ENABLE_LINEAR_MODE
+
+
 struct Heccer;
 
 
@@ -49,6 +52,10 @@ struct HeccerOptions
     /// global options and operation mode.
 
     int iOptions;
+
+    /// software corrections to the operation mode.
+
+    int iCorrections;
 
     /// interval has been set ?
 
@@ -115,13 +122,23 @@ struct HeccerOptions
 
 #define HECCER_OPTION_ENABLE_AGGREGATORS 64
 
+
+#ifdef USE_ENABLE_LINEAR_MODE
+
 /// \def recalc compartment diameters and lengths of linear cables for improved accuracy
 
 #define HECCER_OPTION_ENABLE_LINEAR_MODE 128
 
-/// \def sais if HECCER_OPTION_ENABLE_LINEAR_MODE has been applied
+/// \def says if HECCER_OPTION_ENABLE_LINEAR_MODE has been applied
 
 #define HECCER_OPTION_ENABLE_LINEAR_MODE_APPLIED 256
+
+/// \def says that HECCER_OPTION_ENABLE_LINEAR_MODE has been disabled
+/// because it cannot deal with this model structure or its values.
+
+#define HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED 1
+
+#endif
 
 
 /// \def discretized gate, interval start

@@ -26,7 +26,7 @@
 #include "mathcomponent.h"
 
 
-/*s compartment */
+/* \struct compartment */
 
 struct Compartment
 {
@@ -54,6 +54,14 @@ struct Compartment
     double dInject;
     double dRa;
     double dRm;
+
+#ifdef USE_ENABLE_LINEAR_MODE
+
+    double dLength;
+
+    double dDia;
+
+#endif
 };
 
 
