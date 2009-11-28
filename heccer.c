@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/28) Saturday, November 28, 2009 08:42:19 hugo";
+static char *pcVersionTime="(09/11/28) Saturday, November 28, 2009 12:01:15 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -382,13 +382,13 @@ int HeccerCompileP2(struct Heccer *pheccer)
 	iResult = FALSE;
     }
 
-    //- apply options to the model
-
-    iResult = iResult && HeccerApplyOptions(pheccer);
-
     //- do minimum degree
 
     iResult = iResult && HeccerMinimumDegree(pheccer);
+
+    //- apply options to the model
+
+    iResult = iResult && HeccerApplyOptions(pheccer);
 
     //- index & sort mechanisms
 
