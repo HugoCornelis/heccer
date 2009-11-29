@@ -515,6 +515,15 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer)
 	    //- increment number of children for the parent compartment
 
 	    piChildren[pcomp->iParent] += 1;
+
+	    //- if this compartment has more than one child
+
+	    if (piChildren[pcomp->iParent] > 1)
+	    {
+		//- this model cannot be a linear cable
+
+		pheccer->ho.iCorrections |= HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED;
+	    }
 	}
     }
 

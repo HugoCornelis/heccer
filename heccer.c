@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/29) Sunday, November 29, 2009 02:39:21 hugo";
+static char *pcVersionTime="(09/11/29) Sunday, November 29, 2009 02:42:12 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -262,6 +262,8 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 	    //- get intermediary number for the current compartment
 
 	    int iChild = pheccer->indexers.md.piBackward[i];
+
+	    //- if it has a parent
 
 	    int iParent = pheccer->inter.pcomp[iChild].iParent;
 
