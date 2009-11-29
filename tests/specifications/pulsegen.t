@@ -28,7 +28,7 @@ my $test
 						  {
 						   description => " Can a single pulsegen object output amplitude in ext gate mode?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-extgate.txt`),
-						   timeout => 20,
+						   timeout => 40,
 						  },
 						 ],
 				description => "pulsegen functionality, can we output a constant pulse with no trigger ?",
@@ -41,7 +41,7 @@ my $test
 						  {
 						   description => "Can a single pulsegen object output amplitude in ext gate mode ?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsgen-exttrig.txt`),
-						   timeout => 20,
+						   timeout => 40,
 						  },
 						 ],
 				description => "pulsegen functionality, can we output a constant pulse with no gate input ?",
