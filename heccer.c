@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/29) Sunday, November 29, 2009 02:37:11 hugo";
+static char *pcVersionTime="(09/11/29) Sunday, November 29, 2009 02:39:21 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -250,6 +250,7 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 #ifdef USE_ENABLE_LINEAR_MODE
 
     if ((pheccer->ho.iOptions & HECCER_OPTION_ENABLE_LINEAR_MODE)
+	&& !(pheccer->ho.iOptions & HECCER_OPTION_ENABLE_LINEAR_MODE_APPLIED)
 	&& !(pheccer->ho.iCorrections & HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED))
     {
 	int i;
