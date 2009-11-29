@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/28) Saturday, November 28, 2009 12:01:15 hugo";
+static char *pcVersionTime="(09/11/29) Sunday, November 29, 2009 02:37:11 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -243,7 +243,7 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 {
     //- set default result : ok
 
-    int iResult = TRUE;
+    int iResult = 1;
 
     //- apply options to the model
 
@@ -253,6 +253,8 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 	&& !(pheccer->ho.iCorrections & HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED))
     {
 	int i;
+
+	//- loop over all compartments
 
 	for (i = 0 ; i < pheccer->inter.iCompartments ; i++)
 	{
