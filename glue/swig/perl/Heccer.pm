@@ -2535,7 +2535,6 @@ sub get_time_step
 {
     my $self = shift;
 
-    # a perfect clamp object does not have a time step
 
     return undef;
 }
@@ -2545,7 +2544,7 @@ sub initiate
 {
     my $self = shift;
 
-    #t perhaps need to set the command voltage here ?
+
 }
 
 
@@ -2561,7 +2560,7 @@ sub new
 
     if (!defined $self->{name})
     {
-	$self->{name} = "a pc";
+	$self->{name} = "a pulsegen";
     }
 
     $self->{backend} = SwiggableHeccer::PulseGenNew($self->{name});
@@ -2571,27 +2570,54 @@ sub new
 	return undef;
     }
 
-    # make distinction between command_filename and command voltage option
-
-    if (defined $options->{command})
-    {
-	my $backend = $self->backend();
-
-	$backend->PulseGenSetFields($options->{command}, undef);
+    #
+    # Here we check for all of our needed variables, we die if even 
+    # one is missing since we need it to continue creating the object.
+    #
+    if (!defined $options->{width1})
+    {	
+	return "Heccer::PulseGen constructor: width1 is not defined, cannot construct pulsegen object";
     }
-    elsif (defined $options->{filename})
+    elsif(!defined $options->{level1})
     {
-	my $backend = $self->backend();
-
-	#! the command voltage is ignored in this case, use an
-	#! unreasonable value to make result invalid if it would be used
-	#! (due to a bug).
-
-	$backend->PulseGenSetFields(-10000, $options->{filename});
+	return "Heccer::PulseGen constructor: level1 is not defined, cannot construct pulsegen object";
+    }
+    elsif(!defined $options->{delay1})
+    {
+	return "Heccer::PulseGen constructor: delay1 is not defined, cannot construct pulsegen object";
+    }
+    elsif(!defined $options->{level2})
+    {
+	return "Heccer::PulseGen constructor: level2 is not defined, cannot construct pulsegen object";
+    }
+    elsif(!defined $options->{width2})
+    {
+	return "Heccer::PulseGen constructor: width2 is not defined, cannot construct pulsegen object";
+    }
+    elsif(!defined $options->{delay2})
+    {
+	return "Heccer::PulseGen constructor: delay2 is not defined, cannot construct pulsegen object";
+    }
+    elsif(!defined $options->{baselevel})
+    {
+	return "Heccer::PulseGen constructor: baselevel is not defined, cannot construct pulsegen object";
+    }
+    elsif(!defined $options->{triggermode})
+    {
+	return "Heccer::PulseGen constructor: triggermode is not defined, cannot construct pulsegen object";
     }
     else
     {
-	return "Heccer::PulseGen constructor: cannot construct a perfect clamp without command voltage and without a filename";
+	my $backend = $self->backend();
+
+	$backend->PulseGenSetFields($options->{level1},
+					$options->{width1},
+					$options->{delay1},
+					$options->{level2},
+					$options->{width2},
+					$options->{delay2},
+					$options->{baselevel},
+					$options->{triggermode});
     }
 
     return $self;

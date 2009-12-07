@@ -33,6 +33,7 @@
 * mode).
  */
 //-------------------------------------------------------------------
+#include <float.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -263,6 +264,15 @@ struct simobj_PulseGen * PulseGenNew(char *pcName)
   }
 
   ppgResult->pcName = strdup(pcName);
+
+  ppgResult->dLevel1 = FLT_MAX;
+  ppgResult->dWidth1 = FLT_MAX;
+  ppgResult->dDelay1 = FLT_MAX;
+  ppgResult->dLevel2 = FLT_MAX;
+  ppgResult->dWidth2 = FLT_MAX;
+  ppgResult->dDelay2 = FLT_MAX;
+  ppgResult->dBaseLevel = FLT_MAX;
+  ppgResult->iTriggerMode = -1;
 
   //
   // This sets the new pulsegen to a "never triggered" 
