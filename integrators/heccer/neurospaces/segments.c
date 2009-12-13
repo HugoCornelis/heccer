@@ -230,10 +230,15 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 	if (iResult == TSTR_PROCESSOR_ABORT)
 	{
+	    char pc[1000];
+
+	    PidinStackString(ptstr->ppist, pc, sizeof(pc));
+
 	    HeccerError
 		(pheccer,
 		 NULL,
-		 "compartment array translation failed at compartment (compartment %i, serial %i)\n",
+		 "compartment array translation failed at compartment %s (compartment %i, serial %i)\n",
+		 pc,
 		 pinter->iCompartments,
 		 pinter->pcomp[iSegment].mc.iSerial);
 	}
