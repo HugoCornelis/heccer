@@ -314,17 +314,6 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 	     iEnd);
 
 	return(0);
-
-	/// \todo this can happen if the intermediary structure is wrong,
-	/// \todo e.g. out of bound parent index or cycles
-
-	/// \todo also happens for multiple segments without a parent
-
-	/// \todo add something like HeccerError(number, message, varargs);
-
-	/// \note segv
-
-/* 	*(int *)0 = 0; */
     }
 
     //- set number of entries
