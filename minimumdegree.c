@@ -256,7 +256,7 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 {
     //- set default result : ok
 
-    int iResult = TRUE;
+    int iResult = 1;
 
     struct MinimumDegree *pmd = &pheccer->indexers.md;
 
@@ -306,6 +306,15 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
     if (iEnd != -1)
     {
+	HeccerError
+	    (pheccer,
+	     NULL,
+	     "the compartment array does not describe a valid tree structure"
+	     " at compartment (%i), cannot find a somatopetal flow\n",
+	     iEnd);
+
+	return(0);
+
 	/// \todo this can happen if the intermediary structure is wrong,
 	/// \todo e.g. out of bound parent index or cycles
 
@@ -315,7 +324,7 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 
 	/// \note segv
 
-	*(int *)0 = 0;
+/* 	*(int *)0 = 0; */
     }
 
     //- set number of entries
@@ -498,8 +507,6 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer)
 	    if (pcomp->iParent == i
 		|| pcomp->iParent >= iCompartments)
 	    {
-		/// \todo HeccerError(number, message, varargs);
-
 		HeccerError
 		    (pheccer,
 		     NULL,
