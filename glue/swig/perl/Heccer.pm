@@ -2173,9 +2173,9 @@ sub dump
 	     },
 	    );
 
-    use Data::Dumper;
+#     use Data::Dumper;
 
-    print Dumper($solver_info);
+#     print Dumper($solver_info);
 
     # get access to the low level C structure
 
@@ -2205,7 +2205,7 @@ sub dump
 
 	my $tgt = $backend->{heccer}->swig_tgt_get();
 
-	print "tgt is $tgt, table_index is $table_index\n";
+# 	print "tgt is $tgt, table_index is $table_index\n";
 
 	my $tables_defined = $tgt->swig_iTabulatedGateCount_get();
 
@@ -2236,17 +2236,20 @@ sub dump
 
 	my $step = $hi->swig_dStep_get();
 
+	# determine resolution of output
+
+	my $increment = $arguments->[0]->{increment} || 1;
+
 	# convert to array of values
 
 	my $A = [];
 	my $B = [];
 
-	map
+	for (my $index = 0, my $i = 0 ; $index < $entries ; $index += $increment, $i++)
 	{
-	    $A->[$_] = SwiggableHeccer::double_get($A_doubles, $_);
-	    $B->[$_] = SwiggableHeccer::double_get($B_doubles, $_);
+	    $A->[$i] = SwiggableHeccer::double_get($A_doubles, $index);
+	    $B->[$i] = SwiggableHeccer::double_get($B_doubles, $index);
 	}
-	    0 .. $entries - 1;
 
 	# set result
 
