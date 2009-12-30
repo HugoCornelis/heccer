@@ -258,10 +258,9 @@ static double * LookupTable(double *pdValues);
 static int RegisterTable(double *pdValues, double *pdTable);
 
 
-// \def number of entries used to identify a table.  Note that this
-// number is hardcoded throughout this source file.
+// \def number of entries used to identify a table.
 
-#define NUMBER_OF_IDENTIFIERS 5
+#define NUMBER_OF_IDENTIFIERS 4
 
 static double ppdTableIdentifiers[100][NUMBER_OF_IDENTIFIERS];
 
