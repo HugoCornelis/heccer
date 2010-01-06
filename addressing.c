@@ -450,11 +450,11 @@ HeccerAddressMechanismVariable
 
 	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops;
 
-	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0);
+	    //printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0);
 
 	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
 
-	    printf("table index is %i\n", pmops->iTableIndex);
+	    //printf("table index is %i\n", pmops->iTableIndex);
 
 	    /// \note normally the default for iTableIndex is -1, which is
 	    /// \note returned as an error indicator if there is no table
