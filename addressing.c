@@ -454,8 +454,6 @@ HeccerAddressMechanismVariable
 
 	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
 
-	    printf("table index is %i\n", pmops->iTableIndex);
-
 	    /// \note normally the default for iTableIndex is -1, which is
 	    /// \note returned as an error indicator if there is no table
 	    /// \note associated with this gate.
