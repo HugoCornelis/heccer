@@ -2173,6 +2173,11 @@ sub dump
 	     },
 	    );
 
+    if (!ref $solver_info)
+    {
+	die "$0: cannot construct solver info for $source, field $field (does it exist?)";
+    }
+
 #     use Data::Dumper;
 
 #     print Dumper($solver_info);
