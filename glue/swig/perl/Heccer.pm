@@ -1211,9 +1211,21 @@ sub compile
 {
     my $self = shift;
 
-    #t construct the connection matrix
+    # construct the connection matrix
+
+    return '';
+}
+
+
+sub connect
+{
+    my $self = shift;
+
+    #t determine the number of connections
 
     my $connections = 0;
+
+    # translate the connections
 
     my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
@@ -1223,13 +1235,9 @@ sub compile
 
     $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
 
-    return '';
-}
+    #t connect the solvers using the connection matrix
 
-
-sub connect
-{
-    my $self = shift;
+    #t optionally destroy the connection matrix
 
     return 1;
 }
@@ -1277,31 +1285,41 @@ sub initiate
 }
 
 
+our $des_singleton_instance;
+
+
 sub new
 {
-    my $package = shift;
+    if (not $des_singleton_instance)
+    {
+	my $package = shift;
 
-    my $options = shift;
+	my $options = shift;
 
-    my $self = { %$options, };
+	my $self = { %$options, };
 
-    # construct the distributor
+	# construct the distributor
 
-    $self->{distributor}
-	= {
-	   backend => Heccer::DES::Distributor->new(),
-	  };
+	$self->{distributor}
+	    = {
+	       backend => Heccer::DES::Distributor->new(),
+	      };
 
-    # construct the queuer
+	# construct the queuer
 
-    $self->{queuer}
-	= {
-	   backend => Heccer::DES::Queuer->new(),
-	  };
+	$self->{queuer}
+	    = {
+	       backend => Heccer::DES::Queuer->new(),
+	      };
 
-    bless $self, $package;
+	bless $self, $package;
 
-    return $self;
+	# set the singleton instance variable
+
+	$des_singleton_instance = $self;
+    }
+
+    return $des_singleton_instance;
 }
 
 
