@@ -179,7 +179,9 @@ sub connect
 
     my $scheduler = shift;
 
-    return '';
+    #t connect spikegens to their event queuers
+
+    return 1;
 }
 
 
@@ -1202,6 +1204,123 @@ sub backend
 }
 
 
+package Heccer::DES;
+
+
+sub compile
+{
+    my $self = shift;
+
+    #t construct the connection matrix
+
+    my $connections = 0;
+
+    my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
+
+    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
+
+    my $queuer; # $scheduler->lookup_service('event_queuer');
+
+    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
+
+    return '';
+}
+
+
+sub connect
+{
+    my $self = shift;
+
+    return 1;
+}
+
+
+sub finish
+{
+    my $self = shift;
+
+    #! that is ok.
+}
+
+
+sub get_driver
+{
+    my $self = shift;
+
+    my $result
+	= {
+# 	   data => $self->{backend}->output_generator_get_driver_data(),
+# 	   method => $self->{backend}->output_generator_get_driver_method(),
+# 	   data => $self->{backend},
+# 	   method => \&SwiggableHeccer::OutputGeneratorAnnotatedStep,
+	  };
+
+    return $result;
+}
+
+
+sub get_time_step
+{
+    my $self = shift;
+
+    # an event related object does not have a time step
+
+    return undef;
+}
+
+
+sub initiate
+{
+    my $self = shift;
+
+    return 1;
+}
+
+
+sub new
+{
+    my $package = shift;
+
+    my $options = shift;
+
+    my $self = { %$options, };
+
+    # construct the distributor
+
+    $self->{distributor}
+	= {
+	   backend => Heccer::DES::Distributor->new(),
+	  };
+
+    # construct the queuer
+
+    $self->{queuer}
+	= {
+	   backend => Heccer::DES::Queuer->new(),
+	  };
+
+    bless $self, $package;
+
+    return $self;
+}
+
+
+sub report
+{
+    my $self = shift;
+
+    #t do reporting about queued events, connection matrix
+}
+
+
+sub step
+{
+    my $self = shift;
+
+    # nothing here
+}
+
+
 package Heccer::DES::Distributor;
 
 
@@ -1377,7 +1496,7 @@ sub new
 {
     my $package = shift;
 
-    my $options = shift;
+    my $options = shift || {};
 
     my $self = { %$options, };
 
@@ -1416,7 +1535,7 @@ sub new
 {
     my $package = shift;
 
-    my $options = shift;
+    my $options = shift || {};
 
     my $self = { %$options, };
 
