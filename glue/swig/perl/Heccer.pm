@@ -1211,7 +1211,19 @@ sub compile
 {
     my $self = shift;
 
+    # construct a querymachine string with all the projections
+
+    my $projections = $self->{projections};
+
+    my $query = "pqset c " . (join " ", @$projections);
+
     # construct the connection matrix
+
+    require Neurospaces;
+
+    SwiggableNeurospaces::swig_pq_set($query);
+
+    # return ok
 
     return '';
 }
