@@ -1290,6 +1290,8 @@ our $des_singleton_instance;
 
 sub new
 {
+    # basic initialization first
+
     if (not $des_singleton_instance)
     {
 	my $package = shift;
@@ -1318,6 +1320,19 @@ sub new
 
 	$des_singleton_instance = $self;
     }
+
+    # add to the connections to be solved by this instance
+
+    if (not $des_singleton_instance->{projections})
+    {
+	$des_singleton_instance->{projections} = [];
+    }
+
+    my $projections = $des_singleton_instance->{projections};
+
+    push @$projections, $des_singleton_instance->{model_source}->{modelname};
+
+    # return result
 
     return $des_singleton_instance;
 }
