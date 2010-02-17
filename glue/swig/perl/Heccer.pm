@@ -173,6 +173,16 @@ sub compile3
 }
 
 
+sub connect
+{
+    my $self = shift;
+
+    my $scheduler = shift;
+
+    return '';
+}
+
+
 sub deserialize2
 {
     my $old_self = shift;
