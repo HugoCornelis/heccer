@@ -1164,6 +1164,8 @@ sub new
 
     if (ref \$result)
     {
+# 	print YAML::Dump('var1:', \$result, 'var2:', \$package);
+
 	return bless \$result, \$package;
     }
     else
