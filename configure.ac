@@ -213,6 +213,13 @@ case "$host_os" in
             AC_SUBST(SWIGLINKCOMMAND_PERL)
 
 
+	;;    
+	*darwin10.3.0)
+	    dnl This is also snow leopard
+            SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o  swiggable_heccer_wrap.o'
+            AC_SUBST(SWIGLINKCOMMAND_PERL)
+
+
 	;;
 	*)
             SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) 	swiggable_heccer_wrap.o'
@@ -240,6 +247,12 @@ case "$host_os" in
     case "$host_os" in
 	*darwin10.2.0)
 	    dnl This is snow leopard
+
+            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+            AC_SUBST(SWIGLINKCOMMAND_PYTHON)
+	;;
+	*darwin10.3.0)
+	    dnl This is also snow leopard
 
             SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
