@@ -118,5 +118,5 @@ tar.gz$
 .deb$
 .dsc$
 .changes$
-.log$
+\.log$
 ^a.out.dSYM$
