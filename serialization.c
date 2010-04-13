@@ -743,14 +743,26 @@ HeccerSerializationOpenRead(char *pcFilename)
 
     char pcSerializationVersion[strlen(HECCER_SERIALIZATION_VERSION) + 1];
 
-    fread
-	(pcSerializationVersion,
-	 sizeof(char),
-	 strlen(HECCER_SERIALIZATION_VERSION) + 1,
-	 pfileResult);
+    size_t sItems
+	= fread
+	  (pcSerializationVersion,
+	   sizeof(char),
+	   strlen(HECCER_SERIALIZATION_VERSION) + 1,
+	   pfileResult);
+
+    if (sItems != strlen(HECCER_SERIALIZATION_VERSION) + 1)
+    {
+	fprintf(stderr, "HeccerSerializationOpenRead(): number of items read is different from number requested\n");
+
+	fclose(pfileResult);
+
+	return(NULL);
+    }
 
     if (0 != strcmp(pcSerializationVersion, HECCER_SERIALIZATION_VERSION))
     {
+	fprintf(stderr, "HeccerSerializationOpenRead(): wrong HECCER_SERIALIZATION_VERSION on input stream\n");
+
 	fclose(pfileResult);
 
 	return(NULL);
