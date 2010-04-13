@@ -2936,7 +2936,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
-		MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"Tau1");
+		MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"TAU1");
 
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -2947,7 +2947,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
-		MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"Tau2");
+		MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"TAU2");
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
