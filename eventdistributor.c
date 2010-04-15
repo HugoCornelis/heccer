@@ -516,7 +516,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 /// 
 /// \return double
 /// 
-///	Sum of weights of arriving events, FLT_MAX for failure.
+///	Sum of weights of arriving events, DBL_MAX for failure.
 /// 
 /// \brief Dequeue events for the given target, return the summed weights.
 /// 
@@ -535,15 +535,15 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     while (ppeqm
 /* 	   && ppeqm->pvFunction */
-	   && dResult != FLT_MAX)
+	   && dResult != DBL_MAX)
     {
 	//- get weight for event
 
 	double dWeight = ppeqm->dWeight;
 
-	if (dWeight == FLT_MAX)
+	if (dWeight == DBL_MAX)
 	{
-	    return(FLT_MAX);
+	    return(DBL_MAX);
 	}
 
 	//- add weight to result

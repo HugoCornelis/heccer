@@ -265,13 +265,13 @@ struct simobj_PulseGen * PulseGenNew(char *pcName)
 
   ppgResult->pcName = strdup(pcName);
 
-  ppgResult->dLevel1 = FLT_MAX;
-  ppgResult->dWidth1 = FLT_MAX;
-  ppgResult->dDelay1 = FLT_MAX;
-  ppgResult->dLevel2 = FLT_MAX;
-  ppgResult->dWidth2 = FLT_MAX;
-  ppgResult->dDelay2 = FLT_MAX;
-  ppgResult->dBaseLevel = FLT_MAX;
+  ppgResult->dLevel1 = DBL_MAX;
+  ppgResult->dWidth1 = DBL_MAX;
+  ppgResult->dDelay1 = DBL_MAX;
+  ppgResult->dLevel2 = DBL_MAX;
+  ppgResult->dWidth2 = DBL_MAX;
+  ppgResult->dDelay2 = DBL_MAX;
+  ppgResult->dBaseLevel = DBL_MAX;
   ppgResult->iTriggerMode = -1;
 
   //

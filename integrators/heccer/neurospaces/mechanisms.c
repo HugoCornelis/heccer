@@ -297,7 +297,7 @@ CreateTableIdentifiers
 
 	pdValues[i] = SymbolParameterResolveValue(phsle, ppist, pcValue);
 
-	if (pdValues[i] == FLT_MAX)
+	if (pdValues[i] == DBL_MAX)
 	{
 	    iResult = 0;
 
@@ -595,7 +595,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dPower != FLT_MAX)
+			if (dPower != DBL_MAX)
 			{
 			    ppgc->iPower = - ppgc->iPower;
 			}
@@ -603,7 +603,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 	    }
 
-	    if (dPower == FLT_MAX)
+	    if (dPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -615,7 +615,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	
 
 	    }
-	    else if( dInitActivation == FLT_MAX)
+	    else if( dInitActivation == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
@@ -627,7 +627,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
-	    if (dEntries != FLT_MAX)
+	    if (dEntries != DBL_MAX)
 	    {
 		ppgc->gc.htg.iEntries = dEntries;
 
@@ -699,7 +699,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
-			if (d != FLT_MAX)
+			if (d != DBL_MAX)
 			{
 			    pdTable[i] = d;
 			}
@@ -770,7 +770,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		pgk->dHHTau = dHHTau;
 
-		if (dHHScale == FLT_MAX ){
+		if (dHHScale == DBL_MAX ){
 
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -783,7 +783,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 		
 
-		if (dHHMult == FLT_MAX ){
+		if (dHHMult == DBL_MAX ){
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -796,7 +796,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 		 
 
-		if(dHHFactorFlag == FLT_MAX ){
+		if(dHHFactorFlag == DBL_MAX ){
 
 
 
@@ -811,7 +811,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 		
 
-		if (dHHAdd == FLT_MAX ){
+		if (dHHAdd == DBL_MAX ){
 
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -824,7 +824,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 		
 
-		if (dHHOffsetE == FLT_MAX) {
+		if (dHHOffsetE == DBL_MAX) {
 
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -837,7 +837,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 		
 
-		if(dHHTau == FLT_MAX)
+		if(dHHTau == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
@@ -970,7 +970,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dPower != FLT_MAX)
+			if (dPower != DBL_MAX)
 			{
 			    pcac->pgc.iPower = - pcac->pgc.iPower;
 			}
@@ -978,7 +978,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		}
 	    }
 
-	    if (dPower == FLT_MAX)
+	    if (dPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -992,7 +992,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 
-	    if( dInitActivation == FLT_MAX)
+	    if( dInitActivation == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
@@ -1003,7 +1003,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
-	    if (dEntries != FLT_MAX)
+	    if (dEntries != DBL_MAX)
 	    {
 		pcac->pgc.gc.htg.iEntries = dEntries;
 
@@ -1054,7 +1054,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dPower != FLT_MAX)
+			if (dPower != DBL_MAX)
 			{
 			    pcac->pac.iPower = - pcac->pac.iPower;
 			}
@@ -1062,7 +1062,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		}
 	    }
 
-	    if (dPower == FLT_MAX)
+	    if (dPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -1072,7 +1072,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if( dInitActivation == FLT_MAX)
+	    if( dInitActivation == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
@@ -1085,7 +1085,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
-	    if (dEntries != FLT_MAX)
+	    if (dEntries != DBL_MAX)
 	    {
 		pcac->pac.ca.htg.iEntries = dEntries;
 
@@ -1157,7 +1157,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
-			if (d != FLT_MAX)
+			if (d != DBL_MAX)
 			{
 			    pdTable[i] = d;
 			}
@@ -1229,7 +1229,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pgk->dHHTau = dHHTau;
 
-		if( dHHScale == FLT_MAX )
+		if( dHHScale == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1241,7 +1241,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 		}
-		if( dHHMult == FLT_MAX )
+		if( dHHMult == DBL_MAX )
 		{
 
 
@@ -1254,7 +1254,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 		}
-		if( dHHFactorFlag == FLT_MAX )
+		if( dHHFactorFlag == DBL_MAX )
 		{
 
 
@@ -1267,7 +1267,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 		}
-		if( dHHAdd == FLT_MAX )
+		if( dHHAdd == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1278,7 +1278,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    iResult = TSTR_PROCESSOR_ABORT;
 
 		}
-		if( dHHOffsetE == FLT_MAX )
+		if( dHHOffsetE == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1290,7 +1290,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 		}
-		if( dHHTau == FLT_MAX )
+		if( dHHTau == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1356,7 +1356,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
-			if (d != FLT_MAX)
+			if (d != DBL_MAX)
 			{
 			    pdTable[i] = d;
 			}
@@ -1399,7 +1399,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pcac->pac.ca.parameters.dTau = dTau;
 
-		if (dBasalLevel == FLT_MAX)
+		if (dBasalLevel == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -1411,7 +1411,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 
-		if ( dTau == FLT_MAX )
+		if ( dTau == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1531,7 +1531,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dPower != FLT_MAX)
+			if (dPower != DBL_MAX)
 			{
 			    pcc->pac.iPower = - pcc->pac.iPower;
 			}
@@ -1539,7 +1539,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		}
 	    }
 
-	    if (dPower == FLT_MAX)
+	    if (dPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -1549,7 +1549,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if( dInitActivation == FLT_MAX)
+	    if( dInitActivation == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
@@ -1562,7 +1562,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
-	    if (dEntries != FLT_MAX)
+	    if (dEntries != DBL_MAX)
 	    {
 		pcc->pac.ca.htg.iEntries = dEntries;
 
@@ -1633,7 +1633,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
-			if (d != FLT_MAX)
+			if (d != DBL_MAX)
 			{
 			    pdTable[i] = d;
 			}
@@ -1676,7 +1676,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 		pcc->pac.ca.parameters.dTau = dTau;
 
-		if (dBasalLevel == FLT_MAX)
+		if (dBasalLevel == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -1688,7 +1688,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 
 
-		if ( dTau == FLT_MAX )
+		if ( dTau == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1810,7 +1810,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dPower != FLT_MAX)
+			if (dPower != DBL_MAX)
 			{
 			    ppgc->iPower = - ppgc->iPower;
 			}
@@ -1818,7 +1818,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 	    }
 
-	    if (dPower == FLT_MAX)
+	    if (dPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1831,7 +1831,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    }
 
 
-	    if(dInitActivation == FLT_MAX)
+	    if(dInitActivation == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					   ptstr->ppist);
@@ -1843,7 +1843,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    double dEntries = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_NUMBER_OF_TABLE_ENTRIES");
 
-	    if (dEntries != FLT_MAX)
+	    if (dEntries != DBL_MAX)
 	    {
 		ppgc->gc.htg.iEntries = dEntries;
 
@@ -1926,7 +1926,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 			double d = SymbolParameterResolveValue(phsle, ptstr->ppist, pcTable);
 
-			if (d != FLT_MAX)
+			if (d != DBL_MAX)
 			{
 			    pdTable[i] = d;
 			}
@@ -2001,7 +2001,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 
 
-		if (dHHScale == FLT_MAX)
+		if (dHHScale == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2013,7 +2013,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		}
 
-		if(dHHMult == FLT_MAX)
+		if(dHHMult == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2026,7 +2026,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 
 		    
-		if(dHHFactorFlag == FLT_MAX)
+		if(dHHFactorFlag == DBL_MAX)
 		{
 
 
@@ -2041,7 +2041,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 
 
-		if(dHHAdd == FLT_MAX)
+		if(dHHAdd == DBL_MAX)
 		{
 
 
@@ -2056,7 +2056,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 		    
 
-		if(dHHOffsetE == FLT_MAX)
+		if(dHHOffsetE == DBL_MAX)
 		{
 
 
@@ -2071,7 +2071,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 
 
-		if(dHHTau == FLT_MAX)
+		if(dHHTau == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -2189,7 +2189,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 
 
-	    if (dFirstPower == FLT_MAX)
+	    if (dFirstPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2201,7 +2201,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 	    }
 
-	    if(dFirstInitActivation == FLT_MAX)
+	    if(dFirstInitActivation == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2215,7 +2215,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 		
 
-	    if(dFirstSteadyState == FLT_MAX)
+	    if(dFirstSteadyState == DBL_MAX)
 	    {
 
 
@@ -2229,7 +2229,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    }
 	       
 
-	    if(dSecondPower == FLT_MAX)
+	    if(dSecondPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2242,7 +2242,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    }
 	     
 
-	    if(dSecondInitActivation == FLT_MAX)
+	    if(dSecondInitActivation == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2255,7 +2255,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    }
 	       
 
-	    if(dSecondSteadyState == FLT_MAX)
+	    if(dSecondSteadyState == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2296,7 +2296,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 	    int iHasTable = 0;
 
-	    if (dHasTable != FLT_MAX)
+	    if (dHasTable != DBL_MAX)
 	    {
 		iHasTable = dHasTable;
 	    }
@@ -2333,7 +2333,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 		pdtc->dTauDenormalizer = dTauDenormalizer;
 
 
-		if (dMultiplier == FLT_MAX)
+		if (dMultiplier == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2347,7 +2347,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 		 
 
-		if(dDeNominatorOffset == FLT_MAX)
+		if(dDeNominatorOffset == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2360,7 +2360,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 		}
 		    
 
-		if(dMembraneOffset == FLT_MAX)
+		if(dMembraneOffset == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2375,7 +2375,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 
 
-		if(dTauDenormalizer == FLT_MAX)
+		if(dTauDenormalizer == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -2489,7 +2489,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dPower != FLT_MAX)
+			if (dPower != DBL_MAX)
 			{
 			    pcpst->iPower = - pcpst->iPower;
 			}
@@ -2497,7 +2497,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 	    }
 
-	    if (dPower == FLT_MAX)
+	    if (dPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2509,7 +2509,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 	    }
 
-	    if(dInitActivation == FLT_MAX)
+	    if(dInitActivation == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2543,7 +2543,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 	    int iHasTable = 0;
 
-	    if (dHasTable != FLT_MAX)
+	    if (dHasTable != DBL_MAX)
 	    {
 		iHasTable = dHasTable;
 	    }
@@ -2597,7 +2597,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 		pss->dTauDenormalizer2 = dTauDenormalizer2;
 
-		if (dNominator == FLT_MAX)
+		if (dNominator == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2610,7 +2610,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 		  
 
-		if(dMultiplier1 == FLT_MAX)
+		if(dMultiplier1 == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2623,7 +2623,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 		    
 
-		if(dMembraneOffset1 == FLT_MAX)
+		if(dMembraneOffset1 == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2636,7 +2636,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 		   
 
-		if(dTauDenormalizer1 == FLT_MAX)
+		if(dTauDenormalizer1 == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2649,7 +2649,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 
 		
-		if(dMultiplier2 == FLT_MAX)
+		if(dMultiplier2 == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2663,7 +2663,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		    
 
 
-		if(dMembraneOffset2 == FLT_MAX)
+		if(dMembraneOffset2 == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2676,7 +2676,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 		    
 
-		if(dTauDenormalizer2 == FLT_MAX)
+		if(dTauDenormalizer2 == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -2695,7 +2695,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 	    int iHasTable = 0;
 
-	    if (dHasTable != FLT_MAX)
+	    if (dHasTable != DBL_MAX)
 	    {
 		iHasTable = dHasTable;
 	    }
@@ -2731,7 +2731,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 		ptc->dTauDenormalizer = dTauDenormalizer;
 
-		if (dNominator == FLT_MAX)
+		if (dNominator == DBL_MAX)
 		{
 
 
@@ -2746,7 +2746,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		
 		  
 
-		if(dDeNominatorOffset == FLT_MAX)
+		if(dDeNominatorOffset == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2763,7 +2763,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		 
 
 
-		if(dMembraneOffset == FLT_MAX)
+		if(dMembraneOffset == DBL_MAX)
 		{
 
 
@@ -2778,7 +2778,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 
 
-		if(dTauDenormalizer == FLT_MAX)
+		if(dTauDenormalizer == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -2931,7 +2931,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    /// \todo perhaps if only tau1 is defined, I should make tau2
 	    /// \todo equal to tau1 and treat it as a single exponential
 
-	    if (dTau1 == FLT_MAX)
+	    if (dTau1 == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
@@ -2943,7 +2943,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    }
 
 
-	    if(dTau2 == FLT_MAX)
+	    if(dTau2 == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -2956,7 +2956,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    double dInitX = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init_x");
 
-	    if (dInitX == FLT_MAX)
+	    if (dInitX == DBL_MAX)
 	    {
 		pcsm->dInitX = 0;
 	    }
@@ -2967,7 +2967,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    double dInitY = SymbolParameterResolveValue(phsle, ptstr->ppist, "state_init_y");
 
-	    if (dInitY == FLT_MAX)
+	    if (dInitY == DBL_MAX)
 	    {
 		pcsm->dInitY = 0;
 	    }
@@ -2990,7 +2990,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 /* 		{ */
 /* 		    if (strcmp(pcInstantaneous, "yes") == 0) */
 /* 		    { */
-/* 			if (dPower != FLT_MAX) */
+/* 			if (dPower != DBL_MAX) */
 /* 			{ */
 /* 			    dPower = -dPower; */
 /* 			} */
@@ -3102,7 +3102,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dFirstPower != FLT_MAX)
+			if (dFirstPower != DBL_MAX)
 			{
 			    pcpsdt->iFirstPower = - pcpsdt->iFirstPower;
 			}
@@ -3110,7 +3110,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 	    }
 
-	    if (dFirstPower == FLT_MAX)
+	    if (dFirstPower == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					   ptstr->ppist);
@@ -3121,7 +3121,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	    }
 
 
-	    if( dFirstInitActivation == FLT_MAX)
+	    if( dFirstInitActivation == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3163,7 +3163,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		{
 		    if (strcmp(pcInstantaneous, "yes") == 0)
 		    {
-			if (dSecondPower != FLT_MAX)
+			if (dSecondPower != DBL_MAX)
 			{
 			    pcpsdt->iSecondPower = - pcpsdt->iSecondPower;
 			}
@@ -3171,7 +3171,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 	    }
 
-	    if (dSecondPower == FLT_MAX)
+	    if (dSecondPower == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3185,7 +3185,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    
 
-	    if(dSecondInitActivation == FLT_MAX)
+	    if(dSecondInitActivation == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					   ptstr->ppist);
@@ -3238,7 +3238,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		int iHasTable = 0;
 
-		if (dHasTable != FLT_MAX)
+		if (dHasTable != DBL_MAX)
 		{
 		    iHasTable = dHasTable;
 		}
@@ -3280,7 +3280,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    pa->dTauDenormalizer = dTauDenormalizer;
 
-		    if (dMultiplier == FLT_MAX)
+		    if (dMultiplier == DBL_MAX)
 		    {
 
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3293,7 +3293,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		    }
 
 
-		    if(dMembraneDependenceOffset == FLT_MAX)
+		    if(dMembraneDependenceOffset == DBL_MAX)
 		    {
 
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3307,7 +3307,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		    }
 
 
-		    if(dDeNominatorOffset == FLT_MAX)
+		    if(dDeNominatorOffset == DBL_MAX)
 		    {
 
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3320,7 +3320,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    }
 
-		    if(dMembraneOffset == FLT_MAX)
+		    if(dMembraneOffset == DBL_MAX)
 		    {
 
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3333,7 +3333,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    }
 
-		    if(dTauDenormalizer == FLT_MAX)
+		    if(dTauDenormalizer == DBL_MAX)
 		    {
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 						   ptstr->ppist);
@@ -3352,7 +3352,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		int iHasTable = 0;
 
-		if (dHasTable != FLT_MAX)
+		if (dHasTable != DBL_MAX)
 		{
 		    iHasTable = dHasTable;
 		}
@@ -3382,7 +3382,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    pb->dTauDenormalizer = dTauDenormalizer;
 
-		    if (dMultiplier == FLT_MAX)
+		    if (dMultiplier == DBL_MAX)
 		    {
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 						   ptstr->ppist);
@@ -3394,7 +3394,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    
 
-		    if(dMembraneDependenceOffset == FLT_MAX)
+		    if(dMembraneDependenceOffset == DBL_MAX)
 		    {
 
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3407,7 +3407,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		    }
 
 
-		    if(dTauDenormalizer == FLT_MAX)
+		    if(dTauDenormalizer == DBL_MAX)
 		    {
 			MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 						   ptstr->ppist);
@@ -3428,7 +3428,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    int iHasTable = 0;
 
-	    if (dHasTable != FLT_MAX)
+	    if (dHasTable != DBL_MAX)
 	    {
 		iHasTable = dHasTable;
 	    }
@@ -3458,7 +3458,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		pdtc->a.dHighTarget = dHighTarget;
 
-		if (dThreshold == FLT_MAX)
+		if (dThreshold == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -3468,7 +3468,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 
 
-		if( dLowTarget == FLT_MAX )
+		if( dLowTarget == DBL_MAX )
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -3479,7 +3479,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 
 
-		if( dHighTarget == FLT_MAX)
+		if( dHighTarget == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -3499,7 +3499,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 	    int iHasTable = 0;
 
-	    if (dHasTable != FLT_MAX)
+	    if (dHasTable != DBL_MAX)
 	    {
 		iHasTable = dHasTable;
 	    }
@@ -3529,7 +3529,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		pdtc->b.dTauDenormalizer = dTauDenormalizer;
 
-		if (dDeNominatorOffset == FLT_MAX)
+		if (dDeNominatorOffset == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -3541,7 +3541,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 
 
-		if( dMembraneOffset == FLT_MAX )
+		if( dMembraneOffset == DBL_MAX )
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
@@ -3554,7 +3554,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		
 
 
-		if( dTauDenormalizer == FLT_MAX)
+		if( dTauDenormalizer == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -3766,7 +3766,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    double dModelSourceType
 		= SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
-	    if (dModelSourceType != FLT_MAX)
+	    if (dModelSourceType != DBL_MAX)
 	    {
 		pmc->iModelSourceType = dModelSourceType;
 	    }
@@ -3847,7 +3847,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    double dModelSourceType
 		= SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
-	    if (dModelSourceType != FLT_MAX)
+	    if (dModelSourceType != DBL_MAX)
 	    {
 		pmc->iModelSourceType = dModelSourceType;
 	    }
@@ -3888,7 +3888,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dReversalPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
 
-	if (dMaximalConductance == FLT_MAX)
+	if (dMaximalConductance == DBL_MAX)
 	{
 
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
@@ -3899,7 +3899,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	}
 
-        if(dReversalPotential == FLT_MAX)
+        if(dReversalPotential == DBL_MAX)
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4002,7 +4002,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    /// \todo this case should actually be handled by neurospaces ?
 
-	    if (dFrequency == FLT_MAX)
+	    if (dFrequency == DBL_MAX)
 	    {
 		dFrequency = 0;
 	    }
@@ -4181,7 +4181,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    double dModelSourceType
 		= SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
-	    if (dModelSourceType != FLT_MAX)
+	    if (dModelSourceType != DBL_MAX)
 	    {
 		pin->mc.iModelSourceType = dModelSourceType;
 	    }
@@ -4292,7 +4292,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    double dT = ParameterResolveValue(pparT,
 					      (ppistNernst) ? ppistNernst:ptstr->ppist);
 
-	    if (dCIn == FLT_MAX)
+	    if (dCIn == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
@@ -4305,7 +4305,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    }
 	     
 
-	    if (dCOut == FLT_MAX)
+	    if (dCOut == DBL_MAX)
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
@@ -4318,7 +4318,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    }
 	     
-	    if( dValency == FLT_MAX )
+	    if( dValency == DBL_MAX )
 	    {
 
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
@@ -4332,7 +4332,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    }
     
 
-	    if(dT == FLT_MAX)
+	    if(dT == DBL_MAX)
 	    {
 		MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4461,7 +4461,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU");
 
-	if ( dInitValue == FLT_MAX )
+	if ( dInitValue == DBL_MAX )
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4470,7 +4470,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if( dBeta == FLT_MAX )
+	if( dBeta == DBL_MAX )
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4480,7 +4480,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	}
 
 
-	if( dSteadyState == FLT_MAX )
+	if( dSteadyState == DBL_MAX )
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4490,7 +4490,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	}
 	
 
-	if( dTau == FLT_MAX )
+	if( dTau == DBL_MAX )
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4646,7 +4646,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dThreshold = SymbolParameterResolveValue(phsle, ptstr->ppist, "THRESHOLD");
 
-	//- get reset value, FLT_MAX for none
+	//- get reset value, DBL_MAX for none
 
 	double dReset = SymbolParameterResolveValue(phsle, ptstr->ppist, "RESET");
 
@@ -4655,7 +4655,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	int iTable = INT_MAX;
 
-	if (dRefractory == FLT_MAX)
+	if (dRefractory == DBL_MAX)
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 
@@ -4664,7 +4664,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 	 
-	if(dThreshold == FLT_MAX)
+	if(dThreshold == DBL_MAX)
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist);
 

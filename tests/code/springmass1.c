@@ -117,7 +117,7 @@ struct Compartment pcomp[] =
 double pdEvents[] =
 {
     0.0001,
-    FLT_MAX,
+    DBL_MAX,
 };
 
 
@@ -165,7 +165,7 @@ struct ChannelSpringMass csm =
 
     -1,
 
-    //m event time table (FLT_MAX terminated)
+    //m event time table (DBL_MAX terminated)
 
     pdEvents,
 

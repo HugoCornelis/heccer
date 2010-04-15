@@ -143,7 +143,7 @@ HeccerGateInitActivation
 {
     //- set default result: failure
 
-    double dResult = FLT_MAX;
+    double dResult = DBL_MAX;
 
     //- if code is -1
 
@@ -549,7 +549,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 			//- mark end of array
 
-			pcsm->pdEventTimes[iDoubles] = FLT_MAX;
+			pcsm->pdEventTimes[iDoubles] = DBL_MAX;
 
 			//- remove the reference to the file, for next loop over processing
 
@@ -1868,7 +1868,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- if there is a reset value set
 
-		    if (psg->dReset != FLT_MAX)
+		    if (psg->dReset != DBL_MAX)
 		    {
 			//- generate op for resetting the membrane potential
 
@@ -3779,7 +3779,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteTarget);
 
-		    if (dActivation != FLT_MAX)
+		    if (dActivation != DBL_MAX)
 		    {
 			//- add the activation of (possibly multiple) events to the channel activation
 
@@ -4259,7 +4259,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- if spiking
 
-		if (pmats->dRefractory == FLT_MAX)
+		if (pmats->dRefractory == DBL_MAX)
 		{
 		    //- initialize refractory period
 
@@ -4311,7 +4311,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 			{
 			    //- register spiking
 
-			    pmats->dRefractory = FLT_MAX;
+			    pmats->dRefractory = DBL_MAX;
 
 			    pmats->dSpike = 1.0;
 

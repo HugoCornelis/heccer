@@ -75,7 +75,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 /// 
 /// \return double
 /// 
-///	Activation delivered by the events, FLT_MAX for failure.
+///	Activation delivered by the events, DBL_MAX for failure.
 /// 
 /// \brief Receive event arriving at the specified target.
 /// 
@@ -84,7 +84,7 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 {
     //- set default result: failure
 
-    double dResult = FLT_MAX;
+    double dResult = DBL_MAX;
 
     //- get pointer to event distributor
 

@@ -79,7 +79,7 @@ struct ChannelSpringMass
 
     int iTable;
 
-    /// event time table (FLT_MAX terminated)
+    /// event time table (DBL_MAX terminated)
 
     double *pdEventTimes;
 
@@ -239,7 +239,7 @@ struct SpikeGenerator
 
     double dThreshold;
 
-    /// reset value, FLT_MAX for none
+    /// reset value, DBL_MAX for none
 
     double dReset;
 

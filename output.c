@@ -327,9 +327,9 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 
     strcpy(pogResult->pcFilename, pcFilename);
 
-    //- initialize base value: FLT_MAX
+    //- initialize base value: DBL_MAX
 
-    pogResult->dBase = FLT_MAX;
+    pogResult->dBase = DBL_MAX;
 
     //- return result
 

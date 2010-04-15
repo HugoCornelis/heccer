@@ -61,7 +61,7 @@ Is declared obsoleted, see man page.
 
 * SETMAT_FLUXPOOL initial value
 Because ->iPool is only used as a boolean indicator, we can replace it
-with ->dInitFlux, with a value of FLT_MAX meaning no flux must be
+with ->dInitFlux, with a value of DBL_MAX meaning no flux must be
 calculated.
 
 * integrators

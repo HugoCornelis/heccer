@@ -470,9 +470,9 @@ struct SpikeGenerator sgSource =
 
     0.0,
 
-    //m reset value, FLT_MAX for none
+    //m reset value, DBL_MAX for none
 
-    FLT_MAX,
+    DBL_MAX,
 
     //m table in event distributor with targets
 
@@ -634,7 +634,7 @@ struct ChannelSpringMass csmTarget1 =
 
     -1,
 
-    //m event time table (FLT_MAX terminated)
+    //m event time table (DBL_MAX terminated)
 
     NULL,
 
@@ -814,7 +814,7 @@ struct ChannelSpringMass csmTarget2 =
 
     -1,
 
-    //m event time table (FLT_MAX terminated)
+    //m event time table (DBL_MAX terminated)
 
     NULL,
 
@@ -1039,11 +1039,11 @@ struct EventQueuerMatrix peqm[] =
 
 	//m connection delay
 
-	FLT_MAX,
+	DBL_MAX,
 
 	//m connection weight
 
-	FLT_MAX,
+	DBL_MAX,
 
 	//m called function
 

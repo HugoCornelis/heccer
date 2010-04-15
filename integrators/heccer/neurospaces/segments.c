@@ -86,7 +86,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dModelSourceType
 	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "MODEL_SOURCE_TYPE");
 
-	if (dModelSourceType != FLT_MAX)
+	if (dModelSourceType != DBL_MAX)
 	{
 	    pinter->pcomp[iSegment].mc.iModelSourceType = dModelSourceType;
 	}
@@ -104,7 +104,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dCm
 	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "CM");
 
-	if (dCm == FLT_MAX)
+	if (dCm == DBL_MAX)
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -112,7 +112,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dEm
 	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "ELEAK");
 
-	if (dEm == FLT_MAX)
+	if (dEm == DBL_MAX)
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -120,7 +120,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dInitVm
 	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "Vm_init");
 
-	if (dInitVm == FLT_MAX)
+	if (dInitVm == DBL_MAX)
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -128,7 +128,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dInject
 	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "INJECT");
 
-	if (dInject == FLT_MAX)
+	if (dInject == DBL_MAX)
 	{
 	    dInject = 0.0;
 	}
@@ -136,7 +136,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dRa
 	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "RA");
 
-	if (dRa == FLT_MAX)
+	if (dRa == DBL_MAX)
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -144,7 +144,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dRm
 	    = SymbolParameterResolveScaledValue(phsle, ptstr->ppist, "RM");
 
-	if (dRm == FLT_MAX)
+	if (dRm == DBL_MAX)
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -161,7 +161,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dLength
 	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "LENGTH");
 
-	if (dLength == FLT_MAX)
+	if (dLength == DBL_MAX)
 	{
 	    pheccer->ho.iCorrections |= HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED;
 	}
@@ -169,7 +169,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 	double dDia
 	    = SymbolParameterResolveValue(phsle, ptstr->ppist, "DIA");
 
-	if (dDia == FLT_MAX)
+	if (dDia == DBL_MAX)
 	{
 	    pheccer->ho.iCorrections |= HECCER_CORRECTION_ENABLE_LINEAR_MODE_DISABLED;
 	}

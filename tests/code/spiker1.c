@@ -445,9 +445,9 @@ struct SpikeGenerator sg =
 
     0.0,
 
-    //m reset value, FLT_MAX for none
+    //m reset value, DBL_MAX for none
 
-    FLT_MAX,
+    DBL_MAX,
 
     //m table in event distributor with targets
 
