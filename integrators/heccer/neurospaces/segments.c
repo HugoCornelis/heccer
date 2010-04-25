@@ -286,7 +286,8 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 	    HeccerError
 		(pheccer,
 		 NULL,
-		 "no compartments found inside %s\n",
+		 "no compartments found inside %s (not that I am not looking %s itself, but only inside it)\n",
+		 pc,
 		 pc);
 
 	    return(FALSE);
