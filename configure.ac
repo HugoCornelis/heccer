@@ -242,7 +242,7 @@ case "$host_os" in
 
 
 
-    PYTHONLIB_EXTENSION='dylib'
+    PYTHONLIB_EXTENSION='so'
     AC_SUBST(PYHONLIB_EXTENSION)
 
     SWIGCOMPILELINKSFORPYTHON='-I$(PYTHON_HEADERS) 	-I/usr/local/neurospaces/instrumentor 	-I.../../.. 	-I./../../.. 	-I.../../../hierarchy/output/symbols 	-I./../../../hierarchy/output/symbols/'
