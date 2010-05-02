@@ -101,7 +101,7 @@ struct simobj_PulseGen *ppg = NULL;
 #endif
 
 #ifndef HECCER_TEST_TESTED_THINGS
-#define HECCER_TEST_TESTED_THINGS HECCER_DUMP_ALL
+#define HECCER_TEST_TESTED_THINGS (HECCER_DUMP_ALL)
 #endif
 
 

@@ -175,7 +175,6 @@ HeccerVMDumpOperators
 
 
 /// 
-/// 
 /// \arg phci array with info
 /// \arg iOp operation to lookup
 /// 
@@ -184,7 +183,6 @@ HeccerVMDumpOperators
 ///	info on command
 /// 
 /// \brief lookup info on given command.
-/// \details 
 /// 
 
 static
@@ -252,7 +250,6 @@ HeccerCommandInfoLookup
 
 
 /// 
-/// 
 /// \arg pvm heccer vm.
 /// \arg pfile stdio file.
 /// \arg iSelection selection to dump.
@@ -262,7 +259,6 @@ HeccerCommandInfoLookup
 ///	success of operation.
 /// 
 /// \brief Dump VM functions.
-/// \details 
 /// 
 
 int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
@@ -386,7 +382,6 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 
 
 /// 
-/// 
 /// \arg pvm heccer vm.
 /// \arg piArray array to print
 /// \arg iSize size of one array entry
@@ -399,7 +394,6 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
 ///	success of operation.
 /// 
 /// \brief print operations in given array according to given info array.
-/// \details 
 /// 
 /// \note  length of operations is ignored at the moment
 /// 
