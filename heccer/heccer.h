@@ -299,7 +299,11 @@ int HeccerDumpV(struct Heccer *pheccer);
 
 int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 
-#define HECCER_DUMP_ALL (0xffffffff & ~HECCER_DUMP_SERVICE)
+#define HECCER_DUMP_ALL (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
+
+#define HECCER_DUMP_ALL_EXTENDED (0xffffffff & ~HECCER_DUMP_SERVICE)
+
+#define HECCER_DUMP_ALL_REDUCED (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
 
 #define HECCER_DUMP_SERVICE					(1 << 7)
 

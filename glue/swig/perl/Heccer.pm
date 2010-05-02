@@ -20,7 +20,7 @@ our $config
        reporting => {
 		     file => undef,
 		     granularity => 1,
-		     tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
+# 		     tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
 		    },
        steps => 10,
        time_step => (2e-5),
@@ -580,6 +580,11 @@ package Heccer::Component;
 
 
 use SwiggableHeccer;
+
+
+#define HECCER_DUMP_ALL (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
+
+# our $SwiggableHeccer::HECCER_DUMP_ALL = (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES));
 
 
 my $heccer_mapping

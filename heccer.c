@@ -1,4 +1,4 @@
-static char *pcVersionTime="(09/11/29) Sunday, November 29, 2009 02:42:12 hugo";
+static char *pcVersionTime="(10/05/02) Sunday, May 2, 2010 07:15:06 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -477,7 +477,9 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///	The selection is the boolean or of zero or more of the following :
 /// 
 /// 
-///	The shorthand HECCER_DUMP_ALL selects everything.
+///	The shorthand HECCER_DUMP_ALL selects everything except very
+///	verbose uninteresting items, HECCER_DUMP_ALL_EXTENDED selects
+///	those items to, while HECCER_DUMP_ALL_REDUCED selects less.
 /// 
 
 int HeccerDumpV(struct Heccer *pheccer)
