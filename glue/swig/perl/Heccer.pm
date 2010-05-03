@@ -20,7 +20,6 @@ our $config
        reporting => {
 		     file => undef,
 		     granularity => 1,
-# 		     tested_things => $SwiggableHeccer::HECCER_DUMP_ALL,
 		    },
        steps => 10,
        time_step => (2e-5),
@@ -499,7 +498,7 @@ sub report
 		print $header;
 	    }
 
-	    my $tested_things = $reporting->{tested_things} || $SwiggableHeccer::HECCER_DUMP_ALL;
+	    my $tested_things = $reporting->{tested_things};
 
 	    $result = $self->dump($file, $tested_things);
 	}
