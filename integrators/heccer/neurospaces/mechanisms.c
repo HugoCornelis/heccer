@@ -5191,13 +5191,13 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 
 	struct TreespaceTraversal *ptstr
 	    = TstrNew
-	    (ppistModel,
-	     NULL,
-	     NULL,
-	     solver_mathcomponent_typer,
-	     (void *)&mcd,
-	     NULL,
-	     NULL);
+	       (ppistModel,
+		NULL,
+		NULL,
+		solver_mathcomponent_typer,
+		(void *)&mcd,
+		NULL,
+		NULL);
 
 	iResult = TstrGo(ptstr, phsleModel);
 
