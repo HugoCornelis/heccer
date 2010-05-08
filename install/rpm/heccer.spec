@@ -1,5 +1,5 @@
 # The _WORKING_DIRECTORY_ value will be replaced with the current working directory
-%define _topdir	 	_WORKING_DIRECTORY_/heccer_rpm
+%define _topdir	 	_WORKING_DIRECTORY_/RPM_BUILD
 %define _bindir		/usr/local/bin
 %define _mandir		/usr/local/share/man/man1
 
@@ -9,7 +9,7 @@
 
 
 # $Format: "%define version 	${label}"$
-%define version 	3b20c9c93df9a68c2deb59ab041ba09c0c159a30.0
+%define version 	83c9247effe56b4735580b182b3bfdbda8cd1907.0
 %define buildroot 	%{_topdir}/%{name}-%{version}-root
 
 BuildRoot:		%{buildroot}

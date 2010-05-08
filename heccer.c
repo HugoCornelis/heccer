@@ -700,7 +700,7 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 char * HeccerGetVersion(void)
 {
     // $Format: "    static char *pcVersion=\"${package}-${label}\";"$
-    static char *pcVersion="heccer-3b20c9c93df9a68c2deb59ab041ba09c0c159a30-0";
+    static char *pcVersion="heccer-83c9247effe56b4735580b182b3bfdbda8cd1907.0";
 
     return(pcVersion);
 }

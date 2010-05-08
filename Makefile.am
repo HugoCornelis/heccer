@@ -101,10 +101,12 @@ clean-local:
 	$(RM) -rf $(top_srcdir)/docs/latex
 	$(RM) -rf $(top_srcdir)/docs/rtf
 	$(RM) -rf $(top_srcdir)/docs/heccer
-	$(RM) -rf $(top_srcdir)heccer/
+	$(RM) -rf $(top_srcdir)RPM_BUILD
+	$(RM) -f $(top_srcdir)/build_rpm.log
 	$(RM) -f $(top_srcdir)/*.dsc
 	$(RM) -f $(top_srcdir)/*.changes
 	$(RM) -f $(top_srcdir)/*.deb
+	$(RM) -f $(top_srcdir)/build_deb.log
 
 dist-hook: dist-keywords
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
@@ -181,3 +183,8 @@ TMP_DIR = tmp
 # Create a deb package
 pkg-deb: dist
 	nspkg-deb $(TMP_DIR) $(PACKAGE) $(VERSION)
+
+# create an rpm package
+pkg-rpm: dist
+	nspkg-rpm $(PACKAGE) $(VERSION)
+
