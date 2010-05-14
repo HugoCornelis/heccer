@@ -101,6 +101,10 @@ clean-local:
 	$(RM) -rf $(top_srcdir)/docs/latex
 	$(RM) -rf $(top_srcdir)/docs/rtf
 	$(RM) -rf $(top_srcdir)/docs/heccer
+	$(RM) -rf $(top_srcdir)heccer/
+	$(RM) -f $(top_srcdir)/*.dsc
+	$(RM) -f $(top_srcdir)/*.changes
+	$(RM) -f $(top_srcdir)/*.deb
 
 dist-hook: dist-keywords
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
