@@ -5,12 +5,17 @@
 
 # $Format: "%define name	${package}"$
 %define name	heccer
-%define release		1
 
 
-# $Format: "%define version 	${label}"$
-%define version 	alpha
-%define buildroot 	%{_topdir}/%{name}-%{version}-root
+# $Format: "%define release	        ${label}"$
+%define release	        alpha
+
+
+# $Format: "%define version 	${major}.${minor}.${micro}"$
+%define version 	0.0.0
+
+
+%define buildroot 	%{_topdir}/%{name}-%{version}-%{release}-root
 
 BuildRoot:		%{buildroot}
 Summary: 		Heccer
@@ -18,7 +23,7 @@ License: 		GPL
 Name: 			%{name}
 Version: 		%{version}
 Release: 		%{release}
-Source: 		%{name}-%{version}.tar.gz
+Source: 		%{name}-%{version}-%{release}.tar.gz
 Prefix: 		/usr/local
 Group: 			Science
 Vendor: 		Hugo Cornelis <hugo.cornelis@gmail.com>
@@ -41,7 +46,7 @@ echo %_target_cpu
 echo %_target_os
 echo %_target_vendor
 echo Building %{name}-%{version}-%{release}
-%setup -q
+%setup -q -n %{name}-%{version}-%{release} 
 
 %build
 ./configure 
