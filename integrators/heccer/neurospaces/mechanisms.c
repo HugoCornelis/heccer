@@ -642,7 +642,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (phsleKinetic)
+		    if (0 && phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -1048,7 +1048,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (phsleKinetic)
+		    if (0 && phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -1655,7 +1655,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (phsleKinetic)
+		    if (0 && phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -1966,7 +1966,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (phsleKinetic)
+		    if (0 && phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
