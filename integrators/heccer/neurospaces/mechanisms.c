@@ -36,25 +36,12 @@
 #include "heccer/service.h"
 
 
-/* struct TableAllocatorData */
-/* { */
-/*     /// symbol with value array */
-
-/*     struct symtab_HSolveListElement *phsle; */
-
-/*     /// context of the symbol */
-
-/*     struct PidinStack *ppist; */
-/* }; */
-
-
-
-
 /*
  * A structure for storing error states.
  *
  */
-#define MATH_COMPONENT_MAX_ERRORS 20
+
+#define MATH_COMPONENT_MAX_ERRORS 200
 
 struct MathComponentError
 {
