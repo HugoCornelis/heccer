@@ -126,7 +126,7 @@ dist-hook:
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/specifications
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/specifications/algorithms
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/specifications/code
-	cp -a $(srcdir)/tests/{command_extractor $(distdir)/tests
+	cp -a $(srcdir)/tests/command_extractor $(distdir)/tests
 	cp -a $(srcdir)/command_extractor.ptkdb $(distdir)/tests
 	cp -a $(srcdir)/tests_2_html $(distdir)/tests
 	cp -a $(srcdir)/tests_2_html.ptkdb $(distdir)/tests
