@@ -108,7 +108,7 @@ clean-local:
 	$(RM) -f $(top_srcdir)/*.deb
 	$(RM) -f $(top_srcdir)/build_deb.log
 
-dist-hook: dist-keywords
+dist-hook: 
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
 	find $(distdir) -name _Inline -exec chmod u+w -R \{\} \;
 	$(RM) -fr `find $(distdir) -name _Inline`
