@@ -108,7 +108,7 @@ clean-local:
 	$(RM) -f $(top_srcdir)/*.deb
 	$(RM) -f $(top_srcdir)/build_deb.log
 
-dist-hook: dist-keywords
+dist-hook: 
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
 	find $(distdir) -name _Inline -exec chmod u+w -R \{\} \;
 	$(RM) -fr `find $(distdir) -name _Inline`
@@ -126,12 +126,16 @@ dist-hook: dist-keywords
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/specifications
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/specifications/algorithms
 #	$(srcdir)/install-sh -d $(distdir)/tests/html/specifications/code
-	cp -dp $(srcdir)/tests/{command_extractor,command_extractor.ptkdb,tests_2_html,tests_2_html.ptkdb,tests.config} $(distdir)/tests
+	cp -a $(srcdir)/tests/command_extractor $(distdir)/tests
+	cp -a $(srcdir)/tests/command_extractor.ptkdb $(distdir)/tests
+	cp -a $(srcdir)/tests/tests_2_html $(distdir)/tests
+	cp -a $(srcdir)/tests/tests_2_html.ptkdb $(distdir)/tests
+	cp -a $(srcdir)/tests/tests.config $(distdir)/tests
 	cp -a $(srcdir)/tests.config $(distdir)
 	cp -a $(srcdir)/tests/code/tests.config $(distdir)/tests/code/tests.config
 #	cp -a $(srcdir)/hierarchy $(distdir)
 #	rm -fr $(distdir)/hierarchy/output
-	( cd $(distdir)/tests && chmod -R u+w . && ./tests_2_html --introduction introduction.html )
+#	( cd $(distdir)/tests && chmod -R u+w . && ./tests_2_html --introduction introduction.html )
 
 #! this one breaks the distcheck, because automake makes dist dirs read-only
 #	cd $(distdir)/tests && ./tests_2_html --introduction introduction.html

@@ -568,7 +568,7 @@ sub step
 sub version
 {
     # $Format: "    my $version=\"${package}-${label}\";"$
-    my $version="heccer-83c9247effe56b4735580b182b3bfdbda8cd1907.0";
+    my $version="heccer-alpha";
 
 
     return $version;

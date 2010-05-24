@@ -9,7 +9,7 @@
 
 
 # $Format: "%define version 	${label}"$
-%define version 	83c9247effe56b4735580b182b3bfdbda8cd1907.0
+%define version 	alpha
 %define buildroot 	%{_topdir}/%{name}-%{version}-root
 
 BuildRoot:		%{buildroot}

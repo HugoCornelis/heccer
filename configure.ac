@@ -19,8 +19,8 @@ dnl //////////////////////////////////////////////////////////////////////////
 
 AC_PREREQ(2.59)
 
-# $Format: "AC_INIT(${package}, ${label}, ${email})"$
-AC_INIT(heccer, 83c9247effe56b4735580b182b3bfdbda8cd1907.0, hugo.cornelis@gmail.com)
+# $Format: "AC_INIT(${package}, ${major}.${minor}.${micro}-${label}, ${email})"$
+AC_INIT(heccer, 0.0.0-alpha, hugo.cornelis@gmail.com)
 
 dnl Obtain operating system information.
 AC_CANONICAL_TARGET
@@ -32,8 +32,8 @@ dnl dnl all subdirs
 
 dnl AC_CONFIG_SUBDIRS(tests/code glue)
 
-# $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
-AM_INIT_AUTOMAKE(heccer, 83c9247effe56b4735580b182b3bfdbda8cd1907.0)
+# $Format: "AM_INIT_AUTOMAKE(${package}, ${major}.${minor}.${micro}-${label})"$
+AM_INIT_AUTOMAKE(heccer, 0.0.0-alpha)
 
 
 # Checks for programs.
