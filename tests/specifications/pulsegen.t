@@ -40,7 +40,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a single pulsegen object output amplitude in ext gate mode ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsgen-exttrig.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-exttrig.txt`),
 						   timeout => 40,
 						  },
 						 ],
