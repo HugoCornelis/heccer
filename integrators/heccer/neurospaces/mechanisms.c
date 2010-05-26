@@ -1140,27 +1140,37 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		pcac->pac.ca.htg.hi.dEnd = pmcd->pheccer->ho.dConcentrationGateEnd;
 		pcac->pac.ca.htg.hi.dStep = (pcac->pac.ca.htg.hi.dEnd - pcac->pac.ca.htg.hi.dStart) / pcac->pac.ca.htg.iEntries;;
 
-		double dStart = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_START");
+		struct PidinStack *ppistKinetic = PidinStackDuplicate(ptstr->ppist);
 
-		if (dStart != DBL_MAX)
+		if (ppistKinetic)
 		{
-		    pcac->pac.ca.htg.hi.dStart = dStart;
+		    struct symtab_HSolveListElement *phsleKinetic
+			= PidinStackPushStringAndLookup(ppistKinetic, "A");
+
+		    if (phsleKinetic)
+		    {
+			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
+
+			if (dStart != DBL_MAX)
+			{
+			    pcac->pac.ca.htg.hi.dStart = dStart;
+			}
+
+			double dEnd = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_END");
+
+			if (dEnd != DBL_MAX)
+			{
+			    pcac->pac.ca.htg.hi.dEnd = dEnd;
+			}
+
+			double dStep = (pcac->pac.ca.htg.hi.dEnd - pcac->pac.ca.htg.hi.dStart) / dEntries;
+
+			if (dStep != DBL_MAX)
+			{
+			    pcac->pac.ca.htg.hi.dStep = dStep;
+			}
+		    }
 		}
-
-		double dEnd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_END");
-
-		if (dEnd != DBL_MAX)
-		{
-		    pcac->pac.ca.htg.hi.dEnd = dEnd;
-		}
-
-		double dStep = (pcac->pac.ca.htg.hi.dEnd - pcac->pac.ca.htg.hi.dStart) / dEntries;
-
-		if (dStep != DBL_MAX)
-		{
-		    pcac->pac.ca.htg.hi.dStep = dStep;
-		}
-
 	    }
 	    else
 	    {
@@ -1969,9 +1979,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			    ppgc->gc.htg.hi.dEnd = dEnd;
 			}
 
-			double dStep = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_STEP");
-
-			dStep = (ppgc->gc.htg.hi.dEnd - ppgc->gc.htg.hi.dStart) / dEntries;
+			double dStep = (ppgc->gc.htg.hi.dEnd - ppgc->gc.htg.hi.dStart) / dEntries;
 
 			if (dStep != DBL_MAX)
 			{
