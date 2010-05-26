@@ -629,7 +629,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (0 && phsleKinetic)
+		    if (phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -645,7 +645,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 			    ppgc->gc.htg.hi.dEnd = dEnd;
 			}
 
-			double dStep = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_STEP");
+			double dStep = (ppgc->gc.htg.hi.dEnd - ppgc->gc.htg.hi.dStart) / dEntries;
 
 			if (dStep != DBL_MAX)
 			{
@@ -1035,7 +1035,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (0 && phsleKinetic)
+		    if (phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -1051,7 +1051,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			    pcac->pgc.gc.htg.hi.dEnd = dEnd;
 			}
 
-			double dStep = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_STEP");
+			double dStep = (pcac->pgc.gc.htg.hi.dEnd - pcac->pgc.gc.htg.hi.dStart) / dEntries;
 
 			if (dStep != DBL_MAX)
 			{
@@ -1154,7 +1154,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    pcac->pac.ca.htg.hi.dEnd = dEnd;
 		}
 
-		double dStep = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_TABLE_STEP");
+		double dStep = (pcac->pac.ca.htg.hi.dEnd - pcac->pac.ca.htg.hi.dStart) / dEntries;
 
 		if (dStep != DBL_MAX)
 		{
@@ -1642,7 +1642,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (0 && phsleKinetic)
+		    if (phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -1658,7 +1658,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 			    pcc->pac.ca.htg.hi.dEnd = dEnd;
 			}
 
-			double dStep = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_STEP");
+			double dStep = (pcc->pac.ca.htg.hi.dEnd - pcc->pac.ca.htg.hi.dStart) / dEntries;
 
 			if (dStep != DBL_MAX)
 			{
@@ -1953,7 +1953,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		    struct symtab_HSolveListElement *phsleKinetic
 			= PidinStackPushStringAndLookup(ppistKinetic, "A");
 
-		    if (0 && phsleKinetic)
+		    if (phsleKinetic)
 		    {
 			double dStart = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_START");
 
@@ -1970,6 +1970,8 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			}
 
 			double dStep = SymbolParameterResolveValue(phsleKinetic, ppistKinetic, "HH_TABLE_STEP");
+
+			dStep = (ppgc->gc.htg.hi.dEnd - ppgc->gc.htg.hi.dStart) / dEntries;
 
 			if (dStep != DBL_MAX)
 			{
