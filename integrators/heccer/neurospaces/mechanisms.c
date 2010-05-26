@@ -1170,6 +1170,8 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			    pcac->pac.ca.htg.hi.dStep = dStep;
 			}
 		    }
+
+		    PidinStackFree(ppistKinetic);
 		}
 	    }
 	    else
