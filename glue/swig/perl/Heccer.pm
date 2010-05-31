@@ -1217,6 +1217,9 @@ sub compile
 {
     my $self = shift;
 
+    #t this requires a setting in self that points to the module that
+    #t allows to set the projections that must be simulated.
+
     # construct a querymachine string with all the projections
 
     my $projections = $self->{projections};
