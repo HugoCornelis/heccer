@@ -101,7 +101,7 @@ clean-local:
 	$(RM) -rf $(top_srcdir)/docs/latex
 	$(RM) -rf $(top_srcdir)/docs/rtf
 	$(RM) -rf $(top_srcdir)/docs/heccer
-	$(RM) -rf $(top_srcdir)RPM_BUILD
+	$(RM) -rf $(top_srcdir)/RPM_BUILD
 	$(RM) -f $(top_srcdir)/build_rpm.log
 	$(RM) -f $(top_srcdir)/*.dsc
 	$(RM) -f $(top_srcdir)/*.changes
