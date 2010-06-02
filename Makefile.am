@@ -107,6 +107,7 @@ clean-local:
 	$(RM) -f $(top_srcdir)/*.changes
 	$(RM) -f $(top_srcdir)/*.deb
 	$(RM) -f $(top_srcdir)/build_deb.log
+	$(RM) -f $(top_srcdir)/heccer-*.tar.gz
 
 dist-hook: 
 	if test -n "$$NEUROSPACES_RELEASE" ; then cd $(srcdir) && if test -n "`mtn ls changed `" ; then false ; else true ; fi ; else true ; fi
