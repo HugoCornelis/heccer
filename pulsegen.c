@@ -209,6 +209,10 @@ int PulseGenSingleStep(struct simobj_PulseGen *ppg, double dTime)
   // Post processing, we set our output 
   // from the results of the step.
   //
+
+  if(!ppg->pdPulseOut)
+    return -1;
+
   if( dTT < ppg->dDelay1 || dTT >= dTCycle )
   {
 
