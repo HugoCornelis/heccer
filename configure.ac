@@ -203,10 +203,34 @@ case "$host_os" in
     AC_SUBST(ARFLAGS)
     AC_MSG_RESULT([$AR $ARFLAGS])
 
+    dnl On the MAC we will only look for perl in the standard location for the Apple
+    dnl native perl. 
+    AC_CHECK_PROG(PERL, perl, NULL, [/usr/bin/perl],[/usr/local/bin/perl /opt/local/bin/perl])
+    AC_SUBST(PERL)
+
+    AC_MSG_CHECKING([Checking the perl installation])
+    case $PERL in
+      NULL*)
+        echo ""
+        echo "Error, the standard version of perl for Mac OSX is not found."
+        echo "Non standard versions of perl are known to cause problems."
+        AC_ERROR([Perl for Mac OSX is not found.])
+        ;;
+      *)
+        AC_MSG_RESULT([ $PERL ])
+        ;;
+    esac
+
+    # determine linker flags for perl embedding
+
+    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts | $PERL -pe 's/\-arch\s\S+\s//g'`
+    AC_SUBST(PERL_CCOPTS)
+
+
     PERLLIB_EXTENSION='dylib'
     AC_SUBST(PERLLIB_EXTENSION)
 
-    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor 	-I$(srcdir)/../../.. 	-I$(top_builddir) 	-ffloat-store 	-I../../.. 	-include heccer/config.h 	-g 	-O0 	-dynamic 	-fPIC 	`perl -MExtUtils::Embed -e ccopts | perl -pe 's/\-arch\s\S+\s//g'`'
+    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor 	-I$(srcdir)/../../.. 	-I$(top_builddir) 	-ffloat-store 	-I../../.. 	-include heccer/config.h 	-g 	-O0 	-dynamic 	-fPIC 	$(PERL_CCOPTS)'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
 
     SWIGCOMPILECOMMAND_PERL='gcc         $(SWIGCOMPILELINKSFORPERL)         -c swiggable_heccer_wrap.c'
@@ -292,11 +316,18 @@ case "$host_os" in
     AC_MSG_CHECKING([ranlib invocation ])
     AC_MSG_RESULT([$AR $ARFLAGS])
 
+    dnl Check for some needed programs.
+    AC_CHECK_PROGS(PERL, perl5 perl)
+    AC_SUBST(PERL)
+
+    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
+    AC_SUBST(PERL_CCOPTS)
+
     PERLLIB_EXTENSION='so'
     AC_SUBST(PERLLIB_EXTENSION)
 
 
-    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -fPIC `perl -MExtUtils::Embed -e ccopts`'
+    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -ffloat-store -I../../.. -include heccer/config.h -g -O0 -fPIC $(PERL_CCOPTS)'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
 
     SWIGCOMPILECOMMAND_PERL='gcc $(SWIGCOMPILELINKSFORPERL) -c swiggable_heccer_wrap.c'
