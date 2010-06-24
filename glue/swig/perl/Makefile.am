@@ -45,7 +45,7 @@ BUILT_SOURCES = \
 #t the configuration should say if this depends on neurospaces or not
 
 SwiggableHeccer.pm swiggable_heccer_wrap.c: $(swig_DATA)
-	swig -I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -perl5 -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
+	$(SWIG) -I/usr/local/neurospaces/instrumentor -I$(srcdir)/../../.. -I$(top_builddir) -perl5 -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i
 
 #t the configuration should say if this depends on neurospaces or not
 

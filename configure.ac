@@ -226,6 +226,21 @@ case "$host_os" in
     PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts | $PERL -pe 's/\-arch\s\S+\s//g'`
     AC_SUBST(PERL_CCOPTS)
 
+    AC_CHECK_PROG(SWIG, swig, NULL, [/usr/bin/swig],[/usr/local/bin/swig /opt/local/bin/swig])
+    AC_SUBST(SWIG)
+
+    AC_MSG_CHECKING([Checking for swig])
+    case $SWIG in
+      NULL*)
+        echo ""
+        echo "Error, the standard version of swig for Mac OSX is not found."
+        echo "Non standard versions of swig are known to cause problems."
+        AC_ERROR([Swig for Mac OSX is not found.])
+        ;;
+      *)
+        AC_MSG_RESULT([ $SWIG ])
+        ;;
+    esac
 
     PERLLIB_EXTENSION='dylib'
     AC_SUBST(PERLLIB_EXTENSION)
@@ -332,6 +347,10 @@ case "$host_os" in
     dnl Check for some needed programs.
     AC_CHECK_PROGS(PERL, perl5 perl)
     AC_SUBST(PERL)
+
+    AC_CHECK_PROGS(SWIG, swig)
+    AC_SUBST(SWIG)
+
 
     PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
     AC_SUBST(PERL_CCOPTS)

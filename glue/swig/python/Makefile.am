@@ -42,7 +42,7 @@ BUILT_SOURCES = \
 	swiggable_heccer_wrap.c
 
 SwiggableHeccer.py swiggable_heccer_wrap.c: $(swig_DATA)
-	swig -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i 
+	$(SWIG) -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i 
 
 swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
 	$(SWIGCOMPILECOMMAND_PYTHON)
