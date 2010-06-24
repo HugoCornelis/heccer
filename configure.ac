@@ -238,7 +238,7 @@ case "$host_os" in
 
  
 
-    SWIGLDLINKSFORPERL='-L../../.. 	-lheccer -L../../../integrators 	-lhneurospaces 	-L/usr/local/lib/model-container 	-lneurospacesread 	-L/usr/local/lib/neurospaces/algorithms/symbol 	-lsymbol_algorithms 	-lncurses -lreadline 	-bundle 	-undefined suppress 	-flat_namespace'
+    SWIGLDLINKSFORPERL='-L../../.. 	-lheccer -L../../../integrators 	-lhneurospaces 	-L/usr/local/lib/model-container 	-lneurospacesread 	-L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline 	-bundle 	-undefined suppress 	-flat_namespace'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
     case "$host_os" in
@@ -250,6 +250,13 @@ case "$host_os" in
 
 	;;    
 	*darwin10.3.0)
+	    dnl This is also snow leopard
+            SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o  swiggable_heccer_wrap.o'
+            AC_SUBST(SWIGLINKCOMMAND_PERL)
+
+
+	;;
+	*darwin10.4.0)
 	    dnl This is also snow leopard
             SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o  swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PERL)
@@ -287,6 +294,12 @@ case "$host_os" in
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 	;;
 	*darwin10.3.0)
+	    dnl This is also snow leopard
+
+            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+            AC_SUBST(SWIGLINKCOMMAND_PYTHON)
+	;;
+	*darwin10.4.0)
 	    dnl This is also snow leopard
 
             SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
