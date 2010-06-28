@@ -305,23 +305,23 @@ case "$host_os" in
 	*darwin10.2.0)
 	    dnl This is snow leopard
 
-            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 	;;
 	*darwin10.3.0)
 	    dnl This is also snow leopard
 
-            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 	;;
 	*darwin10.4.0)
 	    dnl This is also snow leopard
 
-            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 	;;
 	*)
-            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PERLLIB_EXTENSION)  swiggable_heccer_wrap.o'
+            SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) 	-o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)  swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)	
         ;;
     esac 
