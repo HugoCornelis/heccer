@@ -101,12 +101,12 @@ clean-local:
 	$(RM) -rf $(top_srcdir)/docs/latex
 	$(RM) -rf $(top_srcdir)/docs/rtf
 	$(RM) -rf $(top_srcdir)/docs/heccer
-	$(RM) -rf $(top_srcdir)/RPM_BUILD
+	$(RM) -rf $(top_srcdir)/*_BUILD
 	$(RM) -f $(top_srcdir)/build_rpm.log
 	$(RM) -f $(top_srcdir)/*.dsc
 	$(RM) -f $(top_srcdir)/*.changes
 	$(RM) -f $(top_srcdir)/*.deb
-	$(RM) -f $(top_srcdir)/build_deb.log
+	$(RM) -f $(top_srcdir)/build_*.log
 	$(RM) -f $(top_srcdir)/heccer-*.tar.gz
 
 dist-hook: 
@@ -192,4 +192,8 @@ pkg-deb: dist
 # create an rpm package
 pkg-rpm: dist
 	nspkg-rpm $(PACKAGE) $(VERSION)
+
+
+pkg-osx: 
+	nspkg-osx 
 

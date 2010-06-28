@@ -120,4 +120,5 @@ tar.gz$
 .changes$
 \.log$
 ^a.out.dSYM$
-^RPM_BUILD$
+_BUILD$
+.pkg$
