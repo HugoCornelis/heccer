@@ -178,9 +178,35 @@ sub connect
 
     my $scheduler = shift;
 
-    #t connect spikegens to their event queuers
+    my $result = 1;
 
-    return 1;
+    # connect spikegens to their event queuers
+
+    my $backend = $self->backend();
+
+    #t the queuer and distributor can be found in the scheduler
+
+    #t it should work as:
+    #t
+    #t find the connection matrix service
+    #t find the attached queuer and distributor
+    #t use those in the call here just below
+
+    my $distributor = undef;
+
+    my $connect_result = $backend->HeccerConnect($distributor);
+
+    print "connect_result is $connect_result\n";
+
+    if ($backend->HeccerConnect($distributor))
+    {
+    }
+    else
+    {
+	return "HeccerConnect() failed";
+    }
+
+    return '';
 }
 
 
@@ -1232,15 +1258,6 @@ sub compile
 
     SwiggableNeurospaces::swig_pq_set($query);
 
-    # return ok
-
-    return '';
-}
-
-
-sub connect
-{
-    my $self = shift;
 
     #t determine the number of connections
 
@@ -1260,7 +1277,18 @@ sub connect
 
     #t optionally destroy the connection matrix
 
-    return 1;
+
+    # return ok
+
+    return '';
+}
+
+
+sub connect
+{
+    my $self = shift;
+
+    return '';
 }
 
 
