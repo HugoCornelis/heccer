@@ -196,7 +196,7 @@ sub connect
 
     my $connect_result = $backend->HeccerConnect($distributor);
 
-    print "connect_result is $connect_result\n";
+#     print "connect_result is $connect_result\n";
 
     if ($backend->HeccerConnect($distributor))
     {
