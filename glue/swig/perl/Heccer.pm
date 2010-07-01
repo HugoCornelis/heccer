@@ -196,7 +196,7 @@ sub connect
 
     my $connect_result = $backend->HeccerConnect($distributor);
 
-    print "connect_result is $connect_result\n";
+#     print "connect_result is $connect_result\n";
 
     if ($backend->HeccerConnect($distributor))
     {
@@ -1258,10 +1258,13 @@ sub compile
 
     SwiggableNeurospaces::swig_pq_set($query);
 
-
     #t determine the number of connections
 
-    my $connections = 0;
+    my $projection_query = SwiggableNeurospaces::swig_get_global_projectionquery();
+
+    my $connections = $projection_query->ProjectionQueryCountConnections();
+
+    print "connections: $connections\n";
 
     # translate the connections
 
@@ -1269,9 +1272,9 @@ sub compile
 
     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
 
-    my $queuer; # $scheduler->lookup_service('event_queuer');
+#     my $queuer; # $scheduler->lookup_service('event_queuer');
 
-    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
+#     $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
 
     #t connect the solvers using the connection matrix
 
