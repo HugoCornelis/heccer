@@ -102,11 +102,10 @@ clean-local:
 	$(RM) -rf $(top_srcdir)/docs/rtf
 	$(RM) -rf $(top_srcdir)/docs/heccer
 	$(RM) -rf $(top_srcdir)/*_BUILD
-	$(RM) -f $(top_srcdir)/build_rpm.log
+	$(RM) -f $(top_srcdir)/build_*.log
 	$(RM) -f $(top_srcdir)/*.dsc
 	$(RM) -f $(top_srcdir)/*.changes
 	$(RM) -f $(top_srcdir)/*.deb
-	$(RM) -f $(top_srcdir)/build_*.log
 	$(RM) -f $(top_srcdir)/heccer-*.tar.gz
 
 dist-hook: 
