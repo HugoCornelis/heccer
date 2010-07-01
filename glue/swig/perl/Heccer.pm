@@ -1270,7 +1270,7 @@ sub compile
 
     my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
-#     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
+    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
 
 #     my $queuer; # $scheduler->lookup_service('event_queuer');
 
