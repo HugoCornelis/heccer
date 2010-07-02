@@ -31,7 +31,7 @@
 
 
 /*!
- * \file pidinstack.c
+ * \file eventdistributor.c
  * \author Hugo Cornelis
  *
  *
