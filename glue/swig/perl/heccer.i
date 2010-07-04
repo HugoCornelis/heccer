@@ -64,6 +64,7 @@
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
+#include "integrators/heccer/neurospaces/connections.h"
 #include "integrators/heccer/neurospaces/heccer.h"
 
 /* #include "/usr/local/include/neurospaces/neurospaces.h" */
@@ -234,6 +235,7 @@ void * pulse_gen_get_driver_method(struct simobj_PulseGen *ppg)
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
+%include "integrators/heccer/neurospaces/connections.h"
 %include "integrators/heccer/neurospaces/heccer.h"
 
 /* %include "/usr/local/include/neurospaces/neurospaces.h" */

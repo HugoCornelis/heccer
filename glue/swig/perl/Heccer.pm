@@ -1258,7 +1258,7 @@ sub compile
 
     SwiggableNeurospaces::swig_pq_set($query);
 
-    #t determine the number of connections
+    # determine the number of connections
 
     my $projection_query = SwiggableNeurospaces::swig_get_global_projectionquery();
 
@@ -1272,9 +1272,9 @@ sub compile
 
     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
 
-#     my $queuer; # $scheduler->lookup_service('event_queuer');
+    my $queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
 
-#     $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
+    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer_data);
 
     #t connect the solvers using the connection matrix
 
