@@ -1250,13 +1250,15 @@ sub compile
 
     my $projections = $self->{projections};
 
-    my $query = "pqset c " . (join " ", @$projections);
+    my $query_pq = "pqset c " . (join " ", @$projections);
 
     # construct the connection matrix
 
+    #t use QueryHandlerPQSetAll()
+
     require Neurospaces;
 
-    SwiggableNeurospaces::swig_pq_set($query);
+    SwiggableNeurospaces::swig_pq_set($query_pq);
 
     # determine the number of connections
 
@@ -1264,19 +1266,38 @@ sub compile
 
     my $connections = $projection_query->ProjectionQueryCountConnections();
 
-    print "connections: $connections\n";
+    print "Heccer::DES::compile(): found $connections connections\n";
 
     # translate the connections
 
-    my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
+    #1 allocate distributor data
 
-    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
+    my $pedd_connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
-    my $queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
+    #2 allocate distributor
 
-    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer_data);
+    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_connection_matrix);
 
-    #t connect the solvers using the connection matrix
+    $self->{distributor}->{backend}->SwiggableHeccer::EventDistributorInitiate(1);
+
+    #3 allocate queuer data
+
+    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
+
+    #4 allocate queuer
+
+    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($peqm_queuer_data);
+
+    # what does the model-container have for solver-registrations?
+    # somehow the model-container knows about the correct solver-registrations.
+    # SwiggableNeurospaces::QueryMachineHandle(undef, "solverregistrations");
+
+    #t connect the registered solvers using the connection matrix
+
+    #t fill in distributor data?
+
+    #t fill in queuer data:
+    #t dDelay, dWeight, iTarget, pvFunction, pvObject
 
     #t optionally destroy the connection matrix
 
