@@ -1272,15 +1272,27 @@ sub compile
 
     #1 allocate distributor data
 
-    my $pedd_connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
+    # The matrix in the distributor data contains one entry for each
+    # type of receiver.  Currently possible types are spike recorders
+    # and event queuers.
+
+    # we currently have one such type in spiker3
+
+    my $type_count = 1;
+
+    my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count);
+
+    #t go over the types, and fill them in in pedd_type_matrix
 
     #2 allocate distributor
 
-    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_connection_matrix);
+    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
 
     $self->{distributor}->{backend}->SwiggableHeccer::EventDistributorInitiate(1);
 
     #3 allocate queuer data
+
+    # the event queuer matrix contains the connection matrix of the projection_query
 
     my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
 

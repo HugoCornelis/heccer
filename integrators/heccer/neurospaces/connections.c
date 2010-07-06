@@ -29,6 +29,7 @@
 
 #include "heccer/addressing.h"
 #include "heccer/compartment.h"
+#include "heccer/event.h"
 #include "heccer/intermediary.h"
 #include "heccer/mathcomponent.h"
 #include "heccer/neurospaces/connections.h"
@@ -199,10 +200,10 @@ struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq)
     {
 	//- fill in entry
 
-	ppeqmResult[i].dDelay = 0.0;
-	ppeqmResult[i].dWeight = 0.0;
-	ppeqmResult[i].iTarget = 0;
-	ppeqmResult[i].pvFunction = NULL;
+	ppeqmResult[i].dDelay = ppq->pcc->pcconn[i].dDelay;
+	ppeqmResult[i].dWeight = ppq->pcc->pcconn[i].dWeight;
+	ppeqmResult[i].iTarget = ppq->pcc->pcconn[i].iPost; //t must subtract the solver root serial
+	ppeqmResult[i].pvFunction = HeccerEventSet;
 	ppeqmResult[i].pvObject = NULL;
     }
 
