@@ -190,7 +190,15 @@ struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq)
 
     //- allocate event queuer matrix, but not data
 
-    ppeqmResult = (struct EventQueuerMatrix *)calloc(iConnections, sizeof(struct EventQueuerMatrix));
+    ppeqmResult = (struct EventQueuerMatrix *)calloc(1 + iConnections, sizeof(struct EventQueuerMatrix));
+
+    //- mark the last entry as not used
+
+    ppeqmResult[iConnections].dDelay = DBL_MAX;
+    ppeqmResult[iConnections].dWeight = DBL_MAX;
+    ppeqmResult[iConnections].iTarget = 0;
+    ppeqmResult[iConnections].pvFunction = NULL;
+    ppeqmResult[iConnections].pvObject = NULL;
 
     //- loop over all connections
 

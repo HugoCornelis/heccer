@@ -1243,8 +1243,14 @@ sub compile
 {
     my $self = shift;
 
+    my $scheduler = shift;
+
     #t this requires a setting in self that points to the module that
     #t allows to set the projections that must be simulated.
+
+    #t the construction puts the projections in self,
+    #t this should be done in the ->compile() method,
+    #t the connection method should instantiate the run-time connectivity matrix.
 
     # construct a querymachine string with all the projections
 
@@ -1253,8 +1259,6 @@ sub compile
     my $query_pq = "pqset c " . (join " ", @$projections);
 
     # construct the connection matrix
-
-    #t use QueryHandlerPQSetAll()
 
     require Neurospaces;
 
@@ -1276,9 +1280,19 @@ sub compile
     # type of receiver.  Currently possible types are spike recorders
     # and event queuers.
 
-    # we currently have one such type in spiker3
+    # one such type for the event queuer
 
     my $type_count = 1;
+
+    # and add one for each event_2_ascii output
+
+    my $outputs = $scheduler->{outputs};
+
+    my $event_2_ascii = scalar grep { $_->{outputclass} eq 'event_2_ascii' } @$outputs;
+
+    $type_count += $event_2_ascii;
+
+    print "Heccer::DES::compile(): type_count is $type_count\n";
 
     my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count);
 
