@@ -1281,10 +1281,11 @@ int simulate(int argc, char *argv[])
 
     struct EventDistributor *ped = EventDistributorNew(&edd);
 
-    //- allocate the heccer, for the event distributor service
+    //- allocate the heccers, source needs an event distributor, the targets event queuers.
 
-    //! the source is constructed overhere and further initialized in simulate(),
-    //! the targets are constructed in simulate() only.  Needs to be cleaned up.
+    // \note in principle both event distributor and event queuer can
+    // be shared by all three heccers.  It seems better not to do this
+    // in this test.
 
     pheccerSource = HeccerNew("source", NULL, ped, NULL);
 
@@ -1294,9 +1295,7 @@ int simulate(int argc, char *argv[])
 
     //- instantiate a heccer with an initialized intermediary
 
-    //! note: test definition is allowed to allocate the heccer, with services.
-
-    if (!pheccerSource)
+    if (0 && !pheccerSource)
     {
 	pheccerSource = HeccerNewP2("source", &interSource);
     }
@@ -1307,9 +1306,7 @@ int simulate(int argc, char *argv[])
 
     //- instantiate a heccer with an initialized intermediary
 
-    //! note: test definition is allowed to allocate the heccer, with services.
-
-    if (!pheccerTarget1)
+    if (0 && !pheccerTarget1)
     {
 	pheccerTarget1 = HeccerNewP2("target1", &interTarget1);
     }
@@ -1320,9 +1317,7 @@ int simulate(int argc, char *argv[])
 
     //- instantiate a heccer with an initialized intermediary
 
-    //! note: test definition is allowed to allocate the heccer, with services.
-
-    if (!pheccerTarget2)
+    if (0 && !pheccerTarget2)
     {
 	pheccerTarget2 = HeccerNewP2("target2", &interTarget2);
     }
