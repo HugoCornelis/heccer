@@ -105,6 +105,20 @@ sub compile
 	#! swig works by reference, so setting in ho also sets in heccer
     }
 
+    # set the event distributor and queuer
+
+    #! DES is currently always the first entry in the schedule
+
+    my $des = $scheduler->{schedule}->[0];
+
+    my $event_distributor_backend = $des->{backend}->{distributor}->{backend};
+
+    $self->{heccer}->swig_ped_set($event_distributor_backend);
+
+    my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
+
+    $self->{heccer}->swig_peq_set($event_queuer_backend);
+
     # get status
 
     my $status = $self->{heccer}->swig_iStatus_get();
