@@ -105,20 +105,6 @@ sub compile
 	#! swig works by reference, so setting in ho also sets in heccer
     }
 
-    # set the event distributor and queuer
-
-    #! DES is currently always the first entry in the schedule
-
-    my $des = $scheduler->{schedule}->[0];
-
-    my $event_distributor_backend = $des->{backend}->{distributor}->{backend};
-
-    $self->{heccer}->swig_ped_set($event_distributor_backend);
-
-    my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
-
-    $self->{heccer}->swig_peq_set($event_queuer_backend);
-
     # get status
 
     my $status = $self->{heccer}->swig_iStatus_get();
@@ -194,25 +180,21 @@ sub connect
 
     my $result = 1;
 
+    # find the event distributor and queuer
+
+    my $des = $scheduler->{schedule}->[0];
+
+    my $event_distributor_backend = $des->{backend}->{distributor}->{backend};
+
+    my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
+
     # connect spikegens to their event queuers
 
     my $backend = $self->backend();
 
-    #t the queuer and distributor can be found in the scheduler
+    my $connect_result = $backend->HeccerConnect($event_distributor_backend, $event_queuer_backend);
 
-    #t it should work as:
-    #t
-    #t find the connection matrix service
-    #t find the attached queuer and distributor
-    #t use those in the call here just below
-
-    my $distributor = undef;
-
-    my $connect_result = $backend->HeccerConnect($distributor);
-
-#     print "connect_result is $connect_result\n";
-
-    if ($backend->HeccerConnect($distributor))
+    if ($connect_result)
     {
     }
     else

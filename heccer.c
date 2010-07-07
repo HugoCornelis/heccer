@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/06/30) Wednesday, June 30, 2010 08:31:25 hugo";
+static char *pcVersionTime="(10/07/07) Wednesday, July 7, 2010 09:12:29 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -463,7 +463,8 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
 /// 
 /// \arg pheccer a heccer.
-/// \arg ped the event distributor.
+/// \arg ped the event distributor to be used.
+/// \arg peq the event queuer to be used.
 /// 
 /// \return int
 /// 
@@ -476,7 +477,7 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///	 Likely to use indices, initialized with HeccerCompileP2().
 /// 
 
-int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped)
+int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq)
 {
     //- check for errors
 

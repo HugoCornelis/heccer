@@ -295,7 +295,7 @@ int HeccerCompileP2(struct Heccer *pheccer);
 
 int HeccerCompileP3(struct Heccer *pheccer);
 
-int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped);
+int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq);
 
 int HeccerDumpV(struct Heccer *pheccer);
 
