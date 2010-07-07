@@ -73,6 +73,14 @@
 
 %inline %{
 
+
+int iHECCER_DUMP_ALL = HECCER_DUMP_ALL;
+
+int iHECCER_DUMP_ALL_EXTENDED = HECCER_DUMP_ALL_EXTENDED;
+
+int iHECCER_DUMP_ALL_REDUCED = HECCER_DUMP_ALL_REDUCED;
+
+
 /* void piC2m_set(struct Intermediary *pim, int *piC2m) */
 /* { */
 /*     pim->piC2m = piC2m; */
