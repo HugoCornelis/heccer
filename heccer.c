@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/07/07) Wednesday, July 7, 2010 09:12:29 hugo";
+static char *pcVersionTime="(10/07/09) Friday, July 9, 2010 02:41:00 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -230,7 +230,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///	success of operation.
 /// 
 /// \brief Recalculates compartment diameters and lengths of linear
-/// cables for improved accuracy
+/// cables for improved accuracy.
 ///
 /// \note 
 /// 
@@ -493,6 +493,14 @@ int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct E
     //- connect this heccer spikegens to the event distributor.
 
     pheccer->ped = ped;
+
+    //t loop over spikegens, register absolute serial with this event distributor
+
+    //- connect this heccer synapses to the event queuer.
+
+    pheccer->peq = peq;
+
+    //t loop over all synapses and connect them to the event queuer.
 
     //- return result
 
