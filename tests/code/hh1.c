@@ -82,7 +82,7 @@ struct Compartment compSoma =
 
 /*     double dRa; */
 
-    12732.40625,
+    42971.8,
 
 /*     double dRm; */
 

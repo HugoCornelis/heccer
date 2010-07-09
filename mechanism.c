@@ -4315,16 +4315,27 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			    pmats->dSpike = 1.0;
 
-			    //- generate event for associated targets
+			    if (pmops->iTable != INT_MAX)
+			    {
+				//- generate event for associated targets
 
-			    int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
+				int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
 
-			    if (!iResult)
+				if (!iResult)
+				{
+				    HeccerError
+					(pheccer,
+					 NULL,
+					 "spike generation failed at time (%g)",
+					 pheccer->dTime);
+				}
+			    }
+			    else
 			    {
 				HeccerError
 				    (pheccer,
 				     NULL,
-				     "spike generation failed at time (%g)",
+				     "spike generation without a spike target at time (%g)",
 				     pheccer->dTime);
 			    }
 			}

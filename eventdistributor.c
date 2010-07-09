@@ -31,7 +31,7 @@
 
 
 /*!
- * \file pidinstack.c
+ * \file eventdistributor.c
  * \author Hugo Cornelis
  *
  *
@@ -317,6 +317,13 @@ EventDistributorDataNew(int iConnections)
 
     struct EventDistributorMatrix *ppedm
 	= calloc(iConnections + 1, sizeof(*ppedm));
+
+    //- mark the last entry as not used
+
+    ppedm[iConnections].iSerial = -1;
+    ppedm[iConnections].iTarget = -1;
+    ppedm[iConnections].pvFunction = NULL;
+    ppedm[iConnections].pvObject = NULL;
 
     //- fill in result
 

@@ -64,6 +64,7 @@
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
+#include "integrators/heccer/neurospaces/connections.h"
 #include "integrators/heccer/neurospaces/heccer.h"
 
 /* #include "/usr/local/include/neurospaces/neurospaces.h" */
@@ -71,6 +72,14 @@
 %}
 
 %inline %{
+
+
+int iHECCER_DUMP_ALL = HECCER_DUMP_ALL;
+
+int iHECCER_DUMP_ALL_EXTENDED = HECCER_DUMP_ALL_EXTENDED;
+
+int iHECCER_DUMP_ALL_REDUCED = HECCER_DUMP_ALL_REDUCED;
+
 
 /* void piC2m_set(struct Intermediary *pim, int *piC2m) */
 /* { */
@@ -234,6 +243,7 @@ void * pulse_gen_get_driver_method(struct simobj_PulseGen *ppg)
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
+%include "integrators/heccer/neurospaces/connections.h"
 %include "integrators/heccer/neurospaces/heccer.h"
 
 /* %include "/usr/local/include/neurospaces/neurospaces.h" */

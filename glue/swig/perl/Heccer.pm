@@ -180,25 +180,21 @@ sub connect
 
     my $result = 1;
 
+    # find the event distributor and queuer
+
+    my $des = $scheduler->{schedule}->[0];
+
+    my $event_distributor_backend = $des->{backend}->{distributor}->{backend};
+
+    my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
+
     # connect spikegens to their event queuers
 
     my $backend = $self->backend();
 
-    #t the queuer and distributor can be found in the scheduler
+    my $connect_result = $backend->HeccerConnect($event_distributor_backend, $event_queuer_backend);
 
-    #t it should work as:
-    #t
-    #t find the connection matrix service
-    #t find the attached queuer and distributor
-    #t use those in the call here just below
-
-    my $distributor = undef;
-
-    my $connect_result = $backend->HeccerConnect($distributor);
-
-#     print "connect_result is $connect_result\n";
-
-    if ($backend->HeccerConnect($distributor))
+    if ($connect_result)
     {
     }
     else
@@ -1243,40 +1239,87 @@ sub compile
 {
     my $self = shift;
 
+    my $scheduler = shift;
+
     #t this requires a setting in self that points to the module that
     #t allows to set the projections that must be simulated.
+
+    #t the construction puts the projections in self,
+    #t this should be done in the ->compile() method,
+    #t the connection method should instantiate the run-time connectivity matrix.
 
     # construct a querymachine string with all the projections
 
     my $projections = $self->{projections};
 
-    my $query = "pqset c " . (join " ", @$projections);
+    my $query_pq = "pqset c " . (join " ", @$projections);
 
     # construct the connection matrix
 
     require Neurospaces;
 
-    SwiggableNeurospaces::swig_pq_set($query);
+    SwiggableNeurospaces::swig_pq_set($query_pq);
 
-    #t determine the number of connections
+    # determine the number of connections
 
     my $projection_query = SwiggableNeurospaces::swig_get_global_projectionquery();
 
     my $connections = $projection_query->ProjectionQueryCountConnections();
 
-    print "connections: $connections\n";
+    print "Heccer::DES::compile(): found $connections connections\n";
 
     # translate the connections
 
-    my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
+    #1 allocate distributor data
 
-    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
+    # The matrix in the distributor data contains one entry for each
+    # type of receiver.  Currently possible types are spike recorders
+    # and event queuers.
 
-#     my $queuer; # $scheduler->lookup_service('event_queuer');
+    # one such type for the event queuer
 
-#     $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
+    my $type_count = 1;
 
-    #t connect the solvers using the connection matrix
+    # and add one for each event_2_ascii output
+
+    my $outputs = $scheduler->{outputs};
+
+    my $event_2_ascii = scalar grep { $_->{outputclass} eq 'event_2_ascii' } @$outputs;
+
+    $type_count += $event_2_ascii;
+
+    print "Heccer::DES::compile(): type_count is $type_count\n";
+
+    my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count);
+
+    #t go over the types, and fill them in in pedd_type_matrix
+
+    #2 allocate distributor
+
+    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
+
+    $self->{distributor}->{backend}->SwiggableHeccer::EventDistributorInitiate(1);
+
+    #3 allocate queuer data
+
+    # the event queuer matrix contains the connection matrix of the projection_query
+
+    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
+
+    #4 allocate queuer
+
+    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($peqm_queuer_data);
+
+    # what does the model-container have for solver-registrations?
+    # somehow the model-container knows about the correct solver-registrations.
+    # SwiggableNeurospaces::QueryMachineHandle(undef, "solverregistrations");
+
+    #t connect the registered solvers using the connection matrix
+
+    #t fill in distributor data?
+
+    #t fill in queuer data:
+    #t dDelay, dWeight, iTarget, pvFunction, pvObject
 
     #t optionally destroy the connection matrix
 
