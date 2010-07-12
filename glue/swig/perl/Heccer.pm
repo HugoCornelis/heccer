@@ -188,7 +188,7 @@ sub connect
 
     my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
 
-    # connect spikegens to their event queuers
+    # connect spikegens to their event distributors
 
     my $backend = $self->backend();
 
