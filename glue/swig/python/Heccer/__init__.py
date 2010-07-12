@@ -10,7 +10,7 @@ class Heccer:
     def __init__(self, options):
         if 'model_source' in options:
             self.backend = SwiggableHeccer.HeccerNew("heccer constructed from python", None, None, None)
-            SwiggableHeccer.HeccerConstruct( self.backend, options['model_source'], options['name'], None )
+            SwiggableHeccer.HeccerConstruct( self.backend, options['model_source'], options['name'], None, None )
         else:
             print "model_source not found in the heccer options, cannot construct a heccer"
 
