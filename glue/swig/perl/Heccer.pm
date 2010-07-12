@@ -360,6 +360,13 @@ sub new
 	    $event_distributor_backend = $settings->{event_distributor}->{event_distributor_backend}->backend();
 	}
 
+	my $event_queuer_backend;
+
+	if ($settings->{event_queuer}->{event_queuer_backend})
+	{
+	    $event_queuer_backend = $settings->{event_queuer}->{event_queuer_backend}->backend();
+	}
+
 	# if there is a model source
 
 	my $model_source = $settings->{model_source};
@@ -380,7 +387,7 @@ sub new
 
 		# setup the interface to build an intermediary
 
-		my $success = SwiggableHeccer::HeccerConstruct($heccer_backend, $service_backend, $modelname, $event_distributor_backend);
+		my $success = SwiggableHeccer::HeccerConstruct($heccer_backend, $service_backend, $modelname, $event_distributor_backend, $event_queuer_backend);
 
 		if (!$success)
 		{
@@ -791,6 +798,11 @@ my $heccer_mapping
 
 				  event_distributor => {
 						       },
+
+				  #t event_queuer, see model_source comments below
+
+				  event_queuer => {
+						  },
 
 				  intermediary => {
 						   target => 'inter',
@@ -1314,15 +1326,11 @@ sub compile
     # somehow the model-container knows about the correct solver-registrations.
     # SwiggableNeurospaces::QueryMachineHandle(undef, "solverregistrations");
 
-    #t connect the registered solvers using the connection matrix
+    # now register this as a services
 
-    #t fill in distributor data?
+    $scheduler->service_register( "event_distributor", { backend => $self->{distributor}, scheduler => $scheduler, }, );
 
-    #t fill in queuer data:
-    #t dDelay, dWeight, iTarget, pvFunction, pvObject
-
-    #t optionally destroy the connection matrix
-
+    $scheduler->service_register( "event_queuer", { backend => $self->{queuer}, scheduler => $scheduler, }, );
 
     # return ok
 
