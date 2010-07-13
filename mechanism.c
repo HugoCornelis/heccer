@@ -4332,11 +4332,20 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 			    }
 			    else
 			    {
-				HeccerError
-				    (pheccer,
-				     NULL,
-				     "spike generation without a spike target at time (%g)",
-				     pheccer->dTime);
+				// \note the presence of spikegen does
+				// not necessarily mean that it must
+				// have post-synaptic targets.  In the
+				// future, if there is no spike
+				// distributor, spikegens should be
+				// optimized away, and may be a
+				// spikegen must always have
+				// post-synaptic targets if it exists.
+
+/* 				HeccerError */
+/* 				    (pheccer, */
+/* 				     NULL, */
+/* 				     "spike generation without a spike target at time (%g)", */
+/* 				     pheccer->dTime); */
 			    }
 			}
 		    }
