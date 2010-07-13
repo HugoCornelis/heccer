@@ -77,6 +77,8 @@ int OutputGeneratorInitiate(struct OutputGenerator * pog);
 
 struct OutputGenerator * OutputGeneratorNew(char *pcFilename);
 
+int OutputGeneratorSetFormat(struct OutputGenerator * pog, char *pcFormat);
+
 int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime);
 
 

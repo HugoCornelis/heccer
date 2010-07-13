@@ -118,7 +118,7 @@ int OutputGeneratorAnnotatedStep(struct OutputGenerator * pog, char * pc)
 
 	    //- add it to the output
 
-	    sprintf(pcVariable, " %g", *pog->ppdVariables[i]);
+	    sprintf(pcVariable, pog->pcFormat, *pog->ppdVariables[i]);
 
 	    strcat(pcVariables, pcVariable);
 
@@ -331,9 +331,40 @@ struct OutputGenerator * OutputGeneratorNew(char *pcFilename)
 
     pogResult->dBase = DBL_MAX;
 
+    //- initialize format
+
+    pogResult->pcFormat = " %g";
+
     //- return result
 
     return(pogResult);
+}
+
+
+/// 
+/// \arg pog output generator.
+/// \arg pcFormat new output printf type format.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Set a new output format, see printf for details.
+/// 
+
+int OutputGeneratorSetFormat(struct OutputGenerator * pog, char *pcFormat)
+{
+    //- set default result : ok
+
+    int iResult = 1;
+
+    //- set format
+
+    pog->pcFormat = pcFormat;
+
+    //- return result
+
+    return(iResult);
 }
 
 
@@ -367,6 +398,5 @@ int OutputGeneratorTimedStep(struct OutputGenerator * pog, double dTime)
 
     return(iResult);
 }
-
 
 

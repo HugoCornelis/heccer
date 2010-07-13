@@ -1869,7 +1869,7 @@ sub step
 
     my $result;
 
-    if ($self->{format}) # eq 'steps')
+    if ($self->{output_mode}) # eq 'steps')
     {
 	$result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
     }
@@ -2150,14 +2150,19 @@ sub new
 
     if ($self->{resolution})
     {
-	if ($self->{format} ne 'steps')
+	if ($self->{output_mode} ne 'steps')
 	{
-	    die "$0: output generator options contain a resolution specification, but are not running in 'steps' format.";
+	    die "$0: output generator options contain a resolution specification, but is not running in 'steps' output_mode.";
 	}
 
 	$self->{backend}->swig_iResolutionStep_set(0);
 
 	$self->{backend}->swig_iResolution_set($self->{resolution});
+    }
+
+    if ($self->{format})
+    {
+	$self->set_format($self->{format});
     }
 
     return $self;
@@ -2184,6 +2189,22 @@ sub report
 }
 
 
+sub set_format
+{
+    my $self = shift;
+
+    my $format = shift;
+
+    my $backend = $self->backend();
+
+    my $result;
+
+    $backend->OutputGeneratorSetFormat($format);
+
+    return $result;
+}
+
+
 sub step
 {
     my $self = shift;
@@ -2196,7 +2217,7 @@ sub step
 
     my $result;
 
-    if ($self->{format}) # eq 'steps')
+    if ($self->{output_mode}) # eq 'steps')
     {
 	$result = $backend->OutputGeneratorAnnotatedStep("$options->{steps}");
     }
