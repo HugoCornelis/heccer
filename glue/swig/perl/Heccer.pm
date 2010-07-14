@@ -1328,9 +1328,13 @@ sub compile
 
     # now register this as a services
 
-    $scheduler->service_register( "event_distributor", { backend => $self->{distributor}, scheduler => $scheduler, }, );
+    my $distributor = Heccer::DES::Distributor->new( { backend => $self->{distributor}->{backend}, scheduler => $scheduler, }, );
 
-    $scheduler->service_register( "event_queuer", { backend => $self->{queuer}, scheduler => $scheduler, }, );
+    $scheduler->service_register( "event_distributor", { backend => $distributor, }, );
+
+    my $queuer = Heccer::DES::Queuer->new( { backend => $self->{queuer}->{backend}, scheduler => $scheduler, }, );
+
+    $scheduler->service_register( "event_queuer", { backend => $queuer, }, );
 
     # return ok
 
