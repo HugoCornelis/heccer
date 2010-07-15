@@ -1282,7 +1282,17 @@ sub compile
 
     # translate the connections
 
-    #1 allocate distributor data
+    #1 allocate queuer data
+
+    # the event queuer matrix contains the connection matrix of the projection_query
+
+    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
+
+    #2 allocate queuer
+
+    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($peqm_queuer_data);
+
+    #3 allocate distributor data
 
     # The matrix in the distributor data contains one entry for each
     # type of receiver.  Currently possible types are spike recorders
@@ -1304,23 +1314,11 @@ sub compile
 
     my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count);
 
-    #t go over the types, and fill them in in pedd_type_matrix
-
-    #2 allocate distributor
+    #4 allocate distributor
 
     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
 
     $self->{distributor}->{backend}->SwiggableHeccer::EventDistributorInitiate(1);
-
-    #3 allocate queuer data
-
-    # the event queuer matrix contains the connection matrix of the projection_query
-
-    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
-
-    #4 allocate queuer
-
-    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($peqm_queuer_data);
 
     # what does the model-container have for solver-registrations?
     # somehow the model-container knows about the correct solver-registrations.
@@ -1727,6 +1725,16 @@ sub add
 # }
 
 
+sub connect
+{
+    my $self = shift;
+
+    my $backend = $self->backend();
+
+    return undef;
+}
+
+
 sub finish
 {
     my $self = shift;
@@ -2080,6 +2088,16 @@ sub add
 # }
 
 
+sub connect
+{
+    my $self = shift;
+
+    my $backend = $self->backend();
+
+    return undef;
+}
+
+
 sub finish
 {
     my $self = shift;
@@ -2271,6 +2289,16 @@ sub add
 
 #     return undef;
 # }
+
+
+sub connect
+{
+    my $self = shift;
+
+    my $backend = $self->backend();
+
+    return undef;
+}
 
 
 sub finish
@@ -2798,6 +2826,14 @@ sub add
     my $result = $backend->PulseGenAddVariable($options->{address});
 
     return $result;
+}
+
+
+sub connect
+{
+    my $self = shift;
+
+    return '';
 }
 
 
