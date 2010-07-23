@@ -297,7 +297,7 @@ case "$host_os" in
     SWIGCOMPILECOMMAND_PYTHON='gcc         $(SWIGCOMPILELINKSFORPYTHON)         -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
 
-    SWIGLDLINKSFORPYTHON='-L$(PYTHON_HEADERS)         -framework Python         -flat_namespace         -undefined suppress 	-bundle 	-bundle_loader $(PYTHON_EXE)'
+    SWIGLDLINKSFORPYTHON='-L$(PYTHON_HEADERS)    -L../../../ -lheccer  -L../../../integrators -lhneurospaces  -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline  -framework Python         -flat_namespace         -undefined suppress 	-bundle 	-bundle_loader $(PYTHON_EXE)'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
 
 
