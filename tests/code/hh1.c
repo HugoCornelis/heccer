@@ -18,11 +18,12 @@
 
 #include <stdlib.h>
 
+#include <experiment/output.h>
+
 #include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
 #include "../../heccer/mathcomponent.h"
-#include "../../heccer/output.h"
 
 
 /* #define HECCER_TEST_INTERVAL_DEFAULT_START			(-0.1) */

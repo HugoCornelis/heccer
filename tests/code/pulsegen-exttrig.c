@@ -18,9 +18,10 @@
 
 #include <stdlib.h>
 
+#include <experiment/pulsegen.h>
+
 #include "../../heccer/addressing.h"
 #include "../../heccer/heccer.h"
-#include "../../heccer/pulsegen.h"
 
 
 #include "main.h"

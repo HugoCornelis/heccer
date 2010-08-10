@@ -55,9 +55,6 @@
 #include "heccer/heccer.h"
 #include "heccer/mathcomponent.h"
 #include "heccer/mechanism.h"
-#include "heccer/output.h"
-#include "heccer/perfectclamp.h"
-#include "heccer/pulsegen.h"
 #include "heccer/serialization.h"
 #include "heccer/table.h"
 
@@ -170,41 +167,6 @@ void * heccer_get_driver_method(struct Heccer *pheccer)
 }
 
 
-void * output_generator_get_driver_data(struct OutputGenerator *pog)
-{
-    return((void *)pog);
-}
-
-
-void * output_generator_get_driver_method(struct OutputGenerator *pog)
-{
-    return((void *)OutputGeneratorTimedStep);
-}
-
-
-void * perfect_clamp_get_driver_data(struct PerfectClamp *ppc)
-{
-    return((void *)ppc);
-}
-
-
-void * perfect_clamp_get_driver_method(struct PerfectClamp *ppc)
-{
-    return((void *)PerfectClampSingleStep);
-}
-
-void * pulse_gen_get_driver_data(struct simobj_PulseGen *ppg)
-{
-    return((void *)ppg);
-}
-
-
-void * pulse_gen_get_driver_method(struct simobj_PulseGen *ppg)
-{
-    return((void *)PulseGenSingleStep);
-}
-
-
 /* /// math component array handling */
 
 /* struct MathComponent *math_component_array(int size) */
@@ -234,9 +196,6 @@ void * pulse_gen_get_driver_method(struct simobj_PulseGen *ppg)
 %include "heccer/heccer.h"
 %include "heccer/mathcomponent.h"
 %include "heccer/mechanism.h"
-%include "heccer/output.h"
-%include "heccer/perfectclamp.h"
-%include "heccer/pulsegen.h"
 %include "heccer/serialization.h"
 %include "heccer/table.h"
 

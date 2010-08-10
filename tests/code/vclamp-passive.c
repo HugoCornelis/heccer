@@ -18,9 +18,10 @@
 
 #include <stdlib.h>
 
+#include <experiment/vclamp.h>
+
 #include "../../heccer/addressing.h"
 #include "../../heccer/heccer.h"
-#include "../../heccer/vclamp.h"
 
 
 #include "main.h"

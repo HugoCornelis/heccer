@@ -18,9 +18,10 @@
 
 #include <stdlib.h>
 
+#include <experiment/perfectclamp.h>
+
 #include "../../heccer/addressing.h"
 #include "../../heccer/heccer.h"
-#include "../../heccer/perfectclamp.h"
 
 
 #include "main.h"

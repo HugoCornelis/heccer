@@ -55,8 +55,6 @@
 #include "heccer/heccer.h"
 #include "heccer/mathcomponent.h"
 #include "heccer/mechanism.h"
-#include "heccer/output.h"
-#include "heccer/perfectclamp.h"
 #include "heccer/table.h"
 
 //t so this should depend on the configuration
@@ -172,8 +170,6 @@ struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
 %include "heccer/heccer.h"
 %include "heccer/mathcomponent.h"
 %include "heccer/mechanism.h"
-%include "heccer/output.h"
-%include "heccer/perfectclamp.h"
 %include "heccer/table.h"
 
 //t so this should depend on the configuration

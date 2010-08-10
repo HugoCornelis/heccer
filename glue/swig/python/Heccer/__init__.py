@@ -3,6 +3,7 @@
 
 import sys
 sys.path.append('/usr/local/glue/swig/python')
+import SwiggableExperiment
 import SwiggableHeccer
 
 class AddressError:
@@ -36,16 +37,16 @@ class Heccer:
 
 class Output:
     def __init__(self, filename):
-        self.backend = SwiggableHeccer.OutputGeneratorNew(filename)
+        self.backend = SwiggableExperiment.OutputGeneratorNew(filename)
 
     def advance(self, time):
-        return SwiggableHeccer.OutputGeneratorTimedStep(self.backend, time)
+        return SwiggableExperiment.OutputGeneratorTimedStep(self.backend, time)
 
     def compile(self):
-        return SwiggableHeccer.OutputGeneratorInitiate(self.backend)
+        return SwiggableExperiment.OutputGeneratorInitiate(self.backend)
 
     def AddOutput(self, name, address):
-        SwiggableHeccer.OutputGeneratorAddVariable(self.backend, name, address)
+        SwiggableExperiment.OutputGeneratorAddVariable(self.backend, name, address)
 
     def finish(self):
-        SwiggableHeccer.OutputGeneratorFinish(self.backend)
+        SwiggableExperiment.OutputGeneratorFinish(self.backend)

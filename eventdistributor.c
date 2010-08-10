@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 #include "heccer/eventdistributor.h"
-#include "heccer/output.h"
+#include "experiment/output.h"
 
 #if USE_SGLIB
 
@@ -254,7 +254,7 @@ EventDistributorAddConnection
 
 	if (iType == 1)
 	{
-	    ppedm->pvFunction = OutputGeneratorTimedStep;
+/* 	    ppedm->pvFunction = OutputGeneratorTimedStep; */
 	}
 
 	//- increment connection count

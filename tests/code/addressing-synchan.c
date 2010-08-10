@@ -19,10 +19,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <experiment/output.h>
+
 #include "../../heccer/addressing.h"
 #include "../../heccer/compartment.h"
 #include "../../heccer/heccer.h"
-#include "../../heccer/output.h"
 
 
 #define HECCER_TEST_REPORTING_GRANULARITY 2000
