@@ -3933,7 +3933,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		piMop = (int *)&pmops[1];
 
-		double dState;
+		double dState = dVm;
 
 /* 		//- for a concentration dependent gate */
 
@@ -3947,14 +3947,14 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 /* 		//- else is a membrane potential dependent gate */
 
 /* 		else */
-		{
-		    //- state is membrane potential
+/* 		{ */
+/* 		    //- state is membrane potential */
 
-		    /// \todo move this to load membrane potential
-		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+/* 		    /// \todo move this to load membrane potential */
+/* 		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX */
 
-		    dState = dVm;
-		}
+/* 		    dState = dVm; */
+/* 		} */
 
 		//- discretize and offset the state
 
@@ -3971,9 +3971,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- initialize pointers to tables for this membrane potential
 
-		pdARearranged = &pheccer->tgt.pdARearranged[iIndex * pheccer->ho.iIntervalEntries];
+		pdARearranged = &pheccer->tgt.pdARearranged[iIndex * pheccer->tgt.iTabulatedGateCount];
 
-		pdBRearranged = &pheccer->tgt.pdBRearranged[iIndex * pheccer->ho.iIntervalEntries];
+		pdBRearranged = &pheccer->tgt.pdBRearranged[iIndex * pheccer->tgt.iTabulatedGateCount];
 
 		break;
 	    }
@@ -4072,6 +4072,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    dA = phtg->pdA[iIndex];
 		    dB = phtg->pdB[iIndex];
 
+		    dA = pdARearranged[iTable];
+		    dB = pdBRearranged[iTable];
 		}
 
 		//- start computing the new state based on the previous state

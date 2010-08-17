@@ -1652,9 +1652,9 @@ int HeccerTablesRearrange(struct Heccer *pheccer)
 	{
 	    //- copy the values from the unarranged table to the rearranged table
 
-	    pheccer->tgt.pdARearranged[i * pheccer->ho.iIntervalEntries + j] = phtg->pdA[j];
+	    pheccer->tgt.pdARearranged[j * pheccer->tgt.iTabulatedGateCount + i] = phtg->pdA[j];
 
-	    pheccer->tgt.pdBRearranged[i * pheccer->ho.iIntervalEntries + j] = phtg->pdB[j];
+	    pheccer->tgt.pdBRearranged[j * pheccer->tgt.iTabulatedGateCount + i] = phtg->pdB[j];
 	}
     }
 
