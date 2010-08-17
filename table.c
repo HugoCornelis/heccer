@@ -223,6 +223,16 @@ HeccerDiscretizeConcentrationGate
 	    {
 		return(FALSE);
 	    }
+	    else
+	    {
+		//- register the index where it is stored
+
+		pca->iTable = i;
+
+		//- return success
+
+		return(TRUE);
+	    }
 	}
 
 	//- if found
@@ -340,6 +350,16 @@ HeccerDiscretizeGateConcept
 	    if (i == -1)
 	    {
 		return(FALSE);
+	    }
+	    else
+	    {
+		//- register the index where it is stored
+
+		pgc->iTable = i;
+
+		//- return success
+
+		return(TRUE);
 	    }
 	}
 
