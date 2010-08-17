@@ -225,13 +225,18 @@ HeccerDiscretizeConcentrationGate
 	    }
 	}
 
-	//- register the index
+	//- if found
 
-	pca->iTable = i;
+	else
+	{
+	    //- register the index where it is stored
 
-	//- return success
+	    pca->iTable = i;
 
-	return(TRUE);
+	    //- return success
+
+	    return(TRUE);
+	}
     }
 
     //- allocate structures
@@ -338,13 +343,18 @@ HeccerDiscretizeGateConcept
 	    }
 	}
 
-	//- register the index
+	//- if found
 
-	pgc->iTable = i;
+	else
+	{
+	    //- register the index where it is stored
 
-	//- return success
+	    pgc->iTable = i;
 
-	return(TRUE);
+	    //- return success
+
+	    return(TRUE);
+	}
     }
 
     //- allocate structures
