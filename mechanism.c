@@ -3935,27 +3935,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		double dState = dVm;
 
-/* 		//- for a concentration dependent gate */
-
-/* 		if (pdState) */
-/* 		{ */
-/* 		    //- state is coming from a solved mechanism variable */
-
-/* 		    dState = *pdState; */
-/* 		} */
-
-/* 		//- else is a membrane potential dependent gate */
-
-/* 		else */
-/* 		{ */
-/* 		    //- state is membrane potential */
-
-/* 		    /// \todo move this to load membrane potential */
-/* 		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX */
-
-/* 		    dState = dVm; */
-/* 		} */
-
 		//- discretize and offset the state
 
 		int iIndex = (dState - pheccer->ho.dIntervalStart) / dIntervalStep;
@@ -4041,36 +4020,9 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		else
 		{
-		    //- state is membrane potential
-
-		    /// \todo move this to load membrane potential
-		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
-
-		    double dState = dVm;
-
-		    //- fetch tables
-
-		    int iTable = pmops->iTableIndex;
-
-		    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
-
-		    //- discretize and offset the state
-
-		    int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
-
-		    if (iIndex < 0)
-		    {
-			iIndex = 0;
-		    }
-		    else if (iIndex >= phtg->iEntries)
-		    {
-			iIndex = phtg->iEntries - 1;
-		    }
-
 		    //- fetch A and B gate rates
 
-		    dA = phtg->pdA[iIndex];
-		    dB = phtg->pdB[iIndex];
+		    int iTable = pmops->iTableIndex;
 
 		    dA = pdARearranged[iTable];
 		    dB = pdBRearranged[iTable];
