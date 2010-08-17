@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/08/17) Tuesday, August 17, 2010 02:25:41 cornelis";
+static char *pcVersionTime="(10/08/17) Tuesday, August 17, 2010 02:31:13 cornelis";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -449,7 +449,9 @@ int HeccerCompileP3(struct Heccer *pheccer)
 
     iResult = iResult && HeccerMechanismLink(pheccer);
 
-    /// \todo perhaps should discretize channels overhere ?
+    //- rearrange table values for cache line loading
+
+    iResult = iResult && HeccerTablesRearrange(pheccer);
 
     //- allocate memory for aggregate results
 

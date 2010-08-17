@@ -124,6 +124,12 @@ struct TabulatedGateTable
     /// number of entries used in the above
 
     int iTabulatedGateCount;
+
+    /// gate A / B values rearranged for cache lines
+
+    double *pdARearranged;
+
+    double *pdBRearranged;
 };
 
 
@@ -160,6 +166,8 @@ HeccerGateConceptTabulate
 int
 HeccerTablesDump
 (struct TabulatedGateTable *ptgt, FILE *pfile, int iSelection);
+
+int HeccerTablesRearrange(struct Heccer *pheccer);
 
 int
 HeccerTableValuesDeserialize

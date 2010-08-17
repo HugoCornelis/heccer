@@ -1579,6 +1579,72 @@ HeccerTablesDump
 
 
 /// 
+/// \arg pheccer a heccer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Rearrange table values for cache line loading.
+/// 
+
+int HeccerTablesRearrange(struct Heccer *pheccer)
+{
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    //- allocate rearranged tables
+
+    int iEntries = pheccer->tgt.iTabulatedGateCount * pheccer->ho.iIntervalEntries;
+
+    pheccer->tgt.pdARearranged = calloc(iEntries, sizeof(double));
+
+    if (!pheccer->tgt.pdARearranged)
+    {
+	return(FALSE);
+    }
+
+    pheccer->tgt.pdBRearranged = calloc(iEntries, sizeof(double));
+
+    if (!pheccer->tgt.pdBRearranged)
+    {
+	free(pheccer->tgt.pdARearranged);
+
+	return(FALSE);
+    }
+
+    //- loop over all tables
+
+    int i;
+
+    for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++)
+    {
+	//- get pointer to current table
+
+	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[i];
+
+	//- loop over all entries in this table
+
+	int j;
+
+	for (j = 0 ; j < pheccer->ho.iIntervalEntries ; j++)
+	{
+	    //- copy the values from the unarranged table to the rearranged table
+
+	    pheccer->tgt.pdARearranged[i * pheccer->ho.iIntervalEntries + j] = phtg->pdA[j];
+
+	    pheccer->tgt.pdBRearranged[i * pheccer->ho.iIntervalEntries + j] = phtg->pdB[j];
+	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
 /// \arg ptgt tabulated gate table.
 /// \arg pfile stdio file.
 /// 

@@ -3629,6 +3629,13 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	double dReversalPotential = 0.0;
 
+	//- pointers to tables for the currently used membrane potential
+
+	double dIntervalStep = ((pheccer->ho.dIntervalEnd - pheccer->ho.dIntervalStart) / pheccer->ho.iIntervalEntries);
+
+	double *pdARearranged = NULL;
+	double *pdBRearranged = NULL;
+
 	//- loop over mechanism operators
 
 	while (piMop[0] > HECCER_MOP_COMPARTMENT_BARRIER)
@@ -3926,9 +3933,47 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		piMop = (int *)&pmops[1];
 
-		/// \todo this is a nop for the moment, but when table
-		/// \todo rearrangements get in, this should load the
-		/// \todo table pointed to by the current membrane potential.
+		double dState;
+
+/* 		//- for a concentration dependent gate */
+
+/* 		if (pdState) */
+/* 		{ */
+/* 		    //- state is coming from a solved mechanism variable */
+
+/* 		    dState = *pdState; */
+/* 		} */
+
+/* 		//- else is a membrane potential dependent gate */
+
+/* 		else */
+		{
+		    //- state is membrane potential
+
+		    /// \todo move this to load membrane potential
+		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
+
+		    dState = dVm;
+		}
+
+		//- discretize and offset the state
+
+		int iIndex = (dState - pheccer->ho.dIntervalStart) / dIntervalStep;
+
+		if (iIndex < 0)
+		{
+		    iIndex = 0;
+		}
+		else if (iIndex >= pheccer->ho.iIntervalEntries)
+		{
+		    iIndex = pheccer->ho.iIntervalEntries - 1;
+		}
+
+		//- initialize pointers to tables for this membrane potential
+
+		pdARearranged = &pheccer->tgt.pdARearranged[iIndex * pheccer->ho.iIntervalEntries];
+
+		pdBRearranged = &pheccer->tgt.pdBRearranged[iIndex * pheccer->ho.iIntervalEntries];
 
 		break;
 	    }
@@ -3953,22 +3998,10 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		int iPower = pmops->iPower;
 
-		int iTable = pmops->iTableIndex;
-
 		double *pdState = pmops->uState.pdValue;
 
-		double dActivation = pmats->dActivation;
-
-		//- fetch tables
-
-		/// \todo table rearrangements
-
-		struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
-
-		double *pdA = phtg->pdA;
-		double *pdB = phtg->pdB;
-
-		double dState;
+		double dA;
+		double dB;
 
 		//- for a concentration dependent gate
 
@@ -3976,7 +4009,32 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		{
 		    //- state is coming from a solved mechanism variable
 
-		    dState = *pdState;
+		    double dState = *pdState;
+
+		    //- fetch tables
+
+		    int iTable = pmops->iTableIndex;
+
+		    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
+
+		    //- discretize and offset the state
+
+		    int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
+
+		    if (iIndex < 0)
+		    {
+			iIndex = 0;
+		    }
+		    else if (iIndex >= phtg->iEntries)
+		    {
+			iIndex = phtg->iEntries - 1;
+		    }
+
+		    //- fetch A and B gate rates
+
+		    dA = phtg->pdA[iIndex];
+		    dB = phtg->pdB[iIndex];
+
 		}
 
 		//- else is a membrane potential dependent gate
@@ -3988,26 +4046,37 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    /// \todo move this to load membrane potential
 		    /// \todo need LOADVOLTAGETABLE or LOADVOLTAGEINDEX
 
-		    dState = dVm;
+		    double dState = dVm;
+
+		    //- fetch tables
+
+		    int iTable = pmops->iTableIndex;
+
+		    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
+
+		    //- discretize and offset the state
+
+		    int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
+
+		    if (iIndex < 0)
+		    {
+			iIndex = 0;
+		    }
+		    else if (iIndex >= phtg->iEntries)
+		    {
+			iIndex = phtg->iEntries - 1;
+		    }
+
+		    //- fetch A and B gate rates
+
+		    dA = phtg->pdA[iIndex];
+		    dB = phtg->pdB[iIndex];
+
 		}
 
-		//- discretize and offset the state
+		//- start computing the new state based on the previous state
 
-		int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
-
-		if (iIndex < 0)
-		{
-		    iIndex = 0;
-		}
-		else if (iIndex >= phtg->iEntries)
-		{
-		    iIndex = phtg->iEntries - 1;
-		}
-
-		//- fetch A and B gate rates
-
-		double dA = pdA[iIndex];
-		double dB = pdB[iIndex];
+		double dActivation = pmats->dActivation;
 
 		//- for instantaneous gates
 
