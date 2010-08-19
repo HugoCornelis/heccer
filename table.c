@@ -1618,19 +1618,10 @@ int HeccerTablesRearrange(struct Heccer *pheccer)
 
     int iEntries = pheccer->tgt.iTabulatedGateCount * pheccer->ho.iIntervalEntries;
 
-    pheccer->tgt.pdARearranged = calloc(iEntries, sizeof(double));
+    pheccer->tgt.pdRearranged = calloc(iEntries * 2, sizeof(double));
 
-    if (!pheccer->tgt.pdARearranged)
+    if (!pheccer->tgt.pdRearranged)
     {
-	return(FALSE);
-    }
-
-    pheccer->tgt.pdBRearranged = calloc(iEntries, sizeof(double));
-
-    if (!pheccer->tgt.pdBRearranged)
-    {
-	free(pheccer->tgt.pdARearranged);
-
 	return(FALSE);
     }
 
@@ -1652,9 +1643,9 @@ int HeccerTablesRearrange(struct Heccer *pheccer)
 	{
 	    //- copy the values from the unarranged table to the rearranged table
 
-	    pheccer->tgt.pdARearranged[j * pheccer->tgt.iTabulatedGateCount + i] = phtg->pdA[j];
+	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2] = phtg->pdA[j];
 
-	    pheccer->tgt.pdBRearranged[j * pheccer->tgt.iTabulatedGateCount + i] = phtg->pdB[j];
+	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2 + 1] = phtg->pdB[j];
 	}
     }
 

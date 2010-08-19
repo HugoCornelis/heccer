@@ -3633,8 +3633,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 	double dIntervalStep = ((pheccer->ho.dIntervalEnd - pheccer->ho.dIntervalStart) / pheccer->ho.iIntervalEntries);
 
-	double *pdARearranged = NULL;
-	double *pdBRearranged = NULL;
+	double *pdRearranged = NULL;
 
 	//- loop over mechanism operators
 
@@ -3950,9 +3949,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- initialize pointers to tables for this membrane potential
 
-		pdARearranged = &pheccer->tgt.pdARearranged[iIndex * pheccer->tgt.iTabulatedGateCount];
-
-		pdBRearranged = &pheccer->tgt.pdBRearranged[iIndex * pheccer->tgt.iTabulatedGateCount];
+		pdRearranged = &pheccer->tgt.pdRearranged[iIndex * pheccer->tgt.iTabulatedGateCount * 2];
 
 		break;
 	    }
@@ -4024,8 +4021,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    int iTable = pmops->iTableIndex;
 
-		    dA = pdARearranged[iTable];
-		    dB = pdBRearranged[iTable];
+		    dA = pdRearranged[iTable * 2];
+		    dB = pdRearranged[iTable * 2 + 1];
 		}
 
 		//- start computing the new state based on the previous state

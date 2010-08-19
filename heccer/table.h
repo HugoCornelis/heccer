@@ -127,9 +127,8 @@ struct TabulatedGateTable
 
     /// gate A / B values rearranged for cache lines
 
-    double *pdARearranged;
+    double *pdRearranged;
 
-    double *pdBRearranged;
 };
 
 
