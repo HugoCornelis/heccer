@@ -418,7 +418,7 @@ HeccerDeserializeMain
 	return(0);
     }
 
-    //- process the substructures to void them
+    //- void the substructures
 
     memset(&pheccer->inter, 0, sizeof(pheccer->inter));
 
@@ -446,6 +446,10 @@ HeccerDeserializeMain
 
 	iResult = iResult && HeccerTableValuesDeserialize(&ptgt->phtg[i], pfile);
     }
+
+    //- now rearrange the tables
+
+    iResult = iResult && HeccerTablesRearrange(pheccer);
 
     //- return result
 
