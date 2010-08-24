@@ -3662,165 +3662,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		break;
 	    }
 
-	    //- for a call out
-
-	    case HECCER_MOP_CALLOUT:
-	    {
-		//- go to next operator
-
-		piMop = &piMop[1];
-
-		//- go to next type specific data
-
-		struct MatsCallout * pcall = (struct MatsCallout *)pdMats;
-
-		pdMats = (double *)&((struct MatsCallout *)pdMats)[1];
-
-		//- get function pointer
-
-		struct Callout * pco = (struct Callout *)pcall->pco;
-
-		ExternalFunction * pef = pco->pef;
-
-		//- fill in internal results
-
-		struct InternalResults * pir = pco->pir;
-
-		pir->dVm = dVm;
-
-		//- call the function
-
-		struct ExternalResults * per = pco->per;
-
-		int iResult = (*pef)(pco, pheccer, pir, per);
-
-		//- handle external results
-
-		dConductances += per->dConductance;
-
-		dCompartmentCurrents += per->dCurrent;
-
-		/// \todo check signaling
-
-		break;
-	    }
-
-	    //- for a spring mass equation
-
-	    case HECCER_MOP_SPRINGMASS:
-	    {
-		//- go to next operator
-
-		struct MopsSpringMass *pmops = (struct MopsSpringMass *)piMop;
-
-		piMop = (int *)&pmops[1];
-
-		//- go to next type specific data
-
-		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats;
-
-		pdMats = (double *)&((struct MatsSpringMass *)pdMats)[1];
-
-		//- get pointer to table
-
-		int iTable = pmops->iTable;
-
-		struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[iTable];
-
-		//- if the firing frequence has been set
-
-		if (pmops->dFrequency > 0)
-		{
-		    //- generate random number
-
-		    int iRandom = RANDOM;
-
-		    //- check generated number with firing frequency
-
-		    if (iRandom < RAND_MAX * pmops->dFrequency)
-		    {
-			//- add one to the activation, and apply decay
-
-			/// \note weight not normalized to the time step
-
-			pmats->dX += phtsm->dX1;
-
-/* 			fprintf(stdout, "Firing %i, %g\n", (int)(pheccer->dTime / pheccer->dStep), pheccer->dTime); */
-
-		    }
-		}
-
-		//- if there is an event time table
-
-		if (pmops->pdEvents)
-		{
-		    //- while the next event fires
-
-		    while (pmops->pdEvents[pmops->iEvent] < pheccer->dTime)
-		    {
-			//- add one to the activation, and apply decay
-
-			/// \note fixed weight of 1, normalized to the time step
-
-			pmats->dX += phtsm->dX1;
-
-			//- go to the next event
-
-			/// \todo should be a variable ?
-
-			pmops->iEvent++;
-		    }
-		}
-
-		//- if there is an incoming event from the event distributor
-
-		if (pmats->dNextEvent != -1.0
-		    && pmats->dNextEvent < pheccer->dTime
-
-		    /// \note target index for this object
-
-		    && pmops->iDiscreteTarget != -1)
-		{
-		    //- translate incoming events to their activation
-
-		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteTarget);
-
-		    if (dActivation != DBL_MAX)
-		    {
-			//- add the activation of (possibly multiple) events to the channel activation
-
-			pmats->dX += dActivation * phtsm->dX1;
-		    }
-		    else
-		    {
-			HeccerError
-			    (pheccer,
-			     NULL,
-			     "event reception failed for (%i) at time %g\n",
-			     pmops->iDiscreteTarget,
-			     pheccer->dTime); 
-
-			return(0);
-		    }
-
-		    //- reset the incoming event time
-
-		    pmats->dNextEvent = -1.0;
-		}
-
-		//- compute channel activation
-
-		pmats->dX = pmats->dX * phtsm->dX2;
-
-		pmats->dY = pmats->dX * phtsm->dY1 + pmats->dY * phtsm->dY2;
-
-		//- compute channel conductance
-
-		dChannelConductance *= pmats->dY;
-
-		break;
-	    }
-
 	    //- for a nernst operation with internal variable concentration
 
 	    case HECCER_MOP_INTERNALNERNST:
@@ -3950,163 +3791,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		//- initialize pointers to tables for this membrane potential
 
 		pdRearranged = &pheccer->tgt.pdRearranged[iIndex * pheccer->tgt.iTabulatedGateCount * 2];
-
-		break;
-	    }
-
-	    //- for a conceptual gate (HH alike, with powers)
-
-	    case HECCER_MOP_CONCEPTGATE:
-	    {
-		//- go to next operator
-
-		struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)piMop;
-
-		piMop = (int *)&pmops[1];
-
-		//- go to next type specific data
-
-		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pdMats;
-
-		pdMats = (double *)&pmats[1];
-
-		//- get type specific constants and variables
-
-		int iPower = pmops->iPower;
-
-		double *pdState = pmops->uState.pdValue;
-
-		double dA;
-		double dB;
-
-		//- for a concentration dependent gate
-
-		if (pdState)
-		{
-		    //- state is coming from a solved mechanism variable
-
-		    double dState = *pdState;
-
-		    //- fetch tables
-
-		    int iTable = pmops->iTableIndex;
-
-		    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
-
-		    //- discretize and offset the state
-
-		    int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
-
-		    if (iIndex < 0)
-		    {
-			iIndex = 0;
-		    }
-		    else if (iIndex >= phtg->iEntries)
-		    {
-			iIndex = phtg->iEntries - 1;
-		    }
-
-		    //- fetch A and B gate rates
-
-		    dA = phtg->pdA[iIndex];
-		    dB = phtg->pdB[iIndex];
-
-		}
-
-		//- else is a membrane potential dependent gate
-
-		else
-		{
-		    //- fetch A and B gate rates
-
-		    int iTable = pmops->iTableIndex;
-
-		    dA = pdRearranged[iTable * 2];
-		    dB = pdRearranged[iTable * 2 + 1];
-		}
-
-		//- start computing the new state based on the previous state
-
-		double dActivation = pmats->dActivation;
-
-		//- for instantaneous gates
-
-		int iInstantaneous = (iPower < 0);
-
-		if (iInstantaneous)
-		{
-		    //- compute activation directly
-
-		    dActivation = dA / dB;
-
-		    iPower = -iPower;
-		}
-
-		//- else
-
-		else
-		{
-		    //- apply CN logic
-
-		    /// \todo move to channel rearrangements
-
-		    dB = 1.0 + pheccer->dStep / 2.0 * dB;
-
-		    dA = pheccer->dStep * dA;
-
-		    //- compute gate activation state for the CN rule
-
-		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
-		}
-
-		//- and store it for the next cycle
-
-		pmats->dActivation = dActivation;
-
-		//- apply gate power, multiply with conductance (note:
-		//- also changes units)
-
-		if (iPower == 1)
-		{
-		    dChannelConductance = dChannelConductance * dActivation;
-		}
-		else if (iPower == 2)
-		{
-		    dChannelConductance *= dActivation * dActivation;
-		}
-		else if (iPower == 3)
-		{
-		    dChannelConductance *= dActivation * dActivation * dActivation;
-		}
-		else if (iPower == 4)
-		{
-		    dActivation *= dActivation;
-		    dChannelConductance *= dActivation * dActivation;
-		}
-		else if (iPower == 5)
-		{
-		    dChannelConductance *= dActivation;
-		    dActivation *= dActivation;
-		    dActivation *= dActivation;
-		    dChannelConductance *= dActivation;
-		}
-		else if (iPower == 6)
-		{
-		    dActivation *= dActivation;
-		    dChannelConductance *= dActivation;
-		    dActivation *= dActivation;
-		    dChannelConductance *= dActivation;
-		}
-		else
-		{
-		    HeccerError
-			(pheccer,
-			 NULL,
-			 "invalid gate power (%i)",
-			 iPower);
-
-		    *(int *)0 = 0;
-		}
 
 		break;
 	    }
@@ -4395,6 +4079,322 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		/// \todo but for more complicated models I am not sure.
 
 		pdVm[0] = dVmNew;
+
+		break;
+	    }
+
+	    //- for a call out
+
+	    case HECCER_MOP_CALLOUT:
+	    {
+		//- go to next operator
+
+		piMop = &piMop[1];
+
+		//- go to next type specific data
+
+		struct MatsCallout * pcall = (struct MatsCallout *)pdMats;
+
+		pdMats = (double *)&((struct MatsCallout *)pdMats)[1];
+
+		//- get function pointer
+
+		struct Callout * pco = (struct Callout *)pcall->pco;
+
+		ExternalFunction * pef = pco->pef;
+
+		//- fill in internal results
+
+		struct InternalResults * pir = pco->pir;
+
+		pir->dVm = dVm;
+
+		//- call the function
+
+		struct ExternalResults * per = pco->per;
+
+		int iResult = (*pef)(pco, pheccer, pir, per);
+
+		//- handle external results
+
+		dConductances += per->dConductance;
+
+		dCompartmentCurrents += per->dCurrent;
+
+		/// \todo check signaling
+
+		break;
+	    }
+
+	    //- for a conceptual gate (HH alike, with powers)
+
+	    case HECCER_MOP_CONCEPTGATE:
+	    {
+		//- go to next operator
+
+		struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSingleGateConcept * pmats = (struct MatsSingleGateConcept *)pdMats;
+
+		pdMats = (double *)&pmats[1];
+
+		//- get type specific constants and variables
+
+		int iPower = pmops->iPower;
+
+		double *pdState = pmops->uState.pdValue;
+
+		double dA;
+		double dB;
+
+		//- for a concentration dependent gate
+
+		if (pdState)
+		{
+		    //- state is coming from a solved mechanism variable
+
+		    double dState = *pdState;
+
+		    //- fetch tables
+
+		    int iTable = pmops->iTableIndex;
+
+		    struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
+
+		    //- discretize and offset the state
+
+		    int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
+
+		    if (iIndex < 0)
+		    {
+			iIndex = 0;
+		    }
+		    else if (iIndex >= phtg->iEntries)
+		    {
+			iIndex = phtg->iEntries - 1;
+		    }
+
+		    //- fetch A and B gate rates
+
+		    dA = phtg->pdA[iIndex];
+		    dB = phtg->pdB[iIndex];
+
+		}
+
+		//- else is a membrane potential dependent gate
+
+		else
+		{
+		    //- fetch A and B gate rates
+
+		    int iTable = pmops->iTableIndex;
+
+		    dA = pdRearranged[iTable * 2];
+		    dB = pdRearranged[iTable * 2 + 1];
+		}
+
+		//- start computing the new state based on the previous state
+
+		double dActivation = pmats->dActivation;
+
+		//- for instantaneous gates
+
+		int iInstantaneous = (iPower < 0);
+
+		if (iInstantaneous)
+		{
+		    //- compute activation directly
+
+		    dActivation = dA / dB;
+
+		    iPower = -iPower;
+		}
+
+		//- else
+
+		else
+		{
+		    //- apply CN logic
+
+		    /// \todo move to channel rearrangements
+
+		    dB = 1.0 + pheccer->dStep / 2.0 * dB;
+
+		    dA = pheccer->dStep * dA;
+
+		    //- compute gate activation state for the CN rule
+
+		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
+		}
+
+		//- and store it for the next cycle
+
+		pmats->dActivation = dActivation;
+
+		//- apply gate power, multiply with conductance (note:
+		//- also changes units)
+
+		if (iPower == 1)
+		{
+		    dChannelConductance = dChannelConductance * dActivation;
+		}
+		else if (iPower == 2)
+		{
+		    dChannelConductance *= dActivation * dActivation;
+		}
+		else if (iPower == 3)
+		{
+		    dChannelConductance *= dActivation * dActivation * dActivation;
+		}
+		else if (iPower == 4)
+		{
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation * dActivation;
+		}
+		else if (iPower == 5)
+		{
+		    dChannelConductance *= dActivation;
+		    dActivation *= dActivation;
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation;
+		}
+		else if (iPower == 6)
+		{
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation;
+		    dActivation *= dActivation;
+		    dChannelConductance *= dActivation;
+		}
+		else
+		{
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "invalid gate power (%i)",
+			 iPower);
+
+		    *(int *)0 = 0;
+		}
+
+		break;
+	    }
+
+	    //- for a spring mass equation
+
+	    case HECCER_MOP_SPRINGMASS:
+	    {
+		//- go to next operator
+
+		struct MopsSpringMass *pmops = (struct MopsSpringMass *)piMop;
+
+		piMop = (int *)&pmops[1];
+
+		//- go to next type specific data
+
+		struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats;
+
+		pdMats = (double *)&((struct MatsSpringMass *)pdMats)[1];
+
+		//- get pointer to table
+
+		int iTable = pmops->iTable;
+
+		struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[iTable];
+
+		//- if the firing frequence has been set
+
+		if (pmops->dFrequency > 0)
+		{
+		    //- generate random number
+
+		    int iRandom = RANDOM;
+
+		    //- check generated number with firing frequency
+
+		    if (iRandom < RAND_MAX * pmops->dFrequency)
+		    {
+			//- add one to the activation, and apply decay
+
+			/// \note weight not normalized to the time step
+
+			pmats->dX += phtsm->dX1;
+
+/* 			fprintf(stdout, "Firing %i, %g\n", (int)(pheccer->dTime / pheccer->dStep), pheccer->dTime); */
+
+		    }
+		}
+
+		//- if there is an event time table
+
+		if (pmops->pdEvents)
+		{
+		    //- while the next event fires
+
+		    while (pmops->pdEvents[pmops->iEvent] < pheccer->dTime)
+		    {
+			//- add one to the activation, and apply decay
+
+			/// \note fixed weight of 1, normalized to the time step
+
+			pmats->dX += phtsm->dX1;
+
+			//- go to the next event
+
+			/// \todo should be a variable ?
+
+			pmops->iEvent++;
+		    }
+		}
+
+		//- if there is an incoming event from the event distributor
+
+		if (pmats->dNextEvent != -1.0
+		    && pmats->dNextEvent < pheccer->dTime
+
+		    /// \note target index for this object
+
+		    && pmops->iDiscreteTarget != -1)
+		{
+		    //- translate incoming events to their activation
+
+		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteTarget);
+
+		    if (dActivation != DBL_MAX)
+		    {
+			//- add the activation of (possibly multiple) events to the channel activation
+
+			pmats->dX += dActivation * phtsm->dX1;
+		    }
+		    else
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "event reception failed for (%i) at time %g\n",
+			     pmops->iDiscreteTarget,
+			     pheccer->dTime); 
+
+			return(0);
+		    }
+
+		    //- reset the incoming event time
+
+		    pmats->dNextEvent = -1.0;
+		}
+
+		//- compute channel activation
+
+		pmats->dX = pmats->dX * phtsm->dX2;
+
+		pmats->dY = pmats->dX * phtsm->dY1 + pmats->dY * phtsm->dY2;
+
+		//- compute channel conductance
+
+		dChannelConductance *= pmats->dY;
 
 		break;
 	    }
