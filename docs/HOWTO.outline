@@ -1,15 +1,5 @@
 -*- outline -*-
 
-* model running
-** use custom written scripts in perl
-See the perl tests for examples.
-** use custom written code in C.
-See the C tests for examples.
-
-** additionally
-Also see the website, which contains the htmlified source code,
-including the test cases.
-
 * model debugging
 ** the membrane potential becomes inf or nan
 Mostly due to a to large time step, or sometimes due to bad initial
