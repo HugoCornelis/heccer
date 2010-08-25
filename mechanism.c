@@ -4183,14 +4183,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    dA = phtg->pdA[iIndex];
 		    dB = phtg->pdB[iIndex];
 
-		    //- apply CN logic
-
-		    /// \todo move to channel rearrangements
-
-		    dB = 1.0 + pheccer->dStep / 2.0 * dB;
-
-		    dA = pheccer->dStep * dA;
-
 		}
 
 		//- else is a membrane potential dependent gate
@@ -4203,15 +4195,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		    dA = pdRearranged[iTable * 2];
 		    dB = pdRearranged[iTable * 2 + 1];
-
-		    //- apply CN logic
-
-		    /// \todo move to channel rearrangements
-
-/* 		    dB = 1.0 + pheccer->dStep / 2.0 * dB; */
-
-/* 		    dA = pheccer->dStep * dA; */
-
 		}
 
 		//- start computing the new state based on the previous state
@@ -4235,6 +4218,14 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		else
 		{
+		    //- apply CN logic
+
+		    /// \todo move to channel rearrangements
+
+		    dB = 1.0 + pheccer->dStep / 2.0 * dB;
+
+		    dA = pheccer->dStep * dA;
+
 		    //- compute gate activation state for the CN rule
 
 		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
