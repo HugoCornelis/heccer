@@ -466,7 +466,7 @@ Current is 2.0276e-10
 				command => 'tests/code/addressing-purk-test-segment',
 				command_tests => [
 						  {
-						   description => "Are the variables in an simplified version of a purkinje segment segment addressed correctly ?",
+						   description => "Are the variables in a simplified version of a purkinje segment segment addressed correctly ?",
 						   read => ((join '', `cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
 							    ? (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--with-neurospaces.txt`)
 							    : (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--without-neurospaces.txt`)),

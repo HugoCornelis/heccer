@@ -192,6 +192,7 @@ struct MatsCompartment
 #define SETMOP_COMPARTMENT(ppvMopsIndex,pmc,iMopNumber,pvMops,iMops)	\
     ((pvMops)								\
      ? ({								\
+	     iLoadVoltageTable = 0;					\
 	     ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT;		\
 	     (pvMops) = (void *)&((int *)pvMops)[1];			\
 	     ((int *)pvMops)[0] = (pmc)->iSerial;			\
@@ -202,18 +203,24 @@ struct MatsCompartment
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
+		 iLoadVoltageTable = 0;					\
 		 iMopNumber++;						\
 		 (iMops) += sizeof(int);				\
 		 (iMops) += sizeof(int);				\
 		 1;							\
 	     })								\
-	 : ({ iMopNumber++; 1; }) ) )
+	 : ({								\
+		 iLoadVoltageTable = 0;					\
+		 iMopNumber++;						\
+		 1;							\
+	     }) ) )
 
 #else
 
 #define SETMOP_COMPARTMENT(ppvMopsIndex,pmc,iMopNumber,pvMops,iMops)	\
     ((pvMops)								\
      ? ({								\
+	     iLoadVoltageTable = 0;					\
 	     ((int *)pvMops)[0] = HECCER_MOP_COMPARTMENT;		\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&((int *)pvMops)[1];			\
@@ -222,11 +229,16 @@ struct MatsCompartment
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
+		 iLoadVoltageTable = 0;					\
 		 iMopNumber++;						\
 		 (iMops) += sizeof(int);				\
 		 1;							\
 	     })								\
-	 : ({ iMopNumber++; 1; }) ) )
+	 : ({								\
+		 iLoadVoltageTable = 0;					\
+		 iMopNumber++;						\
+		 1;							\
+	     }) ) )
 
 #endif
 
@@ -648,29 +660,36 @@ struct MatsStoreChannelConductance
 
 struct MopsVoltageTableDependency
 {
-    /// \todo so in principle the following operation is only needed once
-    /// \todo per compartment.  Still have to figure out how.
-
     /// operator : HECCER_MOP_LOADVOLTAGETABLE
 
     int iOperator;
 };
 
 #define SETMOP_LOADVOLTAGETABLE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops)	\
-    ((pvMops)								\
-     ? ({ struct MopsVoltageTableDependency *pmops = (struct MopsVoltageTableDependency *)(pvMops); \
-	     pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ;		\
-	     ppvMopsIndex[iMopNumber++] = pvMops;			\
-	     (pvMops) = (void *)&pmops[1];				\
-	     1;								\
-	 }) : (								\
-	     (ppvMopsIndex)						\
-	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
-		     (iMops) += sizeof(struct MopsVoltageTableDependency); \
-		     1;							\
-		 })							\
-	     : ({ iMopNumber++; 1; }) ) )
+    ((iLoadVoltageTable == 0)						\
+     ? ((pvMops)							\
+	? ({								\
+		iLoadVoltageTable = 1;					\
+		struct MopsVoltageTableDependency *pmops = (struct MopsVoltageTableDependency *)(pvMops); \
+		pmops->iOperator = HECCER_MOP_LOADVOLTAGETABLE ;	\
+		ppvMopsIndex[iMopNumber++] = pvMops;			\
+		(pvMops) = (void *)&pmops[1];				\
+		1;							\
+	    }) : (							\
+		(ppvMopsIndex)						\
+		? ({							\
+			iLoadVoltageTable = 1;				\
+			piMC2Mop[iMathComponent] = iMopNumber++;	\
+			(iMops) += sizeof(struct MopsVoltageTableDependency); \
+			1;						\
+		    })							\
+		: ({							\
+			iLoadVoltageTable = 1;				\
+			iMopNumber++;					\
+			1;						\
+		    })							\
+		) )							\
+     : (1))
 
 
 struct MopsUpdateCompartmentCurrent

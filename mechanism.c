@@ -316,6 +316,12 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 	    int iIntermediary = pheccer->indexers.md.piBackward[iSchedule];
 
+	    //- register: it is undefined if a voltage has been
+	    //- loaded, used by SETMOP_COMPARTMENT and
+	    //- SETMOP_LOADVOLTAGETABLE
+
+	    int iLoadVoltageTable = -1;
+
 	    //- fill in compartment operation
 
 	    SETMOP_COMPARTMENT(ppvMopsIndex, &pheccer->inter.pcomp[iIntermediary].mc, iMopNumber, pvMops, iMops);
