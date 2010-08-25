@@ -28,27 +28,27 @@
 int
 static
 HeccerChannelPersistentSteadyStateDualTauTabulate
-(struct ChannelPersistentSteadyStateDualTau *pcpsdt, int iInstantaneous, struct Heccer *pheccer);
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer);
 
 int
 static
 HeccerChannelPersistentSteadyStateTauTabulate
-(struct ChannelPersistentSteadyStateTau *pcpst, int iInstantaneous, struct Heccer *pheccer);
+(struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer);
 
 int
 static
 HeccerChannelSteadyStateSteppedTauTabulate
-(struct ChannelSteadyStateSteppedTau *pcsst, int iInstantaneous, struct Heccer *pheccer);
+(struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer);
 
 int
 static
 HeccerDiscretizeConcentrationGate
-(struct Heccer *pheccer, struct ConcentrationActivator *pac, int iInstantaneous);
+(struct Heccer *pheccer, struct ConcentrationActivator *pac);
 
 int
 static
 HeccerDiscretizeGateConcept
-(struct Heccer *pheccer, struct GateConcept *pgc, int iInstantaneous);
+(struct Heccer *pheccer, struct GateConcept *pgc);
 
 static int
 HeccerTableDump
@@ -76,7 +76,7 @@ HeccerTabulatedGateNewForParameters
 
 int
 static
-HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm, int iInstantaneous);
+HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm);
 
 static
 int
@@ -103,14 +103,12 @@ static
 int
 HeccerTabulatedGateStoreTable
 (struct Heccer *pheccer,
- struct HeccerTabulatedGate *phtgNew,
- int iInstantaneous);
+ struct HeccerTabulatedGate *phtgNew);
 
 
 /// 
 /// \arg pca a concentration gate concept.
 /// \arg pheccer a heccer.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise, not used here.
 /// 
 /// \return int
 /// 
@@ -124,7 +122,7 @@ HeccerTabulatedGateStoreTable
 
 int
 HeccerConcentrationGateTabulate
-(struct ConcentrationActivator *pca, struct Heccer *pheccer, int iInstantaneous)
+(struct ConcentrationActivator *pca, struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -135,10 +133,6 @@ HeccerConcentrationGateTabulate
     int iIndex = pca->iTable;
 
     struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iIndex];
-
-    //- set instantaneous flags
-
-    phtg->htao.iShape = iInstantaneous;
 
     //- get step size
 
@@ -175,7 +169,6 @@ HeccerConcentrationGateTabulate
 /// 
 /// \arg pheccer a heccer.
 /// \arg pca concentration gate concept description.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise.
 /// 
 /// \return int : success of operation.
 /// 
@@ -185,7 +178,7 @@ HeccerConcentrationGateTabulate
 int
 static
 HeccerDiscretizeConcentrationGate
-(struct Heccer *pheccer, struct ConcentrationActivator *pca, int iInstantaneous)
+(struct Heccer *pheccer, struct ConcentrationActivator *pca)
 {
     //- set default result : ok
 
@@ -224,7 +217,7 @@ HeccerDiscretizeConcentrationGate
 	{
 	    //- store the table as is
 
-	    i = HeccerTabulatedGateStoreTable(pheccer, &pca->htg, iInstantaneous);
+	    i = HeccerTabulatedGateStoreTable(pheccer, &pca->htg);
 
 	    if (i == -1)
 	    {
@@ -283,7 +276,7 @@ HeccerDiscretizeConcentrationGate
 
 	//- fill the table with the discretized gate kinetics
 
-	iResult = iResult && HeccerConcentrationGateTabulate(pca, pheccer, iInstantaneous);
+	iResult = iResult && HeccerConcentrationGateTabulate(pca, pheccer);
     }
     else
     {
@@ -299,7 +292,6 @@ HeccerDiscretizeConcentrationGate
 /// 
 /// \arg pheccer a heccer.
 /// \arg pgc gate concept description.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise.
 /// 
 /// \return int : success of operation.
 /// 
@@ -314,7 +306,7 @@ HeccerDiscretizeConcentrationGate
 int
 static
 HeccerDiscretizeGateConcept
-(struct Heccer *pheccer, struct GateConcept *pgc, int iInstantaneous)
+(struct Heccer *pheccer, struct GateConcept *pgc)
 {
     //- set default result : ok
 
@@ -353,7 +345,7 @@ HeccerDiscretizeGateConcept
 	{
 	    //- store the table as is
 
-	    i = HeccerTabulatedGateStoreTable(pheccer, &pgc->htg, iInstantaneous);
+	    i = HeccerTabulatedGateStoreTable(pheccer, &pgc->htg);
 
 	    if (i == -1)
 	    {
@@ -412,7 +404,7 @@ HeccerDiscretizeGateConcept
 
 	//- fill the table with the discretized gate kinetics
 
-	iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer, iInstantaneous);
+	iResult = iResult && HeccerGateConceptTabulate(pgc, pheccer);
     }
     else
     {
@@ -428,7 +420,6 @@ HeccerDiscretizeGateConcept
 /// 
 /// \arg pgc a heccer gate concept.
 /// \arg pheccer a heccer.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise.
 /// 
 /// \return int
 /// 
@@ -441,7 +432,7 @@ HeccerDiscretizeGateConcept
 
 int
 HeccerGateConceptTabulate
-(struct GateConcept *pgc, struct Heccer *pheccer, int iInstantaneous)
+(struct GateConcept *pgc, struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -574,7 +565,6 @@ HeccerGateConceptTabulate
 
 /// 
 /// \arg pcpsdt a channel with steady state and two time constants.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise, not used here.
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -598,7 +588,7 @@ HeccerGateConceptTabulate
 int
 static
 HeccerChannelPersistentSteadyStateDualTauTabulate
-(struct ChannelPersistentSteadyStateDualTau *pcpsdt, int iInstantaneous, struct Heccer *pheccer)
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -814,7 +804,6 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
 /// 
 /// \arg pcpst a heccer channel with steady state and time constant.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise, not used here.
 /// \arg pheccer a heccer.
 /// 
 /// \return int
@@ -838,7 +827,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 int
 static
 HeccerChannelPersistentSteadyStateTauTabulate
-(struct ChannelPersistentSteadyStateTau *pcpst, int iInstantaneous, struct Heccer *pheccer)
+(struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -968,7 +957,6 @@ HeccerChannelPersistentSteadyStateTauTabulate
 /// \arg pv a heccer intermediary with table parameters.
 /// \arg iPrototype prototype number, INT_MAX for none.
 /// \arg iType type of intermediary.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise.
 /// 
 /// \return int
 /// 
@@ -979,7 +967,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 int
 HeccerTabulateAny
-(struct Heccer *pheccer, void *pv, int iPrototype, int iType, int iInstantaneous)
+(struct Heccer *pheccer, void *pv, int iPrototype, int iType)
 {
     //- set default result: failure
 
@@ -997,7 +985,7 @@ HeccerTabulateAny
 
 	struct ConcentrationActivator *pca = (struct ConcentrationActivator *)pv;
 
-	iResult = HeccerDiscretizeConcentrationGate(pheccer, pca, iInstantaneous);
+	iResult = HeccerDiscretizeConcentrationGate(pheccer, pca);
 
 	break;
     }
@@ -1009,7 +997,7 @@ HeccerTabulateAny
 
 	struct GateConcept *pgc = (struct GateConcept *)pv;
  
-	iResult = HeccerDiscretizeGateConcept(pheccer, pgc, iInstantaneous);
+	iResult = HeccerDiscretizeGateConcept(pheccer, pgc);
 
 	break;
     }
@@ -1021,7 +1009,7 @@ HeccerTabulateAny
 
 	struct ChannelPersistentSteadyStateDualTau *pcpsdt = (struct ChannelPersistentSteadyStateDualTau *)pv;
 
-	iResult = HeccerChannelPersistentSteadyStateDualTauTabulate(pcpsdt, iInstantaneous, pheccer);
+	iResult = HeccerChannelPersistentSteadyStateDualTauTabulate(pcpsdt, pheccer);
 
 	break;
     }
@@ -1033,7 +1021,7 @@ HeccerTabulateAny
 
 	struct ChannelPersistentSteadyStateTau *pcpst = (struct ChannelPersistentSteadyStateTau *)pv;
 
-	iResult = HeccerChannelPersistentSteadyStateTauTabulate(pcpst, iInstantaneous, pheccer);
+	iResult = HeccerChannelPersistentSteadyStateTauTabulate(pcpst, pheccer);
 
 	break;
     }
@@ -1045,7 +1033,7 @@ HeccerTabulateAny
 
 	struct ChannelSpringMass *pcsm = (struct ChannelSpringMass *)pv;
 
-	iResult = HeccerTabulateSpringMass(pheccer, pcsm, iInstantaneous);
+	iResult = HeccerTabulateSpringMass(pheccer, pcsm);
 
 	break;
     }
@@ -1057,7 +1045,7 @@ HeccerTabulateAny
 
 	struct ChannelSteadyStateSteppedTau *pcsst = (struct ChannelSteadyStateSteppedTau *)pv;
 
-	iResult = HeccerChannelSteadyStateSteppedTauTabulate(pcsst, iInstantaneous, pheccer);
+	iResult = HeccerChannelSteadyStateSteppedTauTabulate(pcsst, pheccer);
 
 	break;
     }
@@ -1072,7 +1060,6 @@ HeccerTabulateAny
 /// 
 /// \arg pheccer a heccer.
 /// \arg pcsm a heccer channel with steady state and time constant.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise, not used here.
 /// 
 /// \return int
 /// 
@@ -1083,7 +1070,7 @@ HeccerTabulateAny
 
 int
 static
-HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm, int iInstantaneous)
+HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 {
     //- set default result : ok
 
@@ -1145,7 +1132,6 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm,
 /// 
 /// \arg pheccer a heccer.
 /// \arg pcsst a heccer channel with steady state and time constant.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise, not used here.
 /// 
 /// \return int
 /// 
@@ -1168,7 +1154,7 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm,
 int
 static
 HeccerChannelSteadyStateSteppedTauTabulate
-(struct ChannelSteadyStateSteppedTau *pcsst, int iInstantaneous, struct Heccer *pheccer)
+(struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -1655,37 +1641,11 @@ int HeccerTablesRearrange(struct Heccer *pheccer)
 
 	for (j = 0 ; j < pheccer->ho.iIntervalEntries ; j++)
 	{
-	    double dA;
-
-	    double dB;
-
-	    //- if instantaneous gate
-
-	    if (phtg->htao.iShape == 1)
-	    {
-		//- fetch table values as is
-
-		dA = phtg->pdA[j];
-
-		dB = phtg->pdB[j];
-	    }
-
-	    //- else
-
-	    else
-	    {
-		//- apply CN recalculations for non-instantaneous gates
-
-		dA = pheccer->dStep * phtg->pdA[j];
-
-		dB = 1.0 + pheccer->dStep / 2.0 * phtg->pdB[j];
-	    }
-
 	    //- copy the values from the unarranged table to the rearranged table
 
-	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2] = dA;
+	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2] = pheccer->dStep * phtg->pdA[j];
 
-	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2 + 1] = dB;
+	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2 + 1] = 1.0 + pheccer->dStep / 2.0 * phtg->pdB[j];
 	}
     }
 
@@ -2167,7 +2127,6 @@ HeccerTabulatedGateLookupTable
 /// 
 /// \arg pheccer a heccer.
 /// \arg phtgNew tabulated gate.
-/// \arg iInstantaneous 1 for instantaneous gate, 0 otherwise.
 /// 
 /// \return int
 /// 
@@ -2185,8 +2144,7 @@ static
 int
 HeccerTabulatedGateStoreTable
 (struct Heccer *pheccer,
- struct HeccerTabulatedGate *phtgNew,
- int iInstantaneous)
+ struct HeccerTabulatedGate *phtgNew)
 {
     struct HeccerTabulatedGate *phtg = NULL;
 
@@ -2217,10 +2175,6 @@ HeccerTabulatedGateStoreTable
     //- we simply copy all the parameters
 
     *phtg = *phtgNew;
-
-    //- but overwrite the instantaneous flags
-
-    phtg->htao.iShape = iInstantaneous;
 
     //- return result
 

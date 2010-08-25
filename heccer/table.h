@@ -125,7 +125,7 @@ struct TabulatedGateTable
 
     int iTabulatedGateCount;
 
-    /// gate A / B values rearranged for cache lines and optimized with CN recalculations
+    /// gate A / B values rearranged for cache lines
 
     double *pdRearranged;
 
@@ -156,11 +156,11 @@ struct Heccer;
 
 int
 HeccerConcentrationGateTabulate
-(struct ConcentrationActivator *pca, struct Heccer *pheccer, int iInstantaneous);
+(struct ConcentrationActivator *pac, struct Heccer *pheccer);
 
 int
 HeccerGateConceptTabulate
-(struct GateConcept *pgc, struct Heccer *pheccer, int iInstantaneous);
+(struct GateConcept *pgc, struct Heccer *pheccer);
 
 int
 HeccerTablesDump
@@ -185,7 +185,7 @@ HeccerTableInterpolate
 
 int
 HeccerTabulateAny
-(struct Heccer *pheccer, void *pv, int iPrototype, int iType, int iInstantaneous);
+(struct Heccer *pheccer, void *pv, int iPrototype, int iType);
 
 
 #endif
