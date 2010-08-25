@@ -4151,6 +4151,8 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		double dA;
 		double dB;
 
+		int iInstantaneous = (iPower < 0);
+
 		//- for a concentration dependent gate
 
 		if (pdState)
@@ -4183,6 +4185,18 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 		    dA = phtg->pdA[iIndex];
 		    dB = phtg->pdB[iIndex];
 
+		    //- for non-instantaneous gates
+
+		    if (!iInstantaneous)
+		    {
+			//- CN logic has not been applied yet, apply it here
+
+			/// \todo move to channel rearrangements
+
+			dB = 1.0 + pheccer->dStep / 2.0 * dB;
+
+			dA = pheccer->dStep * dA;
+		    }
 		}
 
 		//- else is a membrane potential dependent gate
@@ -4203,8 +4217,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		//- for instantaneous gates
 
-		int iInstantaneous = (iPower < 0);
-
 		if (iInstantaneous)
 		{
 		    //- compute activation directly
@@ -4218,14 +4230,6 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		else
 		{
-		    //- apply CN logic
-
-		    /// \todo move to channel rearrangements
-
-		    dB = 1.0 + pheccer->dStep / 2.0 * dB;
-
-		    dA = pheccer->dStep * dA;
-
 		    //- compute gate activation state for the CN rule
 
 		    dActivation = dA / dB + dActivation * 2.0 / dB - dActivation;
