@@ -361,7 +361,7 @@ struct MopsEventGenerate
 
     /// index into target tables
 
-    int iTable;
+    int iSource2Targets;
 };
 
 struct MatsEventGenerate
@@ -382,7 +382,7 @@ struct MatsEventGenerate
 	     pmops->uSource.iMat = (iS) ;				\
 	     pmops->dThreshold = (dT) ;					\
 	     pmops->dRefractoryReset = (dR) ;				\
-	     pmops->iTable = (iT) ;					\
+	     pmops->iSource2Targets = (iT) ;				\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\

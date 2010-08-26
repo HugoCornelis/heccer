@@ -245,7 +245,7 @@ struct SpikeGenerator
 
     /// table in event distributor with targets
 
-    int iTable;
+    int iSource2Targets;
 };
 
 

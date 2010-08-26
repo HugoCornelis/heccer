@@ -1822,9 +1822,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    int iSource = INT_MAX;
 
-		    int iTable = psg->iTable;
+		    int iSource2Targets = psg->iSource2Targets;
 
-		    if (iTable == INT_MAX)
+		    if (iSource2Targets == INT_MAX)
 		    {
 			/// \todo from ssp viewpoint, the distributor_service is already setup, and knows that it connects to this spikegen
 
@@ -1849,15 +1849,15 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			{
 			    /// \todo EventDistributor does not know about anything yet, this cannot work.
 
-			    iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
+			    iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
 
 			    /// \todo so hardcoded solution that makes the spiker1 test case work
 
-				iTable = 0;
+				iSource2Targets = 0;
 			}
 		    }
 
-		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iTable);
+		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iSource2Targets);
 
 		    /// \todo we are not in the refractory period, check randomspike2 for initial refractory probability calculation.
 
@@ -4020,11 +4020,11 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 			    pmats->dSpike = 1.0;
 
-			    if (pmops->iTable != INT_MAX)
+			    if (pmops->iSource2Targets != INT_MAX)
 			    {
 				//- generate event for associated targets
 
-				int iResult = HeccerEventGenerate(pheccer, pmops->iTable);
+				int iResult = HeccerEventGenerate(pheccer, pmops->iSource2Targets);
 
 				if (!iResult)
 				{

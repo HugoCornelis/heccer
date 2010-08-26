@@ -589,9 +589,10 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 	//- call the target object
 
-	/// \note possibly calls directly to HeccerOutput,
-	/// \note possibly calls to the EventQueuer to queue the object
-	/// \note other hooks possible.
+	// \note possibly calls directly to
+	// OutputGeneratorTimedStep(), possibly calls to
+	// EventQueuerEnqueue() to queue the object other hooks
+	// possible.
 
 	iResult = iResult && ppedm->pvFunction(ppedm->pvObject, dTime, iTarget);
 

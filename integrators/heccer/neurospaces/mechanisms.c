@@ -4789,11 +4789,11 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	//t calculate the table index for the event distributor
 
-	int iTable = INT_MAX;
+	int iSource2Targets = INT_MAX;
 
 	if (pheccer->ped)
 	{
-	    iTable = 0;
+	    iSource2Targets = 0;
 	}
 
 	if (dRefractory == DBL_MAX)
@@ -4830,7 +4830,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	psg->dRefractory = dRefractory;
 	psg->dThreshold = dThreshold;
 	psg->dReset = dReset;
-	psg->iTable = iTable;
+	psg->iSource2Targets = iSource2Targets;
 
 	//- advance to the next math component
 

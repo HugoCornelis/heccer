@@ -31,7 +31,7 @@
 /// \brief Generate event for specified targets.
 /// 
 
-int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
+int HeccerEventGenerate(struct Heccer *pheccer, int iSource2Targets)
 {
     //- set default result: failure
 
@@ -47,7 +47,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets)
 
 	if (ped->eventDistribute)
 	{
-	    iResult = ped->eventDistribute(ped, pheccer->dTime, iTargets);
+	    iResult = ped->eventDistribute(ped, pheccer->dTime, iSource2Targets);
 	}
 	else
 	{

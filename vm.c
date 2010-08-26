@@ -604,15 +604,15 @@ HeccerVMDumpOperators
 
 			    if (pmops->uSource.pdValue == (double *)-1)
 			    {
-				sprintf(pc, " (%s) %g %g %i", "dVm", pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
+				sprintf(pc, " (%s) %g %g %i", "dVm", pmops->dThreshold, pmops->dRefractoryReset, pmops->iSource2Targets);
 			    }
 			    else if (pmops->uSource.pdValue)
 			    {
-				sprintf(pc, " (%g) %g %g %i", *pmops->uSource.pdValue, pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
+				sprintf(pc, " (%g) %g %g %i", *pmops->uSource.pdValue, pmops->dThreshold, pmops->dRefractoryReset, pmops->iSource2Targets);
 			    }
 			    else
 			    {
-				sprintf(pc, " (nil) %g %g %i", pmops->dThreshold, pmops->dRefractoryReset, pmops->iTable);
+				sprintf(pc, " (nil) %g %g %i", pmops->dThreshold, pmops->dRefractoryReset, pmops->iSource2Targets);
 			    }
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_AGGREGATECURRENT)
