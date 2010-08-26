@@ -1375,6 +1375,8 @@ sub get_driver
 # 	   method => $self->{backend}->output_generator_get_driver_method(),
 # 	   data => $self->{backend},
 # 	   method => \&SwiggableHeccer::OutputGeneratorAnnotatedStep,
+	   data => -1,
+	   method => -1,
 	  };
 
     return $result;

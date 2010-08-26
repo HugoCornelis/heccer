@@ -4787,21 +4787,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dReset = SymbolParameterResolveValue(phsle, ptstr->ppist, "RESET");
 
-	//- unset table in event distributor with targets, will be
-	//- filled when projections are compiled
-
-	//t this should be the count of this spikegen relative to its event distributor
-
-	//t or may be the absolute serial of this spikegen, and have the
-	//t distributor replace it with an index into its internal
-	//t tables
-
-	//t so count should be ok, if we assume there is exactly one
-	//t distributor per heccer, or if the heccer can be recognized
-	//t by the distributor e.g. using the root serial or the heccer
-	//t pointer.
-
-	//t calculate the table index
+	//t calculate the table index for the event distributor
 
 	int iTable = INT_MAX;
 
