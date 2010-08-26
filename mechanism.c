@@ -506,8 +506,8 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			HeccerError
 			    (pheccer,
 			     NULL,
-			     "found a file specification as well as an array specification for event times of a springmass channel, "
-			     "model container component number %i\n",
+			     "found both a file specification and an array specification for event times of a springmass channel, "
+			     "model container component number %i, can only deal with one at this time\n",
 #ifdef HECCER_SOURCE_NEUROSPACES
 			     pcsm->mc.iSerial,
 #else
