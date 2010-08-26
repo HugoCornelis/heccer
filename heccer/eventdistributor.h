@@ -190,7 +190,15 @@ struct OutputGenerator;
 
 int
 EventDistributorAddConnection
-(struct EventDistributor *ped, struct OutputGenerator *pog, int iType);
+(struct EventDistributor *ped, int iType, void *pvObject, int iTarget);
+
+int
+EventDistributorAddQueuerConnection
+(struct EventDistributor *ped, struct EventQueuer *peq, int iTarget);
+
+int
+EventDistributorAddOutputConnection
+(struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget);
 
 struct EventDistributorMatrix *
 EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry);

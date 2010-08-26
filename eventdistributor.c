@@ -215,7 +215,8 @@ static int EventListInsert(EventList *pel)
 /// \arg ped event distributor.
 /// \arg pog output object.
 /// \arg iType 1: OutputGeneratorTimedStep() used to send the event.
-/// \arg iTarget 
+/// \arg iTarget object's target identifier when an event is generated
+/// on this connection.
 /// 
 /// \return int
 /// 
@@ -226,7 +227,7 @@ static int EventListInsert(EventList *pel)
 
 int
 EventDistributorAddConnection
-(struct EventDistributor *ped, struct OutputGenerator *pog, int iType)
+(struct EventDistributor *ped, int iType, void *pvObject, int iTarget)
 {
     //- set default result: failure
 
@@ -244,7 +245,7 @@ EventDistributorAddConnection
 
 	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[pedd->iLast];
 
-	ppedm->pvObject = pog;
+	ppedm->pvObject = pvObject;
 
 	/// \note output objects don't have an internal target for now,
 	/// \note could be changed in the future.  -1 means undefined, see
@@ -256,15 +257,65 @@ EventDistributorAddConnection
 	{
 /* 	    ppedm->pvFunction = OutputGeneratorTimedStep; */
 	}
+	else if (iType == 2)
+	{
+	    ppedm->pvFunction = EventQueuerEnqueue;
+	}
 
 	//- increment connection count
 
 	pedd->iLast++;
+
+	//- set result: ok
+
+	iResult = 1;
     }
 
     //- return result
 
     return(iResult);
+}
+
+
+/// 
+/// \arg ped event distributor.
+/// \arg peq event queuer.
+/// \arg iTarget object's target identifier when an event is generated
+/// on this connection.
+/// 
+/// \return int
+/// 
+///	number of allocated connections, -1 for failure.
+/// 
+/// \brief Add an output connection to the connection matrix.
+/// 
+
+int
+EventDistributorAddQueuerConnection
+(struct EventDistributor *ped, struct EventQueuer *peq, int iTarget)
+{
+    return(EventDistributorAddConnection(ped, 2, peq, iTarget));
+}
+
+
+/// 
+/// \arg ped event distributor.
+/// \arg peq output object.
+/// \arg iTarget object's target identifier when an event is generated
+/// on this connection.
+/// 
+/// \return int
+/// 
+///	number of allocated connections, -1 for failure.
+/// 
+/// \brief Add an output connection to the connection matrix.
+/// 
+
+int
+EventDistributorAddOutputConnection
+(struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget)
+{
+    return(EventDistributorAddConnection(ped, 1, pog, iTarget));
 }
 
 
@@ -294,6 +345,44 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 
     return(ppedmResult);
 }
+
+
+/* ///  */
+/* /// \arg pedd event distributor data. */
+/* /// \arg iEntry entry number to fill in. */
+/* /// \arg peq event queuer. */
+/* ///  */
+/* /// \return struct EventDistributorMatrix * */
+/* ///  */
+/* ///	a single entry in the connection matrix, NULL for failure. */
+/* ///  */
+/* /// \brief Get access to an entry in the connection matrix. */
+/* ///  */
+
+/* char * */
+/* EventDistributorDataSetQueuer */
+/* (struct EventDistributorData *pedd, int iEntry, struct EventQueuer *peq) */
+/* { */
+/*     //- set default result: ok */
+
+/*     char *pcResult = NULL; */
+
+/*     if (iEntry > pedd->iLast) */
+/*     { */
+/* 	pcResult = "queuer index out of range, iEntry > iLast"; */
+/*     } */
+
+/*     //- fill in the entry */
+
+/*     pedd->ppedm[iEntry].pvObject = peq; */
+/*     pedd->ppedm[iEntry].iSerial = iSerial; */
+/*     pedd->ppedm[iEntry].iTarget = iTarget; */
+/*     pedd->ppedm[iEntry].pvFunction =  */
+
+/*     //- return result */
+
+/*     return(pcResult); */
+/* } */
 
 
 /// 

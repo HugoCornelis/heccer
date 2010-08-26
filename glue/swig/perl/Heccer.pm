@@ -1298,7 +1298,7 @@ sub compile
     # type of receiver.  Currently possible types are spike recorders
     # and event queuers.
 
-    # one such type for the event queuer
+    # one such type for the event queuer: it is the first entry in the event distributor data
 
     my $type_count = 1;
 
@@ -1318,6 +1318,11 @@ sub compile
 
     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
 
+    if ($self->{distributor}->{backend}->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, -1) == -1)
+    {
+	die "$0: Heccer::DES::compile() failed (EventDistributorAddQueuerConnection() is unable to add the queuer to its object list)";
+    }
+
     $self->{distributor}->{backend}->SwiggableHeccer::EventDistributorInitiate(1);
 
     # what does the model-container have for solver-registrations?
@@ -1325,6 +1330,8 @@ sub compile
     # SwiggableNeurospaces::QueryMachineHandle(undef, "solverregistrations");
 
     # now register this as a services
+
+    #t why again is this needed as a service?
 
     my $distributor = Heccer::DES::Distributor->new( { backend => $self->{distributor}->{backend}, scheduler => $scheduler, }, );
 
@@ -1343,6 +1350,8 @@ sub compile
 sub connect
 {
     my $self = shift;
+
+    #t connect queuers with distributors?
 
     return '';
 }

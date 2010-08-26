@@ -1849,11 +1849,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			{
 			    /// \todo EventDistributor does not know about anything yet, this cannot work.
 
-			    /// \todo we need to register (indirectly) the
-			    /// \todo memory location of iTable, probably by
-			    /// \todo storing the iMopNumber in an index intended
-			    /// \todo for resolving connections after CompileP3.
-
 			    iTable = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
 
 			    /// \todo so hardcoded solution that makes the spiker1 test case work
