@@ -506,13 +506,13 @@ struct EventDistributorMatrix pedm[] =
 	NULL,
 	-1,
 	NULL,
-	-1,
+/* 	-1, */
     },
     {
 	NULL,
 	-1,
 	NULL,
-	-1,
+/* 	-1, */
     },
 };
 

@@ -902,9 +902,9 @@ struct EventDistributorMatrix pedm[] =
 
 	NULL,
 
-	//m serial in the model container
+/* 	//m serial in the model container */
 
-	-1,
+/* 	-1, */
     },
 
     //! for event queuer
@@ -922,9 +922,9 @@ struct EventDistributorMatrix pedm[] =
 
 	NULL,
 
-	//m serial in the model container
+/* 	//m serial in the model container */
 
-	-1,
+/* 	-1, */
     },
 
     //! terminator
@@ -942,9 +942,9 @@ struct EventDistributorMatrix pedm[] =
 
 	NULL,
 
-	//m serial in the model container
+/* 	//m serial in the model container */
 
-	-1,
+/* 	-1, */
     },
 
 };

@@ -32,17 +32,11 @@
 //o
 
 
-/* /// \struct the connection table translates model service serial in indices */
-/* /// \struct for the EventDistributorMatrix */
-
-/* struct ConnectionTable; */
-
-
 struct EventDistributor;
 
 struct EventDistributorMatrix
 {
-    /// target object, a solver, a HeccerOutput, or so
+    /// target object, a queuer, a HeccerOutput, or so
 
     void *pvObject;
 
@@ -56,11 +50,11 @@ struct EventDistributorMatrix
 
     int (*pvFunction)();
 
-    /// serial in the model container
+/*     /// serial in the model container */
 
-    /// \todo check if we can share this with iTarget
+/*     /// \todo check if this can be the same as iTarget */
 
-    int iSerial;
+/*     int iSerial; */
 
 };
 

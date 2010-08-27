@@ -1215,9 +1215,9 @@ int simulate(int argc, char *argv[])
 
 		OutputGeneratorTimedStep,
 
-		//m serial in the model container
+/* 		//m serial in the model container */
 
-		-1,
+/* 		-1, */
 	    },
 
 	    //! for event queuer
@@ -1235,9 +1235,9 @@ int simulate(int argc, char *argv[])
 
 		EventQueuerEnqueue,
 
-		//m serial in the model container
+/* 		//m serial in the model container */
 
-		-1,
+/* 		-1, */
 	    },
 
 	    //! terminator
@@ -1255,9 +1255,9 @@ int simulate(int argc, char *argv[])
 
 		NULL,
 
-		//m serial in the model container
+/* 		//m serial in the model container */
 
-		-1,
+/* 		-1, */
 	    },
 
 	};

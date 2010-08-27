@@ -251,7 +251,7 @@ EventDistributorAddConnection
 	/// \note could be changed in the future.  -1 means undefined, see
 	/// \note spiker1 test case.
 
-	ppedm->iTarget = -1;
+	ppedm->iTarget = iTarget;
 
 	if (iType == 1)
 	{
@@ -409,7 +409,7 @@ EventDistributorDataNew(int iConnections)
 
     //- mark the last entry as not used
 
-    ppedm[iConnections].iSerial = -1;
+/*     ppedm[iConnections].iSerial = -1; */
     ppedm[iConnections].iTarget = -1;
     ppedm[iConnections].pvFunction = NULL;
     ppedm[iConnections].pvObject = NULL;
@@ -511,49 +511,49 @@ EventDistributorNew
 }
 
 
-/// 
-/// \arg ped an event distributor.
-/// \arg iSerial serial of a bio component that generates spikes.
-/// 
-/// \return int
-/// 
-///	corresponding index in the connection matrix, -1 for not found.
-/// 
-/// \brief Lookup a spikegen serial, return the internal index.
-/// 
+/* ///  */
+/* /// \arg ped an event distributor. */
+/* /// \arg iSerial serial of a bio component that generates spikes. */
+/* ///  */
+/* /// \return int */
+/* ///  */
+/* ///	corresponding index in the connection matrix, -1 for not found. */
+/* ///  */
+/* /// \brief Lookup a spikegen serial, return the internal index. */
+/* ///  */
 
-int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
-{
-    //- set default result: failure
+/* int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial) */
+/* { */
+/*     //- set default result: failure */
 
-    int iResult = -1;
+/*     int iResult = -1; */
 
-    //- loop over connection matrix
+/*     //- loop over connection matrix */
 
-    int iConnection;
+/*     int iConnection; */
 
-    for (iConnection = 0 ; iConnection < ped->pedd->iLast ; iConnection++)
-    {
-	//- if serials match
+/*     for (iConnection = 0 ; iConnection < ped->pedd->iLast ; iConnection++) */
+/*     { */
+/* 	//- if serials match */
 
-	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[iConnection];
+/* 	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[iConnection]; */
 
-	if (ppedm->iSerial == iSerial)
-	{
-	    //- set result
+/* 	if (ppedm->iSerial == iSerial) */
+/* 	{ */
+/* 	    //- set result */
 
-	    iResult = iSerial;
+/* 	    iResult = iSerial; */
 
-	    //- break loop
+/* 	    //- break loop */
 
-	    break;
-	}
-    }
+/* 	    break; */
+/* 	} */
+/*     } */
 
-    //- return result
+/*     //- return result */
 
-    return(iResult);
-}
+/*     return(iResult); */
+/* } */
 
 
 /// 

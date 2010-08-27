@@ -1318,7 +1318,7 @@ sub compile
 
     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
 
-    if ($self->{distributor}->{backend}->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, -1) == -1)
+    if ($self->{distributor}->{backend}->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, 0) == -1)
     {
 	die "$0: Heccer::DES::compile() failed (EventDistributorAddQueuerConnection() is unable to add the queuer to its object list)";
     }

@@ -1849,7 +1849,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			{
 			    /// \todo EventDistributor does not know about anything yet, this cannot work.
 
-			    iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
+/* 			    iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial)); */
 
 			    /// \todo so hardcoded solution that makes the spiker1 test case work
 
