@@ -198,7 +198,7 @@ struct EventDistributorMatrix *
 EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry);
 
 struct EventDistributorData *
-EventDistributorDataNew(int iConnections);
+EventDistributorDataNew(int iConnections, int iPre);
 
 int
 EventDistributorInitiate

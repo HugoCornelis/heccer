@@ -184,7 +184,7 @@ sub connect
 
     my $des = $scheduler->{schedule}->[0];
 
-    my $event_distributor_backend = $des->{backend}->{distributor}->{backend};
+    my $event_distributor_backend = $des->{backend}->{distributor}->{backend}->[0];
 
     my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
 
@@ -1253,13 +1253,6 @@ sub compile
 
     my $scheduler = shift;
 
-    #t this requires a setting in self that points to the module that
-    #t allows to set the projections that must be simulated.
-
-    #t the construction puts the projections in self,
-    #t this should be done in the ->compile() method,
-    #t the connection method should instantiate the run-time connectivity matrix.
-
     # construct a querymachine string with all the projections
 
     my $projections = $self->{projections};
@@ -1310,13 +1303,30 @@ sub compile
 
     $type_count += $event_2_ascii;
 
-    print "Heccer::DES::compile(): type_count is $type_count\n";
-
-    my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count);
-
     #4 allocate distributor
 
-    $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
+    #t this must be moved to C level.
+
+    #t currently hardcoded support for only one event distributor, ie one source neuron
+
+    my $pre_serials = $projection_query->ProjectionQueryCountPreSerials();
+
+    my $distributors = [];
+
+    for (my $counter = 0 ; $counter < $pre_serials ; $counter++)
+    {
+	#t hardcoded serial of /spiker3/source/soma/spikegen
+
+	my $pre = 15;
+
+	my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count, $pre);
+
+	my $distributor = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
+
+	push @$distributors, $distributor;
+    }
+
+    $self->{distributor}->{backend} = $distributors;
 
     #t EventDistributorAddQueuerConnections($projection_query) needs:
     #t we have one distributor per pre
@@ -1329,12 +1339,12 @@ sub compile
     #t number of posts for each pre, to allocate each row
     #t target object (via solver registrations), delay, weight for each connection in each row
 
-    if ($self->{distributor}->{backend}->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, 0) == -1)
+    if ($self->{distributor}->{backend}->[0]->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, 0) == -1)
     {
 	die "$0: Heccer::DES::compile() failed (EventDistributorAddQueuerConnection() is unable to add the queuer to its object list)";
     }
 
-    $self->{distributor}->{backend}->SwiggableHeccer::EventDistributorInitiate(1);
+    $self->{distributor}->{backend}->[0]->SwiggableHeccer::EventDistributorInitiate(1);
 
     # what does the model-container have for solver-registrations?
     # somehow the model-container knows about the correct solver-registrations.

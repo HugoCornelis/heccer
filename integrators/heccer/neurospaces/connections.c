@@ -163,9 +163,9 @@ char *ppcStatusMessages[] =
 };
 
 
-static
-int
-MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist);
+/* static */
+/* int */
+/* MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist); */
 
 static
 int
@@ -176,6 +176,105 @@ static
 int
 MathComponentPrintErrorReport(struct MathComponentData * pmcd);
 
+
+
+int DESConstruct(struct ProjectionQuery *ppq)
+{
+    //- allocate an array for registration of event distributors
+
+    int iPreSerials = ProjectionQueryCountPreSerials(ppq);
+
+    struct EventDistributor **pped = calloc(iPreSerials, sizeof(*pped));
+
+    if (!pped)
+    {
+	return(-1);
+    }
+
+    //- construct event distributors
+
+    {
+	//- loop over all pre-synaptic serials
+
+	int iLastPre = -1;
+
+	int i;
+
+	for (i = 0 ; i < iPreSerials ; i++)
+	{
+	    //- if this connection has a different pre-synaptic serial
+
+	    struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPre, i);
+
+	    if (iLastPre != pcconn->iPre)
+	    {
+		iLastPre = pcconn->iPre;
+
+		//- construct an event distributor for this pre-synaptic serial
+
+		// \todo type an arbitrary value: 2 for 1 queuer and 1 spike output
+
+		int iTypeCount = 2;
+
+		struct EventDistributorData *pedd
+		    = EventDistributorDataNew(iTypeCount, pcconn->iPre);
+
+		struct EventDistributor *ped = EventDistributorNew(pedd);
+
+		if (!pedd || !ped)
+		{
+		    return(-1);
+		}
+
+		//- register this event distributor
+
+		pped[i] = ped;
+	    }
+	}
+    }
+
+    // \todo loop over all solver registrations and register the correct ped
+
+    //- total number of CPU cores is 1
+
+    int iCores = 1;
+
+    //- allocate an array for registration of event distributors
+
+    struct EventQueuer **ppeq = calloc(iCores, sizeof(*ppeq));
+
+    if (!ppeq)
+    {
+	// \todo the giant memory leak: pped and everything inside
+
+	return(-1);
+    }
+
+    //- construct event queuers
+
+    {
+	//- loop over the cores
+
+	int i;
+
+	for (i = 0 ; i < iCores ; i++)
+	{
+	    //- construct an event queuer for this core
+
+	    struct EventQueuerMatrix *ppeqm = EventQueuerDataNew(ppq);
+
+	    struct EventQueuer *peq = EventQueuerNew(ppeqm);
+
+	    //- register this event queuer
+
+	    ppeq[i] = peq;
+	}
+    }
+
+    // \todo loop over all distributors and connect them with the correct queuers
+
+    // \todo loop over all the queuers and connect them with the correct solvers
+}
 
 
 struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq)
@@ -221,35 +320,35 @@ struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq)
 }
 
 
-static
-int
-MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist)
-{
-    //- set default result: current status
+/* static */
+/* int */
+/* MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist) */
+/* { */
+/*     //- set default result: current status */
 
-    int iResult = pmcd->iStatus;
+/*     int iResult = pmcd->iStatus; */
 
-    //- if everything still ok
+/*     //- if everything still ok */
 
-    if (iResult > 0)
-    {
-	//- get string from context
+/*     if (iResult > 0) */
+/*     { */
+/* 	//- get string from context */
 
-	PidinStackString(ppist, pmcd->pcContext, sizeof(pmcd->pcContext));
+/* 	PidinStackString(ppist, pmcd->pcContext, sizeof(pmcd->pcContext)); */
 
-	//- set new status
+/* 	//- set new status */
 
-	pmcd->iStatus = iStatus;
+/* 	pmcd->iStatus = iStatus; */
 
-	//- set result: new status
+/* 	//- set result: new status */
 
-	iResult = pmcd->iStatus;
-    }
+/* 	iResult = pmcd->iStatus; */
+/*     } */
 
-    //- return result
+/*     //- return result */
 
-    return(iResult);
-}
+/*     return(iResult); */
+/* } */
 
 
 static

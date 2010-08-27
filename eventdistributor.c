@@ -386,7 +386,8 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 
 
 /// 
-/// \arg iConnections number of connections in the matrix.
+/// \arg iConnections number of targeted software components.
+/// \arg iPre pre-synaptic serial.
 /// 
 /// \return struct EventDistributorData *
 /// 
@@ -396,7 +397,7 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 /// 
 
 struct EventDistributorData *
-EventDistributorDataNew(int iConnections)
+EventDistributorDataNew(int iComponents, int iPre)
 {
     //- set default result: allocate data
 
@@ -405,18 +406,18 @@ EventDistributorDataNew(int iConnections)
     //- allocate connection matrix
 
     struct EventDistributorMatrix *ppedm
-	= calloc(iConnections + 1, sizeof(*ppedm));
+	= calloc(iComponents + 1, sizeof(*ppedm));
 
     //- mark the last entry as not used
 
-/*     ppedm[iConnections].iSerial = -1; */
-    ppedm[iConnections].iTarget = -1;
-    ppedm[iConnections].pvFunction = NULL;
-    ppedm[iConnections].pvObject = NULL;
+/*     ppedm[iComponents].iSerial = -1; */
+    ppedm[iComponents].iTarget = iPre;
+    ppedm[iComponents].pvFunction = NULL;
+    ppedm[iComponents].pvObject = NULL;
 
     //- fill in result
 
-    peddResult->iConnections = iConnections;
+    peddResult->iConnections = iComponents;
     peddResult->iLast = 0;
     peddResult->ppedm = ppedm;
 
