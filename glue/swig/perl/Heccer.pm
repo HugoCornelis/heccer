@@ -1318,6 +1318,17 @@ sub compile
 
     $self->{distributor}->{backend} = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
 
+    #t EventDistributorAddQueuerConnections($projection_query) needs:
+    #t we have one distributor per pre
+    #t each entry in matrix has different target object
+    #t on event target objects are always called with the same pre
+
+    #t EventQueuerConnections($projection_query) needs:
+    #t we have one queuer per cpu core
+    #t total number of pres to allocate all row pointers
+    #t number of posts for each pre, to allocate each row
+    #t target object (via solver registrations), delay, weight for each connection in each row
+
     if ($self->{distributor}->{backend}->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, 0) == -1)
     {
 	die "$0: Heccer::DES::compile() failed (EventDistributorAddQueuerConnection() is unable to add the queuer to its object list)";
