@@ -223,6 +223,8 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget);
 
+struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex);
+
 struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm);
 
 int EventQueuerProcess(struct EventQueuer *peq);

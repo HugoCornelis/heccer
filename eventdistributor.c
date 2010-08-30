@@ -714,6 +714,51 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
 
 /// 
+/// \arg peq event queuer.
+/// \arg iIndex index into the event queuer matrix.
+/// 
+/// \return struct EventQueuerMatrix
+/// 
+///	A single row in the event queuer matrix corresponding to the
+///	given index.
+/// 
+/// \brief Map a queuer index to a row.
+/// 
+
+struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex)
+{
+    //- set default result: failure
+
+    struct EventQueuerMatrix *ppeqmResult = NULL;
+
+    int iRow = EventQueuerSerial2ConnectionIndex(peq, iIndex);
+
+    if (iRow == -1)
+    {
+	return(NULL);
+    }
+
+/*     //- loop over all rows */
+
+/*     int i; */
+
+/*     for (i = 0 ; i < peq->iRows ; i++) */
+    {
+/* 	//- access the current row */
+
+/* 	int j = peq->peqd->ppiSerial2ConnectionIndex */
+
+	struct EventQueuerMatrix *ppeqm = peq->peqd[iRow].ppeqm;
+
+    }
+
+    //- return result
+
+    return(ppeqmResult);
+}
+
+
+/// 
 /// \arg ppeqm event queuer connection matrix.
 /// 
 /// \return struct EventQueuer

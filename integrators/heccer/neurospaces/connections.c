@@ -25,6 +25,7 @@
 /* #include <neurospaces/function.h> */
 #include <neurospaces/parsersupport.h>
 #include <neurospaces/pidinstack.h>
+#include <neurospaces/solverinfo.h>
 #include <neurospaces/treespacetraversal.h>
 
 #include "heccer/addressing.h"
@@ -184,11 +185,20 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
     int iPreSerials = ProjectionQueryCountPreSerials(ppq);
 
-    struct EventDistributor **pped = calloc(iPreSerials, sizeof(*pped));
+    struct EventDistributor **pped = (struct EventDistributor **)calloc(iPreSerials, sizeof(*pped));
 
     if (!pped)
     {
 	return(-1);
+    }
+
+    int *piPreSerials = (int *)calloc(iPreSerials, sizeof(int));
+
+    if (!piPreSerials)
+    {
+	free(pped);
+
+	return(-2);
     }
 
     //- construct event distributors
@@ -229,13 +239,86 @@ int DESConstruct(struct ProjectionQuery *ppq)
 		//- register this event distributor
 
 		pped[i] = ped;
+
+		piPreSerials[i] = pcconn->iPre;
+
+		//- if a solver has been registered for this pre-synaptic serial
+
+		struct SolverInfo *psi = SolverInfoRegistrationGetForAbsoluteSerial(NULL, pcconn->iPre);
+
+		void *pvSolver = psi->pvSolver;
+
+		if (pvSolver)
+		{
+		    // \todo we simply assume it is a heccer: type discrimination required here
+
+		    struct Heccer *pheccer = (struct Heccer *)pvSolver;
+
+		    //- register the event distributor for this solver
+
+		    // \todo error checking, prevent multiple ped registrations maybe.
+
+		    pheccer->ped = ped;
+		}
+		else
+		{
+		    fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+
+		    struct PidinStack *ppistSolved = SolverInfoPidinStack(ppsiRegistrations[i]);
+
+		    PidinStackPrint(ppistSolved, stderr);
+
+		    fprintf(stderr, "\n");
+		}
 	    }
 	}
     }
 
-    // \todo loop over all solver registrations and register the correct ped
+/*     //- loop over all solver registrations and connect the solver with the correct ped */
 
-    //- total number of CPU cores is 1
+/*     { */
+/* 	//- loop over registrations */
+
+/* 	int i; */
+
+/* 	for (i = 0 ; i < iRegistrations ; i++) */
+/* 	{ */
+/* 	    //- if there is a solver present */
+
+/* 	    struct SolverInfo *psi = ppsiRegistrations[i]; */
+
+/* 	    void *pvSolver = psi->pvSolver; */
+
+/* 	    if (pvSolver) */
+/* 	    { */
+/* 		// \todo we simply assume it is a heccer: type discrimination required here */
+
+/* 		struct Heccer *pheccer = (struct Heccer *)pvSolver; */
+
+/* 		//- determine the event distributor for this solver */
+
+/* 		// \todo The index here is incorrect.  We need to */
+/* 		// compare the iPre serial of the ped and check if it */
+/* 		// is in the interval of the solved serials. */
+
+/* 		struct EventDistributor *ped = pped[i]; */
+
+/* 		pheccer->ped = ped; */
+/* 	    } */
+/* 	    else */
+/* 	    { */
+/* 		fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for "); */
+
+/* 		struct PidinStack *ppistSolved = SolverInfoPidinStack(ppsiRegistrations[i]); */
+
+/* 		PidinStackPrint(ppistSolved, stderr); */
+
+/* 		fprintf(stderr, "\n"); */
+/* 	    } */
+/* 	} */
+/*     } */
+
+    //- total number of cpu cores is currently always 1
 
     int iCores = 1;
 
@@ -253,13 +336,13 @@ int DESConstruct(struct ProjectionQuery *ppq)
     //- construct event queuers
 
     {
-	//- loop over the cores
+	//- loop over the cpu cores
 
 	int i;
 
 	for (i = 0 ; i < iCores ; i++)
 	{
-	    //- construct an event queuer for this core
+	    //- construct an event queuer for this cpu core
 
 	    struct EventQueuerMatrix *ppeqm = EventQueuerDataNew(ppq);
 
@@ -271,9 +354,73 @@ int DESConstruct(struct ProjectionQuery *ppq)
 	}
     }
 
-    // \todo loop over all distributors and connect them with the correct queuers
+    //- loop over all distributors and connect them with the correct queuers
 
-    // \todo loop over all the queuers and connect them with the correct solvers
+    {
+	//- loop over the event distributors
+
+	int i;
+
+	for (i = 0 ; i < iPreSerials ; i++)
+	{
+	    struct EventDistributor *ped = pped[i];
+
+	    //- register the queuer in the distributor
+
+	    // \todo the first entry is always the queuer
+
+	    int iQueuer = 0;
+
+	    // \todo queuer discrimination for multi threaded implementation
+
+	    int iCore = 0;
+
+	    ped->pedd->ppedm[iQueuer].iTarget = piPreSerials[i];
+	    ped->pedd->ppedm[iQueuer].pvFunction = EventQueuerEnqueue;
+	    ped->pedd->ppedm[iQueuer].pvObject = ppeq[iCore];
+	}
+    }
+
+    //- loop over all the queuers and connect them with the correct solvers
+
+    {
+	//- loop over the cpu cores
+
+	int i;
+
+	for (i = 0 ; i < iCores ; i++)
+	{
+	    //- get event queuer for this cpu core
+
+	    struct EventQueuer *peq = ppeq[i];
+
+	    //- loop over all entries in the queuer matrix
+
+	    // \todo in single threaded code the same as number of iPreSerials
+
+	    int j;
+
+	    for (j = 0 ; j < iPreSerials ; j++)
+	    {
+		//- get the matrix row that corresponds to this serial
+
+		int iPre = piPreSerials[j];
+
+		struct EventQueuerMatrix *peqm = EventQueuerGetRow(peq, iPre);
+
+		// \todo fill in the targets
+
+		peqm->dDelay = 0.0;
+		peqm->dWeight = 0.0;
+		peqm->iTarget = INT_MAX;
+
+		// \todo HeccerEventSet() or HeccerEventReceive()
+
+		peqm->pvFunction = NULL;
+		peqm->pvObject = NULL;
+	    }
+	}
+    }
 }
 
 
