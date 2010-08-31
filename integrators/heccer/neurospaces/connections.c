@@ -404,25 +404,33 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 	    int iLastPre = -1;
 
+	    //- initialize distributor index
+
+	    int iDistributor = -1;
+
 	    // \todo in single threaded code the same as number of iPreSerials
 
 	    int j;
 
 	    for (j = 0 ; j < iConnections ; j++)
 	    {
+		// \todo ProjectionQueryTraverseConnectionsForSpikeGenerator()
+
 		//- if this connection has a different pre-synaptic serial from the last one
 
 		struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPre, i);
 
 		if (iLastPre != pcconn->iPre)
 		{
+		    //- increment distributor index
+
+		    iDistributor++;
+
 /* 		    //- get the matrix row that corresponds to this serial */
 
 /* 		    int iPre = piPreSerials[j]; */
 
 		    struct EventQueuerMatrix *peqm = EventQueuerGetRow(peq, pcconn->iPre);
-
-		    // \todo ProjectionQueryTraverseConnectionsForSpikeGenerator()
 
 		    peqm->dDelay = pcconn->dDelay;
 		    peqm->dWeight = pcconn->dWeight;
@@ -452,8 +460,6 @@ int DESConstruct(struct ProjectionQuery *ppq)
 			//- register the event distributor for this solver
 
 			// \todo error checking, prevent multiple ped registrations maybe.
-
-			int iDistributor = pcconn->iPre;
 
 			pheccer->ped = pped[iDistributor];
 		    }
