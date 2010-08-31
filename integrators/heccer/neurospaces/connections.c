@@ -192,6 +192,8 @@ int DESConstruct(struct ProjectionQuery *ppq)
 	return(-1);
     }
 
+    // \todo this must be replace with projectionquery traversals
+
     int *piPreSerials = (int *)calloc(iPreSerials, sizeof(int));
 
     if (!piPreSerials)
@@ -203,21 +205,25 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
     //- construct event distributors
 
+    int iConnections = ProjectionQueryCountConnections(ppq);
+
     {
-	//- loop over all pre-synaptic serials
+	//- loop over all connections
 
 	int iLastPre = -1;
 
 	int i;
 
-	for (i = 0 ; i < iPreSerials ; i++)
+	for (i = 0 ; i < iConnections ; i++)
 	{
-	    //- if this connection has a different pre-synaptic serial
+	    //- if this connection has a different pre-synaptic serial from the last one
 
 	    struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPre, i);
 
 	    if (iLastPre != pcconn->iPre)
 	    {
+		//- register this pre-synaptic serial
+
 		iLastPre = pcconn->iPre;
 
 		//- construct an event distributor for this pre-synaptic serial
@@ -244,7 +250,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 		//- if a solver has been registered for this pre-synaptic serial
 
-		struct SolverInfo *psi = SolverInfoRegistrationGetForAbsoluteSerial(NULL, pcconn->iPre);
+		struct SolverInfo *psi = SolverInfoRegistrationGetForAbsoluteSerial(pcconn->iPre);
 
 		void *pvSolver = psi->pvSolver;
 
@@ -344,9 +350,9 @@ int DESConstruct(struct ProjectionQuery *ppq)
 	{
 	    //- construct an event queuer for this cpu core
 
-	    struct EventQueuerMatrix *ppeqm = EventQueuerDataNew(ppq);
+	    struct EventQueuerMatrix *ppeqm = EventQueuerDataNew(ppq, i);
 
-	    struct EventQueuer *peq = EventQueuerNew(ppeqm);
+	    struct EventQueuer *peq = EventQueuerNewFromSingleRow(ppeqm);
 
 	    //- register this event queuer
 
@@ -396,35 +402,79 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 	    //- loop over all entries in the queuer matrix
 
+	    int iLastPre = -1;
+
 	    // \todo in single threaded code the same as number of iPreSerials
 
 	    int j;
 
-	    for (j = 0 ; j < iPreSerials ; j++)
+	    for (j = 0 ; j < iConnections ; j++)
 	    {
-		//- get the matrix row that corresponds to this serial
+		//- if this connection has a different pre-synaptic serial from the last one
 
-		int iPre = piPreSerials[j];
+		struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPre, i);
 
-		struct EventQueuerMatrix *peqm = EventQueuerGetRow(peq, iPre);
+		if (iLastPre != pcconn->iPre)
+		{
+/* 		    //- get the matrix row that corresponds to this serial */
 
-		// \todo fill in the targets
+/* 		    int iPre = piPreSerials[j]; */
 
-		peqm->dDelay = 0.0;
-		peqm->dWeight = 0.0;
-		peqm->iTarget = INT_MAX;
+		    struct EventQueuerMatrix *peqm = EventQueuerGetRow(peq, pcconn->iPre);
 
-		// \todo HeccerEventSet() or HeccerEventReceive()
+		    // \todo ProjectionQueryTraverseConnectionsForSpikeGenerator()
 
-		peqm->pvFunction = NULL;
-		peqm->pvObject = NULL;
+		    peqm->dDelay = pcconn->dDelay;
+		    peqm->dWeight = pcconn->dWeight;
+		    peqm->iTarget = pcconn->iPost;
+
+		    // \todo HeccerEventSet() or HeccerEventReceive()
+
+		    peqm->pvFunction = NULL;
+
+		    //- if a solver has been registered for this post-synaptic serial
+
+		    struct SolverInfo *psi = SolverInfoRegistrationGetForAbsoluteSerial(pcconn->iPost);
+
+		    peqm->pvObject = NULL;
+
+		    void *pvSolver = psi->pvSolver;
+
+		    if (pvSolver)
+		    {
+			// \todo we simply assume it is a heccer: type
+			// discrimination required here, recycle the logic
+			// that is already available in ns-sli
+			// nsintegrator.h struct SolverRegistration{}.
+
+			struct Heccer *pheccer = (struct Heccer *)pvSolver;
+
+			//- register the event distributor for this solver
+
+			// \todo error checking, prevent multiple ped registrations maybe.
+
+			int iDistributor = pcconn->iPre;
+
+			pheccer->ped = pped[iDistributor];
+		    }
+		    else
+		    {
+			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+
+			struct PidinStack *ppistSolved = SolverInfoPidinStack(ppsiRegistrations[i]);
+
+			PidinStackPrint(ppistSolved, stderr);
+
+			fprintf(stderr, "\n");
+		    }
+		}
 	    }
 	}
     }
 }
 
 
-struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq)
+struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread)
 {
     //- set default result: success
 

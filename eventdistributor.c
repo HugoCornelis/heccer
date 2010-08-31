@@ -629,7 +629,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     /// \todo loop over events for this target until this time
 
-    struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[iTarget];
+    struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
 
     while (ppeqm
 /* 	   && ppeqm->pvFunction */
@@ -738,6 +738,11 @@ struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex
 	return(NULL);
     }
 
+    if (iRow >= peq->peqd->iRows)
+    {
+	return(NULL);
+    }
+
 /*     //- loop over all rows */
 
 /*     int i; */
@@ -748,7 +753,7 @@ struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex
 
 /* 	int j = peq->peqd->ppiSerial2ConnectionIndex */
 
-	struct EventQueuerMatrix *ppeqm = peq->peqd[iRow].ppeqm;
+	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iRow];
 
     }
 
@@ -768,7 +773,7 @@ struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex
 /// \brief Allocate an event queuer.
 /// 
 
-struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
+struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
 {
     //- set default result: allocate
 
@@ -796,7 +801,13 @@ struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm)
 
     peqd->iConnectionIndices = 0;
 
-    peqd->ppeqm = ppeqm;
+    //- insert the row in the matrix
+
+    peqd->ppeqm = (struct EventQueuerMatrix **)calloc(1, sizeof(struct EventQueuerMatrix *));
+
+    peqd->ppeqm[0] = peqm;
+
+    peqd->iRows = 1;
 
     //- return result
 
@@ -850,7 +861,7 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 	//- loop over target table
 
-	ppeqm = &peq->peqd->ppeqm[iTarget];
+	ppeqm = peq->peqd->ppeqm[iTarget];
 
 	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
 	/// \todo It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).

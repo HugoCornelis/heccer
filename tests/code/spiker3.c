@@ -1177,7 +1177,7 @@ int simulate(int argc, char *argv[])
 
     //- allocate event queuer
 
-    struct EventQueuer *peq = EventQueuerNew(peqm);
+    struct EventQueuer *peq = EventQueuerNewFromSingleRow(&peqm[0]);
 
     //- initialize the serial to connection matrix index convertor
 

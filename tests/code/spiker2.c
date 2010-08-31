@@ -1087,9 +1087,13 @@ struct EventQueuerData eqd =
 	{	8000, 1,	},
     },
 
-    //m array of targets
+    /// number of rows in the matrix
 
-    peqm,
+    -1,
+
+    /// matrix rows
+
+    NULL,
 };
 
 
@@ -1178,6 +1182,12 @@ int main(int argc, char *argv[])
     pogSpikeSource = OutputGeneratorNew("/tmp/output_spike_source");
 
     OutputGeneratorInitiate(pogSpikeSource);
+
+    //- link the event queuer and its connection matrix
+
+    eqd.ppeqm = (struct EventQueuerMatrix **)calloc(1, sizeof(struct EventQueuerMatrix *));
+
+    eqd.ppeqm[0] = peqm;
 
     //- link spiking element to output generator
 

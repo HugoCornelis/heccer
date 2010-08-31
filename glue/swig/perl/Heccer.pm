@@ -1279,7 +1279,9 @@ sub compile
 
     # the event queuer matrix contains the connection matrix of the projection_query
 
-    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query);
+    my $thread = 0;
+
+    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query, $thread);
 
     #2 allocate queuer
 

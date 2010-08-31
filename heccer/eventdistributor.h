@@ -139,9 +139,13 @@ struct EventQueuerData
 
     int ppiSerial2ConnectionIndex[EVENTQUEUER_MAX_CONNECTIONS][2];
 
-    /// array of targets
+    /// number of rows in the matrix
 
-    struct EventQueuerMatrix *ppeqm;
+    int iRows;
+
+    /// matrix rows
+
+    struct EventQueuerMatrix **ppeqm;
 };
 
 
@@ -225,7 +229,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
 struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex);
 
-struct EventQueuer * EventQueuerNew(struct EventQueuerMatrix *ppeqm);
+struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm);
 
 int EventQueuerProcess(struct EventQueuer *peq);
 
