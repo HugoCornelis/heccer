@@ -347,44 +347,6 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry)
 }
 
 
-/* ///  */
-/* /// \arg pedd event distributor data. */
-/* /// \arg iEntry entry number to fill in. */
-/* /// \arg peq event queuer. */
-/* ///  */
-/* /// \return struct EventDistributorMatrix * */
-/* ///  */
-/* ///	a single entry in the connection matrix, NULL for failure. */
-/* ///  */
-/* /// \brief Get access to an entry in the connection matrix. */
-/* ///  */
-
-/* char * */
-/* EventDistributorDataSetQueuer */
-/* (struct EventDistributorData *pedd, int iEntry, struct EventQueuer *peq) */
-/* { */
-/*     //- set default result: ok */
-
-/*     char *pcResult = NULL; */
-
-/*     if (iEntry > pedd->iLast) */
-/*     { */
-/* 	pcResult = "queuer index out of range, iEntry > iLast"; */
-/*     } */
-
-/*     //- fill in the entry */
-
-/*     pedd->ppedm[iEntry].pvObject = peq; */
-/*     pedd->ppedm[iEntry].iSerial = iSerial; */
-/*     pedd->ppedm[iEntry].iTarget = iTarget; */
-/*     pedd->ppedm[iEntry].pvFunction =  */
-
-/*     //- return result */
-
-/*     return(pcResult); */
-/* } */
-
-
 /// 
 /// \arg iConnections number of targeted software components.
 /// \arg iPre pre-synaptic serial.
@@ -510,51 +472,6 @@ EventDistributorNew
 
     return(pedResult);
 }
-
-
-/* ///  */
-/* /// \arg ped an event distributor. */
-/* /// \arg iSerial serial of a bio component that generates spikes. */
-/* ///  */
-/* /// \return int */
-/* ///  */
-/* ///	corresponding index in the connection matrix, -1 for not found. */
-/* ///  */
-/* /// \brief Lookup a spikegen serial, return the internal index. */
-/* ///  */
-
-/* int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial) */
-/* { */
-/*     //- set default result: failure */
-
-/*     int iResult = -1; */
-
-/*     //- loop over connection matrix */
-
-/*     int iConnection; */
-
-/*     for (iConnection = 0 ; iConnection < ped->pedd->iLast ; iConnection++) */
-/*     { */
-/* 	//- if serials match */
-
-/* 	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[iConnection]; */
-
-/* 	if (ppedm->iSerial == iSerial) */
-/* 	{ */
-/* 	    //- set result */
-
-/* 	    iResult = iSerial; */
-
-/* 	    //- break loop */
-
-/* 	    break; */
-/* 	} */
-/*     } */
-
-/*     //- return result */
-
-/*     return(iResult); */
-/* } */
 
 
 /// 
@@ -725,7 +642,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 /// \brief Map a queuer index to a row.
 /// 
 
-struct EventQueuerMatrix * EventQueuerGetRow(struct EventQueuer *peq, int iIndex)
+struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, int iIndex)
 {
     //- set default result: failure
 

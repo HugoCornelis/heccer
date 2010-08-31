@@ -426,11 +426,9 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 		    iDistributor++;
 
-/* 		    //- get the matrix row that corresponds to this serial */
+		    //- get the matrix row that corresponds to this serial
 
-/* 		    int iPre = piPreSerials[j]; */
-
-		    struct EventQueuerMatrix *peqm = EventQueuerGetRow(peq, pcconn->iPre);
+		    struct EventQueuerMatrix *peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
 
 		    peqm->dDelay = pcconn->dDelay;
 		    peqm->dWeight = pcconn->dWeight;
