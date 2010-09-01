@@ -946,7 +946,7 @@ sub output_source
 	}
 	else
 	{
-	    die "source_type for $source_text_file cannot be determined";
+# 	    die "source_type for $source_text_file cannot be determined";
 	}
     }
 

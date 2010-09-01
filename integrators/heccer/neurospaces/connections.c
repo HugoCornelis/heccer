@@ -26,7 +26,6 @@
 #include "heccer/event.h"
 #include "heccer/neurospaces/connections.h"
 #include "heccer/neurospaces/heccer.h"
-#include "heccer/service.h"
 
 
 int DESConstruct(struct ProjectionQuery *ppq)
@@ -42,7 +41,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 	return(-1);
     }
 
-    // \todo this must be replace with projectionquery traversals
+    // \todo this must be replaced with projectionquery traversals
 
     int *piPreSerials = (int *)calloc(iPreSerials, sizeof(int));
 
