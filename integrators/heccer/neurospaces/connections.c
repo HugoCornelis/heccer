@@ -230,7 +230,22 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 	    int iCore = 0;
 
-	    ped->pedd->ppedm[iQueuer].iTarget = piPreSerials[i];
+	    //- determine the queuer for this pre-synaptic serial
+
+	    struct EventQueuer *peq = ppeq[iCore];
+
+	    //- use the queuer to convert the serial to an index
+
+	    // \todo it looks as if
+	    // EventQueuerSerial2ConnectionIndex() currently has two
+	    // purposes: one is this conversion, the second is to
+	    // convert a serial to an queuer matrix row.
+
+	    int iTarget = EventQueuerSerial2ConnectionIndex(peq, piPreSerials[i]);
+
+	    //- fill in the distribution matrix queuer entry
+
+	    ped->pedd->ppedm[iQueuer].iTarget = iTarget;
 	    ped->pedd->ppedm[iQueuer].pvFunction = EventQueuerEnqueue;
 	    ped->pedd->ppedm[iQueuer].pvObject = ppeq[iCore];
 	}
