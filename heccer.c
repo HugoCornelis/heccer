@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/09/02) Thursday, September 2, 2010 19:39:44 cornelis";
+static char *pcVersionTime="(10/09/02) Thursday, September 2, 2010 19:45:14 cornelis";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -485,6 +485,8 @@ int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct E
 
     if (pheccer->iErrorCount)
     {
+	fprintf(stderr, "*** Error: HeccerConnect() cannot a heccer with %i errors\n", pheccer->iErrorCount);
+
 	return(0);
     }
 
