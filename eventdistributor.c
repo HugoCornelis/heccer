@@ -670,7 +670,7 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 
 /* 	int j = peq->peqd->ppiSerial2ConnectionIndex */
 
-	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iRow];
+	ppeqmResult = peq->peqd->ppeqm[iRow];
 
     }
 

@@ -66,6 +66,8 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 	int i;
 
+	int iPreSerialCount;
+
 	for (i = 0 ; i < iConnections ; i++)
 	{
 	    //- if this connection has a different pre-synaptic serial from the last one
@@ -96,9 +98,9 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		//- register this event distributor
 
-		pped[i] = ped;
+		pped[iPreSerialCount] = ped;
 
-		piPreSerials[i] = pcconn->iPre;
+		piPreSerials[iPreSerialCount] = pcconn->iPre;
 
 		//- if a solver has been registered for this pre-synaptic serial
 
@@ -128,7 +130,16 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		    fprintf(stderr, "\n");
 		}
+
+		//- next index
+
+		iPreSerialCount++;
 	    }
+	}
+
+	if (iPreSerialCount != iPreSerials)
+	{
+	    fprintf(stderr, "*** Error: DESConstruct() internal system error: iPreSerialCount != iPreSerials\n");
 	}
     }
 
@@ -205,6 +216,8 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 	    struct EventQueuerMatrix *ppeqm = EventQueuerDataNew(ppq, i);
 
 	    struct EventQueuer *peq = EventQueuerNewFromSingleRow(ppeqm);
+
+	    int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq, piPreSerials[0], i);
 
 	    //- register this event queuer
 
@@ -307,7 +320,7 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		    //- if a solver has been registered for this post-synaptic serial
 
-		    struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(NULL, pcconn->iPost);
+		    struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
 
 		    peqm->pvObject = NULL;
 

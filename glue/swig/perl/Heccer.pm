@@ -184,24 +184,6 @@ sub connect
 
     my $des = $scheduler->{schedule}->[0];
 
-    my $event_distributor_backend = $des->{backend}->{distributor}->{backend}->[0];
-
-    my $event_queuer_backend = $des->{backend}->{queuer}->{backend};
-
-    # connect spikegens to their event distributors
-
-    my $backend = $self->backend();
-
-    my $connect_result = $backend->HeccerConnect($event_distributor_backend, $event_queuer_backend);
-
-    if ($connect_result)
-    {
-    }
-    else
-    {
-	return "HeccerConnect() failed";
-    }
-
     return '';
 }
 
@@ -1247,7 +1229,7 @@ sub backend
 package Heccer::DES;
 
 
-sub compile
+sub connect
 {
     my $self = shift;
 
@@ -1374,11 +1356,9 @@ sub compile
 }
 
 
-sub connect
+sub compile
 {
     my $self = shift;
-
-    #t connect queuers with distributors?
 
     return '';
 }
