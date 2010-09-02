@@ -3,6 +3,7 @@ heccer-tables.output
 heccer_check_ric-neurospaces-02.out
 heccer_check_ric-neurospaces-03.out
 
+.kdbgrc.*
 .*Makefile\.in$
 .+\.dylib$
 Makefile$
