@@ -1229,6 +1229,14 @@ sub backend
 package Heccer::DES;
 
 
+sub compile
+{
+    my $self = shift;
+
+    return '';
+}
+
+
 sub connect
 {
     my $self = shift;
@@ -1351,14 +1359,6 @@ sub connect
 #     $scheduler->service_register( "event_queuer", { backend => $queuer, }, );
 
     # return ok
-
-    return '';
-}
-
-
-sub compile
-{
-    my $self = shift;
 
     return '';
 }
