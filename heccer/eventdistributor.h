@@ -179,10 +179,35 @@ struct EventQueuer
 };
 
 
+/// \struct all the event distributors and queuers that connect the
+/// solvers.
+
+struct DES
+{
+    /// pre-synaptic elements, event generator serials
+
+    int iPreSerials;
+
+    int *piPreSerials;
+
+    /// all event distributors
+
+    struct EventDistributor **pped;
+
+    /// number of threads
+
+    int iCores;
+
+    /// all event queuers
+
+    struct EventQueuer **ppeq;
+
+};
+
 
 /// \note The parameter list of EventDistributorAddConnection() assumes that
-/// \note the output objects are always heccer output generators.  Internally
-/// \note this does not matter, just for ease of development.
+/// the output objects are always heccer output generators.  Internally
+/// this does not matter, just for ease of development.
 
 struct OutputGenerator;
 

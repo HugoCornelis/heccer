@@ -31,7 +31,7 @@
 static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread);
 
 
-int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
+struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 {
     //- allocate an array for registration of event distributors
 
@@ -41,7 +41,7 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
     if (!pped)
     {
-	return(-1);
+	return(NULL);
     }
 
     // \todo this must be replaced with projectionquery traversals
@@ -52,7 +52,7 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
     {
 	free(pped);
 
-	return(-2);
+	return(NULL);
     }
 
     //- construct event distributors
@@ -99,7 +99,7 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		if (!pedd || !ped)
 		{
-		    return(-1);
+		    return(NULL);
 		}
 
 		//- register this event distributor
@@ -145,50 +145,6 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 	}
     }
 
-/*     //- loop over all solver registrations and connect the solver with the correct ped */
-
-/*     { */
-/* 	//- loop over registrations */
-
-/* 	int i; */
-
-/* 	for (i = 0 ; i < iRegistrations ; i++) */
-/* 	{ */
-/* 	    //- if there is a solver present */
-
-/* 	    struct SolverInfo *psi = ppsiRegistrations[i]; */
-
-/* 	    void *pvSolver = psi->pvSolver; */
-
-/* 	    if (pvSolver) */
-/* 	    { */
-/* 		// \todo we simply assume it is a heccer: type discrimination required here */
-
-/* 		struct Heccer *pheccer = (struct Heccer *)pvSolver; */
-
-/* 		//- determine the event distributor for this solver */
-
-/* 		// \todo The index here is incorrect.  We need to */
-/* 		// compare the iPre serial of the ped and check if it */
-/* 		// is in the interval of the solved serials. */
-
-/* 		struct EventDistributor *ped = pped[i]; */
-
-/* 		pheccer->ped = ped; */
-/* 	    } */
-/* 	    else */
-/* 	    { */
-/* 		fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for "); */
-
-/* 		struct PidinStack *ppistSolved = SolverInfoPidinStack(ppsiRegistrations[i]); */
-
-/* 		PidinStackPrint(ppistSolved, stderr); */
-
-/* 		fprintf(stderr, "\n"); */
-/* 	    } */
-/* 	} */
-/*     } */
-
     //- total number of cpu cores is currently always 1
 
     int iCores = 1;
@@ -201,7 +157,7 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
     {
 	// \todo the giant memory leak: pped and everything inside
 
-	return(-1);
+	return(NULL);
     }
 
     //- construct event queuers
@@ -366,6 +322,27 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 	    }
 	}
     }
+
+    //- integrate all the objects into a single DES object
+
+    struct DES *pdes = (struct DES *)calloc(1, sizeof(struct DES));
+
+    if (!pdes)
+    {
+	// \todo here is the mega memory leak
+
+	return(NULL);
+    }
+
+    pdes->iCores = iCores;
+    pdes->iPreSerials = iPreSerials;
+    pdes->piPreSerials = piPreSerials;
+    pdes->pped = pped;
+    pdes->ppeq = ppeq;
+
+    //- return result: DES object
+
+    return(pdes);
 }
 
 

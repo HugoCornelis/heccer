@@ -24,7 +24,7 @@
 #include <neurospaces/projectionquery.h>
 
 
-int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq);
+struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq);
 
 
 #endif
