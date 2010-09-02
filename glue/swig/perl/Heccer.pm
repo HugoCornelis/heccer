@@ -1265,104 +1265,108 @@ sub compile
 
     SwiggableNeurospaces::swig_pq_set($query_pq);
 
-    # determine the number of connections
+    # construct the DES backend
+
+    my $solver_registry = SwiggableNeurospaces::swig_get_global_solver_registry();
 
     my $projection_query = SwiggableNeurospaces::swig_get_global_projectionquery();
 
-    my $connections = $projection_query->ProjectionQueryCountConnections();
+    my $des_backend = SwiggableHeccer::DESConstruct($solver_registry, $projection_query);
 
-    print "Heccer::DES::compile(): found $connections connections\n";
+#     my $connections = $projection_query->ProjectionQueryCountConnections();
 
-    # translate the connections
+#     print "Heccer::DES::compile(): found $connections connections\n";
 
-    #1 allocate queuer data
+#     # translate the connections
 
-    # the event queuer matrix contains the connection matrix of the projection_query
+#     #1 allocate queuer data
 
-    my $thread = 0;
+#     # the event queuer matrix contains the connection matrix of the projection_query
 
-    my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query, $thread);
+#     my $thread = 0;
 
-    #2 allocate queuer
+#     my $peqm_queuer_data = SwiggableHeccer::EventQueuerDataNew($projection_query, $thread);
 
-    $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($peqm_queuer_data);
+#     #2 allocate queuer
 
-    #3 allocate distributor data
+#     $self->{queuer}->{backend} = SwiggableHeccer::EventQueuerNew($peqm_queuer_data);
 
-    # The matrix in the distributor data contains one entry for each
-    # type of receiver.  Currently possible types are spike recorders
-    # and event queuers.
+#     #3 allocate distributor data
 
-    # one such type for the event queuer: it is the first entry in the event distributor data
+#     # The matrix in the distributor data contains one entry for each
+#     # type of receiver.  Currently possible types are spike recorders
+#     # and event queuers.
 
-    my $type_count = 1;
+#     # one such type for the event queuer: it is the first entry in the event distributor data
 
-    # and add one for each event_2_ascii output
+#     my $type_count = 1;
 
-    my $outputs = $scheduler->{outputs};
+#     # and add one for each event_2_ascii output
 
-    my $event_2_ascii = scalar grep { $_->{outputclass} eq 'event_2_ascii' } @$outputs;
+#     my $outputs = $scheduler->{outputs};
 
-    $type_count += $event_2_ascii;
+#     my $event_2_ascii = scalar grep { $_->{outputclass} eq 'event_2_ascii' } @$outputs;
 
-    #4 allocate distributor
+#     $type_count += $event_2_ascii;
 
-    #t this must be moved to C level.
+#     #4 allocate distributor
 
-    #t currently hardcoded support for only one event distributor, ie one source neuron
+#     #t this must be moved to C level.
 
-    my $pre_serials = $projection_query->ProjectionQueryCountPreSerials();
+#     #t currently hardcoded support for only one event distributor, ie one source neuron
 
-    my $distributors = [];
+#     my $pre_serials = $projection_query->ProjectionQueryCountPreSerials();
 
-    for (my $counter = 0 ; $counter < $pre_serials ; $counter++)
-    {
-	#t hardcoded serial of /spiker3/source/soma/spikegen
+#     my $distributors = [];
 
-	my $pre = 15;
+#     for (my $counter = 0 ; $counter < $pre_serials ; $counter++)
+#     {
+# 	#t hardcoded serial of /spiker3/source/soma/spikegen
 
-	my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count, $pre);
+# 	my $pre = 15;
 
-	my $distributor = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
+# 	my $pedd_type_matrix = SwiggableHeccer::EventDistributorDataNew($type_count, $pre);
 
-	push @$distributors, $distributor;
-    }
+# 	my $distributor = SwiggableHeccer::EventDistributorNew($pedd_type_matrix);
 
-    $self->{distributor}->{backend} = $distributors;
+# 	push @$distributors, $distributor;
+#     }
 
-    #t EventDistributorAddQueuerConnections($projection_query) needs:
-    #t we have one distributor per pre
-    #t each entry in matrix has different target object
-    #t on event target objects are always called with the same pre
+#     $self->{distributor}->{backend} = $distributors;
 
-    #t EventQueuerConnections($projection_query) needs:
-    #t we have one queuer per cpu core
-    #t total number of pres to allocate all row pointers
-    #t number of posts for each pre, to allocate each row
-    #t target object (via solver registrations), delay, weight for each connection in each row
+#     #t EventDistributorAddQueuerConnections($projection_query) needs:
+#     #t we have one distributor per pre
+#     #t each entry in matrix has different target object
+#     #t on event target objects are always called with the same pre
 
-    if ($self->{distributor}->{backend}->[0]->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, 0) == -1)
-    {
-	die "$0: Heccer::DES::compile() failed (EventDistributorAddQueuerConnection() is unable to add the queuer to its object list)";
-    }
+#     #t EventQueuerConnections($projection_query) needs:
+#     #t we have one queuer per cpu core
+#     #t total number of pres to allocate all row pointers
+#     #t number of posts for each pre, to allocate each row
+#     #t target object (via solver registrations), delay, weight for each connection in each row
 
-    $self->{distributor}->{backend}->[0]->SwiggableHeccer::EventDistributorInitiate(1);
+#     if ($self->{distributor}->{backend}->[0]->EventDistributorAddQueuerConnection($self->{queuer}->{backend}, 0) == -1)
+#     {
+# 	die "$0: Heccer::DES::compile() failed (EventDistributorAddQueuerConnection() is unable to add the queuer to its object list)";
+#     }
 
-    # what does the model-container have for solver-registrations?
-    # somehow the model-container knows about the correct solver-registrations.
-    # SwiggableNeurospaces::QueryMachineHandle(undef, "solverregistrations");
+#     $self->{distributor}->{backend}->[0]->SwiggableHeccer::EventDistributorInitiate(1);
 
-    # now register this as a services
+#     # what does the model-container have for solver-registrations?
+#     # somehow the model-container knows about the correct solver-registrations.
+#     # SwiggableNeurospaces::QueryMachineHandle(undef, "solverregistrations");
 
-    #t why again is this needed as a service?
+#     # now register this as a services
 
-    my $distributor = Heccer::DES::Distributor->new( { backend => $self->{distributor}->{backend}, scheduler => $scheduler, }, );
+#     #t why again is this needed as a service?
 
-    $scheduler->service_register( "event_distributor", { backend => $distributor, }, );
+#     my $distributor = Heccer::DES::Distributor->new( { backend => $self->{distributor}->{backend}, scheduler => $scheduler, }, );
 
-    my $queuer = Heccer::DES::Queuer->new( { backend => $self->{queuer}->{backend}, scheduler => $scheduler, }, );
+#     $scheduler->service_register( "event_distributor", { backend => $distributor, }, );
 
-    $scheduler->service_register( "event_queuer", { backend => $queuer, }, );
+#     my $queuer = Heccer::DES::Queuer->new( { backend => $self->{queuer}->{backend}, scheduler => $scheduler, }, );
+
+#     $scheduler->service_register( "event_queuer", { backend => $queuer, }, );
 
     # return ok
 

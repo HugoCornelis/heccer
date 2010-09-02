@@ -28,7 +28,10 @@
 #include "heccer/neurospaces/heccer.h"
 
 
-int DESConstruct(struct ProjectionQuery *ppq)
+static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread);
+
+
+int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 {
     //- allocate an array for registration of event distributors
 
@@ -99,7 +102,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 		//- if a solver has been registered for this pre-synaptic serial
 
-		struct SolverInfo *psi = SolverInfoRegistrationGetForAbsoluteSerial(pcconn->iPre);
+		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPre);
 
 		void *pvSolver = psi->pvSolver;
 
@@ -119,7 +122,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 		{
 		    fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
 
-		    struct PidinStack *ppistSolved = SolverInfoPidinStack(ppsiRegistrations[i]);
+		    struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
 
 		    PidinStackPrint(ppistSolved, stderr);
 
@@ -304,7 +307,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 
 		    //- if a solver has been registered for this post-synaptic serial
 
-		    struct SolverInfo *psi = SolverInfoRegistrationGetForAbsoluteSerial(pcconn->iPost);
+		    struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(NULL, pcconn->iPost);
 
 		    peqm->pvObject = NULL;
 
@@ -329,7 +332,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 		    {
 			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
 
-			struct PidinStack *ppistSolved = SolverInfoPidinStack(ppsiRegistrations[i]);
+			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
 
 			PidinStackPrint(ppistSolved, stderr);
 
@@ -342,7 +345,7 @@ int DESConstruct(struct ProjectionQuery *ppq)
 }
 
 
-struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread)
+static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread)
 {
     //- set default result: success
 

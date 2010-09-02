@@ -24,9 +24,7 @@
 #include <neurospaces/projectionquery.h>
 
 
-int DESConstruct(struct ProjectionQuery *ppq);
-
-struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread);
+int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq);
 
 
 #endif
