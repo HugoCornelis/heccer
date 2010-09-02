@@ -24,7 +24,7 @@ SUBDIRS = \
 
 dist_bin_SCRIPTS = bin/heccer
 
-AM_CFLAGS=-g3 -fPIC -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
+AM_CFLAGS=-g3 -fPIC -I/usr/local/neurospaces/instrumentor -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -DPRE_PROTO_TRAVERSAL -D__NO_MATH_INLINES
 
 #CFLAGS = -O0
 

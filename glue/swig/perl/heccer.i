@@ -61,7 +61,6 @@
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
-#include "integrators/heccer/neurospaces/connections.h"
 #include "integrators/heccer/neurospaces/heccer.h"
 
 /* #include "/usr/local/include/neurospaces/neurospaces.h" */
@@ -202,7 +201,6 @@ void * heccer_get_driver_method(struct Heccer *pheccer)
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
-%include "integrators/heccer/neurospaces/connections.h"
 %include "integrators/heccer/neurospaces/heccer.h"
 
 /* %include "/usr/local/include/neurospaces/neurospaces.h" */

@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/08/24) Tuesday, August 24, 2010 06:14:25 cornelis";
+static char *pcVersionTime="(10/09/02) Thursday, September 2, 2010 19:39:44 cornelis";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -494,15 +494,31 @@ int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct E
 
     //- connect this heccer spikegens to the event distributor.
 
-    pheccer->ped = ped;
-
-    //t loop over spikegens, register absolute serial with this event distributor
+    if (ped)
+    {
+	if (pheccer->ped && pheccer->ped != ped)
+	{
+	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event distributors per heccer\n");
+	}
+	else
+	{
+	    pheccer->ped = ped;
+	}
+    }
 
     //- connect this heccer synapses to the event queuer.
 
-    pheccer->peq = peq;
-
-    //t loop over all synapses and connect them to the event queuer.
+    if (peq)
+    {
+	if (pheccer->peq && pheccer->peq != peq)
+	{
+	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event queuers per heccer\n");
+	}
+	else
+	{
+	    pheccer->peq = peq;
+	}
+    }
 
     //- return result
 
