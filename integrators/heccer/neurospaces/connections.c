@@ -60,13 +60,15 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
     int iConnections = ProjectionQueryCountConnections(ppq);
 
     {
+	//- initialize distributor index
+
+	int iDistributor = -1;
+
 	//- loop over all connections
 
 	int iLastPre = -1;
 
 	int i;
-
-	int iPreSerialCount;
 
 	for (i = 0 ; i < iConnections ; i++)
 	{
@@ -76,6 +78,10 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 	    if (iLastPre != pcconn->iPre)
 	    {
+		//- increment distributor index
+
+		iDistributor++;
+
 		//- register this pre-synaptic serial
 
 		iLastPre = pcconn->iPre;
@@ -98,9 +104,9 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		//- register this event distributor
 
-		pped[iPreSerialCount] = ped;
+		pped[iDistributor] = ped;
 
-		piPreSerials[iPreSerialCount] = pcconn->iPre;
+		piPreSerials[iDistributor] = pcconn->iPre;
 
 		//- if a solver has been registered for this pre-synaptic serial
 
@@ -130,16 +136,12 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		    fprintf(stderr, "\n");
 		}
-
-		//- next index
-
-		iPreSerialCount++;
 	    }
 	}
 
-	if (iPreSerialCount != iPreSerials)
+	if (iDistributor + 1 != iPreSerials)
 	{
-	    fprintf(stderr, "*** Error: DESConstruct() internal system error: iPreSerialCount != iPreSerials\n");
+	    fprintf(stderr, "*** Error: DESConstruct() internal system error: iDistributor, %i + 1 != iPreSerials, %i (1)\n", iDistributor, iPreSerials);
 	}
     }
 
@@ -306,6 +308,10 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		    iDistributor++;
 
+		    //- register this pre-synaptic serial
+
+		    iLastPre = pcconn->iPre;
+
 		    //- get the matrix row that corresponds to this serial
 
 		    struct EventQueuerMatrix *peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
@@ -352,6 +358,11 @@ int DESConstruct(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 			fprintf(stderr, "\n");
 		    }
 		}
+	    }
+
+	    if (iDistributor + 1 != iPreSerials)
+	    {
+		fprintf(stderr, "*** Error: DESConstruct() internal system error: iDistributor, %i + 1 != iPreSerials, %i (2)\n", iDistributor, iPreSerials);
 	    }
 	}
     }
