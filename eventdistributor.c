@@ -479,6 +479,7 @@ EventDistributorNew
 
 /// 
 /// \arg ped an event distributor.
+/// \arg dTime current simulation time.
 /// \arg iTargets index of target objects and target ports.
 /// 
 /// \return int
@@ -519,6 +520,58 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 	//- next table entry
 
+	ppedm++;
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg ped an event distributor.
+/// \arg iSerial index of target objects and target ports.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Distribute an event over the targets.
+/// 
+
+int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
+{
+    //- set default result: not found.
+
+    int iResult = -1;
+
+    //- get matrix data
+
+    struct EventDistributorData *pedd = ped->pedd;
+
+    //- loop over target table
+
+    int iCount = 0;
+
+    struct EventDistributorMatrix *ppedm = &pedd->ppedm[0];
+
+    while (ppedm && ppedm->pvFunction)
+    {
+	//- if serials match
+
+	if (ppedm->iTarget == iSerial)
+	{
+	    //- set result: current index
+
+	    iResult = iCount;
+
+	    break;
+	}
+
+	//- next table entry
+
+	iCount++;
 	ppedm++;
     }
 

@@ -1814,46 +1814,52 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 
 		    //- set operators and operands
 
-		    /// \note INT_MAX means the membrane potential is the source
+		    // \note INT_MAX means the membrane potential is the source
 
-		    /// \note for other things, fill in the matindex of the
-		    /// \note source, the linker will link the mechanisms
-		    /// \note together (untested).
+		    // \note for other things, fill in the matindex of
+		    // the source, the linker will link the mechanisms
+		    // together (untested).
 
 		    int iSource = INT_MAX;
 
-		    int iSource2Targets = psg->iSource2Targets;
+		    int iSource2Targets = INT_MAX;
 
-		    if (iSource2Targets == INT_MAX)
-		    {
-			/// \todo from ssp viewpoint, the distributor_service is already setup, and knows that it connects to this spikegen
-
-			/// \todo the distributor_service builds a table that converts model container serials to entries in the connection matrix
-
-			/// \todo here we use that table, to convert the serial to the index in the connection matrix
-
+		    // \todo from ssp viewpoint, the
+		    // distributor_service is already setup, and knows
+		    // that it connects to this spikegen the
+		    // distributor_service builds a table that
+		    // converts model container serials to entries in
+		    // the connection matrix here we use that table,
+		    // to convert the serial to the index in the
+		    // connection matrix
 
 #ifdef HECCER_SOURCE_NEUROSPACES
-			int iSerial = psg->mc.iSerial;
+		    int iSerial = psg->mc.iSerial;
 #else
-			int iSerial = INT_MAX;
+		    int iSerial = INT_MAX;
 #endif
 
-			struct EventDistributor *ped = pheccer->ped;
+		    struct EventDistributor *ped = pheccer->ped;
 
-			/// there are two cases: spiker1 and spiker4
-			/// spiker1 does have an event distributor service / solver
-			/// spiker4 connects the addressable directly to the output solver
+		    // there are two cases: spiker1 and spiker4
+		    // spiker1 does have an event distributor service / solver
+		    // spiker4 connects the addressable directly to the output solver
 
-			if (ped)
+		    if (ped)
+		    {
+			//- translate the serial to the distributor identifier
+
+			iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
+
+			if (iSource2Targets == -1)
 			{
-			    /// \todo EventDistributor does not know about anything yet, this cannot work.
+			    HeccerError
+				(pheccer,
+				 NULL,
+				 "EventDistributorSerial2Index() failed for SpikeGenerator with id %i",
+				 iSerial);
 
-/* 			    iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial)); */
-
-			    /// \todo so hardcoded solution that makes the spiker1 test case work
-
-				iSource2Targets = 0;
+			    break;
 			}
 		    }
 
