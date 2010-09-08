@@ -1449,65 +1449,65 @@ sub compile
 
     my $options = shift;
 
-#     my $distributor; # $scheduler->lookup_service('event_distributor');
+# #     my $distributor; # $scheduler->lookup_service('event_distributor');
 
-    # construct a connection matrix
+#     # construct a connection matrix
 
-    my $scheduler = $peer->{scheduler};
+#     my $scheduler = $peer->{scheduler};
 
-    my $outputs = $scheduler->{outputs};
+#     my $outputs = $scheduler->{outputs};
 
-    my $connections = scalar grep { $_->{field} eq 'spike' } @$outputs;
+#     my $connections = scalar grep { $_->{field} eq 'spike' } @$outputs;
 
-    my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
+#     my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
 
-    $self->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
+#     $self->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
 
-    if (!defined $self->{backend})
-    {
-	return undef;
-    }
+#     if (!defined $self->{backend})
+#     {
+# 	return undef;
+#     }
 
-    # lookup service
+#     # lookup service
 
-    my $service = $scheduler->lookup_object($options->{service});
+#     my $service = $scheduler->lookup_object($options->{service});
 
-    my $service_backend = $service->backend();
+#     my $service_backend = $service->backend();
 
-    # fill in the serials in the connection matrix
+#     # fill in the serials in the connection matrix
 
-    my $count = 0;
+#     my $count = 0;
 
-    foreach my $output (grep { $_->{field} eq 'spike' } @$outputs)
-    {
-	# get output component name
+#     foreach my $output (grep { $_->{field} eq 'spike' } @$outputs)
+#     {
+# 	# get output component name
 
-	my $component_name = $output->{component_name};
+# 	my $component_name = $output->{component_name};
 
-	# convert to serial
+# 	# convert to serial
 
-	my $serial = $service_backend->component_2_serial($component_name);
+# 	my $serial = $service_backend->component_2_serial($component_name);
 
-	if (!defined $serial)
-	{
-	    die "$0: Component_name $component_name cannot be found during DES output compilation";
-	}
+# 	if (!defined $serial)
+# 	{
+# 	    die "$0: Component_name $component_name cannot be found during DES output compilation";
+# 	}
 
-	# fill in the entry
+# 	# fill in the entry
 
-	my $entry = $connection_matrix->EventDistributorDataGetEntry($count);
+# 	my $entry = $connection_matrix->EventDistributorDataGetEntry($count);
 
-	$entry->swig_iSerial_set($serial);
+# 	$entry->swig_iSerial_set($serial);
 
-	$count++;
-    }
+# 	$count++;
+#     }
 
-    # fill in a default send function
+#     # fill in a default send function
 
-    if (!$self->{backend}->EventDistributorInitiate(1))
-    {
-	die "$0: error setting up the event distributor, EventDistributorInitiate() failed";
-    }
+#     if (!$self->{backend}->EventDistributorInitiate(1))
+#     {
+# 	die "$0: error setting up the event distributor, EventDistributorInitiate() failed";
+#     }
 
 #     $self->{backend}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
 

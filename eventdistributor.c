@@ -803,66 +803,7 @@ struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
 /// \brief Process events in the queue, forward the ones that should fire.
 /// 
 
-int EventQueuerProcess(struct EventQueuer *peq)
-{
-    //- set default result: ok
-
-    int iResult = 1;
-
-#if USE_SGLIB
-
-    EventList *elElement = sglib_EventList_get_first(elEvents);
-
-#else
-
-    EventList *elElement = EventListDequeue();
-
-#endif
-
-    if (elElement)
-    {
-#if USE_SGLIB
-
-	sglib_EventList_delete(&elEvents, elElement);
-
-#endif
-
-	int iTarget = elElement->iTarget;
-
-	double dTime = elElement->dTime;
-
-	//- loop over target table
-
-	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
-
-	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
-	/// \todo It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
-	/// \todo This behaviour was noticed when using sglib, and when using the builtin
-	/// \todo event queue.
-
-	while (ppeqm && ppeqm->pvFunction)
-	{
-	    //- add connection delay
-
-	    double dEvent = dTime + ppeqm->dDelay;
-
-	    //- call the target object
-
-	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent);
-
-	    //- next table entry
-
-	    ppeqm++;
-	}
-    }
-
-    //- return result
-
-    return(iResult);
-}
-
-
-int EventQueuerProcess2(struct EventQueuer *peq, double dCurrentTime)
+int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 {
     //- set default result: ok
 

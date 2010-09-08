@@ -1545,7 +1545,7 @@ int simulate(int argc, char *argv[])
 
 	HeccerHeccs(pheccerTarget2, dSimulationTime);
 
-	EventQueuerProcess2(&eq, dSimulationTime);
+	EventQueuerProcess(&eq, dSimulationTime);
 
 	//- generate user specified output
 
