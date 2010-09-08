@@ -1229,6 +1229,9 @@ sub backend
 package Heccer::DES;
 
 
+BEGIN { our @ISA = qw(Heccer::Glue); }
+
+
 sub compile
 {
     my $self = shift;
@@ -1433,11 +1436,11 @@ sub add_output
 
     #! argument value 1: sets the output function
 
-    my $result = $distributor->EventDistributorAddConnection($output_backend, 1);
+#     my $result = $distributor->EventDistributorAddConnection($output_backend, 1);
 
     # return result
 
-    return $result;
+    return 1; # $result;
 }
 
 
