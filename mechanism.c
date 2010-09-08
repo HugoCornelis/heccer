@@ -1839,11 +1839,9 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    int iSerial = INT_MAX;
 #endif
 
-		    struct EventDistributor *ped = pheccer->ped;
+		    //- if there is an event distributor
 
-		    // there are two cases: spiker1 and spiker4
-		    // spiker1 does have an event distributor service / solver
-		    // spiker4 connects the addressable directly to the output solver
+		    struct EventDistributor *ped = pheccer->ped;
 
 		    if (ped)
 		    {

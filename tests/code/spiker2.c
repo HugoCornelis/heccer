@@ -896,7 +896,7 @@ struct EventDistributorMatrix pedm[] =
 
 	//m target subcomponent identification
 
-	-1,
+	0,
 
 	//m called function
 
@@ -916,7 +916,7 @@ struct EventDistributorMatrix pedm[] =
 
 	//m target subcomponent identification
 
-	-1,
+	0,
 
 	//m called function
 
@@ -1193,6 +1193,7 @@ int main(int argc, char *argv[])
 
     pedm[0].pvObject = pogSpikeSource;
     pedm[0].pvFunction = OutputGeneratorTimedStep;
+    pedm[0].iTarget = -1;
 
     //- link spiking element to the event queuer
 
@@ -1544,7 +1545,7 @@ int simulate(int argc, char *argv[])
 
 	HeccerHeccs(pheccerTarget2, dSimulationTime);
 
-	EventQueuerProcess(&eq);
+	EventQueuerProcess2(&eq, dSimulationTime);
 
 	//- generate user specified output
 

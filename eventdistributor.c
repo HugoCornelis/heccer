@@ -542,42 +542,47 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
 {
-    //- set default result: not found.
+    //- always return 0
 
-    int iResult = -1;
+    return(0);
 
-    //- get matrix data
+/*     //- set default result: not found. */
 
-    struct EventDistributorData *pedd = ped->pedd;
+/*     int iResult = -1; */
 
-    //- loop over target table
+/*     //- get matrix data */
 
-    int iCount = 0;
+/*     struct EventDistributorData *pedd = ped->pedd; */
 
-    struct EventDistributorMatrix *ppedm = &pedd->ppedm[0];
+/*     //- loop over target table */
 
-    while (ppedm && ppedm->pvFunction)
-    {
-	//- if serials match
+/*     int iCount = 0; */
 
-	if (ppedm->iTarget == iSerial)
-	{
-	    //- set result: current index
+/*     struct EventDistributorMatrix *ppedm = &pedd->ppedm[0]; */
 
-	    iResult = iCount;
+/*     while (ppedm && ppedm->pvFunction) */
+/*     { */
+/* 	//- if serials match */
 
-	    break;
-	}
+/* 	if (ppedm->iTarget == iSerial) */
+/* 	{ */
+/* 	    //- set result: current index */
 
-	//- next table entry
+/* 	    iResult = iCount; */
 
-	iCount++;
-	ppedm++;
-    }
+/* 	    break; */
+/* 	} */
 
-    //- return result
+/* 	//- next table entry */
 
-    return(iResult);
+/* 	iCount++; */
+/* 	ppedm++; */
+/*     } */
+
+/*     //- return result */
+
+/*     return(iResult); */
+
 }
 
 
@@ -798,12 +803,6 @@ struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
 /// \brief Process events in the queue, forward the ones that should fire.
 /// 
 
-int iTarget = -1;
-
-struct EventQueuerMatrix *ppeqm = NULL;
-
-EventList *elElement = NULL;
-
 int EventQueuerProcess(struct EventQueuer *peq)
 {
     //- set default result: ok
@@ -812,11 +811,11 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 #if USE_SGLIB
 
-    elElement = sglib_EventList_get_first(elEvents);
+    EventList *elElement = sglib_EventList_get_first(elEvents);
 
 #else
 
-    elElement = EventListDequeue();
+    EventList *elElement = EventListDequeue();
 
 #endif
 
@@ -828,13 +827,13 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 #endif
 
-	iTarget = elElement->iTarget;
+	int iTarget = elElement->iTarget;
 
 	double dTime = elElement->dTime;
 
 	//- loop over target table
 
-	ppeqm = peq->peqd->ppeqm[iTarget];
+	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
 
 	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
 	/// \todo It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
@@ -855,6 +854,79 @@ int EventQueuerProcess(struct EventQueuer *peq)
 
 	    ppeqm++;
 	}
+    }
+
+    //- return result
+
+    return(iResult);
+}
+
+
+int EventQueuerProcess2(struct EventQueuer *peq, double dCurrentTime)
+{
+    //- set default result: ok
+
+    int iResult = 1;
+
+#if USE_SGLIB
+
+    EventList *elElement = sglib_EventList_get_first(elEvents);
+
+#else
+
+    EventList *elElement = pelEventFirst;
+
+#endif
+
+    while (elElement && elElement->dTime <= dCurrentTime)
+    {
+
+#if USE_SGLIB
+
+	sglib_EventList_delete(&elEvents, elElement);
+
+#else
+
+	elElement = EventListDequeue();
+
+#endif
+
+	int iTarget = elElement->iTarget;
+
+	//- loop over target table
+
+	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
+
+	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
+	/// \todo It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
+	/// \todo This behaviour was noticed when using sglib, and when using the builtin
+	/// \todo event queue.
+
+	while (ppeqm && ppeqm->pvFunction)
+	{
+	    //- add connection delay
+
+	    double dEvent = elElement->dTime + ppeqm->dDelay;
+
+	    //- call the target object
+
+	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent);
+
+	    //- next table entry
+
+	    ppeqm++;
+	}
+
+#if USE_SGLIB
+
+	elElement = sglib_EventList_get_first(elEvents);
+
+#else
+
+	elElement = pelEventFirst;
+
+#endif
+
     }
 
     //- return result
