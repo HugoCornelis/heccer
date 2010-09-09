@@ -864,7 +864,7 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 
     int iResult = 1;
 
-    fprintf(stdout, "EventQueuerProcess(): processing until %g\n", dCurrentTime);
+/*     fprintf(stdout, "EventQueuerProcess(): processing until %g\n", dCurrentTime); */
 
 #if USE_SGLIB
 
