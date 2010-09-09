@@ -1861,6 +1861,10 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 			}
 		    }
 
+		    //- there is exactly one event distributor per heccer, so each heccer uses the first entry in the event distributor connection matrix
+
+		    iSource2Targets = 0;
+
 		    SETMOP_EVENTGENERATE(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, iSource, psg->dThreshold, psg->dRefractory, iSource2Targets);
 
 		    /// \todo we are not in the refractory period, check randomspike2 for initial refractory probability calculation.

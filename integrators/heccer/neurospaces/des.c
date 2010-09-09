@@ -28,18 +28,19 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
 
 
 /// 
+/// \arg pdes empty connectivity matrix between solvers.
 /// \arg psr model-container solver registrations.
 /// \arg ppq global connectivity matrix.
 /// 
-/// \return DES *
+/// \return int
 /// 
-///	Connectivity matrix between solvers.
+///	Success of operation, connectivity matrix between solvers.
 /// 
 /// \brief Create a discrete event connectivity system between
 /// solvers.
 /// 
 
-struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
+int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 {
     //- allocate an array for registration of event distributors
 
@@ -49,7 +50,7 @@ struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
     if (!pped)
     {
-	return(NULL);
+	return(0);
     }
 
     // \todo this must be replaced with projectionquery traversals
@@ -60,7 +61,7 @@ struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
     {
 	free(pped);
 
-	return(NULL);
+	return(0);
     }
 
     //- construct event distributors
@@ -107,7 +108,7 @@ struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
 		if (!pedd || !ped)
 		{
-		    return(NULL);
+		    return(0);
 		}
 
 		//- register this event distributor
@@ -171,7 +172,7 @@ struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
     {
 	// \todo the giant memory leak: pped and everything inside
 
-	return(NULL);
+	return(0);
     }
 
     //- construct event queuers
@@ -338,17 +339,6 @@ struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 	}
     }
 
-    //- integrate all the objects into a single DES object
-
-    struct DES *pdes = (struct DES *)calloc(1, sizeof(struct DES));
-
-    if (!pdes)
-    {
-	// \todo here is the mega memory leak
-
-	return(NULL);
-    }
-
     pdes->iCores = iCores;
     pdes->iPreSerials = iPreSerials;
     pdes->piPreSerials = piPreSerials;
@@ -357,7 +347,7 @@ struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 
     //- return result: DES object
 
-    return(pdes);
+    return(1);
 }
 
 

@@ -71,6 +71,61 @@
  */
 
 
+/// 
+/// \return struct DES *
+/// 
+///	Empty connectivity system between solvers.
+/// 
+/// \brief Create a new connectivity system between solvers.
+/// 
+
+struct DES *DESNew(int iHappy)
+{
+    //- set default result: new des system
+
+    struct DES *pdesResult = (struct DES *)calloc(1, sizeof(struct DES));
+
+    if (!pdesResult)
+    {
+	// \todo here is the mega memory leak
+
+	return(NULL);
+    }
+
+    pdesResult->iCores = 0;
+    pdesResult->iPreSerials = 0;
+    pdesResult->piPreSerials = 0;
+    pdesResult->pped = NULL;
+    pdesResult->ppeq = NULL;
+
+    //- return result
+
+    return(pdesResult);
+}
+
+
+/// 
+/// \arg iCore CPU core identifier.
+///
+/// \return struct EventQueuer
+/// 
+///	Event queuer for this CPU core.
+/// 
+/// \brief Get access to the event queuer for this CPU core.
+/// 
+
+struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore)
+{
+    //- set result: from the queuer array
+
+    struct EventQueuer *peqResult = pdes->ppeq[iCore];
+
+    //- return result
+
+    return(peqResult);
+}
+
+
 typedef struct EventList
 {
     struct EventList *pelLater;
@@ -808,6 +863,8 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
     //- set default result: ok
 
     int iResult = 1;
+
+    fprintf(stdout, "EventQueuerProcess(): processing until %g\n", dCurrentTime);
 
 #if USE_SGLIB
 

@@ -1264,11 +1264,18 @@ sub connect
 
     my $projection_query = SwiggableNeurospaces::swig_get_global_projectionquery();
 
-    my $des_backend = SwiggableHeccer::DESNew($solver_registry, $projection_query);
+    my $connected = $self->{backend}->DESConnect($solver_registry, $projection_query);
 
-    # return ok
+    if ($connected)
+    {
+	# return ok
 
-    return '';
+	return '';
+    }
+    else
+    {
+	return 'DES cannot connect the solvers';
+    }
 }
 
 
@@ -1290,8 +1297,8 @@ sub get_driver
 # 	   method => $self->{backend}->output_generator_get_driver_method(),
 # 	   data => $self->{backend},
 # 	   method => \&SwiggableHeccer::OutputGeneratorAnnotatedStep,
-	   data => -1,
-	   method => -1,
+	   data => $self->{backend}->des_get_driver_data(),
+	   method => $self->{backend}->des_get_driver_method(),
 	  };
 
     return $result;
@@ -1331,19 +1338,21 @@ sub new
 
 	my $self = { %$options, };
 
-	# construct the distributor
+# 	# construct the distributor
 
-	$self->{distributor}
-	    = {
-	       backend => Heccer::DES::Distributor->new(),
-	      };
+# 	$self->{distributor}
+# 	    = {
+# 	       backend => Heccer::DES::Distributor->new(),
+# 	      };
 
-	# construct the queuer
+# 	# construct the queuer
 
-	$self->{queuer}
-	    = {
-	       backend => Heccer::DES::Queuer->new(),
-	      };
+# 	$self->{queuer}
+# 	    = {
+# 	       backend => Heccer::DES::Queuer->new(),
+# 	      };
+
+	$self->{backend} = SwiggableHeccer::DESNew(1);
 
 	bless $self, $package;
 
@@ -1381,7 +1390,23 @@ sub step
 {
     my $self = shift;
 
-    # nothing here
+    my $scheduler = shift;
+
+    my $options = shift;
+
+    # get the queuer for this cpu core
+
+    my $backend = $self->backend();
+
+    my $cpu_core = $options->{cpu_core} || 0;
+
+    my $queuer = $backend->DESGetQueuer($cpu_core);
+
+    # have the queuer check the event lists
+
+    my $time = $options->{time};
+
+    return $queuer->EventQueuerProcess($time);
 }
 
 

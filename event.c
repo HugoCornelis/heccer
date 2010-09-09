@@ -37,6 +37,10 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iSource2Targets)
 
     int iResult = 0;
 
+/*     fprintf */
+/* 	(stdout, */
+/* 	 "Heccer the hecc: generating events, but there is no valid event distribution service.\n"); */
+
     //- get pointer to event distributor
 
     struct EventDistributor *ped = pheccer->ped;

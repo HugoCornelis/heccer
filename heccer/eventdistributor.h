@@ -205,10 +205,10 @@ struct DES
 };
 
 
-struct ProjectionQuery;
-struct SolverRegistry;
+struct DES *DESNew(int iHappy);
 
-struct DES *DESNew(struct SolverRegistry *psr, struct ProjectionQuery *ppq);
+struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore);
+
 
 /// \note The parameter list of EventDistributorAddConnection() assumes that
 /// the output objects are always heccer output generators.  Internally

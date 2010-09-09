@@ -61,6 +61,7 @@
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
+#include "integrators/heccer/neurospaces/des.h"
 #include "integrators/heccer/neurospaces/heccer.h"
 
 /* #include "/usr/local/include/neurospaces/neurospaces.h" */
@@ -166,6 +167,18 @@ void * heccer_get_driver_method(struct Heccer *pheccer)
 }
 
 
+void * des_get_driver_data(struct DES *pdes)
+{
+    return((void *)pdes->ppeq[0]);
+}
+
+
+void * des_get_driver_method(struct DES *pdes)
+{
+    return((void *)EventQueuerProcess);
+}
+
+
 /* /// math component array handling */
 
 /* struct MathComponent *math_component_array(int size) */
@@ -201,6 +214,7 @@ void * heccer_get_driver_method(struct Heccer *pheccer)
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
+%include "integrators/heccer/neurospaces/des.h"
 %include "integrators/heccer/neurospaces/heccer.h"
 
 /* %include "/usr/local/include/neurospaces/neurospaces.h" */
