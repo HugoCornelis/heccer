@@ -277,58 +277,60 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 		    //- register this pre-synaptic serial
 
 		    iLastPre = pcconn->iPre;
+		}
 
-		    //- get the matrix row that corresponds to this serial
+		//- get the matrix row that corresponds to this serial
 
-		    struct EventQueuerMatrix *peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
+		struct EventQueuerMatrix *peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
 
-		    peqm->dDelay = pcconn->dDelay;
-		    peqm->dWeight = pcconn->dWeight;
-		    peqm->iTarget = pcconn->iPost;
+		peqm->dDelay = pcconn->dDelay;
+		peqm->dWeight = pcconn->dWeight;
+		peqm->iTarget = pcconn->iPost;
 
-		    // \todo HeccerEventSet() or HeccerEventReceive()
+		// \todo HeccerEventSet() or HeccerEventReceive()
 
-		    peqm->pvFunction = HeccerEventSet;
+		peqm->pvFunction = HeccerEventSet;
 
-		    //- if a solver has been registered for this post-synaptic serial
+		//- if a solver has been registered for this post-synaptic serial
 
-		    struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
+		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
 
-		    peqm->pvObject = NULL;
+		void *pvSolver = psi->pvSolver;
 
-		    void *pvSolver = psi->pvSolver;
+		if (pvSolver)
+		{
+		    //- connect the matrix entry with this solver
 
-		    if (pvSolver)
+		    peqm->pvObject = pvSolver;
+
+		    // \todo we simply assume it is a heccer: type
+		    // discrimination required here, recycle the logic
+		    // that is already available in ns-sli
+		    // nsintegrator.h struct SolverRegistration{}.
+
+		    struct Heccer *pheccer = (struct Heccer *)pvSolver;
+
+		    //- register the event distributor for this solver
+
+		    // \todo error checking, prevent multiple ped registrations maybe.
+
+		    if (HeccerConnect(pheccer, pped[iDistributor], NULL) == 1)
 		    {
-			// \todo we simply assume it is a heccer: type
-			// discrimination required here, recycle the logic
-			// that is already available in ns-sli
-			// nsintegrator.h struct SolverRegistration{}.
-
-			struct Heccer *pheccer = (struct Heccer *)pvSolver;
-
-			//- register the event distributor for this solver
-
-			// \todo error checking, prevent multiple ped registrations maybe.
-
-			if (HeccerConnect(pheccer, pped[iDistributor], NULL) == 1)
-			{
-			}
-			else
-			{
-			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (2)\n");
-			}
 		    }
 		    else
 		    {
-			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
-
-			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
-
-			PidinStackPrint(ppistSolved, stderr);
-
-			fprintf(stderr, "\n");
+			fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (2)\n");
 		    }
+		}
+		else
+		{
+		    fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+
+		    struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+
+		    PidinStackPrint(ppistSolved, stderr);
+
+		    fprintf(stderr, "\n");
 		}
 	    }
 
