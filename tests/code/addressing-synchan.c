@@ -280,7 +280,11 @@ struct Intermediary inter =
 
 struct OutputGenerator * pogActivation = NULL;
 
+struct OutputGenerator * pogNextEvent = NULL;
+
 double *pdActivation = NULL;
+
+double *pdNextEvent = NULL;
 
 char pcStep[100] = "";
 
@@ -301,15 +305,21 @@ int main(int argc, char *argv[])
 
     OutputGeneratorInitiate(pogActivation);
 
+    pogNextEvent = OutputGeneratorNew("/tmp/output2");
+
+    OutputGeneratorInitiate(pogNextEvent);
+
 //d generate output of membrane potential each step
 
 #define HECCER_TEST_INITIATE \
     pdActivation = HeccerAddressVariable(pheccer, 2000, "activation"); \
-    OutputGeneratorAddVariable(pogActivation, "Activation", pdActivation)
+    OutputGeneratorAddVariable(pogActivation, "Activation", pdActivation); \
+    pdNextEvent = HeccerAddressVariable(pheccer, 2000, "next_event"); \
+    OutputGeneratorAddVariable(pogNextEvent, "NextEvent", pdNextEvent)
 
 //d generate output of membrane potential each step
 
-#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogActivation, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
+#define HECCER_TEST_OUTPUT OutputGeneratorAnnotatedStep(pogActivation, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed"); OutputGeneratorAnnotatedStep(pogNextEvent, sprintf(pcStep, "%i", i) ? pcStep : "sprintf() failed")
 
 #endif
 
@@ -323,9 +333,13 @@ int main(int argc, char *argv[])
 
     OutputGeneratorFinish(pogActivation);
 
+    OutputGeneratorFinish(pogNextEvent);
+
     //- add the simulation output to the program output
 
     WriteOutput("/tmp/output");
+
+    WriteOutput("/tmp/output2");
 
 #endif
 
@@ -338,6 +352,8 @@ int main(int argc, char *argv[])
 
     double *pdActivationExternal = HeccerAddressVariable(pheccer, 2000, "activation");
 
+    double *pdNextEventExternal = HeccerAddressVariable(pheccer, 2000, "next_event");
+
 #endif
 
     //- address variables via the internal indices
@@ -345,6 +361,8 @@ int main(int argc, char *argv[])
     double *pdVmInternal = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");
 
     double *pdActivationInternal = HeccerAddressMechanismVariable(pheccer, 0, "activation");
+
+    double *pdNextEventInternal = HeccerAddressVariable(pheccer, 2000, "next_event");
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
@@ -362,11 +380,20 @@ int main(int argc, char *argv[])
 	exit(EXIT_FAILURE);
     }
 
+    if (pdNextEventExternal != pdNextEventInternal)
+    {
+	fprintf(stdout, "*** Error: (pdNextEventExternal != pdNextEventInternal)\n");
+
+	exit(EXIT_FAILURE);
+    }
+
 #endif
 
     fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
 
-    fprintf(stdout, "Activation state m is %g\n", pdActivationInternal[0]);
+    fprintf(stdout, "Activation state is %g\n", pdActivationInternal[0]);
+
+    fprintf(stdout, "next event time is %g\n", pdNextEventInternal[0]);
 
     //- return result
 

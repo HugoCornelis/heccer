@@ -372,6 +372,7 @@ HeccerAddressMechanismVariable
 	{	"activation",	0,	1, },
 	{	"conductance",	0,	0, },
 	{	"current",	0,	1, },
+	{	"next_event",	0,	0, },
 	{	"spike",	0,	1, },
 	{	"state_h",	0,	0, },
 	{	"state_m",	-1,	0, },

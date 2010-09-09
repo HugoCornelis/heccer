@@ -445,7 +445,6 @@ Membrane potential is -0.00351932
 Conductance is 4.17907e-09
 Current is 2.0276e-10
 ',
-						   timeout => 15,
 						  },
 						  {
 						   description => "Are transmembrane current variables addressed correctly ?",
@@ -470,7 +469,6 @@ Current is 2.0276e-10
 						   read => ((join '', `cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
 							    ? (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--with-neurospaces.txt`)
 							    : (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--without-neurospaces.txt`)),
-						   timeout => 5,
 						  },
 						 ],
 				description => "addressing variables for a simplified version of a purkinje segment",
@@ -516,8 +514,37 @@ Current is 2.0276e-10
 27 0.690746
 28 0.677068
 29 0.663661
+0 -1
+1 -1
+2 -1
+3 -1
+4 -1
+5 -1
+6 -1
+7 -1
+8 -1
+9 -1
+10 -1
+11 -1
+12 -1
+13 -1
+14 -1
+15 -1
+16 -1
+17 -1
+18 -1
+19 -1
+20 -1
+21 -1
+22 -1
+23 -1
+24 -1
+25 -1
+26 -1
+27 -1
+28 -1
+29 -1
 ',
-						   timeout => 5,
 						  },
 						 ],
 				description => "addressing synchan activation",

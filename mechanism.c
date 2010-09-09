@@ -4318,7 +4318,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 
 		struct HeccerTabulatedSpringMass *phtsm = &pheccer->tsmt.phtsm[iTable];
 
-		//- if the firing frequence has been set
+		//- if the firing frequency has been set
 
 		if (pmops->dFrequency > 0)
 		{
