@@ -288,7 +288,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    // \todo HeccerEventSet() or HeccerEventReceive()
 
-		    peqm->pvFunction = NULL;
+		    peqm->pvFunction = HeccerEventSet;
 
 		    //- if a solver has been registered for this post-synaptic serial
 
