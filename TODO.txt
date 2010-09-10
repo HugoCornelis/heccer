@@ -32,9 +32,6 @@ get_current_revision_id is being used, but that gives an wrong
 revision id on an unchanged workspace, or I cannot figure out what it
 is doing.
 
-* addressing, output generator and vclamp
-Variables should be (double *) instead of (void *).
-
 * some tests don't work on ric-neurospaces-02
 check files heccer-tables.output and heccer-spikes.output.  Perhaps
 related to not recompiling heccer and integrating the proper
