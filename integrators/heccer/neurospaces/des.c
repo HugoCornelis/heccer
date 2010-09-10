@@ -283,6 +283,10 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		struct EventQueuerMatrix *peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
 
+		// \todo peqm now points to the start of the row.
+		// Have to loop over the entire row and set all
+		// parameters for each entry.
+
 		peqm->dDelay = pcconn->dDelay;
 		peqm->dWeight = pcconn->dWeight;
 		peqm->iTarget = pcconn->iPost;
@@ -313,6 +317,10 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 		    //- register the event distributor for this solver
 
 		    // \todo error checking, prevent multiple ped registrations maybe.
+
+		    // \todo the event queuer of the post synaptic
+		    // serial should be known here.  Pass it on to
+		    // this heccer.
 
 		    if (HeccerConnect(pheccer, pped[iDistributor], NULL) == 1)
 		    {
