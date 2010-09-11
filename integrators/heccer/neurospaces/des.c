@@ -117,7 +117,6 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		piPreSerials[iDistributor] = pcconn->iPre;
 
-#ifdef lkjsdflkj
 		//- if a solver has been registered for this pre-synaptic serial
 
 		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPre);
@@ -152,7 +151,6 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    fprintf(stderr, "\n");
 		}
-#endif
 	    }
 	}
 
