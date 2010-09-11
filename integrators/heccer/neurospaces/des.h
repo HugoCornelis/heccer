@@ -26,7 +26,7 @@
 #include <neurospaces/projectionquery.h>
 #include <neurospaces/solverinfo.h>
 
-#include "heccer/eventdistributor.h"
+#include "heccer/des.h"
 
 
 int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQuery *ppq);

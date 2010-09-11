@@ -23,7 +23,7 @@
 #include <experiment/output.h>
 
 #include "heccer/event.h"
-#include "heccer/eventdistributor.h"
+#include "heccer/des.h"
 
 
 #if USE_SGLIB

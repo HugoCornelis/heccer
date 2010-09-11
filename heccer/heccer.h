@@ -29,7 +29,7 @@
 struct Heccer;
 
 
-#include "eventdistributor.h"
+#include "des.h"
 #include "intermediary.h"
 #include "indexers.h"
 #include "service.h"
