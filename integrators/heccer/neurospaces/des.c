@@ -117,6 +117,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		piPreSerials[iDistributor] = pcconn->iPre;
 
+#ifdef lkjsdflkj
 		//- if a solver has been registered for this pre-synaptic serial
 
 		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPre);
@@ -151,6 +152,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    fprintf(stderr, "\n");
 		}
+#endif
 	    }
 	}
 
@@ -264,82 +266,105 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 	    {
 		// \todo ProjectionQueryTraverseConnectionsForSpikeGenerator()
 
-		//- if this connection has a different pre-synaptic serial from the last one
+		//- the queuer matrix row to be filled in
 
-		struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPre, i);
+		struct EventQueuerMatrix *peqm = NULL;
 
-		if (iLastPre != pcconn->iPre)
+		//- loop over all post synaptic targets of this pre-synaptic source
+
+		int iColumn = INT_MAX;
+
+		int k;
+
+		for (k = j ; k < iConnections ; k++)
 		{
-		    //- increment distributor index
+		    struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPre, k);
 
-		    iDistributor++;
+		    //- when we are dealing with a new pre-synaptic source
 
-		    //- register this pre-synaptic serial
-
-		    iLastPre = pcconn->iPre;
-		}
-
-		//- get the matrix row that corresponds to this serial
-
-		struct EventQueuerMatrix *peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
-
-		// \todo peqm now points to the start of the row.
-		// Have to loop over the entire row and set all
-		// parameters for each entry.
-
-		peqm->dDelay = pcconn->dDelay;
-		peqm->dWeight = pcconn->dWeight;
-		peqm->iTarget = pcconn->iPost;
-
-		// \todo HeccerEventSet() or HeccerEventReceive()
-
-		peqm->pvFunction = HeccerEventSet;
-
-		//- if a solver has been registered for this post-synaptic serial
-
-		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
-
-		void *pvSolver = psi->pvSolver;
-
-		if (pvSolver)
-		{
-		    //- connect the matrix entry with this solver
-
-		    peqm->pvObject = pvSolver;
-
-		    // \todo we simply assume it is a heccer: type
-		    // discrimination required here, recycle the logic
-		    // that is already available in ns-sli
-		    // nsintegrator.h struct SolverRegistration{}.
-
-		    struct Heccer *pheccer = (struct Heccer *)pvSolver;
-
-		    //- register the event distributor for this solver
-
-		    // \todo error checking, prevent multiple ped registrations maybe.
-
-		    // \todo the event queuer of the post synaptic
-		    // serial should be known here.  Pass it on to
-		    // this heccer.
-
-		    if (HeccerConnect(pheccer, pped[iDistributor], NULL) == 1)
+		    if (iLastPre != pcconn->iPre)
 		    {
+			//- start column index
+
+			iColumn = 0;
+
+			//- get the matrix row that corresponds to this serial
+
+			peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
+
+			//- increment distributor index
+
+			iDistributor++;
+
+			//- register this pre-synaptic serial
+
+			iLastPre = pcconn->iPre;
+		    }
+
+		    //- fill in the matrix entry
+
+		    peqm[iColumn].dDelay = pcconn->dDelay;
+		    peqm[iColumn].dWeight = pcconn->dWeight;
+		    peqm[iColumn].iTarget = pcconn->iPost;
+
+		    // \todo HeccerEventSet() or HeccerEventReceive()
+
+		    peqm[iColumn].pvFunction = HeccerEventSet;
+
+		    //- if a solver has been registered for this post-synaptic serial
+
+		    struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
+
+		    void *pvSolver = psi->pvSolver;
+
+		    if (pvSolver)
+		    {
+			//- connect the matrix entry with this solver
+
+			peqm[iColumn].pvObject = pvSolver;
+
+			// \todo we simply assume it is a heccer: type
+			// discrimination required here, recycle the logic
+			// that is already available in ns-sli
+			// nsintegrator.h struct SolverRegistration{}.
+
+			struct Heccer *pheccer = (struct Heccer *)pvSolver;
+
+			//- register the event distributor for this solver
+
+			// \todo error checking, prevent multiple ped registrations maybe.
+
+			// \todo the event queuer of the post synaptic
+			// serial should be known here.  Pass it on to
+			// this heccer.
+
+			if (HeccerConnect(pheccer, pped[iDistributor], peq) == 1)
+			{
+			}
+			else
+			{
+			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (2)\n");
+			}
 		    }
 		    else
 		    {
-			fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (2)\n");
+			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+
+			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+
+			PidinStackPrint(ppistSolved, stderr);
+
+			fprintf(stderr, "\n");
 		    }
+
+		    //- go to next column in the matrix
+
+		    iColumn++;
 		}
-		else
-		{
-		    fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
 
-		    struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+		//- register start index for next pre-synaptic loop
 
-		    PidinStackPrint(ppistSolved, stderr);
-
-		    fprintf(stderr, "\n");
-		}
+		j = k;
 	    }
 
 	    if (iDistributor + 1 != iPreSerials)
@@ -355,7 +380,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
     pdes->pped = pped;
     pdes->ppeq = ppeq;
 
-    //- return result: DES object
+    //- return result: success
 
     return(1);
 }
