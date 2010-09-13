@@ -123,39 +123,39 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 
 /// 
 /// \arg pheccer a heccer.
-/// \arg iTarget index of target.
+/// \arg pdEvent next time of firing of an event receiver.
 /// \arg dTime firing time of event.
 /// 
 /// \return int
 /// 
 ///	success of operation.
 /// 
-/// \brief Associate an event with its target.
+/// \brief Register a new time of firing for an event receiver.
 /// 
 
-int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime)
+int HeccerEventSet(struct Heccer *pheccer, double *pdEvent, double dTime)
 {
     //- set default result: ok
 
     int iResult = 1;
 
-    //- get type specific data
+/*     //- get type specific data */
 
-    /// \note somehow this needs to use the addressing module or so, preferably during compilation
+/*     /// \note somehow this needs to use the addressing module or so, preferably during compilation */
 
-    struct MatsSpringMass *pmats = (struct MatsSpringMass *)&pheccer->vm.pdMats[iTarget];
+/*     struct MatsSpringMass *pmats = (struct MatsSpringMass *)&pheccer->vm.pdMats[iTarget]; */
 
-    //- if there is no next event
+/*     //- if there is no next event */
 
-    if (pmats->dNextEvent == -1.0
+/*     if (pmats->dNextEvent == -1.0 */
 
-	//- or the next pending event has a later time stamp than the new one
+/* 	//- or the next pending event has a later time stamp than the new one */
 
-	|| pmats->dNextEvent > dTime)
+/* 	|| pmats->dNextEvent > dTime) */
     {
 	//- overwrite the time stamp for the next event with the time stamp of the incoming event
 
-	pmats->dNextEvent = dTime;
+	*pdEvent = dTime;
     }
 
     //- return result

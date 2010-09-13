@@ -1258,7 +1258,7 @@ sub connect
 
     SwiggableNeurospaces::swig_pq_set($query_pq);
 
-    # construct the DES backend
+    # initialize the DES backend
 
     my $solver_registry = SwiggableNeurospaces::swig_get_global_solver_registry();
 

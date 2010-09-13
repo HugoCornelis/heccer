@@ -20,6 +20,7 @@
 #include <neurospaces/projectionquery.h>
 #include <neurospaces/solverinfo.h>
 
+#include "heccer/addressing.h"
 #include "heccer/event.h"
 #include "heccer/neurospaces/des.h"
 
@@ -133,7 +134,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    // \todo error checking, prevent multiple ped registrations maybe.
 
-		    if (HeccerConnect(pheccer, ped, NULL) == 1)
+		    if (HeccerConnect(pheccer, ped, NULL, NULL, NULL) == 1)
 		    {
 		    }
 		    else
@@ -303,7 +304,6 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    peqm[iColumn].dDelay = pcconn->dDelay;
 		    peqm[iColumn].dWeight = pcconn->dWeight;
-		    peqm[iColumn].iTarget = pcconn->iPost;
 
 		    // \todo HeccerEventSet() or HeccerEventReceive()
 
@@ -328,6 +328,10 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 			struct Heccer *pheccer = (struct Heccer *)pvSolver;
 
+			//- fill in the solver index as notification target
+
+			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccer, pcconn->iPost, "next_event");
+
 			//- register the event distributor for this solver
 
 			// \todo error checking, prevent multiple ped registrations maybe.
@@ -336,7 +340,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 			// serial should be known here.  Pass it on to
 			// this heccer.
 
-			if (HeccerConnect(pheccer, pped[iDistributor], peq) == 1)
+			if (HeccerConnect(pheccer, pped[iDistributor], peq, psr, ppq) == 1)
 			{
 			}
 			else
@@ -413,24 +417,24 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
 
     ppeqmResult[iConnections].dDelay = DBL_MAX;
     ppeqmResult[iConnections].dWeight = DBL_MAX;
-    ppeqmResult[iConnections].iTarget = 0;
+    ppeqmResult[iConnections].pdEvent = NULL;
     ppeqmResult[iConnections].pvFunction = NULL;
     ppeqmResult[iConnections].pvObject = NULL;
 
-    //- loop over all connections
+/*     //- loop over all connections */
 
-    int i;
+/*     int i; */
 
-    for (i = 0 ; i < iConnections ; i++)
-    {
-	//- fill in entry
+/*     for (i = 0 ; i < iConnections ; i++) */
+/*     { */
+/* 	//- fill in entry */
 
-	ppeqmResult[i].dDelay = ppq->pcc->pcconn[i].dDelay;
-	ppeqmResult[i].dWeight = ppq->pcc->pcconn[i].dWeight;
-	ppeqmResult[i].iTarget = ppq->pcc->pcconn[i].iPost; //t must subtract the solver root serial
-	ppeqmResult[i].pvFunction = HeccerEventSet;
-	ppeqmResult[i].pvObject = NULL;
-    }
+/* 	ppeqmResult[i].dDelay = ppq->pcc->pcconn[i].dDelay; */
+/* 	ppeqmResult[i].dWeight = ppq->pcc->pcconn[i].dWeight; */
+/* 	ppeqmResult[i].iTarget = ppq->pcc->pcconn[i].iPost; //t must subtract the solver root serial */
+/* 	ppeqmResult[i].pvFunction = HeccerEventSet; */
+/* 	ppeqmResult[i].pvObject = NULL; */
+/*     } */
 
     //- return result
 

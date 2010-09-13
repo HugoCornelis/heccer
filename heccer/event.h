@@ -32,7 +32,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iTargets);
 
 double HeccerEventReceive(struct Heccer *pheccer, int iTarget);
 
-int HeccerEventSet(struct Heccer *pheccer, int iTarget, double dTime);
+int HeccerEventSet(struct Heccer *pheccer, double *pdEvent, double dTime);
 
 
 #endif

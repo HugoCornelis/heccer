@@ -108,9 +108,9 @@ struct EventQueuerMatrix
 
     void *pvObject;
 
-    /// target site, an index into a array of double ?
+    /// target site, pointer to double ?
 
-    int iTarget;
+    double *pdEvent;
 
     /// connection delay
 

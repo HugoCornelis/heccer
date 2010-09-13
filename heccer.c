@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/09/02) Thursday, September 2, 2010 19:45:14 cornelis";
+static char *pcVersionTime="(10/09/13) Monday, September 13, 2010 10:45:01 cornelis";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -467,6 +467,7 @@ int HeccerCompileP3(struct Heccer *pheccer)
 /// \arg pheccer a heccer.
 /// \arg ped the event distributor to be used.
 /// \arg peq the event queuer to be used.
+/// \arg ppq global projection query.
 /// 
 /// \return int
 /// 
@@ -479,7 +480,7 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///	 Likely to use indices, initialized with HeccerCompileP2().
 /// 
 
-int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq)
+int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 {
     //- check for errors
 
@@ -509,6 +510,8 @@ int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct E
     }
 
     //- connect this heccer synapses to the event queuer.
+
+    // \todo this will not work when we have one queuer per cpu core.
 
     if (peq)
     {

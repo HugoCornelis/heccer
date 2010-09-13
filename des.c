@@ -908,7 +908,7 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 
 	    //- call the target object
 
-	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->iTarget, dEvent);
+	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->pdEvent, dEvent);
 
 	    //- next table entry
 
