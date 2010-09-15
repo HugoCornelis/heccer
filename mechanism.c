@@ -586,16 +586,6 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    // translate to the address of iDiscreteTarget,
 		    // see table indexes for how to do that.
 
-		    // \todo use projection query to loop through all
-		    // event receivers and, given their serials, fill
-		    // in the iDiscreteTarget values, using
-		    // EventQueuerSerial2ConnectionIndex().  The event
-		    // queuer to be used is given by the CPU core
-		    // number.  This can be done in HeccerConnect().
-		    // This means that HeccerConnect() should receive
-		    // knowledge about the projection query, maybe it
-		    // can be linked to the event queuer.
-
 		    int iDiscreteTarget = EventQueuerSerial2ConnectionIndex(pheccer->peq, ADDRESSING_HECCER_2_NEUROSPACES(pcsm->mc.iSerial));
 
 #else

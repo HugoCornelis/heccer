@@ -883,7 +883,7 @@ struct Intermediary interTarget2 =
 };
 
 
-#include "../../heccer/eventdistributor.h"
+#include "../../heccer/des.h"
 
 struct EventDistributorMatrix pedm[] =
 {
@@ -988,7 +988,8 @@ struct EventQueuerMatrix peqm[] =
 
 	//m target object, an index into a array of double ?
 
-	4,
+	NULL,
+/* 	4, */
 
 	//m connection delay
 
@@ -1012,7 +1013,8 @@ struct EventQueuerMatrix peqm[] =
 
 	//m target object, an index into a array of double ?
 
-	4,
+	NULL,
+/* 	4, */
 
 	//m connection delay
 
@@ -1449,6 +1451,11 @@ int simulate(int argc, char *argv[])
 
     pheccerTarget1->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
 
+    //- set serial range
+
+    pheccerTarget1->inter.iSerialStart = ADDRESSING_NEUROSPACES_2_HECCER(4999);
+    pheccerTarget1->inter.iSerialEnd = ADDRESSING_NEUROSPACES_2_HECCER(6998);
+
     //- build indices for optimization
 
     HeccerCompileP2(pheccerTarget1);
@@ -1479,6 +1486,11 @@ int simulate(int argc, char *argv[])
 
     pheccerTarget2->ho.iSmallTableSize = HECCER_TEST_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
 
+    //- set serial range
+
+    pheccerTarget2->inter.iSerialStart = ADDRESSING_NEUROSPACES_2_HECCER(6999);
+    pheccerTarget2->inter.iSerialEnd = ADDRESSING_NEUROSPACES_2_HECCER(8998);
+
     //- build indices for optimization
 
     HeccerCompileP2(pheccerTarget2);
@@ -1497,11 +1509,15 @@ int simulate(int argc, char *argv[])
 
     peqm[0].pvObject = pheccerTarget1;
 
+    peqm[0].pdEvent = HeccerAddressVariable(pheccerTarget1, 6000, "next_event");
+
     //- link event queuer to springmass of target 2
 
     //! see also above, same developer comment
 
     peqm[1].pvObject = pheccerTarget2;
+
+    peqm[1].pdEvent = HeccerAddressVariable(pheccerTarget2, 8000, "next_event");
 
     //- initialize test specific things
 

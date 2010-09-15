@@ -498,7 +498,7 @@ struct Intermediary inter =
 };
 
 
-#include "../../heccer/eventdistributor.h"
+#include "../../heccer/des.h"
 
 struct EventDistributorMatrix pedm[] =
 {

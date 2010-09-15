@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/09/13) Monday, September 13, 2010 10:45:01 cornelis";
+static char *pcVersionTime="(10/09/13) Monday, September 13, 2010 16:04:08 cornelis";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -24,6 +24,7 @@ static char *pcVersionTime="(10/09/13) Monday, September 13, 2010 10:45:01 corne
 #include <stdio.h>
 #include <string.h>
 
+#include "heccer/addressing.h"
 #include "heccer/heccer.h"
 #include "heccer/serialization.h"
 
@@ -456,74 +457,6 @@ int HeccerCompileP3(struct Heccer *pheccer)
     //- allocate memory for aggregate results
 
     iResult = iResult && HeccerAggregatorsCompile(pheccer);
-
-    //- return result
-
-    return(iResult);
-}
-
-
-/// 
-/// \arg pheccer a heccer.
-/// \arg ped the event distributor to be used.
-/// \arg peq the event queuer to be used.
-/// \arg ppq global projection query.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Connect this heccer to its assigned event distributor.
-///
-/// \details
-/// 
-///	 Likely to use indices, initialized with HeccerCompileP2().
-/// 
-
-int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
-{
-    //- check for errors
-
-    if (pheccer->iErrorCount)
-    {
-	fprintf(stderr, "*** Error: HeccerConnect() cannot a heccer with %i errors\n", pheccer->iErrorCount);
-
-	return(0);
-    }
-
-    //- set default result : ok
-
-    int iResult = 1;
-
-    //- connect this heccer spikegens to the event distributor.
-
-    if (ped)
-    {
-	if (pheccer->ped && pheccer->ped != ped)
-	{
-	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event distributors per heccer\n");
-	}
-	else
-	{
-	    pheccer->ped = ped;
-	}
-    }
-
-    //- connect this heccer synapses to the event queuer.
-
-    // \todo this will not work when we have one queuer per cpu core.
-
-    if (peq)
-    {
-	if (pheccer->peq && pheccer->peq != peq)
-	{
-	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event queuers per heccer\n");
-	}
-	else
-	{
-	    pheccer->peq = peq;
-	}
-    }
 
     //- return result
 

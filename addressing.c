@@ -418,27 +418,18 @@ HeccerAddressMechanismVariable
 	pdResult = &pheccer->vm.ppdMatsIndex[iMat][pF2P[iField].iOffset];
     }
 
-    //- else
+    //- else we try mop entries
 
     else
     {
-	//- we try mop entries
+	//- first table index
 
 	if (strcasecmp(pcType, "table_A_index") == 0)
 	{
 	    //- operators are two off
 
 	    iOperand = -2;
-	}
-	else if (strcasecmp(pcType, "table_B_index") == 0)
-	{
-	    //- operators are one off
 
-	    iOperand = -1;
-	}
-
-	if (iOperand != INT_MAX)
-	{
 	    //- get mop number
 
 	    int iMop = pheccer->vm.piMC2Mop[iIndex];
@@ -449,17 +440,79 @@ HeccerAddressMechanismVariable
 
 	    //- set result
 
-	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops;
+/* 	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops; */
 
-	    //printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0);
+/* 	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0); */
 
 	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
 
-	    /// \note normally the default for iTableIndex is -1, which is
-	    /// \note returned as an error indicator if there is no table
-	    /// \note associated with this gate.
+	    // \note normally the default for iTableIndex is -1, which
+	    // is returned as an error indicator if there is no table
+	    // associated with this gate.
 
 	    pdResult = (double *)pmops->iTableIndex;
+	}
+
+	//- second table index
+
+	else if (strcasecmp(pcType, "table_B_index") == 0)
+	{
+	    //- operators are one off
+
+	    iOperand = -1;
+
+	    //- get mop number
+
+	    int iMop = pheccer->vm.piMC2Mop[iIndex];
+
+	    //- apply the operand
+
+	    iMop += iOperand;
+
+	    //- set result
+
+/* 	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops; */
+
+/* 	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0); */
+
+	    struct MopsSingleGateConcept *pmops = (struct MopsSingleGateConcept *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
+
+	    // \note normally the default for iTableIndex is -1, which
+	    // is returned as an error indicator if there is no table
+	    // associated with this gate.
+
+	    pdResult = (double *)pmops->iTableIndex;
+	}
+
+	//- post-synaptic targets in the event queuer matrix
+
+	else if (strcasecmp(pcType, "postsyn_targets") == 0)
+	{
+	    //- operators are one off
+
+	    iOperand = -1;
+
+	    //- get mop number
+
+	    int iMop = pheccer->vm.piMC2Mop[iIndex];
+
+	    //- apply the operand
+
+	    iMop += iOperand;
+
+	    //- set result
+
+/* 	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops; */
+
+/* 	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0); */
+
+	    struct MopsSpringMass *pmops = (struct MopsSpringMass *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
+
+	    // \note normally the default for iTableIndex is -1, which
+	    // is returned as an error indicator if there is no table
+	    // associated with this gate.
+
+	    pdResult = (double *)&pmops->iDiscreteTarget;
 	}
     }
 

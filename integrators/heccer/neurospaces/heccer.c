@@ -20,11 +20,192 @@
 #include <neurospaces/parsersupport.h>
 #include <neurospaces/pidinstack.h>
 
+#ifdef HeccerConnect_with_ppq
+
+#include <neurospaces/projectionquery.h>
+#include <neurospaces/solverinfo.h>
+
+#endif
+
+
 #include "heccer/addressing.h"
 #include "heccer/heccer.h"
 #include "heccer/neurospaces/segments.h"
 #include "heccer/neurospaces/heccer.h"
 
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg ped the event distributor to be used.
+/// \arg peq the event queuer to be used.
+/// \arg ppq global projection query.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Connect this heccer to its assigned event distributor.
+///
+/// \details
+/// 
+///	 Likely to use indices, initialized with HeccerCompileP2().
+/// 
+
+int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
+{
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	fprintf(stderr, "*** Error: HeccerConnect() cannot a heccer with %i errors\n", pheccer->iErrorCount);
+
+	return(0);
+    }
+
+    //- set default result : ok
+
+    int iResult = 1;
+
+    //- connect this heccer spikegens to the event distributor.
+
+    if (ped)
+    {
+	if (pheccer->ped && pheccer->ped != ped)
+	{
+	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event distributors per heccer\n");
+	}
+	else
+	{
+	    pheccer->ped = ped;
+	}
+    }
+
+    //- connect this heccer synapses to the event queuer.
+
+    // \todo this will not work when we have one queuer per cpu core.
+
+    if (peq)
+    {
+	if (pheccer->peq && pheccer->peq != peq)
+	{
+	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event queuers per heccer\n");
+	}
+	else
+	{
+	    pheccer->peq = peq;
+	}
+    }
+
+#ifdef HeccerConnect_with_ppq
+
+    // \todo use projection query to loop through all event receivers
+    // and, given their serials, fill in the iDiscreteTarget values,
+    // using EventQueuerSerial2ConnectionIndex().  The event queuer to
+    // be used is given by the CPU core number.  This can be done in
+    // HeccerConnect().  This means that HeccerConnect() should
+    // receive knowledge about the projection query, maybe it can be
+    // linked to the event queuer.
+
+    //- if we got a projection query
+
+    if (ppq)
+    {
+	//- loop over all connections
+
+	int iConnections = ProjectionQueryCountConnections(ppq);
+
+	//- loop over all event receivers
+
+	int iLastPost = -1;
+
+	//- receiver count
+
+	int iReceiver = -1;
+
+	int i;
+
+	for (i = 0 ; i < iConnections ; i++)
+	{
+	    struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPost, i);
+
+	    //- when we are dealing with a new pre-synaptic source
+
+	    if (iLastPost != pcconn->iPost)
+	    {
+		//- increment receiver count
+
+		iReceiver++;
+
+		//- register this pre-synaptic serial
+
+		iLastPost = pcconn->iPost;
+
+		//- if this is the correct heccer
+
+		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
+
+		void *pvSolver = psi->pvSolver;
+
+		if (pvSolver == (void *)pheccer)
+		{
+		    //- get heccer variable of iDiscreteTarget in mops, post-synaptic targets in the event queuer matrix
+
+		    double *pdDiscreteTarget = HeccerAddressVariable(pheccer, iLastPost, "postsyn_targets");
+
+		    if (pdDiscreteTarget)
+		    {
+			int *piDiscreteTarget = (int *)pdDiscreteTarget;
+
+			//- fill in target index: is receiver count
+
+			*piDiscreteTarget = iReceiver;
+		    }
+		    else
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Cannot find synchan target field for synchan with serial %i",
+			     iLastPost);
+		    }
+		}
+		else
+		{
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Requested this heccer to obtain information about a field solved by another heccer (%s)",
+			 psi->pcSolver);
+		}
+	    }
+	}
+    }
+
+#endif
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pvNeurospaces model-container.
+/// \arg pcModel model identifier in the model-container.
+/// \arg pvEventDistributor event distributor of this heccer.
+/// \arg pvEventQueuer event queuer of this heccer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Connect this heccer to its assigned event distributor.
+///
+/// \details
+/// 
+///	 Likely to use indices, initialized with HeccerCompileP2().
+/// 
 
 int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, void *pvEventDistributor, void *pvEventQueuer)
 {

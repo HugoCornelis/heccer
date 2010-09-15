@@ -24,7 +24,11 @@ SUBDIRS = \
 
 dist_bin_SCRIPTS = bin/heccer
 
-AM_CFLAGS=-g3 -fPIC -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -D__NO_MATH_INLINES
+#t note the use of builddir without '/' suffixed.
+
+#t the neurospaces prefix should be used for this
+
+AM_CFLAGS=-g3 -fPIC -include heccer/config.h -Wmissing-prototypes -Wmissing-declarations -ffloat-store -I/usr/local/neurospaces/instrumentor -I$(srcdir)/.. -I$(builddir).. -include heccer/config.h -DPRE_PROTO_TRAVERSAL -D__NO_MATH_INLINES
 
 #CFLAGS = -O0
 
