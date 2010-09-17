@@ -101,10 +101,7 @@ int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct E
     // \todo use projection query to loop through all event receivers
     // and, given their serials, fill in the iDiscreteTarget values,
     // using EventQueuerSerial2ConnectionIndex().  The event queuer to
-    // be used is given by the CPU core number.  This can be done in
-    // HeccerConnect().  This means that HeccerConnect() should
-    // receive knowledge about the projection query, maybe it can be
-    // linked to the event queuer.
+    // be used is given by the CPU core number.
 
     //- if we got a projection query
 

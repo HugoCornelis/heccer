@@ -191,7 +191,9 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 	    struct EventQueuer *peq = EventQueuerNewFromSingleRow(ppeqm);
 
-	    int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq, piPreSerials[0], i);
+/* 	    // \todo this line of code says that there is at most one presyn per queuer. */
+
+/* 	    int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq, piPreSerials[0], i); */
 
 	    //- register this event queuer
 

@@ -94,17 +94,11 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 
     struct EventQueuer *peq = pheccer->peq;
 
-    //- tell the distributor to distribute the event over the targets
+    //- ask the queuer for the event activation
 
     if (peq->eventDequeue)
     {
 	dResult = peq->eventDequeue(peq, pheccer->dTime, iTarget);
-
-	/// \todo call HeccerEventSet() for next event time.
-
-	/// \todo dNext == next event time
-
-	/// \todo HeccerEventSet(pheccer, iTarget, dNext);
     }
     else
     {
