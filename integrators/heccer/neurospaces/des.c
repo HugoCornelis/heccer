@@ -210,6 +210,26 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 	for (i = 0 ; i < iPreSerials ; i++)
 	{
+	    // \todo for each pre-synaptic serial, identify the
+	    // post-synaptic serials, for each post-synaptic serial in
+	    // the result, identify the queuer and queuer matrix row.
+	    // Use this to fill in the event distributor matrix.  If I
+	    // am correct identification of the queuer also identifies
+	    // the queuer row and vice versa, ie in each queuer there
+	    // is at most one queuer row associated with each
+	    // pre-synaptic serial.
+
+	    // \todo this means that we need one entry in the event
+	    // distributor matrix per event queuer in the target set.
+
+	    // \todo how do we identify the queuer row?  The queuer
+	    // row identifies the post-synaptic heccer and
+	    // post-synaptic id in heccer.  These last two can be
+	    // found in the solver registry.  Maybe the best solution
+	    // is to fill in the queuer rows here and simultaneously
+	    // here also keep a count on queuer rows that have been
+	    // filled in?
+
 	    struct EventDistributor *ped = pped[i];
 
 	    //- register the queuer in the distributor
