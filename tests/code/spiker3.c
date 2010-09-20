@@ -1461,7 +1461,11 @@ int simulate(int argc, char *argv[])
 
     HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
 
+    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Initiated\n");
+
     HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget1, stdout, HECCER_TEST_TESTED_THINGS);
+
+    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Initiated\n");
 
     HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget2, stdout, HECCER_TEST_TESTED_THINGS);
 
@@ -1503,7 +1507,15 @@ int simulate(int argc, char *argv[])
 
 	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
 
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
+
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Iteration %i\n", i);
+
 	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget1, stdout, HECCER_TEST_TESTED_THINGS);
+
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
+
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Iteration %i\n", i);
 
 	    HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget2, stdout, HECCER_TEST_TESTED_THINGS);
 	}
@@ -1523,7 +1535,15 @@ int simulate(int argc, char *argv[])
 
 	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
 
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
+
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Final Iteration\n", i);
+
 	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget1, stdout, HECCER_TEST_TESTED_THINGS);
+
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
+
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Final Iteration\n", i);
 
 	HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerTarget2, stdout, HECCER_TEST_TESTED_THINGS);
     }

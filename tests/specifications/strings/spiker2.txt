@@ -34,6 +34,7 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.065)
+Initiated
 Heccer (pcName) : (target1)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
@@ -63,6 +64,7 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.065)
+Initiated
 Heccer (pcName) : (target2)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
@@ -129,6 +131,8 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0649617)
+-------
+Iteration 0
 Heccer (pcName) : (target1)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
@@ -158,6 +162,8 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0650009)
+-------
+Iteration 0
 Heccer (pcName) : (target2)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
@@ -224,6 +230,8 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0535602)
+-------
+Final Iteration
 Heccer (pcName) : (target1)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
@@ -253,6 +261,8 @@ VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.070312)
+-------
+Final Iteration
 Heccer (pcName) : (target2)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
