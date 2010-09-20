@@ -662,7 +662,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     /// \todo loop over events for this target until this time
 
-    struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
+    struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[0][iTarget];
 
     while (ppeqm
 /* 	   && ppeqm->pvFunction */
