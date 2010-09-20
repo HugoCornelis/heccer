@@ -191,9 +191,9 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 	    struct EventQueuer *peq = EventQueuerNewFromSingleRow(ppeqm);
 
-/* 	    // \todo this line of code says that there is at most one presyn per queuer. */
+	    // \todo this line of code says that there is at most one presyn per queuer.
 
-/* 	    int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq, piPreSerials[0], i); */
+	    int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq, piPreSerials[0], i);
 
 	    //- register this event queuer
 
@@ -353,6 +353,12 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 			//- fill in the solver index as notification target
 
 			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccer, pcconn->iPost, "next_event");
+
+			double *pdPostSynTargets = HeccerAddressVariable(pheccer, pcconn->iPost, "postsyn_targets");
+
+			int *piPostSynTargets = (int *)pdPostSynTargets;
+
+			*piPostSynTargets = iColumn;
 
 			//- register the event distributor for this solver
 
