@@ -400,8 +400,6 @@ sub new
 
 		my $intermediary_backend = $intermediary->backend();
 
-		my $modelname = $model_source->{modelname};
-
 		# link the heccer with the intermediary
 
 		my $heccer_backend = $result->backend();
@@ -409,6 +407,12 @@ sub new
 		$heccer_backend->swig_inter_set($intermediary_backend);
 
 		$heccer_backend->swig_iStatus_set($SwiggableHeccer::HECCER_STATUS_PHASE_2);
+
+		# set the heccer name
+
+		my $modelname = $model_source->{modelname};
+
+		$heccer_backend->swig_pcName_set($modelname);
 
 		my $success = 1;
 
@@ -1649,10 +1653,10 @@ sub register_engine
 
     # do some concy checking for this restricted model container.
 
-    if (defined $modelname)
-    {
-	return "$0: " . __PACKAGE__ . " cannot register_engine() for a named model ($modelname)";
-    }
+#     if (defined $modelname)
+#     {
+# 	return "$0: " . __PACKAGE__ . " cannot register_engine() for a named model ($modelname)";
+#     }
 
 #     if (!$engine->isa('Heccer::Intermediary::Compiler'))
 #     {
