@@ -337,17 +337,17 @@ sub new
 
 	my $event_distributor_backend;
 
-	if ($settings->{event_distributor}->{event_distributor_backend})
-	{
-	    $event_distributor_backend = $settings->{event_distributor}->{event_distributor_backend}->backend();
-	}
+# 	if ($settings->{event_distributor}->{event_distributor_backend})
+# 	{
+# 	    $event_distributor_backend = $settings->{event_distributor}->{event_distributor_backend}->backend();
+# 	}
 
 	my $event_queuer_backend;
 
-	if ($settings->{event_queuer}->{event_queuer_backend})
-	{
-	    $event_queuer_backend = $settings->{event_queuer}->{event_queuer_backend}->backend();
-	}
+# 	if ($settings->{event_queuer}->{event_queuer_backend})
+# 	{
+# 	    $event_queuer_backend = $settings->{event_queuer}->{event_queuer_backend}->backend();
+# 	}
 
 	# if there is a model source
 

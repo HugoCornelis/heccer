@@ -226,6 +226,10 @@ int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, 
 
     int iResult = 1;
 
+    //- register the modelname in the heccer
+
+    pheccer->pcName = strdup(pcModel);
+
     //- lookup the model
 
     struct PidinStack *ppistModel = PidinStackParse(pcModel);
