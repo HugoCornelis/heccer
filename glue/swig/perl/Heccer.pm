@@ -1338,20 +1338,6 @@ sub new
 
 	my $self = { %$options, };
 
-# 	# construct the distributor
-
-# 	$self->{distributor}
-# 	    = {
-# 	       backend => Heccer::DES::Distributor->new(),
-# 	      };
-
-# 	# construct the queuer
-
-# 	$self->{queuer}
-# 	    = {
-# 	       backend => Heccer::DES::Queuer->new(),
-# 	      };
-
 	$self->{backend} = SwiggableHeccer::DESNew(1);
 
 	bless $self, $package;
@@ -1477,106 +1463,6 @@ sub compile
 
     my $options = shift;
 
-# #     my $distributor; # $scheduler->lookup_service('event_distributor');
-
-#     # construct a connection matrix
-
-#     my $scheduler = $peer->{scheduler};
-
-#     my $outputs = $scheduler->{outputs};
-
-#     my $connections = scalar grep { $_->{field} eq 'spike' } @$outputs;
-
-#     my $connection_matrix = SwiggableHeccer::EventDistributorDataNew($connections);
-
-#     $self->{backend} = SwiggableHeccer::EventDistributorNew($connection_matrix);
-
-#     if (!defined $self->{backend})
-#     {
-# 	return undef;
-#     }
-
-#     # lookup service
-
-#     my $service = $scheduler->lookup_object($options->{service});
-
-#     my $service_backend = $service->backend();
-
-#     # fill in the serials in the connection matrix
-
-#     my $count = 0;
-
-#     foreach my $output (grep { $_->{field} eq 'spike' } @$outputs)
-#     {
-# 	# get output component name
-
-# 	my $component_name = $output->{component_name};
-
-# 	# convert to serial
-
-# 	my $serial = $service_backend->component_2_serial($component_name);
-
-# 	if (!defined $serial)
-# 	{
-# 	    die "$0: Component_name $component_name cannot be found during DES output compilation";
-# 	}
-
-# 	# fill in the entry
-
-# 	my $entry = $connection_matrix->EventDistributorDataGetEntry($count);
-
-# 	$entry->swig_iSerial_set($serial);
-
-# 	$count++;
-#     }
-
-#     # fill in a default send function
-
-#     if (!$self->{backend}->EventDistributorInitiate(1))
-#     {
-# 	die "$0: error setting up the event distributor, EventDistributorInitiate() failed";
-#     }
-
-#     $self->{backend}->swig_eventDistribute_set(\&SwiggableHeccer::EventDistributorSend);
-
-#     $self->{backend}->swig_pedd_set($);
-
-#     #t build a table that converts model container serials to entries in the connection matrix
-
-#     my $connection_table = ConnectionTableNew($connections);
-
-#     my $count = 0;
-
-#     my $connection_table_entries
-# 	= [
-# 	   map
-# 	   {
-# 	       # lookup serial for this component
-
-# 	       my $output = $_;
-
-# 	       my $service = $scheduler->lookup_object($options->{service});
-
-# 	       my $solver_info = $service->output_2_solverinfo($output);
-
-# 	       my $result
-# 		   = {
-# 		      serial => $solver_info->{serial},
-# 		      count => $count,
-# 		     };
-
-# 	       $count++;
-
-# 	       $result;
-# 	   }
-# 	   grep { $_->{field} eq 'spike' } @$outputs,
-# 	  ];
-
-#     foreach my $connection_table_entry (@$connection_table_entries)
-#     {
-# 	$connection_table->ConnectionTableSetEntry($connection_table_entry->{serial}, $connection_table_entry->{count}, );
-#     }
-
     return 1;
 }
 
@@ -1601,23 +1487,23 @@ package Heccer::DES::Queuer;
 BEGIN { our @ISA = qw(Heccer::Glue); }
 
 
-sub compile
-{
-    my $self = shift;
+# sub compile
+# {
+#     my $self = shift;
 
-    my $peer = shift;
+#     my $peer = shift;
 
-    my $queuer; # $scheduler->lookup_service('event_queuer');
+#     my $queuer; # $scheduler->lookup_service('event_queuer');
 
-    $self->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
+#     $self->{backend} = SwiggableHeccer::EventQueuerNew($queuer);
 
-    if (!defined $self->{backend})
-    {
-	return undef;
-    }
+#     if (!defined $self->{backend})
+#     {
+# 	return undef;
+#     }
 
-    return 1;
-}
+#     return 1;
+# }
 
 
 sub new
