@@ -1240,6 +1240,12 @@ sub compile
 {
     my $self = shift;
 
+    my $scheduler = shift;
+
+    # register this as a service
+
+    $scheduler->service_register( { event_system => $self, }, );
+
     return '';
 }
 
