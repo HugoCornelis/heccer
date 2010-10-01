@@ -1497,7 +1497,9 @@ sub add_output
 
     #! argument value 1: sets the output function
 
-    if ($backend->EventDistributorAddConnection(1, $output_backend, -1) == -1)
+    my $row = 1;
+
+    if ($backend->EventDistributorAddConnection(1, $output_backend, $row) == -1)
     {
 	$result = 'cannot connect $output_backend to its event distributor';
     }
