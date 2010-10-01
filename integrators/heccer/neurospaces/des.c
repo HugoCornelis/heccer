@@ -134,7 +134,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    // \todo error checking, prevent multiple ped registrations maybe.
 
-		    if (HeccerConnect(pheccer, ped, NULL, NULL, NULL) == 1)
+		    if (HeccerConnectDistributor(pheccer, ped, NULL, NULL) == 1)
 		    {
 		    }
 		    else
@@ -368,7 +368,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 			// serial should be known here.  Pass it on to
 			// this heccer.
 
-			if (HeccerConnect(pheccer, pped[iDistributor], peq, psr, ppq) == 1)
+			if (HeccerConnectQueuer(pheccer, peq, psr, ppq) == 1)
 			{
 			}
 			else

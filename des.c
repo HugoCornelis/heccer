@@ -105,6 +105,51 @@ struct DES *DESNew(int iHappy)
 
 
 /// 
+/// \arg pdes discrete event system.
+/// \arg iSerial context identifier.
+///
+/// \return struct EventDistributor
+/// 
+///	Event distributor for this CPU serial.
+/// 
+/// \brief Get access to the event distributor for this serial.
+/// 
+
+struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial)
+{
+    //- set default result: not found
+
+    struct EventDistributor *pedResult = NULL;
+
+    //- loop over the distributor array
+
+    int i;
+
+    for ( i = 0 ; i < pdes->iPreSerials ; i++)
+    {
+	//- if the serial is within the range of the current distributor
+
+	struct EventDistributor *ped = pdes->pped[i];
+
+	if (iSerial >= ped->iSerialStart
+	    && iSerial <= ped->iSerialEnd)
+	{
+	    //- found: set result
+
+	    pedResult = ped;
+
+	    break;
+	}
+    }
+
+    //- return result
+
+    return(pedResult);
+}
+
+
+/// 
+/// \arg pdes discrete event system.
 /// \arg iCore CPU core identifier.
 ///
 /// \return struct EventQueuer
@@ -526,6 +571,12 @@ EventDistributorNew
 
     pedResult->pedd = pedd;
 
+    //- mark the serial range as invalid
+
+    pedResult->iSerialStart = -1;
+
+    pedResult->iSerialEnd = -1;
+
     //- return result
 
     return(pedResult);
@@ -586,7 +637,8 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 /// 
 /// \arg ped an event distributor.
-/// \arg iSerial index of target objects and target ports.
+/// \arg iStart start of serial range.
+/// \arg iEnd end of serial range.
 /// 
 /// \return int
 /// 
@@ -595,11 +647,45 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 /// \brief Distribute an event over the targets.
 /// 
 
-int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
+int EventDistributorSetSerialRange(struct EventDistributor *ped, int iStart, int iEnd)
 {
-    //- always return 0
+    //- set default result: ok
 
-    return(0);
+    int iResult = 1;
+
+    if (ped->iSerialStart != -1
+	|| ped->iSerialEnd != -1)
+    {
+	return(0);
+    }
+
+    //- set range of this distributor
+
+    ped->iSerialStart = iStart;
+    ped->iSerialEnd = iEnd;
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/* ///  */
+/* /// \arg ped an event distributor. */
+/* /// \arg iSerial index of target objects and target ports. */
+/* ///  */
+/* /// \return int */
+/* ///  */
+/* ///	success of operation. */
+/* ///  */
+/* /// \brief Distribute an event over the targets. */
+/* ///  */
+
+/* int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial) */
+/* { */
+/*     //- always return 0 */
+
+/*     return(0); */
 
 /*     //- set default result: not found. */
 
@@ -638,7 +724,7 @@ int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial)
 
 /*     return(iResult); */
 
-}
+/* } */
 
 
 /// 

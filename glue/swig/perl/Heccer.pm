@@ -1244,7 +1244,15 @@ sub compile
 
     # register this as a service
 
-    $scheduler->service_register( { event_system => $self, }, );
+    $self->{scheduler} = $scheduler;
+
+    $scheduler->service_register
+	(
+	 'event_system',
+	  {
+	   backend => $self,
+	  },
+	);
 
     return '';
 }
@@ -1268,7 +1276,7 @@ sub connect
 
     SwiggableNeurospaces::swig_pq_set($query_pq);
 
-    # initialize the DES backend
+    # connect DES to the solvers by following the connections in the connection matrix
 
     my $solver_registry = SwiggableNeurospaces::swig_get_global_solver_registry();
 
@@ -1294,6 +1302,34 @@ sub finish
     my $self = shift;
 
     #! that is ok.
+}
+
+
+sub get_distributor
+{
+    my $self = shift;
+
+    my $solver_reference = shift;
+
+    # translate the solver reference
+
+    my $scheduler = $self->{scheduler};
+
+    my $model_container = $scheduler->lookup_object('model_container');
+
+    my $solver_info = $model_container->output_2_solverinfo($solver_reference);
+
+    my $distributor_backend = $self->{backend}->DESGetDistributor($solver_info->{serial});
+
+    my $distributor
+	= Heccer::DES::Distributor->new
+	    (
+	     {
+	      backend => $distributor_backend,
+	     },
+	    );
+
+    return $distributor;
 }
 
 
@@ -1418,6 +1454,10 @@ sub add_output
 
     my $outputclass = shift;
 
+    my $output = shift;
+
+    my $result;
+
 #! normally done automatically during ->instantiate_outputs()
 
 #     pogSpike = OutputGeneratorNew("/tmp/output_spike");
@@ -1453,15 +1493,18 @@ sub add_output
 
     # add the output object to the connection matrix
 
-    my $distributor = $self->{backend};
+    my $backend = $self->{backend};
 
     #! argument value 1: sets the output function
 
-#     my $result = $distributor->EventDistributorAddConnection($output_backend, 1);
+    if ($backend->EventDistributorAddConnection(1, $output_backend, -1) == -1)
+    {
+	$result = 'cannot connect $output_backend to its event distributor';
+    }
 
     # return result
 
-    return 1; # $result;
+    return $result;
 }
 
 

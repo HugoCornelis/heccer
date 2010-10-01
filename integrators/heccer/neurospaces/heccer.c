@@ -37,7 +37,6 @@
 /// 
 /// \arg pheccer a heccer.
 /// \arg ped the event distributor to be used.
-/// \arg peq the event queuer to be used.
 /// \arg ppq global projection query.
 /// 
 /// \return int
@@ -51,13 +50,13 @@
 ///	 Likely to use indices, initialized with HeccerCompileP2().
 /// 
 
-int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
+int HeccerConnectDistributor(struct Heccer *pheccer, struct EventDistributor *ped, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 {
     //- check for errors
 
     if (pheccer->iErrorCount)
     {
-	fprintf(stderr, "*** Error: HeccerConnect() cannot a heccer with %i errors\n", pheccer->iErrorCount);
+	fprintf(stderr, "*** Error: HeccerConnectDistributor() cannot a heccer with %i errors\n", pheccer->iErrorCount);
 
 	return(0);
     }
@@ -72,13 +71,141 @@ int HeccerConnect(struct Heccer *pheccer, struct EventDistributor *ped, struct E
     {
 	if (pheccer->ped && pheccer->ped != ped)
 	{
-	    fprintf(stderr, "*** Error: HeccerConnect() cannot have multiple event distributors per heccer\n");
+	    fprintf(stderr, "*** Error: HeccerConnectDistributor() cannot have multiple event distributors per heccer\n");
 	}
 	else
 	{
 	    pheccer->ped = ped;
+
+	    int iRanged = EventDistributorSetSerialRange(ped, pheccer->inter.iSerialStart, pheccer->inter.iSerialEnd);
+
+	    if (!iRanged)
+	    {
+		fprintf(stderr, "*** Error: HeccerConnectDistributor() cannot register the serial identifier range in its event distributor\n");
+	    }
 	}
     }
+
+#ifdef HeccerConnect_with_ppq
+
+    // \todo use projection query to loop through all event receivers
+    // and, given their serials, fill in the iDiscreteTarget values,
+    // using EventQueuerSerial2ConnectionIndex().  The event queuer to
+    // be used is given by the CPU core number.
+
+    //- if we got a projection query
+
+    if (ppq)
+    {
+	//- loop over all connections
+
+	int iConnections = ProjectionQueryCountConnections(ppq);
+
+	//- loop over all event receivers
+
+	int iLastPost = -1;
+
+	//- receiver count
+
+	int iReceiver = -1;
+
+	int i;
+
+	for (i = 0 ; i < iConnections ; i++)
+	{
+	    struct CachedConnection *pcconn = OrderedConnectionCacheGetEntry(ppq->poccPost, i);
+
+	    //- when we are dealing with a new pre-synaptic source
+
+	    if (iLastPost != pcconn->iPost)
+	    {
+		//- increment receiver count
+
+		iReceiver++;
+
+		//- register this pre-synaptic serial
+
+		iLastPost = pcconn->iPost;
+
+		//- if this is the correct heccer
+
+		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
+
+		void *pvSolver = psi->pvSolver;
+
+		if (pvSolver == (void *)pheccer)
+		{
+		    //- get heccer variable of iDiscreteTarget in mops, post-synaptic targets in the event queuer matrix
+
+		    double *pdDiscreteTarget = HeccerAddressVariable(pheccer, iLastPost, "postsyn_targets");
+
+		    if (pdDiscreteTarget)
+		    {
+			int *piDiscreteTarget = (int *)pdDiscreteTarget;
+
+			//- fill in target index: is receiver count
+
+			*piDiscreteTarget = iReceiver;
+		    }
+		    else
+		    {
+			HeccerError
+			    (pheccer,
+			     NULL,
+			     "Cannot find synchan target field for synchan with serial %i",
+			     iLastPost);
+		    }
+		}
+		else
+		{
+		    HeccerError
+			(pheccer,
+			 NULL,
+			 "Requested this heccer to obtain information about a field solved by another heccer (%s)",
+			 psi->pcSolver);
+		}
+	    }
+	}
+    }
+
+#endif
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg peq the event queuer to be used.
+/// \arg ppq global projection query.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Connect this heccer to its assigned event distributor.
+///
+/// \details
+/// 
+///	 Likely to use indices, initialized with HeccerCompileP2().
+/// 
+
+int HeccerConnectQueuer(struct Heccer *pheccer, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
+{
+    //- check for errors
+
+    if (pheccer->iErrorCount)
+    {
+	fprintf(stderr, "*** Error: HeccerConnectQueuer() cannot a heccer with %i errors\n", pheccer->iErrorCount);
+
+	return(0);
+    }
+
+    //- set default result : ok
+
+    int iResult = 1;
 
     //- connect this heccer synapses to the event queuer.
 

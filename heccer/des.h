@@ -91,6 +91,12 @@ struct EventDistributor
 
     EventDistribute eventDistribute;
 
+    /// serial range
+
+    int iSerialEnd;
+
+    int iSerialStart;
+
 };
 
 
@@ -207,6 +213,8 @@ struct DES
 
 struct DES *DESNew(int iHappy);
 
+struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial);
+
 struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore);
 
 
@@ -242,12 +250,13 @@ struct EventDistributor *
 EventDistributorNew
 (struct EventDistributorData *pedd);
 
-int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial);
+/* int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial); */
 
 /* extern EventDistribute EventDistributorSend; */
 
 int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets);
 
+int EventDistributorSetSerialRange(struct EventDistributor *ped, int iStart, int iEnd);
 
 /* extern EventQueue EventQueuerDequeue ; */
 

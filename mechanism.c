@@ -1860,7 +1860,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 		    {
 			//- translate the serial to the distributor identifier
 
-			iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial));
+/* 			iSource2Targets = EventDistributorSerial2Index(ped, ADDRESSING_HECCER_2_NEUROSPACES(iSerial)); */
 
 			if (iSource2Targets == -1)
 			{
