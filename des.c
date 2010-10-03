@@ -451,54 +451,54 @@ EventDistributorDataNew(int iComponents, int iPre)
 }
 
 
-/// 
-/// \arg ped event distributor.
-/// \arg iType type of setup to perform.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Initiate the event distributor service.
-///
-/// \details 
-/// 
-///	Initiation means setup internal state, at this moment this
-///	only involves initializing the distribution function.
-/// 
-/// \note
-/// 
-///	I consider this function a hack that gets around swig
-///	deficiencies in an acceptable way (or I don't have enough
-///	knowledge of swig).  To extend: add new iType values, and map
-///	to your own functions.
-/// 
+/* ///  */
+/* /// \arg ped event distributor. */
+/* /// \arg iType type of setup to perform. */
+/* ///  */
+/* /// \return int */
+/* ///  */
+/* ///	success of operation. */
+/* ///  */
+/* /// \brief Initiate the event distributor service. */
+/* /// */
+/* /// \details  */
+/* ///  */
+/* ///	Initiation means setup internal state, at this moment this */
+/* ///	only involves initializing the distribution function. */
+/* ///  */
+/* /// \note */
+/* ///  */
+/* ///	I consider this function a hack that gets around swig */
+/* ///	deficiencies in an acceptable way (or I don't have enough */
+/* ///	knowledge of swig).  To extend: add new iType values, and map */
+/* ///	to your own functions. */
+/* ///  */
 
-int
-EventDistributorInitiate
-(struct EventDistributor *ped, int iType)
-{
-    //- set default result: failure
+/* int */
+/* EventDistributorInitiate */
+/* (struct EventDistributor *ped, int iType) */
+/* { */
+/*     //- set default result: failure */
 
-    int iResult = 0;
+/*     int iResult = 0; */
 
-    //- if known type
+/*     //- if known type */
 
-    if (iType == 1)
-    {
-	//- set distribution function
+/*     if (iType == 1) */
+/*     { */
+/* 	//- set distribution function */
 
-	ped->eventDistribute = EventDistributorSend;
+/* 	ped->eventDistribute = EventDistributorSend; */
 
-	//- set result: ok
+/* 	//- set result: ok */
 
-	iResult = 1;
-    }
+/* 	iResult = 1; */
+/*     } */
 
-    //- return result
+/*     //- return result */
 
-    return(iResult);
-}
+/*     return(iResult); */
+/* } */
 
 
 /// 
