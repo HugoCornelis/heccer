@@ -362,7 +362,7 @@ EventDistributorAddConnection
 	}
 	else if (iType == 2)
 	{
-	    ppedm->pvFunction = EventQueuerEnqueue;
+	    ppedm->pvEventReceive = EventQueuerEnqueue;
 	}
 
 	//- increment connection count
@@ -477,7 +477,7 @@ EventDistributorDataNew(int iComponents, int iPre)
 
 /*     ppedm[iComponents].iSerial = -1; */
     ppedm[iComponents].iTarget = iPre;
-    ppedm[iComponents].pvFunction = NULL;
+    ppedm[iComponents].pvEventReceive = NULL;
     ppedm[iComponents].pvObject = NULL;
 
     //- fill in result
@@ -609,7 +609,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     struct EventDistributorMatrix *ppedm = &pedd->ppedm[iTargets];
 
-    while (ppedm && ppedm->pvFunction)
+    while (ppedm && ppedm->pvEventReceive)
     {
 	//- get target port index
 
@@ -622,7 +622,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 	// EventQueuerEnqueue() to queue the object other hooks
 	// possible.
 
-	iResult = iResult && ppedm->pvFunction(ppedm->pvObject, dTime, iTarget);
+	iResult = iResult && ppedm->pvEventReceive(ppedm->pvObject, dTime, iTarget);
 
 	//- next table entry
 
@@ -701,7 +701,7 @@ int EventDistributorSetSerialRange(struct EventDistributor *ped, int iStart, int
 
 /*     struct EventDistributorMatrix *ppedm = &pedd->ppedm[0]; */
 
-/*     while (ppedm && ppedm->pvFunction) */
+/*     while (ppedm && ppedm->pvEventReceive) */
 /*     { */
 /* 	//- if serials match */
 
