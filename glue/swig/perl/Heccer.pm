@@ -1458,50 +1458,23 @@ sub add_output
 
     my $result;
 
-#! normally done automatically during ->instantiate_outputs()
+#     my $scheduler = $outputclass->{scheduler};
 
-#     pogSpike = OutputGeneratorNew("/tmp/output_spike");
+    # get event output event processor
 
-#! normally done automatically by Heccer::Event::Output::add
-
-#     double *pdSpike = HeccerAddressMechanismVariable(pheccer, 2, "spike"); \
-#     OutputGeneratorAddVariable(pogSpike, "spike", pdSpike)
-
-
-#! should be done here: fill in in heccer intermediary
-
-#     //m table in event distributor with targets
-
-#     0,
-
-
-#! should be done here
-
-#     //- link spiking element to output generator
-
-#     pogSpike = OutputGeneratorNew("/tmp/output_spike");
-
-#     pedm[0].pvObject = pogSpike;
-#     pedm[0].pvFunction = OutputGeneratorTimedStep;
-
+    my $event_processor = $outputclass->get_event_processor();
 
     # lookup the backend for the output
 
-    my $scheduler = $outputclass->{scheduler};
-
     my $output_backend = $outputclass->backend();
 
-    my $event_processor = $outputclass->get_event_processor();
+    # event output does not use any event source identifier
+
+    my $row = -1;
 
     # add the output object to the connection matrix
 
     my $backend = $self->{backend};
-
-    #t event distributor row is fixed to one, but should be transparant
-
-    my $row = 1;
-
-    #! argument value 1: sets the output function
 
     if ($backend->EventDistributorAddConnection($event_processor, $output_backend, $row) == -1)
     {
