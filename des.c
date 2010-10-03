@@ -330,7 +330,7 @@ static int EventListInsert(EventList *pel)
 
 int
 EventDistributorAddConnection
-(struct EventDistributor *ped, int iType, void *pvObject, int iTarget)
+(struct EventDistributor *ped, void *pvEventReceive, void *pvObject, int iTarget)
 {
     //- set default result: failure
 
@@ -360,13 +360,16 @@ EventDistributorAddConnection
 
 	ppedm->iTarget = iTarget;
 
-	if (iType == 1)
-	{
+/* 	if (iType == 1) */
+/* 	{ */
 /* 	    ppedm->pvFunction = OutputGeneratorTimedStep; */
-	}
-	else if (iType == 2)
+/* 	} */
+/* 	else if (iType == 2) */
 	{
-	    ppedm->pvEventReceive = EventQueuerEnqueue;
+/* EventQueuerEnqueue */
+/* 	    int (*pvEventReceive)() = pvEventReceive; */
+
+	    ppedm->pvEventReceive = pvEventReceive;
 	}
 
 	//- set result: ok
@@ -386,46 +389,46 @@ EventDistributorAddConnection
 }
 
 
-/// 
-/// \arg ped event distributor.
-/// \arg peq event queuer.
-/// \arg iTarget object's target identifier when an event is generated
-/// on this connection.
-/// 
-/// \return int
-/// 
-///	number of allocated connections, -1 for failure.
-/// 
-/// \brief Add an output connection to the connection matrix.
-/// 
+/* ///  */
+/* /// \arg ped event distributor. */
+/* /// \arg peq event queuer. */
+/* /// \arg iTarget object's target identifier when an event is generated */
+/* /// on this connection. */
+/* ///  */
+/* /// \return int */
+/* ///  */
+/* ///	number of allocated connections, -1 for failure. */
+/* ///  */
+/* /// \brief Add an output connection to the connection matrix. */
+/* ///  */
 
-int
-EventDistributorAddQueuerConnection
-(struct EventDistributor *ped, struct EventQueuer *peq, int iTarget)
-{
-    return(EventDistributorAddConnection(ped, 2, peq, iTarget));
-}
+/* int */
+/* EventDistributorAddQueuerConnection */
+/* (struct EventDistributor *ped, struct EventQueuer *peq, int iTarget) */
+/* { */
+/*     return(EventDistributorAddConnection(ped, 2, peq, iTarget)); */
+/* } */
 
 
-/// 
-/// \arg ped event distributor.
-/// \arg peq output object.
-/// \arg iTarget object's target identifier when an event is generated
-/// on this connection.
-/// 
-/// \return int
-/// 
-///	number of allocated connections, -1 for failure.
-/// 
-/// \brief Add an output connection to the connection matrix.
-/// 
+/* ///  */
+/* /// \arg ped event distributor. */
+/* /// \arg peq output object. */
+/* /// \arg iTarget object's target identifier when an event is generated */
+/* /// on this connection. */
+/* ///  */
+/* /// \return int */
+/* ///  */
+/* ///	number of allocated connections, -1 for failure. */
+/* ///  */
+/* /// \brief Add an output connection to the connection matrix. */
+/* ///  */
 
-int
-EventDistributorAddOutputConnection
-(struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget)
-{
-    return(EventDistributorAddConnection(ped, 1, pog, iTarget));
-}
+/* int */
+/* EventDistributorAddOutputConnection */
+/* (struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget) */
+/* { */
+/*     return(EventDistributorAddConnection(ped, 1, pog, iTarget)); */
+/* } */
 
 
 /// 

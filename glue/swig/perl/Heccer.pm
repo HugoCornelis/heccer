@@ -1491,15 +1491,19 @@ sub add_output
 
     my $output_backend = $outputclass->backend();
 
+    my $event_processor = $outputclass->get_event_processor();
+
     # add the output object to the connection matrix
 
     my $backend = $self->{backend};
 
-    #! argument value 1: sets the output function
+    #t event distributor row is fixed to one, but should be transparant
 
     my $row = 1;
 
-    if ($backend->EventDistributorAddConnection(1, $output_backend, $row) == -1)
+    #! argument value 1: sets the output function
+
+    if ($backend->EventDistributorAddConnection($event_processor, $output_backend, $row) == -1)
     {
 	$result = 'cannot connect $output_backend to its event distributor';
     }

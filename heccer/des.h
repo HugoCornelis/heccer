@@ -224,17 +224,21 @@ struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore);
 
 struct OutputGenerator;
 
+/* int */
+/* EventDistributorAddConnection */
+/* (struct EventDistributor *ped, int iType, void *pvObject, int iTarget); */
+
 int
 EventDistributorAddConnection
-(struct EventDistributor *ped, int iType, void *pvObject, int iTarget);
+(struct EventDistributor *ped, void *pvEventReceive, void *pvObject, int iTarget);
 
-int
-EventDistributorAddQueuerConnection
-(struct EventDistributor *ped, struct EventQueuer *peq, int iTarget);
+/* int */
+/* EventDistributorAddQueuerConnection */
+/* (struct EventDistributor *ped, struct EventQueuer *peq, int iTarget); */
 
-int
-EventDistributorAddOutputConnection
-(struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget);
+/* int */
+/* EventDistributorAddOutputConnection */
+/* (struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget); */
 
 struct EventDistributorMatrix *
 EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry);
