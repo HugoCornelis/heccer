@@ -342,8 +342,12 @@ EventDistributorAddConnection
 
     //- if space available
 
-    if (pedd->iLast < pedd->iConnections)
+    if (pedd->iLast + 1 < pedd->iConnections)
     {
+	//- increment connection count
+
+	pedd->iLast++;
+
 	//- fill in data
 
 	struct EventDistributorMatrix *ppedm = &ped->pedd->ppedm[pedd->iLast];
@@ -365,13 +369,15 @@ EventDistributorAddConnection
 	    ppedm->pvEventReceive = EventQueuerEnqueue;
 	}
 
-	//- increment connection count
-
-	pedd->iLast++;
-
 	//- set result: ok
 
 	iResult = 1;
+    }
+    else
+    {
+	fprintf
+	    (stderr,
+	     "Des doodely des: attempt to add more distributor connections than allocated.\n");
     }
 
     //- return result
@@ -1122,11 +1128,9 @@ EventQueuerSerial2ConnectionIndexAdd
 	}
 	else
 	{
-	    /// \todo HeccerError(number, message, varargs);
-
 	    fprintf
 		(stderr,
-		 "Heccer the hecc: connection matrix translator overflow (please increase EVENTQUEUER_MAX_CONNECTIONS in the source).\n");
+		 "Des doodely des: connection matrix translator overflow (please increase EVENTQUEUER_MAX_CONNECTIONS in the source).\n");
 	}
     }
 
@@ -1163,11 +1167,9 @@ static int comparator(const void *pv1, const void *pv2)
     }
     else
     {
-	/// \todo HeccerError(number, message, varargs);
-
 	fprintf
 	    (stderr,
-	     "Heccer the hecc: connection matrix index comparator() encounters entries with the same serial.\n");
+	     "Des doodely des: connection matrix index comparator() encounters entries with the same serial.\n");
 
 	return(0);
     }
