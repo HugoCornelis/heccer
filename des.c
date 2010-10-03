@@ -316,8 +316,7 @@ static int EventListInsert(EventList *pel)
 
 /// 
 /// \arg ped event distributor.
-/// \arg pog output object.
-/// \arg iType 1: OutputGeneratorTimedStep() used to send the event.
+/// \arg pvEventReceive the event receiving function.
 /// \arg iTarget object's target identifier when an event is generated
 /// on this connection.
 /// 
@@ -326,6 +325,11 @@ static int EventListInsert(EventList *pel)
 ///	number of allocated connections, -1 for failure.
 /// 
 /// \brief Add an output connection to the connection matrix.
+///
+/// \description pvEventReceive will be called to distribute an event
+/// to this connection, eg. OutputGeneratorTimedStep() in the
+/// experiment package or equivalent.  Its signature must be that of
+/// EventQueuerEnqueue().
 /// 
 
 int
@@ -354,23 +358,11 @@ EventDistributorAddConnection
 
 	ppedm->pvObject = pvObject;
 
-	/// \note output objects don't have an internal target for now,
-	/// \note could be changed in the future.  -1 means undefined, see
-	/// \note spiker1 test case.
+	// \note -1 for target means undefined, see spiker1 test case.
 
 	ppedm->iTarget = iTarget;
 
-/* 	if (iType == 1) */
-/* 	{ */
-/* 	    ppedm->pvFunction = OutputGeneratorTimedStep; */
-/* 	} */
-/* 	else if (iType == 2) */
-	{
-/* EventQueuerEnqueue */
-/* 	    int (*pvEventReceive)() = pvEventReceive; */
-
-	    ppedm->pvEventReceive = pvEventReceive;
-	}
+	ppedm->pvEventReceive = pvEventReceive;
 
 	//- set result: ok
 
@@ -387,48 +379,6 @@ EventDistributorAddConnection
 
     return(iResult);
 }
-
-
-/* ///  */
-/* /// \arg ped event distributor. */
-/* /// \arg peq event queuer. */
-/* /// \arg iTarget object's target identifier when an event is generated */
-/* /// on this connection. */
-/* ///  */
-/* /// \return int */
-/* ///  */
-/* ///	number of allocated connections, -1 for failure. */
-/* ///  */
-/* /// \brief Add an output connection to the connection matrix. */
-/* ///  */
-
-/* int */
-/* EventDistributorAddQueuerConnection */
-/* (struct EventDistributor *ped, struct EventQueuer *peq, int iTarget) */
-/* { */
-/*     return(EventDistributorAddConnection(ped, 2, peq, iTarget)); */
-/* } */
-
-
-/* ///  */
-/* /// \arg ped event distributor. */
-/* /// \arg peq output object. */
-/* /// \arg iTarget object's target identifier when an event is generated */
-/* /// on this connection. */
-/* ///  */
-/* /// \return int */
-/* ///  */
-/* ///	number of allocated connections, -1 for failure. */
-/* ///  */
-/* /// \brief Add an output connection to the connection matrix. */
-/* ///  */
-
-/* int */
-/* EventDistributorAddOutputConnection */
-/* (struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget) */
-/* { */
-/*     return(EventDistributorAddConnection(ped, 1, pog, iTarget)); */
-/* } */
 
 
 /// 
@@ -679,63 +629,6 @@ int EventDistributorSetSerialRange(struct EventDistributor *ped, int iStart, int
 }
 
 
-/* ///  */
-/* /// \arg ped an event distributor. */
-/* /// \arg iSerial index of target objects and target ports. */
-/* ///  */
-/* /// \return int */
-/* ///  */
-/* ///	success of operation. */
-/* ///  */
-/* /// \brief Distribute an event over the targets. */
-/* ///  */
-
-/* int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial) */
-/* { */
-/*     //- always return 0 */
-
-/*     return(0); */
-
-/*     //- set default result: not found. */
-
-/*     int iResult = -1; */
-
-/*     //- get matrix data */
-
-/*     struct EventDistributorData *pedd = ped->pedd; */
-
-/*     //- loop over target table */
-
-/*     int iCount = 0; */
-
-/*     struct EventDistributorMatrix *ppedm = &pedd->ppedm[0]; */
-
-/*     while (ppedm && ppedm->pvEventReceive) */
-/*     { */
-/* 	//- if serials match */
-
-/* 	if (ppedm->iTarget == iSerial) */
-/* 	{ */
-/* 	    //- set result: current index */
-
-/* 	    iResult = iCount; */
-
-/* 	    break; */
-/* 	} */
-
-/* 	//- next table entry */
-
-/* 	iCount++; */
-/* 	ppedm++; */
-/*     } */
-
-/*     //- return result */
-
-/*     return(iResult); */
-
-/* } */
-
-
 /// 
 /// \arg peq an event queuer.
 /// \arg iTarget target object index.
@@ -913,8 +806,6 @@ struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
     }
 
     peqResult->eventDequeue = EventQueuerDequeue;
-
-/*     peqResult->eventEnqueue = EventQueuerEnqueue; */
 
     struct EventQueuerData *peqd = calloc(1, sizeof(*peqd));
 

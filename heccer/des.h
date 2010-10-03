@@ -218,27 +218,9 @@ struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial);
 struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore);
 
 
-/// \note The parameter list of EventDistributorAddConnection() assumes that
-/// the output objects are always heccer output generators.  Internally
-/// this does not matter, just for ease of development.
-
-struct OutputGenerator;
-
-/* int */
-/* EventDistributorAddConnection */
-/* (struct EventDistributor *ped, int iType, void *pvObject, int iTarget); */
-
 int
 EventDistributorAddConnection
 (struct EventDistributor *ped, void *pvEventReceive, void *pvObject, int iTarget);
-
-/* int */
-/* EventDistributorAddQueuerConnection */
-/* (struct EventDistributor *ped, struct EventQueuer *peq, int iTarget); */
-
-/* int */
-/* EventDistributorAddOutputConnection */
-/* (struct EventDistributor *ped, struct OutputGenerator *pog, int iTarget); */
 
 struct EventDistributorMatrix *
 EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry);
@@ -254,19 +236,17 @@ struct EventDistributor *
 EventDistributorNew
 (struct EventDistributorData *pedd);
 
-/* int EventDistributorSerial2Index(struct EventDistributor *ped, int iSerial); */
-
 /* extern EventDistribute EventDistributorSend; */
 
 int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTargets);
 
 int EventDistributorSetSerialRange(struct EventDistributor *ped, int iStart, int iEnd);
 
-/* extern EventQueue EventQueuerDequeue ; */
+/* extern EventDequeuer EventQueuerDequeue ; */
 
 double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget);
 
-/* extern EventQueue EventQueuerEnQueue ; */
+/* extern EventEnqueuer EventQueuerEnQueue ; */
 
 int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget);
 
