@@ -597,7 +597,7 @@ int main(int argc, char *argv[])
     OutputGeneratorInitiate(pogSpike);
 
     pedm[0].pvObject = pogSpike;
-    pedm[0].pvEventReceive = OutputGeneratorTimedStep;
+    pedm[0].pvProcess = OutputGeneratorTimedStep;
     pedm[0].iTarget = 1000;
 
     //- create output elements

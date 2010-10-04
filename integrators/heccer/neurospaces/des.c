@@ -253,7 +253,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 	    //- fill in the distribution matrix queuer entry
 
 	    ped->pedd->ppedm[iQueuer].iTarget = iTarget;
-	    ped->pedd->ppedm[iQueuer].pvEventReceive = EventQueuerEnqueue;
+	    ped->pedd->ppedm[iQueuer].pvProcess = EventQueuerEnqueue;
 	    ped->pedd->ppedm[iQueuer].pvObject = ppeq[iCore];
 	}
     }

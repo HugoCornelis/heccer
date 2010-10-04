@@ -1194,7 +1194,7 @@ int main(int argc, char *argv[])
     //- link spiking element to output generator
 
     pedm[0].pvObject = pogSpikeSource;
-    pedm[0].pvEventReceive = OutputGeneratorTimedStep;
+    pedm[0].pvProcess = OutputGeneratorTimedStep;
     pedm[0].iTarget = -1;
 
     //- link spiking element to the event queuer
@@ -1204,7 +1204,7 @@ int main(int argc, char *argv[])
     pedm[1].pvObject = &peqm[0];
     pedm[1].pvObject = &eq;
     pedm[1].iTarget = 0;
-    pedm[1].pvEventReceive = EventQueuerEnqueue;
+    pedm[1].pvProcess = EventQueuerEnqueue;
 
     //- create output elements
 

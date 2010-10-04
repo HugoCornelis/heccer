@@ -61,7 +61,7 @@ struct EventDistributorMatrix
 
     /// \note decouples the event distributor from the target
 
-    int (*pvEventReceive)();
+    int (*pvProcess)();
 
 /*     /// serial in the model container */
 

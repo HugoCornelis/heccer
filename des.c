@@ -362,7 +362,7 @@ EventDistributorAddConnection
 
 	ppedm->iTarget = iTarget;
 
-	ppedm->pvEventReceive = pvEventReceive;
+	ppedm->pvProcess = pvEventReceive;
 
 	//- set result: ok
 
@@ -436,7 +436,7 @@ EventDistributorDataNew(int iComponents, int iPre)
 
 /*     ppedm[iComponents].iSerial = -1; */
     ppedm[iComponents].iTarget = iPre;
-    ppedm[iComponents].pvEventReceive = NULL;
+    ppedm[iComponents].pvProcess = NULL;
     ppedm[iComponents].pvObject = NULL;
 
     //- fill in result
@@ -518,7 +518,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     struct EventDistributorMatrix *ppedm = &pedd->ppedm[iTargets];
 
-    while (ppedm && ppedm->pvEventReceive)
+    while (ppedm && ppedm->pvProcess)
     {
 	//- get target port index
 
@@ -531,7 +531,7 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 	// EventQueuerEnqueue() to queue the object other hooks
 	// possible.
 
-	iResult = iResult && ppedm->pvEventReceive(ppedm->pvObject, dTime, iTarget);
+	iResult = iResult && ppedm->pvProcess(ppedm->pvObject, dTime, iTarget);
 
 	//- next table entry
 
