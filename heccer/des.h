@@ -228,10 +228,6 @@ EventDistributorDataGetEntry(struct EventDistributorData *pedd, int iEntry);
 struct EventDistributorData *
 EventDistributorDataNew(int iConnections, int iPre);
 
-/* int */
-/* EventDistributorInitiate */
-/* (struct EventDistributor *ped, int iType); */
-
 struct EventDistributor *
 EventDistributorNew
 (struct EventDistributorData *pedd);
