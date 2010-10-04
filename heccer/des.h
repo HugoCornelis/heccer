@@ -20,16 +20,29 @@
 #define HECCER_EVENT_DISTRIBUTOR_H
 
 
-//o
-//o the event distributor takes a generated event, and distributes it
-//o over the receiving target objects.
-//o
-//o Heccer will call the ->eventDistribute() function on the distributor
-//o service when it generates an event.  The iTargets is a pointer to a table
-//o target objects.  For each entry in the table, ->pvFunction() is called,
-//o with as first argument ->pvObject (may be NULL).  The table is terminated
-//o with an entry of all NULLs.
-//o
+/*! \mainpage DES -- Neurospaces Discrete Event System for Neural
+ *  Network Simulations.
+ *
+ * Events are generated externally.  A generated event is handed over
+ * to the event distributor.  The event distributor takes a generated
+ * event, and distributes it over the receiving target objects.  The
+ * target objects can be event queuers or other event processing
+ * objects such as output objects or solvers that convert the discrete
+ * event back to continuous time quantities.
+ *
+ * The event queuer takes a incoming event, and queues it untill it
+ * fires.  At reception time the receiver object is notified about the
+ * firing time.  The receiver is expected to fetch the event at the
+ * correct time.
+ *
+ * In the current implementation Heccer calls the ->eventDistribute()
+ * function on the distributor service when it generates an event.
+ * The iTargets is a pointer to a table with target objects.  For each
+ * entry in the table, ->pvEventReceive() is called, with as first
+ * argument ->pvObject (may be NULL).  The table is terminated with an
+ * entry of all NULLs.
+ *
+ */
 
 
 struct EventDistributor;
@@ -100,11 +113,7 @@ struct EventDistributor
 };
 
 
-//o
-//o the event receptor takes a incoming event, and queues it untill it fires.
-//o
-//o When the event fires, it is 
-//o
+// \struct Event queuer.
 
 struct EventQueuer;
 
