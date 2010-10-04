@@ -329,7 +329,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    // \todo HeccerEventSet() or HeccerEventReceive()
 
-		    peqm[iColumn].pvFunction = HeccerEventSet;
+		    peqm[iColumn].pvAccept = HeccerEventSet;
 
 		    //- if a solver has been registered for this post-synaptic serial
 
@@ -446,7 +446,7 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
     ppeqmResult[iConnections].dDelay = DBL_MAX;
     ppeqmResult[iConnections].dWeight = DBL_MAX;
     ppeqmResult[iConnections].pdEvent = NULL;
-    ppeqmResult[iConnections].pvFunction = NULL;
+    ppeqmResult[iConnections].pvAccept = NULL;
     ppeqmResult[iConnections].pvObject = NULL;
 
 /*     //- loop over all connections */

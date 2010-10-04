@@ -139,7 +139,7 @@ struct EventQueuerMatrix
 
     /// \note decouples the event queuer from the target
 
-    int (*pvFunction)();
+    int (*pvAccept)();
 
 };
 

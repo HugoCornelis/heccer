@@ -836,7 +836,7 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 	/// \todo This behaviour was noticed when using sglib, and when using the builtin
 	/// \todo event queue.
 
-	while (ppeqm && ppeqm->pvFunction)
+	while (ppeqm && ppeqm->pvAccept)
 	{
 	    //- add connection delay
 
@@ -844,7 +844,7 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 
 	    //- call the target object
 
-	    iResult = iResult && ppeqm->pvFunction(ppeqm->pvObject, ppeqm->pdEvent, dEvent);
+	    iResult = iResult && ppeqm->pvAccept(ppeqm->pvObject, ppeqm->pdEvent, dEvent);
 
 	    //- next table entry
 
