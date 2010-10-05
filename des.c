@@ -72,35 +72,56 @@
 
 
 /// 
-/// \return struct DES *
+/// \arg des discrete event system.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
 /// 
-///	Empty connectivity system between solvers.
+/// \return int
 /// 
-/// \brief Create a new connectivity system between solvers.
+///	success of operation.
+/// 
+/// \brief Call the dump functions, with the given selection.
+///
+/// \details
+/// 
+///	The selection is the boolean or of zero or more of the following :
+/// 
+/// 
+///	The shorthand DES_DUMP_ALL selects everything except very
+///	verbose uninteresting items, DES_DUMP_ALL_EXTENDED selects
+///	those items to, while DES_DUMP_ALL_REDUCED selects less.
 /// 
 
-struct DES *DESNew(int iHappy)
+int DESDumpV(struct DES *pdes)
 {
-    //- set default result: new des system
+    return(DESDump(pdes, stdout, DES_DUMP_ALL));
+}
 
-    struct DES *pdesResult = (struct DES *)calloc(1, sizeof(struct DES));
+int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
+{
+    //- check for errors
 
-    if (!pdesResult)
+    if (pdes->iErrorCount)
     {
-	// \todo here is the mega memory leak
-
-	return(NULL);
+	return(FALSE);
     }
 
-    pdesResult->iCores = 0;
-    pdesResult->iPreSerials = 0;
-    pdesResult->piPreSerials = 0;
-    pdesResult->pped = NULL;
-    pdesResult->ppeq = NULL;
+    //- set default result : ok
+
+    int iResult = TRUE;
+
+    if (!pfile)
+    {
+	pfile = stdout;
+    }
+
+    //- flush output
+
+    fflush(pfile);
 
     //- return result
 
-    return(pdesResult);
+    return(iResult);
 }
 
 
@@ -168,6 +189,39 @@ struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore)
     //- return result
 
     return(peqResult);
+}
+
+
+/// 
+/// \return struct DES *
+/// 
+///	Empty connectivity system between solvers.
+/// 
+/// \brief Create a new connectivity system between solvers.
+/// 
+
+struct DES *DESNew(int iHappy)
+{
+    //- set default result: new des system
+
+    struct DES *pdesResult = (struct DES *)calloc(1, sizeof(struct DES));
+
+    if (!pdesResult)
+    {
+	// \todo here is the mega memory leak
+
+	return(NULL);
+    }
+
+    pdesResult->iCores = 0;
+    pdesResult->iPreSerials = 0;
+    pdesResult->piPreSerials = 0;
+    pdesResult->pped = NULL;
+    pdesResult->ppeq = NULL;
+
+    //- return result
+
+    return(pdesResult);
 }
 
 

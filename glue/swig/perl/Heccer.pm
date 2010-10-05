@@ -1297,6 +1297,32 @@ sub connect
 }
 
 
+sub dump
+{
+    my $self = shift;
+
+    #t not sure how it could be possible to use $file, but anyway,
+    #t placeholder for the idea.
+
+    my $file = shift;
+
+    my $selection = shift;
+
+#     print "file, selection: $file, $selection\n";
+
+    my $backend = $self->backend();
+
+    if (!defined $selection)
+    {
+	$backend->DESDumpV();
+    }
+    else
+    {
+	$backend->DESDump($file, $selection);
+    }
+}
+
+
 sub finish
 {
     my $self = shift;
@@ -1414,7 +1440,68 @@ sub report
 {
     my $self = shift;
 
-    #t do reporting about queued events, connection matrix
+    # report about queued events, connection matrix
+
+    my $scheduler = shift;
+
+    my $options = shift;
+
+    my $result = 1;
+
+    if ($options->{verbose})
+    {
+	my $header;
+
+	my $steps = $options->{steps};
+
+	my $reporting = $self->{configuration}->{reporting};
+
+	if (!defined $steps)
+	{
+	    $header = "DES: Initiated\n";
+	}
+	else
+	{
+	    if ($steps eq -1)
+	    {
+		if ($self->{final_report})
+		{
+		    $header = "-------\nDES: Final Iteration\n";
+		}
+	    }
+	    else
+	    {
+		my $reporting_granularity = $reporting->{granularity} || 1;
+
+		if (($steps % $reporting_granularity) == 0)
+		{
+# 		    $header = "-------\nIteration $steps\n";
+		}
+		else
+		{
+		    $self->{final_report} = 1;
+		}
+	    }
+	}
+
+	if ($header)
+	{
+	    my $file = $reporting->{file};
+
+	    if (defined $file)
+	    {
+		print $file $header;
+	    }
+	    else
+	    {
+		print $header;
+	    }
+
+	    my $tested_things = $reporting->{tested_things};
+
+	    $result = $self->dump($file, $tested_things);
+	}
+    }
 }
 
 

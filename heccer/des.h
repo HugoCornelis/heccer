@@ -199,6 +199,19 @@ struct EventQueuer
 
 struct DES
 {
+    /// name of this des system
+
+    /// \note if the name of des is a system wide id depends on the
+    /// environment, des does not (and cannot) enforce it.
+
+    char *pcName;
+
+    /// status : reflects phases of compilation.
+
+    int iStatus;
+
+    int iErrorCount;
+
     /// pre-synaptic elements, event generator serials
 
     int iPreSerials;
@@ -220,11 +233,26 @@ struct DES
 };
 
 
-struct DES *DESNew(int iHappy);
+int DESDumpV(struct DES *pdes);
+
+int DESDump(struct DES *pdes, FILE *pfile, int iSelection);
+
+#define DES_DUMP_ALL (0xffffffff & ~(DES_DUMP_SERVICE | DES_DUMP_TABLE_GATE_TABLES))
+
+#define DES_DUMP_ALL_EXTENDED (0xffffffff & ~DES_DUMP_SERVICE)
+
+#define DES_DUMP_ALL_REDUCED (0xffffffff & ~(DES_DUMP_SERVICE | DES_DUMP_TABLE_GATE_TABLES))
+
+#define DES_DUMP_SERVICE					(1 << 7)
+
+#define DES_DUMP_TABLE_GATE_TABLES				(1 << 13)
+
 
 struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial);
 
 struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore);
+
+struct DES *DESNew(int iHappy);
 
 
 int

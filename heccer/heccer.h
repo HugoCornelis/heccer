@@ -172,7 +172,7 @@ struct Heccer
     /// name of this heccer
 
     /// \note if the name of a heccer is a system wide id depends on the
-    /// \note environment, heccer does not (and cannot) enforce it.
+    /// environment, heccer does not (and cannot) enforce it.
 
     char *pcName;
 
