@@ -1475,7 +1475,7 @@ sub report
 
 		if (($steps % $reporting_granularity) == 0)
 		{
-# 		    $header = "-------\nIteration $steps\n";
+		    $header = "DES: -------\nDES: Iteration $steps\n";
 		}
 		else
 		{

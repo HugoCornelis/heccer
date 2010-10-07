@@ -1586,6 +1586,12 @@ int simulate(int argc, char *argv[])
 
     if (iFinalReport)
     {
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "DES: -------\n");
+
+	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "DES: Final Iteration\n", i);
+
+	HECCER_TEST_TESTED_THINGS && DESDump(&des, stdout, DES_DUMP_ALL);
+
 	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
 
 	HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Final Iteration\n", i);
