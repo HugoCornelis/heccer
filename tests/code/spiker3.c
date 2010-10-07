@@ -924,7 +924,7 @@ int main(int argc, char *argv[])
 
     int iCharsSource = pmciKdrSource->iChars + pmciNaFSource->iChars + pmciSpikerSource->iChars;
 
-    void *pmcSource = calloc(sizeof(char), iCharsSource);
+    void *pmcSource = calloc(iCharsSource, sizeof(char));
 
     //- prepare the mechanism intermediary
 
@@ -1284,6 +1284,53 @@ int simulate(int argc, char *argv[])
 
     struct EventDistributor *ped = EventDistributorNew(&edd);
 
+    struct DES des =
+	{
+	    /// name of this des system
+
+	    /// \note if the name of des is a system wide id depends on the
+	    /// environment, des does not (and cannot) enforce it.
+
+	    "DES spiker3",
+
+	    /// status : reflects phases of compilation.
+
+	    0,
+
+	    0,
+
+	    /// pre-synaptic elements, event generator serials
+
+	    1,
+
+	    NULL,
+
+	    /// all event distributors
+
+	    NULL,
+
+	    /// number of threads
+
+	    1,
+
+	    /// all event queuers
+
+	    NULL,
+
+	};
+
+    des.piPreSerials = (int *)calloc(1, sizeof(int));
+
+    des.piPreSerials[0] = 4000;
+
+    des.pped = (struct EventDistributor **)calloc(1, sizeof(struct EventDistributor *));
+
+    des.pped[0] = ped;
+
+    des.ppeq = (struct EventQueuer **)calloc(1, sizeof(struct EventQueuer *));
+
+    des.ppeq[0] = peq;
+
     //- allocate the heccers, source needs an event distributor, the targets event queuers.
 
     // \note in principle both event distributor and event queuer can
@@ -1457,6 +1504,10 @@ int simulate(int argc, char *argv[])
 
 /*     fprintf(stdout, "-------\n"); */
 
+    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "DES: Initiated\n");
+
+    HECCER_TEST_TESTED_THINGS && DESDump(&des, stdout, DES_DUMP_ALL);
+
     HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Initiated\n");
 
     HECCER_TEST_TESTED_THINGS && HeccerDump(pheccerSource, stdout, HECCER_TEST_TESTED_THINGS);
@@ -1501,6 +1552,12 @@ int simulate(int argc, char *argv[])
 
 	if (i % HECCER_TEST_REPORTING_GRANULARITY == 0)
 	{
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "DES: -------\n");
+
+	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "DES: Iteration %i\n", i);
+
+	    HECCER_TEST_TESTED_THINGS && DESDump(&des, stdout, DES_DUMP_ALL);
+
 	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "-------\n");
 
 	    HECCER_TEST_TESTED_THINGS && fprintf(stdout, "Iteration %i\n", i);

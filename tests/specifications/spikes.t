@@ -32,7 +32,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single source, single spike, multiple targets, hardcoded connection matrix ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt`),
+						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt | grep -v DES:`),
 						   timeout => 8,
 						  },
 						 ],

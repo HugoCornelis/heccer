@@ -115,6 +115,78 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
 	pfile = stdout;
     }
 
+    //- if dumping distributor matrices
+
+    if (iSelection & DES_DUMP_DISTRIBUTOR_MATRIX)
+    {
+	//- loop over all distributors
+
+	int i;
+
+	for (i = 0 ; i < pdes->iPreSerials ; i++)
+	{
+	    struct EventDistributor *ped = pdes->pped[i];
+
+	    struct EventDistributorData *pedd = ped->pedd;
+
+	    int iConnection;
+
+	    for (iConnection = 0 ; iConnection < pedd->iLast ; iConnection++)
+	    {
+		struct EventDistributorMatrix *ppedm = &pedd->ppedm[iConnection];
+
+		fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s\n", i, iConnection, ppedm->iTarget, ppedm->pvObject ? "yes" : "nil", ppedm->pvProcess ? "yes" : "nil");
+	    }
+	}
+    }
+
+    //- if dumping queuer matrices
+
+    if (iSelection & DES_DUMP_QUEUER_MATRIX)
+    {
+	//- loop over all queuers
+
+	int i;
+
+	for (i = 0 ; i < pdes->iCores ; i++)
+	{
+	    struct EventQueuer *peq = pdes->ppeq[i];
+
+	    struct EventQueuerData *peqd = peq->peqd;
+
+	    int iRow;
+
+	    for (iRow = 0 ; iRow < peqd->iRows ; iRow++)
+	    {
+		int iColumn = 0;
+
+		struct EventQueuerMatrix *ppeqm = &peqd->ppeqm[iRow][0];
+
+		for (iColumn = 0 ; ppeqm[1].pvAccept ; iColumn++)
+		{
+		    ppeqm = &peqd->ppeqm[iRow][iColumn];
+
+		    char pcEvent[100];
+
+		    if (ppeqm->pdEvent)
+		    {
+			sprintf(pcEvent, "%f");
+		    }
+		    else
+		    {
+			strcpy(pcEvent, "nil");
+		    }
+
+		    fprintf(pfile, "DES: EventQueuer[%i] : iConnection[%i, %i] : (dDelay %g, dWeight %g, pdEvent %s, pvObject{} %s, pvAccept() %s\n", i, iRow, iColumn, ppeqm->dDelay, ppeqm->dWeight, pcEvent, ppeqm->pvObject ? "yes" : "nil", ppeqm->pvAccept ? "yes" : "nil");
+
+/* 		    ppeqm++; */
+
+/* 		    iColumn++; */
+		}
+	    }
+	}
+    }
+
     //- flush output
 
     fflush(pfile);

@@ -237,15 +237,17 @@ int DESDumpV(struct DES *pdes);
 
 int DESDump(struct DES *pdes, FILE *pfile, int iSelection);
 
-#define DES_DUMP_ALL (0xffffffff & ~(DES_DUMP_SERVICE | DES_DUMP_TABLE_GATE_TABLES))
+#define DES_DUMP_ALL (0xffffffff & ~(DES_DUMP_SERVICE))
 
 #define DES_DUMP_ALL_EXTENDED (0xffffffff & ~DES_DUMP_SERVICE)
 
-#define DES_DUMP_ALL_REDUCED (0xffffffff & ~(DES_DUMP_SERVICE | DES_DUMP_TABLE_GATE_TABLES))
+#define DES_DUMP_ALL_REDUCED (0xffffffff & ~(DES_DUMP_SERVICE | DES_DUMP_DISTRIBUTOR_MATRIX | DES_DUMP_QUEUER_MATRIX))
 
 #define DES_DUMP_SERVICE					(1 << 7)
 
-#define DES_DUMP_TABLE_GATE_TABLES				(1 << 13)
+#define DES_DUMP_DISTRIBUTOR_MATRIX				(1 << 13)
+
+#define DES_DUMP_QUEUER_MATRIX					(1 << 14)
 
 
 struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial);
