@@ -1466,7 +1466,7 @@ sub report
 	    {
 		if ($self->{final_report})
 		{
-		    $header = "-------\nDES: Final Iteration\n";
+		    $header = "DES: -------\nDES: Final Iteration\n";
 		}
 	    }
 	    else
