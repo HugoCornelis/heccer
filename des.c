@@ -571,6 +571,10 @@ EventDistributorDataNew(int iComponents, int iPre)
     peddResult->iLast = -1;
     peddResult->ppedm = ppedm;
 
+    //- we are already using one entry of the matrix
+
+    peddResult->iLast = 0;
+
     //- return result
 
     return(peddResult);
