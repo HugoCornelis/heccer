@@ -131,7 +131,7 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
 
 	    int iConnection;
 
-	    for (iConnection = 0 ; iConnection < pedd->iLast ; iConnection++)
+	    for (iConnection = 0 ; iConnection <= pedd->iLast ; iConnection++)
 	    {
 		struct EventDistributorMatrix *ppedm = &pedd->ppedm[iConnection];
 
@@ -568,7 +568,7 @@ EventDistributorDataNew(int iComponents, int iPre)
     //- fill in result
 
     peddResult->iConnections = iComponents;
-    peddResult->iLast = 0;
+    peddResult->iLast = -1;
     peddResult->ppedm = ppedm;
 
     //- return result

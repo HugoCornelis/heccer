@@ -1202,26 +1202,6 @@ int simulate(int argc, char *argv[])
 
     struct EventDistributorMatrix pedm[] =
 	{
-	    //! for HeccerOutput object
-
-	    {
-		//m target object, a solver, a HeccerOutput, or so
-
-		pogSpikeSource,
-
-		//m target subcomponent identification
-
-		-1,
-
-		//m called function
-
-		OutputGeneratorTimedStep,
-
-/* 		//m serial in the model container */
-
-/* 		-1, */
-	    },
-
 	    //! for event queuer
 
 	    {
@@ -1236,6 +1216,26 @@ int simulate(int argc, char *argv[])
 		//m called function
 
 		EventQueuerEnqueue,
+
+/* 		//m serial in the model container */
+
+/* 		-1, */
+	    },
+
+	    //! for HeccerOutput object
+
+	    {
+		//m target object, a solver, a HeccerOutput, or so
+
+		pogSpikeSource,
+
+		//m target subcomponent identification
+
+		-1,
+
+		//m called function
+
+		OutputGeneratorTimedStep,
 
 /* 		//m serial in the model container */
 
@@ -1272,7 +1272,7 @@ int simulate(int argc, char *argv[])
 
 	    //m last used
 
-	    2,
+	    1,
 
 	    //m array of targets
 
