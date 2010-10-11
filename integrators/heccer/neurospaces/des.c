@@ -122,35 +122,57 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPre);
 
-		void *pvSolver = psi->pvSolver;
-
-		if (pvSolver)
+		if (psi)
 		{
-		    // \todo we simply assume it is a heccer: type discrimination required here
+		    void *pvSolver = psi->pvSolver;
 
-		    struct Heccer *pheccer = (struct Heccer *)pvSolver;
-
-		    //- register the event distributor for this solver
-
-		    // \todo error checking, prevent multiple ped registrations maybe.
-
-		    if (HeccerConnectDistributor(pheccer, ped, NULL, NULL) == 1)
+		    if (pvSolver)
 		    {
+			// \todo we simply assume it is a heccer: type discrimination required here
+
+			struct Heccer *pheccer = (struct Heccer *)pvSolver;
+
+			//- register the event distributor for this solver
+
+			// \todo error checking, prevent multiple ped registrations maybe.
+
+			if (HeccerConnectDistributor(pheccer, ped, NULL, NULL) == 1)
+			{
+			}
+			else
+			{
+			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (1)\n");
+			}
 		    }
 		    else
 		    {
-			fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (1)\n");
+			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+
+			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+
+			PidinStackPrint(ppistSolved, stderr);
+
+			fprintf(stderr, "\n");
 		    }
 		}
 		else
 		{
-		    fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+		    fprintf(stderr, "*** Error: DESConstruct() cannot find solver info for serial %i, corresponding to context ", pcconn->iPre);
 
-		    struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+		    struct PidinStack *ppistRoot = PidinStackParse("/");
 
-		    PidinStackPrint(ppistSolved, stderr);
+		    struct symtab_HSolveListElement *phsleRoot = PidinStackLookupTopSymbol(ppistRoot);
+
+		    struct PidinStack *ppistSerial
+			= SymbolPrincipalSerial2Context(phsleRoot, ppistRoot, pcconn->iPre);
+
+		    PidinStackPrint(ppistSerial, stderr);
 
 		    fprintf(stderr, "\n");
+
+		    PidinStackFree(ppistRoot);
+
+		    PidinStackFree(ppistSerial);
 		}
 	    }
 	}
@@ -312,6 +334,15 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 			//- get the matrix row that corresponds to this serial
 
 			peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
+
+			//- if there is none
+
+			if (!peqm)
+			{
+			    //- continue with next pre-synaptic serial
+
+			    continue;
+			}
 
 			//- increment distributor index
 
