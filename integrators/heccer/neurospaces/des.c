@@ -96,28 +96,6 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		iLastPre = pcconn->iPre;
 
-		//- construct an event distributor for this pre-synaptic serial
-
-		// \todo type an arbitrary value: 2 for 1 queuer and 1 spike output
-
-		int iTypeCount = 2;
-
-		struct EventDistributorData *pedd
-		    = EventDistributorDataNew(iTypeCount, pcconn->iPre);
-
-		struct EventDistributor *ped = EventDistributorNew(pedd);
-
-		if (!pedd || !ped)
-		{
-		    return(0);
-		}
-
-		//- register this event distributor
-
-		pped[iDistributor] = ped;
-
-		piPreSerials[iDistributor] = pcconn->iPre;
-
 		//- if a solver has been registered for this pre-synaptic serial
 
 		struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPre);
@@ -128,6 +106,28 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 		    if (pvSolver)
 		    {
+			//- construct an event distributor for this pre-synaptic serial
+
+			// \todo type an arbitrary value: 2 for 1 queuer and 1 spike output
+
+			int iTypeCount = 2;
+
+			struct EventDistributorData *pedd
+			    = EventDistributorDataNew(iTypeCount, pcconn->iPre);
+
+			struct EventDistributor *ped = EventDistributorNew(pedd);
+
+			if (!pedd || !ped)
+			{
+			    return(0);
+			}
+
+			//- register this event distributor
+
+			pped[iDistributor] = ped;
+
+			piPreSerials[iDistributor] = pcconn->iPre;
+
 			// \todo we simply assume it is a heccer: type discrimination required here
 
 			struct Heccer *pheccer = (struct Heccer *)pvSolver;
@@ -146,13 +146,17 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 		    }
 		    else
 		    {
-			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+			pped[iDistributor] = NULL;
 
-			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+			piPreSerials[iDistributor] = pcconn->iPre;
 
-			PidinStackPrint(ppistSolved, stderr);
+/* 			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for "); */
 
-			fprintf(stderr, "\n");
+/* 			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi); */
+
+/* 			PidinStackPrint(ppistSolved, stderr); */
+
+/* 			fprintf(stderr, "\n"); */
 		    }
 		}
 		else
@@ -254,6 +258,11 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 	    struct EventDistributor *ped = pped[i];
 
+	    if (!ped)
+	    {
+		continue;
+	    }
+
 	    //- register the queuer in the distributor
 
 	    // \todo the first entry is always the queuer
@@ -331,19 +340,6 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 			iColumn = 0;
 
-			//- get the matrix row that corresponds to this serial
-
-			peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
-
-			//- if there is none
-
-			if (!peqm)
-			{
-			    //- continue with next pre-synaptic serial
-
-			    continue;
-			}
-
 			//- increment distributor index
 
 			iDistributor++;
@@ -351,6 +347,19 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 			//- register this pre-synaptic serial
 
 			iLastPre = pcconn->iPre;
+		    }
+
+		    //- get the matrix row that corresponds to this serial
+
+		    peqm = EventQueuerGetRowFromSerial(peq, pcconn->iPre);
+
+		    //- if there is none
+
+		    if (!peqm)
+		    {
+			//- continue with next pre-synaptic serial
+
+			continue;
 		    }
 
 		    //- fill in the matrix entry

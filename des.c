@@ -127,15 +127,18 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
 	{
 	    struct EventDistributor *ped = pdes->pped[i];
 
-	    struct EventDistributorData *pedd = ped->pedd;
-
-	    int iConnection;
-
-	    for (iConnection = 0 ; iConnection <= pedd->iLast ; iConnection++)
+	    if (ped)
 	    {
-		struct EventDistributorMatrix *ppedm = &pedd->ppedm[iConnection];
+		struct EventDistributorData *pedd = ped->pedd;
 
-		fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s\n", i, iConnection, ppedm->iTarget, ppedm->pvObject ? "yes" : "nil", ppedm->pvProcess ? "yes" : "nil");
+		int iConnection;
+
+		for (iConnection = 0 ; iConnection <= pedd->iLast ; iConnection++)
+		{
+		    struct EventDistributorMatrix *ppedm = &pedd->ppedm[iConnection];
+
+		    fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s\n", i, iConnection, ppedm->iTarget, ppedm->pvObject ? "yes" : "nil", ppedm->pvProcess ? "yes" : "nil");
+		}
 	    }
 	}
     }
