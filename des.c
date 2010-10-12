@@ -173,7 +173,7 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
 
 		    if (ppeqm->pdEvent)
 		    {
-			sprintf(pcEvent, "%f");
+			sprintf(pcEvent, "%f", ppeqm->pdEvent);
 		    }
 		    else
 		    {
@@ -350,7 +350,10 @@ static EventList * EventListDequeue(void)
 
 	    //- set: earlier event for new first has been removed
 
-	    pelEventFirst->pelEarlier = NULL;
+	    if (pelEventFirst)
+	    {
+		pelEventFirst->pelEarlier = NULL;
+	    }
 	}
     }
 
