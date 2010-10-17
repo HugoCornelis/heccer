@@ -173,7 +173,7 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
 
 		    if (ppeqm->pdEvent)
 		    {
-			sprintf(pcEvent, "%f", ppeqm->pdEvent);
+			sprintf(pcEvent, "%f", *ppeqm->pdEvent);
 		    }
 		    else
 		    {

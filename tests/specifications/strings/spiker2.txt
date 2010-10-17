@@ -1,8 +1,8 @@
 DES: Initiated
 DES: EventDistributor[0] : iConnection[0] : (iTarget 0, pvObject{} yes, pvProcess() yes
 DES: EventDistributor[0] : iConnection[1] : (iTarget -1, pvObject{} yes, pvProcess() yes
-DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent 0.000000, pvObject{} yes, pvAccept() yes
-DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent 0.001000, pvObject{} yes, pvAccept() yes
+DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent -1.000000, pvObject{} yes, pvAccept() yes
+DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent -1.000000, pvObject{} yes, pvAccept() yes
 Initiated
 Heccer (pcName) : (source)
 Heccer (iStatus) : (20)
@@ -103,8 +103,8 @@ DES: -------
 DES: Iteration 0
 DES: EventDistributor[0] : iConnection[0] : (iTarget 0, pvObject{} yes, pvProcess() yes
 DES: EventDistributor[0] : iConnection[1] : (iTarget -1, pvObject{} yes, pvProcess() yes
-DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent 0.000000, pvObject{} yes, pvAccept() yes
-DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent 0.001000, pvObject{} yes, pvAccept() yes
+DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent -1.000000, pvObject{} yes, pvAccept() yes
+DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent -1.000000, pvObject{} yes, pvAccept() yes
 -------
 Iteration 0
 Heccer (pcName) : (source)
@@ -208,8 +208,8 @@ DES: -------
 DES: Final Iteration
 DES: EventDistributor[0] : iConnection[0] : (iTarget 0, pvObject{} yes, pvProcess() yes
 DES: EventDistributor[0] : iConnection[1] : (iTarget -1, pvObject{} yes, pvProcess() yes
-DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent 0.000000, pvObject{} yes, pvAccept() yes
-DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent 0.001000, pvObject{} yes, pvAccept() yes
+DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent -1.000000, pvObject{} yes, pvAccept() yes
+DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent -1.000000, pvObject{} yes, pvAccept() yes
 -------
 Final Iteration
 Heccer (pcName) : (source)
