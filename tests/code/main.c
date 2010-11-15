@@ -29,7 +29,7 @@ struct Heccer *pheccer = NULL;
 
 struct VClamp *pvc = NULL;
 
-struct PerfectClamp *ppc = NULL;
+struct simobj_PerfectClamp *ppc = NULL;
 
 struct simobj_PulseGen *ppg = NULL;
 

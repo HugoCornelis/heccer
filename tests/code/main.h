@@ -20,7 +20,7 @@ extern struct Heccer *pheccer;
 
 extern struct VClamp *pvc;
 
-extern struct PerfectClamp *ppc;
+extern struct simobj_PerfectClamp *ppc;
 
 extern struct simobj_PulseGen *ppg;
 
