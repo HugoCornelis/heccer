@@ -18,7 +18,8 @@ my $test
 						   timeout => 40,
 						  },
 						 ],
-				description => "pulsegen functionality, can we output a current in free run mode?",
+				comment => "This is an integration test for pulsegen and Heccer",
+				description => "pulsegen integration functionality, can we output a current in free run mode?",
 			       },
 			       {
 				arguments => [
@@ -31,7 +32,8 @@ my $test
 						   timeout => 40,
 						  },
 						 ],
-				description => "pulsegen functionality, can we output a constant pulse with no trigger ?",
+				comment => "This is an integration test for pulsegen and Heccer",
+				description => "pulsegen integration functionality, can we output a constant pulse with no trigger ?",
 			       },
 			       {
 				arguments => [
@@ -44,7 +46,8 @@ my $test
 						   timeout => 40,
 						  },
 						 ],
-				description => "pulsegen functionality, can we output a constant pulse with no gate input ?",
+				comment => "This is an integration test for pulsegen and Heccer",
+				description => "pulsegen integration functionality, can we output a constant pulse with no gate input ?",
 			       },
 			      ],
        description => "pulsegen simulation object",

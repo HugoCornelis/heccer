@@ -17,7 +17,9 @@ my $test
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive1.txt`),
 						  },
 						 ],
-				description => "perfectclamp functionality, single passive compartment",
+				comment => "This is an integration test for perfectclamp and Heccer",
+
+				description => "perfectclamp integration functionality, single passive compartment",
 			       },
 			       {
 				arguments => [
@@ -30,7 +32,8 @@ my $test
 						   timeout => 20,
 						  },
 						 ],
-				description => "perfectclamp functionality, ten passive compartments",
+				comment => "This is an integration test for perfectclamp and Heccer",
+				description => "perfectclamp integration functionality, ten passive compartments",
 			       },
 			       {
 				arguments => [
@@ -43,7 +46,8 @@ my $test
 						   timeout => 20,
 						  },
 						 ],
-				description => "perfectclamp functionality, ten passive compartments (2)",
+				comment => "This is an integration test for perfectclamp and Heccer",
+				description => "perfectclamp integration functionality, ten passive compartments (2)",
 			       },
 			      ],
        description => "perfectclamp circuitry",

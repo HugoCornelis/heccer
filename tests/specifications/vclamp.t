@@ -18,6 +18,7 @@ my $test
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-passive.txt`),
 						  },
 						 ],
+				comment => "This is an integration test for voltageclamp and Heccer",
 				description => "vclamp circuitry, passive compartment",
 			       },
 			       {
@@ -30,6 +31,7 @@ my $test
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-sodium.txt`),
 						  },
 						 ],
+				comment => "This is an integration test for voltageclamp and Heccer",
 				description => "vclamp circuitry, compartment with a sodium conductance",
 			       },
 			      ],
