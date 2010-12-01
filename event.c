@@ -31,7 +31,7 @@
 /// \brief Generate event for specified targets.
 /// 
 
-int HeccerEventGenerate(struct Heccer *pheccer, int iSource2Targets)
+int HeccerEventGenerate(struct simobj_Heccer *pheccer, int iSource2Targets)
 {
     //- set default result: failure
 
@@ -84,7 +84,7 @@ int HeccerEventGenerate(struct Heccer *pheccer, int iSource2Targets)
 /// \brief Receive event arriving at the specified target.
 /// 
 
-double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
+double HeccerEventReceive(struct simobj_Heccer *pheccer, int iTarget)
 {
     //- set default result: failure
 
@@ -127,7 +127,7 @@ double HeccerEventReceive(struct Heccer *pheccer, int iTarget)
 /// \brief Register a new time of firing for an event receiver.
 /// 
 
-int HeccerEventSet(struct Heccer *pheccer, double *pdEvent, double dTime)
+int HeccerEventSet(struct simobj_Heccer *pheccer, double *pdEvent, double dTime)
 {
     //- set default result: ok
 

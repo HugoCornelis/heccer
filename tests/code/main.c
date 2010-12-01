@@ -25,9 +25,9 @@
 
 //v accessible from the outside if needed
 
-struct Heccer *pheccer = NULL;
+struct simobj_Heccer *pheccer = NULL;
 
-struct VClamp *pvc = NULL;
+struct simobj_VClamp *pvc = NULL;
 
 struct simobj_PerfectClamp *ppc = NULL;
 
@@ -148,7 +148,7 @@ int WriteOutput(char *pcFilename)
 }
 
 
-int tests_dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i)
+int tests_dump(struct simobj_Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i)
 {
     //! funny : the first '---' in the output are taken as an option
     //! by Expect.pm, which complicates testing a bit.  So just

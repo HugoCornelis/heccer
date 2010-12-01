@@ -28,11 +28,11 @@
 
 
 
-int HeccerEventGenerate(struct Heccer *pheccer, int iTargets);
+int HeccerEventGenerate(struct simobj_Heccer *pheccer, int iTargets);
 
-double HeccerEventReceive(struct Heccer *pheccer, int iTarget);
+double HeccerEventReceive(struct simobj_Heccer *pheccer, int iTarget);
 
-int HeccerEventSet(struct Heccer *pheccer, double *pdEvent, double dTime);
+int HeccerEventSet(struct simobj_Heccer *pheccer, double *pdEvent, double dTime);
 
 
 #endif

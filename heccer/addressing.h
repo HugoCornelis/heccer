@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 
-struct Heccer;
+struct simobj_Heccer;
 
 
 #ifdef HECCER_SOURCE_NEUROSPACES
@@ -42,33 +42,33 @@ struct Heccer;
 
 double *
 HeccerAddressAggregator
-(struct Heccer *pheccer, int iSerial, char *pcType);
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType);
 
 char *
 HeccerAddressableSet
-(struct Heccer *pheccer, int iSerial, char *pcType, double dValue);
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType, double dValue);
 
 double *
 HeccerAddressCompartmentVariable
-(struct Heccer *pheccer, int iIntermediary, char *pcField);
+(struct simobj_Heccer *pheccer, int iIntermediary, char *pcField);
 
 double *
 HeccerAddressMechanismVariable
-(struct Heccer *pheccer, int iIndex, char *pcField);
+(struct simobj_Heccer *pheccer, int iIndex, char *pcField);
 
 int
 HeccerAddressTableIndex
-(struct Heccer *pheccer, int iSerial, char *pcField);
+(struct simobj_Heccer *pheccer, int iSerial, char *pcField);
 
 double *
 HeccerAddressVariable
-(struct Heccer *pheccer, int iSerial, char *pcType);
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType);
 
 #else
 
 double *
 HeccerAddressVariable
-(struct Heccer *pheccer, int iSerial, char *pcType);
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType);
 
 #endif
 

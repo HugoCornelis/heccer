@@ -66,15 +66,15 @@ struct Compartment
 
 
 
-int HeccerCompartmentCompile(struct Heccer *pheccer);
+int HeccerCompartmentCompile(struct simobj_Heccer *pheccer);
 
 int
 HeccerCompartmentDump
 (struct Compartment *pcomp, FILE *pfile, int iSelection);
 
-int HeccerCompartmentInitiate(struct Heccer *pheccer);
+int HeccerCompartmentInitiate(struct simobj_Heccer *pheccer);
 
-int HeccerCompartmentSolveCN(struct Heccer *pheccer);
+int HeccerCompartmentSolveCN(struct simobj_Heccer *pheccer);
 
 
 #endif

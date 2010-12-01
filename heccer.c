@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/09/13) Monday, September 13, 2010 16:04:08 cornelis";
+static char *pcVersionTime="(10/12/01) Wednesday, December 1, 2010 12:58:59 Abominous";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -29,11 +29,11 @@ static char *pcVersionTime="(10/09/13) Monday, September 13, 2010 16:04:08 corne
 #include "heccer/serialization.h"
 
 
-static int HeccerAggregatorsInitialize(struct Heccer *pheccer);
+static int HeccerAggregatorsInitialize(struct simobj_Heccer *pheccer);
 
-static int HeccerApplyLinearCable(struct Heccer *pheccer);
+static int HeccerApplyLinearCable(struct simobj_Heccer *pheccer);
 
-static int HeccerApplyOptions(struct Heccer *pheccer);
+static int HeccerApplyOptions(struct simobj_Heccer *pheccer);
 
 
 /// 
@@ -46,7 +46,7 @@ static int HeccerApplyOptions(struct Heccer *pheccer);
 /// \brief Zero out result arrays for aggregation operators.
 /// 
 
-static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
+static int HeccerAggregatorsInitialize(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -77,7 +77,7 @@ static int HeccerAggregatorsInitialize(struct Heccer *pheccer)
 /// \brief Allocate result arrays for aggregation operators.
 /// 
 
-int HeccerAggregatorsCompile(struct Heccer *pheccer)
+int HeccerAggregatorsCompile(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -115,7 +115,7 @@ int HeccerAggregatorsCompile(struct Heccer *pheccer)
 /// \brief Can the model be compiled, given the current options ?
 /// 
 
-int HeccerCanCompile(struct Heccer *pheccer)
+int HeccerCanCompile(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -166,7 +166,7 @@ int HeccerCanCompile(struct Heccer *pheccer)
 /// \brief Compile a model into an intermediary format.
 /// 
 
-int HeccerCompileP1(struct Heccer *pheccer)
+int HeccerCompileP1(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -240,7 +240,7 @@ int HeccerCompileP1(struct Heccer *pheccer)
 ///	that have a different length).
 /// 
 
-static int HeccerApplyLinearCable(struct Heccer *pheccer)
+static int HeccerApplyLinearCable(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -330,7 +330,7 @@ static int HeccerApplyLinearCable(struct Heccer *pheccer)
 ///	This can change the cable properties in the intermediary.
 /// 
 
-static int HeccerApplyOptions(struct Heccer *pheccer)
+static int HeccerApplyOptions(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -368,7 +368,7 @@ static int HeccerApplyOptions(struct Heccer *pheccer)
 ///	just be sure to provide a consistent intermediary image.
 /// 
 
-int HeccerCompileP2(struct Heccer *pheccer)
+int HeccerCompileP2(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -425,7 +425,7 @@ int HeccerCompileP2(struct Heccer *pheccer)
 ///	just be sure to provide a consistent intermediary image.
 /// 
 
-int HeccerCompileP3(struct Heccer *pheccer)
+int HeccerCompileP3(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -485,12 +485,12 @@ int HeccerCompileP3(struct Heccer *pheccer)
 ///	those items to, while HECCER_DUMP_ALL_REDUCED selects less.
 /// 
 
-int HeccerDumpV(struct Heccer *pheccer)
+int HeccerDumpV(struct simobj_Heccer *pheccer)
 {
     return(HeccerDump(pheccer, stdout, HECCER_DUMP_ALL));
 }
 
-int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
+int HeccerDump(struct simobj_Heccer *pheccer, FILE *pfile, int iSelection)
 {
     //- check for errors
 
@@ -588,7 +588,7 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection)
 /// \brief Register an error, print to stderr.
 /// 
 
-int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
+int HeccerError(struct simobj_Heccer *pheccer, char *pcContext, char *pcError, ...)
 {
     //- set default result: ok
 
@@ -659,7 +659,7 @@ int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...)
 /* /// */
 /* /// ************************************************************************** */
 
-/* int HeccerFinish(struct Heccer *pheccer, pfile) */
+/* int HeccerFinish(struct simobj_Heccer *pheccer, pfile) */
 /* { */
 /*     //- set default result: ok */
 
@@ -719,7 +719,7 @@ char * HeccerGetVersion(void)
 /// \brief Compute one step of simulation time.
 /// 
 
-static int HeccerHecc(struct Heccer *pheccer)
+static int HeccerHecc(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -786,7 +786,7 @@ static int HeccerHecc(struct Heccer *pheccer)
 /// \brief Call HeccerHecc() until dTime.
 /// 
 
-int HeccerHeccs(struct Heccer *pheccer, double dTime)
+int HeccerHeccs(struct simobj_Heccer *pheccer, double dTime)
 {
     //- check for errors
 
@@ -843,7 +843,7 @@ int HeccerHeccs(struct Heccer *pheccer, double dTime)
 ///	channel equilibrium state fi.).
 /// 
 
-int HeccerInitiate(struct Heccer *pheccer)
+int HeccerInitiate(struct simobj_Heccer *pheccer)
 {
     //- check for errors
 
@@ -880,7 +880,7 @@ int HeccerInitiate(struct Heccer *pheccer)
 /// \arg ped event distribution service.
 /// \arg peq event queuing service.
 /// 
-/// \return struct Heccer *
+/// \return struct simobj_Heccer *
 /// 
 ///	Instantiated heccer, NULL for failure.
 /// 
@@ -892,7 +892,7 @@ int HeccerInitiate(struct Heccer *pheccer)
 ///	code to see what they really are.
 /// 
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerNew
 (char *pc,
  struct TranslationService *pts,
@@ -901,7 +901,7 @@ HeccerNew
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult
+    struct simobj_Heccer *pheccerResult
 	= HeccerNewP1
 	  (
 	      pc,
@@ -926,14 +926,14 @@ HeccerNew
 /// \arg iOptions see heccer.h.
 /// \arg dStep required time step (from the time constants of the model).
 /// 
-/// \return struct Heccer *
+/// \return struct simobj_Heccer *
 /// 
 ///	Instantiated heccer, NULL for failure.
 /// 
 /// \brief Create a new heccer.
 /// 
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerNewP1
 (char *pc,
  struct TranslationService *pts,
@@ -944,8 +944,8 @@ HeccerNewP1
 {
     //- set result : a new heccer
 
-    struct Heccer *pheccerResult
-	= (struct Heccer *)calloc(1, sizeof(struct Heccer));
+    struct simobj_Heccer *pheccerResult
+	= (struct simobj_Heccer *)calloc(1, sizeof(struct simobj_Heccer));
 
     if (!pheccerResult)
     {
@@ -1000,18 +1000,18 @@ HeccerNewP1
 /// \arg pc name of this heccer, may be NULL.
 /// \arg pinter intermediary with a complete numerical model definition.
 /// 
-/// \return struct Heccer *
+/// \return struct simobj_Heccer *
 /// 
 ///	Instantiated heccer, NULL for failure.
 /// 
 /// \brief Create a new heccer.
 /// 
 
-struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
+struct simobj_Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 {
     //- set result : initialized heccer
 
-    struct Heccer *pheccerResult = HeccerNew(pc, NULL, NULL, NULL);
+    struct simobj_Heccer *pheccerResult = HeccerNew(pc, NULL, NULL, NULL);
 
     //- link in intermediary
 
@@ -1030,18 +1030,18 @@ struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter)
 /// 
 /// \arg pc filename.
 /// 
-/// \return struct Heccer *
+/// \return struct simobj_Heccer *
 /// 
 ///	New heccer, NULL for failure.
 /// 
 /// \brief Construct a heccer from a file.
 /// 
 
-struct Heccer *HeccerNewFromFile(char *pc)
+struct simobj_Heccer *HeccerNewFromFile(char *pc)
 {
     //- set default result: failure
 
-    struct Heccer *pheccerResult = NULL;
+    struct simobj_Heccer *pheccerResult = NULL;
 
     //- deserialize
 
@@ -1068,7 +1068,7 @@ struct Heccer *HeccerNewFromFile(char *pc)
 /// \brief Write the heccer to the file.
 /// 
 
-int HeccerWriteToFile(struct Heccer *pheccer, char *pc)
+int HeccerWriteToFile(struct simobj_Heccer *pheccer, char *pc)
 {
     //- set default result: ok
 

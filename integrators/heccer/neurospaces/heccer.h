@@ -49,11 +49,11 @@ struct TranslationServiceData
 };
 
 
-int HeccerConnectDistributor(struct Heccer *pheccer, struct EventDistributor *ped, struct SolverRegistry *psr, struct ProjectionQuery *ppq);
+int HeccerConnectDistributor(struct simobj_Heccer *pheccer, struct EventDistributor *ped, struct SolverRegistry *psr, struct ProjectionQuery *ppq);
 
-int HeccerConnectQueuer(struct Heccer *pheccer, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq);
+int HeccerConnectQueuer(struct simobj_Heccer *pheccer, struct EventQueuer *peq, struct SolverRegistry *psr, struct ProjectionQuery *ppq);
 
-int HeccerConstruct(struct Heccer *pheccer, void *pvNeurospaces, char *pcModel, void *pvEventDistributor, void *pvEventQueuer);
+int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pcModel, void *pvEventDistributor, void *pvEventQueuer);
 
 
 #endif

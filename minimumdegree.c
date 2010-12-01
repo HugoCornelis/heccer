@@ -26,21 +26,21 @@
 static
 int
 HeccerMDFlowEnumerator
-(struct Heccer *pheccer, int iCurrent, int iTarget);
+(struct simobj_Heccer *pheccer, int iCurrent, int iTarget);
 
 static
 int
 HeccerMDFlowEnumeratorB
-(struct Heccer *pheccer, int iCurrent, int iTarget);
+(struct simobj_Heccer *pheccer, int iCurrent, int iTarget);
 
 static
 int
 HeccerMDFlowEnumeratorL
-(struct Heccer *pheccer, int iCurrent, int iTarget);
+(struct simobj_Heccer *pheccer, int iCurrent, int iTarget);
 
-static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments);
+static int HeccerMDFindFlow(struct simobj_Heccer *pheccer, int iCompartments);
 
-static int HeccerMDStructuralyze(struct Heccer *pheccer);
+static int HeccerMDStructuralyze(struct simobj_Heccer *pheccer);
 
 
 /// 
@@ -75,7 +75,7 @@ static int HeccerMDStructuralyze(struct Heccer *pheccer);
 static
 int
 HeccerMDFlowEnumerator
-(struct Heccer *pheccer, int iCurrent, int iTarget)
+(struct simobj_Heccer *pheccer, int iCurrent, int iTarget)
 {
     //- register schedule number for current compartment
 
@@ -164,7 +164,7 @@ HeccerMDFlowEnumerator
 static
 int
 HeccerMDFlowEnumeratorB
-(struct Heccer *pheccer, int iCurrent, int iTarget)
+(struct simobj_Heccer *pheccer, int iCurrent, int iTarget)
 {
     //- loop over children for current compartment
 
@@ -199,7 +199,7 @@ HeccerMDFlowEnumeratorB
 static
 int
 HeccerMDFlowEnumeratorL
-(struct Heccer *pheccer, int iCurrent, int iTarget)
+(struct simobj_Heccer *pheccer, int iCurrent, int iTarget)
 {
     //- loop over children for current compartment
 
@@ -252,7 +252,7 @@ HeccerMDFlowEnumeratorL
 
 /// driver : initialize and drive the enumerator
 
-static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
+static int HeccerMDFindFlow(struct simobj_Heccer *pheccer, int iCompartments)
 {
     //- set default result : ok
 
@@ -336,7 +336,7 @@ static int HeccerMDFindFlow(struct Heccer *pheccer, int iCompartments)
 /// \brief Minimum degree enumeration for compartment matrix.
 /// 
 
-int HeccerMinimumDegree(struct Heccer *pheccer)
+int HeccerMinimumDegree(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -455,7 +455,7 @@ HeccerMinimumDegreeDump
 /// \brief Build structural indices.
 /// 
 
-static int HeccerMDStructuralyze(struct Heccer *pheccer)
+static int HeccerMDStructuralyze(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 

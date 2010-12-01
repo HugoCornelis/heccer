@@ -23,7 +23,7 @@
 #include <stdio.h>
 
 
-struct Heccer;
+struct simobj_Heccer;
 struct MinimumDegree;
 
 
@@ -52,7 +52,7 @@ struct MinimumDegree
 
 
 
-int HeccerMinimumDegree(struct Heccer *pheccer);
+int HeccerMinimumDegree(struct simobj_Heccer *pheccer);
 
 int
 HeccerMinimumDegreeDump

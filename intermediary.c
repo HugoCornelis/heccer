@@ -37,7 +37,7 @@
 ///	HeccerMechanismLookup().
 /// 
 
-int HeccerIntermediaryBuildIndex(struct Heccer *pheccer)
+int HeccerIntermediaryBuildIndex(struct simobj_Heccer *pheccer)
 {
     //- set default result : success
 
@@ -326,7 +326,7 @@ HeccerIntermediaryDump
 /// 
 
 struct MathComponent *
-HeccerIntermediaryLookup(struct Heccer *pheccer, int i)
+HeccerIntermediaryLookup(struct simobj_Heccer *pheccer, int i)
 {
     //- set default result : not found
 

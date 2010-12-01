@@ -863,21 +863,21 @@ struct ChannelConc
 };
 
 
-struct Heccer;
+struct simobj_Heccer;
 
 
 
-int HeccerMechanismCompile(struct Heccer *pheccer);
+int HeccerMechanismCompile(struct simobj_Heccer *pheccer);
 
-int HeccerMechanismIndex2Pointer(struct Heccer *pheccer);
+int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer);
 
-int HeccerMechanismLink(struct Heccer *pheccer);
+int HeccerMechanismLink(struct simobj_Heccer *pheccer);
 
-int HeccerMechanismPointer2Index(struct Heccer *pheccer);
+int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer);
 
-int HeccerMechanismSolveCN(struct Heccer *pheccer);
+int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer);
 
-int HeccerMechanismSort(struct Heccer *pheccer);
+int HeccerMechanismSort(struct simobj_Heccer *pheccer);
 
 
 #endif

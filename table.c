@@ -28,27 +28,27 @@
 int
 static
 HeccerChannelPersistentSteadyStateDualTauTabulate
-(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer);
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct simobj_Heccer *pheccer);
 
 int
 static
 HeccerChannelPersistentSteadyStateTauTabulate
-(struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer);
+(struct ChannelPersistentSteadyStateTau *pcpst, struct simobj_Heccer *pheccer);
 
 int
 static
 HeccerChannelSteadyStateSteppedTauTabulate
-(struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer);
+(struct ChannelSteadyStateSteppedTau *pcsst, struct simobj_Heccer *pheccer);
 
 int
 static
 HeccerDiscretizeConcentrationGate
-(struct Heccer *pheccer, struct ConcentrationActivator *pac);
+(struct simobj_Heccer *pheccer, struct ConcentrationActivator *pac);
 
 int
 static
 HeccerDiscretizeGateConcept
-(struct Heccer *pheccer, struct GateConcept *pgc);
+(struct simobj_Heccer *pheccer, struct GateConcept *pgc);
 
 static int
 HeccerTableDump
@@ -62,12 +62,12 @@ HeccerTabulatedGateCompareParameters
 static
 int
 HeccerTabulatedGateLookupParameters
-(struct Heccer *pheccer, void *pv, size_t iSize);
+(struct simobj_Heccer *pheccer, void *pv, size_t iSize);
 
 static
 int
 HeccerTabulatedGateNewForParameters
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  void *pvParameters,
  size_t iSize,
  double dStart,
@@ -76,7 +76,7 @@ HeccerTabulatedGateNewForParameters
 
 int
 static
-HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm);
+HeccerTabulateSpringMass(struct simobj_Heccer *pheccer, struct ChannelSpringMass *pcsm);
 
 static
 int
@@ -86,23 +86,23 @@ HeccerTabulatedSpringMassCompareParameters
 static
 int
 HeccerTabulatedSpringMassLookup
-(struct Heccer *pheccer, void *pv, size_t iSize);
+(struct simobj_Heccer *pheccer, void *pv, size_t iSize);
 
 static
 int
 HeccerTabulatedSpringMassNew
-(struct Heccer *pheccer, void *pvParameters, size_t iSize);
+(struct simobj_Heccer *pheccer, void *pvParameters, size_t iSize);
 
 static
 int
 HeccerTabulatedGateLookupTable
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  struct HeccerTabulatedGate *phtg);
 
 static
 int
 HeccerTabulatedGateStoreTable
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  struct HeccerTabulatedGate *phtgNew);
 
 
@@ -122,7 +122,7 @@ HeccerTabulatedGateStoreTable
 
 int
 HeccerConcentrationGateTabulate
-(struct ConcentrationActivator *pca, struct Heccer *pheccer)
+(struct ConcentrationActivator *pca, struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -178,7 +178,7 @@ HeccerConcentrationGateTabulate
 int
 static
 HeccerDiscretizeConcentrationGate
-(struct Heccer *pheccer, struct ConcentrationActivator *pca)
+(struct simobj_Heccer *pheccer, struct ConcentrationActivator *pca)
 {
     //- set default result : ok
 
@@ -306,7 +306,7 @@ HeccerDiscretizeConcentrationGate
 int
 static
 HeccerDiscretizeGateConcept
-(struct Heccer *pheccer, struct GateConcept *pgc)
+(struct simobj_Heccer *pheccer, struct GateConcept *pgc)
 {
     //- set default result : ok
 
@@ -432,7 +432,7 @@ HeccerDiscretizeGateConcept
 
 int
 HeccerGateConceptTabulate
-(struct GateConcept *pgc, struct Heccer *pheccer)
+(struct GateConcept *pgc, struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -588,7 +588,7 @@ HeccerGateConceptTabulate
 int
 static
 HeccerChannelPersistentSteadyStateDualTauTabulate
-(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct Heccer *pheccer)
+(struct ChannelPersistentSteadyStateDualTau *pcpsdt, struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -827,7 +827,7 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 int
 static
 HeccerChannelPersistentSteadyStateTauTabulate
-(struct ChannelPersistentSteadyStateTau *pcpst, struct Heccer *pheccer)
+(struct ChannelPersistentSteadyStateTau *pcpst, struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -967,7 +967,7 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 int
 HeccerTabulateAny
-(struct Heccer *pheccer, void *pv, int iPrototype, int iType)
+(struct simobj_Heccer *pheccer, void *pv, int iPrototype, int iType)
 {
     //- set default result: failure
 
@@ -1070,7 +1070,7 @@ HeccerTabulateAny
 
 int
 static
-HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
+HeccerTabulateSpringMass(struct simobj_Heccer *pheccer, struct ChannelSpringMass *pcsm)
 {
     //- set default result : ok
 
@@ -1154,7 +1154,7 @@ HeccerTabulateSpringMass(struct Heccer *pheccer, struct ChannelSpringMass *pcsm)
 int
 static
 HeccerChannelSteadyStateSteppedTauTabulate
-(struct ChannelSteadyStateSteppedTau *pcsst, struct Heccer *pheccer)
+(struct ChannelSteadyStateSteppedTau *pcsst, struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -1608,7 +1608,7 @@ HeccerTablesDump
 /// \brief Rearrange table values for cache line loading.
 /// 
 
-int HeccerTablesRearrange(struct Heccer *pheccer)
+int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -1817,7 +1817,7 @@ HeccerTabulatedGateCompareParameters
 static
 int
 HeccerTabulatedGateLookupParameters
-(struct Heccer *pheccer, void *pv, size_t iSize)
+(struct simobj_Heccer *pheccer, void *pv, size_t iSize)
 {
     //- set default result : not found
 
@@ -1876,7 +1876,7 @@ HeccerTabulatedGateLookupParameters
 static
 int
 HeccerTabulatedGateNewForParameters
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  void *pvParameters,
  size_t iSize,
  double dStart,
@@ -1987,7 +1987,7 @@ HeccerTabulatedSpringMassCompareParameters
 static
 int
 HeccerTabulatedSpringMassLookup
-(struct Heccer *pheccer, void *pv, size_t iSize)
+(struct simobj_Heccer *pheccer, void *pv, size_t iSize)
 {
     //- set default result : not found
 
@@ -2043,7 +2043,7 @@ HeccerTabulatedSpringMassLookup
 static
 int
 HeccerTabulatedSpringMassNew
-(struct Heccer *pheccer, void *pvParameters, size_t iSize)
+(struct simobj_Heccer *pheccer, void *pvParameters, size_t iSize)
 {
     struct HeccerTabulatedSpringMass *phtsm = NULL;
 
@@ -2090,7 +2090,7 @@ HeccerTabulatedSpringMassNew
 static
 int
 HeccerTabulatedGateLookupTable
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  struct HeccerTabulatedGate *phtg)
 {
     //- set default result: not found
@@ -2143,7 +2143,7 @@ HeccerTabulatedGateLookupTable
 static
 int
 HeccerTabulatedGateStoreTable
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  struct HeccerTabulatedGate *phtgNew)
 {
     struct HeccerTabulatedGate *phtg = NULL;

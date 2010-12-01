@@ -34,7 +34,7 @@ static int segv(char *pc)
 }
 
 
-int serializer_tests(struct Heccer *pheccer1, struct Heccer *pheccer2)
+int serializer_tests(struct simobj_Heccer *pheccer1, struct simobj_Heccer *pheccer2)
 {
     int iResult = 1;
 
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 
     //- deserialize
 
-    struct Heccer *pheccer2 = HeccerNewFromFile("/tmp/heccer");
+    struct simobj_Heccer *pheccer2 = HeccerNewFromFile("/tmp/heccer");
 
     //- dump both, must be same
 

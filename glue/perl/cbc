@@ -30,7 +30,7 @@ struct SV * glHeccerNew(SV * psvInter)
 
     //- instantiate a heccer with an initialized intermediary
 
-    struct Heccer *pheccer = HeccerNewP2(pinter);
+    struct simobj_Heccer *pheccer = HeccerNewP2(pinter);
 
     //- build indices for optimization
 

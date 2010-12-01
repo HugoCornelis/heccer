@@ -32,14 +32,14 @@
 static
 int
 HeccerAddressCompartmentSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcType);
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType);
 #endif
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 static
 int
 HeccerAddressSerial2Intermediary
-(struct Heccer *pheccer, int iIndex, char *pcType);
+(struct simobj_Heccer *pheccer, int iIndex, char *pcType);
 
 #endif
 
@@ -60,7 +60,7 @@ HeccerAddressSerial2Intermediary
 #ifdef HECCER_SOURCE_NEUROSPACES
 char *
 HeccerAddressableSet
-(struct Heccer *pheccer, int iSerial, char *pcType, double dValue)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType, double dValue)
 {
     //- set default result: success
 
@@ -102,7 +102,7 @@ HeccerAddressableSet
 
 double *
 HeccerAddressAggregator
-(struct Heccer *pheccer, int iSerial, char *pcType)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType)
 {
     //- set default result: not found
 
@@ -167,7 +167,7 @@ HeccerAddressAggregator
 
 double *
 HeccerAddressCompartmentVariable
-(struct Heccer *pheccer, int iIntermediary, char *pcType)
+(struct simobj_Heccer *pheccer, int iIntermediary, char *pcType)
 {
     //- set default result : not found
 
@@ -238,7 +238,7 @@ HeccerAddressCompartmentVariable
 static
 int
 HeccerAddressCompartmentSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcType)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType)
 {
     //- set default result : not found
 
@@ -293,7 +293,7 @@ HeccerAddressCompartmentSerial2Intermediary
 static
 int
 HeccerAddressMechanismSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcType)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType)
 {
 
     //- set default result : not found
@@ -347,7 +347,7 @@ HeccerAddressMechanismSerial2Intermediary
 
 double *
 HeccerAddressMechanismVariable
-(struct Heccer *pheccer, int iIndex, char *pcType)
+(struct simobj_Heccer *pheccer, int iIndex, char *pcType)
 {
     //- set default result : not found
 
@@ -543,7 +543,7 @@ HeccerAddressMechanismVariable
 static
 int
 HeccerAddressSerial2Intermediary
-(struct Heccer *pheccer, int iSerial, char *pcType)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType)
 {
     //- set default result: not found
 
@@ -593,7 +593,7 @@ HeccerAddressSerial2Intermediary
 
 int
 HeccerAddressTableIndex
-(struct Heccer *pheccer, int iSerial, char *pcType)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType)
 {
     //- set default result : not found
 
@@ -634,7 +634,7 @@ HeccerAddressTableIndex
 
 double *
 HeccerAddressVariable
-(struct Heccer *pheccer, int iSerial, char *pcType)
+(struct simobj_Heccer *pheccer, int iSerial, char *pcType)
 #ifdef HECCER_SOURCE_NEUROSPACES
 {
     //- set default result : not found

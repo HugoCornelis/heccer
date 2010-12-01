@@ -85,7 +85,7 @@ struct Callout;
 
 typedef 
 int ExternalFunction
-(struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per);
+(struct Callout *pco, struct simobj_Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per);
 
 
 /// \struct call out intermediary

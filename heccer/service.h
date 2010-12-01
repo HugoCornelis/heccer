@@ -20,14 +20,14 @@
 #define HECCER_SERVICE_H
 
 
-struct Heccer;
+struct simobj_Heccer;
 
 struct TranslationService;
 
 struct TranslationServiceData;
 
 
-typedef int (*ComponentInspector)(struct Heccer *pheccer, struct TranslationService *pts);
+typedef int (*ComponentInspector)(struct simobj_Heccer *pheccer, struct TranslationService *pts);
 
 struct TranslationService
 {

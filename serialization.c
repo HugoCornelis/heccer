@@ -27,32 +27,32 @@
 static
 int
 HeccerDeserializeCompartments
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 static
 int
 HeccerDeserializeMain
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 static
 int
 HeccerDeserializeMechanisms
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 static
 int
 HeccerSerializeCompartments
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 static
 int
 HeccerSerializeMain
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 static
 int
 HeccerSerializeMechanisms
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 
 /// 
@@ -66,12 +66,12 @@ HeccerSerializeMechanisms
 /// \brief Deserialize this heccer from the given stream.
 /// 
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerDeserialize(FILE *pfile)
 {
     //- set default result: failure
 
-    struct Heccer *pheccerResult = NULL;
+    struct simobj_Heccer *pheccerResult = NULL;
 
 /*     //- read the serialization version ID */
 
@@ -157,7 +157,7 @@ HeccerDeserialize(FILE *pfile)
 static
 int
 HeccerDeserializeCompartments
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -194,7 +194,7 @@ HeccerDeserializeCompartments
 
 int
 HeccerDeserializeCompartmentState
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -316,7 +316,7 @@ HeccerDeserializeCompartmentState
 
 int
 HeccerDeserializeCompartmentStructure
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -357,19 +357,19 @@ HeccerDeserializeCompartmentStructure
 /// 
 /// \arg pfile file pointer.
 /// 
-/// \return struct Heccer *
+/// \return struct simobj_Heccer *
 /// 
 ///	a heccer, NULL for failure.
 /// 
 /// \brief Deserialize a heccer from the given filename.
 /// 
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerDeserializeFromFilename(char *pcFilename)
 {
     //- set default result: failure
 
-    struct Heccer *pheccerResult = NULL;
+    struct simobj_Heccer *pheccerResult = NULL;
 
     //- open file
 
@@ -405,7 +405,7 @@ HeccerDeserializeFromFilename(char *pcFilename)
 static
 int
 HeccerDeserializeMain
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -493,7 +493,7 @@ long HeccerFilePos(FILE *pfile)
 static
 int
 HeccerDeserializeMechanisms
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -527,7 +527,7 @@ HeccerDeserializeMechanisms
 
 int
 HeccerDeserializeMechanismState
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -585,7 +585,7 @@ HeccerDeserializeMechanismState
 
 int
 HeccerDeserializeMechanismStructure
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -822,7 +822,7 @@ HeccerSerializationOpenWrite(char *pcFilename)
 
 int
 HeccerSerialize
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -872,7 +872,7 @@ HeccerSerialize
 static
 int
 HeccerSerializeCompartments
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -906,7 +906,7 @@ HeccerSerializeCompartments
 
 int
 HeccerSerializeCompartmentState
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -968,7 +968,7 @@ HeccerSerializeCompartmentState
 
 int
 HeccerSerializeCompartmentStructure
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -1014,7 +1014,7 @@ HeccerSerializeCompartmentStructure
 static
 int
 HeccerSerializeMain
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -1065,7 +1065,7 @@ HeccerSerializeMain
 static
 int
 HeccerSerializeMechanisms
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -1099,7 +1099,7 @@ HeccerSerializeMechanisms
 
 int
 HeccerSerializeMechanismState
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -1137,7 +1137,7 @@ HeccerSerializeMechanismState
 
 int
 HeccerSerializeMechanismStructure
-(struct Heccer *pheccer, FILE *pfile)
+(struct simobj_Heccer *pheccer, FILE *pfile)
 {
     //- set default result: ok
 
@@ -1233,7 +1233,7 @@ HeccerSerializeMechanismStructure
 
 int
 HeccerSerializeToFilename
-(struct Heccer *pheccer, char *pcFilename)
+(struct simobj_Heccer *pheccer, char *pcFilename)
 {
     //- set default result: failure
 

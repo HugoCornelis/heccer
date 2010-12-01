@@ -16,9 +16,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-extern struct Heccer *pheccer;
+extern struct simobj_Heccer *pheccer;
 
-extern struct VClamp *pvc;
+extern struct simobj_VClamp *pvc;
 
 extern struct simobj_PerfectClamp *ppc;
 
@@ -26,6 +26,6 @@ extern struct simobj_PulseGen *ppg;
 
 int WriteOutput(char *pcFilename);
 
-int tests_dump(struct Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i);
+int tests_dump(struct simobj_Heccer *pheccer, FILE *pfile, int iTested, char *pcMessage, int i);
 
 

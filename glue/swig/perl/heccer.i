@@ -155,13 +155,13 @@ struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
 
 typedef int (*DriverMethod)(void *pvData);
 
-void * heccer_get_driver_data(struct Heccer *pheccer)
+void * heccer_get_driver_data(struct simobj_Heccer *pheccer)
 {
     return((void *)pheccer);
 }
 
 
-void * heccer_get_driver_method(struct Heccer *pheccer)
+void * heccer_get_driver_method(struct simobj_Heccer *pheccer)
 {
     return((void *)HeccerHeccs);
 }

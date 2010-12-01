@@ -179,7 +179,7 @@ struct Intermediary inter =
 };
 
 
-int pefInjector(struct Callout *pco, struct Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per)
+int pefInjector(struct Callout *pco, struct simobj_Heccer *pheccer, struct InternalResults *pir, struct ExternalResults *per)
 {
     //- set default result
 

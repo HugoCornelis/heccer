@@ -903,9 +903,9 @@ char pcStep[100] = "";
 
 //v accessible from the outside if needed
 
-struct Heccer *pheccerSource = NULL;
-struct Heccer *pheccerTarget1 = NULL;
-struct Heccer *pheccerTarget2 = NULL;
+struct simobj_Heccer *pheccerSource = NULL;
+struct simobj_Heccer *pheccerTarget1 = NULL;
+struct simobj_Heccer *pheccerTarget2 = NULL;
 
 
 int main(int argc, char *argv[])

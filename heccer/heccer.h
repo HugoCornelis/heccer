@@ -26,7 +26,7 @@
 #define USE_ENABLE_LINEAR_MODE
 
 
-struct Heccer;
+struct simobj_Heccer;
 
 
 #include "des.h"
@@ -167,7 +167,7 @@ struct HeccerOptions
 
 /// \struct heccer main structure
 
-struct Heccer
+struct simobj_Heccer
 {
     /// name of this heccer
 
@@ -285,19 +285,19 @@ struct Heccer
 
 
 
-int HeccerAggregatorsCompile(struct Heccer *pheccer);
+int HeccerAggregatorsCompile(struct simobj_Heccer *pheccer);
 
-int HeccerCanCompile(struct Heccer *pheccer);
+int HeccerCanCompile(struct simobj_Heccer *pheccer);
 
-int HeccerCompileP1(struct Heccer *pheccer);
+int HeccerCompileP1(struct simobj_Heccer *pheccer);
 
-int HeccerCompileP2(struct Heccer *pheccer);
+int HeccerCompileP2(struct simobj_Heccer *pheccer);
 
-int HeccerCompileP3(struct Heccer *pheccer);
+int HeccerCompileP3(struct simobj_Heccer *pheccer);
 
-int HeccerDumpV(struct Heccer *pheccer);
+int HeccerDumpV(struct simobj_Heccer *pheccer);
 
-int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
+int HeccerDump(struct simobj_Heccer *pheccer, FILE *pfile, int iSelection);
 
 #define HECCER_DUMP_ALL (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
 
@@ -333,22 +333,22 @@ int HeccerDump(struct Heccer *pheccer, FILE *pfile, int iSelection);
 
 char * HeccerGetVersion(void);
 
-int HeccerError(struct Heccer *pheccer, char *pcContext, char *pcError, ...);
+int HeccerError(struct simobj_Heccer *pheccer, char *pcContext, char *pcError, ...);
 
-/* int HeccerHecc(struct Heccer *pheccer); */
+/* int HeccerHecc(struct simobj_Heccer *pheccer); */
 
-int HeccerHeccs(struct Heccer *pheccer, double dTime);
+int HeccerHeccs(struct simobj_Heccer *pheccer, double dTime);
 
-int HeccerInitiate(struct Heccer *pheccer);
+int HeccerInitiate(struct simobj_Heccer *pheccer);
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerNew
 (char *pc,
  struct TranslationService *pts,
  struct EventDistributor *ped,
  struct EventQueuer *peq);
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerNewP1
 (char *pc,
  struct TranslationService *pts,
@@ -357,11 +357,11 @@ HeccerNewP1
  int iOptions,
  double dStep);
 
-struct Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter);
+struct simobj_Heccer *HeccerNewP2(char *pc, struct Intermediary *pinter);
 
-struct Heccer *HeccerNewFromFile(char *pc);
+struct simobj_Heccer *HeccerNewFromFile(char *pc);
 
-int HeccerWriteToFile(struct Heccer *pheccer, char *pc);
+int HeccerWriteToFile(struct simobj_Heccer *pheccer, char *pc);
 
 
 #endif

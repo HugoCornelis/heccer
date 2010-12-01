@@ -150,23 +150,23 @@ struct TabulatedSpringMassTable
 
 struct ConcentrationActivator;
 struct GateConcept;
-struct Heccer;
+struct simobj_Heccer;
 
 
 
 int
 HeccerConcentrationGateTabulate
-(struct ConcentrationActivator *pac, struct Heccer *pheccer);
+(struct ConcentrationActivator *pac, struct simobj_Heccer *pheccer);
 
 int
 HeccerGateConceptTabulate
-(struct GateConcept *pgc, struct Heccer *pheccer);
+(struct GateConcept *pgc, struct simobj_Heccer *pheccer);
 
 int
 HeccerTablesDump
 (struct TabulatedGateTable *ptgt, FILE *pfile, int iSelection);
 
-int HeccerTablesRearrange(struct Heccer *pheccer);
+int HeccerTablesRearrange(struct simobj_Heccer *pheccer);
 
 int
 HeccerTableValuesDeserialize
@@ -185,7 +185,7 @@ HeccerTableInterpolate
 
 int
 HeccerTabulateAny
-(struct Heccer *pheccer, void *pv, int iPrototype, int iType);
+(struct simobj_Heccer *pheccer, void *pv, int iPrototype, int iType);
 
 
 #endif

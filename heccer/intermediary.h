@@ -76,14 +76,14 @@ struct Intermediary
 
 
 
-int HeccerIntermediaryBuildIndex(struct Heccer *pheccer);
+int HeccerIntermediaryBuildIndex(struct simobj_Heccer *pheccer);
 
 int
 HeccerIntermediaryDump
 (struct Intermediary *pinter, FILE *pfile, int iSelection);
 
 struct MathComponent *
-HeccerIntermediaryLookup(struct Heccer *pheccer, int i);
+HeccerIntermediaryLookup(struct simobj_Heccer *pheccer, int i);
 
 
 #endif

@@ -34,18 +34,18 @@
 static
 int
 HeccerCheckParameters
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  char *pcDescription,
  ...);
 
 static double
 HeccerGateInitActivation
-(struct Heccer *pheccer, int iTable, double dInitVm, double dInitActivation);
+(struct simobj_Heccer *pheccer, int iTable, double dInitVm, double dInitActivation);
 
 static
 int
 HeccerMechanismReadDoubleFile
-(struct Heccer *pheccer, char *pcFilename, double **ppdValues);
+(struct simobj_Heccer *pheccer, char *pcFilename, double **ppdValues);
 
 
 /// 
@@ -70,7 +70,7 @@ HeccerMechanismReadDoubleFile
 static
 int
 HeccerCheckParameters
-(struct Heccer *pheccer,
+(struct simobj_Heccer *pheccer,
  char *pcDescription,
  ...)
 {
@@ -139,7 +139,7 @@ HeccerCheckParameters
 
 static double
 HeccerGateInitActivation
-(struct Heccer *pheccer, int iTable, double dInitVm, double dInitActivation)
+(struct simobj_Heccer *pheccer, int iTable, double dInitVm, double dInitActivation)
 {
     //- set default result: failure
 
@@ -230,7 +230,7 @@ HeccerGateInitActivation
 ///	mechanism.
 /// 
 
-int HeccerMechanismCompile(struct Heccer *pheccer)
+int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -2010,7 +2010,7 @@ int HeccerMechanismCompile(struct Heccer *pheccer)
 /// mat pointers in the mops to mat indices.
 /// 
 
-int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
+int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -2483,7 +2483,7 @@ int HeccerMechanismIndex2Pointer(struct Heccer *pheccer)
 /// indices.
 /// 
 
-int HeccerMechanismLink(struct Heccer *pheccer)
+int HeccerMechanismLink(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -2967,7 +2967,7 @@ int HeccerMechanismLink(struct Heccer *pheccer)
 /// mat pointers in the mops to mat indices.
 /// 
 
-int HeccerMechanismPointer2Index(struct Heccer *pheccer)
+int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -3455,7 +3455,7 @@ int HeccerMechanismPointer2Index(struct Heccer *pheccer)
 static
 int
 HeccerMechanismReadDoubleFile
-(struct Heccer *pheccer, char *pcFilename, double **ppdValues)
+(struct simobj_Heccer *pheccer, char *pcFilename, double **ppdValues)
 {
     //- set default result: failure
 
@@ -3594,7 +3594,7 @@ HeccerMechanismReadDoubleFile
 /// \brief Perform the mechanisms operators once.
 /// 
 
-int HeccerMechanismSolveCN(struct Heccer *pheccer)
+int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -4521,7 +4521,7 @@ int HeccerMechanismSolveCN(struct Heccer *pheccer)
 ///	mechanism.
 /// 
 
-int HeccerMechanismSort(struct Heccer *pheccer)
+int HeccerMechanismSort(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 

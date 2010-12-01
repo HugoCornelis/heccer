@@ -67,7 +67,7 @@ struct MathComponentData
 {
     /// solution engine
 
-    struct Heccer *pheccer;
+    struct simobj_Heccer *pheccer;
 
     /// compartment number
 
@@ -216,9 +216,9 @@ static
 int
 solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
-static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct TranslationService *pts);
+static int cellsolver_getmathcomponents(struct simobj_Heccer *pheccer, struct TranslationService *pts);
 
-static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathComponentData * pmcd);
+static int cellsolver_linkmathcomponents(struct simobj_Heccer * pheccer, struct MathComponentData * pmcd);
 
 static
 TreespaceTraversalProcessor *
@@ -3827,7 +3827,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
     //- get pointer to intermediary
 
-    struct Heccer *pheccer = pmcd->pheccer;
+    struct simobj_Heccer *pheccer = pmcd->pheccer;
 
     //- get current math component
 
@@ -4909,7 +4909,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
     //- get pointer to intermediary
 
-    struct Heccer *pheccer = pmcd->pheccer;
+    struct simobj_Heccer *pheccer = pmcd->pheccer;
 
     //- set default type : error
 
@@ -5206,7 +5206,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 }
 
 
-static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct TranslationService *pts)
+static int cellsolver_getmathcomponents(struct simobj_Heccer *pheccer, struct TranslationService *pts)
 {
     //- set default result : ok
 
@@ -5485,7 +5485,7 @@ static int cellsolver_getmathcomponents(struct Heccer *pheccer, struct Translati
 }
 
 
-static int cellsolver_linkmathcomponents(struct Heccer * pheccer, struct MathComponentData * pmcd)
+static int cellsolver_linkmathcomponents(struct simobj_Heccer * pheccer, struct MathComponentData * pmcd)
 {
     //- set default result : ok
 

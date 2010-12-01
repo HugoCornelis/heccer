@@ -26,27 +26,27 @@
 #define HECCER_SERIALIZATION_VERSION "HECCER 00000001"
 
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerDeserialize(FILE *pfile);
 
 int
 HeccerDeserializeCompartmentState
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerDeserializeCompartmentStructure
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
-struct Heccer *
+struct simobj_Heccer *
 HeccerDeserializeFromFilename(char *pcFilename);
 
 int
 HeccerDeserializeMechanismState
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerDeserializeMechanismStructure
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerSerializationClose(FILE *pfile);
@@ -59,27 +59,27 @@ HeccerSerializationOpenWrite(char *pcFilename);
 
 int
 HeccerSerialize
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerSerializeCompartmentState
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerSerializeCompartmentStructure
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerSerializeMechanismState
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerSerializeMechanismStructure
-(struct Heccer *pheccer, FILE *pfile);
+(struct simobj_Heccer *pheccer, FILE *pfile);
 
 int
 HeccerSerializeToFilename
-(struct Heccer *pheccer, char *pcFilename);
+(struct simobj_Heccer *pheccer, char *pcFilename);
 
 
 #endif

@@ -130,7 +130,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 
 			// \todo we simply assume it is a heccer: type discrimination required here
 
-			struct Heccer *pheccer = (struct Heccer *)pvSolver;
+			struct simobj_Heccer *pheccer = (struct simobj_Heccer *)pvSolver;
 
 			//- register the event distributor for this solver
 
@@ -388,7 +388,7 @@ int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQu
 			// that is already available in ns-sli
 			// nsintegrator.h struct SolverRegistration{}.
 
-			struct Heccer *pheccer = (struct Heccer *)pvSolver;
+			struct simobj_Heccer *pheccer = (struct simobj_Heccer *)pvSolver;
 
 			//- fill in the solver index as notification target
 

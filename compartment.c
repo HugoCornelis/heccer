@@ -34,7 +34,7 @@
 /// \brief Compile the intermediary of the compartments to byte code.
 /// 
 
-int HeccerCompartmentCompile(struct Heccer *pheccer)
+int HeccerCompartmentCompile(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -461,7 +461,7 @@ HECCER_SOURCE_NEUROSPACES
 /// \brief Fill the compartment arrays with initial values.
 /// 
 
-int HeccerCompartmentInitiate(struct Heccer *pheccer)
+int HeccerCompartmentInitiate(struct simobj_Heccer *pheccer)
 {
     //- set default result
 
@@ -503,7 +503,7 @@ int HeccerCompartmentInitiate(struct Heccer *pheccer)
 /// \brief Perform the compartment operators once.
 /// 
 
-int HeccerCompartmentSolveCN(struct Heccer *pheccer)
+int HeccerCompartmentSolveCN(struct simobj_Heccer *pheccer)
 {
     int *piCops = &pheccer->vm.piCops[0];
     int iCop;

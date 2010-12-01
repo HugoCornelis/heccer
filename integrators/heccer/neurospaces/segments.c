@@ -34,11 +34,11 @@ static
 int
 solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata);
 
-static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationService *pts);
+static int cellsolver_getsegments(struct simobj_Heccer *pheccer, struct TranslationService *pts);
 
-static int cellsolver_linksegments(struct Heccer *pheccer);
+static int cellsolver_linksegments(struct simobj_Heccer *pheccer);
 
-static int cellsolver_setupcomp2mech(struct Heccer *pheccer);
+static int cellsolver_setupcomp2mech(struct simobj_Heccer *pheccer);
 
 
 static
@@ -59,7 +59,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
     {
 	//- get pointer to intermediary
 
-	struct Heccer *pheccer = (struct Heccer *)pvUserdata;
+	struct simobj_Heccer *pheccer = (struct simobj_Heccer *)pvUserdata;
 
 	struct Intermediary *pinter = &pheccer->inter;
 
@@ -251,7 +251,7 @@ solver_segmentprocessor(struct TreespaceTraversal *ptstr, void *pvUserdata)
 }
 
 
-static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationService *pts)
+static int cellsolver_getsegments(struct simobj_Heccer *pheccer, struct TranslationService *pts)
 {
     //- set default result : ok
 
@@ -333,7 +333,7 @@ static int cellsolver_getsegments(struct Heccer *pheccer, struct TranslationServ
 }
 
 
-static int cellsolver_linksegments(struct Heccer *pheccer)
+static int cellsolver_linksegments(struct simobj_Heccer *pheccer)
 {
     //- set default result : ok
 
@@ -409,7 +409,7 @@ static int cellsolver_linksegments(struct Heccer *pheccer)
 }
 
 
-static int cellsolver_setupcomp2mech(struct Heccer *pheccer)
+static int cellsolver_setupcomp2mech(struct simobj_Heccer *pheccer)
 {
     //- allocate
 

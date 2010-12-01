@@ -775,7 +775,7 @@ my $heccer_mapping
 
 					   pcName => "unnamed test",
 					  },
-		  internal_name => 'Heccer',
+		  internal_name => 'simobj_Heccer',
 		  translators => {
 				  configuration => {
 						   },
