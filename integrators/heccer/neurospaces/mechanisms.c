@@ -757,7 +757,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		//- get HH_AB_Mult = 0.0
 
-		double dHHMult = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
+		double dHHMult = - SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
 
 		pgk->dHHMult = dHHMult;
 
@@ -1276,7 +1276,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		//- get HH_AB_Mult = 0.0
 
-		double dHHMult = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
+		double dHHMult = - SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
 
 		pgk->dHHMult = dHHMult;
 
@@ -2106,7 +2106,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		//- get HH_AB_Mult = 0.0
 
-		double dHHMult = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
+		double dHHMult = - SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult");
 
 		pgk->dHHMult = dHHMult;
 
