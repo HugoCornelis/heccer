@@ -126,7 +126,6 @@ HeccerCheckParameters
 
 
 /// 
-/// 
 /// \arg pgc a gate concept.
 /// \arg dInitActivation negative initial activation code.
 /// 
