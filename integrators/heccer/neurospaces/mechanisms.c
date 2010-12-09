@@ -749,9 +749,9 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 	    else
 	    {
-		//- get HH_AB_Scale = 35.0e3
+		//- get HH_AB_Add_Num = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Scale");
+		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
 
 		pgk->dHHScale = dHHScale;
 
@@ -769,9 +769,9 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		pgk->iHHFactorFlag = iHHFactorFlag;
 
-		//- get HH_AB_Add = 0.0
+		//- get HH_AB_Add_Den = 0.0
 
-		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add");
+		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Den");
 
 		pgk->dHHAdd = dHHAdd;
 
@@ -781,9 +781,9 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		pgk->dHHOffsetE = dHHOffsetE;
 
-		//- get HH_AB_Tau = -10.0e-3
+		//- get HH_AB_Div_E = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Tau");
+		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
 
 		pgk->dHHTau = dHHTau;
 
@@ -792,7 +792,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Scale");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add_Num");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -833,7 +833,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add_Den");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -858,7 +858,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Tau");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Div_E");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1268,9 +1268,9 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 	    else
 	    {
-		//- get HH_AB_Scale = 35.0e3
+		//- get HH_AB_Add_Num = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Scale");
+		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
 
 		pgk->dHHScale = dHHScale;
 
@@ -1288,9 +1288,9 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pgk->iHHFactorFlag = iHHFactorFlag;
 
-		//- get HH_AB_Add = 0.0
+		//- get HH_AB_Add_Den = 0.0
 
-		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add");
+		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Den");
 
 		pgk->dHHAdd = dHHAdd;
 
@@ -1300,9 +1300,9 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pgk->dHHOffsetE = dHHOffsetE;
 
-		//- get HH_AB_Tau = -10.0e-3
+		//- get HH_AB_Div_E = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Tau");
+		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
 
 		pgk->dHHTau = dHHTau;
 
@@ -1312,7 +1312,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Scale");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add_Num");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -1350,7 +1350,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add_Den");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -1373,7 +1373,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Tau");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Div_E");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2098,9 +2098,9 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 	    else
 	    {
-		//- get HH_AB_Scale = 35.0e3
+		//- get HH_AB_Add_Num = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Scale");
+		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
 
 		pgk->dHHScale = dHHScale;
 
@@ -2118,9 +2118,9 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		pgk->iHHFactorFlag = iHHFactorFlag;
 
-		//- get HH_AB_Add = 0.0
+		//- get HH_AB_Add_Den = 0.0
 
-		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add");
+		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Den");
 
 		pgk->dHHAdd = dHHAdd;
 
@@ -2130,9 +2130,9 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		pgk->dHHOffsetE = dHHOffsetE;
 
-		//- get HH_AB_Tau = -10.0e-3
+		//- get HH_AB_Div_E = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Tau");
+		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
 
 		pgk->dHHTau = dHHTau;
 
@@ -2144,7 +2144,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Scale");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add_Num");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -2185,7 +2185,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Add_Den");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -2213,7 +2213,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Tau");
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Div_E");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
