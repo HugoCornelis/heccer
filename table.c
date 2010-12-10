@@ -461,26 +461,26 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdA)
 	{
-	    double dMultiplier = pgc->parameters.gkA.dHHAddNum;
-	    double dMembraneDependence = pgc->parameters.gkA.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkA.dHHOffsetM;
-	    int iNominator = pgc->parameters.gkA.iHHFactorFlag;
-	    double dDeNominatorOffset = pgc->parameters.gkA.dHHAddDen;
-	    double dMembraneOffset = pgc->parameters.gkA.dHHOffsetE;
-	    double dTauDenormalizer = pgc->parameters.gkA.dHHDivE;
+	    double dHHAddNum = pgc->parameters.gkA.dHHAddNum;
+	    double dHHMult = pgc->parameters.gkA.dHHMult;
+	    double dHHOffsetM = pgc->parameters.gkA.dHHOffsetM;
+	    int iHHFactorFlag = pgc->parameters.gkA.iHHFactorFlag;
+	    double dHHAddDen = pgc->parameters.gkA.dHHAddDen;
+	    double dHHOffsetE = pgc->parameters.gkA.dHHOffsetE;
+	    double dHHDivE = pgc->parameters.gkA.dHHDivE;
 
 	    /// \todo check the MCAD MMGLT macro to see how it deals with
 	    /// \todo relative errors.  The current implementation is magnitude
 	    /// \todo dependent, and obviously completely add hoc.
 
-	    if (fabs(dTauDenormalizer) < 1e-17)
+	    if (fabs(dHHDivE) < 1e-17)
 	    {
 		dCarryOver = 0.0;
 		phtg->pdA[i] = 0.0;
 	    }
 	    else
 	    {
-		double dDeNominator = dDeNominatorOffset + exp((dx + dMembraneOffset) / dTauDenormalizer);
+		double dDeNominator = dHHAddDen + exp((dx + dHHOffsetE) / dHHDivE);
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
@@ -488,13 +488,13 @@ HeccerGateConceptTabulate
 		}
 		else
 		{
-		    if (iNominator == 1)
+		    if (iHHFactorFlag == 1)
 		    {
-			phtg->pdA[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdA[i] = (dHHAddNum + (dHHOffsetM - dHHMult * dx)) * dDeNominator;
 		    }
-		    else if (iNominator == -1)
+		    else if (iHHFactorFlag == -1)
 		    {
-			phtg->pdA[i] = (dMultiplier + (dMembraneDependenceOffset - dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdA[i] = (dHHAddNum + (dHHOffsetM - dHHMult * dx)) / dDeNominator;
 		    }
 		    else
 		    {
@@ -510,21 +510,21 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdA && phtg->pdB)
 	{
-	    double dMultiplier = pgc->parameters.gkB.dHHAddNum;
-	    double dMembraneDependence = pgc->parameters.gkB.dHHMult;
-	    double dMembraneDependenceOffset = pgc->parameters.gkB.dHHOffsetM;
-	    int iNominator = pgc->parameters.gkB.iHHFactorFlag;
-	    double dDeNominatorOffset = pgc->parameters.gkB.dHHAddDen;
-	    double dMembraneOffset = pgc->parameters.gkB.dHHOffsetE;
-	    double dTauDenormalizer = pgc->parameters.gkB.dHHDivE;
+	    double dHHAddNum = pgc->parameters.gkB.dHHAddNum;
+	    double dHHMult = pgc->parameters.gkB.dHHMult;
+	    double dHHOffsetM = pgc->parameters.gkB.dHHOffsetM;
+	    int iHHFactorFlag = pgc->parameters.gkB.iHHFactorFlag;
+	    double dHHAddDen = pgc->parameters.gkB.dHHAddDen;
+	    double dHHOffsetE = pgc->parameters.gkB.dHHOffsetE;
+	    double dHHDivE = pgc->parameters.gkB.dHHDivE;
 
-	    if (fabs(dTauDenormalizer) < 1e-17)
+	    if (fabs(dHHDivE) < 1e-17)
 	    {
 		phtg->pdB[i] = 0.0;
 	    }
 	    else
 	    {
-		double dDeNominator = dDeNominatorOffset + exp((dx + dMembraneOffset) / dTauDenormalizer);
+		double dDeNominator = dHHAddDen + exp((dx + dHHOffsetE) / dHHDivE);
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
@@ -532,13 +532,13 @@ HeccerGateConceptTabulate
 		}
 		else
 		{
-		    if (iNominator == 1)
+		    if (iHHFactorFlag == 1)
 		    {
-			phtg->pdB[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) * dDeNominator;
+			phtg->pdB[i] = (dHHAddNum + dHHOffsetM - (dHHMult * dx)) * dDeNominator;
 		    }
-		    else if (iNominator == -1)
+		    else if (iHHFactorFlag == -1)
 		    {
-			phtg->pdB[i] = (dMultiplier + dMembraneDependenceOffset - (dMembraneDependence * dx)) / dDeNominator;
+			phtg->pdB[i] = (dHHAddNum + dHHOffsetM - (dHHMult * dx)) / dDeNominator;
 		    }
 		    else
 		    {
