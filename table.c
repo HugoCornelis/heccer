@@ -461,13 +461,13 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdA)
 	{
-	    double dMultiplier = pgc->parameters.gkA.dHHScale;
+	    double dMultiplier = pgc->parameters.gkA.dHHAddNum;
 	    double dMembraneDependence = pgc->parameters.gkA.dHHMult;
 	    double dMembraneDependenceOffset = pgc->parameters.gkA.dHHOffsetM;
 	    int iNominator = pgc->parameters.gkA.iHHFactorFlag;
-	    double dDeNominatorOffset = pgc->parameters.gkA.dHHAdd;
+	    double dDeNominatorOffset = pgc->parameters.gkA.dHHAddDen;
 	    double dMembraneOffset = pgc->parameters.gkA.dHHOffsetE;
-	    double dTauDenormalizer = pgc->parameters.gkA.dHHTau;
+	    double dTauDenormalizer = pgc->parameters.gkA.dHHDivE;
 
 	    /// \todo check the MCAD MMGLT macro to see how it deals with
 	    /// \todo relative errors.  The current implementation is magnitude
@@ -510,13 +510,13 @@ HeccerGateConceptTabulate
 
 	if (phtg->pdA && phtg->pdB)
 	{
-	    double dMultiplier = pgc->parameters.gkB.dHHScale;
+	    double dMultiplier = pgc->parameters.gkB.dHHAddNum;
 	    double dMembraneDependence = pgc->parameters.gkB.dHHMult;
 	    double dMembraneDependenceOffset = pgc->parameters.gkB.dHHOffsetM;
 	    int iNominator = pgc->parameters.gkB.iHHFactorFlag;
-	    double dDeNominatorOffset = pgc->parameters.gkB.dHHAdd;
+	    double dDeNominatorOffset = pgc->parameters.gkB.dHHAddDen;
 	    double dMembraneOffset = pgc->parameters.gkB.dHHOffsetE;
-	    double dTauDenormalizer = pgc->parameters.gkB.dHHTau;
+	    double dTauDenormalizer = pgc->parameters.gkB.dHHDivE;
 
 	    if (fabs(dTauDenormalizer) < 1e-17)
 	    {

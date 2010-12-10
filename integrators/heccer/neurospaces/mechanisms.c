@@ -751,9 +751,9 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    {
 		//- get HH_AB_Add_Num = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
+		double dHHAddNum = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
 
-		pgk->dHHScale = dHHScale;
+		pgk->dHHAddNum = dHHAddNum;
 
 		//- get HH_AB_Mult = 0.0
 
@@ -773,7 +773,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Den");
 
-		pgk->dHHAdd = dHHAdd;
+		pgk->dHHAddDen = dHHAdd;
 
 		//- get HH_AB_Offset_E = 5.0e-3
 
@@ -783,11 +783,11 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		//- get HH_AB_Div_E = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
+		double dHHDivE = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
 
-		pgk->dHHTau = dHHTau;
+		pgk->dHHDivE = dHHDivE;
 
-		if (dHHScale == DBL_MAX ){
+		if (dHHAddNum == DBL_MAX ){
 
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
@@ -854,7 +854,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 		
 
-		if(dHHTau == DBL_MAX)
+		if(dHHDivE == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
@@ -1270,9 +1270,9 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	    {
 		//- get HH_AB_Add_Num = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
+		double dHHAddNum = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
 
-		pgk->dHHScale = dHHScale;
+		pgk->dHHAddNum = dHHAddNum;
 
 		//- get HH_AB_Mult = 0.0
 
@@ -1292,7 +1292,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Den");
 
-		pgk->dHHAdd = dHHAdd;
+		pgk->dHHAddDen = dHHAdd;
 
 		//- get HH_AB_Offset_E = 5.0e-3
 
@@ -1302,11 +1302,11 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		//- get HH_AB_Div_E = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
+		double dHHDivE = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
 
-		pgk->dHHTau = dHHTau;
+		pgk->dHHDivE = dHHDivE;
 
-		if( dHHScale == DBL_MAX )
+		if( dHHAddNum == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -1367,7 +1367,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 
 		}
-		if( dHHTau == DBL_MAX )
+		if( dHHDivE == DBL_MAX )
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2100,9 +2100,9 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	    {
 		//- get HH_AB_Add_Num = 35.0e3
 
-		double dHHScale = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
+		double dHHAddNum = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Num");
 
-		pgk->dHHScale = dHHScale;
+		pgk->dHHAddNum = dHHAddNum;
 
 		//- get HH_AB_Mult = 0.0
 
@@ -2122,7 +2122,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		double dHHAdd = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Add_Den");
 
-		pgk->dHHAdd = dHHAdd;
+		pgk->dHHAddDen = dHHAdd;
 
 		//- get HH_AB_Offset_E = 5.0e-3
 
@@ -2132,13 +2132,13 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 
 		//- get HH_AB_Div_E = -10.0e-3
 
-		double dHHTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
+		double dHHDivE = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Div_E");
 
-		pgk->dHHTau = dHHTau;
+		pgk->dHHDivE = dHHDivE;
 
 
 
-		if (dHHScale == DBL_MAX)
+		if (dHHAddNum == DBL_MAX)
 		{
 
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
@@ -2208,7 +2208,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 
 
-		if(dHHTau == DBL_MAX)
+		if(dHHDivE == DBL_MAX)
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS, 
 					       ptstr->ppist);

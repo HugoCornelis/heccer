@@ -274,7 +274,7 @@ struct GateKinetic
 
     /// 1: multiplier
 
-    double dHHScale;
+    double dHHAddNum;
 
     /// 2a: multiplier membrane dependence, 0.0 for no dependence
 
@@ -291,7 +291,7 @@ struct GateKinetic
 
     /// 4: nominator or denominator offset
 
-    double dHHAdd;
+    double dHHAddDen;
 
     /// 5: membrane offset
 
@@ -299,7 +299,7 @@ struct GateKinetic
 
     /// 6: denormalized time constant
 
-    double dHHTau;
+    double dHHDivE;
 
 };
 
