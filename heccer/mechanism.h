@@ -301,6 +301,10 @@ struct GateKinetic
 
     double dHHDivE;
 
+    /// exponent multiplier
+
+    double dHHMultExp;
+
 };
 
 /// \struct channel gate concept

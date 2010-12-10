@@ -468,6 +468,7 @@ HeccerGateConceptTabulate
 	    double dHHAddDen = pgc->parameters.gkA.dHHAddDen;
 	    double dHHOffsetE = pgc->parameters.gkA.dHHOffsetE;
 	    double dHHDivE = pgc->parameters.gkA.dHHDivE;
+	    double dHHMultExp = pgc->parameters.gkA.dHHMultExp;
 
 	    /// \todo check the MCAD MMGLT macro to see how it deals with
 	    /// \todo relative errors.  The current implementation is magnitude
@@ -480,7 +481,7 @@ HeccerGateConceptTabulate
 	    }
 	    else
 	    {
-		double dDeNominator = dHHAddDen + exp((dx + dHHOffsetE) / dHHDivE);
+		double dDeNominator = dHHAddDen + dHHMultExp * exp((dx + dHHOffsetE) / dHHDivE);
 
 		if (fabs(dDeNominator) < 1e-17)
 		{
@@ -517,6 +518,7 @@ HeccerGateConceptTabulate
 	    double dHHAddDen = pgc->parameters.gkB.dHHAddDen;
 	    double dHHOffsetE = pgc->parameters.gkB.dHHOffsetE;
 	    double dHHDivE = pgc->parameters.gkB.dHHDivE;
+	    double dHHMultExp = pgc->parameters.gkA.dHHMultExp;
 
 	    if (fabs(dHHDivE) < 1e-17)
 	    {
@@ -524,7 +526,7 @@ HeccerGateConceptTabulate
 	    }
 	    else
 	    {
-		double dDeNominator = dHHAddDen + exp((dx + dHHOffsetE) / dHHDivE);
+		double dDeNominator = dHHAddDen + dHHMultExp * exp((dx + dHHOffsetE) / dHHDivE);
 
 		if (fabs(dDeNominator) < 1e-17)
 		{

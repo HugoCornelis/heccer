@@ -205,6 +205,10 @@ struct ChannelActConc pcacKC[] =
 			//m denormalized time constant
 
 			1e12,
+
+			//m exponent multiplier
+
+			1.0,
 		    },
 
 		    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -238,6 +242,10 @@ struct ChannelActConc pcacKC[] =
 			//m denormalized time constant
 
 			14.9e-3,
+
+			//m exponent multiplier
+
+			1.0,
 		    },
 		},
 	    },
@@ -375,6 +383,10 @@ struct ChannelActConc pcacKC[] =
 			//m denormalized time constant
 
 			1e12,
+
+			//m exponent multiplier
+
+			1.0,
 		    },
 
 		    //m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -408,6 +420,10 @@ struct ChannelActConc pcacKC[] =
 			//m denormalized time constant
 
 			14.9e-3,
+
+			//m exponent multiplier
+
+			1.0,
 		    },
 		},
 	    },

@@ -753,6 +753,9 @@ my $heccer_mapping
 						  },
 				  },
        gate_kinetic => {
+			constructor_settings => {
+						 dHHMultExp => 1,
+						},
 			internal_name => 'GateKinetic',
 		       },
        heccer => {

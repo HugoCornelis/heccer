@@ -158,6 +158,10 @@ struct ChannelAct caKdr =
 		    //m denormalized time constant
 
 		    -0.01,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -191,6 +195,10 @@ struct ChannelAct caKdr =
 		    //m denormalized time constant
 
 		    0.08,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},

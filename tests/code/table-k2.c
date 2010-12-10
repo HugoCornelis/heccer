@@ -157,6 +157,10 @@ struct ChannelActConc cacK2 =
 		    //m denormalized time constant
 
 		    1.0e12,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -190,6 +194,10 @@ struct ChannelActConc cacK2 =
 		    //m denormalized time constant
 
 		    6.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},

@@ -157,6 +157,10 @@ struct ChannelActInact caiKA =
 		    //m denormalized time constant
 
 		    -12.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -190,6 +194,10 @@ struct ChannelActInact caiKA =
 		    //m denormalized time constant
 
 		    4.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},
@@ -245,6 +253,10 @@ struct ChannelActInact caiKA =
 		    //m denormalized time constant
 
 		    8.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -278,6 +290,10 @@ struct ChannelActInact caiKA =
 		    //m denormalized time constant
 
 		    -10.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},

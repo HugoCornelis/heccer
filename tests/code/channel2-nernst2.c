@@ -167,6 +167,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    -8e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -200,6 +204,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    4e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},
@@ -255,6 +263,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    8e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -288,6 +300,10 @@ struct ChannelActInact caiCaT =
 		    //m denormalized time constant
 
 		    -10.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},
@@ -401,6 +417,10 @@ struct ChannelActInact caiCaP =
 		    //m denormalized time constant
 
 		    -12.5e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -434,6 +454,10 @@ struct ChannelActInact caiCaP =
 		    //m denormalized time constant
 
 		    14.5e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},
@@ -489,6 +513,10 @@ struct ChannelActInact caiCaP =
 		    //m denormalized time constant
 
 		    8.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 
 		//m backward kinetiks, commonly denoted with beta or perm to non-perm rate
@@ -522,6 +550,10 @@ struct ChannelActInact caiCaP =
 		    //m denormalized time constant
 
 		    -8.0e-3,
+
+		    //m exponent multiplier
+
+		    1.0,
 		},
 	    },
 	},
