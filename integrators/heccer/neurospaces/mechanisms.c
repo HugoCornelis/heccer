@@ -787,6 +787,12 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		pgk->dHHDivE = dHHDivE;
 
+		//- get HH_AB_Mult_Exp = 1
+
+		double dHHMultExp = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult_Exp");
+
+		pgk->dHHMultExp = dHHMultExp;
+
 		if (dHHAddNum == DBL_MAX ){
 
 
@@ -859,6 +865,15 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
 
 		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Div_E");
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+
+		if(dHHMultExp == DBL_MAX)
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
+
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Mult_Exp");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1306,6 +1321,12 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pgk->dHHDivE = dHHDivE;
 
+		//- get HH_AB_Mult_Exp = 1
+
+		double dHHMultExp = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult_Exp");
+
+		pgk->dHHMultExp = dHHMultExp;
+
 		if( dHHAddNum == DBL_MAX )
 		{
 
@@ -1374,6 +1395,15 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 					       ptstr->ppist);
 
 		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Div_E");
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+
+		if(dHHMultExp == DBL_MAX)
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
+
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Mult_Exp");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2137,6 +2167,12 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		pgk->dHHDivE = dHHDivE;
 
 
+		//- get HH_AB_Mult_Exp = 1
+
+		double dHHMultExp = SymbolParameterResolveValue(phsle, ptstr->ppist, "HH_AB_Mult_Exp");
+
+		pgk->dHHMultExp = dHHMultExp;
+
 
 		if (dHHAddNum == DBL_MAX)
 		{
@@ -2214,6 +2250,15 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 					       ptstr->ppist);
 
 		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Div_E");
+
+		    iResult = TSTR_PROCESSOR_ABORT;
+		}
+
+		if(dHHMultExp == DBL_MAX)
+		{
+		    MathComponentDataStatusSet(pmcd, STATUS_UNRESOLVABLE_PARAMETERS,ptstr->ppist);
+
+		    MathComponentError(pmcd,STATUS_UNRESOLVABLE_PARAMETERS,"HH_AB_Mult_Exp");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
