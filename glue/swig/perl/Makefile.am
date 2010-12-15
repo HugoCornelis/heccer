@@ -23,8 +23,6 @@ SUBDIRS =
 #t expert takes a look at it.
 
 dist-hook:
-	cp $(srcdir)/heccer.i $(distdir)
-	cp $(srcdir)/heccer_test.pm $(distdir)
 
 swigdir = $(prefix)/glue/swig
 
@@ -32,11 +30,13 @@ swigdir = $(prefix)/glue/swig
 
 perldir = $(prefix)/glue/swig/perl
 
-swig_DATA = heccer.i
+EXTRA_DIST = \
+	heccer.i \
+	$(srcdir)/heccer_test.pm
 
 perl_HEADERS = Heccer.pm
 
-perl_DATA = heccer_test.pm SwiggableHeccer.pm SwiggableHeccer.$(PERLLIB_EXTENSION)
+perl_DATA = SwiggableHeccer.pm SwiggableHeccer.$(PERLLIB_EXTENSION)
 
 BUILT_SOURCES = \
 	SwiggableHeccer.pm \

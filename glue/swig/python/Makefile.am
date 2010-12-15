@@ -23,9 +23,6 @@ SUBDIRS =
 #t expert takes a look at it.
 
 dist-hook:
-	cp $(srcdir)/heccer.i $(distdir)
-	$(INSTALL) -d $(distdir)/tests
-	cp $(srcdir)/tests/*.py $(distdir)/tests
 
 swigdir = $(prefix)/glue/swig
 
@@ -33,9 +30,13 @@ swigdir = $(prefix)/glue/swig
 
 pythondir = $(prefix)/glue/swig/python
 
-nobase_python_HEADERS = Heccer/__init__.py
+nobase_python_HEADERS = heccer/__init__.py
 
-python_DATA = $(srcdir)/heccer.i SwiggableHeccer.py _SwiggableHeccer.$(PYTHONLIB_EXTENSION) tests/heccer_test.py
+python_DATA =  SwiggableHeccer.py _SwiggableHeccer.$(PYTHONLIB_EXTENSION) tests/heccer_test.py
+
+EXTRA_DIST = \
+	$(srcdir)/heccer.i
+	$(srcdir)/tests/
 
 BUILT_SOURCES = \
 	SwiggableHeccer.py \
