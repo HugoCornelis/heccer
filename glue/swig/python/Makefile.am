@@ -35,7 +35,7 @@ nobase_python_HEADERS = heccer/__init__.py
 python_DATA =  SwiggableHeccer.py _SwiggableHeccer.$(PYTHONLIB_EXTENSION) tests/heccer_test.py
 
 EXTRA_DIST = \
-	$(srcdir)/heccer.i
+	$(srcdir)/heccer.i \
 	$(srcdir)/tests/
 
 BUILT_SOURCES = \
