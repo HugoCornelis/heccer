@@ -34,11 +34,11 @@ pythondir = $(prefix)/glue/swig/python
 
 nobase_python_HEADERS = heccer/__init__.py
 
-python_DATA =  SwiggableHeccer.py _SwiggableHeccer.$(PYTHONLIB_EXTENSION) tests/heccer_test.py
+python_DATA =  SwiggableHeccer.py _SwiggableHeccer.$(PYTHONLIB_EXTENSION) 
 
 EXTRA_DIST = \
 	$(srcdir)/heccer.i \
-	$(srcdir)/tests/
+	$(srcdir)/tests/ 
 
 BUILT_SOURCES = \
 	SwiggableHeccer.py \
