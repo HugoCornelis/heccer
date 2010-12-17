@@ -22,7 +22,9 @@ SUBDIRS =
 #t the following rules are crap complete, would be good if a auto
 #t expert takes a look at it.
 
-dist-hook:
+# Dist hook is commented out here because EXTRA_DIST does the
+# work we need.
+#dist-hook:
 
 swigdir = $(prefix)/glue/swig
 
