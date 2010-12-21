@@ -1,4 +1,14 @@
-#!/usr/bin/python
+"""!
+@package heccer
+
+
+"""
+
+__author__ = 'Mando Rodriguez'
+__credits__ = []
+__license__ = "GPL"
+__version__ = "0.1"
+__status__ = "Development"
 
 
 import sys
@@ -33,3 +43,5 @@ class Heccer:
 
     def timestep(self, dt):
         self.backend.dStep = dt
+
+
