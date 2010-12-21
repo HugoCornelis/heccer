@@ -4,7 +4,16 @@ import sys
 
 sys.path.append('/usr/local/glue/swig/python')
 
-import Heccer
+
+try:
+
+
+    import SwiggableHeccer
+
+
+except ImportError, e:
+    sys.exit("%s" % e)
+
 
 
 
