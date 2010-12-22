@@ -384,11 +384,17 @@ case "$host_os" in
             SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 
+	    HECCER_SWIGCOMMAND_PYTHON='ld $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+	    AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
+
 	;;
 
 	*)
             SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)  swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)	
+
+	    HECCER_SWIGLINKCOMMAND_PYTHON='ld $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so swiggable_heccer_wrap.o'
+            AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
         ;;
     esac 
 
@@ -453,6 +459,9 @@ case "$host_os" in
 
     SWIGLINKCOMMAND_PYTHON='gcc -shared swiggable_heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
     AC_SUBST(SWIGLINKCOMMAND_PYTHON)
+
+    HECCER_SWIGLINKCOMMAND_PYTHON='gcc -shared swiggable_heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so'
+    AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
     dnl }}} End of General Settings
 
   ;;

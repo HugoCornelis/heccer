@@ -21,7 +21,33 @@ class HeccerNotAllocatedError(Exception):
     
     def __str__(self):
 
-        error_msg = "The Heccer core data struct is not allocated: %s : %s" %
-        (self.msg, self.value)
+        error_msg = "The Heccer core data struct is not allocated\n %s : %s" % (self.msg, self.value)
         
-        return self.msg
+        return error_msg
+
+class HeccerOptionsError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
+    
+    def __str__(self):
+
+        error_msg = "Error in the Heccer options\n %s : %s" % (self.msg, self.value)
+        
+        return error_msg
+
+
+class HeccerCompileError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
+    
+    def __str__(self):
+
+        error_msg = "Error compiling Heccer\n %s : %s" % (self.msg, self.value)
+        
+        return error_msg
