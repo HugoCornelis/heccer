@@ -7,11 +7,9 @@ import os
 import sys
 import pdb
 
-root_path = os.environ['HOME'] + "/neurospaces_project/heccer/source/snapshots/0"
+from test_library import add_package_path
 
-nmc_path = root_path + "/glue/swig/python/"
-
-sys.path.append(nmc_path)
+add_package_path("heccer")
 
 
 print "Importing heccer_base"

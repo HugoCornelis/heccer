@@ -26,6 +26,9 @@ except ImportError, e:
     sys.exit("Could not import compiled SWIG heccer_base library: %s" % e)
 
 
+def GetVersion():
+
+    return heccer_base.HeccerGetVersion()
 
 
 #************************* Begin Heccer **************************
@@ -53,15 +56,10 @@ class Heccer:
             
             self._heccer_core = heccer_base.HeccerNew(name, None, None, None)
 
-            #! should move this somewhere else.
-            heccer_base.HeccerConstruct( self._heccer_core,
-                                         options['model_source'],
-                                         options['name'],
-                                         None,
-                                         None )
         else:
             
             print "model_source not found in the heccer options, cannot construct a heccer"
+
 
         if isinstance(options, heccer_base.HeccerOptions):
 
@@ -71,6 +69,54 @@ class Heccer:
 
             self._options_core = heccer_base.HeccerOptions()
 
+
+
+#---------------------------------------------------------------------------
+
+    def Construct(self):
+        """
+        @brief Constructs heccer from the options
+        """
+        if self.GetCore() is not None:
+
+            heccer = self.GetCore()
+            
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+
+
+        if self.GetOptions() is not None:
+
+            options = self.GetOptions()
+
+        else:
+
+            from errors import HeccerOptionsError
+
+            raise HeccerOptionsError("Heccer Options are not allocated")
+
+
+        
+        if 'model_source' not in options:
+
+            raise HeccerOptionsError("model_source not found in the heccer options, cannot construct a heccer")
+        
+            return None
+
+
+        # Probably need to check allow options to be passed to the next two
+        # args
+        result = heccer_base.HeccerConstruct( heccer,
+                                     options['model_source'],
+                                     options['name'],
+                                     None,
+                                     None
+                                     )
+        return result
 
 #---------------------------------------------------------------------------
 
@@ -236,6 +282,30 @@ class Heccer:
             raise HeccerOptionsError("Heccer Options are not allocated")
 
 
+#--------------------------------------------------------------------------- 
+
+    def IsActivatorSet(self):
+
+        
+        if self.GetOptions() is not None:
+
+            value = self.GetOptions().iActivatorSet
+
+            if value != 0:
+
+                return True
+
+            else:
+
+                return False
+
+        else:
+
+            from errors import HeccerOptionsError
+
+            raise HeccerOptionsError("Heccer Options are not allocated")
+
+
 #---------------------------------------------------------------------------  
 
     def SetConcentrationGateStart(self, dconc):
@@ -293,6 +363,55 @@ class Heccer:
 
             raise HeccerOptionsError("Heccer Options are not allocated")
 
+
+#---------------------------------------------------------------------------   
+
+    def Initiate(self):
+        """!
+        @brief 
+        """
+        if self.GetCore() is not None:
+
+            heccer_base.HeccerInitiate(self.GetCore())
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError("Can't initiate, Heccer not allocated")
+
+
+#--------------------------------------------------------------------------- 
+
+    def Dump(self):
+        """!
+
+        """
+        if self.GetCore() is not None:
+
+            heccer_base.HeccerDump(self.GetCore())
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+#---------------------------------------------------------------------------
+
+    def DumpV(self):
+        """!
+
+        """
+        if self.GetCore() is not None:
+
+            heccer_base.HeccerDumpV(self.GetCore())
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()   
 
 #---------------------------------------------------------------------------         
 

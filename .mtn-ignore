@@ -20,6 +20,8 @@ Makefile$
 ^glue/swig/perl/swiggable_heccer_wrap.c$
 ^glue/swig/python/SwiggableHeccer.py$
 ^glue/swig/python/swiggable_heccer_wrap.c$
+^glue/swig/python/heccer_wrap.c$
+^glue/swig/python/heccer/heccer_base.py$
 ^html/
 ^installed$
 ^installed/

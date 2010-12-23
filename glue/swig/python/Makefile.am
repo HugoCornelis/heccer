@@ -34,11 +34,14 @@ pythondir = $(prefix)/glue/swig/python
 
 nobase_python_HEADERS = heccer/__init__.py
 
-python_DATA =  SwiggableHeccer.py _SwiggableHeccer.$(PYTHONLIB_EXTENSION) 
+python_DATA =  SwiggableHeccer.py _SwiggableHeccer.so
 
 EXTRA_DIST = \
 	$(srcdir)/heccer.i \
-	$(srcdir)/tests/ 
+	$(srcdir)/tests/ \
+	$(srcdir)/heccer/__cbi__.py \
+	$(srcdir)/heccer/heccer.py \
+	$(srcdir)/heccer/errors.py 
 
 BUILT_SOURCES = \
 	SwiggableHeccer.py \
@@ -54,12 +57,35 @@ swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
 _SwiggableHeccer.$(PYTHONLIB_EXTENSION): swiggable_heccer_wrap.o
 	$(SWIGLINKCOMMAND_PYTHON)
 
-all: _SwiggableHeccer.$(PYTHONLIB_EXTENSION)
+
+
+#---------------------------------------------------------
+#-------- Rules for building the heccer swig binding -----
+
+heccer_wrap.o: heccer_wrap.c
+	gcc $(SWIGCOMPILELINKSFORPYTHON) -c $(srcdir)/heccer_wrap.c
+
+heccer_wrap.c ./heccer/heccer_base.py: 
+	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/heccer -o heccer_wrap.c $(srcdir)/heccer_1.i
+
+_heccer_base.so: heccer_wrap.o
+	$(HECCER_SWIGLINKCOMMAND_PYTHON)
+
+#------------------ End rules for heccer swig ------------
+#---------------------------------------------------------
+
+
+
+all: _heccer_base.so _SwiggableHeccer.$(PYTHONLIB_EXTENSION)
 
 CLEANFILES = \
-	SwiggableHeccer.py \
-	swiggable_heccer_wrap.c \
-	swiggable_heccer_wrap.o \
-	_SwiggableHeccer.$(PYTHONLIB_EXTENSION)
+	$(srcdir)/heccer_wrap.c \
+	$(srcdir)/heccer_wrap.o \
+	$(srcdir)/heccer/_heccer_base.so \
+	$(srcdir)/heccer/heccer_base.py \
+	$(srcdir)/SwiggableHeccer.py \
+	$(srcdir)/swiggable_heccer_wrap.c \
+	$(srcdir)/swiggable_heccer_wrap.o \
+	$(srcdir)/_SwiggableHeccer.so
 
 

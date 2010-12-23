@@ -366,7 +366,7 @@ case "$host_os" in
     PYTHONLIB_EXTENSION='so'
     AC_SUBST(PYHONLIB_EXTENSION)
 
-    SWIGCOMPILELINKSFORPYTHON='-I$(PYTHON_INCLUDE) -I/usr/local/neurospaces/instrumentor -I./../../.. 	-I.../../../hierarchy/output/symbols 	-I./../../../hierarchy/output/symbols/'
+    SWIGCOMPILELINKSFORPYTHON='$(PYTHON_INCLUDE) -I/usr/local/neurospaces/instrumentor -I./../../.. 	-I.../../../hierarchy/output/symbols 	-I./../../../hierarchy/output/symbols/'
     AC_SUBST(SWIGCOMPILELINKSFORPYTHON)
 
     SWIGCOMPILECOMMAND_PYTHON='gcc $(SWIGCOMPILELINKSFORPYTHON) -c swiggable_heccer_wrap.c'
@@ -393,7 +393,7 @@ case "$host_os" in
             SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)  swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)	
 
-	    HECCER_SWIGLINKCOMMAND_PYTHON='ld $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so swiggable_heccer_wrap.o'
+	    HECCER_SWIGLINKCOMMAND_PYTHON='ld $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so heccer_wrap.o'
             AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
         ;;
     esac 
@@ -460,7 +460,7 @@ case "$host_os" in
     SWIGLINKCOMMAND_PYTHON='gcc -shared swiggable_heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
     AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 
-    HECCER_SWIGLINKCOMMAND_PYTHON='gcc -shared swiggable_heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so'
+    HECCER_SWIGLINKCOMMAND_PYTHON='gcc -shared heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so'
     AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
     dnl }}} End of General Settings
 
