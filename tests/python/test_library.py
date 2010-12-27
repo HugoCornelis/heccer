@@ -9,15 +9,6 @@ import sys
 import pdb
 
 
-# compartment = {dCm: 4.57537e-11,
-#                dEm: -0.08,
-#                dInitVm: -0.068,
-#                dInject: 1e-8,
-#                dRa: 360502,
-#                dRm: 3.58441e+08,
-#                iParent: -1
-#                }
-
 
 
 def add_package_path(package):
@@ -32,3 +23,7 @@ def add_package_path(package):
 
     sys.path.append(path)
 
+
+
+
+    

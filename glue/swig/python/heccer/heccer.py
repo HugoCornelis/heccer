@@ -31,6 +31,34 @@ def GetVersion():
     return heccer_base.HeccerGetVersion()
 
 
+
+#************************* Heccer Mathcomponent constants **************************
+#
+# Moved these here so that these constants can be accessible from the top level 
+# import of the heccer module.
+#
+MATH_TYPE_ChannelConc = heccer_base.MATH_TYPE_ChannelConc 
+MATH_TYPE_ChannelActConc = heccer_base.MATH_TYPE_ChannelActConc
+MATH_TYPE_ChannelActInact = heccer_base.MATH_TYPE_ChannelActInact
+MATH_TYPE_ChannelPersistentSteadyStateDualTau = heccer_base.MATH_TYPE_ChannelPersistentSteadyStateDualTau
+MATH_TYPE_ChannelPersistentSteadyStateTau = heccer_base.MATH_TYPE_ChannelPersistentSteadyStateTau
+MATH_TYPE_ChannelSpringMass = heccer_base.MATH_TYPE_ChannelSpringMass
+MATH_TYPE_ChannelSteadyStateSteppedTau = heccer_base.MATH_TYPE_ChannelSteadyStateSteppedTau 
+MATH_TYPE_Compartment = heccer_base.MATH_TYPE_Compartment 
+MATH_TYPE_ExponentialDecay = heccer_base.MATH_TYPE_ExponentialDecay 
+MATH_TYPE_GHK = heccer_base.MATH_TYPE_GHK 
+MATH_TYPE_InternalNernst = heccer_base.MATH_TYPE_InternalNernst 
+MATH_TYPE_MGBlocker = heccer_base.MATH_TYPE_MGBlocker 
+MATH_TYPE_SpikeGenerator = heccer_base.MATH_TYPE_SpikeGenerator
+MATH_TYPE_Concentration = heccer_base.MATH_TYPE_Concentration 
+MATH_TYPE_GateConcept = heccer_base.MATH_TYPE_GateConcept 
+MATH_TYPE_CallOut_flag = heccer_base.MATH_TYPE_CallOut_flag
+MATH_TYPE_CallOut_conductance_current = heccer_base.MATH_TYPE_CallOut_conductance_current
+
+#********************* End Heccer Mathcomponent constants **************************
+
+
+
 #************************* Begin Heccer **************************
 class Heccer:
 
@@ -43,15 +71,45 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name, options=None):
+    def __init__(self, name="Untitled", pts=None, ped=None,
+                 peq=None, iOptions=None, dStep=None,
+                 pinter=None, filename=None):
         """!
         @brief Constructor
         @param name The identifier for this Heccer
-        @param options A HeccerOptions struct
+        @param pts Pointer to a translation service
+        @param ped Pointer to an event queuer object
+        @param iOptions
+        @param dStep Step size value
         """
 
         self._options_core = None
+
+        self._is_constructed = False
         
+        if filename is not None:
+
+            if os.path.isfile(filename):
+
+                self._heccer_core = heccer_base.HeccerFromFile(filename)
+
+        elif pinter is not None:
+
+            self._heccer_core = heccer_base.HeccerNewP2(name, pinter)
+            
+        elif iOptions is not None and dStep is not None:
+
+            self._heccer_core = heccer_base.HeccerNewP1(name, pts, ped, peq, iOptions, dStep)
+
+        else:
+
+            self._heccer_core = heccer_base.HeccerNew(name, pts, ped, peq)
+
+            
+        self._options_core = self.GetOptions()
+        
+#-----------------------------------------------------------------------------
+
         if 'model_source' in options:
             
             self._heccer_core = heccer_base.HeccerNew(name, None, None, None)
@@ -69,6 +127,52 @@ class Heccer:
 
             self._options_core = heccer_base.HeccerOptions()
 
+
+    def New(cls, name, pts, ped, peq):
+        """!
+        @brief Factory Method
+        @param name Name for this heccer object
+        @param pts Pointer to a translation service
+        @param ped Pointer to an event queuer object
+        
+        """
+        obj = cls(name)
+
+        core = heccer_base.HeccerNew(name, pts, ped, peq)
+        
+        obj.SetCore(core)
+
+        return obj
+        
+
+    def NewP1(cls, name , pts, ped, peq, iOptions, dStep):
+        """!
+        @brief Factory Method
+        @param name Name for this heccer object
+        @param pts Pointer to a translation service
+        @param ped Pointer to an event distributor
+        @param iOptions
+        @param dStep Step size value
+        """
+        obj = cls(name)
+        
+        self._heccer_core = heccer_base.HeccerNewP1(name, pts, ped, peq, iOptions, dStep)
+
+
+    def NewP2(cls, name, pinter):
+        """!
+        @brief Factory Method
+        """
+        pass
+
+
+    def NewFromFile(cls, name):
+        """!
+        @brief Factory Method
+        @param pc 
+        """
+        pass
+        
 
 
 #---------------------------------------------------------------------------
@@ -120,11 +224,26 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
+    def IsConstructed(self):
+
+        return self._is_constructed
+
+#---------------------------------------------------------------------------
+
     def GetCore(self):
         """!
         @brief Returns the internal raw heccer struct
         """
         return self._heccer_core
+
+
+#---------------------------------------------------------------------------
+
+    def SetCore(self, hecc):
+        """!
+        @brief Sets the core heccer to the value passed in hecc
+        """
+        self._heccer_core = hecc
 
 #---------------------------------------------------------------------------
 
@@ -146,7 +265,10 @@ class Heccer:
 
             self._options_core = ho
 
-        
+        elif isinstance(ho, dict):
+
+            pass
+
 
 #---------------------------------------------------------------------------
 
