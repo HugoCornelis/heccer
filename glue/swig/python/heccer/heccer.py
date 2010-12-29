@@ -569,11 +569,15 @@ class Heccer:
         """!
 
         """
+        my_file = None
+        
         if self.GetCore() is not None:
 
+            if file == 0:
 
+                my_file = None
                 
-            heccer_base.HeccerDump(self.GetCore(), sys.stdout, selection)
+            heccer_base.HeccerDump(self.GetCore(), my_file, selection)
 
         else:
 
