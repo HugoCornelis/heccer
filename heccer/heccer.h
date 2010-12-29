@@ -299,12 +299,6 @@ int HeccerDumpV(struct simobj_Heccer *pheccer);
 
 int HeccerDump(struct simobj_Heccer *pheccer, FILE *pfile, int iSelection);
 
-#define HECCER_DUMP_ALL (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
-
-#define HECCER_DUMP_ALL_EXTENDED (0xffffffff & ~HECCER_DUMP_SERVICE)
-
-#define HECCER_DUMP_ALL_REDUCED (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
-
 #define HECCER_DUMP_SERVICE					(1 << 7)
 
 #define HECCER_DUMP_INDEXERS_SUMMARY				(1 << 8)
@@ -329,6 +323,12 @@ int HeccerDump(struct simobj_Heccer *pheccer, FILE *pfile, int iSelection);
 #define HECCER_DUMP_VM_SUMMARY					(1 << 22)
 
 #define HECCER_DUMP_VM_AGGREGATORS				(1 << 25)
+
+#define HECCER_DUMP_ALL (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
+
+#define HECCER_DUMP_ALL_EXTENDED (0xffffffff & ~HECCER_DUMP_SERVICE)
+
+#define HECCER_DUMP_ALL_REDUCED (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
 
 
 char * HeccerGetVersion(void);

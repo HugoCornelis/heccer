@@ -110,8 +110,15 @@ class Heccer:
 
             self._heccer_core = heccer_base.HeccerNew(name, pts, ped, peq)
 
-            
-        self._options_core = self.GetOptions()
+
+
+        if self._heccer_core.ho is not None:
+    
+            self._options_core = self._heccer_core.ho
+
+        else:
+
+            self._options_core = heccer_base.HeccerOptions()
         
 #-----------------------------------------------------------------------------
 
@@ -384,6 +391,51 @@ class Heccer:
 #---------------------------------------------------------------------------
 
 
+
+
+    def SetSmallTableSize(self, size):
+
+        if self.GetOptions() is not None:
+
+            self.GetOptions().iSmallTableSize = size
+
+        else:
+
+            from errors import HeccerOptionsError
+
+            raise HeccerOptionsError("Heccer Options are not allocated")
+
+#---------------------------------------------------------------------------  
+
+    def SetIntervalEntries(self, entries):
+
+        if self.GetOptions() is not None:
+
+            self.GetOptions().iIntervalEntries = entries
+
+        else:
+
+            from errors import HeccerOptionsError
+
+            raise HeccerOptionsError("Heccer Options are not allocated")
+
+
+    def GetIntervalEntries(self):
+
+        if self.GetOptions() is not None:
+
+            return self.GetOptions().iIntervalEntries
+
+        else:
+
+            from errors import HeccerOptionsError
+
+            raise HeccerOptionsError("Heccer Options are not allocated")
+        
+#---------------------------------------------------------------------------  
+
+
+
     def SetIntervalEnd(self, dend):
 
         if self.GetOptions() is not None:
@@ -397,7 +449,7 @@ class Heccer:
             raise HeccerOptionsError("Heccer Options are not allocated")
 
 
-#---------------------------------------------------------------------------  
+#---------------------------------------------------------------------------
 
     def GetIntervalEnd(self):
 
@@ -513,13 +565,15 @@ class Heccer:
 
 #--------------------------------------------------------------------------- 
 
-    def Dump(self):
+    def Dump(self, file, selection):
         """!
 
         """
         if self.GetCore() is not None:
 
-            heccer_base.HeccerDump(self.GetCore())
+
+                
+            heccer_base.HeccerDump(self.GetCore(), sys.stdout, selection)
 
         else:
 
@@ -707,18 +761,39 @@ class Heccer:
 
 
 
+#************************* Start HeccerOptions **************************
+# class HeccerOptions(heccer_base.HeccerOptions):
+
+#     def __init__(self, options=, corrections=, 
+#                  interval_set=1, interval_start=-0.1, interval_end=0.05,
+#                  activator_set=0,
+#                  concentration_gate_start=0, concentration_gate_end=,
+#                  interval_entries=3000, small_table_size=):
+
+
+#************************* End HeccerOptions ****************************
+        
+
 #************************* Start Intermediary **************************
 
 class Intermediary(heccer_base.Intermediary):
 
 
 
-    def __init__(self, comp2mech=None, compartments=None, iCompartments=None):
+    def __init__(self, compartments=None, comp2mech=None):
 
         heccer_base.Intermediary.__init__(self)
-        
-        self.SetCompartments(compartments)
 
+        if compartments is not None:
+            
+            self.SetCompartments(compartments)
+
+        if comp2mech is not None:
+
+            self.SetComp2Mech(comp2mech)
+
+
+#---------------------------------------------------------------------------
 
     def SetCompartments(self, comps):
         """!
@@ -729,24 +804,13 @@ class Intermediary(heccer_base.Intermediary):
 
             return
 
-#         is_list = True
+        if self.pcomp is not None:
         
-#         try:
-
-#             c = comps.items()
+            heccer_base.delete_CompartmentArray(self.pcomp)
             
-#         except AttributeError:
-
-#             is_list = False
-
-
         if isinstance(comps, list):
             
             num_comps = len(comps)
-
-            if self.pcomp is not None:
-
-                heccer_base.delete_CompartmentArray(self.pcomp)
             
             self.pcomp = heccer_base.new_CompartmentArray(num_comps)
 
@@ -768,6 +832,8 @@ class Intermediary(heccer_base.Intermediary):
             self.SetNumCompartments(1)
 
 
+#---------------------------------------------------------------------------
+
     def GetCompartment(self, index):
         """!
         @brief 
@@ -776,10 +842,42 @@ class Intermediary(heccer_base.Intermediary):
         c = heccer_base.CompartmentArray_getitem(self.pcomp,index)
 
         return c
-    
+
+
+#---------------------------------------------------------------------------
+
     def SetNumCompartments(self, ncomp):
 
         self.iCompartments = ncomp
         
+
+#---------------------------------------------------------------------------
+
+    def SetComp2Mech(self, c2m):
+
+        if self.piC2m is not None:
+
+            heccer_base.delete_IntArray(self.piC2m)
+
+        size = 0
+        
+        if isinstance(c2m, list):
+
+            size = len(c2m)
+
+            self.piC2m = heccer_base.new_IntArray(size)
+
+            for index, c in enumerate(c2m):
+
+                heccer_base.IntArray_setitem(self.piC2m, index, c)
+
+        else:
+
+            size = 1
+
+            self.piC2m = heccer_base.new_IntArray(size)
+
+            heccer_base.IntArray_setitem(self.piC2m, 0, c2m)
+
 
 #************************* End Intermediary *****************************

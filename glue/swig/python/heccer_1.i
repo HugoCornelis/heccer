@@ -51,7 +51,11 @@
 
  // info on the carray library here http://www.swig.org/Doc1.3/Library.html#Library_carrays
 %include "carrays.i"
-%array_class(double, DoubleArray)
-%array_class(int, IntArray)
+%array_functions(double, DoubleArray)
+
+
+%array_functions(int, IntArray)
+
+
 %array_functions(struct Compartment, CompartmentArray)
 
