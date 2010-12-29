@@ -30,50 +30,10 @@
 
 
 
-/// compartment array handling
 
-struct Compartment *comp_array(int size)
-{
-    return (struct Compartment *)malloc(sizeof(struct Compartment) * size);
-}
-void comp_destroy(struct Compartment *a)
-{
-    free(a);
-}
-void comp_set(struct Compartment *a, int i, struct Compartment *val)
-{
-    a[i] = *val;
-}
-struct Compartment *comp_get(struct Compartment *a, int i)
-{
-    return &a[i];
-}
 
-/// table handling
 
-struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
-{
-    return &ptgt->phtg[i];
-}
 
-/* /// math component array handling */
-
-/* struct MathComponent *math_component_array(int size) */
-/* { */
-/*     return (struct MathComponent *)malloc(sizeof(struct MathComponent) * size); */
-/* } */
-/* void math_component_destroy(struct MathComponent *a) */
-/* { */
-/*     free(a); */
-/* } */
-/* void math_component_set(struct MathComponent *a, int i, struct MathComponent *val) */
-/* { */
-/*     a[i] = *val; */
-/* } */
-/* struct MathComponent *math_component_get(struct MathComponent *a, int i) */
-/* { */
-/*     return NULL; */
-/* } */
 %}
 
 %include "heccer/config.h"
@@ -89,4 +49,9 @@ struct HeccerTabulatedGate *htg_get(struct TabulatedGateTable *ptgt, int i)
 
 %include "integrators/heccer/neurospaces/heccer.h"
 
+ // info on the carray library here http://www.swig.org/Doc1.3/Library.html#Library_carrays
+%include "carrays.i"
+%array_class(double, DoubleArray)
+%array_class(int, IntArray)
+%array_functions(struct Compartment, CompartmentArray)
 

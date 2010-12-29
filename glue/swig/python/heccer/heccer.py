@@ -81,9 +81,14 @@ class Heccer:
         @param ped Pointer to an event queuer object
         @param iOptions
         @param dStep Step size value
+        @param pinter A pointer to an intermediary
         """
 
         self._options_core = None
+
+        self._p1 = False
+        self._p2 = False
+        self._p3 = False
 
         self._is_constructed = False
         
@@ -110,23 +115,25 @@ class Heccer:
         
 #-----------------------------------------------------------------------------
 
-        if 'model_source' in options:
+#         if 'model_source' in options:
             
-            self._heccer_core = heccer_base.HeccerNew(name, None, None, None)
+#             self._heccer_core = heccer_base.HeccerNew(name, None, None, None)
 
-        else:
+#         else:
             
-            print "model_source not found in the heccer options, cannot construct a heccer"
+#             print "model_source not found in the heccer options, cannot construct a heccer"
 
 
-        if isinstance(options, heccer_base.HeccerOptions):
+#         if isinstance(options, heccer_base.HeccerOptions):
 
-            self._options_core = options
+#             self._options_core = options
 
-        else:
+#         else:
 
-            self._options_core = heccer_base.HeccerOptions()
+#             self._options_core = heccer_base.HeccerOptions()
 
+
+#---------------------------------------------------------------------------
 
     def New(cls, name, pts, ped, peq):
         """!
@@ -136,14 +143,11 @@ class Heccer:
         @param ped Pointer to an event queuer object
         
         """
-        obj = cls(name)
-
-        core = heccer_base.HeccerNew(name, pts, ped, peq)
+        obj = cls(name=name, pts=pts, ped=ped, peq=peq)
         
-        obj.SetCore(core)
+        return obj        
 
-        return obj
-        
+#---------------------------------------------------------------------------
 
     def NewP1(cls, name , pts, ped, peq, iOptions, dStep):
         """!
@@ -154,27 +158,31 @@ class Heccer:
         @param iOptions
         @param dStep Step size value
         """
-        obj = cls(name)
-        
-        self._heccer_core = heccer_base.HeccerNewP1(name, pts, ped, peq, iOptions, dStep)
+        obj = cls(name=name, pts=pts, ped=ped, iOptions=iOptions, dStep=dStep)
 
+        return obj
+
+#---------------------------------------------------------------------------
 
     def NewP2(cls, name, pinter):
         """!
         @brief Factory Method
         """
-        pass
+        obj = cls(name=name, pinter=pinter)
 
+        return obj
 
-    def NewFromFile(cls, name):
+#---------------------------------------------------------------------------
+
+    def NewFromFile(cls, filename):
         """!
         @brief Factory Method
         @param pc 
         """
-        pass
+        obj = cls(filename=filename)
+
+        return obj
         
-
-
 #---------------------------------------------------------------------------
 
     def Construct(self):
@@ -582,7 +590,7 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
-    def Compile(self):
+    def CompileAll(self):
         """!
         @brief This compiles the solver for the Heccer core
         """
@@ -598,6 +606,60 @@ class Heccer:
             from errors import HeccerNotAllocatedError
 
             raise HeccerNotAllocatedError()
+
+#---------------------------------------------------------------------------
+
+    def CompileP1(self):
+        """!
+        @brief This compiles the solver for the Heccer core
+        """
+
+        if self.GetCore() is not None:
+            
+            heccer_base.HeccerCompileP1(self.GetCore())
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+
+#---------------------------------------------------------------------------
+
+    def CompileP2(self):
+        """!
+        @brief This compiles the solver for the Heccer core
+        """
+
+        if self.GetCore() is not None:
+            
+            heccer_base.HeccerCompileP2(self.GetCore())
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+
+#---------------------------------------------------------------------------
+
+    def CompileP3(self):
+        """!
+        @brief This compiles the solver for the Heccer core
+        """
+
+        if self.GetCore() is not None:
+            
+            heccer_base.HeccerCompileP3(self.GetCore())
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
         
 #---------------------------------------------------------------------------
 
@@ -640,3 +702,84 @@ class Heccer:
 
         
 #************************* End Heccer **************************
+
+
+
+
+
+#************************* Start Intermediary **************************
+
+class Intermediary(heccer_base.Intermediary):
+
+
+
+    def __init__(self, comp2mech=None, compartments=None, iCompartments=None):
+
+        heccer_base.Intermediary.__init__(self)
+        
+        self.SetCompartments(compartments)
+
+
+    def SetCompartments(self, comps):
+        """!
+        @brief Sets a python list into a C array
+        """
+
+        if comps is None:
+
+            return
+
+#         is_list = True
+        
+#         try:
+
+#             c = comps.items()
+            
+#         except AttributeError:
+
+#             is_list = False
+
+
+        if isinstance(comps, list):
+            
+            num_comps = len(comps)
+
+            if self.pcomp is not None:
+
+                heccer_base.delete_CompartmentArray(self.pcomp)
+            
+            self.pcomp = heccer_base.new_CompartmentArray(num_comps)
+
+            
+            for index, c in enumerate(comps):
+
+                heccer_base.CompartmentArray_setitem(self.pcomp, index, c)
+
+            self.SetNumCompartments(num_comps)
+            
+        else:
+
+            # If it's not a list then just set the value
+
+            self.pcomp = heccer_base.new_CompartmentArray(1)
+
+            heccer_base.CompartmentArray_setitem(self.pcomp, 0, comps)
+
+            self.SetNumCompartments(1)
+
+
+    def GetCompartment(self, index):
+        """!
+        @brief 
+        """
+
+        c = heccer_base.CompartmentArray_getitem(self.pcomp,index)
+
+        return c
+    
+    def SetNumCompartments(self, ncomp):
+
+        self.iCompartments = ncomp
+        
+
+#************************* End Intermediary *****************************
