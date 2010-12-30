@@ -38,6 +38,7 @@ python_DATA =  SwiggableHeccer.py _SwiggableHeccer.so
 
 EXTRA_DIST = \
 	$(srcdir)/heccer.i \
+	$(srcdir)/heccer_1.i \
 	$(srcdir)/tests/ \
 	$(srcdir)/heccer/__cbi__.py \
 	$(srcdir)/heccer/heccer.py \
