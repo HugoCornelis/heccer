@@ -1016,4 +1016,14 @@ class Compartment(heccer_base.Compartment):
         """
         heccer_base.Compartment.__init__(self)
 
+        self.SetMathType(MATH_TYPE_Compartment)
+
+#---------------------------------------------------------------------------
+
+    def SetMathType(self, itype):
+        """!
+        @brief Sets the type for this math object
+        """
+        self.mc.iType = itype
+
 #************************* End Compartment ****************************
