@@ -13,6 +13,7 @@ __status__ = "Development"
 
 # System imports
 import os
+import pdb
 import sys
 
 # User imports
@@ -59,6 +60,118 @@ MATH_TYPE_CallOut_conductance_current = heccer_base.MATH_TYPE_CallOut_conductanc
 
 
 
+
+
+
+#************************* Start HeccerOptions **************************
+class HeccerOptions(heccer_base.HeccerOptions):
+
+    def __init__(self, options=0, corrections=0, 
+                 interval_set=0, interval_start=-0.1, interval_end=0.05,
+                 activator_set=0,
+                 concentration_gate_start=4e-05, concentration_gate_end=0.29999999999999999,
+                 interval_entries=3000, small_table_size=149):
+
+        heccer_base.HeccerOptions.__init__(self)
+
+        self.SetOptions(options)
+        self.SetCorrections(corrections)
+        self.SetInterval(interval_set)
+        self.SetInternalStart(interval_start)
+        self.SetInternalEnd(interval_end)
+        self.SetActivator(activator_set)
+        self.SetConcentrationGateStart(concentration_gate_start)
+        self.SetConcentrationGateEnd(concentration_gate_end)
+        self.SetIntervalEntries(interval_entries)
+        self.SetSmallTableSize(small_table_size)
+
+
+#---------------------------------------------------------------------------
+
+    def __str__(self):
+
+        return "Heccer Options:\n \
+ - Options: %d\n \
+ - Corrections: %d\n \
+ - Interval Set: %d\n \
+ - Interval Start: %f\n \
+ - Interval End: %f\n \
+ - Activator Set: %d\n \
+ - Concentration Gate Start: %f\n \
+ - Concentration Gate End: %f\n \
+ - Interval Entries: %d\n \
+ - Small Table Size: %d\n" % (self.iOptions, self.iCorrections,
+        self.iIntervalSet, self.dIntervalStart, self.dIntervalEnd,
+        self.iActivatorSet, self.dConcentrationGateStart,
+        self.dConcentrationGateEnd, self.iIntervalEntries,
+        self.iSmallTableSize) 
+    
+#---------------------------------------------------------------------------
+
+    def SetOptions(self, options):
+ 
+        self.iOptions = options
+
+#---------------------------------------------------------------------------
+
+    def SetCorrections(self, corrections):
+
+        self.iCorrections = corrections
+
+#---------------------------------------------------------------------------
+
+    def SetInterval(self, interval_set):
+
+        self.iIntervalSet = interval_set
+
+#---------------------------------------------------------------------------
+
+    def SetInternalStart(self, interval_start):
+
+        self.dIntervalStart = interval_start
+
+#---------------------------------------------------------------------------
+
+    def SetInternalEnd(self, interval_end):
+
+        self.dIntervalEnd = interval_end
+
+#---------------------------------------------------------------------------
+
+    def SetActivator(self, activator_set):
+
+        self.iActivatorSet = activator_set
+
+#---------------------------------------------------------------------------
+
+    def SetConcentrationGateStart(self, concentration_gate_start):
+
+        self.dConcentrationGateStart = concentration_gate_start
+
+#---------------------------------------------------------------------------
+
+    def SetConcentrationGateEnd(self, concentration_gate_end):
+
+        self.dConcentrationGateEnd = concentration_gate_end
+
+#---------------------------------------------------------------------------
+
+    def SetIntervalEntries(self, interval_end):
+
+        self.iIntervalEntries = interval_end
+
+#---------------------------------------------------------------------------
+
+    def SetSmallTableSize(self, small_table_size):
+
+        self.iSmallTableSize = small_table_size
+        
+
+#************************* End HeccerOptions ****************************
+
+
+
+
 #************************* Begin Heccer **************************
 class Heccer:
 
@@ -91,7 +204,8 @@ class Heccer:
         self._p3 = False
 
         self._is_constructed = False
-        
+
+        # If we have a filename then we load from a file
         if filename is not None:
 
             if os.path.isfile(filename):
@@ -101,17 +215,19 @@ class Heccer:
         elif pinter is not None:
 
             self._heccer_core = heccer_base.HeccerNewP2(name, pinter)
-            
+
+        # If options and step is given then we load via P1
         elif iOptions is not None and dStep is not None:
 
             self._heccer_core = heccer_base.HeccerNewP1(name, pts, ped, peq, iOptions, dStep)
 
         else:
-
+            # without options and step we load via New
+            
             self._heccer_core = heccer_base.HeccerNew(name, pts, ped, peq)
 
 
-
+        # If no heccer options are present then we create one.
         if self._heccer_core.ho is not None:
     
             self._options_core = self._heccer_core.ho
@@ -763,25 +879,20 @@ class Heccer:
 
 
 
-
-
-#************************* Start HeccerOptions **************************
-# class HeccerOptions(heccer_base.HeccerOptions):
-
-#     def __init__(self, options=, corrections=, 
-#                  interval_set=1, interval_start=-0.1, interval_end=0.05,
-#                  activator_set=0,
-#                  concentration_gate_start=0, concentration_gate_end=,
-#                  interval_entries=3000, small_table_size=):
-
-
-#************************* End HeccerOptions ****************************
         
 
 #************************* Start Intermediary **************************
 
 class Intermediary(heccer_base.Intermediary):
+    """!
+    @class Intermediary
+    @brief Abstraction to the Intermediary base class
 
+    This object inherits the Intermediary data class
+    from the heccer base class and makes it accessible
+    to the top level API. Methods for converting python
+    lists to C pointers are provided.
+    """
 
 
     def __init__(self, compartments=None, comp2mech=None):
@@ -885,3 +996,24 @@ class Intermediary(heccer_base.Intermediary):
 
 
 #************************* End Intermediary *****************************
+
+
+
+
+#************************* Start Compartment **************************
+class Compartment(heccer_base.Compartment):
+    """!
+    @class Compartment
+    @brief A compartment object
+
+    This object inherits the Compartment data
+    class from the heccer base and makes it accessible
+    from the top level.
+    """
+    def __init__(self):
+        """!
+        @brief Constructor
+        """
+        heccer_base.Compartment.__init__(self)
+
+#************************* End Compartment ****************************
