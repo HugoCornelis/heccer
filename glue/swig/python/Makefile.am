@@ -18,46 +18,26 @@
 
 SUBDIRS = 
 
+# The nmc module is installed under the g3 module from the developer
+# package. Since it comes first in the user workflow, it should 
+# be installed first.
+pythondir = $(prefix)/glue/swig/python/g3
 
-#t the following rules are crap complete, would be good if a auto
-#t expert takes a look at it.
+nobase_python_HEADERS = \
+	heccer/__init__.py \
+	heccer/__cbi__.py \
+	heccer/errors.py
 
-# Dist hook is commented out here because EXTRA_DIST does the
-# work we need.
-#dist-hook:
-
-swigdir = $(prefix)/glue/swig
-
-#t use $(swigdir) here
-
-pythondir = $(prefix)/glue/swig/python
-
-nobase_python_HEADERS = heccer/__init__.py
-
-python_DATA =  SwiggableHeccer.py _SwiggableHeccer.so
+nobase_python_DATA = \
+	heccer/_heccer_base.so \
+	heccer/heccer_base.py
 
 EXTRA_DIST = \
-	$(srcdir)/heccer.i \
-	$(srcdir)/heccer_1.i \
-	$(srcdir)/tests/ \
-	$(srcdir)/heccer/__cbi__.py \
-	$(srcdir)/heccer/heccer.py \
-	$(srcdir)/heccer/errors.py 
+	$(srcdir)/heccer.i 
 
 BUILT_SOURCES = \
-	SwiggableHeccer.py \
-	swiggable_heccer_wrap.c
-
-SwiggableHeccer.py swiggable_heccer_wrap.c: $(swig_DATA)
-	$(SWIG) -I$(builddir)../../.. -I$(srcdir)/../../.. -python -makedefault -module SwiggableHeccer -o swiggable_heccer_wrap.c $(srcdir)/heccer.i 
-
-swiggable_heccer_wrap.o: swiggable_heccer_wrap.c
-	$(SWIGCOMPILECOMMAND_PYTHON)
-
-
-_SwiggableHeccer.$(PYTHONLIB_EXTENSION): swiggable_heccer_wrap.o
-	$(SWIGLINKCOMMAND_PYTHON)
-
+	heccer/heccer_base.py \
+	heccer_wrap.c
 
 
 #---------------------------------------------------------
@@ -67,7 +47,7 @@ heccer_wrap.o: heccer_wrap.c
 	gcc $(SWIGCOMPILELINKSFORPYTHON) -c $(srcdir)/heccer_wrap.c
 
 heccer_wrap.c ./heccer/heccer_base.py: 
-	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/heccer -o heccer_wrap.c $(srcdir)/heccer_1.i
+	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/heccer -o heccer_wrap.c $(srcdir)/heccer.i
 
 _heccer_base.so: heccer_wrap.o
 	$(HECCER_SWIGLINKCOMMAND_PYTHON)
@@ -77,16 +57,12 @@ _heccer_base.so: heccer_wrap.o
 
 
 
-all: _heccer_base.so _SwiggableHeccer.$(PYTHONLIB_EXTENSION)
+all: _heccer_base.so 
 
 CLEANFILES = \
 	$(srcdir)/heccer_wrap.c \
 	$(srcdir)/heccer_wrap.o \
 	$(srcdir)/heccer/_heccer_base.so \
-	$(srcdir)/heccer/heccer_base.py \
-	$(srcdir)/SwiggableHeccer.py \
-	$(srcdir)/swiggable_heccer_wrap.c \
-	$(srcdir)/swiggable_heccer_wrap.o \
-	$(srcdir)/_SwiggableHeccer.so
+	$(srcdir)/heccer/heccer_base.py 
 
 

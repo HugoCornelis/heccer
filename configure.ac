@@ -480,6 +480,7 @@ AC_CONFIG_FILES([Makefile
                  glue/Makefile
                  glue/swig/perl/Makefile
                  glue/swig/python/Makefile
+                 glue/swig/python_old/Makefile
                  integrators/Makefile
                  tests/Makefile
                  tests/code/Makefile

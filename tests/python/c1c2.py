@@ -13,7 +13,7 @@ add_package_path("heccer")
 
 
 
-import heccer.heccer
+import heccer
 from heccer.heccer_base import Compartment
 from heccer.heccer_base import Intermediary
 
