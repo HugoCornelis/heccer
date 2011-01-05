@@ -16,6 +16,6 @@ print "Importing heccer_base"
 import heccer.heccer_base
 
 print "Importing Heccer"
-import heccer.heccer
+import heccer
 
 print "Done!"

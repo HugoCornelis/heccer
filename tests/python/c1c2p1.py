@@ -13,9 +13,9 @@ add_package_path("heccer")
 
 
 
-from heccer.heccer import Heccer
-from heccer.heccer import Compartment
-from heccer.heccer import Intermediary
+from heccer import Heccer
+from heccer import Compartment
+from heccer import Intermediary
 
 c1 = Compartment()
 
