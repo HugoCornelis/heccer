@@ -471,6 +471,9 @@ class Heccer:
             
             address = heccer_base.HeccerAddressVariable(self.GetCore(), serial, field)
 
+            if address == None:
+
+                raise HeccerAddressError(serial, field)
         
         return address
 

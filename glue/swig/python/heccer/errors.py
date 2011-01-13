@@ -1,15 +1,16 @@
 from exceptions import Exception
 
 
-class AddressError(Exception):
+class HeccerAddressError(Exception):
     """
 
     """
-    def __init__(self, cause):
-        self.cause = cause
+    def __init__(self, serial, field):
+        
+        self.msg = "Cannot find the address of " + str(serial) + " -> " + field
 
     def __str__(self):
-        return self.cause
+        return self.msg
 
 
 class HeccerNotAllocatedError(Exception):
