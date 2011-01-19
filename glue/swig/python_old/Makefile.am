@@ -32,7 +32,7 @@ swigdir = $(prefix)/glue/swig
 
 pythondir = $(prefix)/glue/swig/python
 
-nobase_python_HEADERS = heccer/__init__.py
+nobase_python_HEADERS = Heccer/__init__.py
 
 python_DATA =  SwiggableHeccer.py _SwiggableHeccer.so
 
