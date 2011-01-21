@@ -345,7 +345,7 @@ case "$host_os" in
 
 
     case "$host_os" in
-	*darwin10.2.0 | *darwin10.3.0 | *darwin10.4.0 | *darwin10.5.0 | *darwin10.6.0)
+	darwin10*)
 
 	    dnl This is snow leopard
             SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o  swiggable_heccer_wrap.o'
@@ -377,7 +377,7 @@ case "$host_os" in
 
 
     case "$host_os" in
-	*darwin10.2.0 | *darwin10.3.0 | *darwin10.4.0 | *darwin10.5.0 | *darwin10.6.0)
+	darwin10*)
 
 	    dnl This is snow leopard
 
