@@ -372,7 +372,7 @@ case "$host_os" in
     SWIGCOMPILECOMMAND_PYTHON='gcc $(SWIGCOMPILELINKSFORPYTHON) -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
 
-    SWIGLDLINKSFORPYTHON='$(PYTHON_LDFLAGS) -L../../../ -lheccer -L../../../integrators -lhneurospaces  -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -framework Python -flat_namespace -undefined suppress -bundle 	-bundle_loader $(PYTHON_EXE)'
+    SWIGLDLINKSFORPYTHON='$(PYTHON_LDFLAGS) -L../../../ -lheccer -L../../../integrators -lhneurospaces  -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/model-container -lsymbol_algorithms -lncurses -lreadline -framework Python -flat_namespace -undefined suppress -bundle 	-bundle_loader $(PYTHON_EXE)'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
 
 
@@ -384,7 +384,7 @@ case "$host_os" in
             SWIGLINKCOMMAND_PYTHON='ld 	$(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION) /usr/lib/bundle1.o swiggable_heccer_wrap.o'
             AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 
-	    HECCER_SWIGCOMMAND_PYTHON='ld $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so /usr/lib/bundle1.o swiggable_heccer_wrap.o'
+	    HECCER_SWIGLINKCOMMAND_PYTHON='ld $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so /usr/lib/bundle1.o heccer_wrap.o'
 	    AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
 
 	;;
