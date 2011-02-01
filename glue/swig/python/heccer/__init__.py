@@ -84,7 +84,7 @@ class HeccerOptions(heccer_base.HeccerOptions):
         self.SetConcentrationGateEnd(concentration_gate_end)
         self.SetIntervalEntries(interval_entries)
         self.SetSmallTableSize(small_table_size)
-
+        
 
 #---------------------------------------------------------------------------
 
@@ -111,7 +111,7 @@ class HeccerOptions(heccer_base.HeccerOptions):
     def SetOptions(self, options):
  
         self.iOptions = options
-
+        
 #---------------------------------------------------------------------------
 
     def SetCorrections(self, corrections):
@@ -202,6 +202,8 @@ class Heccer:
         self._p1 = False
         self._p2 = False
         self._p3 = False
+
+        self._model_source = False
 
         self._is_constructed = False
 
@@ -305,10 +307,19 @@ class Heccer:
         obj = cls(filename=filename)
 
         return obj
-        
+
+
 #---------------------------------------------------------------------------
 
-    def Construct(self):
+    def SetModel(self, model_source):
+        """
+
+        """
+        self._model_source = model_source
+
+#---------------------------------------------------------------------------
+
+    def Construct(self, model=None):
         """
         @brief Constructs heccer from the options
         """
@@ -335,22 +346,46 @@ class Heccer:
             raise HeccerOptionsError("Heccer Options are not allocated")
 
 
-        
-        if 'model_source' not in options:
+        # Here we connect the model to heccer
+        model_source = None
 
-            raise HeccerOptionsError("model_source not found in the heccer options, cannot construct a heccer")
-        
-            return None
+        if model is not None:
 
+            try:
+
+                model_source = model.GetCore()
+
+            except TypeError:
+                
+                model_source = model
+
+        elif self._model_source is not None:
+
+            try:
+                
+                model_source = self._model_source.GetCore()
+
+            except TypeError:
+
+                model_source = self._model_source
+
+        else:
+
+            raise HeccerOptionsError("Model not found, cannot construct a Heccer")
 
         # Probably need to check allow options to be passed to the next two
         # args
         result = heccer_base.HeccerConstruct( heccer,
-                                     options['model_source'],
-                                     options['name'],
+                                     model_source,
+                                     "Untitled",
                                      None,
                                      None
                                      )
+
+        if result == 1:
+
+            self._is_constructed = True
+            
         return result
 
 #---------------------------------------------------------------------------
@@ -773,6 +808,10 @@ class Heccer:
         """
 
         if self.GetCore() is not None:
+
+            if not self.IsConstructed():
+
+                self.Construct()
             
             heccer_base.HeccerCompileP1(self.GetCore())
             heccer_base.HeccerCompileP2(self.GetCore())
