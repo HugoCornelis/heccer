@@ -5,10 +5,14 @@ class HeccerAddressError(Exception):
     """
 
     """
-    def __init__(self, serial, field):
+    def __init__(self, serial, field, msg=""):
         
         self.msg = "Cannot find the address of " + str(serial) + " -> " + field
 
+        if msg != "":
+            
+            self.msg += ", %s" % msg
+    
     def __str__(self):
         return self.msg
 

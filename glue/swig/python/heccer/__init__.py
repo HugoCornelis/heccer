@@ -375,9 +375,12 @@ class Heccer:
 
         # Probably need to check allow options to be passed to the next two
         # args
+
+        model_name = heccer.pcName
+        
         result = heccer_base.HeccerConstruct( heccer,
                                      model_source,
-                                     "Untitled",
+                                     model_name,
                                      None,
                                      None
                                      )
@@ -489,7 +492,7 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
-    def GetAddress(self, serial, field):
+    def GetAddress(self, path, field):
         """!
         @brief Returns the Heccer Address variable
         """
@@ -502,12 +505,26 @@ class Heccer:
 
             raise HeccerNotAllocatedError()
 
-        else:
+        elif self._model_source is None:
+
+            from error import HeccerAddressError
             
-            address = heccer_base.HeccerAddressVariable(self.GetCore(), serial, field)
+            raise HeccerAddressError(path, field)
+
+        else:
+
+            serial = self._model_source.GetSerial(path, field)
+
+            # check serial value, exception?
+            
+            address = heccer_base.HeccerAddressVariable(self.GetCore(),
+                                                        serial,
+                                                        field)
 
             if address == None:
 
+                from error import HeccerAddressError
+                
                 raise HeccerAddressError(serial, field)
         
         return address
