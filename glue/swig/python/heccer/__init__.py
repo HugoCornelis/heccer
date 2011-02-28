@@ -184,7 +184,8 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled", pts=None, ped=None,
+    def __init__(self, name="Untitled", model=None,
+                 pts=None, ped=None,
                  peq=None, iOptions=None, dStep=None,
                  pinter=None, filename=None):
         """!
@@ -203,7 +204,7 @@ class Heccer:
         self._p2 = False
         self._p3 = False
 
-        self._model_source = False
+        self._model_source = model
 
         self._is_constructed = False
 
@@ -238,24 +239,6 @@ class Heccer:
 
             self._options_core = heccer_base.HeccerOptions()
         
-#-----------------------------------------------------------------------------
-
-#         if 'model_source' in options:
-            
-#             self._heccer_core = heccer_base.HeccerNew(name, None, None, None)
-
-#         else:
-            
-#             print "model_source not found in the heccer options, cannot construct a heccer"
-
-
-#         if isinstance(options, heccer_base.HeccerOptions):
-
-#             self._options_core = options
-
-#         else:
-
-#             self._options_core = heccer_base.HeccerOptions()
 
 
 #---------------------------------------------------------------------------

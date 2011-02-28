@@ -6,16 +6,17 @@ into the CBI architecture.
 """
 
 def GetRevisionInfo():
-# $Format: return "${monotone_id}"$
-    return "test"
+# $Format:    "return \"${monotone_id}\""$
+    return "63153100d5649f717b40876dc6a6de3d85b9d766"
 
 def GetPackageName():
-# $Format: return "${package}"$
-    return "test"
+# $Format:    "return \"${package}\""$
+    return "sspy"
+
 
 def GetVersion():
-# $Format: return "${major}.${minor}.${micro}-${label}"$
-    return "test"
+# $Format:    "return \"${major}.${minor}.${micro}-${label}\""$
+    return "0.0.0-alpha"
 
 def GetDependencies():
     """!
