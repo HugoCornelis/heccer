@@ -200,9 +200,9 @@ class Heccer:
 
         self._options_core = None
 
-        self._p1 = False
-        self._p2 = False
-        self._p3 = False
+        self._compiled_p1 = False
+        self._compiled_p2 = False
+        self._compiled_p3 = False
 
         self._model_source = model
 
@@ -218,6 +218,10 @@ class Heccer:
         elif pinter is not None:
 
             self._heccer_core = heccer_base.HeccerNewP2(name, pinter)
+
+            self._is_constructed = True
+
+            self._compiled_p1 = True
 
         # If options and step is given then we load via P1
         elif iOptions is not None and dStep is not None:
@@ -353,6 +357,8 @@ class Heccer:
                 model_source = self._model_source
 
         else:
+            
+            from errors import HeccerOptionsError
 
             raise HeccerOptionsError("Model not found, cannot construct a Heccer")
 
@@ -807,15 +813,17 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None:
+        heccer_core = self.GetCore()
+
+        if heccer_core is not None:
 
             if not self.IsConstructed():
 
                 self.Construct()
             
-            heccer_base.HeccerCompileP1(self.GetCore())
-            heccer_base.HeccerCompileP2(self.GetCore())
-            heccer_base.HeccerCompileP3(self.GetCore())
+            heccer_base.HeccerCompileP1(heccer_core)
+            heccer_base.HeccerCompileP2(heccer_core)
+            heccer_base.HeccerCompileP3(heccer_core)
 
         else:
 
@@ -830,9 +838,11 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None:
+        if self.GetCore() is not None and self._compiled_p1 is False:
             
             heccer_base.HeccerCompileP1(self.GetCore())
+
+            self._compiled_p1 = True
 
         else:
 
@@ -848,9 +858,11 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None:
+        if self.GetCore() is not None and self._compiled_p2 is False:
             
             heccer_base.HeccerCompileP2(self.GetCore())
+
+            self._compiled_p2 = True
 
         else:
 
@@ -866,9 +878,11 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None:
+        if self.GetCore() is not None and self._compiled_p3 is False:
             
             heccer_base.HeccerCompileP3(self.GetCore())
+
+            self._compiled_p3 = True
 
         else:
 
