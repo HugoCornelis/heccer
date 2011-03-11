@@ -820,10 +820,14 @@ class Heccer:
             if not self.IsConstructed():
 
                 self.Construct()
+
+            self.CompileP1()
+            self.CompileP2()
+            self.CompileP3()
             
-            heccer_base.HeccerCompileP1(heccer_core)
-            heccer_base.HeccerCompileP2(heccer_core)
-            heccer_base.HeccerCompileP3(heccer_core)
+            #heccer_base.HeccerCompileP1(heccer_core)
+            #heccer_base.HeccerCompileP2(heccer_core)
+            #heccer_base.HeccerCompileP3(heccer_core)
 
         else:
 
@@ -838,11 +842,13 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None and self._compiled_p1 is False:
-            
-            heccer_base.HeccerCompileP1(self.GetCore())
+        if self.GetCore() is not None:
 
-            self._compiled_p1 = True
+            if self._compiled_p1 is False:
+                
+                heccer_base.HeccerCompileP1(self.GetCore())
+
+                self._compiled_p1 = True
 
         else:
 
@@ -858,11 +864,13 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None and self._compiled_p2 is False:
-            
-            heccer_base.HeccerCompileP2(self.GetCore())
+        if self.GetCore() is not None:
 
-            self._compiled_p2 = True
+            if self._compiled_p2 is False:
+                
+                heccer_base.HeccerCompileP2(self.GetCore())
+
+                self._compiled_p2 = True
 
         else:
 
@@ -878,11 +886,13 @@ class Heccer:
         @brief This compiles the solver for the Heccer core
         """
 
-        if self.GetCore() is not None and self._compiled_p3 is False:
-            
-            heccer_base.HeccerCompileP3(self.GetCore())
+        if self.GetCore() is not None:
 
-            self._compiled_p3 = True
+            if self._compiled_p3 is False:
+                
+                heccer_base.HeccerCompileP3(self.GetCore())
+
+                self._compiled_p3 = True
 
         else:
 
