@@ -998,6 +998,14 @@ class Intermediary(heccer_base.Intermediary):
             
             for index, c in enumerate(comps):
 
+                try:
+                    
+                    c.iParent = index - 1
+
+                except AttributeError, e:
+
+                    raise Exception("Can't construct Heccer Intermediary, Improper compartment at index %d" % index)
+                
                 heccer_base.CompartmentArray_setitem(self.pcomp, index, c)
 
             self.SetNumCompartments(num_comps)
