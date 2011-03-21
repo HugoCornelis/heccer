@@ -496,7 +496,7 @@ class Heccer:
 
         elif self._model_source is None:
 
-            from error import HeccerAddressError
+            from errors import HeccerAddressError
             
             raise HeccerAddressError(path, field)
 
@@ -512,7 +512,7 @@ class Heccer:
 
             if address == None:
 
-                from error import HeccerAddressError
+                from errors import HeccerAddressError
                 
                 raise HeccerAddressError(serial, field)
         
