@@ -313,7 +313,7 @@ case "$host_os" in
     PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts | $PERL -pe 's/\-arch\s\S+\s//g'`
     AC_SUBST(PERL_CCOPTS)
 
-    AC_CHECK_PROG(SWIG, swig, NULL, [/usr/bin/swig],[/usr/local/bin/swig /opt/local/bin/swig])
+    AC_CHECK_PROG(SWIG, swig, NULL, [/usr/bin/swig],[/usr/local/bin/swig /opt/local/bin/swig /sw/bin/perl])
     AC_SUBST(SWIG)
 
     AC_MSG_CHECKING([Checking for swig])
