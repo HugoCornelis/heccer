@@ -518,6 +518,49 @@ class Heccer:
         
         return address
 
+
+#---------------------------------------------------------------------------
+
+    def GetCompartmentAddress(self, path, field):
+
+        """!
+        @brief Returns the Heccer Address variable
+        """
+        address = None
+        
+        if self.GetCore() is None:
+
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+        elif self._model_source is None:
+
+            from errors import HeccerAddressError
+            
+            raise HeccerAddressError(path, field)
+
+        else:
+
+            serial = self._model_source.GetSerial(path, field)
+
+            intermediary = heccer_base.HeccerAddressSerial2Intermediary(self.GetCore(),
+                                                                        serial,
+                                                                        field)
+                        
+            address = heccer_base.HeccerCompartmentAddressVariable(self.GetCore(),
+                                                        intermediary,
+                                                        field)
+
+            if address == None:
+
+                from errors import HeccerAddressError
+                
+                raise HeccerAddressError(serial, field)
+        
+        return address
+    
 #---------------------------------------------------------------------------
 
     def SetIntervalStart(self, dstart):
