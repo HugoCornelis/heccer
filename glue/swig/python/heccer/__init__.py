@@ -521,7 +521,7 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
-    def GetCompartmentAddress(self, path, field):
+    def GetCompartmentAddress(self, path=None, field="Vm", index=None):
 
         """!
         @brief Returns the Heccer Address variable
@@ -543,7 +543,19 @@ class Heccer:
 
         else:
 
-            serial = self._model_source.GetSerial(path, field)
+            index = -1
+            
+            if index is None:
+
+                if path is None:
+
+                    raise Exception("Error: No valid path or index given")
+                
+                serial = self._model_source.GetSerial(path, field)
+
+            else:
+
+                serial = index
 
             intermediary = heccer_base.HeccerAddressSerial2Intermediary(self.GetCore(),
                                                                         serial,
