@@ -196,6 +196,7 @@ class Heccer:
         @param iOptions
         @param dStep Step size value
         @param pinter A pointer to an intermediary
+        @param model A pointer to a model container
         """
 
         self._options_core = None
@@ -207,6 +208,8 @@ class Heccer:
         self._model_source = model
 
         self._is_constructed = False
+
+        self.connected = False
 
         # If we have a filename then we load from a file
         if filename is not None:
@@ -222,6 +225,9 @@ class Heccer:
             self._is_constructed = True
 
             self._compiled_p1 = True
+
+            # Heccer is already connected to an intermediary
+            self.connected = True
 
         # If options and step is given then we load via P1
         elif iOptions is not None and dStep is not None:
@@ -535,7 +541,7 @@ class Heccer:
 
             raise HeccerNotAllocatedError()
 
-        elif self._model_source is None:
+        elif self._model_source is None and not self.connected:
 
             from errors import HeccerAddressError
             
