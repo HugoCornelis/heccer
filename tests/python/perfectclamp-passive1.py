@@ -21,7 +21,7 @@ from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX
 from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
 from heccer.heccer_base import HECCER_DUMP_VM_MECHANISM_OPERATIONS
 
-HECCER_TESTED_THINGS=HECCER_DUMP_VM_MECHANISM_OPERATIONS | HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS | HECCER_DUMP_VM_COMPARTMENT_MATRIX
+HECCER_TESTED_THINGS=1245184
 
 c1 = Compartment()
 
@@ -64,8 +64,6 @@ my_heccer.SetSmallTableSize(INTERPOL_INTERVAL_ENTRIES)
 
 my_heccer.SetOptions(OPTIONS)
 
-
-#pdb.set_trace()
 my_heccer.CompileAll()
 
 # Create the perfect clamp and connect it
@@ -97,6 +95,7 @@ for i in range(0,STEPS):
     simulation_time = i * TIME_STEP + TIME_GRANULARITY
 
     my_heccer.Step(simulation_time)
+    perfect_clamp.Step(simulation_time)
 
     if i % reporting_granularity == 0:
     
