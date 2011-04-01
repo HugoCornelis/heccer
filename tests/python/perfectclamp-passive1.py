@@ -16,6 +16,13 @@ from heccer import Heccer
 from heccer import Compartment
 from heccer import Intermediary
 
+
+from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX
+from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
+from heccer.heccer_base import HECCER_DUMP_VM_MECHANISM_OPERATIONS
+
+HECCER_TESTED_THINGS=HECCER_DUMP_VM_MECHANISM_OPERATIONS | HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS | HECCER_DUMP_VM_COMPARTMENT_MATRIX
+
 c1 = Compartment()
 
 c1.dCm = 4.57537e-11
@@ -41,8 +48,8 @@ from test_library import OPTIONS
 from test_library import STEPS
 from test_library import TIME_GRANULARITY
 
-STEPS=100
-reporting_granularity=1000
+STEPS=1000
+reporting_granularity=100
 
 
 my_heccer.SetTimeStep(3e-6)
@@ -61,7 +68,6 @@ my_heccer.SetOptions(OPTIONS)
 #pdb.set_trace()
 my_heccer.CompileAll()
 
-
 # Create the perfect clamp and connect it
 # to a solved variable.
 from experiment.perfectclamp import PerfectClamp
@@ -70,7 +76,7 @@ perfect_clamp = PerfectClamp("pc object")
 
 perfect_clamp.SetCommandVoltage(0.1)
 
-address = my_heccer.GetCompartmentAddress(index=0,field="Vm")
+address = my_heccer.GetCompartmentAddress(0,"Vm")
 
 perfect_clamp.AddVariable(address)
 
@@ -85,12 +91,6 @@ my_heccer.DumpV()
 simulation_time = 0.0
 
 print "-------"
-
-from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX
-from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
-from heccer.heccer_base import HECCER_DUMP_VM_MECHANISM_OPERATIONS
-
-HECCER_TESTED_THINGS=HECCER_DUMP_VM_MECHANISM_OPERATIONS | HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS | HECCER_DUMP_VM_COMPARTMENT_MATRIX
 
 for i in range(0,STEPS):
 
