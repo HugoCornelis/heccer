@@ -39,7 +39,7 @@ c2.iParent = 0
 
 
 
-intermediary = Intermediary([c1, c2], [0, 0, -1])
+intermediary = Intermediary([c1, c2])
 
 #intermediary.SetCompartments([c1, c2])
 

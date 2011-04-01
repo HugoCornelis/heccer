@@ -1021,6 +1021,18 @@ class Intermediary(heccer_base.Intermediary):
 
             self.SetComp2Mech(comp2mech)
 
+        else:
+            
+            # Create a generic compartment to mechanism array
+            
+            comp_len = len(compartments)
+            
+            c2m = [0] * comp_len
+
+            c2m.append(-1)
+ 
+            self.SetComp2Mech(c2m)
+
 
 #---------------------------------------------------------------------------
 
