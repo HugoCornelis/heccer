@@ -372,7 +372,7 @@ class Heccer:
         # args
 
         model_name = heccer.pcName
-        pdb.set_trace()
+
         result = heccer_base.HeccerConstruct( heccer,
                                      model_source,
                                      model_name,
@@ -879,9 +879,6 @@ class Heccer:
         """!
         @brief This compiles the solver for the Heccer core
         """
-        if not self.CanCompile():
-
-            raise errors.HeccerCompileError("Can't compile model")
 
         heccer_core = self.GetCore()
 
@@ -890,14 +887,10 @@ class Heccer:
             if not self.IsConstructed():
 
                 self.Construct()
-
+            
             self.CompileP1()
             self.CompileP2()
             self.CompileP3()
-            
-            #heccer_base.HeccerCompileP1(heccer_core)
-            #heccer_base.HeccerCompileP2(heccer_core)
-            #heccer_base.HeccerCompileP3(heccer_core)
 
         else:
 
