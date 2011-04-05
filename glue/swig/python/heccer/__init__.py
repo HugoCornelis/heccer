@@ -372,7 +372,7 @@ class Heccer:
         # args
 
         model_name = heccer.pcName
-        
+        pdb.set_trace()
         result = heccer_base.HeccerConstruct( heccer,
                                      model_source,
                                      model_name,
@@ -853,13 +853,33 @@ class Heccer:
         """
         return self.Step(time)
 
+#---------------------------------------------------------------------------
 
+    def CanCompile(self):
+        """!
+        @brief Tests to see if we can compile this heccer 
+        """
+        result = 0
+        
+        if self.GetCore() is not None:
+            
+            result = heccer_base.HeccerCanCompile(self.GetCore())
+
+        if result == 0:
+
+            return False
+        
+        else:
+
+            return True
+    
 #---------------------------------------------------------------------------
 
     def CompileAll(self):
         """!
         @brief This compiles the solver for the Heccer core
         """
+        pdb.set_trace()
 
         heccer_core = self.GetCore()
 

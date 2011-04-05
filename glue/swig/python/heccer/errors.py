@@ -48,11 +48,11 @@ class HeccerCompileError(Exception):
     """
 
     """
-    def __init__(self,msg):
+    def __init__(self, msg):
         self.msg = msg
     
     def __str__(self):
 
-        error_msg = "Error compiling Heccer\n %s : %s" % (self.msg, self.value)
+        error_msg = "Error compiling Heccer: %s" % (self.msg)
         
         return error_msg
