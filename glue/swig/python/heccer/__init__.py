@@ -879,7 +879,9 @@ class Heccer:
         """!
         @brief This compiles the solver for the Heccer core
         """
-        pdb.set_trace()
+        if not self.CanCompile():
+
+            raise HeccerCompileError("Can't compile model")
 
         heccer_core = self.GetCore()
 
