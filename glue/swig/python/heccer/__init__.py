@@ -881,7 +881,7 @@ class Heccer:
         """
         if not self.CanCompile():
 
-            raise HeccerCompileError("Can't compile model")
+            raise errors.HeccerCompileError("Can't compile model")
 
         heccer_core = self.GetCore()
 
