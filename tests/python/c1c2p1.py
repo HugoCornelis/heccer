@@ -71,7 +71,8 @@ my_heccer.SetSmallTableSize(INTERPOL_INTERVAL_ENTRIES)
 my_heccer.SetOptions(OPTIONS)
 
 
-#pdb.set_trace()
+my_heccer.CompileP1()
+
 my_heccer.CompileP2()
 
 my_heccer.CompileP3()

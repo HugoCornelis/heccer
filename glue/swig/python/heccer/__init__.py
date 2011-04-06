@@ -450,6 +450,22 @@ class Heccer:
 
             raise HeccerNotAllocatedError()
 
+#---------------------------------------------------------------------------
+
+    def SetName(self, name):
+        """!
+        @brief 
+        """
+        if self.GetCore() is not None:
+            
+            self.GetCore().pcName = name
+
+        else:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
 
 #---------------------------------------------------------------------------
 
@@ -903,11 +919,19 @@ class Heccer:
     def CompileP1(self):
         """!
         @brief This compiles the solver for the Heccer core
+
+        Compile level 1 primarily deals with using a heccer
+        translation service to convert compartments into
+        an intermeidate format.
         """
 
         if self.GetCore() is not None:
 
             if self._compiled_p1 is False:
+
+                if self._heccer_core.pts is None:
+
+                    raise errors.HeccerCompileError("No Heccer translation service present, can't construct an intermediary from the model")
                 
                 heccer_base.HeccerCompileP1(self.GetCore())
 
