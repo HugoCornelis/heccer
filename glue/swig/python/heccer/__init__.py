@@ -209,7 +209,6 @@ class Heccer:
 
         self._is_constructed = False
 
-        self.connected = False
 
         # If we have a filename then we load from a file
         if filename is not None:
@@ -226,8 +225,6 @@ class Heccer:
 
             self._compiled_p1 = True
 
-            # Heccer is already connected to an intermediary
-            self.connected = True
 
         # If options and step is given then we load via P1
         elif iOptions is not None and dStep is not None:
@@ -524,7 +521,7 @@ class Heccer:
 
         else:
 
-            serial = self._model_source.GetSerial(path, field)
+            serial = self._model_source.GetSerial(path)
 
             # check serial value, exception?
             
@@ -557,11 +554,6 @@ class Heccer:
 
             raise HeccerNotAllocatedError()
 
-        elif not self.connected:
-
-            from errors import HeccerAddressError
-            
-            raise HeccerAddressError(path, field)
 
         else:
 
@@ -569,16 +561,26 @@ class Heccer:
             if intermediary == -1:
 
                 raise Exception("Invalid intermediary index '%d'" % intermediary)
-                        
+
+            serial = -1
+            
+            if not isinstance(intermediary, int):
+
+                serial = self._model_source.GetSerial(intermediary)
+
+            else:
+
+                serial = intermediary
+            
             address = heccer_base.HeccerAddressCompartmentVariable(self.GetCore(),
-                                                        intermediary,
+                                                        serial,
                                                         field)
 
             if address == None:
 
                 from errors import HeccerAddressError
                 
-                raise HeccerAddressError(serial, field)
+                raise HeccerAddressError(str(intermediary), field)
         
         return address
     
@@ -931,7 +933,8 @@ class Heccer:
 
                 if self._heccer_core.pts is None:
 
-                    raise errors.HeccerCompileError("No Heccer translation service present, can't construct an intermediary from the model")
+                    return
+                    #raise errors.HeccerCompileError("No Heccer translation service present, can't construct an intermediary from the model")
                 
                 heccer_base.HeccerCompileP1(self.GetCore())
 
