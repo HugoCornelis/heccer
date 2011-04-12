@@ -36,6 +36,32 @@ dnl AC_CONFIG_SUBDIRS(tests/code glue)
 AM_INIT_AUTOMAKE(heccer, 0.0.0-alpha)
 
 
+AC_MSG_CHECKING(whether we build universal binaries.)
+AC_ARG_WITH(universal,
+[AS_HELP_STRING([--with-universal],
+              [Build universal binaries on Mac OS X.])],
+[ case "$val" in
+  no)
+
+    AC_MSG_RESULT(no)
+    OSX_UNIVERSAL="no"
+
+    ;;
+  *)
+
+    AC_MSG_RESULT(yes)
+    OSX_UNIVERSAL="yes"
+
+    CFLAGS="$CFLAGS -arch x86_64 -arch i386 -arch ppc"
+    AC_SUBST(CFLAGS)
+
+    ;;
+  esac ],
+  AC_MSG_RESULT(no)
+  OSX_UNIVERSAL="no"
+)
+AC_SUBST(OSX_UNIVERSAL)
+
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_RANLIB
@@ -309,9 +335,20 @@ case "$host_os" in
     esac
 
     # determine linker flags for perl embedding
+    if test "$OSX_UNIVERSAL" == "yes"; then
 
-    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts | $PERL -pe 's/\-arch\s\S+\s//g'`
+
+      PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
+
+    else
+
+      PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts | perl -pe 's/\-arch\s\S+\s//g'`
+
+    fi
+
     AC_SUBST(PERL_CCOPTS)
+
+
 
     AC_CHECK_PROG(SWIG, swig, NULL, [/usr/bin/swig],[/usr/local/bin/swig /opt/local/bin/swig /sw/bin/perl])
     AC_SUBST(SWIG)
