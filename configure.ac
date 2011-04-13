@@ -337,16 +337,25 @@ case "$host_os" in
     # determine linker flags for perl embedding
     if test "$OSX_UNIVERSAL" == "yes"; then
 
-
       PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
+      
+      PERL_LDADD=`$PERL -MExtUtils::Embed -e ldopts`
+
+      PERL_LDFLAGS=`$PERL -MExtUtils::Embed -e ldopts`
 
     else
 
       PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts | perl -pe 's/\-arch\s\S+\s//g'`
+    
+      PERL_LDADD=`$PERL -MExtUtils::Embed -e ldopts | perl -pe 's/\-arch\s\S+\s//g'`
+
+      PERL_LDFLAGS=`$PERL -MExtUtils::Embed -e ldopts | perl -pe 's/\-arch\s\S+\s//g'`
 
     fi
-
+    
     AC_SUBST(PERL_CCOPTS)
+    AC_SUBST(PERL_LDADD)
+    AC_SUBST(PERL_LDFLAGS)
 
 
 
@@ -377,7 +386,7 @@ case "$host_os" in
 
  
 
-    SWIGLDLINKSFORPERL='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline -bundle -undefined suppress -flat_namespace'
+    SWIGLDLINKSFORPERL='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline -bundle -undefined suppress -flat_namespace $(PERL_LDFLAGS)'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
 
@@ -463,6 +472,13 @@ case "$host_os" in
 
     PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
     AC_SUBST(PERL_CCOPTS)
+
+    PERL_LDADD=`$PERL -MExtUtils::Embed -e ldopts`
+    AC_SUBST(PERL_LDADD)
+
+    PERL_LDFLAGS=`$PERL -MExtUtils::Embed -e ldopts`
+    AC_SUBST(PERL_LDFLAGS)
+
 
     PERLLIB_EXTENSION='so'
     AC_SUBST(PERLLIB_EXTENSION)
