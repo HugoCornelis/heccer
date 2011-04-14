@@ -378,20 +378,23 @@ case "$host_os" in
     PERLLIB_EXTENSION='dylib'
     AC_SUBST(PERLLIB_EXTENSION)
 
-    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor 	-I$(srcdir)/../../.. 	-I$(top_builddir) 	-ffloat-store 	-I../../.. 	-include heccer/config.h 	-g 	-O0 	-dynamic 	-fPIC 	$(PERL_CCOPTS)'
+    SWIGCOMPILELINKSFORPERL='-I/usr/local/neurospaces/instrumentor -I$(top_builddir) -include heccer/config.h -ffloat-store -g -O0 -dynamic -fPIC $(PERL_CCOPTS)'
     AC_SUBST(SWIGCOMPILELINKSFORPERL)
 
-    SWIGCOMPILECOMMAND_PERL='gcc         $(SWIGCOMPILELINKSFORPERL)         -c swiggable_heccer_wrap.c'
+    SWIGCOMPILECOMMAND_PERL='gcc $(SWIGCOMPILELINKSFORPERL) -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
 
     if test "$OSX_UNIVERSAL" == "yes"; then 
 
-      SWIGLDLINKSFORPERL='-dynamic -undefined suppress -flat_namespace -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline $(PERL_LDFLAGS)'
+      # Mando: libtool requires all symbols linked against to be defined at link time otherwise
+      # running when it inspects the symbol table at runtime it will fail to load. Have to link against
+      # event_algorithms (which is not system installed) in the model container so this looks messy.  
+      SWIGLDLINKSFORPERL='-dynamic -undefined suppress -flat_namespace -L$(top_builddir) -lheccer -L$(top_builddir)/integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -lsymbol_algorithms -L$(top_builddir)/../../../../model-container/source/snapshots/0/algorithms/event -levent_algorithms -lncurses -lreadline $(PERL_LDFLAGS)'
 
     else
 
-      SWIGLDLINKSFORPERL='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline -bundle -undefined suppress -flat_namespace $(PERL_LDFLAGS)'
+      SWIGLDLINKSFORPERL='-L../../.. -lheccer -L$(top_builddir)/integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -lsymbol_algorithms -lncurses -lreadline -bundle -undefined suppress -flat_namespace $(PERL_LDFLAGS)'
 
     fi 
 
