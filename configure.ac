@@ -341,7 +341,7 @@ case "$host_os" in
       
       PERL_LDADD=`$PERL -MExtUtils::Embed -e ldopts`
 
-      PERL_LDFLAGS=`$PERL -MExtUtils::Embed -e ldopts`
+      PERL_LDFLAGS=`$PERL -MExtUtils::Embed -e ldopts | perl -pe 's/\-arch\s\S+\s//g'`
 
     else
 
@@ -384,17 +384,33 @@ case "$host_os" in
     SWIGCOMPILECOMMAND_PERL='gcc         $(SWIGCOMPILELINKSFORPERL)         -c swiggable_heccer_wrap.c'
     AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
- 
 
-    SWIGLDLINKSFORPERL='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline -bundle -undefined suppress -flat_namespace $(PERL_LDFLAGS)'
+    if test "$OSX_UNIVERSAL" == "yes"; then 
+
+      SWIGLDLINKSFORPERL='-dynamic -undefined suppress -flat_namespace -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline $(PERL_LDFLAGS)'
+
+    else
+
+      SWIGLDLINKSFORPERL='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/neurospaces/instrumentor/hierarchy/output/symbols/ 	-lsymbol_algorithms 	-lncurses -lreadline -bundle -undefined suppress -flat_namespace $(PERL_LDFLAGS)'
+
+    fi 
+
     AC_SUBST(SWIGLDLINKSFORPERL)
 
 
     case "$host_os" in
 	darwin10*)
 
-	    dnl This is snow leopard
-            SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o  swiggable_heccer_wrap.o'
+            if test "$OSX_UNIVERSAL" == "yes"; then
+
+              SWIGLINKCOMMAND_PERL='$(AR) $(SWIGLDLINKSFORPERL) -o SwiggableHeccer.$(PERLLIB_EXTENSION) swiggable_heccer_wrap.o'
+
+            else
+
+              SWIGLINKCOMMAND_PERL='ld 	$(SWIGLDLINKSFORPERL) 	-o SwiggableHeccer.$(PERLLIB_EXTENSION) /usr/lib/bundle1.o  swiggable_heccer_wrap.o'
+
+            fi
+
             AC_SUBST(SWIGLINKCOMMAND_PERL)
 
 
