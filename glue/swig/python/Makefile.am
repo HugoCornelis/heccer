@@ -59,6 +59,15 @@ _heccer_base.so: heccer_wrap.o
 
 all: _heccer_base.so 
 
+
+
+clean-local:
+	$(RM) -rf $(srcdir)/docs/html
+	echo "Removing all compiled byte code files"
+	$(RM) `find . -name "*.pyc"`
+	$(RM) -rf $(srcdir)/build
+	$(RM) -rf $(srcdir)/dist/
+
 CLEANFILES = \
 	$(srcdir)/heccer_wrap.c \
 	$(srcdir)/heccer_wrap.o \
