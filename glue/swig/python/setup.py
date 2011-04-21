@@ -113,7 +113,7 @@ CLASSIFIERS = [
     'Topic :: Research :: Neuroscience',
 ]
 
-DATA_FILES=find_files('heccer')
+PACKAGE_FILES=find_files('heccer')
 
 OPTIONS={
     'sdist': {
@@ -149,7 +149,7 @@ setup(
     keywords=KEYWORDS,
     url=URL,
     packages=['heccer'],
-    package_data={'heccer' : DATA_FILES},
+    package_data={'heccer' : PACKAGE_FILES},
 #     package_dir={'' : ''},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
