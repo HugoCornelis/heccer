@@ -128,3 +128,5 @@ tar.gz$
 ^a.out.dSYM$
 _BUILD$
 .pkg$
+^build$
+^dist$
