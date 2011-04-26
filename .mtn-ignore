@@ -130,3 +130,6 @@ _BUILD$
 .pkg$
 ^build$
 ^dist$
+heccer_base.py$
+glue/swig/python/build$
+glue/swig/python/dist$
