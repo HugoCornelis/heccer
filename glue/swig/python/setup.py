@@ -1,10 +1,19 @@
+import imp
 import os
 import pdb
 import sys
-from distutils.core import setup
+from commands import getoutput
+
+from distutils import log
+from distutils.core import setup, Extension
 from distutils.command.install_data import install_data
+
 #from setuptools import setup, find_packages
-import heccer.__cbi__ as cbi
+
+# import the cbi module. We use this since the check
+# for the compiled swig nmc_base gives an error
+# if we import from nmc.__cbi__
+cbi = imp.load_source('__cbi__', './heccer/__cbi__.py')
 
 
 #-------------------------------------------------------------------------------
@@ -85,6 +94,147 @@ def find_files(root_directory, file_types=_file_types):
 
 
 #-------------------------------------------------------------------------------
+class HeccerModule(Extension):
+    """
+    A class that abstracts methods that detect flags and paths
+    for the target machine in a machine independent way. 
+    """
+    def __init__(self, library_files=None, library_paths=None,
+                include_files=None, include_paths=None):
+
+
+
+        self._library_files = library_files
+        self._library_paths = library_paths
+
+        self._include_files = include_files
+        self._include_paths = include_paths
+
+        self.name = "heccer._heccer_base"
+        self.sources = ["heccer.i"]
+        self.swig_opts = self.get_swig_opts()
+        self.extra_compile_args = self.get_extra_compile_args()
+        self.libraries = self.get_libraries()
+        
+        Extension.__init__(self,
+                           self.name,
+                           sources=self.sources,
+                           swig_opts=self.get_swig_opts(),
+                           extra_compile_args=self.get_extra_compile_args(),
+                           library_dirs=self.get_library_dirs(),
+                           include_dirs=self.get_include_dirs(),
+                           libraries=self.get_libraries()
+                           )
+    def get_extra_compile_args(self):
+
+        return []
+
+    def get_swig_opts(self):
+
+        return ["-I../../.."]
+
+    def get_library_dirs(self):
+
+        library_dirs = []
+
+        for lib_file in self._library_files:
+
+            this_path = self._get_path(self._library_paths, lib_file)
+
+            if this_path is None:
+
+                raise Exception("Can't find library path for %s, can't build extension\n" % lib_file)
+
+            else:
+
+                if not this_path in library_dirs:
+
+                    library_dirs.append(this_path)
+
+                    
+        return library_dirs
+
+
+    def get_include_dirs(self):
+
+        include_dirs = []
+
+        for inc_file in self._include_files:
+
+            this_path = self._get_path(self._include_paths, inc_file)
+
+            if this_path is None:
+
+                raise Exception("Can't find path to headers for %s, can't build extension\n", inc_file)
+
+            else:
+
+                if not this_path in include_dirs:
+
+                    include_dirs.append(this_path)
+
+        return include_dirs
+
+                
+
+                
+        return ["../../..", "../../../hierarchy/output/symbols", ]
+
+
+    def _get_path(self, dirs, file):
+        """
+        helper method, picks which path the given file is in and returns it.
+        None if not found. 
+        """
+        
+        for d in dirs:
+
+            full_path = os.path.join(d, file)
+            
+            if os.path.isfile(full_path):
+
+                return d
+
+        return None
+
+    
+    def _in_path(self, dirs, file):
+
+        for d in dirs:
+
+            full_path = os.path.join(d, file)
+            
+            if os.path.isfile(full_path):
+
+                return True
+
+        return False
+
+
+    def get_libraries(self):
+
+        return ["neurospacesread", "event_algorithms",
+                "symbol_algorithms", "ncurses", "readline"]
+
+    def get_mac_architectures(self, file):
+        """
+        Returns string identifiers for the architecures present in the
+        given file.
+
+        """
+        lipo_output = getoutput("lipo -info %s" % file)
+
+        if re.search("can't figure out the architecture type of", lipo_output) or re.search("can't open input file", lipo_output):
+            
+            return None
+
+        else:
+            
+            arches = lipo_output.split(':')[-1]
+
+            return arches.split()
+
+#-------------------------------------------------------------------------------
 NAME = cbi.GetPackageName()
 VERSION = cbi.GetVersion()
 AUTHOR = cbi.__author__
@@ -120,6 +270,10 @@ OPTIONS={
         'formats': ['gztar','zip'],
         'force_manifest': True,
         },
+    'bdist_mpkg': {
+        'zipdist': True,
+
+        }
     }
 
 PLATFORMS=["Unix", "Lunix", "MacOS X"]
@@ -136,6 +290,60 @@ else:
 
 #-------------------------------------------------------------------------------
 
+
+home_dir = os.getenv('USERPROFILE') or os.getenv('HOME')
+
+_developer_dir = os.path.join(home_dir,
+                             'neurospaces_project',
+                             'heccer',
+                             'source',
+                             'snapshots',
+                             '0'
+                             )
+
+_model_container_developer_dir = os.path.join(home_dir,
+                                              'neurospaces_project',
+                                              'model-container',
+                                              'source',
+                                              'snapshots',
+                                              '0'
+                                              )
+
+_library_files = ["libheccer.a", "libhneurospaces.a", "libneurospacesread.a",
+                  "libsymbol_algorithms.a" , "libevent_algorithms.a"]
+_library_paths = [_developer_dir,
+                  _model_container_developer_dir,
+                  os.path.join(_developer_dir, 'integrators'),
+                  os.path.join(_model_container_developer_dir, 'algorithms', 'symbol'),
+                  os.path.join(_model_container_developer_dir, 'algorithms', 'event'),
+                  "../../..",
+                  "../../../algorithms/symbol/",
+                  "../../../algorithms/event/",
+                  "../../../integrators",
+                  "/usr/local/lib/model-container"]
+
+_include_files = ["heccer/heccer.h","all_callees_headers.h", "neurospaces/neurospaces.h"]
+_include_paths = [_developer_dir,
+                  _model_container_developer_dir,
+                  os.path.join(_model_container_developer_dir, 'hierarchy','output' ,'symbols'),
+                  os.path.join(_model_container_developer_dir, 'algorithms', 'symbol'),
+                  "../../..",
+                  "./../../../hierarchy/output/symbols/",
+                  "/usr/local/neurospaces/instrumentor",
+                  "/usr/local/include/model-container/" ]
+
+heccer_module=HeccerModule(library_paths=_library_paths,
+                     library_files=_library_files,
+                     include_paths=_include_paths,
+                     include_files=_include_files)
+
+EXT_MODULES=[
+    heccer_module,
+    ]
+
+#-------------------------------------------------------------------------------
+
+
 setup(
     name=NAME,
     version=VERSION,
@@ -145,6 +353,7 @@ setup(
 #    data_files=DATA_FILES,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    ext_modules=EXT_MODULES,
     license=LICENSE,
     keywords=KEYWORDS,
     url=URL,
@@ -154,6 +363,5 @@ setup(
     classifiers=CLASSIFIERS,
     options=OPTIONS,
     platforms=PLATFORMS,
-    setup_requires=['g3'],
 )
 
