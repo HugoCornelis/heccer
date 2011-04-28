@@ -13,7 +13,7 @@ add_package_path("heccer")
 
 
 
-from heccer import HeccerOptions
+from neurospaces.heccer import HeccerOptions
 
 
 ho = HeccerOptions()

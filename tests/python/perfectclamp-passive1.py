@@ -12,14 +12,14 @@ add_package_path("heccer")
 add_package_path("experiment")
 
 
-from heccer import Heccer
-from heccer import Compartment
-from heccer import Intermediary
+from neurospaces.heccer import Heccer
+from neurospaces.heccer import Compartment
+from neurospaces.heccer import Intermediary
 
 
-from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX
-from heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
-from heccer.heccer_base import HECCER_DUMP_VM_MECHANISM_OPERATIONS
+from neurospaces.heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX
+from neurospaces.heccer.heccer_base import HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
+from neurospaces.heccer.heccer_base import HECCER_DUMP_VM_MECHANISM_OPERATIONS
 
 HECCER_TESTED_THINGS=1245184
 

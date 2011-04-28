@@ -13,9 +13,9 @@ sys.path.append(python_path)
 
 
 print "Importing heccer_base"
-import g3.heccer.heccer_base
+import neurospaces.heccer.heccer_base
 
 print "Importing Heccer"
-import g3.heccer
+import neurospaces.heccer
 
 print "Done!"

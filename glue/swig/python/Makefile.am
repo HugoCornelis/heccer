@@ -18,25 +18,22 @@
 
 SUBDIRS = 
 
-# The nmc module is installed under the g3 module from the developer
-# package. Since it comes first in the user workflow, it should 
-# be installed first.
-pythondir = $(prefix)/glue/swig/python/g3
+pythondir = $(prefix)/glue/swig/python/
 
 nobase_python_HEADERS = \
-	heccer/__init__.py \
-	heccer/__cbi__.py \
-	heccer/errors.py
+	neurospaces/heccer/__init__.py \
+	neurospaces/heccer/__cbi__.py \
+	neurospaces/heccer/errors.py
 
 nobase_python_DATA = \
-	heccer/_heccer_base.so \
-	heccer/heccer_base.py
+	neurospaces/heccer/_heccer_base.so \
+	neurospaces/heccer/heccer_base.py
 
 EXTRA_DIST = \
 	$(srcdir)/heccer.i 
 
 BUILT_SOURCES = \
-	heccer/heccer_base.py \
+	neurospaces/heccer/heccer_base.py \
 	heccer_wrap.c
 
 
@@ -46,8 +43,8 @@ BUILT_SOURCES = \
 heccer_wrap.o: heccer_wrap.c
 	gcc $(SWIGCOMPILELINKSFORPYTHON) -c $(srcdir)/heccer_wrap.c
 
-heccer_wrap.c ./heccer/heccer_base.py: 
-	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/heccer -o heccer_wrap.c $(srcdir)/heccer.i
+heccer_wrap.c ./neurospaces/heccer/heccer_base.py: 
+	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/neurospaces/heccer -o heccer_wrap.c $(srcdir)/heccer.i
 
 _heccer_base.so: heccer_wrap.o
 	$(HECCER_SWIGLINKCOMMAND_PYTHON)
@@ -69,9 +66,9 @@ clean-local:
 	$(RM) -rf $(srcdir)/dist/
 
 CLEANFILES = \
-	$(srcdir)/heccer_wrap.c \
-	$(srcdir)/heccer_wrap.o \
-	$(srcdir)/heccer/_heccer_base.so \
-	$(srcdir)/heccer/heccer_base.py 
+	$(srcdir)/neurospaces/heccer_wrap.c \
+	$(srcdir)/neurospaces/heccer_wrap.o \
+	$(srcdir)/neurospaces/heccer/_heccer_base.so \
+	$(srcdir)/neurospaces/heccer/heccer_base.py 
 
 
