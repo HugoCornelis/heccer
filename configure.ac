@@ -532,7 +532,7 @@ case "$host_os" in
     SWIGLINKCOMMAND_PYTHON='gcc -shared swiggable_heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
     AC_SUBST(SWIGLINKCOMMAND_PYTHON)
 
-    HECCER_SWIGLINKCOMMAND_PYTHON='gcc -shared heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/heccer/_heccer_base.so'
+    HECCER_SWIGLINKCOMMAND_PYTHON='gcc -shared heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o $(srcdir)/neurospaces/heccer/_heccer_base.so'
     AC_SUBST(HECCER_SWIGLINKCOMMAND_PYTHON)
     dnl }}} End of General Settings
 
