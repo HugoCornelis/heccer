@@ -13,7 +13,7 @@ from distutils.command.install_data import install_data
 # import the cbi module. We use this since the check
 # for the compiled swig nmc_base gives an error
 # if we import from nmc.__cbi__
-cbi = imp.load_source('__cbi__', './heccer/__cbi__.py')
+cbi = imp.load_source('__cbi__', './neurospaces/heccer/__cbi__.py')
 
 
 #-------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ class HeccerModule(Extension):
         self._include_files = include_files
         self._include_paths = include_paths
 
-        self.name = "heccer._heccer_base"
+        self.name = "neurospaces.heccer._heccer_base"
         self.sources = ["heccer.i"]
         self.swig_opts = self.get_swig_opts()
         self.extra_compile_args = self.get_extra_compile_args()
@@ -263,7 +263,7 @@ CLASSIFIERS = [
     'Topic :: Research :: Neuroscience',
 ]
 
-PACKAGE_FILES=find_files('heccer')
+PACKAGE_FILES=find_files('neurospaces/heccer')
 
 OPTIONS={
     'sdist': {
@@ -278,7 +278,7 @@ OPTIONS={
 
 PLATFORMS=["Unix", "Lunix", "MacOS X"]
 
-PY_MODULES=['heccer']
+PY_MODULES=['neurospaces.heccer']
 
 
 CMDCLASS = None
@@ -357,8 +357,8 @@ setup(
     license=LICENSE,
     keywords=KEYWORDS,
     url=URL,
-    packages=['heccer'],
-    package_data={'heccer' : PACKAGE_FILES},
+    packages=['neurospaces.heccer'],
+    package_data={'neurospaces.heccer' : PACKAGE_FILES},
 #     package_dir={'' : ''},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
