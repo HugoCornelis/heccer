@@ -21,7 +21,7 @@ Makefile$
 ^glue/swig/python/SwiggableHeccer.py$
 ^glue/swig/python/swiggable_heccer_wrap.c$
 ^glue/swig/python/heccer_wrap.c$
-^glue/swig/python/heccer/heccer_base.py$
+^glue/swig/python/neurospaces/heccer/heccer_base.py$
 ^glue/swig/python/heccer/_heccer_base.so$
 ^glue/swig/python_old/SwiggableHeccer.py$
 ^glue/swig/python_old/swiggable_heccer_wrap.c$
