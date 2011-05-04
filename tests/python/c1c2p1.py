@@ -13,9 +13,9 @@ add_package_path("heccer")
 
 
 
-from neurospaces.heccer import Heccer
-from neurospaces.heccer import Compartment
-from neurospaces.heccer import Intermediary
+from heccer import Heccer
+from heccer import Compartment
+from heccer import Intermediary
 
 c1 = Compartment()
 
@@ -87,7 +87,7 @@ simulation_time = 0.0
 
 print "-------"
 
-from neurospaces.heccer.heccer_base import HECCER_DUMP_ALL  
+from heccer.heccer_base import HECCER_DUMP_ALL  
 
 HECCER_TESTED_THINGS=HECCER_DUMP_ALL
 
