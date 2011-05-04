@@ -67,7 +67,7 @@ my_heccer.CompileAll()
 
 # Create the perfect clamp and connect it
 # to a solved variable.
-from experiment.perfectclamp import PerfectClamp
+from neurospaces.experiment.perfectclamp import PerfectClamp
 
 perfect_clamp = PerfectClamp("pc object")
 
