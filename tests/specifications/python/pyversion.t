@@ -13,11 +13,11 @@ my $test
 				command => 'tests/python/getversion.py',
 				command_tests => [
 						  {
-						   # $Format: "description => \"Does the version information match with ${package}-${label} ?\","$
-description => "Does the version information match with heccer-alpha ?",
+# $Format: "description => \"Does the version information match with ${major}.${minor}.${micro}-${label} ?\","$
+description => "Does the version information match with 0.0.0-alpha ?",
 
-						   # $Format: "read => \"${package}-${label}\","$
-read => "heccer-alpha",
+# $Format: "read => \"${major}.${minor}.${micro}-${label}\","$
+read => "0.0.0-alpha",
 
 						   write => "version",
 						  },

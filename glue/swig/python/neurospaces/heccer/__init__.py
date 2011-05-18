@@ -17,6 +17,7 @@ import pdb
 import sys
 
 # User imports
+import __cbi__
 import errors
 
 try:
@@ -29,7 +30,7 @@ except ImportError, e:
 
 def GetVersion():
 
-    return heccer_base.HeccerGetVersion()
+    return __cbi__.GetVersion()
 
 
 

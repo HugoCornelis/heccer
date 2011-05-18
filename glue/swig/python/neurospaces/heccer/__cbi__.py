@@ -33,7 +33,7 @@ __download_url__ = "http://repo-genesis3.cbi.utsa.edu"
 
 def GetRevisionInfo():
 # $Format: "    return \"${monotone_id}\""$
-    return "8335b69594124acbf360a8fb08b74569c8c048b4"
+    return "e27aaa47d951dcc19bdd4ba31cf6e65d637d2355"
 
 
 def GetPackageName():
