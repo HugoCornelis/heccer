@@ -258,7 +258,7 @@ HeccerCommandInfoLookup
 /// 
 ///	success of operation.
 /// 
-/// \brief Dump VM functions.
+/// \brief Dump selected VM operations.
 /// 
 
 int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
@@ -378,6 +378,26 @@ int HeccerVMDump(struct VM *pvm, FILE *pfile, int iSelection)
     //- return result
 
     return(iResult);
+}
+
+
+/// 
+/// \arg pvm heccer vm.
+/// \arg pfile stdio file.
+/// \arg iSelection selection to dump.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Dump compartment VM operations.
+/// 
+
+int HeccerVMDumpOperations(struct VM *pvm, FILE *pfile, int iSelection)
+{
+    //- return result
+
+    return(HeccerVMDump(pvm, pfile ? pfile : stdout, HECCER_DUMP_VM_COMPARTMENT_OPERATIONS | HECCER_DUMP_VM_MECHANISM_OPERATIONS | iSelection));
 }
 
 

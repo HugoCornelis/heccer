@@ -1080,6 +1080,10 @@ struct MopsAggregateCurrent
 
 
 int
+HeccerVMDumpOperations
+(struct VM *pvm, FILE *pfile, int iSelection);
+
+int
 HeccerVMDump
 (struct VM *pvm, FILE *pfile, int iSelection);
 
