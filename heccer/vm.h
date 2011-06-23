@@ -284,9 +284,6 @@ struct MopsSpringMass
 
     int iTable;
 
-    /// random activation frequency
-
-    double dFrequency;
 };
 
 struct MatsSpringMass
@@ -300,9 +297,13 @@ struct MatsSpringMass
     double dX;
     double dY;
 /*     double dZ; */
+
+    /// random activation frequency
+
+    double dFrequency;
 };
 
-#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,pdE,iDT,iT,dF) \
+#define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,pdE,iDT,iT) \
     ((pvMops)								\
      ? ({ struct MopsSpringMass *pmops = (struct MopsSpringMass *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_SPRINGMASS;			\
@@ -310,7 +311,6 @@ struct MatsSpringMass
 	     pmops->pdEvents = (pdE) ;					\
 	     pmops->iDiscreteTarget = (iDT) ;				\
 	     pmops->iTable = (iT) ;					\
-	     pmops->dFrequency = (dF) ;					\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
 	     (pvMops) = (void *)&pmops[1];				\
 	     1;								\
@@ -323,12 +323,13 @@ struct MatsSpringMass
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dInitX,dInitY,dNE) \
+#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dInitX,dInitY,dNE,dF) \
     ((pdMats)								\
      ? ({ struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats ; \
 	     pmats->dX = (dInitX) ;					\
 	     pmats->dY = (dInitY) ;					\
 	     pmats->dNextEvent = (dNE) ;				\
+	     pmats->dFrequency = (dF) ;					\
 	     ppdMatsIndex[iMatNumber++] = pdMats;			\
 	     pdMats = (void *)&((struct MatsSpringMass *)pdMats)[1] ;	\
 	     1;								\

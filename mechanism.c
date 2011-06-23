@@ -593,11 +593,11 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 #endif
 
-		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteTarget, pcsm->iTable, pheccer->dStep * pcsm->dFrequency);
+		    SETMOP_SPRINGMASS(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsm->pdEventTimes, iDiscreteTarget, pcsm->iTable);
 
 		    double dNextEvent = -1.0;
 
-		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent);
+		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent, pheccer->dStep * pcsm->dFrequency);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -4332,7 +4332,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 
 		//- if the firing frequency has been set
 
-		if (pmops->dFrequency > 0)
+		if (pmats->dFrequency > 0)
 		{
 		    //- generate random number
 
@@ -4340,7 +4340,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 
 		    //- check generated number with firing frequency
 
-		    if (iRandom < RAND_MAX * pmops->dFrequency)
+		    if (iRandom < RAND_MAX * pmats->dFrequency)
 		    {
 			//- add one to the activation, and apply decay
 

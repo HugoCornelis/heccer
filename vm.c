@@ -610,11 +610,11 @@ HeccerVMDumpOperators
 			    if (pmops->pdEvents
 				&& pmops->pdEvents[0])
 			    {
-				sprintf(pc, " %i %g %i %i %g", pmops->iEvent, pmops->pdEvents[pmops->iEvent], pmops->iDiscreteTarget, pmops->iTable, pmops->dFrequency);
+				sprintf(pc, " %i %g %i %i", pmops->iEvent, pmops->pdEvents[pmops->iEvent], pmops->iDiscreteTarget, pmops->iTable);
 			    }
 			    else
 			    {
-				sprintf(pc, " %i (nil) %i %i %g", pmops->iEvent, pmops->iDiscreteTarget, pmops->iTable, pmops->dFrequency);
+				sprintf(pc, " %i (nil) %i %i", pmops->iEvent, pmops->iDiscreteTarget, pmops->iTable);
 			    }
 			}
 			else if (phciCurrent->iValue == HECCER_MOP_EVENTGENERATE)

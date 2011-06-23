@@ -179,7 +179,7 @@ struct ChannelSpringMass csm =
 
     //m random activation frequency
 
-    0.0,
+    0.0001,
 
     //m first exponential initial value
 
@@ -354,6 +354,8 @@ int main(int argc, char *argv[])
 
     double *pdNextEventExternal = HeccerAddressVariable(pheccer, 2000, "next_event");
 
+/*     double *pdFrequencyExternal = HeccerAddressVariable(pheccer, 2000, "FREQUENCY"); */
+
 #endif
 
     //- address variables via the internal indices
@@ -363,6 +365,8 @@ int main(int argc, char *argv[])
     double *pdActivationInternal = HeccerAddressMechanismVariable(pheccer, 0, "activation");
 
     double *pdNextEventInternal = HeccerAddressVariable(pheccer, 2000, "next_event");
+
+/*     double *pdFrequencyInternal = HeccerAddressMechanismVariable(pheccer, 2000, "FREQUENCY"); */
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
@@ -387,6 +391,13 @@ int main(int argc, char *argv[])
 	exit(EXIT_FAILURE);
     }
 
+/*     if (pdFrequencyExternal != pdFrequencyInternal) */
+/*     { */
+/* 	fprintf(stdout, "*** Error: (pdFrequencyExternal != pdFrequencyInternal)\n"); */
+
+/* 	exit(EXIT_FAILURE); */
+/*     } */
+
 #endif
 
     fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
@@ -394,6 +405,8 @@ int main(int argc, char *argv[])
     fprintf(stdout, "Activation state is %g\n", pdActivationInternal[0]);
 
     fprintf(stdout, "next event time is %g\n", pdNextEventInternal[0]);
+
+/*     fprintf(stdout, "activation frequency is %g\n", pdFrequencyInternal[0]); */
 
     //- return result
 
