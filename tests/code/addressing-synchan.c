@@ -354,7 +354,7 @@ int main(int argc, char *argv[])
 
     double *pdNextEventExternal = HeccerAddressVariable(pheccer, 2000, "next_event");
 
-/*     double *pdFrequencyExternal = HeccerAddressVariable(pheccer, 2000, "FREQUENCY"); */
+    double *pdFrequencyExternal = HeccerAddressVariable(pheccer, 2000, "FREQUENCY");
 
 #endif
 
@@ -366,7 +366,7 @@ int main(int argc, char *argv[])
 
     double *pdNextEventInternal = HeccerAddressVariable(pheccer, 2000, "next_event");
 
-/*     double *pdFrequencyInternal = HeccerAddressMechanismVariable(pheccer, 2000, "FREQUENCY"); */
+    double *pdFrequencyInternal = HeccerAddressMechanismVariable(pheccer, 0, "FREQUENCY");
 
 #ifdef HECCER_SOURCE_NEUROSPACES
 
@@ -391,12 +391,12 @@ int main(int argc, char *argv[])
 	exit(EXIT_FAILURE);
     }
 
-/*     if (pdFrequencyExternal != pdFrequencyInternal) */
-/*     { */
-/* 	fprintf(stdout, "*** Error: (pdFrequencyExternal != pdFrequencyInternal)\n"); */
+    if (pdFrequencyExternal != pdFrequencyInternal)
+    {
+	fprintf(stdout, "*** Error: (pdFrequencyExternal != pdFrequencyInternal)\n");
 
-/* 	exit(EXIT_FAILURE); */
-/*     } */
+	exit(EXIT_FAILURE);
+    }
 
 #endif
 
@@ -406,7 +406,7 @@ int main(int argc, char *argv[])
 
     fprintf(stdout, "next event time is %g\n", pdNextEventInternal[0]);
 
-/*     fprintf(stdout, "activation frequency is %g\n", pdFrequencyInternal[0]); */
+    fprintf(stdout, "activation frequency is %g\n", pdFrequencyInternal[0]);
 
     //- return result
 

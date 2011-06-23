@@ -376,7 +376,7 @@ HeccerAddressMechanismVariable
     struct field_2_operator pF2P[] =
     {
 	{	"Ca",		0,	0, },
-	{	"FREQUENCY",	0,	0, },
+	{	"FREQUENCY",	0,	3, },
 	{	"G",		0,	0, },
 	{	"I",		0,	1, },
 	{	"activation",	0,	1, },
