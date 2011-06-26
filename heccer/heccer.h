@@ -171,8 +171,8 @@ struct simobj_Heccer
 {
     /// name of this heccer
 
-    /// \note if the name of a heccer is a system wide id depends on the
-    /// environment, heccer does not (and cannot) enforce it.
+    /// \note whether the name of a heccer is a system wide id depends
+    /// on the environment, heccer does not (and cannot) enforce it.
 
     char *pcName;
 
@@ -279,7 +279,7 @@ struct simobj_Heccer
 
 #define HECCER_STATUS_PHASE_4		40
 
-/// \def heccs have been done, further status unknown
+/// \def heccs have been done
 
 #define HECCER_STATUS_PHASE_5		50
 
