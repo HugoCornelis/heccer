@@ -66,6 +66,10 @@ clean-local:
 	$(RM) -rf $(srcdir)/dist/
 
 CLEANFILES = \
+	$(srcdir)/heccer_wrap.c \
+	$(srcdir)/heccer_wrap.o \
+	$(srcdir)/_heccer_base.so \
+	$(srcdir)/heccer_base.py \
 	$(srcdir)/neurospaces/heccer_wrap.c \
 	$(srcdir)/neurospaces/heccer_wrap.o \
 	$(srcdir)/neurospaces/heccer/_heccer_base.so \

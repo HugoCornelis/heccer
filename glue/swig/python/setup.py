@@ -46,6 +46,31 @@ def read(fname):
 
 #-------------------------------------------------------------------------------
 
+# borrowed from Pysco's setup.py
+
+class ProcessorAutodetectError(Exception):
+     pass
+def autodetect():
+     platform = sys.platform.lower()
+     if platform.startswith('win'):   # assume an Intel Windows
+         return 'i386'
+     # assume we have 'uname'
+     mach = os.popen('uname -m', 'r').read().strip()
+     if not mach:
+         raise ProcessorAutodetectError, "cannot run 'uname -m'"
+     try:
+         return {'i386': 'i386',
+                 'i486': 'i386',
+                 'i586': 'i386',
+                 'i686': 'i386',
+                 'i86pc': 'i386',    # Solaris/Intel
+                 'x86':   'i386',    # Apple
+                 }[mach]
+     except KeyError:
+         raise ProcessorAutodetectError, "unsupported processor '%s'" % mach
+     
+#-------------------------------------------------------------------------------
+
 
 # This is borrowed from django's setup tools
 def fullsplit(path, result=None):
@@ -103,7 +128,14 @@ class HeccerModule(Extension):
                 include_files=None, include_paths=None):
 
 
+        if sys.platform == "darwin":
 
+            arch = autodetect()
+            
+            if arch == 'i386':
+
+                os.environ['ARCHFLAGS'] = "-arch i386"
+                
         self._library_files = library_files
         self._library_paths = library_paths
 
@@ -125,13 +157,25 @@ class HeccerModule(Extension):
                            include_dirs=self.get_include_dirs(),
                            libraries=self.get_libraries()
                            )
+        
+#     def __del__(self):
+#         # Need this in order to make sure the heccer base python module
+#         # is copied to the same place as the build binary.
+#         import shutil
+#         shutil.copy2(os.path.join(os.environ['HOME'],
+#                                   'neurospaces_project', 'heccer',
+#                                   'source', 'snapshots', '0',
+#                                   'glue', 'swig', 'python', 'heccer_base.py'),
+#                      os.path.join('neurospaces', 'heccer'))
+#         pdb.set_trace()
+        
     def get_extra_compile_args(self):
 
         return []
 
     def get_swig_opts(self):
 
-        return ["-I../../.."]
+        return ["-I../../.. -outdir neurospaces/heccer"]
 
     def get_library_dirs(self):
 
@@ -263,7 +307,7 @@ CLASSIFIERS = [
     'Topic :: Research :: Neuroscience',
 ]
 
-PACKAGE_FILES=find_files('neurospaces/heccer')
+PACKAGE_FILES=find_files(os.path.join('neurospaces', 'heccer'))
 
 OPTIONS={
     'sdist': {
