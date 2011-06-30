@@ -6,6 +6,7 @@ from commands import getoutput
 
 from distutils import log
 from distutils.core import setup, Extension
+from distutils.command.bdist_rpm import bdist_rpm
 from distutils.command.install_data import install_data
 
 #from setuptools import setup, find_packages
@@ -13,7 +14,7 @@ from distutils.command.install_data import install_data
 # import the cbi module. We use this since the check
 # for the compiled swig nmc_base gives an error
 # if we import from nmc.__cbi__
-cbi = imp.load_source('__cbi__', './neurospaces/heccer/__cbi__.py')
+cbi = imp.load_source('__cbi__', os.path.join('neurospaces', 'heccer', '__cbi__.py'))
 
 
 #-------------------------------------------------------------------------------
@@ -278,6 +279,7 @@ class HeccerModule(Extension):
 
             return arches.split()
 
+
 #-------------------------------------------------------------------------------
 NAME = cbi.GetPackageName()
 VERSION = cbi.GetVersion()
@@ -325,7 +327,13 @@ PLATFORMS=["Unix", "Lunix", "MacOS X"]
 PY_MODULES=['neurospaces.heccer']
 
 
-CMDCLASS = None
+CMDCLASS = {
+#    'build_ext': build_ext,
+    'bdist_rpm': bdist_rpm,
+#    'bdist_mpkg': bdist_mpkg,
+#    'test': test,
+    }
+
 if sys.platform == "darwin": 
     CMDCLASS = {'install_data': osx_install_data} 
 else: 
@@ -387,7 +395,6 @@ EXT_MODULES=[
 
 #-------------------------------------------------------------------------------
 
-
 setup(
     name=NAME,
     version=VERSION,
@@ -401,8 +408,9 @@ setup(
     license=LICENSE,
     keywords=KEYWORDS,
     url=URL,
-    packages=['neurospaces.heccer'],
-    package_data={'neurospaces.heccer' : PACKAGE_FILES},
+    packages=['neurospaces', 'neurospaces.heccer'],
+    package_data={'neurospaces' : [os.path.join('neurospaces','__init__.py')],
+                  'neurospaces.heccer' : PACKAGE_FILES},
 #     package_dir={'' : ''},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
