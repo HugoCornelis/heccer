@@ -73,7 +73,6 @@ def add_package_path(package):
                 python_build = os.path.join(os.sep, os.path.join(*parts))
                 sys.path.append(python_build)
 
-    pdb.set_trace()
     # Add paths
     sys.path.append(path)
 

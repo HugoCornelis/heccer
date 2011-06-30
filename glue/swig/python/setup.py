@@ -175,7 +175,7 @@ class HeccerModule(Extension):
 
     def get_swig_opts(self):
 
-        return [ '-I../../..', '-outdir', 'neurospaces/heccer']
+        return [ '-I../../..', '-outdir', os.path.join('neurospaces', 'heccer')]
 
     def get_library_dirs(self):
 
