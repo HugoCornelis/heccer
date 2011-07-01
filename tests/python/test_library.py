@@ -51,7 +51,8 @@ def add_package_path(package):
                         '0',
                         'glue',
                         'swig',
-                        'python')
+                        'python',
+                        'neurospaces')
 
 
     build_dir = os.path.join(path, 'build')
