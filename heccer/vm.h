@@ -129,6 +129,8 @@ struct VM
 
     double **ppdMatsIndex;
 
+    /// all aggregators: derived variables not directly available from a model's viewpoint
+
     /// aggregate currents etc.
 
     int iAggregators;
