@@ -20,6 +20,9 @@
 #define HECCER_EVENT_DISTRIBUTOR_H
 
 
+#include <stdio.h>
+
+
 /*! \mainpage DES -- Neurospaces Discrete Event System for Neural
  *  Network Simulations.
  *
