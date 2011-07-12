@@ -541,6 +541,69 @@ class Heccer:
 
 #---------------------------------------------------------------------------
 
+    def SetParameter(self, path, field, value):
+        """!
+        @brief Returns the Heccer Address variable
+        """
+        address = None
+        
+        if self.GetCore() is None:
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+        elif self._model_source is None:
+
+            from errors import HeccerAddressError
+            
+            raise HeccerAddressError(path, field)
+
+        else:
+
+            serial = self._model_source.GetSerial(path)
+
+            result_msg = heccer_base.HeccerAddressableSet(self.GetCore(), serial,
+                                                          field, value)
+
+            if not result_msg:
+
+                raise Exception(result_msg)
+            
+
+#---------------------------------------------------------------------------
+
+    def GetParameter(self, path, field):
+        """!
+        @brief Returns the Heccer Address variable
+        """
+        address = None
+        
+        if self.GetCore() is None:
+
+
+            from errors import HeccerNotAllocatedError
+
+            raise HeccerNotAllocatedError()
+
+        elif self._model_source is None:
+
+            from errors import HeccerAddressError
+            
+            raise HeccerAddressError(path, field)
+
+        else:
+
+            serial = self._model_source.GetSerial(path)
+
+
+            value = heccer_base.HeccerAddressGetValue(self.GetCore(), serial, field)
+        
+        return value
+
+
+#---------------------------------------------------------------------------
+
     def GetCompartmentAddress(self, intermediary=-1, field="Vm"):
 
         """!
@@ -646,6 +709,7 @@ class Heccer:
 
             raise HeccerOptionsError("Heccer Options are not allocated")
 
+#---------------------------------------------------------------------------  
 
     def GetIntervalEntries(self):
 
