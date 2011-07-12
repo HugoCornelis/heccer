@@ -565,12 +565,13 @@ class Heccer:
 
             result_msg = heccer_base.HeccerAddressableSet(self.GetCore(), serial,
                                                           field, value)
-
-            if not result_msg:
+            if not result_msg is None:
 
                 raise Exception(result_msg)
             
 
+            return True
+        
 #---------------------------------------------------------------------------
 
     def GetParameter(self, path, field):
