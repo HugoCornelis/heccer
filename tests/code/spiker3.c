@@ -1308,7 +1308,7 @@ int simulate(int argc, char *argv[])
 
     struct EventDistributor *ped = EventDistributorNew(&edd);
 
-    struct DES des =
+    struct simobj_DES des =
 	{
 	    /// name of this des system
 

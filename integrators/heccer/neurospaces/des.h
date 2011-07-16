@@ -29,7 +29,7 @@
 #include "heccer/des.h"
 
 
-int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQuery *ppq);
+int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct ProjectionQuery *ppq);
 
 
 #endif

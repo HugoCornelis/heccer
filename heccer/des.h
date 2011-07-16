@@ -200,7 +200,7 @@ struct EventQueuer
 /// \struct all the event distributors and queuers that connect the
 /// solvers.
 
-struct DES
+struct simobj_DES
 {
     /// name of this des system
 
@@ -236,9 +236,9 @@ struct DES
 };
 
 
-int DESDumpV(struct DES *pdes);
+int DESDumpV(struct simobj_DES *pdes);
 
-int DESDump(struct DES *pdes, FILE *pfile, int iSelection);
+int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection);
 
 #define DES_DUMP_ALL (0xffffffff & ~(DES_DUMP_SERVICE))
 
@@ -253,11 +253,11 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection);
 #define DES_DUMP_QUEUER_MATRIX					(1 << 14)
 
 
-struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial);
+struct EventDistributor *DESGetDistributor(struct simobj_DES *pdes, int iSerial);
 
-struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore);
+struct EventQueuer *DESGetQueuer(struct simobj_DES *pdes, int iCore);
 
-struct DES *DESNew(int iHappy);
+struct simobj_DES *DESNew(int iHappy);
 
 
 int

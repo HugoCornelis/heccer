@@ -92,12 +92,12 @@
 ///	those items to, while DES_DUMP_ALL_REDUCED selects less.
 /// 
 
-int DESDumpV(struct DES *pdes)
+int DESDumpV(struct simobj_DES *pdes)
 {
     return(DESDump(pdes, stdout, DES_DUMP_ALL));
 }
 
-int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
+int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection)
 {
     //- check for errors
 
@@ -211,7 +211,7 @@ int DESDump(struct DES *pdes, FILE *pfile, int iSelection)
 /// \brief Get access to the event distributor for this serial.
 /// 
 
-struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial)
+struct EventDistributor *DESGetDistributor(struct simobj_DES *pdes, int iSerial)
 {
     //- set default result: not found
 
@@ -255,7 +255,7 @@ struct EventDistributor *DESGetDistributor(struct DES *pdes, int iSerial)
 /// \brief Get access to the event queuer for this CPU core.
 /// 
 
-struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore)
+struct EventQueuer *DESGetQueuer(struct simobj_DES *pdes, int iCore)
 {
     //- set result: from the queuer array
 
@@ -268,18 +268,18 @@ struct EventQueuer *DESGetQueuer(struct DES *pdes, int iCore)
 
 
 /// 
-/// \return struct DES *
+/// \return struct simobj_DES *
 /// 
 ///	Empty connectivity system between solvers.
 /// 
 /// \brief Create a new connectivity system between solvers.
 /// 
 
-struct DES *DESNew(int iHappy)
+struct simobj_DES *DESNew(int iHappy)
 {
     //- set default result: new des system
 
-    struct DES *pdesResult = (struct DES *)calloc(1, sizeof(struct DES));
+    struct simobj_DES *pdesResult = (struct simobj_DES *)calloc(1, sizeof(struct simobj_DES));
 
     if (!pdesResult)
     {

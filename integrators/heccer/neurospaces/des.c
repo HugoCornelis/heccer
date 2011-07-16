@@ -41,7 +41,7 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
 /// solvers.
 /// 
 
-int DESConnect(struct DES *pdes, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
+int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct ProjectionQuery *ppq)
 {
     //- allocate an array for registration of event distributors
 
