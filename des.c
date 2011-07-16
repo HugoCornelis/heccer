@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <experiment/output.h>
+/* #include <experiment/output.h> */
 
 #include "heccer/event.h"
 #include "heccer/des.h"

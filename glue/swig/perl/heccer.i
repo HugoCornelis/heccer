@@ -167,13 +167,13 @@ void * heccer_get_driver_method(struct simobj_Heccer *pheccer)
 }
 
 
-void * des_get_driver_data(struct DES *pdes)
+void * des_get_driver_data(struct simobj_DES *pdes)
 {
     return((void *)pdes->ppeq[0]);
 }
 
 
-void * des_get_driver_method(struct DES *pdes)
+void * des_get_driver_method(struct simobj_DES *pdes)
 {
     return((void *)EventQueuerProcess);
 }
