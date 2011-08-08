@@ -31,24 +31,26 @@ Heccer has been validated with a Purkinje cell model and produces an exact match
 """
 __download_url__ = "http://repo-genesis3.cbi.utsa.edu"
 
-def GetRevisionInfo():
-# $Format: "    return \"${monotone_id}\""$
-    return "e27aaa47d951dcc19bdd4ba31cf6e65d637d2355"
+class PackageInfo:
+    
+    def GetRevisionInfo():
+# $Format: "        return \"${monotone_id}\""$
+        return "b7c5c32cb381e48e57c8383aa8574b40f0aab342"
 
+    def GetName():
+# $Format: "        return \"${package}\""$
+        return "heccer"
 
-def GetPackageName():
-# $Format: "    return \"${package}\""$
-    return "heccer"
+    def GetVersion():
+# $Format: "        return \"${major}.${minor}.${micro}-${label}\""$
+        return "0.0.0-alpha"
 
-def GetVersion():
-# $Format: "    return \"${major}.${minor}.${micro}-${label}\""$
-    return "0.0.0-alpha"
+    def GetDependencies():
+        """!
+        @brief Provides a list of other CBI dependencies needed.
+        """
+        dependencies = []
+        
+        return dependencies
 
-def GetDependencies():
-    """!
-    @brief Provides a list of other CBI dependencies needed.
-    """
-    dependencies = []
-
-    return dependencies
 
