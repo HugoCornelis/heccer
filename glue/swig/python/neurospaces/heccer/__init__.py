@@ -17,7 +17,7 @@ import pdb
 import sys
 
 # User imports
-import __cbi__
+from __cbi__ import PackageInfo
 import errors
 
 try:
@@ -28,9 +28,13 @@ except ImportError, e:
     sys.exit("Could not import compiled SWIG heccer_base library: %s" % e)
 
 
+_package_info = PackageInfo()
+
+
+
 def GetVersion():
 
-    return __cbi__.GetVersion()
+    return _package_info.GetVersion()
 
 
 
