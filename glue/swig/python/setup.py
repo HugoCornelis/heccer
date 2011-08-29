@@ -16,6 +16,7 @@ from distutils.command.install_data import install_data
 # if we import from nmc.__cbi__
 cbi = imp.load_source('__cbi__', os.path.join('neurospaces', 'heccer', '__cbi__.py'))
 
+_package_info = cbi.PackageInfo()
 
 #-------------------------------------------------------------------------------
 
@@ -281,8 +282,8 @@ class HeccerModule(Extension):
 
 
 #-------------------------------------------------------------------------------
-NAME = cbi.GetPackageName()
-VERSION = cbi.GetVersion()
+NAME = _package_info.GetName()
+VERSION = _package_info.GetVersion()
 AUTHOR = cbi.__author__
 AUTHOR_EMAIL = cbi.__email__
 LICENSE = cbi.__license__
