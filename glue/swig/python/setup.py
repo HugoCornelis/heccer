@@ -126,7 +126,7 @@ class HeccerModule(Extension):
     A class that abstracts methods that detect flags and paths
     for the target machine in a machine independent way. 
     """
-    def __init__(self, library_files=None, library_paths=None,
+    def __init__(self, libraries=None, library_paths=None,
                 include_files=None, include_paths=None):
 
 
@@ -138,7 +138,7 @@ class HeccerModule(Extension):
 
                 os.environ['ARCHFLAGS'] = "-arch i386"
                 
-        self._library_files = library_files
+        self._libraries = libraries
         self._library_paths = library_paths
 
         self._include_files = include_files
@@ -183,7 +183,9 @@ class HeccerModule(Extension):
 
         library_dirs = []
 
-        for lib_file in self._library_files:
+        for lib in self._libraries:
+
+            lib_file = "lib%s.a" % lib
 
             this_path = self._get_path(self._library_paths, lib_file)
 
@@ -221,11 +223,6 @@ class HeccerModule(Extension):
 
         return include_dirs
 
-                
-
-                
-        return ["../../..", "../../../hierarchy/output/symbols", ]
-
 
     def _get_path(self, dirs, file):
         """
@@ -259,8 +256,7 @@ class HeccerModule(Extension):
 
     def get_libraries(self):
 
-        return ["neurospacesread", "event_algorithms",
-                "symbol_algorithms", "ncurses", "readline"]
+        return self._libraries
 
     def get_mac_architectures(self, file):
         """
@@ -362,8 +358,11 @@ _model_container_developer_dir = os.path.join(home_dir,
                                               '0'
                                               )
 
-_library_files = ["libheccer.a", "libhneurospaces.a", "libneurospacesread.a",
-                  "libsymbol_algorithms.a" , "libevent_algorithms.a"]
+_libraries = ["heccer", "neurospacesread", "event_algorithms",
+              "symbol_algorithms", "hneurospaces"]
+
+# ["libheccer.a", "libhneurospaces.a", "libneurospacesread.a",
+#                   "libsymbol_algorithms.a" , "libevent_algorithms.a"]
 _library_paths = [_developer_dir,
                   _model_container_developer_dir,
                   os.path.join(_developer_dir, 'integrators'),
@@ -386,7 +385,7 @@ _include_paths = [_developer_dir,
                   "/usr/local/include/model-container/" ]
 
 heccer_module=HeccerModule(library_paths=_library_paths,
-                     library_files=_library_files,
+                     libraries=_libraries,
                      include_paths=_include_paths,
                      include_files=_include_files)
 

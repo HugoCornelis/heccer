@@ -38,7 +38,7 @@ def fullsplit(path, result=None):
     return fullsplit(head, [tail] + result)
 
 
-def add_package_path(package):
+def add_package_path(package, subdir=''):
     """
     Adds an import path to a python module in a project directory.
     """
@@ -51,15 +51,13 @@ def add_package_path(package):
                         '0',
                         'glue',
                         'swig',
-                        'python',
-                        'neurospaces')
-
+                        'python')
 
     build_dir = os.path.join(path, 'build')
 
     python_build = ""
     parts = []
-    
+
     if os.path.exists(build_dir):
 
         for curr_dir, directories, files in os.walk( build_dir ):
@@ -68,14 +66,17 @@ def add_package_path(package):
 
                 parts = list(fullsplit(curr_dir))
 
-                # remove the module and neurospaces directory
-                parts.pop()
+                parts.pop() # remove the chemesis3 path
+                parts.pop() # remove the neurospaces path
 
                 python_build = os.path.join(os.sep, os.path.join(*parts))
-                sys.path.append(python_build)
+                sys.path.append(os.path.join(python_build, subdir))
 
-    # Add paths
-    sys.path.append(path)
+                return
+
+    # Add this path if we didn't find one previously
+    sys.path.append(os.path.join(path, subdir))
+
 
 
 

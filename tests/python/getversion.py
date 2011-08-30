@@ -11,7 +11,7 @@ from test_library import add_package_path
 add_package_path("heccer")
 
 
-from heccer import GetVersion
+from neurospaces.heccer import GetVersion
 
 version = GetVersion()
 

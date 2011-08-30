@@ -15,55 +15,23 @@
 ##'
 ##############################################################################
 
+setup: setup.py
+	$(PYTHON) setup.py build
+	$(PYTHON) setup.py build_py
 
-SUBDIRS = 
+install-exec-hook:
+	$(PYTHON) setup.py install
 
-pythondir = $(prefix)/glue/swig/python/
+uninstall-hook:
+	$(PYTHON) uninstall.py
 
-nobase_python_HEADERS = \
-	neurospaces/heccer/__init__.py \
-	neurospaces/heccer/__cbi__.py \
-	neurospaces/heccer/errors.py
-
-nobase_python_DATA = \
-	neurospaces/heccer/_heccer_base.so \
-	neurospaces/heccer/heccer_base.py
-
-EXTRA_DIST = \
-	$(srcdir)/heccer.i 
-
-BUILT_SOURCES = \
-	neurospaces/heccer/heccer_base.py \
-	heccer_wrap.c
-
-
-#---------------------------------------------------------
-#-------- Rules for building the heccer swig binding -----
-
-heccer_wrap.o: heccer_wrap.c
-	gcc $(SWIGCOMPILELINKSFORPYTHON) -c $(srcdir)/heccer_wrap.c
-
-heccer_wrap.c ./neurospaces/heccer/heccer_base.py: 
-	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/neurospaces/heccer -o heccer_wrap.c $(srcdir)/heccer.i
-
-_heccer_base.so: heccer_wrap.o
-	$(HECCER_SWIGLINKCOMMAND_PYTHON)
-
-#------------------ End rules for heccer swig ------------
-#---------------------------------------------------------
-
-
-
-all: _heccer_base.so 
-
-
+all: setup
 
 clean-local:
-	$(RM) -rf $(srcdir)/docs/html
-	echo "Removing all compiled byte code files"
 	$(RM) `find . -name "*.pyc"`
 	$(RM) -rf $(srcdir)/build
-	$(RM) -rf $(srcdir)/dist/
+	$(RM) -rf $(srcdir)/dist
+
 
 CLEANFILES = \
 	$(srcdir)/heccer_wrap.c \
@@ -76,3 +44,44 @@ CLEANFILES = \
 	$(srcdir)/neurospaces/heccer/heccer_base.py 
 
 
+
+
+# SUBDIRS = 
+
+# pythondir = $(prefix)/glue/swig/python/
+
+# nobase_python_HEADERS = \
+# 	neurospaces/heccer/__init__.py \
+# 	neurospaces/heccer/__cbi__.py \
+# 	neurospaces/heccer/errors.py
+
+# nobase_python_DATA = \
+# 	neurospaces/heccer/_heccer_base.so \
+# 	neurospaces/heccer/heccer_base.py
+
+# EXTRA_DIST = \
+# 	$(srcdir)/heccer.i 
+
+# BUILT_SOURCES = \
+# 	neurospaces/heccer/heccer_base.py \
+# 	heccer_wrap.c
+
+
+# #---------------------------------------------------------
+# #-------- Rules for building the heccer swig binding -----
+
+# heccer_wrap.o: heccer_wrap.c
+# 	gcc $(SWIGCOMPILELINKSFORPYTHON) -c $(srcdir)/heccer_wrap.c
+
+# heccer_wrap.c ./neurospaces/heccer/heccer_base.py: 
+# 	$(SWIG) -I$(builddir)/../../.. -I$(srcdir)/../../.. -I$(top_builddir) -python -outdir $(srcdir)/neurospaces/heccer -o heccer_wrap.c $(srcdir)/heccer.i
+
+# _heccer_base.so: heccer_wrap.o
+# 	$(HECCER_SWIGLINKCOMMAND_PYTHON)
+
+# #------------------ End rules for heccer swig ------------
+# #---------------------------------------------------------
+
+
+
+# all: _heccer_base.so 

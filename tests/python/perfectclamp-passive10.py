@@ -8,8 +8,8 @@ import pdb
 
 from test_library import add_package_path
 
-add_package_path("heccer")
-add_package_path("experiment")
+add_package_path("heccer", "neurospaces")
+add_package_path("experiment", "neurospaces")
 
 
 from heccer import Heccer
