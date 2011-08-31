@@ -44,5 +44,10 @@ except ImportError:
 
 package_manager = PackageManager(verbose=False)
 
-package_manager.Uninstall('heccer')
+try:
 
+    package_manager.Uninstall('heccer')
+
+except Exception, e:
+
+    print "Can't uninstall heccer: %s" % e
