@@ -38,8 +38,9 @@ try:
 
 except ImportError:
 
-    sys.exit("Heccer package is not installed.")
-    
+    print "Heccer package is not installed."
+
+    sys.exit(0)
 
 package_manager = PackageManager(verbose=False)
 
