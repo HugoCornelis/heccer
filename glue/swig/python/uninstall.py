@@ -46,7 +46,7 @@ package_manager = PackageManager(verbose=False)
 
 try:
 
-    package_manager.Uninstall('heccer')
+    package_manager.uninstall('heccer')
 
 except Exception, e:
 
