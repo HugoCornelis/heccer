@@ -31,6 +31,7 @@ clean-local:
 	$(RM) `find . -name "*.pyc"`
 	$(RM) -rf $(srcdir)/build
 	$(RM) -rf $(srcdir)/dist
+	$(RM) -rf $(srcdir)/*.egg-info
 
 
 CLEANFILES = \
