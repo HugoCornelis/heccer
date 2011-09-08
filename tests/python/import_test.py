@@ -12,9 +12,9 @@ from test_library import add_package_path
 add_package_path("heccer")
 
 print "Importing heccer_base"
-import neurospaces.heccer.heccer_base
+import heccer.heccer_base
 
 print "Importing heccer"
-import neurospaces.heccer
+import heccer
 
 print "Done!"

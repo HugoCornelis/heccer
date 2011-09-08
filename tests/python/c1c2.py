@@ -13,9 +13,9 @@ add_package_path("heccer")
 
 
 
-import neurospaces.heccer as heccer
-from neurospaces.heccer.heccer_base import Compartment
-from neurospaces.heccer.heccer_base import Intermediary
+import heccer as heccer
+from heccer.heccer_base import Compartment
+from heccer.heccer_base import Intermediary
 
 c1 = Compartment()
 

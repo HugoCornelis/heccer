@@ -39,10 +39,10 @@ CLEANFILES = \
 	$(srcdir)/heccer_wrap.o \
 	$(srcdir)/_heccer_base.so \
 	$(srcdir)/heccer_base.py \
-	$(srcdir)/neurospaces/heccer_wrap.c \
-	$(srcdir)/neurospaces/heccer_wrap.o \
-	$(srcdir)/neurospaces/heccer/_heccer_base.so \
-	$(srcdir)/neurospaces/heccer/heccer_base.py 
+	$(srcdir)/heccer_wrap.c \
+	$(srcdir)/heccer_wrap.o \
+	$(srcdir)/heccer/_heccer_base.so \
+	$(srcdir)/heccer/heccer_base.py 
 
 
 

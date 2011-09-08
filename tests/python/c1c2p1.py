@@ -9,9 +9,7 @@ import pdb
 
 from test_library import add_package_path
 
-add_package_path("heccer", "neurospaces")
-
-
+add_package_path("heccer")
 
 from heccer import Heccer
 from heccer import Compartment

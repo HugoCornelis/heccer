@@ -22,7 +22,7 @@ except ImportError:
     
     def find_packages():
 
-        return ['neurospaces', 'neurospaces.heccer']
+        return ['heccer']
 
 
 #from setuptools import setup, find_packages
@@ -30,7 +30,7 @@ except ImportError:
 # import the cbi module. We use this since the check
 # for the compiled swig nmc_base gives an error
 # if we import from nmc.__cbi__
-cbi = imp.load_source('__cbi__', os.path.join('neurospaces', 'heccer', '__cbi__.py'))
+cbi = imp.load_source('__cbi__', os.path.join('heccer', '__cbi__.py'))
 
 _package_info = cbi.PackageInfo()
 
@@ -160,7 +160,7 @@ class HeccerModule(Extension):
         self._include_files = include_files
         self._include_paths = include_paths
 
-        self.name = "neurospaces.heccer._heccer_base"
+        self.name = "heccer._heccer_base"
         self.sources = ["heccer.i"]
         self.swig_opts = self.get_swig_opts()
         self.extra_compile_args = self.get_extra_compile_args()
@@ -199,7 +199,7 @@ class HeccerModule(Extension):
 
         opts.extend(["-I%s" % d for d in include_dirs])
 
-        opts.extend(["-outdir", os.path.join('neurospaces', 'heccer')])
+        opts.extend(["-outdir", os.path.join('heccer')])
 
         return opts
 
@@ -329,7 +329,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-PACKAGE_FILES=find_files(os.path.join('neurospaces', 'heccer'))
+PACKAGE_FILES=find_files(os.path.join('heccer'))
 
 OPTIONS={
     'sdist': {
@@ -344,7 +344,7 @@ OPTIONS={
 
 PLATFORMS=["Unix", "Lunix", "MacOS X"]
 
-PY_MODULES=['neurospaces.heccer']
+PY_MODULES=['heccer']
 
 
 CMDCLASS = {
@@ -438,9 +438,8 @@ setup(
     license=LICENSE,
     keywords=KEYWORDS,
     url=URL,
-    packages=find_packages(),
-    package_data={'neurospaces' : [os.path.join('neurospaces','__init__.py')],
-                  'neurospaces.heccer' : PACKAGE_FILES},
+    packages=['heccer'],
+    package_data={'heccer' : PACKAGE_FILES},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
     platforms=PLATFORMS,

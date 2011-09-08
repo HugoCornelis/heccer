@@ -2,7 +2,6 @@ heccer-spikes.output
 heccer-tables.output
 heccer_check_ric-neurospaces-02.out
 heccer_check_ric-neurospaces-03.out
-
 .kdbgrc.*
 .*Makefile\.in$
 .+\.dylib$
@@ -21,9 +20,9 @@ egg-info$
 ^glue/swig/perl/swiggable_heccer_wrap.c$
 ^glue/swig/python/SwiggableHeccer.py$
 ^glue/swig/python/swiggable_heccer_wrap.c$
-^glue/swig/python/heccer_wrap.c$
-^glue/swig/python/neurospaces/heccer/heccer_base.py$
-^glue/swig/python/heccer/_heccer_base.so$
+heccer_wrap.c$
+heccer_base.py$
+_heccer_base.so$
 ^glue/swig/python_old/SwiggableHeccer.py$
 ^glue/swig/python_old/swiggable_heccer_wrap.c$
 ^html/
@@ -129,9 +128,7 @@ tar.gz$
 ^a.out.dSYM$
 _BUILD$
 .pkg$
-^build$
-^dist$
+build$
+dist$
 heccer_base.py$
-glue/swig/python/build$
-glue/swig/python/dist$
-glue/swig/python/MANIFEST$
+MANIFEST$
