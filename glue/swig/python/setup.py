@@ -162,11 +162,7 @@ class HeccerModule(Extension):
 
         if sys.platform == "darwin":
 
-            arch = autodetect()
-            
-            if arch == 'i386':
-
-                os.environ['ARCHFLAGS'] = self.get_mac_arch_flags()
+            os.environ['ARCHFLAGS'] = self.get_mac_arch_flags()
                 
         Extension.__init__(self,
                            self.name,
