@@ -1,6 +1,7 @@
 import imp
 import os
 import pdb
+import re
 import sys
 from commands import getoutput
 
