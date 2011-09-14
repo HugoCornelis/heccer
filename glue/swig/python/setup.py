@@ -372,8 +372,8 @@ VERSION = _package_info.GetVersion()
 AUTHOR = cbi.__author__
 AUTHOR_EMAIL = cbi.__email__
 LICENSE = cbi.__license__
-URL = cbi.__url__
-DOWNLOAD_URL = cbi.__download_url__
+URL = "http://pypi.python.org/pypi/heccer"
+DOWNLOAD_URL = "http://pypi.python.org/pypi/heccer"
 DESCRIPTION="Heccer is a fast compartmental solver, that is based on hsolve of the GENESIS simulator."
 LONG_DESCRIPTION=cbi.__description__
 
