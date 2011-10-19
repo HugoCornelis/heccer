@@ -468,7 +468,8 @@ _library_paths = [_developer_dir,
                   "/usr/local/lib/model-container",
                   "/usr/local/lib/heccer"]
 
-_include_files = ["heccer/heccer.h","all_callees_headers.h", "neurospaces/neurospaces.h"]
+_include_files = ["heccer/heccer.h","all_callees_headers.h", "neurospaces/neurospaces.h",
+                  "hierarchy/output/symbols/callee_add_child.h"]
 _include_paths = [_developer_dir,
                   _model_container_developer_dir,
                   os.path.join(_model_container_developer_dir, 'hierarchy','output' ,'symbols'),
