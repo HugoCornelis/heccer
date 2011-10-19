@@ -245,8 +245,7 @@ class HeccerModule(Extension):
                     include_dirs.append(this_path)
 
         return include_dirs
-
-
+        
     def _get_path(self, dirs, file):
         """
         helper method, picks which path the given file is in and returns it.
@@ -256,13 +255,19 @@ class HeccerModule(Extension):
         for d in dirs:
 
             full_path = os.path.join(d, file)
+
+            print "Checking for required file '%s': " % full_path,
             
             if os.path.isfile(full_path):
 
+                print "Present\n"
                 return d
+            
+            else:
+                
+                print "Missing"
 
         return None
-
     
     def _in_path(self, dirs, file):
 
@@ -458,18 +463,19 @@ _library_paths = [_developer_dir,
                   os.path.join(_model_container_developer_dir, 'algorithms', 'symbol'),
                   os.path.join(_model_container_developer_dir, 'algorithms', 'event'),
                   "../../..",
-                  "../../../algorithms/symbol/",
-                  "../../../algorithms/event/",
                   "../../../integrators",
-                  "/usr/local/lib/model-container"]
+                  "/usr/local/lib",
+                  "/usr/local/lib/model-container",
+                  "/usr/local/lib/heccer"]
 
 _include_files = ["heccer/heccer.h","all_callees_headers.h", "neurospaces/neurospaces.h"]
 _include_paths = [_developer_dir,
                   _model_container_developer_dir,
                   os.path.join(_model_container_developer_dir, 'hierarchy','output' ,'symbols'),
                   os.path.join(_model_container_developer_dir, 'algorithms', 'symbol'),
-                  "../../..",
-                  "./../../../hierarchy/output/symbols/",
+                  os.path.join('/','usr','local','neurospaces','instrumentor','hierarchy','output','symbols'),
+                  os.path.join('/','usr','local','include','neurospaces'),
+                  os.path.join('/','usr','local','include'),
                   "/usr/local/neurospaces/instrumentor",
                   "/usr/local/include/model-container/" ]
 
