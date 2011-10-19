@@ -433,7 +433,12 @@ else:
 #-------------------------------------------------------------------------------
 
 
-home_dir = os.getenv('USERPROFILE') or os.getenv('HOME')
+home_dir = os.getenv('SUDO_USER')
+
+if home_dir == 'root' or home_dir is None:
+    
+    home_dir = os.getenv('HOME') or os.getenv('USERPROFILE') or os.getenv('USER')
+
 
 _developer_dir = os.path.join(home_dir,
                              'neurospaces_project',
@@ -462,6 +467,8 @@ _library_paths = [_developer_dir,
                   os.path.join(_model_container_developer_dir, 'algorithms', 'event'),
                   "../../..",
                   "../../../integrators",
+                  "../../../../../../../model-container/source/snapshots/0/algorithms/event",
+                  "../../../../../../../model-container/source/snapshots/0/algorithms/symbol",
                   "/usr/local/lib",
                   "/usr/local/lib/model-container",
                   "/usr/local/lib/heccer"]
