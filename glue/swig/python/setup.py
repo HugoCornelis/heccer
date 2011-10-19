@@ -475,7 +475,7 @@ _include_paths = [_developer_dir,
                   os.path.join('/','usr','local','neurospaces','instrumentor','hierarchy','output','symbols'),
                   os.path.join('/','usr','local','include','neurospaces'),
                   os.path.join('/','usr','local','include'),
-                  os.path.join('/','usr','local','neurospaces','instrumentor')
+                  os.path.join('/','usr','local','neurospaces','instrumentor'),
                   os.path.join('/','usr','local','include','model-container') ]
 
 try:
