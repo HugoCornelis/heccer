@@ -432,12 +432,15 @@ else:
 
 #-------------------------------------------------------------------------------
 
+home_dir = ''
 
-home_dir = os.getenv('SUDO_USER')
+if os.getenv('USER') == 'root':
 
-if home_dir == 'root' or home_dir is None:
+    home_dir = os.path.expanduser("~%s" % os.getenv('SUDO_USER'))
+
+else:
     
-    home_dir = os.getenv('HOME') or os.getenv('USERPROFILE') or os.getenv('USER')
+    home_dir = os.getenv('HOME') or os.getenv('USERPROFILE')
 
 
 _developer_dir = os.path.join(home_dir,
