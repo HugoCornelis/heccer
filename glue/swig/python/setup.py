@@ -454,8 +454,6 @@ _model_container_developer_dir = os.path.join(home_dir,
 _libraries = ["heccer","hneurospaces", "neurospacesread","event_algorithms",
               "symbol_algorithms"]
 
-# ["libheccer.a", "libhneurospaces.a", "libneurospacesread.a",
-#                   "libsymbol_algorithms.a" , "libevent_algorithms.a"]
 _library_paths = [_developer_dir,
                   _model_container_developer_dir,
                   os.path.join(_developer_dir, 'integrators'),
