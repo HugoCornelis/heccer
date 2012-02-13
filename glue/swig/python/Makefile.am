@@ -15,6 +15,10 @@
 ##'
 ##############################################################################
 
+nobase_dist_python_DATA = \
+	heccer/__cbi__.py \
+	heccer/__init__.py \
+	heccer/errors.py 
 
 EXTRA_DIST = \
 	clean.py \
