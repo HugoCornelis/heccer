@@ -15,12 +15,16 @@
 ##'
 ##############################################################################
 
-nobase_dist_python_DATA = \
-	heccer/__cbi__.py \
-	heccer/__init__.py \
-	heccer/errors.py 
+#nobase_dist_python_DATA = \
+#	heccer/__cbi__.py \
+#	heccer/__init__.py \
+#	heccer/errors.py 
 
 EXTRA_DIST = \
+	heccer.i \
+	heccer/__cbi__.py \
+	heccer/__init__.py \
+	heccer/errors.py \
 	clean.py \
 	setup.py \
 	uninstall.py 
