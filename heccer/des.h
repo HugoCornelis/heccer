@@ -302,7 +302,7 @@ EventQueuerSerial2ConnectionIndexAdd
  int iSerial,
  int iIndex);
 
-/* int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq); */
+int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq);
 
 
 #endif

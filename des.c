@@ -163,9 +163,9 @@ int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection)
 	    {
 		int iColumn = 0;
 
-		struct EventQueuerMatrix *ppeqm = &peqd->ppeqm[iRow][0];
+		struct EventQueuerMatrix *ppeqm = NULL;
 
-		for (iColumn = 0 ; ppeqm[1].pvAccept ; iColumn++)
+		for (iColumn = 0, ppeqm = &peqd->ppeqm[iRow][iColumn] ; ppeqm[1].pvAccept ; iColumn++)
 		{
 		    ppeqm = &peqd->ppeqm[iRow][iColumn];
 
@@ -1164,63 +1164,63 @@ EventQueuerSerial2ConnectionIndexAdd
 }
 
 
-/* ///  */
-/* /// \arg peq an event queuer. */
-/* ///  */
-/* /// \return int */
-/* ///  */
-/* ///	success of operation. */
-/* ///  */
-/* /// \brief Sort the serial 2 connection index array. */
-/* ///  */
+/// 
+/// \arg peq an event queuer.
+/// 
+/// \return int
+/// 
+///	success of operation.
+/// 
+/// \brief Sort the serial 2 connection index array.
+/// 
 
-/* static int comparator(const void *pv1, const void *pv2) */
-/* { */
-/*     int iResult = 0; */
+static int comparator(const void *pv1, const void *pv2)
+{
+    int iResult = 0;
 
-/*     int *pi1 = (int *)pv1; */
-/*     int *pi2 = (int *)pv2; */
+    int *pi1 = (int *)pv1;
+    int *pi2 = (int *)pv2;
 
-/*     if (pi1[0] < pi2[0]) */
-/*     { */
-/* 	return(-1); */
-/*     } */
-/*     else if (pi1[0] > pi2[0]) */
-/*     { */
-/* 	return(1); */
-/*     } */
-/*     else */
-/*     { */
-/* 	fprintf */
-/* 	    (stderr, */
-/* 	     "Des doodely des: connection matrix index comparator() encounters entries with the same serial.\n"); */
+    if (pi1[0] < pi2[0])
+    {
+	return(-1);
+    }
+    else if (pi1[0] > pi2[0])
+    {
+	return(1);
+    }
+    else
+    {
+	fprintf
+	    (stderr,
+	     "Des doodely des: connection matrix index comparator() encounters entries with the same serial.\n");
 
-/* 	return(0); */
-/*     } */
-/* } */
+	return(0);
+    }
+}
 
-/* int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq) */
-/* { */
-/*     //- set default result: failure. */
+int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq)
+{
+    //- set default result: failure.
 
-/*     int iResult = 0; */
+    int iResult = 0;
 
-/*     //- if there is an initialized event queuer */
+    //- if there is an initialized event queuer
 
-/*     if (peq && peq->peqd) */
-/*     { */
-/* 	qsort */
-/* 	    (&peq->peqd->ppiSerial2ConnectionIndex[0][0],  */
-/* 	     peq->peqd->iConnectionIndices, */
-/* 	     sizeof(peq->peqd->ppiSerial2ConnectionIndex[0]), */
-/* 	     comparator); */
+    if (peq && peq->peqd)
+    {
+	qsort
+	    (&peq->peqd->ppiSerial2ConnectionIndex[0][0], 
+	     peq->peqd->iConnectionIndices,
+	     sizeof(peq->peqd->ppiSerial2ConnectionIndex[0]),
+	     comparator);
 
-/* 	iResult = 1; */
-/*     } */
+	iResult = 1;
+    }
 
-/*     //- return result */
+    //- return result
 
-/*     return(iResult); */
-/* } */
+    return(iResult);
+}
 
 

@@ -1203,16 +1203,20 @@ int simulate(int argc, char *argv[])
 
     //- allocate event queuer
 
-    struct EventQueuer *peq = EventQueuerNewFromSingleRow(&peqm[0]);
+    struct EventQueuer *peq = EventQueuerNew();
+
+    peq->peqd->ppeqm[0] = &peqm[0];
+
+    peq->peqd->iRows = 1;
 
     //- initialize the serial to connection matrix index convertor
 
-    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 6000, 0))
+    if (!EventQueuerSerial2ConnectionIndexAdd(peq->peqd, 6000, 0))
     {
 	exit(1);
     }
 
-    if (!EventQueuerSerial2ConnectionIndexAdd(peq, 8000, 1))
+    if (!EventQueuerSerial2ConnectionIndexAdd(peq->peqd, 8000, 1))
     {
 	exit(2);
     }
