@@ -927,7 +927,7 @@ struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
 /// 
 ///	success of operation.
 /// 
-/// \brief Process events in the queue, forward the ones that should fire.
+/// \brief Process events in the queue, forward the ones that fire.
 /// 
 
 int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
