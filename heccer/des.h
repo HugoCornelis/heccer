@@ -290,7 +290,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
 struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, int iIndex);
 
-struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm);
+struct EventQueuer * EventQueuerNew(void);
 
 int EventQueuerProcess(struct EventQueuer *peq, double dTime);
 
@@ -298,11 +298,11 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial);
 
 int
 EventQueuerSerial2ConnectionIndexAdd
-(struct EventQueuer *peq,
+(struct EventQueuerData *peqd,
  int iSerial,
  int iIndex);
 
-int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq);
+/* int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq); */
 
 
 #endif

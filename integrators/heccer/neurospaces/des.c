@@ -65,7 +65,7 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 	return(0);
     }
 
-    //- construct event distributors
+    //- construct event distributors and connect them with the correct source solvers
 
     int iConnections = ProjectionQueryCountConnections(ppq);
 
@@ -211,15 +211,29 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 	for (i = 0 ; i < iCores ; i++)
 	{
-	    //- construct an event queuer for this cpu core
-
-	    struct EventQueuerMatrix *ppeqm = EventQueuerDataNew(ppq, i);
-
-	    struct EventQueuer *peq = EventQueuerNewFromSingleRow(ppeqm);
+	    struct EventQueuer *peq = EventQueuerNew();
 
 	    // \todo this line of code says that there is at most one presyn per queuer.
 
-	    int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq, piPreSerials[0], i);
+	    int iPreIndex;
+
+	    for (iPreIndex = 0 ; iPreIndex < iPreSerials ; iPreIndex++)
+	    {
+		//- construct event queuer data for this CPU core, this source
+
+		// \todo this needs a preserial to count the number of connections
+		// attached and allocate for that amount of connections.
+
+		struct EventQueuerMatrix *peqm = EventQueuerDataNew(ppq, i);
+
+		peq->peqd->ppeqm[iPreIndex] = peqm;
+
+		int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq->peqd, piPreSerials[iPreIndex], iPreIndex);
+
+		//- allocate the event queuer row
+	    }
+
+	    peq->peqd->iRows = iPreSerials;
 
 	    //- register this event queuer
 
@@ -283,13 +297,20 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 	    //- fill in the distribution matrix queuer entry
 
+	    if (iTarget == -1)
+	    {
+		fprintf
+		    (stderr,
+		     "*** Warning: DESConnect() with -1 iTarget index.\n");
+	    }
+
 	    ped->pedd->ppedm[iQueuer].iTarget = iTarget;
 	    ped->pedd->ppedm[iQueuer].pvProcess = EventQueuerEnqueue;
 	    ped->pedd->ppedm[iQueuer].pvObject = ppeq[iCore];
 	}
     }
 
-    //- loop over all the queuers and connect them with the correct solvers
+    //- loop over all the queuers and connect them with the correct target solvers
 
     {
 	//- loop over the cpu cores
@@ -471,23 +492,26 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
 {
     //- set default result: success
 
-    struct EventQueuerMatrix *ppeqmResult = NULL;
+    struct EventQueuerMatrix *peqmResult = NULL;
 
     //- determine the number of connections
+
+    // \todo this needs a preserial to count the number of connections
+    // attached and allocate for that amount of connections.
 
     int iConnections = ProjectionQueryCountConnections(ppq);
 
     //- allocate event queuer matrix, but not data
 
-    ppeqmResult = (struct EventQueuerMatrix *)calloc(1 + iConnections, sizeof(struct EventQueuerMatrix));
+    peqmResult = (struct EventQueuerMatrix *)calloc(1 + iConnections, sizeof(struct EventQueuerMatrix));
 
     //- mark the last entry as not used
 
-    ppeqmResult[iConnections].dDelay = DBL_MAX;
-    ppeqmResult[iConnections].dWeight = DBL_MAX;
-    ppeqmResult[iConnections].pdEvent = NULL;
-    ppeqmResult[iConnections].pvAccept = NULL;
-    ppeqmResult[iConnections].pvObject = NULL;
+    peqmResult[iConnections].dDelay = DBL_MAX;
+    peqmResult[iConnections].dWeight = DBL_MAX;
+    peqmResult[iConnections].pdEvent = NULL;
+    peqmResult[iConnections].pvAccept = NULL;
+    peqmResult[iConnections].pvObject = NULL;
 
 /*     //- loop over all connections */
 
@@ -497,16 +521,16 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
 /*     { */
 /* 	//- fill in entry */
 
-/* 	ppeqmResult[i].dDelay = ppq->pcc->pcconn[i].dDelay; */
-/* 	ppeqmResult[i].dWeight = ppq->pcc->pcconn[i].dWeight; */
-/* 	ppeqmResult[i].iTarget = ppq->pcc->pcconn[i].iPost; //t must subtract the solver root serial */
-/* 	ppeqmResult[i].pvFunction = HeccerEventSet; */
-/* 	ppeqmResult[i].pvObject = NULL; */
+/* 	peqmResult[i].dDelay = ppq->pcc->pcconn[i].dDelay; */
+/* 	peqmResult[i].dWeight = ppq->pcc->pcconn[i].dWeight; */
+/* 	peqmResult[i].iTarget = ppq->pcc->pcconn[i].iPost; //t must subtract the solver root serial */
+/* 	peqmResult[i].pvFunction = HeccerEventSet; */
+/* 	peqmResult[i].pvObject = NULL; */
 /*     } */
 
     //- return result
 
-    return(ppeqmResult);
+    return(peqmResult);
 }
 
 

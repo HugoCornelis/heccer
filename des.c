@@ -492,6 +492,13 @@ EventDistributorAddConnection
 
 	// \note -1 for target means undefined, see spiker1 test case.
 
+	if (iTarget == -1)
+	{
+	    fprintf
+		(stderr,
+		 "*** Warning: EventDistributorAddConnection() with -1 iTarget index.\n");
+	}
+
 	ppedm->iTarget = iTarget;
 
 	ppedm->pvProcess = pvEventReceive;
@@ -566,7 +573,13 @@ EventDistributorDataNew(int iComponents, int iPre)
 
     //- mark the last entry as not used
 
-/*     ppedm[iComponents].iSerial = -1; */
+    if (iPre == -1)
+    {
+	fprintf
+	    (stderr,
+	     "*** Warning: EventDistributorDataNew() with -1 iPre index.\n");
+    }
+
     ppedm[iComponents].iTarget = iPre;
     ppedm[iComponents].pvProcess = NULL;
     ppedm[iComponents].pvObject = NULL;
@@ -650,6 +663,13 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     struct EventDistributorData *pedd = ped->pedd;
 
+    if (iTargets == -1)
+    {
+	fprintf
+	    (stderr,
+	     "*** Warning: EventDistributorSend() with -1 iTargets index.\n");
+    }
+
     //- loop over target table
 
     struct EventDistributorMatrix *ppedm = &pedd->ppedm[iTargets];
@@ -659,6 +679,13 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 	//- get target port index
 
 	int iTarget = ppedm->iTarget;
+
+	if (iTarget == -1)
+	{
+	    fprintf
+		(stderr,
+		 "*** Warning: EventDistributorSend() with -1 iTarget index.\n");
+	}
 
 	//- call the target object
 
@@ -732,6 +759,13 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     double dResult = 0.0;
 
+    if (iTarget == -1)
+    {
+	fprintf
+	    (stderr,
+	     "*** Warning: EventQueuerDequeue() with -1 iTarget index.\n");
+    }
+
     //- loop over events for this target until this time
 
     /// \todo loop over events for this target until this time
@@ -787,6 +821,13 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
     int iResult = 1;
 
+    if (iTarget == -1)
+    {
+	fprintf
+	    (stderr,
+	     "*** Warning: EventQueuerEnqueue() with -1 iTarget index.\n");
+    }
+
     //- queue the incoming event
 
     EventList *elElement = malloc(sizeof(EventList));
@@ -822,7 +863,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
 /// 
 /// \arg peq event queuer.
-/// \arg iIndex index into the event queuer matrix.
+/// \arg iSerial index into the event queuer matrix.
 /// 
 /// \return struct EventQueuerMatrix
 /// 
@@ -832,13 +873,13 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 /// \brief Map a queuer index to a row.
 /// 
 
-struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, int iIndex)
+struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, int iSerial)
 {
     //- set default result: failure
 
     struct EventQueuerMatrix *ppeqmResult = NULL;
 
-    int iRow = EventQueuerSerial2ConnectionIndex(peq, iIndex);
+    int iRow = EventQueuerSerial2ConnectionIndex(peq, iSerial);
 
     if (iRow == -1)
     {
@@ -871,16 +912,14 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 
 
 /// 
-/// \arg ppeqm event queuer connection matrix.
-/// 
 /// \return struct EventQueuer
 /// 
 ///	An event queuer.
 /// 
-/// \brief Allocate an event queuer.
+/// \brief Allocate an event queuer, given a single row.
 /// 
 
-struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
+struct EventQueuer * EventQueuerNew()
 {
     //- set default result: allocate
 
@@ -910,9 +949,7 @@ struct EventQueuer * EventQueuerNewFromSingleRow(struct EventQueuerMatrix *peqm)
 
     peqd->ppeqm = (struct EventQueuerMatrix **)calloc(1, sizeof(struct EventQueuerMatrix *));
 
-    peqd->ppeqm[0] = peqm;
-
-    peqd->iRows = 1;
+    peqd->iRows = 0;
 
     //- return result
 
@@ -962,6 +999,13 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 #endif
 
 	int iTarget = elElement->iTarget;
+
+	if (iTarget == -1)
+	{
+	    fprintf
+		(stderr,
+		 "*** Warning: EventQueuerProcess() with -1 iTarget index.\n");
+	}
 
 	//- loop over target table
 
@@ -1083,7 +1127,7 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 
 int
 EventQueuerSerial2ConnectionIndexAdd
-(struct EventQueuer *peq,
+(struct EventQueuerData *peqd,
  int iSerial,
  int iIndex)
 {
@@ -1093,16 +1137,16 @@ EventQueuerSerial2ConnectionIndexAdd
 
     //- if there is an initialized event queuer
 
-    if (peq && peq->peqd)
+    if (peqd)
     {
 	//- add the translation of the connection
 
-	if (peq->peqd->iConnectionIndices < EVENTQUEUER_MAX_CONNECTIONS)
+	if (peqd->iConnectionIndices < EVENTQUEUER_MAX_CONNECTIONS)
 	{
-	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][0] = iSerial;
-	    peq->peqd->ppiSerial2ConnectionIndex[peq->peqd->iConnectionIndices][1] = iIndex;
+	    peqd->ppiSerial2ConnectionIndex[peqd->iConnectionIndices][0] = iSerial;
+	    peqd->ppiSerial2ConnectionIndex[peqd->iConnectionIndices][1] = iIndex;
 
-	    peq->peqd->iConnectionIndices++;
+	    peqd->iConnectionIndices++;
 
 	    iResult = 1;
 	}
@@ -1120,63 +1164,63 @@ EventQueuerSerial2ConnectionIndexAdd
 }
 
 
-/// 
-/// \arg peq an event queuer.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Sort the serial 2 connection index array.
-/// 
+/* ///  */
+/* /// \arg peq an event queuer. */
+/* ///  */
+/* /// \return int */
+/* ///  */
+/* ///	success of operation. */
+/* ///  */
+/* /// \brief Sort the serial 2 connection index array. */
+/* ///  */
 
-static int comparator(const void *pv1, const void *pv2)
-{
-    int iResult = 0;
+/* static int comparator(const void *pv1, const void *pv2) */
+/* { */
+/*     int iResult = 0; */
 
-    int *pi1 = (int *)pv1;
-    int *pi2 = (int *)pv2;
+/*     int *pi1 = (int *)pv1; */
+/*     int *pi2 = (int *)pv2; */
 
-    if (pi1[0] < pi2[0])
-    {
-	return(-1);
-    }
-    else if (pi1[0] > pi2[0])
-    {
-	return(1);
-    }
-    else
-    {
-	fprintf
-	    (stderr,
-	     "Des doodely des: connection matrix index comparator() encounters entries with the same serial.\n");
+/*     if (pi1[0] < pi2[0]) */
+/*     { */
+/* 	return(-1); */
+/*     } */
+/*     else if (pi1[0] > pi2[0]) */
+/*     { */
+/* 	return(1); */
+/*     } */
+/*     else */
+/*     { */
+/* 	fprintf */
+/* 	    (stderr, */
+/* 	     "Des doodely des: connection matrix index comparator() encounters entries with the same serial.\n"); */
 
-	return(0);
-    }
-}
+/* 	return(0); */
+/*     } */
+/* } */
 
-int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq)
-{
-    //- set default result: failure.
+/* int EventQueuerSerial2ConnectionIndexSort(struct EventQueuer *peq) */
+/* { */
+/*     //- set default result: failure. */
 
-    int iResult = 0;
+/*     int iResult = 0; */
 
-    //- if there is an initialized event queuer
+/*     //- if there is an initialized event queuer */
 
-    if (peq && peq->peqd)
-    {
-	qsort
-	    (&peq->peqd->ppiSerial2ConnectionIndex[0][0], 
-	     peq->peqd->iConnectionIndices,
-	     sizeof(peq->peqd->ppiSerial2ConnectionIndex[0]),
-	     comparator);
+/*     if (peq && peq->peqd) */
+/*     { */
+/* 	qsort */
+/* 	    (&peq->peqd->ppiSerial2ConnectionIndex[0][0],  */
+/* 	     peq->peqd->iConnectionIndices, */
+/* 	     sizeof(peq->peqd->ppiSerial2ConnectionIndex[0]), */
+/* 	     comparator); */
 
-	iResult = 1;
-    }
+/* 	iResult = 1; */
+/*     } */
 
-    //- return result
+/*     //- return result */
 
-    return(iResult);
-}
+/*     return(iResult); */
+/* } */
 
 
