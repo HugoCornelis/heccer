@@ -682,9 +682,14 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
 	if (iTarget == -1)
 	{
-	    fprintf
-		(stderr,
-		 "*** Warning: EventDistributorSend() with -1 iTarget index.\n");
+	    // \todo Note that DES EventDistributorSend() calls the function
+	    // OutputGeneratorTimedStep() with an extra argument, namely iTarget.
+	    // See the corresponding comments in EventDistributorSend() and
+	    // OutputGeneratorTimedStep().
+
+/* 	    fprintf */
+/* 		(stderr, */
+/* 		 "*** Warning: EventDistributorSend() with -1 iTarget index.\n"); */
 	}
 
 	//- call the target object
