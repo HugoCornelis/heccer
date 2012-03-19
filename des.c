@@ -694,6 +694,11 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 	// EventQueuerEnqueue() to queue the object other hooks
 	// possible.
 
+	// \todo Note that DES EventDistributorSend() calls the function
+	// OutputGeneratorTimedStep() with an extra argument, namely iTarget.
+	// See the corresponding comments in EventDistributorSend() and
+	// OutputGeneratorTimedStep().
+
 	iResult = iResult && ppedm->pvProcess(ppedm->pvObject, dTime, iTarget);
 
 	//- next table entry
