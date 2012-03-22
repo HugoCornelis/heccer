@@ -1273,3 +1273,78 @@ class Compartment(heccer_base.Compartment):
         self.mc.iType = itype
 
 #************************* End Compartment ****************************
+
+
+
+
+
+#************************* Start ChannelAct **************************
+class ChannelAct(heccer_base.ChannelAct):
+
+    def __init__(self):
+
+        heccer_base.ChannelAct.__init__(self)
+
+        self.mc.iType = MATH_TYPE_ChannelAct
+#************************* End ChannelAct ****************************
+
+
+
+#************************* Start ChannelActInact **************************
+
+class ChannelActInact(heccer_base.ChannelActInact):
+
+    def __init__(self):
+
+        heccer_base.ChannelActInact.__init__(self)
+
+        self.mc.iType = MATH_TYPE_ChannelActInact
+#************************* End ChannelActInact ****************************
+
+
+
+
+#************************* Start SpikeGenerator **************************
+
+class SpikeGenerator(heccer_base.SpikeGenerator):
+
+    def __init__(self):
+
+        heccer_base.SpikeGenerator.__init__(self)
+
+        self.mc.iType = MATH_TYPE_SpikeGenerator
+#************************* End SpikeGenerator ****************************
+
+
+
+
+#************************* Start MathComponent Stuff **************************
+class MathComponent(heccer_base.MathComponent):
+    """
+
+
+    """
+    def __init__(self):
+        
+        heccer_base.MathComponent.__init__(self)
+
+#-----------------------------------------------------------------------
+
+
+class MathComponentArray(heccer_base.MathComponentArray):
+
+
+    def __init__(self):
+
+        heccer_base.MathComponentArray(self)
+
+
+#-----------------------------------------------------------------------
+
+class MathComponentInfo(heccer_base.MathComponentInfo):
+
+    def __init__(self):
+
+        heccer_base.MathComponentInfo(self)
+
+#************************* End MathComponent Stuff ****************************
