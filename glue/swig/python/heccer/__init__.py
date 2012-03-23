@@ -1336,7 +1336,7 @@ class MathComponentArray(heccer_base.MathComponentArray):
 
     def __init__(self):
 
-        heccer_base.MathComponentArray(self)
+        heccer_base.MathComponentArray.__init__(self)
 
 
 #-----------------------------------------------------------------------
@@ -1345,6 +1345,19 @@ class MathComponentInfo(heccer_base.MathComponentInfo):
 
     def __init__(self):
 
-        heccer_base.MathComponentInfo(self)
+        heccer_base.MathComponentInfo.__init__(self)
 
 #************************* End MathComponent Stuff ****************************
+
+
+
+
+#************************* Start PoweredGateConcept **************************
+class PoweredGateConcept(heccer_base.PoweredGateConcept):
+
+    def __init__(self):
+
+        heccer.base.PoweredGateConcept.__init__(self)
+
+#************************* End PoweredGateConcept ****************************
+
