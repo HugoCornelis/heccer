@@ -173,7 +173,7 @@ struct VM
 
 #define ALIGNER8(s) ((((sizeof(s) - 1) >> 3) + 1) << 3)
 
-#define ALIGNER4(s) ((((sizeof(s) - 1) >> 3) + 1) << 2)
+#define ALIGNER4(s) ((((sizeof(s) - 1) >> 2) + 1) << 2)
 
 /// \def mats are aligned to 8 bytes
 
@@ -339,7 +339,10 @@ struct MatsSpringMass
      : (								\
 	 (ppdMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsSpringMass);		\
 		 1;							\
 	     })								\
@@ -410,7 +413,10 @@ struct MatsEventGenerate
      : (								\
 	 (ppdMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsEventGenerate);	\
 		 1;							\
 	     })								\
@@ -485,7 +491,10 @@ struct MatsCallout
      : (								\
 	 (ppdMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsCallout);		\
 		 1;							\
 	     })								\
@@ -549,7 +558,10 @@ struct MatsInternalNernst
      : (								\
 	 (ppdMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsInternalNernst);	\
 		 1;							\
 	     })								\
@@ -785,7 +797,10 @@ struct MatsSingleGateConcept
      : (								\
 	 (ppdMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsSingleGateConcept);	\
 		 1;							\
 	     })								\
@@ -858,7 +873,10 @@ struct MatsExponentialDecay
      : (								\
 	 (ppdMatsIndex)							\
 	 ? ({								\
-		 piMC2Mat[iMathComponent].iMat = iMatNumber++;		\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsExponentialDecay);	\
 		 1;							\
 	     })								\
@@ -910,7 +928,10 @@ struct MatsFluxPool
 	 }) : (								\
 	     (ppdMatsIndex)						\
 	     ? ({							\
-		     piMC2Mat[iMathComponent].iMat = iMatNumber++;	\
+		     ((piMC2Mat[iMathComponent].iMat == -1)		\
+		      ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		      : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		     iMatNumber++;					\
 		     (iMats) += MAT_ALIGNER(struct MatsFluxPool);	\
 		     1;							\
 		 })							\
@@ -987,7 +1008,10 @@ struct MatsStoreSingleChannelCurrent
 	 }) : (								\
 	     (ppdMatsIndex)						\
 	     ? ({							\
-		     piMC2Mat[iMathComponent].iMat = iMatNumber++;	\
+		     ((piMC2Mat[iMathComponent].iMat == -1)		\
+		      ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		      : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		     iMatNumber++;					\
 		     (iMats) += MAT_ALIGNER(struct MatsStoreSingleChannelCurrent); \
 		     1;							\
 		 })							\

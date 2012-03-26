@@ -141,7 +141,7 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 			}
 			else
 			{
-			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (1)\n");
+			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor\n");
 			}
 		    }
 		    else
@@ -394,28 +394,30 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 		    //- if a solver has been registered for this post-synaptic serial
 
-		    struct SolverInfo *psi = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
+		    struct SolverInfo *psiPost = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPost);
 
-		    void *pvSolver = psi->pvSolver;
+		    void *pvSolverPost = psiPost->pvSolver;
 
-		    if (pvSolver)
+		    if (pvSolverPost)
 		    {
 			//- connect the matrix entry with this solver
 
-			peqm[iColumn].pvObject = pvSolver;
+			peqm[iColumn].pvObject = pvSolverPost;
 
 			// \todo we simply assume it is a heccer: type
 			// discrimination required here, recycle the logic
 			// that is already available in ns-sli
 			// nsintegrator.h struct SolverRegistration{}.
 
-			struct simobj_Heccer *pheccer = (struct simobj_Heccer *)pvSolver;
+			struct simobj_Heccer *pheccerPost = (struct simobj_Heccer *)pvSolverPost;
 
 			//- fill in the solver index as notification target
 
-			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccer, pcconn->iPost, "next_event");
+			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccerPost, pcconn->iPost, "next_event");
 
-			double *pdPostSynTargets = HeccerAddressVariable(pheccer, pcconn->iPost, "postsyn_targets");
+			// \todo do we need to set this in pheccerPre?  Instead of pheccerPost?
+
+			double *pdPostSynTargets = HeccerAddressVariable(pheccerPost, pcconn->iPost, "postsyn_targets");
 
 			int *piPostSynTargets = (int *)pdPostSynTargets;
 
@@ -429,19 +431,19 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 			// serial should be known here.  Pass it on to
 			// this heccer.
 
-			if (HeccerConnectQueuer(pheccer, peq, psr, ppq) == 1)
+			if (HeccerConnectQueuer(pheccerPost, peq, psr, ppq) == 1)
 			{
 			}
 			else
 			{
-			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event distributor (2)\n");
+			    fprintf(stderr, "*** Error: DESConstruct() cannot connect a heccer with its event queuer\n");
 			}
 		    }
 		    else
 		    {
 			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
 
-			struct PidinStack *ppistSolved = SolverInfoPidinStack(psi);
+			struct PidinStack *ppistSolved = SolverInfoPidinStack(psiPost);
 
 			PidinStackPrint(ppistSolved, stderr);
 
