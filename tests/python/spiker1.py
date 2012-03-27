@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+3#! /usr/bin/env python
 """
 This test checks for the for the Heccer modules 
 to be present and importable.
@@ -53,8 +53,54 @@ caKdr.pgc.gc.parameters.gkB.dHHOffsetE = 0.0
 caKdr.pgc.gc.parameters.gkB.dHHDiveE = 0.08
 caKdr.pgc.gc.parameters.gkB.dHHMultExp = 1.0
 
-#caiNaF = ChannelActInact()
+caiNaF = ChannelActInact()
+caiNaF.dReversalPotential = 0.045
+caiNaF.iReversalPotential = -1
+caiNaF.dMaximalConductance = 0.00001
+caiNaF.iPool = -1
+caiNaF.pgcActivation.iPower = 3
+caiNaF.pgcActivation.gc.dInitActivation = 0.01224204035
+caiNaF.pgcActivation.gc.iTable = -1
+# Activation parameters
+caiNaF.pgcActivation.gc.parameters.gkA.dHHAddNum = 35.0e3
+caiNaF.pgcActivation.gc.parameters.gkA.dHHMultExp = 0.0
+caiNaF.pgcActivation.gc.parameters.gkA.dHHOffsetM = 0.0
+caiNaF.pgcActivation.gc.parameters.gkA.iHHFactorFlag = -1
+caiNaF.pgcActivation.gc.parameters.gkA.dHHAddDen = 0.0
+caiNaF.pgcActivation.gc.parameters.gkA.dHHOffsetE = 5.0e-3
+caiNaF.pgcActivation.gc.parameters.gkA.dHHDiveE = -10.0e-3
+caiNaF.pgcActivation.gc.parameters.gkA.dHHMultExp = 1.0
 
+caiNaF.pgcActivation.gc.parameters.gkB.dHHAddNum = 7.0e3
+caiNaF.pgcActivation.gc.parameters.gkB.dHHMultExp = 0.0
+caiNaF.pgcActivation.gc.parameters.gkB.dHHOffsetM = 0.0
+caiNaF.pgcActivation.gc.parameters.gkB.iHHFactorFlag = -1
+caiNaF.pgcActivation.gc.parameters.gkB.dHHAddDen = 0.0
+caiNaF.pgcActivation.gc.parameters.gkB.dHHOffsetE = 65.0e-3
+caiNaF.pgcActivation.gc.parameters.gkB.dHHDiveE = 20.0e-3
+caiNaF.pgcActivation.gc.parameters.gkB.dHHMultExp = 1.0
+
+caiNaF.pgcInactivation.iPower = 1
+caiNaF.pgcInactivation.gc.dInitActivation = 0.1930685015
+caiNaF.pgcInactivation.gc.iTable = -1
+#inactivation parameters
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHAddNum = 0.225e3
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHMultExp = 0.0
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHOffsetM = 0.0
+caiNaF.pgcInactivation.gc.parameters.gkA.iHHFactorFlag = -1
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHAddDen = 1.0
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHOffsetE = 80.0e-3
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHDiveE = 10.0e-3
+caiNaF.pgcInactivation.gc.parameters.gkA.dHHMultExp = 1.0
+
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHAddNum = 7.5e3
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHMultExp = 0.0
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHOffsetM = 0.0
+caiNaF.pgcInactivation.gc.parameters.gkB.iHHFactorFlag = -1
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHAddDen = 0.0
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHOffsetE = -33.0e-3
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHDiveE = -18.0e-3
+caiNaF.pgcInactivation.gc.parameters.gkB.dHHMultExp = 1.0
 
 
 # intermediary = Intermediary()

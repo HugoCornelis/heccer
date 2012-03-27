@@ -1357,7 +1357,7 @@ class PoweredGateConcept(heccer_base.PoweredGateConcept):
 
     def __init__(self):
 
-        heccer.base.PoweredGateConcept.__init__(self)
+        heccer_base.PoweredGateConcept.__init__(self)
 
 #************************* End PoweredGateConcept ****************************
 
