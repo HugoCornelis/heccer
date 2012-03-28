@@ -597,6 +597,16 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    double dNextEvent = -1.0;
 
+		    if (piMC2Mat)
+		    {
+			int iBreakpoint = 1;
+		    }
+
+		    if (pdMats)
+		    {
+			int iBreakpoint = 1;
+		    }
+
 		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent, pheccer->dStep * pcsm->dFrequency);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1957,15 +1967,29 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 	    if (pheccer->inter.pmca)
 	    {
+		int i;
+
 		/// \note note that this one does not index compartments, only the mechanism math components.
 
 		pheccer->vm.piMC2Mat = (uMC2Mat *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(uMC2Mat));
+
+		for (i = 0 ; i < pheccer->inter.pmca->iMathComponents + 1 ; i++)
+		{
+		    pheccer->vm.piMC2Mat[i].iMat = -1;
+		    pheccer->vm.piMC2Mat[i].pdValue = (double *) -1;
+		}
 
 		piMC2Mat = pheccer->vm.piMC2Mat;
 
 		pheccer->vm.piMC2Mop = (int *)calloc(pheccer->inter.pmca->iMathComponents + 1, sizeof(int));
 
+		for (i = 0 ; i < pheccer->inter.pmca->iMathComponents + 1 ; i++)
+		{
+		    pheccer->vm.piMC2Mop[i] = -1;
+		}
+
 		piMC2Mop = pheccer->vm.piMC2Mop;
+
 	    }
 	}
 
@@ -3999,7 +4023,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 
 		else if (pmats->dRefractory > 0.0)
 		{
-		    //- maintain refractory period since last event
+		    //- update refractory period since last event
 
 		    pmats->dRefractory -= pheccer->dStep;
 		}
