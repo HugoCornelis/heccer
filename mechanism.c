@@ -419,7 +419,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    SETMOP_CALLOUT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-		    SETMAT_CALLOUT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcall);
+		    SETMAT_CALLOUT(iMathComponent, pcall);
 
 		    break;
 		}
@@ -607,7 +607,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			int iBreakpoint = 1;
 		    }
 
-		    SETMAT_SPRINGMASS(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pcsm->dInitX, pcsm->dInitY, dNextEvent, pheccer->dStep * pcsm->dFrequency);
+		    SETMAT_SPRINGMASS(iMathComponent, pcsm->dInitX, pcsm->dInitY, dNextEvent, pheccer->dStep * pcsm->dFrequency);
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
@@ -627,7 +627,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -639,7 +639,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -703,7 +703,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    SETMOP_INTERNALNERNST(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pin->dConstant, pin->dExternal, iMatsActivator);
 
-		    SETMAT_INTERNALNERNST(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pin->dInitPotential);
+		    SETMAT_INTERNALNERNST(iMathComponent, pin->dInitPotential);
 
 		    break;
 		}
@@ -776,7 +776,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    dInitActivation = HeccerGateInitActivation(pheccer, pca->pgc.gc.iTable, dInitVm, dInitActivation);
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -797,7 +797,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -809,7 +809,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -907,7 +907,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    dInitActivation = HeccerGateInitActivation(pheccer, pcai->pgcActivation.gc.iTable, dInitVm, dInitActivation);
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    //- tabulate inactivation, Genesis Y
@@ -928,7 +928,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    dInitActivation = HeccerGateInitActivation(pheccer, pcai->pgcInactivation.gc.iTable, dInitVm, dInitActivation);
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -949,7 +949,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -961,7 +961,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -1059,7 +1059,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    dInitActivation = HeccerGateInitActivation(pheccer, pcac->pgc.gc.iTable, dInitVm, dInitActivation);
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    //- tabulate concentration dependence, Genesis Z
@@ -1107,7 +1107,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    dInitActivation = 0;
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1128,7 +1128,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -1140,7 +1140,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -1261,7 +1261,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    dInitActivation = 0;
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1282,7 +1282,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -1294,7 +1294,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -1371,7 +1371,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    SETMOP_EXPONENTIALDECAY(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pheccer->dStep * pexdec->dBeta, pexdec->dSteadyState, 1 + pheccer->dStep / (2 * pexdec->dTau), piExternal);
 
-		    SETMAT_EXPONENTIALDECAY(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, pexdec->dInitValue);
+		    SETMAT_EXPONENTIALDECAY(iMathComponent, pexdec->dInitValue);
 
 		    break;
 		}
@@ -1446,7 +1446,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 /* 				 "Compilation of MATH_TYPE_ChannelSteadyStateSteppedTau failed, illegal initial gate state"); */
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_POWEREDGATECONCEPT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, pcsst->iSecondTable, pcsst->iSecondPower, -1);
@@ -1464,7 +1464,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 /* 				 "Compilation of MATH_TYPE_ChannelSteadyStateSteppedTau failed, illegal initial gate state"); */
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1485,7 +1485,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -1497,7 +1497,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -1597,7 +1597,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 /* 				 "Compilation of MATH_TYPE_ChannelPersistentSteadyStateDualTau failed, illegal initial gate state"); */
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1621,7 +1621,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 /* 				 "Compilation of MATH_TYPE_ChannelPersistentSteadyStateDualTau failed, illegal initial gate state"); */
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1642,7 +1642,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -1654,7 +1654,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -1754,7 +1754,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 /* 				 "Compilation of MATH_TYPE_ChannelPersistentSteadyStateTau failed, illegal initial gate state"); */
 			}
 
-			SETMAT_POWEREDGATECONCEPT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dInitActivation);
+			SETMAT_POWEREDGATECONCEPT(iMathComponent, dInitActivation);
 		    }
 
 		    SETMOP_UPDATECOMPARTMENTCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
@@ -1775,7 +1775,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			/// \note initial flux is assumed to be zero, always
 
-			SETMAT_FLUXPOOL(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0);
+			SETMAT_FLUXPOOL(iMathComponent, 0.0);
 
 		    }
 
@@ -1787,7 +1787,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 			SETMOP_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops);
 
-			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, 0.0, 0.0);
+			SETMAT_STORESINGLECHANNELCURRENT(iMathComponent, 0.0, 0.0);
 
 		    }
 
@@ -1895,7 +1895,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    double dSpike = 0.0;
 
-		    SETMAT_EVENTGENERATE(iMathComponent, piMC2Mat, ppdMatsIndex, iMatNumber, pdMats, iMats, dRefractoryTime, dSpike);
+		    SETMAT_EVENTGENERATE(iMathComponent, dRefractoryTime, dSpike);
 
 		    //- if there is a reset value set
 

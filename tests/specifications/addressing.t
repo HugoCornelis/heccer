@@ -457,7 +457,7 @@ Current is 2.0276e-10
 							   },
 						  },
 						 ],
-				description => "addressing synchan activation",
+				description => "addressing channel variables",
 			       },
 			       {
 				arguments => [

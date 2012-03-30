@@ -325,7 +325,7 @@ struct MatsSpringMass
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_SPRINGMASS(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dInitX,dInitY,dNE,dF) \
+#define SETMAT_SPRINGMASS(iMathComponent,dInitX,dInitY,dNE,dF)		\
     ((pdMats)								\
      ? ({ struct MatsSpringMass *pmats = (struct MatsSpringMass *)pdMats ; \
 	     pmats->dX = (dInitX) ;					\
@@ -341,7 +341,7 @@ struct MatsSpringMass
 	 ? ({								\
 		 ((piMC2Mat[iMathComponent].iMat == -1)			\
 		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		  : (1));						\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsSpringMass);		\
 		 1;							\
@@ -401,7 +401,7 @@ struct MatsEventGenerate
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_EVENTGENERATE(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dR,dS) \
+#define SETMAT_EVENTGENERATE(iMathComponent,dR,dS)			\
     ((pdMats)								\
      ? ({ struct MatsEventGenerate *pmats = (struct MatsEventGenerate *)pdMats ; \
 	     pmats->dRefractory = (dR) ;				\
@@ -415,7 +415,7 @@ struct MatsEventGenerate
 	 ? ({								\
 		 ((piMC2Mat[iMathComponent].iMat == -1)			\
 		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		  : (1));						\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsEventGenerate);	\
 		 1;							\
@@ -480,7 +480,7 @@ struct MatsCallout
 	     })							\
 	 : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_CALLOUT(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,p)		\
+#define SETMAT_CALLOUT(iMathComponent,p)				\
     ((pdMats)								\
      ? ({ struct MatsCallout *pmats = (struct MatsCallout *)pdMats ;	\
 	     pmats->pco = (p) ;						\
@@ -493,7 +493,7 @@ struct MatsCallout
 	 ? ({								\
 		 ((piMC2Mat[iMathComponent].iMat == -1)			\
 		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		  : (1));						\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsCallout);		\
 		 1;							\
@@ -547,7 +547,7 @@ struct MatsInternalNernst
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_INTERNALNERNST(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dP) \
+#define SETMAT_INTERNALNERNST(iMathComponent,dP)			\
     ((pdMats)								\
      ? ({ struct MatsInternalNernst *pmats = (struct MatsInternalNernst *)pdMats ; \
 	     pmats->dPotential = (dP) ;					\
@@ -560,7 +560,7 @@ struct MatsInternalNernst
 	 ? ({								\
 		 ((piMC2Mat[iMathComponent].iMat == -1)			\
 		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		  : (1));						\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsInternalNernst);	\
 		 1;							\
@@ -786,7 +786,7 @@ struct MatsSingleGateConcept
     double dActivation;
 };
 
-#define SETMAT_POWEREDGATECONCEPT(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dA) \
+#define SETMAT_POWEREDGATECONCEPT(iMathComponent,dA)			\
     ((pdMats)								\
      ?  ({ struct MatsSingleGateConcept *pmats = (struct MatsSingleGateConcept *)pdMats ; \
 	     pmats->dActivation = (dA) ;				\
@@ -799,7 +799,7 @@ struct MatsSingleGateConcept
 	 ? ({								\
 		 ((piMC2Mat[iMathComponent].iMat == -1)			\
 		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		  : (1));						\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsSingleGateConcept);	\
 		 1;							\
@@ -862,7 +862,7 @@ struct MatsExponentialDecay
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
      
-#define SETMAT_EXPONENTIALDECAY(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dS) \
+#define SETMAT_EXPONENTIALDECAY(iMathComponent,dS)			\
     ((pdMats)								\
      ? ({ struct MatsExponentialDecay *pmats = (struct MatsExponentialDecay *)pdMats ; \
 	     pmats->dState = (dS) ;					\
@@ -875,7 +875,7 @@ struct MatsExponentialDecay
 	 ? ({								\
 		 ((piMC2Mat[iMathComponent].iMat == -1)			\
 		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		  : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		  : (1));						\
 		 iMatNumber++;						\
 		 (iMats) += MAT_ALIGNER(struct MatsExponentialDecay);	\
 		 1;							\
@@ -918,7 +918,7 @@ struct MatsFluxPool
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_FLUXPOOL(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dF)	\
+#define SETMAT_FLUXPOOL(iMathComponent,dF)				\
     ((pdMats)								\
      ? ({ struct MatsFluxPool *pmats = (struct MatsFluxPool *)pdMats ;	\
 	     pmats->dFlux = (dF) ;					\
@@ -930,7 +930,7 @@ struct MatsFluxPool
 	     ? ({							\
 		     ((piMC2Mat[iMathComponent].iMat == -1)		\
 		      ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		      : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		      : (1));						\
 		     iMatNumber++;					\
 		     (iMats) += MAT_ALIGNER(struct MatsFluxPool);	\
 		     1;							\
@@ -997,7 +997,7 @@ struct MatsStoreSingleChannelCurrent
 		 })							\
 	     : ({ iMopNumber++; 1; }) ) )
 
-#define SETMAT_STORESINGLECHANNELCURRENT(iMathComponent,piMC2Mat,ppdMatsIndex,iMatNumber,pdMats,iMats,dCo,dCu) \
+#define SETMAT_STORESINGLECHANNELCURRENT(iMathComponent,dCo,dCu)	\
     ((pdMats)								\
      ? ({ struct MatsStoreSingleChannelCurrent *pmats = (struct MatsStoreSingleChannelCurrent *)pdMats ; \
 	     pmats->dConductance = (dCo) ;				\
@@ -1010,7 +1010,7 @@ struct MatsStoreSingleChannelCurrent
 	     ? ({							\
 		     ((piMC2Mat[iMathComponent].iMat == -1)		\
 		      ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
-		      : (piMC2Mat[iMathComponent].iMat = iMatNumber));	\
+		      : (1));						\
 		     iMatNumber++;					\
 		     (iMats) += MAT_ALIGNER(struct MatsStoreSingleChannelCurrent); \
 		     1;							\
