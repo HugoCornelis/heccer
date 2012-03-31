@@ -375,18 +375,18 @@ HeccerAddressMechanismVariable
 
     struct field_2_operator pF2P[] =
     {
-	{	"Ca",		0,	0, },
-	{	"FREQUENCY",	0,	3, },
-	{	"G",		2,	0, },
-	{	"I",		2,	1, },
-	{	"activation",	0,	2, },
-	{	"conductance",	2,	0, },
-	{	"current",	2,	1, },
-	{	"next_event",	0,	0, },
-	{	"spike",	0,	1, },
-	{	"state_h",	0,	0, },
-	{	"state_m",	-1,	0, },
-	{	"state_n",	0,	0, },
+	{	"Ca",		0,	0, }, // first operation, first mat entry
+	{	"FREQUENCY",	0,	3, }, // first operation, third mat entry
+	{	"G",		2,	0, }, // after two gates, first mat entry
+	{	"I",		2,	1, }, // after two gates, second mat entry
+	{	"activation",	0,	1, }, // first operation, second mat entry
+	{	"conductance",	2,	0, }, // after two gates, first mat entry
+	{	"current",	2,	1, }, // after two gates, second mat entry
+	{	"next_event",	0,	0, }, // first operation, first mat entry
+	{	"spike",	0,	1, }, // first operation, second mat entry
+	{	"state_h",	1,	0, }, // second gate, first mat entry
+	{	"state_m",	0,	0, }, // first gate, first mat entry
+	{	"state_n",	0,	0, }, // first gate, first mat entry
 	{	NULL,		INT_MAX,	INT_MAX, },
     };
 
