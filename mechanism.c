@@ -1359,7 +1359,11 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			{
 			    //- convert math component to mat number, convert mat number to mat addressable
 
-			    iMatsExternal = piMC2Mat ? piMC2Mat[iContributor].iMat : -1;
+			    // \todo the implicit assumption is that
+			    // the flux is computed as the last in the
+			    // set of all operations due to a channel.
+
+			    iMatsExternal = piMC2Mat ? piMC2Mat[iContributor + 1].iMat - 1 : -1;
 
 			    piExternal[i] = iMatsExternal;
 			}
@@ -1941,7 +1945,16 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 	//- finish all operations
 
-	SETMOP_FINISH(ppvMopsIndex, iMopNumber, pvMops, iMops);
+	{
+	    SETMOP_FINISH(ppvMopsIndex, iMopNumber, pvMops, iMops);
+
+	    if (pheccer->inter.pmca)
+	    {
+		int iMathComponent = pheccer->inter.pmca ? pheccer->inter.pmca->iMathComponents : 0;
+
+		SETMAT_FINISH(ppdMatsIndex, iMatNumber, pdMats, iMats);
+	    }
+	}
 
 	//- if we were counting during the previous loop
 

@@ -168,6 +168,25 @@ struct VM
 	     })							\
 	 : ({ iMopNumber++; 1; }) ) )
 
+#define SETMAT_FINISH(ppdMatsIndex,iMatNumber,pdMats,iMats)		\
+    ((pdMats)								\
+     ? ({ ppdMatsIndex[iMatNumber++] = pdMats;				\
+	     pdMats = &pdMats[1] ;					\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppdMatsIndex && piMC2Mat)					\
+	 ? ({								\
+		 ((piMC2Mat[iMathComponent].iMat == -1)			\
+		  ? (piMC2Mat[iMathComponent].iMat = iMatNumber)	\
+		  : (1));						\
+		 iMatNumber++;						\
+		 (iMats) += MAT_ALIGNER(int);				\
+		 1;							\
+	     })								\
+	 : ({ iMatNumber++; 1; }) ) )
+
+
 /// \todo can be automated by taking an array and diffing casted to char *
 /// \todo pointers to sequent entries ?
 
