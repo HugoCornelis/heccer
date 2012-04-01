@@ -304,7 +304,8 @@ typedef struct EventList
 {
     struct EventList *pelLater;
     struct EventList *pelEarlier;
-    int iTarget;
+    int iRow;
+    int iColumn;
     double dTime;
 }
     EventList;
@@ -369,17 +370,17 @@ static int EventListInsert(EventList *pel)
     {
 	//- loop over list starting at last event
 
-	EventList *elCurrent = pelEventLast;
+	EventList *pelCurrent = pelEventLast;
 
-	while (elCurrent)
+	while (pelCurrent)
 	{
 	    //- if insertion position found
 
-	    if (elCurrent->dTime < pel->dTime)
+	    if (pelCurrent->dTime < pel->dTime)
 	    {
 		//- link new
 
-		pel->pelLater = elCurrent->pelLater;
+		pel->pelLater = pelCurrent->pelLater;
 
 		//- protect for last event in list
 
@@ -392,8 +393,8 @@ static int EventListInsert(EventList *pel)
 		    pelEventLast = pel;
 		}
 
-		pel->pelEarlier = elCurrent;
-		elCurrent->pelLater = pel;
+		pel->pelEarlier = pelCurrent;
+		pelCurrent->pelLater = pel;
 
 		//- break loop
 
@@ -402,12 +403,12 @@ static int EventListInsert(EventList *pel)
 
 	    //- next event: towards start of list
 
-	    elCurrent = elCurrent->pelEarlier;
+	    pelCurrent = pelCurrent->pelEarlier;
 	}
 
 	//- if new is earliest element (the unlikely case)
 
-	if (!elCurrent)
+	if (!pelCurrent)
 	{
 	    pel->pelEarlier = NULL;
 	    pel->pelLater = pelEventFirst;
@@ -422,7 +423,7 @@ static int EventListInsert(EventList *pel)
 
 /* 	//- if new is last element */
 
-/* 	if (elCurrent == elEventLast) */
+/* 	if (pelCurrent == elEventLast) */
 /* 	{ */
 /* 	    el->elLater = NULL; */
 /* 	    elEventLast = el; */
@@ -816,7 +817,7 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 /// \arg peq an event queuer.
 /// \arg dTime time the event arrives.
 /// \arg iSource source identifier.
-/// \arg iTarget target identifier.
+/// \arg iRow event queuer row index.
 /// 
 /// \return int
 /// 
@@ -825,24 +826,24 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 /// \brief Put an event in the queue untill it fires.
 /// 
 
-int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iTarget)
+int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  */int iRow)
 {
     //- set default result: ok
 
     int iResult = 1;
 
-    if (iTarget == -1)
+    if (iRow == -1)
     {
 	fprintf
 	    (stderr,
-	     "*** Warning: EventQueuerEnqueue() with -1 iTarget index.\n");
+	     "*** Warning: EventQueuerEnqueue() with -1 iRow index.\n");
     }
 
-    //- loop over all the connections of in the target row
+    //- loop over all the connections in the target row
 
-    struct EventQueuerMatrix *peqm = NULL;
+    struct EventQueuerMatrix *peqm = peq->peqd->ppeqm[iRow];
 
-    peqm = peq->peqd->ppeqm[iTarget];
+    int iColumn = 0;
 
     while (peqm && peqm->pvAccept)
     {
@@ -851,7 +852,8 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 	EventList *elElement = (struct EventList *)calloc(1, sizeof(EventList));
 
 	elElement->dTime = dTime + peqm->dDelay;
-	elElement->iTarget = iTarget;
+	elElement->iRow = iRow;
+	elElement->iColumn = iColumn;
 
 	//- queue the event
 
@@ -868,6 +870,8 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 #endif
 
 	//- next table entry
+
+	iColumn++;
 
 	peqm++;
     }
@@ -1000,76 +1004,64 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 
     int iResult = 1;
 
-    if (1)
-    {
-	return(iResult);
-    }
-
 /*     fprintf(stdout, "EventQueuerProcess(): processing until %g\n", dCurrentTime); */
 
 #if USE_SGLIB
 
-    EventList *elElement = sglib_EventList_get_first(elEvents);
+    EventList *pelElement = sglib_EventList_get_first(elEvents);
 
 #else
 
-    EventList *elElement = pelEventFirst;
+    EventList *pelElement = pelEventFirst;
 
 #endif
 
-    while (elElement && elElement->dTime <= dCurrentTime)
+    while (pelElement && pelElement->dTime <= dCurrentTime)
     {
 
 #if USE_SGLIB
 
-	sglib_EventList_delete(&elEvents, elElement);
+	sglib_EventList_delete(&elEvents, pelElement);
 
 #else
 
-	elElement = EventListDequeue();
+	pelElement = EventListDequeue();
 
 #endif
 
-	int iTarget = elElement->iTarget;
+	int iRow = pelElement->iRow;
 
-	if (iTarget == -1)
+	int iColumn = pelElement->iColumn;
+
+	if (iRow == -1 || iColumn == -1)
 	{
 	    fprintf
 		(stderr,
-		 "*** Warning: EventQueuerProcess() with -1 iTarget index.\n");
+		 "*** Warning: EventQueuerProcess() with -1 iRow or iColumn index.\n");
 	}
 
 	//- loop over target table
 
-	struct EventQueuerMatrix *ppeqm = peq->peqd->ppeqm[iTarget];
+	struct EventQueuerMatrix *peqm = &peq->peqd->ppeqm[iRow][iColumn];
 
 	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
-	/// \todo It does not SEGV, when optimization is turned off (gcc 4.0.3-1ubuntu5).
-	/// \todo This behaviour was noticed when using sglib, and when using the builtin
-	/// \todo event queue.
+	/// It does not SEGV, when optimization is turned off (gcc
+	/// 4.0.3-1ubuntu5).  This behaviour was noticed when using
+	/// sglib, and when using the builtin event queue.;
 
-	while (ppeqm && ppeqm->pvAccept)
-	{
-	    //- add connection delay
+	double dEvent = pelElement->dTime;
 
-	    double dEvent = elElement->dTime + ppeqm->dDelay;
+	//- call the target object
 
-	    //- call the target object
-
-	    iResult = iResult && ppeqm->pvAccept(ppeqm->pvObject, ppeqm->pdEvent, dEvent);
-
-	    //- next table entry
-
-	    ppeqm++;
-	}
+	iResult = iResult && peqm->pvAccept(peqm->pvObject, peqm->pdEvent, dEvent);
 
 #if USE_SGLIB
 
-	elElement = sglib_EventList_get_first(elEvents);
+	pelElement = sglib_EventList_get_first(elEvents);
 
 #else
 
-	elElement = pelEventFirst;
+	pelElement = pelEventFirst;
 
 #endif
 
