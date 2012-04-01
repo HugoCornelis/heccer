@@ -527,17 +527,17 @@ HeccerAddressMechanismVariable
 	}
 	else if (strcasecmp(pcType, "presyn_targets") == 0)
 	{
-/* 	    //- operators are one off */
+	    //- operators are three off
 
-/* 	    iOperand = -1; */
+	    iOperand = -3;
 
 	    //- get mop number
 
 	    int iMop = pheccer->vm.piMC2Mop[iIndex];
 
-/* 	    //- apply the operand */
+	    //- apply the operand
 
-/* 	    iMop += iOperand; */
+	    iMop += iOperand;
 
 	    //- set result
 
