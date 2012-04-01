@@ -299,18 +299,18 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 	    //- use the queuer to convert the serial to an index
 
-	    int iTarget = EventQueuerSerial2ConnectionIndex(peq, piPreSerials[i]);
+	    int iPreIndex = EventQueuerSerial2ConnectionIndex(peq, piPreSerials[i]);
 
 	    //- fill in the distribution matrix queuer entry
 
-	    if (iTarget == -1)
+	    if (iPreIndex == -1)
 	    {
 		fprintf
 		    (stderr,
-		     "*** Warning: DESConnect() with -1 iTarget index.\n");
+		     "*** Warning: DESConnect() with -1 iPreIndex index.\n");
 	    }
 
-	    ped->pedd->ppedm[iQueuer].iTarget = iTarget;
+	    ped->pedd->ppedm[iQueuer].iTarget = iPreIndex;
 	    ped->pedd->ppedm[iQueuer].pvProcess = EventQueuerEnqueue;
 	    ped->pedd->ppedm[iQueuer].pvObject = ppeq[iCore];
 	}
@@ -343,8 +343,6 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 	    for (j = 0 ; j < iConnections ; j++)
 	    {
-		// \todo ProjectionQueryTraverseConnectionsForSpikeGenerator()
-
 		//- the queuer matrix row to be filled in
 
 		struct EventQueuerMatrix *peqm = NULL;
@@ -417,15 +415,17 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 			struct simobj_Heccer *pheccerPost = (struct simobj_Heccer *)pvSolverPost;
 
-			//- fill in the solver index as notification target
+			//- fill in the event time container in the queuer
 
 			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccerPost, pcconn->iPost, "next_event");
+
+			//- fill in the synchan index as notification target for receiving events
 
 			double *pdPreSynTargets = HeccerAddressVariable(pheccerPost, pcconn->iPost, "presyn_targets");
 
 			int *piPreSynTargets = (int *)pdPreSynTargets;
 
-			*piPreSynTargets = iColumn; // EventQueuerSerial2ConnectionIndex(pcconn->iPost);
+			*piPreSynTargets = pcconn->iPost;
 
 			//- register the event queuer for this solver
 

@@ -838,22 +838,39 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 	     "*** Warning: EventQueuerEnqueue() with -1 iTarget index.\n");
     }
 
-    //- queue the incoming event
+    //- loop over all the connections of in the target row
 
-    EventList *elElement = malloc(sizeof(EventList));
+    struct EventQueuerMatrix *peqm = NULL;
 
-    elElement->dTime = dTime;
-    elElement->iTarget = iTarget;
+    peqm = peq->peqd->ppeqm[iTarget];
+
+    while (peqm && peqm->pvAccept)
+    {
+	//- generate an event for this target connection
+
+	EventList *elElement = (struct EventList *)calloc(1, sizeof(EventList));
+
+	elElement->dTime = dTime + peqm->dDelay;
+	elElement->iTarget = iTarget;
+
+	//- queue the event
 
 #if USE_SGLIB
 
-    sglib_EventList_add(&elEvents, elElement);
+	sglib_EventList_add(&elEvents, elElement);
 
 #else
 
-    iResult = EventListInsert(elElement);
-
+	if (iResult)
+	{
+	    iResult = EventListInsert(elElement);
+	}
 #endif
+
+	//- next table entry
+
+	peqm++;
+    }
 
     //- sort event list
 
@@ -887,7 +904,7 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 {
     //- set default result: failure
 
-    struct EventQueuerMatrix *ppeqmResult = NULL;
+    struct EventQueuerMatrix *peqmResult = NULL;
 
     int iRow = EventQueuerSerial2ConnectionIndex(peq, iSerial);
 
@@ -911,13 +928,13 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 
 /* 	int j = peq->peqd->ppiSerial2ConnectionIndex */
 
-	ppeqmResult = peq->peqd->ppeqm[iRow];
+	peqmResult = peq->peqd->ppeqm[iRow];
 
     }
 
     //- return result
 
-    return(ppeqmResult);
+    return(peqmResult);
 }
 
 
@@ -926,7 +943,7 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 /// 
 ///	An event queuer.
 /// 
-/// \brief Allocate an event queuer, given a single row.
+/// \brief Allocate an event queuer.
 /// 
 
 struct EventQueuer * EventQueuerNew()
@@ -955,7 +972,7 @@ struct EventQueuer * EventQueuerNew()
 
     peqd->iConnectionIndices = 0;
 
-    //- insert the row in the matrix
+    //- insert an empty row in the matrix
 
     peqd->ppeqm = (struct EventQueuerMatrix **)calloc(1, sizeof(struct EventQueuerMatrix *));
 
@@ -982,6 +999,11 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
     //- set default result: ok
 
     int iResult = 1;
+
+    if (1)
+    {
+	return(iResult);
+    }
 
 /*     fprintf(stdout, "EventQueuerProcess(): processing until %g\n", dCurrentTime); */
 
