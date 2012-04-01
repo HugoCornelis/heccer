@@ -137,7 +137,7 @@ int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection)
 		{
 		    struct EventDistributorMatrix *ppedm = &pedd->ppedm[iConnection];
 
-		    fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s\n", i, iConnection, ppedm->iTarget, ppedm->pvObject ? "yes" : "nil", ppedm->pvProcess ? "yes" : "nil");
+		    fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s)\n", i, iConnection, ppedm->iTarget, ppedm->pvObject ? "yes" : "nil", ppedm->pvProcess ? "yes" : "nil");
 		}
 	    }
 	}
@@ -180,7 +180,7 @@ int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection)
 			strcpy(pcEvent, "nil");
 		    }
 
-		    fprintf(pfile, "DES: EventQueuer[%i] : iConnection[%i, %i] : (dDelay %g, dWeight %g, pdEvent %s, pvObject{} %s, pvAccept() %s\n", i, iRow, iColumn, ppeqm->dDelay, ppeqm->dWeight, pcEvent, ppeqm->pvObject ? "yes" : "nil", ppeqm->pvAccept ? "yes" : "nil");
+		    fprintf(pfile, "DES: EventQueuer[%i] : iConnection[%i, %i] : (dDelay %g, dWeight %g, pdEvent %s, pvObject{} %s, pvAccept() %s)\n", i, iRow, iColumn, ppeqm->dDelay, ppeqm->dWeight, pcEvent, ppeqm->pvObject ? "yes" : "nil", ppeqm->pvAccept ? "yes" : "nil");
 
 /* 		    ppeqm++; */
 
