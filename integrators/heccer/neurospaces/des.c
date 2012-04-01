@@ -415,15 +415,7 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccerPost, pcconn->iPost, "next_event");
 
-			// \todo do we need to set this in pheccerPre?  Instead of pheccerPost?
-
-			double *pdPostSynTargets = HeccerAddressVariable(pheccerPost, pcconn->iPost, "postsyn_targets");
-
-			int *piPostSynTargets = (int *)pdPostSynTargets;
-
-			*piPostSynTargets = iColumn;
-
-			//- register the event distributor for this solver
+			//- register the event queuer for this solver
 
 			// \todo error checking, prevent multiple ped registrations maybe.
 
@@ -444,6 +436,37 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
 
 			struct PidinStack *ppistSolved = SolverInfoPidinStack(psiPost);
+
+			PidinStackPrint(ppistSolved, stderr);
+
+			fprintf(stderr, "\n");
+		    }
+
+		    struct SolverInfo *psiPre = SolverRegistryGetForAbsoluteSerial(psr, pcconn->iPre);
+
+		    void *pvSolverPre = psiPre->pvSolver;
+
+		    if (pvSolverPre)
+		    {
+			// \todo we simply assume it is a heccer: type
+			// discrimination required here, recycle the logic
+			// that is already available in ns-sli
+			// nsintegrator.h struct SolverRegistration{}.
+
+			struct simobj_Heccer *pheccerPre = (struct simobj_Heccer *)pvSolverPre;
+
+			double *pdPostSynTargets = HeccerAddressVariable(pheccerPre, pcconn->iPre, "postsyn_targets");
+
+			int *piPostSynTargets = (int *)pdPostSynTargets;
+
+			*piPostSynTargets = iColumn;
+
+		    }
+		    else
+		    {
+			fprintf(stderr, "*** Error: DESConstruct() cannot find a solver for ");
+
+			struct PidinStack *ppistSolved = SolverInfoPidinStack(psiPre);
 
 			PidinStackPrint(ppistSolved, stderr);
 

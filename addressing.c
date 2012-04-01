@@ -498,17 +498,17 @@ HeccerAddressMechanismVariable
 
 	else if (strcasecmp(pcType, "postsyn_targets") == 0)
 	{
-	    //- operators are one off
+/* 	    //- operators are one off */
 
-	    iOperand = -1;
+/* 	    iOperand = -1; */
 
 	    //- get mop number
 
 	    int iMop = pheccer->vm.piMC2Mop[iIndex];
 
-	    //- apply the operand
+/* 	    //- apply the operand */
 
-	    iMop += iOperand;
+/* 	    iMop += iOperand; */
 
 	    //- set result
 
@@ -516,13 +516,14 @@ HeccerAddressMechanismVariable
 
 /* 	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0); */
 
-	    struct MopsSpringMass *pmops = (struct MopsSpringMass *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
+/* 	    struct MopsSpringMass *pmops = (struct MopsSpringMass *)((int *)pheccer->vm.ppvMopsIndex[iMop]); */
 
-	    // \note normally the default for iTableIndex is -1, which
-	    // is returned as an error indicator if there is no table
-	    // associated with this gate.
+/* 	    pdResult = (double *)&pmops->iDiscreteTarget; */
 
-	    pdResult = (double *)&pmops->iDiscreteTarget;
+     0;
+	    struct MopsEventGenerate *pmops = (struct MopsEventGenerate *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
+
+	    pdResult = (double *)&pmops->iSource2Targets;
 	}
     }
 
