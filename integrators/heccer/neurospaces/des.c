@@ -108,7 +108,7 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 		    {
 			//- construct an event distributor for this pre-synaptic serial
 
-			// \todo type an arbitrary value: 2 for 1 queuer and 1 spike output
+			// \todo type an arbitrary value: 2 for 1 distributor and 1 spike output
 
 			int iTypeCount = 2;
 
@@ -211,9 +211,11 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 	for (i = 0 ; i < iCores ; i++)
 	{
+	    //- construct an event queuer for this CPU core
+
 	    struct EventQueuer *peq = EventQueuerNew();
 
-	    // \todo this line of code says that there is at most one presyn per queuer.
+	    //- loop over the presynaptic sources
 
 	    int iPreIndex;
 
@@ -224,14 +226,18 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 		// \todo this needs a preserial to count the number of connections
 		// attached and allocate for that amount of connections.
 
+		//- allocate the event queuer row
+
 		struct EventQueuerMatrix *peqm = EventQueuerDataNew(ppq, i);
 
 		peq->peqd->ppeqm[iPreIndex] = peqm;
 
-		int iAdded = EventQueuerSerial2ConnectionIndexAdd(peq->peqd, piPreSerials[iPreIndex], iPreIndex);
+		//- register the mapping between serial and its connection index
 
-		//- allocate the event queuer row
+		int iAdded = EventQueuerAddSerial2ConnectionIndex(peq->peqd, piPreSerials[iPreIndex], iPreIndex);
 	    }
+
+	    //- register the total number of rows in the queuer matrix
 
 	    peq->peqd->iRows = iPreSerials;
 
@@ -415,6 +421,12 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccerPost, pcconn->iPost, "next_event");
 
+			double *pdPreSynTargets = HeccerAddressVariable(pheccerPost, pcconn->iPost, "presyn_targets");
+
+			int *piPreSynTargets = (int *)pdPreSynTargets;
+
+			*piPreSynTargets = iColumn; // EventQueuerSerial2ConnectionIndex(pcconn->iPost);
+
 			//- register the event queuer for this solver
 
 			// \todo error checking, prevent multiple ped registrations maybe.
@@ -460,7 +472,6 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 			int *piPostSynTargets = (int *)pdPostSynTargets;
 
 			*piPostSynTargets = iColumn;
-
 		    }
 		    else
 		    {

@@ -297,7 +297,7 @@ int EventQueuerProcess(struct EventQueuer *peq, double dTime);
 int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial);
 
 int
-EventQueuerSerial2ConnectionIndexAdd
+EventQueuerAddSerial2ConnectionIndex
 (struct EventQueuerData *peqd,
  int iSerial,
  int iIndex);

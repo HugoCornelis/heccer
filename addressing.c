@@ -525,6 +525,35 @@ HeccerAddressMechanismVariable
 
 	    pdResult = (double *)&pmops->iSource2Targets;
 	}
+	else if (strcasecmp(pcType, "presyn_targets") == 0)
+	{
+/* 	    //- operators are one off */
+
+/* 	    iOperand = -1; */
+
+	    //- get mop number
+
+	    int iMop = pheccer->vm.piMC2Mop[iIndex];
+
+/* 	    //- apply the operand */
+
+/* 	    iMop += iOperand; */
+
+	    //- set result
+
+/* 	    int iOffset = (int *)pheccer->vm.ppvMopsIndex[iMop] - (int *)pheccer->vm.pvMops; */
+
+/* 	    printf("mop number for intermediary mechanism %i is mop %i, starts at %i, offset is %i\n", iIndex, iMop, iOffset, 0); */
+
+/* 	    struct MopsSpringMass *pmops = (struct MopsSpringMass *)((int *)pheccer->vm.ppvMopsIndex[iMop]); */
+
+/* 	    pdResult = (double *)&pmops->iDiscreteTarget; */
+
+     0;
+	    struct MopsSpringMass *pmops = (struct MopsSpringMass *)((int *)pheccer->vm.ppvMopsIndex[iMop]);
+
+	    pdResult = (double *)&pmops->iDiscreteTarget;
+	}
     }
 
     //- return result

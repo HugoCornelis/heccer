@@ -1211,12 +1211,12 @@ int simulate(int argc, char *argv[])
 
     //- initialize the serial to connection matrix index convertor
 
-    if (!EventQueuerSerial2ConnectionIndexAdd(peq->peqd, 6000, 0))
+    if (!EventQueuerAddSerial2ConnectionIndex(peq->peqd, 6000, 0))
     {
 	exit(1);
     }
 
-    if (!EventQueuerSerial2ConnectionIndexAdd(peq->peqd, 8000, 1))
+    if (!EventQueuerAddSerial2ConnectionIndex(peq->peqd, 8000, 1))
     {
 	exit(2);
     }

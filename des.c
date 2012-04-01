@@ -1132,11 +1132,12 @@ int EventQueuerSerial2ConnectionIndex(struct EventQueuer *peq, int iSerial)
 /// 
 ///	success of operation.
 /// 
-/// \brief Add an external serial to that was added to the connection matrix.
+/// \brief Register the serial to connection index mapping of the
+/// given serial.
 /// 
 
 int
-EventQueuerSerial2ConnectionIndexAdd
+EventQueuerAddSerial2ConnectionIndex
 (struct EventQueuerData *peqd,
  int iSerial,
  int iIndex)
