@@ -81,8 +81,8 @@ sub compile
 		grep
 		{
 		    (
-		     $_->{field} eq 'I'
-		     or $_->{field} eq 'G'
+		     $_->{field} eq 'Isyn'
+		     or $_->{field} eq 'Gsyn'
 		     or $_->{field} eq 'current'
 		     or $_->{field} eq 'conductance'
 		    )
