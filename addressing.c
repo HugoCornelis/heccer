@@ -377,8 +377,8 @@ HeccerAddressMechanismVariable
     {
 	{	"Ca",		0,	0, }, // first operation, first mat entry
 	{	"FREQUENCY",	0,	3, }, // first operation, third mat entry
-	{	"G",		2,	0, }, // after two gates, first mat entry
-	{	"I",		2,	1, }, // after two gates, second mat entry
+	{	"Gsyn",		1,	0, }, // after springmass, first mat entry
+	{	"Isyn",		1,	1, }, // after two gates, second mat entry
 	{	"activation",	0,	1, }, // first operation, second mat entry
 	{	"conductance",	2,	0, }, // after two gates, first mat entry
 	{	"current",	2,	1, }, // after two gates, second mat entry
