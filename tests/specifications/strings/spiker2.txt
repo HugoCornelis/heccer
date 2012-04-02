@@ -1,8 +1,8 @@
 DES: Initiated
 DES: EventDistributor[0] : iConnection[0] : (iTarget 0, pvObject{} yes, pvProcess() yes)
 DES: EventDistributor[0] : iConnection[1] : (iTarget -1, pvObject{} yes, pvProcess() yes)
-DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent -1.000000, pvObject{} yes, pvAccept() yes)
-DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent -1.000000, pvObject{} yes, pvAccept() yes)
+DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent 0.000000, pvObject{} yes, pvAccept() yes)
+DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent 0.000000, pvObject{} yes, pvAccept() yes)
 Initiated
 Heccer (pcName) : (source)
 Heccer (iStatus) : (20)
@@ -103,8 +103,8 @@ DES: -------
 DES: Iteration 0
 DES: EventDistributor[0] : iConnection[0] : (iTarget 0, pvObject{} yes, pvProcess() yes)
 DES: EventDistributor[0] : iConnection[1] : (iTarget -1, pvObject{} yes, pvProcess() yes)
-DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent -1.000000, pvObject{} yes, pvAccept() yes)
-DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent -1.000000, pvObject{} yes, pvAccept() yes)
+DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent 0.000000, pvObject{} yes, pvAccept() yes)
+DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent 0.000000, pvObject{} yes, pvAccept() yes)
 -------
 Iteration 0
 Heccer (pcName) : (source)
@@ -208,8 +208,8 @@ DES: -------
 DES: Final Iteration
 DES: EventDistributor[0] : iConnection[0] : (iTarget 0, pvObject{} yes, pvProcess() yes)
 DES: EventDistributor[0] : iConnection[1] : (iTarget -1, pvObject{} yes, pvProcess() yes)
-DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent -1.000000, pvObject{} yes, pvAccept() yes)
-DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent -1.000000, pvObject{} yes, pvAccept() yes)
+DES: EventQueuer[0] : iConnection[0, 0] : (dDelay 0.001, dWeight 1, pdEvent 0.000000, pvObject{} yes, pvAccept() yes)
+DES: EventQueuer[0] : iConnection[0, 1] : (dDelay 0.002, dWeight 2, pdEvent 0.000000, pvObject{} yes, pvAccept() yes)
 -------
 Final Iteration
 Heccer (pcName) : (source)
@@ -271,13 +271,13 @@ Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
 00001 :: INITIALIZECHANNEL 0 2.5681e-06
-00002 :: SPRINGMASS -1 (nil) 0 0							 -1 1.18898e-07 1.11425e-06
+00002 :: SPRINGMASS -1 (nil) 0 0							 -1 1.19136e-07 1.11518e-06
 00003 :: UPDATECOMPARTMENTCURRENT
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.070312)
+VM Membrane Potentials (pdVms[0]) : (-0.0703119)
 -------
 Final Iteration
 Heccer (pcName) : (target2)
@@ -302,13 +302,13 @@ Mechanism operations
 -----
 00000 :: COMPARTMENT							 -2.23189e-10 0 10928.1 1.00003
 00001 :: INITIALIZECHANNEL 0 2.5681e-06
-00002 :: SPRINGMASS -1 (nil) 1 0							 -1 1.75358e-06 5.12241e-06
+00002 :: SPRINGMASS -1 (nil) 1 0							 -1 1.76061e-06 5.13095e-06
 00003 :: UPDATECOMPARTMENTCURRENT
 00004 :: FINISH
 VM Diagonals (pdDiagonals[0]) : (1.00003)
 VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
-VM Membrane Potentials (pdVms[0]) : (-0.068615)
+VM Membrane Potentials (pdVms[0]) : (-0.0686146)
 0 -0.0649617
 1 -0.0649234
 2 -0.064885
