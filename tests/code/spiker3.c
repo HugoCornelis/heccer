@@ -1510,7 +1510,7 @@ int simulate(int argc, char *argv[])
 
     peqm[0].pvObject = pheccerTarget1;
 
-    peqm[0].pdEvent = HeccerAddressVariable(pheccerTarget1, 6000, "next_event");
+    peqm[0].pdSynapses = HeccerAddressVariable(pheccerTarget1, 6000, "synapses");
 
     //- link event queuer to springmass of target 2
 
@@ -1518,7 +1518,7 @@ int simulate(int argc, char *argv[])
 
     peqm[1].pvObject = pheccerTarget2;
 
-    peqm[1].pdEvent = HeccerAddressVariable(pheccerTarget2, 8000, "next_event");
+    peqm[1].pdSynapses = HeccerAddressVariable(pheccerTarget2, 8000, "synapses");
 
     //- initialize test specific things
 

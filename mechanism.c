@@ -4412,41 +4412,49 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 		    }
 		}
 
-		//- if there is an incoming event from the event distributor
+		//- add activation contribution of synapses
 
-		if (pmats->dNextEvent != -1.0
-		    && pmats->dNextEvent < pheccer->dTime
+		pmats->dX += pmats->dSynapses * phtsm->dX1;
 
-		    /// \note target index for this object
+		//- reset activation of synapses
 
-		    && pmops->iDiscreteTarget != -1)
-		{
-		    //- translate incoming events to their activation
+		pmats->dSynapses = 0;
 
-		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteTarget);
+/* 		//- if there is an incoming event from the event distributor */
 
-		    if (dActivation != DBL_MAX)
-		    {
-			//- add the activation of (possibly multiple) events to the channel activation
+/* 		if (pmats->dNextEvent != -1.0 */
+/* 		    && pmats->dNextEvent < pheccer->dTime */
 
-			pmats->dX += dActivation * phtsm->dX1;
-		    }
-		    else
-		    {
-			HeccerError
-			    (pheccer,
-			     NULL,
-			     "event reception failed for (%i) at time %g\n",
-			     pmops->iDiscreteTarget,
-			     pheccer->dTime); 
+/* 		    /// \note target index for this object */
 
-			return(0);
-		    }
+/* 		    && pmops->iDiscreteTarget != -1) */
+/* 		{ */
+/* 		    //- translate incoming events to their activation */
 
-		    //- reset the incoming event time
+/* 		    double dActivation = HeccerEventReceive(pheccer, pmops->iDiscreteTarget); */
 
-		    pmats->dNextEvent = -1.0;
-		}
+/* 		    if (dActivation != DBL_MAX) */
+/* 		    { */
+/* 			//- add the activation of (possibly multiple) events to the channel activation */
+
+/* 			pmats->dX += dActivation * phtsm->dX1; */
+/* 		    } */
+/* 		    else */
+/* 		    { */
+/* 			HeccerError */
+/* 			    (pheccer, */
+/* 			     NULL, */
+/* 			     "event reception failed for (%i) at time %g\n", */
+/* 			     pmops->iDiscreteTarget, */
+/* 			     pheccer->dTime);  */
+
+/* 			return(0); */
+/* 		    } */
+
+/* 		    //- reset the incoming event time */
+
+/* 		    pmats->dNextEvent = -1.0; */
+/* 		} */
 
 		//- compute channel activation
 

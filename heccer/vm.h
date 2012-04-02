@@ -322,6 +322,12 @@ struct MatsSpringMass
     /// random activation frequency
 
     double dFrequency;
+
+    /// external activation
+
+    // \todo the dumper does not print this
+
+    double dSynapses;
 };
 
 #define SETMOP_SPRINGMASS(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,pdE,iDT,iT) \

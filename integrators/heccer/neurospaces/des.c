@@ -415,17 +415,21 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 			struct simobj_Heccer *pheccerPost = (struct simobj_Heccer *)pvSolverPost;
 
-			//- fill in the event time container in the queuer
+/* 			//- fill in the event time container in the queuer */
 
-			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccerPost, pcconn->iPost, "next_event");
+/* 			peqm[iColumn].pdEvent = HeccerAddressVariable(pheccerPost, pcconn->iPost, "next_event"); */
 
-			//- fill in the synchan index as notification target for receiving events
+			double *pdSynapses = HeccerAddressVariable(pheccerPost, pcconn->iPost, "synapses");
 
-			double *pdPreSynTargets = HeccerAddressVariable(pheccerPost, pcconn->iPost, "presyn_targets");
+			peqm[iColumn].pdSynapses = pdSynapses;
 
-			int *piPreSynTargets = (int *)pdPreSynTargets;
+/* 			//- fill in the synchan index as notification target for receiving events */
 
-			*piPreSynTargets = pcconn->iPost;
+/* 			double *pdPreSynTargets = HeccerAddressVariable(pheccerPost, pcconn->iPost, "presyn_targets"); */
+
+/* 			int *piPreSynTargets = (int *)pdPreSynTargets; */
+
+/* 			*piPreSynTargets = pcconn->iPost; */
 
 			//- register the event queuer for this solver
 
@@ -545,7 +549,7 @@ static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq
 
     peqmResult[iConnections].dDelay = DBL_MAX;
     peqmResult[iConnections].dWeight = DBL_MAX;
-    peqmResult[iConnections].pdEvent = NULL;
+    peqmResult[iConnections].pdSynapses = NULL;
     peqmResult[iConnections].pvAccept = NULL;
     peqmResult[iConnections].pvObject = NULL;
 

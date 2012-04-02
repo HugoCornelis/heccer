@@ -376,7 +376,8 @@ HeccerAddressMechanismVariable
     struct field_2_operator pF2P[] =
     {
 	{	"Ca",		0,	0, }, // first operation, first mat entry
-	{	"FREQUENCY",	0,	3, }, // first operation, third mat entry
+	{	"FREQUENCY",	0,	3, }, // first operation, fourth mat entry
+	{	"synapses",	0,	4, }, // first operation, fifth mat entry
 	{	"Gsyn",		1,	0, }, // after springmass, first mat entry
 	{	"Isyn",		1,	1, }, // after two gates, second mat entry
 	{	"activation",	0,	1, }, // first operation, second mat entry

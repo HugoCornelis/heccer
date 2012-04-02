@@ -126,9 +126,13 @@ struct EventQueuerMatrix
 
     void *pvObject;
 
-    /// target site, pointer to double ?
+/*     /// identifier in the target object. */
 
-    double *pdEvent;
+/*     int iPost; */
+
+    /// target site
+
+    double *pdSynapses;
 
     /// connection delay
 

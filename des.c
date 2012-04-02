@@ -135,9 +135,9 @@ int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection)
 
 		for (iConnection = 0 ; iConnection <= pedd->iLast ; iConnection++)
 		{
-		    struct EventDistributorMatrix *ppedm = &pedd->ppedm[iConnection];
+		    struct EventDistributorMatrix *pedm = &pedd->ppedm[iConnection];
 
-		    fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s)\n", i, iConnection, ppedm->iTarget, ppedm->pvObject ? "yes" : "nil", ppedm->pvProcess ? "yes" : "nil");
+		    fprintf(pfile, "DES: EventDistributor[%i] : iConnection[%i] : (iTarget %i, pvObject{} %s, pvProcess() %s)\n", i, iConnection, pedm->iTarget, pedm->pvObject ? "yes" : "nil", pedm->pvProcess ? "yes" : "nil");
 		}
 	    }
 	}
@@ -163,28 +163,25 @@ int DESDump(struct simobj_DES *pdes, FILE *pfile, int iSelection)
 	    {
 		int iColumn = 0;
 
-		struct EventQueuerMatrix *ppeqm = NULL;
+		struct EventQueuerMatrix *peqm = NULL;
 
-		for (iColumn = 0, ppeqm = &peqd->ppeqm[iRow][iColumn] ; ppeqm[1].pvAccept ; iColumn++)
+		for (iColumn = 0, peqm = &peqd->ppeqm[iRow][iColumn] ; peqm[1].pvAccept ; iColumn++)
 		{
-		    ppeqm = &peqd->ppeqm[iRow][iColumn];
+		    peqm = &peqd->ppeqm[iRow][iColumn];
 
 		    char pcEvent[100];
 
-		    if (ppeqm->pdEvent)
+		    if (peqm->pdSynapses)
 		    {
-			sprintf(pcEvent, "%f", *ppeqm->pdEvent);
+			sprintf(pcEvent, "%f", *peqm->pdSynapses);
 		    }
 		    else
 		    {
 			strcpy(pcEvent, "nil");
 		    }
 
-		    fprintf(pfile, "DES: EventQueuer[%i] : iConnection[%i, %i] : (dDelay %g, dWeight %g, pdEvent %s, pvObject{} %s, pvAccept() %s)\n", i, iRow, iColumn, ppeqm->dDelay, ppeqm->dWeight, pcEvent, ppeqm->pvObject ? "yes" : "nil", ppeqm->pvAccept ? "yes" : "nil");
+		    fprintf(pfile, "DES: EventQueuer[%i] : iConnection[%i, %i] : (dDelay %g, dWeight %g, pdEvent %s, pvObject{} %s, pvAccept() %s)\n", i, iRow, iColumn, peqm->dDelay, peqm->dWeight, pcEvent, peqm->pvObject ? "yes" : "nil", peqm->pvAccept ? "yes" : "nil");
 
-/* 		    ppeqm++; */
-
-/* 		    iColumn++; */
 		}
 	    }
 	}
@@ -307,6 +304,8 @@ typedef struct EventList
     int iRow;
     int iColumn;
     double dTime;
+    double dWeight;
+    double *pdSynapses;
 }
     EventList;
 
@@ -779,8 +778,6 @@ double EventQueuerDequeue(struct EventQueuer *peq, double dTime, int iTarget)
 
     //- loop over events for this target until this time
 
-    /// \todo loop over events for this target until this time
-
     struct EventQueuerMatrix *ppeqm = &peq->peqd->ppeqm[0][iTarget];
 
     while (ppeqm
@@ -849,23 +846,25 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
     {
 	//- generate an event for this target connection
 
-	EventList *elElement = (struct EventList *)calloc(1, sizeof(EventList));
+	EventList *pelElement = (struct EventList *)calloc(1, sizeof(EventList));
 
-	elElement->dTime = dTime + peqm->dDelay;
-	elElement->iRow = iRow;
-	elElement->iColumn = iColumn;
+	pelElement->dTime = dTime + peqm->dDelay;
+	pelElement->iRow = iRow;
+	pelElement->iColumn = iColumn;
+	pelElement->pdSynapses = peqm->pdSynapses;
+	pelElement->dWeight = peqm->dWeight;
 
 	//- queue the event
 
 #if USE_SGLIB
 
-	sglib_EventList_add(&elEvents, elElement);
+	sglib_EventList_add(&elEvents, pelElement);
 
 #else
 
 	if (iResult)
 	{
-	    iResult = EventListInsert(elElement);
+	    iResult = EventListInsert(pelElement);
 	}
 #endif
 
@@ -1029,31 +1028,28 @@ int EventQueuerProcess(struct EventQueuer *peq, double dCurrentTime)
 
 #endif
 
-	int iRow = pelElement->iRow;
+	*pelElement->pdSynapses += pelElement->dWeight;
 
-	int iColumn = pelElement->iColumn;
+/* 	int iRow = pelElement->iRow; */
 
-	if (iRow == -1 || iColumn == -1)
-	{
-	    fprintf
-		(stderr,
-		 "*** Warning: EventQueuerProcess() with -1 iRow or iColumn index.\n");
-	}
+/* 	int iColumn = pelElement->iColumn; */
 
-	//- loop over target table
+/* 	if (iRow == -1 || iColumn == -1) */
+/* 	{ */
+/* 	    fprintf */
+/* 		(stderr, */
+/* 		 "*** Warning: EventQueuerProcess() with -1 iRow or iColumn index.\n"); */
+/* 	} */
 
-	struct EventQueuerMatrix *peqm = &peq->peqd->ppeqm[iRow][iColumn];
+/* 	//- loop over target table */
 
-	/// \todo This code SEGV on './configure --with-random', with optimization turned on.
-	/// It does not SEGV, when optimization is turned off (gcc
-	/// 4.0.3-1ubuntu5).  This behaviour was noticed when using
-	/// sglib, and when using the builtin event queue.;
+/* 	struct EventQueuerMatrix *peqm = &peq->peqd->ppeqm[iRow][iColumn]; */
 
-	double dEvent = pelElement->dTime;
+/* 	double dEvent = pelElement->dTime; */
 
-	//- call the target object
+/* 	//- call the target object */
 
-	iResult = iResult && peqm->pvAccept(peqm->pvObject, peqm->pdEvent, dEvent);
+/* 	iResult = iResult && peqm->pvAccept(peqm->pvObject, peqm->pdEvent, dEvent); */
 
 #if USE_SGLIB
 
