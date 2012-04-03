@@ -2221,24 +2221,24 @@ int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer)
 		break;
 	    }
 
-	    //- to compute a channel's conductance
+/* 	    //- to compute a channel's conductance */
 
-	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
-	    {
-		//- go to next operator
+/* 	    case HECCER_MOP_STORECHANNELCONDUCTANCE: */
+/* 	    { */
+/* 		//- go to next operator */
 
-		piMop = &piMop[1];
+/* 		piMop = &piMop[1]; */
 
-		//- store the current conductance
+/* 		//- store the current conductance */
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
+/* 		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats; */
 
-		//- go to next type specific data
+/* 		//- go to next type specific data */
 
-		pdMats = (double *)&pmats[1];
+/* 		pdMats = (double *)&pmats[1]; */
 
-		break;
-	    }
+/* 		break; */
+/* 	    } */
 
 	    //- for a new membrane potential
 
@@ -2694,24 +2694,24 @@ int HeccerMechanismLink(struct simobj_Heccer *pheccer)
 		break;
 	    }
 
-	    //- to compute a channel's conductance
+/* 	    //- to compute a channel's conductance */
 
-	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
-	    {
-		//- go to next operator
+/* 	    case HECCER_MOP_STORECHANNELCONDUCTANCE: */
+/* 	    { */
+/* 		//- go to next operator */
 
-		piMop = &piMop[1];
+/* 		piMop = &piMop[1]; */
 
-		//- store the current conductance
+/* 		//- store the current conductance */
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
+/* 		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats; */
 
-		//- go to next type specific data
+/* 		//- go to next type specific data */
 
-		pdMats = (double *)&pmats[1];
+/* 		pdMats = (double *)&pmats[1]; */
 
-		break;
-	    }
+/* 		break; */
+/* 	    } */
 
 	    //- for a new membrane potential
 
@@ -3179,24 +3179,24 @@ int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer)
 		break;
 	    }
 
-	    //- to compute a channel's conductance
+/* 	    //- to compute a channel's conductance */
 
-	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
-	    {
-		//- go to next operator
+/* 	    case HECCER_MOP_STORECHANNELCONDUCTANCE: */
+/* 	    { */
+/* 		//- go to next operator */
 
-		piMop = &piMop[1];
+/* 		piMop = &piMop[1]; */
 
-		//- store the current conductance
+/* 		//- store the current conductance */
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
+/* 		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats; */
 
-		//- go to next type specific data
+/* 		//- go to next type specific data */
 
-		pdMats = (double *)&pmats[1];
+/* 		pdMats = (double *)&pmats[1]; */
 
-		break;
-	    }
+/* 		break; */
+/* 	    } */
 
 	    //- for a new membrane potential
 
@@ -3800,26 +3800,26 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 		break;
 	    }
 
-	    //- to compute a channel's conductance
+/* 	    //- to compute a channel's conductance */
 
-	    case HECCER_MOP_STORECHANNELCONDUCTANCE:
-	    {
-		//- go to next operator
+/* 	    case HECCER_MOP_STORECHANNELCONDUCTANCE: */
+/* 	    { */
+/* 		//- go to next operator */
 
-		piMop = &piMop[1];
+/* 		piMop = &piMop[1]; */
 
-		//- store the current conductance
+/* 		//- store the current conductance */
 
-		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats;
+/* 		struct MatsStoreChannelConductance * pmats = (struct MatsStoreChannelConductance *)pdMats; */
 
-		pmats->dChannelConductance = dChannelConductance;
+/* 		pmats->dChannelConductance = dChannelConductance; */
 
-		//- go to next type specific data
+/* 		//- go to next type specific data */
 
-		pdMats = (double *)&pmats[1];
+/* 		pdMats = (double *)&pmats[1]; */
 
-		break;
-	    }
+/* 		break; */
+/* 	    } */
 
 	    //- for a new membrane potential
 
