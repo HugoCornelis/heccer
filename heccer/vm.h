@@ -665,37 +665,37 @@ struct MopsInitializeChannelErev
 	 : ({ iMopNumber++; 1; }) ) )
 
 
-struct MopsStoreChannelConductance
-{
-    /// operator : HECCER_MOP_STORECHANNELCONDUCTANCE
+/* struct MopsStoreChannelConductance */
+/* { */
+/*     /// operator : HECCER_MOP_STORECHANNELCONDUCTANCE */
 
-    int iOperator;
-};
+/*     int iOperator; */
+/* }; */
 
-/// \todo needs to be renamed to MatsStoreChannelConductance
+/* /// \todo needs to be renamed to MatsStoreChannelConductance */
 
-struct MatsStoreChannelConductance
-{
-    /// single channel conductance
+/* struct MatsStoreChannelConductance */
+/* { */
+/*     /// single channel conductance */
 
-    double dChannelConductance;
-};
+/*     double dChannelConductance; */
+/* }; */
 
-#define SETMOP_STORECHANNELCONDUCTANCE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops) \
-    ((pvMops)								\
-     ? ({ struct MopsStoreChannelConductance *pmops = (struct MopsStoreChannelConductance *)(pvMops); \
-	     pmops->iOperator = HECCER_MOP_STORECHANNELCONDUCTANCE ;	\
-	     ppvMopsIndex[iMopNumber++] = pvMops;			\
-	     (pvMops) = (void *)&pmops[1];				\
-	     1;								\
-	 }) : (								\
-	     (ppvMopsIndex)						\
-	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
-		     (iMops) += sizeof(struct MopsStoreChannelConductance); \
-		     1;							\
-		 })							\
-	     : ({ iMopNumber++; 1; }) ) )
+/* #define SETMOP_STORECHANNELCONDUCTANCE(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops) \ */
+/*     ((pvMops)								\ */
+/*      ? ({ struct MopsStoreChannelConductance *pmops = (struct MopsStoreChannelConductance *)(pvMops); \ */
+/* 	     pmops->iOperator = HECCER_MOP_STORECHANNELCONDUCTANCE ;	\ */
+/* 	     ppvMopsIndex[iMopNumber++] = pvMops;			\ */
+/* 	     (pvMops) = (void *)&pmops[1];				\ */
+/* 	     1;								\ */
+/* 	 }) : (								\ */
+/* 	     (ppvMopsIndex)						\ */
+/* 	     ? ({							\ */
+/* 		     piMC2Mop[iMathComponent] = iMopNumber++;		\ */
+/* 		     (iMops) += sizeof(struct MopsStoreChannelConductance); \ */
+/* 		     1;							\ */
+/* 		 })							\ */
+/* 	     : ({ iMopNumber++; 1; }) ) ) */
 
 
 struct MopsVoltageTableDependency
