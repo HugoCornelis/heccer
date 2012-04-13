@@ -22,9 +22,10 @@
 
 
 /*
-** Random number routines from "Numerical Recipes in C", Chapter 7
-** Entered by Michael D. Speight, 10th September 1991
-** All references to '*idum' changed to 'idum'
+** The Random Number Generator (RNG) used here is based on the
+** "portable" RNG algorithm described in "Numerical Recipes in C",
+** Chapter 7.  Implemented in GENESIS by Michael D. Speight, 10th
+** September 1991.
 */
 #define M1 259200
 #define IA1 7141
