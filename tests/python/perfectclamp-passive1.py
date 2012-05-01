@@ -88,8 +88,10 @@ simulation_time = 0.0
 
 print "-------"
 
-for i in range(0,STEPS):
+i = 0
 
+while i < STEPS:
+    
     simulation_time = i * TIME_STEP + TIME_GRANULARITY
 
     my_heccer.Step(simulation_time)
@@ -105,4 +107,4 @@ for i in range(0,STEPS):
         
             print "-------"
     
-
+    i += 1

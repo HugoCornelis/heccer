@@ -39,7 +39,7 @@
 double HeccerAddressGetValue(struct simobj_Heccer *pheccer, int iSerial, char *pcParameter);
 int AddressingNeurospaces2Heccer(int iNeuro);
 int AddressingHeccer2Neurospaces(int iHeccer);
-
+int SetDoubleValue(double *dAddress, double dValue);
 //------------------------------------------ End Prototypes ---------------------------
 
 
@@ -58,6 +58,19 @@ int AddressingHeccer2Neurospaces(int iHeccer)
 
 }
 
+
+
+int SetDoubleValue(double *dAddress, double dValue)
+{
+
+  if( !dAddress )
+  {
+    return 0;
+  }
+
+  (*dAddress) = dValue;
+
+}
 
 //------------------------------------------------------------------------------
 /*

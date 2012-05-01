@@ -212,13 +212,15 @@ simulation_time = 0.0
 
 print "-------"
 
-for i in range(0,STEPS):
+i = 0
+#    for i in range(0,STEPS):
+while i < STEPS:
 
     simulation_time = i * TIME_STEP + TIME_GRANULARITY
-
+        
     my_heccer.Step(simulation_time)
     perfect_clamp.Step(simulation_time)
-
+        
     if i % reporting_granularity == 0:
     
         print "Iteration %d" % i
@@ -228,5 +230,10 @@ for i in range(0,STEPS):
         if i < STEPS-1:
         
             print "-------"
+
+    i += 1
+            
+
+
     
 
