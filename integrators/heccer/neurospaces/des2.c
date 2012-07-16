@@ -22,7 +22,7 @@
 
 #include "heccer/addressing.h"
 #include "heccer/event.h"
-#include "heccer/neurospaces/des.h"
+#include "heccer/neurospaces/des2.h"
 
 
 static struct EventQueuerMatrix * EventQueuerDataNew(struct ProjectionQuery *ppq, int iThread);
@@ -53,6 +53,8 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
     {
 	return(0);
     }
+
+    void *ppvSolver[1000];
 
     // \todo this must be replaced with projectionquery traversals
 
@@ -103,6 +105,8 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 		if (psi)
 		{
 		    void *pvSolver = psi->pvSolver;
+
+		    ppvSolver[iDistributor] = pvSolver;
 
 		    if (pvSolver)
 		    {
@@ -382,6 +386,8 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 		    if (!peqm)
 		    {
+			((int *)0)[0] = 0;
+
 			//- continue with next pre-synaptic serial
 
 			continue;
@@ -475,7 +481,28 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 
 			int *piPostSynTargets = (int *)pdPostSynTargets;
 
-			*piPostSynTargets = iColumn;
+			// \todo it is certainly wrong to fill in the
+			// column in the presyn solver, the column is
+			// meaningless without the context of the row
+			// index.  Maybe needs to be row here, the row
+			// essentially matches with iPreIndex.
+
+			// \todo map pcconn->iPre to iPreIndex, fill in iPreIndex for *piPostSynTargets?
+
+			//- use the queuer to convert the serial to an index
+
+			int iPreIndex = EventQueuerSerial2ConnectionIndex(peq, pcconn->iPre);
+
+			//- fill in the distribution matrix queuer entry
+
+			if (iPreIndex == -1)
+			{
+			    fprintf
+				(stderr,
+				 "*** Warning: DESConnect() with -1 iPreIndex index.\n");
+			}
+
+			*piPostSynTargets = iPreIndex; // iColumn;
 		    }
 		    else
 		    {
@@ -488,7 +515,7 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 			fprintf(stderr, "\n");
 		    }
 
-		    //- go to next column in the matrix
+		    //- go to next column of the queuer matrix
 
 		    iColumn++;
 		}

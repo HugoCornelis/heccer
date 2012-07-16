@@ -29,13 +29,13 @@ AM_CFLAGS=-g3 -fPIC -Wmissing-prototypes -Wmissing-declarations -ffloat-store -I
 pkglib_LIBRARIES = libhneurospaces.a
 
 libhneurospaces_a_SOURCES = \
-	heccer/neurospaces/des.c \
+	heccer/neurospaces/des2.c \
 	heccer/neurospaces/heccer.c \
 	heccer/neurospaces/mechanisms.c \
 	heccer/neurospaces/segments.c
 
 nobase_include_HEADERS = \
-	heccer/neurospaces/des.h \
+	heccer/neurospaces/des2.h \
 	heccer/neurospaces/heccer.h \
 	heccer/neurospaces/mechanisms.h \
 	heccer/neurospaces/segments.h

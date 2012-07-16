@@ -61,7 +61,7 @@
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
-#include "integrators/heccer/neurospaces/des.h"
+#include "integrators/heccer/neurospaces/des2.h"
 #include "integrators/heccer/neurospaces/heccer.h"
 
 /* #include "/usr/local/include/neurospaces/neurospaces.h" */
@@ -214,7 +214,7 @@ void * des_get_driver_method(struct simobj_DES *pdes)
 //t so this should depend on the configuration
 //t perhaps this can be done using regular #ifdef statements, not sure
 
-%include "integrators/heccer/neurospaces/des.h"
+%include "integrators/heccer/neurospaces/des2.h"
 %include "integrators/heccer/neurospaces/heccer.h"
 
 /* %include "/usr/local/include/neurospaces/neurospaces.h" */

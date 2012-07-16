@@ -661,8 +661,6 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     //- get matrix data
 
-    struct EventDistributorData *pedd = ped->pedd;
-
     if (iTargets == -1)
     {
 	fprintf
@@ -672,7 +670,11 @@ int EventDistributorSend(struct EventDistributor *ped, double dTime, int iTarget
 
     //- loop over target table
 
-    struct EventDistributorMatrix *ppedm = &pedd->ppedm[iTargets];
+    struct EventDistributorData *pedd = ped->pedd;
+
+    int iColumn = 0; // iTargets;
+
+    struct EventDistributorMatrix *ppedm = &pedd->ppedm[iColumn];
 
     while (ppedm && ppedm->pvProcess)
     {
