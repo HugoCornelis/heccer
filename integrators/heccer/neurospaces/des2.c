@@ -54,7 +54,7 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 	return(0);
     }
 
-    void *ppvSolver[1000];
+    void *ppvSolver[10000];
 
     // \todo this must be replaced with projectionquery traversals
 
@@ -217,7 +217,12 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 	{
 	    //- construct an event queuer for this CPU core
 
-	    struct EventQueuer *peq = EventQueuerNew();
+	    // \todo currently a hardcode number of pre-synaptic
+	    // serials per CPU.
+
+	    int iPreSerials = 10000;
+
+	    struct EventQueuer *peq = EventQueuerNew(iPreSerials);
 
 	    //- loop over the presynaptic sources
 

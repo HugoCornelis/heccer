@@ -944,6 +944,9 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 
 
 /// 
+/// \arg iPreSerials The number of pre-synaptic serials that will send
+/// events to this event queuer.
+///
 /// \return struct EventQueuer
 /// 
 ///	An event queuer.
@@ -951,7 +954,7 @@ struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, 
 /// \brief Allocate an event queuer.
 /// 
 
-struct EventQueuer * EventQueuerNew()
+struct EventQueuer * EventQueuerNew(int iPreSerials)
 {
     //- set default result: allocate
 
@@ -979,7 +982,7 @@ struct EventQueuer * EventQueuerNew()
 
     //- insert an empty row in the matrix
 
-    peqd->ppeqm = (struct EventQueuerMatrix **)calloc(1, sizeof(struct EventQueuerMatrix *));
+    peqd->ppeqm = (struct EventQueuerMatrix **)calloc(iPreSerials, sizeof(struct EventQueuerMatrix *));
 
     peqd->iRows = 0;
 

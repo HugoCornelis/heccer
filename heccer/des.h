@@ -294,7 +294,7 @@ int EventQueuerEnqueue(struct EventQueuer *peq, double dTime, /* int iSource,  *
 
 struct EventQueuerMatrix * EventQueuerGetRowFromSerial(struct EventQueuer *peq, int iIndex);
 
-struct EventQueuer * EventQueuerNew(void);
+struct EventQueuer * EventQueuerNew(int iPreSerials);
 
 int EventQueuerProcess(struct EventQueuer *peq, double dTime);
 
