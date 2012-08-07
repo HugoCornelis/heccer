@@ -220,9 +220,9 @@ int DESConnect(struct simobj_DES *pdes, struct SolverRegistry *psr, struct Proje
 	    // \todo currently a hardcode number of pre-synaptic
 	    // serials per CPU.
 
-	    int iPreSerials = 10000;
+	    int iPreSerialsMax = 10000;
 
-	    struct EventQueuer *peq = EventQueuerNew(iPreSerials);
+	    struct EventQueuer *peq = EventQueuerNew(iPreSerialsMax);
 
 	    //- loop over the presynaptic sources
 
