@@ -1203,7 +1203,7 @@ int simulate(int argc, char *argv[])
 
     //- allocate event queuer
 
-    struct EventQueuer *peq = EventQueuerNew();
+    struct EventQueuer *peq = EventQueuerNew(1);
 
     peq->peqd->ppeqm[0] = &peqm[0];
 
