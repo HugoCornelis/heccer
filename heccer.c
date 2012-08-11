@@ -1,4 +1,4 @@
-static char *pcVersionTime="(10/12/01) Wednesday, December 1, 2010 12:58:59 Abominous";
+static char *pcVersionTime="(12/08/11) Saturday, August 11, 2012 22:40:42 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -744,21 +744,21 @@ static int HeccerHecc(struct simobj_Heccer *pheccer)
     }
 
     /// \note I am undecided where to make the difference between CN and BE.
-    /// \note From cosmetic viewpoint, here we should only delegate to
-    /// \note HeccerMechanismHecc() and HeccerCompartmentHecc().
-    /// \note Then the difference can be made by looking at the options
-    /// \note (bad~?), or by having byte-code generated for the two specific
-    /// \note cases (slower~?).
+    /// From cosmetic viewpoint, here we should only delegate to
+    /// HeccerMechanismHecc() and HeccerCompartmentHecc().
+    /// Then the difference can be made by looking at the options
+    /// (bad~?), or by having byte-code generated for the two specific
+    /// cases (slower~?).
 
     /// \note On the other hand, this is less work for the moment and delays
-    /// \note the decisions involved in the above (perhaps even unnecessary
-    /// \note to be made~?).
+    /// the decisions involved in the above (perhaps even unnecessary
+    /// to be made~?).
 
     //- perform mechanism operations (including concentration pools)
 
     /// \note doing it like this, assumes that the mechanism values are
-    /// \note correctly given to HeccerInitiate() at time (now - dt/2).  Does
-    /// \note not make a practical difference.
+    /// correctly given to HeccerInitiate() at time (now - dt/2).  Does
+    /// not make a practical difference.
 
     iResult = iResult && HeccerMechanismSolveCN(pheccer);
 
