@@ -1,0 +1,137 @@
+-*- outline -*-
+
+* Heccer: Introduction
+
+Heccer is a cable solver that uses Crank-Nicolson numerical
+integration.  Based on hsolve of GENESIS-2 it is implemented in the C
+programming language.  It has bindings to the python and perl
+scripting languages, and to the model-container of GENESIS-3.  Heccer
+is currently the only cable solver that is integrated with GENESIS-3.
+Other solvers of GENESIS-3 include: Chemesis-3 for biochemical
+pathways and DES for action potential propagation delay.
+
+This document gives an overview of the use of Heccer to run simple
+neuronal models.  Information about the API of Heccer can be found at:
+http://repo-genesis3.cbi.utsa.edu/doxygen/heccer/.
+
+Note: the principles of Heccer are explained in more detail in the
+last sections of the hsolve tutorial that I presented in 2002 (see
+http://www.genesis-sim.org/BABEL/gum-tutorials/cornelis/index.html).
+
+
+* Overview of Heccer and the way it solves cable equations:
+
+
+** Structures
+*** Intermediary
+
+The intermediary defines the numerical model after spatial
+discretization.  It includes the compartments with their cable
+parameters, the Hodgkin-Huxley alike channels, concentration pools
+with exponential decay but without diffusion, and nernst equations.
+
+The intermediary defines both parameters and topology of these equations.
+
+
+*** Virtual Machine
+
+The virtual machine defines operations and operand types to solve the
+equations that arise from applying Crank-Nicolson integration on the
+equations defined in the intermediary structure.
+
+** Heccer Instantiation Flow
+
+The intermediary must defined outside of the Heccer core.  Within
+GENESIS-3, for instance when using the Python bindings, the
+intermediary is built from the model stored in the GENESIS-3
+model-container by dedicated integration code (in the
+integrators/heccer/neurospaces/ subdirectory).
+
+Alternative methods of instantiating an intermediary include: from
+dedicated perl glue (for instance see the test case
+tests/glue/swig/perl/singlep and other test scripts in the same
+directory), from the python glue (for instance see the test case
+tests/python/spiker1.py and other test scripts in the same directory),
+or, quite simple, directly from C code (see the almost exhaustive
+series of test cases in the directory tests/code/).
+
+All the test cases and examples implement the following fundamental data flow:
+
+*** Define the intermediary
+The exact way of defining the intermediary depends on the chosen
+technology.  The Heccer is instantiated using one of the HeccerNew*()
+calls.  When using the C API, one normally uses a call similar to
+
+struct simobj_Heccer *pheccer = HeccerNewP2("My heccer model", &inter);
+
+The test cases give many examples of the exact structures used to
+define the model in the intermediary.
+
+
+*** Compile the intermediary to byte code (operators and operands)
+Typically done using the C functions:
+
+int iResultP2 = HeccerCompileP2(pheccer);
+int iResultP3 = HeccerCompileP3(pheccer);
+
+
+*** Initialize the solved values are applied to the byte code
+Typically done using the C function:
+
+int iResultP4 = HeccerInitiate(pheccer);
+
+Likely this C function will be renamed to HeccerInitialize() in the
+future.
+
+
+*** The simulation is run
+Emulation of the byte code to solve the equations is typically done
+using:
+
+//! no heccer instance allowed to run with a clock smaller than this
+
+#define HECCER_TEST_TIME_GRANULARITY (1e-9)
+
+double dSimulationTime = i * 2e-5 + HECCER_TEST_TIME_GRANULARITY;
+int iResult = HeccerHeccs(pheccer, dSimulationTime);
+
+where 2e-5 is the global simulation time step.  Put this code in a
+for-loop over the variable i to run your model.
+
+*** Output
+The addressing API is used to obtain C pointers to memory addresses
+that contain the values of solved variables.  The signature of the C
+function is:
+
+double *dVariable = HeccerAddressVariable(pheccer, iID, "type");
+
+where pheccer is a pointer to a Heccer instance, iID is the ID given
+to the intermediary structure of the model component of interest, and
+"type" the type of the variable.  For instance if you have three
+compartments in your model with the given IDs 1000, 2000, 3000, the
+following call returns the address of the solved membrane potential of
+the second compartment:
+
+double *dVm2 = HeccerAddressVariable(pheccer, 2000, "Vm");
+
+Valid types of compartment variables are: Vm, inject (and possibly
+also Im, Ileak).
+
+Valid types of mechanism variables are (copied from the C code):
+
+	{	"Ca",		0,	0, }, // first operation, first mat entry
+	{	"FREQUENCY",	0,	3, }, // first operation, fourth mat entry
+	{	"synapses",	0,	4, }, // first operation, fifth mat entry
+	{	"Gsyn",		1,	0, }, // after springmass, first mat entry
+	{	"Isyn",		1,	1, }, // after two gates, second mat entry
+	{	"activation",	0,	1, }, // first operation, second mat entry
+	{	"conductance",	2,	0, }, // after two gates, first mat entry
+	{	"current",	2,	1, }, // after two gates, second mat entry
+	{	"next_event",	0,	0, }, // first operation, first mat entry
+	{	"spike",	0,	1, }, // first operation, second mat entry
+	{	"state_h",	1,	0, }, // second gate, first mat entry
+	{	"state_m",	0,	0, }, // first gate, first mat entry
+	{	"state_n",	0,	0, }, // first gate, first mat entry
+	{	NULL,		INT_MAX,	INT_MAX, },
+
+More information can be found at: http://repo-genesis3.cbi.utsa.edu/doxygen/heccer/
