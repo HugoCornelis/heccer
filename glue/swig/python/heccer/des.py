@@ -25,6 +25,7 @@ class DES:
 
         self.name = name
 
+        # This is a pointer to a simobj DES struct
         self._des = heccer_base.DESNew(1)
 
         if self._des is None:
@@ -80,5 +81,37 @@ class DES:
         pass
 
 
+#--------------------------------------------------------------------------
+
+    def Step(self, time=None):
+        """
+        @param time A time value for the DES to increment by
+        
+        Performs a step on the Discrete event system.
+        """
+        
+        cpu_core = 0
+
+        _time = time
+
+        if not self.options is None:
+
+            if self.options.has_key('cpu_core'):
+
+                cpu_core = self.options['cpu_core']
+
+            if self.options.has_key('time'):
+
+                _time = self.options['time']
+
+        queuer = heccer_base.DESGetQueuer(cpu_core)
+
+        if _time is None:
+
+            raise Exception("Can't perform step in DES object, no time value is present or in options")
+
+        result = heccer_base.EventQueuerProcess(queuer, _time)
+
+        return result
         
 #************************* End DES *********************************************
