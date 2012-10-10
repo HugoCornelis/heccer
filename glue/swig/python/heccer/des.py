@@ -67,7 +67,7 @@ class DES:
 
     def SetProjection(self, projection):
 
-        if not self.model_source None:
+        if not self.model_source is None:
 
             pass
         
