@@ -590,6 +590,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 	    }
 
+/* 	    HeccerCheckParameters(dPower == DBL_MAX,  */
 	    if (dPower == DBL_MAX)
 	    {
 
@@ -4731,7 +4732,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	for (iInput = 0 ; iInput < EXPONENTIALDECAY_CONTRIBUTORS ; iInput++)
 	{
 	    struct PidinStack *ppistExternal
-		= SymbolResolveInput(phsle, ptstr->ppist, "I", iInput);
+		= SymbolResolveInput(phsle, ptstr->ppist, "I",  iInput);
 
 	    if (ppistExternal)
 	    {
@@ -4742,7 +4743,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		{
 		    MathComponentDataStatusSet(pmcd, STATUS_NON_CHANNEL_OUTPUTS_IK, ptstr->ppist);
 
-		    MathComponentError(pmcd,STATUS_NON_CHANNEL_OUTPUTS_IK,"Cannot resolve channel input \'I\'");
+		    MathComponentError(pmcd,STATUS_NON_CHANNEL_OUTPUTS_IK,"Cannot resolve channel input \'current\'");
 
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4784,14 +4785,14 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	//- check for to many contributors
 
 	struct PidinStack *ppistExternal
-	    = SymbolResolveInput(phsle, ptstr->ppist, "I", iInput);
+	    = SymbolResolveInput(phsle, ptstr->ppist, "I",  iInput);
 
 	if (ppistExternal)
 	{
 	    MathComponentDataStatusSet(pmcd, STATUS_MANY_CHANNELS, ptstr->ppist);
 
 	    MathComponentError(pmcd,STATUS_MANY_CHANNELS,
-			       "Cannot resolve external channel input \'I\'");
+			       "Cannot resolve external channel input \'current\'");
 	  
 	    iResult = TSTR_PROCESSOR_ABORT;
 

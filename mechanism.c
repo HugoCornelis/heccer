@@ -31,13 +31,6 @@
 #include "heccer/random.h"
 
 
-static
-int
-HeccerCheckParameters
-(struct simobj_Heccer *pheccer,
- char *pcDescription,
- ...);
-
 static double
 HeccerGateInitActivation
 (struct simobj_Heccer *pheccer, int iTable, double dInitVm, double dInitActivation);
@@ -46,83 +39,6 @@ static
 int
 HeccerMechanismReadDoubleFile
 (struct simobj_Heccer *pheccer, char *pcFilename, double **ppdValues);
-
-
-/// 
-/// \arg pheccer a heccer.
-/// \arg pcDescription description of these parameters.
-/// \arg va_list -1 terminated list of boolean values.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Check parameters utility function.
-///
-/// \details
-/// 
-///	Just give a list of boolean expressions, telling if the
-///	parameters comply or not, a description where they occur.
-///	This function will call HeccerError() for any FALSE boolean in
-///	the stdarg list.
-/// 
-
-static
-int
-HeccerCheckParameters
-(struct simobj_Heccer *pheccer,
- char *pcDescription,
- ...)
-{
-    //- set default result: ok
-
-    int iResult = 1;
-
-    //v stdargs list
-
-    va_list vaList;
-
-    //- get start of stdargs
-
-    va_start(vaList, pcDescription);
-
-    //- loop over all arguments
-
-    int iOk = va_arg(vaList, int);
-
-    while (iOk != -1)
-    {
-	//- if current argument not ok
-
-	if (!iOk)
-	{
-	    char pcMessage[1000];
-
-	    sprintf(pcMessage, "%s invalid", pcDescription);
-
-	    HeccerError
-		(pheccer,
-		 NULL,
-		 pcMessage);
-
-	    //- break loop
-
-	    break;
-	}
-
-	//- go to next argument
-
-	iOk = va_arg(vaList, int);
-    }
-
-    //- end stdargs
-
-    va_end(vaList);
-
-    //- return result
-
-    return(iResult);
-}
 
 
 /// 

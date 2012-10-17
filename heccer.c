@@ -1,4 +1,4 @@
-static char *pcVersionTime="(12/08/11) Saturday, August 11, 2012 22:40:42 hugo";
+static char *pcVersionTime="(12/10/17) Wednesday, October 17, 2012 16:10:34 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -339,6 +339,86 @@ static int HeccerApplyOptions(struct simobj_Heccer *pheccer)
     //- apply options to the model
 
     iResult = iResult && HeccerApplyLinearCable(pheccer);
+
+    //- return result
+
+    return(iResult);
+}
+
+
+/// 
+/// \arg pheccer a heccer.
+/// \arg pcDescription description of these parameters.
+/// \arg va_list -1 terminated list of boolean values.
+/// 
+/// \return int
+/// 
+///	positive value == success, negative value == error.
+/// 
+/// \brief Check parameters utility function.
+///
+/// \details
+/// 
+///	Just give a list of boolean expressions, telling if the
+///	parameters comply or not, a description where they occur.
+///	This function will call HeccerError() for any FALSE boolean in
+///	the stdarg list.
+/// 
+
+int
+HeccerCheckParameters
+(struct simobj_Heccer *pheccer, char *pcDescription, ...)
+{
+    //- set default result: ok
+
+    int iResult = 0;
+
+    //v stdargs list
+
+    va_list vaList;
+
+    //- get start of stdargs
+
+    va_start(vaList, pcDescription);
+
+    //- loop over all arguments
+
+    int iOk = va_arg(vaList, int);
+
+    while (iOk != -1)
+    {
+	//- if current argument not ok
+
+	if (!iOk)
+	{
+	    char pcMessage[1000];
+
+	    sprintf(pcMessage, "%s invalid", pcDescription);
+
+	    HeccerError
+		(pheccer,
+		 NULL,
+		 pcMessage);
+
+	    //- set error condition
+
+	    iResult = - iResult;
+
+	    //- break loop
+
+	    break;
+	}
+
+	//- go to next argument
+
+	iResult++;
+
+	iOk = va_arg(vaList, int);
+    }
+
+    //- end stdargs
+
+    va_end(vaList);
 
     //- return result
 
