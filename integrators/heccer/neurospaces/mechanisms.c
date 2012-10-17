@@ -590,7 +590,6 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 	    }
 
-/* 	    HeccerCheckParameters(dPower == DBL_MAX,  */
 	    if (dPower == DBL_MAX)
 	    {
 
