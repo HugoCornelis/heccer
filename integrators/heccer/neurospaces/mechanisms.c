@@ -160,11 +160,11 @@ static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathC
 
 static
 int
-MathComponentDataError(int iCondition, struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist, char *pcParameter);
+MechanismDataError(int iCondition, struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist, char *pcParameter);
 
 static
 int
-MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist);
+MechanismDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist);
 
 static
 int
@@ -225,11 +225,11 @@ Type2Processor(int iType);
 
 static
 int
-MathComponentError(struct MathComponentData * pmcd, int iStatus, char *pcError);
+MechanismErrorSet(struct MathComponentData * pmcd, int iStatus, char *pcError);
 
 static
 int
-MathComponentPrintErrorReport(struct MathComponentData * pmcd);
+MechanismPrintErrorReport(struct MathComponentData * pmcd);
 
 static int
 CreateTableIdentifiers
@@ -434,7 +434,7 @@ static int ConnectionSource2Target(struct MathComponentData * pmcd, struct MathC
 
 static
 int
-MathComponentDataError(int iCondition, struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist, char *pcParameter)
+MechanismDataError(int iCondition, struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist, char *pcParameter)
 {
     if (!pmcd || pmcd->mcer.iNumErrors == MATH_COMPONENT_MAX_ERRORS)
     {
@@ -443,9 +443,9 @@ MathComponentDataError(int iCondition, struct MathComponentData * pmcd, int iSta
 
     if (iCondition)
     {
-	MathComponentDataStatusSet(pmcd, iStatus, ppist);
+	MechanismDataStatusSet(pmcd, iStatus, ppist);
 
-	MathComponentError(pmcd, iStatus, pcParameter);
+	MechanismErrorSet(pmcd, iStatus, pcParameter);
     }
 
     return (iCondition);
@@ -454,7 +454,7 @@ MathComponentDataError(int iCondition, struct MathComponentData * pmcd, int iSta
 
 static
 int
-MathComponentError(struct MathComponentData * pmcd, int iStatus, char *pcError)
+MechanismErrorSet(struct MathComponentData * pmcd, int iStatus, char *pcError)
 {
     if (!pmcd || pmcd->mcer.iNumErrors == MATH_COMPONENT_MAX_ERRORS)
     {
@@ -473,7 +473,7 @@ MathComponentError(struct MathComponentData * pmcd, int iStatus, char *pcError)
 
 static
 int
-MathComponentDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist)
+MechanismDataStatusSet(struct MathComponentData * pmcd, int iStatus, struct PidinStack *ppist)
 {
     //- set default result: current status
 
@@ -537,7 +537,7 @@ MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType, struct
 	    {
 		//- abort the traversal, fatal failure
 
-		MathComponentDataStatusSet(pmcd, STATUS_OVERFLOW, ppist);
+		MechanismDataStatusSet(pmcd, STATUS_OVERFLOW, ppist);
 	    }
 	}
     }
@@ -551,7 +551,7 @@ MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType, struct
 	/// \todo the current serial and type cursor give an indication
 	/// \todo of what model component caused the failure
 
-	MathComponentDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE, ppist);
+	MechanismDataStatusSet(pmcd, STATUS_UNKNOWN_TYPE, ppist);
     }
 
     return(1);
@@ -560,7 +560,7 @@ MathComponentDataTypeRegister(struct MathComponentData * pmcd, int iType, struct
 
 static
 int
-MathComponentPrintErrorReport(struct MathComponentData * pmcd)
+MechanismPrintErrorReport(struct MathComponentData * pmcd)
 {
     int i;
 
@@ -654,12 +654,12 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 	    }
 
-	    if (MathComponentDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -715,7 +715,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Type of Object");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Type of Object");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -772,7 +772,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 			}
 			else
 			{
-			    MathComponentDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
+			    MechanismDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
 
 			    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -841,37 +841,37 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		pgk->dHHMultExp = dHHMultExp;
 
-		if (MathComponentDataError((dHHAddNum == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Num"))
+		if (MechanismDataError((dHHAddNum == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Num"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHMult == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult"))
+		if (MechanismDataError((dHHMult == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHFactorFlag == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Factor_Flag"))
+		if (MechanismDataError((dHHFactorFlag == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Factor_Flag"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHAdd == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Den"))
+		if (MechanismDataError((dHHAdd == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Den"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHOffsetE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Offset_E"))
+		if (MechanismDataError((dHHOffsetE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Offset_E"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHDivE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Div_E"))
+		if (MechanismDataError((dHHDivE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Div_E"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHMultExp == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult_Exp"))
+		if (MechanismDataError((dHHMultExp == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult_Exp"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -879,7 +879,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -891,7 +891,7 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -1004,12 +1004,12 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		}
 	    }
 
-	    if (MathComponentDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1105,12 +1105,12 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		}
 	    }
 
-	    if (MathComponentDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1166,7 +1166,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -1223,7 +1223,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 			else
 			{
-			    MathComponentDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
+			    MechanismDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
 
 			    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -1292,37 +1292,37 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pgk->dHHMultExp = dHHMultExp;
 
-		if (MathComponentDataError((dHHAddNum == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Num"))
+		if (MechanismDataError((dHHAddNum == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Num"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHMult == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult"))
+		if (MechanismDataError((dHHMult == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHFactorFlag == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Factor_Flag"))
+		if (MechanismDataError((dHHFactorFlag == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Factor_Flag"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHAdd == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Den"))
+		if (MechanismDataError((dHHAdd == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Den"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHOffsetE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Offset_E"))
+		if (MechanismDataError((dHHOffsetE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Offset_E"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHDivE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Div_E"))
+		if (MechanismDataError((dHHDivE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Div_E"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHMultExp == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult_Exp"))
+		if (MechanismDataError((dHHMultExp == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult_Exp"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1330,7 +1330,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -1386,7 +1386,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 			}
 			else
 			{
-			    MathComponentDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
+			    MechanismDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
 
 			    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -1423,12 +1423,12 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pcac->pac.ca.parameters.dTau = dTau;
 
-		if (MathComponentDataError((dBasalLevel == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Base"))
+		if (MechanismDataError((dBasalLevel == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Base"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTau == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Tau"))
+		if (MechanismDataError((dTau == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Tau"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1436,7 +1436,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -1448,7 +1448,7 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a concentration gate.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a concentration gate.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -1544,12 +1544,12 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		}
 	    }
 
-	    if (MathComponentDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1605,7 +1605,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -1661,7 +1661,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 			}
 			else
 			{
-			    MathComponentDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
+			    MechanismDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
 
 			    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -1698,12 +1698,12 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 		pcc->pac.ca.parameters.dTau = dTau;
 
-		if (MathComponentDataError((dBasalLevel == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Base"))
+		if (MechanismDataError((dBasalLevel == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Base"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTau == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Tau"))
+		if (MechanismDataError((dTau == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Tau"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1711,7 +1711,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -1723,7 +1723,7 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a concentration gate.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a concentration gate.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -1821,12 +1821,12 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 	    }
 
-	    if (MathComponentDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1882,7 +1882,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not an HH gate.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not an HH gate.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -1948,7 +1948,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 			}
 			else
 			{
-			    MathComponentDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
+			    MechanismDataError(1, pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, pcTable);
 
 			    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -2020,37 +2020,37 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		pgk->dHHMultExp = dHHMultExp;
 
 
-		if (MathComponentDataError((dHHAddNum == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Num"))
+		if (MechanismDataError((dHHAddNum == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Num"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHMult == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult"))
+		if (MechanismDataError((dHHMult == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 		    
-		if (MathComponentDataError((dHHFactorFlag == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Factor_Flag"))
+		if (MechanismDataError((dHHFactorFlag == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Factor_Flag"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHAdd == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Den"))
+		if (MechanismDataError((dHHAdd == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Add_Den"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHOffsetE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Offset_E"))
+		if (MechanismDataError((dHHOffsetE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Offset_E"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHDivE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Div_E"))
+		if (MechanismDataError((dHHDivE == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Div_E"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHHMultExp == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult_Exp"))
+		if (MechanismDataError((dHHMultExp == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HH_AB_Mult_Exp"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2058,7 +2058,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2070,7 +2070,7 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -2155,39 +2155,39 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    double dSecondSteadyState = SymbolParameterResolveValue(phsle, ptstr->ppist, "dSecondSteadyState");
 	    pcpsdt->parameters2.dSteadyState = dSecondSteadyState;
 
-	    if (MathComponentDataError((dFirstPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "iFirstPower"))
+	    if (MechanismDataError((dFirstPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "iFirstPower"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dFirstInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dFirstInitActivation"))
+	    if (MechanismDataError((dFirstInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dFirstInitActivation"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dFirstSteadyState == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dFirstSteadyState"))
+	    if (MechanismDataError((dFirstSteadyState == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dFirstSteadyState"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dSecondPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "iSecondPower"))
+	    if (MechanismDataError((dSecondPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "iSecondPower"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dSecondInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dSecondInitActivation"))
+	    if (MechanismDataError((dSecondInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dSecondInitActivation"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 	       
-	    if (MathComponentDataError((dSecondSteadyState == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dSecondSteadyState"))
+	    if (MechanismDataError((dSecondSteadyState == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dSecondSteadyState"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not gate kinetic.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not gate kinetic.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2248,22 +2248,22 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 		pdtc->dTauDenormalizer = dTauDenormalizer;
 
-		if (MathComponentDataError((dMultiplier == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMultiplier"))
+		if (MechanismDataError((dMultiplier == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMultiplier"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dDeNominatorOffset"))
+		if (MechanismDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dDeNominatorOffset"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset"))
+		if (MechanismDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer"))
+		if (MechanismDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2271,7 +2271,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2283,7 +2283,7 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -2375,19 +2375,19 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 	    }
 
-	    if (MathComponentDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not an HH gate.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not an HH gate.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2459,37 +2459,37 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 		pss->dTauDenormalizer2 = dTauDenormalizer2;
 
-		if (MathComponentDataError((dNominator == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dNominator"))
+		if (MechanismDataError((dNominator == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dNominator"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMultiplier1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMultiplier1"))
+		if (MechanismDataError((dMultiplier1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMultiplier1"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMembraneOffset1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset1"))
+		if (MechanismDataError((dMembraneOffset1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset1"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTauDenormalizer1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer1"))
+		if (MechanismDataError((dTauDenormalizer1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer1"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMultiplier2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMultiplier2"))
+		if (MechanismDataError((dMultiplier2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMultiplier2"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMembraneOffset2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset2"))
+		if (MechanismDataError((dMembraneOffset2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset2"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTauDenormalizer2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer2"))
+		if (MechanismDataError((dTauDenormalizer2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer2"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2539,22 +2539,22 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 		ptc->dTauDenormalizer = dTauDenormalizer;
 
-		if (MathComponentDataError((dNominator == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer"))
+		if (MechanismDataError((dNominator == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dDeNominatorOffset"))
+		if (MechanismDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dDeNominatorOffset"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset"))
+		if (MechanismDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dMembraneOffset"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer"))
+		if (MechanismDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "dTauDenormalizer"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2562,7 +2562,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2574,7 +2574,7 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -2646,7 +2646,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		char *pcEventsQualified
 		    = NeurospacesQualifyFilename(pmcd->pheccer->pts->ptsd->pneuro, pcEvents);
 
-		if (MathComponentDataError((pcEvents && !pcEventsQualified), pmcd, STATUS_UNQUALIFIABLE_FILENAME, ptstr->ppist, pcEvents))
+		if (MechanismDataError((pcEvents && !pcEventsQualified), pmcd, STATUS_UNQUALIFIABLE_FILENAME, ptstr->ppist, pcEvents))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2659,7 +2659,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, invalid file attachment.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, invalid file attachment.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2689,12 +2689,12 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    /// \todo perhaps if only tau1 is defined, I should make tau2
 	    /// \todo equal to tau1 and treat it as a single exponential
 
-	    if (MathComponentDataError((dTau1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TAU1"))
+	    if (MechanismDataError((dTau1 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TAU1"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dTau2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TAU2"))
+	    if (MechanismDataError((dTau2 == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TAU2"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2748,7 +2748,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Invalid Type, Unknown Equation.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Invalid Type, Unknown Equation.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2762,7 +2762,7 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Invalid Type, Unknown Equation.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Invalid Type, Unknown Equation.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -2853,12 +2853,12 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 	    }
 
-	    if (MathComponentDataError((dFirstPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
+	    if (MechanismDataError((dFirstPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dFirstInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
+	    if (MechanismDataError((dFirstInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2902,19 +2902,19 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 	    }
 
-	    if (MathComponentDataError((dSecondPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER (dSecondPower)"))
+	    if (MechanismDataError((dSecondPower == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "POWER (dSecondPower)"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 
-	    if (MathComponentDataError((dSecondInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init (dSecondInitActivation)"))
+	    if (MechanismDataError((dSecondInitActivation == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "state_init (dSecondInitActivation)"))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not an HH gate.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not an HH gate.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -2993,27 +2993,27 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    pa->dTauDenormalizer = dTauDenormalizer;
 
-		    if (MathComponentDataError((dMultiplier == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Multiplier"))
+		    if (MechanismDataError((dMultiplier == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Multiplier"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    if (MathComponentDataError((dMembraneDependenceOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneDependenceOffset"))
+		    if (MechanismDataError((dMembraneDependenceOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneDependenceOffset"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    if (MathComponentDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "DeNominatorOffset"))
+		    if (MechanismDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "DeNominatorOffset"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    if (MathComponentDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneOffset"))
+		    if (MechanismDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneOffset"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    if (MathComponentDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TauDenormalizer"))
+		    if (MechanismDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TauDenormalizer"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
@@ -3057,17 +3057,17 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    pb->dTauDenormalizer = dTauDenormalizer;
 
-		    if (MathComponentDataError((dMultiplier == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Multiplier"))
+		    if (MechanismDataError((dMultiplier == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Multiplier"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    if (MathComponentDataError((dMembraneDependenceOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneDependenceOffset"))
+		    if (MechanismDataError((dMembraneDependenceOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneDependenceOffset"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
 
-		    if (MathComponentDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TauDenormalizer"))
+		    if (MechanismDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TauDenormalizer"))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
@@ -3113,17 +3113,17 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		pdtc->a.dHighTarget = dHighTarget;
 
-		if (MathComponentDataError((dThreshold == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Threshold"))
+		if (MechanismDataError((dThreshold == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Threshold"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dLowTarget == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "LowTarget"))
+		if (MechanismDataError((dLowTarget == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "LowTarget"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dHighTarget == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HighTarget"))
+		if (MechanismDataError((dHighTarget == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "HighTarget"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -3168,17 +3168,17 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		pdtc->b.dTauDenormalizer = dTauDenormalizer;
 
-		if (MathComponentDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "DeNominatorOffset"))
+		if (MechanismDataError((dDeNominatorOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "DeNominatorOffset"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneOffset"))
+		if (MechanismDataError((dMembraneOffset == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "MembraneOffset"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
 
-		if (MathComponentDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TauDenormalizer"))
+		if (MechanismDataError((dTauDenormalizer == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TauDenormalizer"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -3186,7 +3186,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -3198,7 +3198,7 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
     {
 	//- an error
 
-	MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
+	MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Object Type, not a gate kinetic.");
 
 	iResult = TSTR_PROCESSOR_ABORT;
     }
@@ -3500,12 +3500,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dReversalPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
 
-	if (MathComponentDataError((dMaximalConductance == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "G_MAX"))
+	if (MechanismDataError((dMaximalConductance == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "G_MAX"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (MathComponentDataError((dReversalPotential == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Erev"))
+	if (MechanismDataError((dReversalPotential == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Erev"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -3698,7 +3698,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	}
 	else
 	{
-	    MathComponentDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Channel Type");
+	    MechanismDataError(1, pmcd, STATUS_UNKNOWN_TYPE, ptstr->ppist, "Unknown Channel Type");
 
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -3737,7 +3737,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    }
 	    else
 	    {
-		MathComponentDataError(1, pmcd, STATUS_UNKNOWN_ERROR, ptstr->ppist, "Invalid Channel");
+		MechanismDataError(1, pmcd, STATUS_UNKNOWN_ERROR, ptstr->ppist, "Invalid Channel");
 
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -3827,28 +3827,28 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    struct symtab_Parameters *pparT
 		= FunctionGetParameter(pfunNernst, "T");
 
-	    if (MathComponentDataError((!pparCIn), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cin"))
+	    if (MechanismDataError((!pparCIn), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cin"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 		
 		break;
 	    }
 
-	    if (MathComponentDataError((!pparCOut), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cout"))
+	    if (MechanismDataError((!pparCOut), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cout"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
 		break;
 	    }
 
-	    if (MathComponentDataError((!pparValency), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "valency"))
+	    if (MechanismDataError((!pparValency), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "valency"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
 		break;
 	    }
 
-	    if (MathComponentDataError((!pparT), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "T"))
+	    if (MechanismDataError((!pparT), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "T"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -3866,28 +3866,28 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    double dT = ParameterResolveValue(pparT,
 					      (ppistNernst) ? ppistNernst:ptstr->ppist);
 
-	    if (MathComponentDataError((dCIn == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cin"))
+	    if (MechanismDataError((dCIn == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cin"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
 		break;
 	    }
 
-	    if (MathComponentDataError((dCOut == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cout"))
+	    if (MechanismDataError((dCOut == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "Cout"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
 		break;
 	    }
 	     
-	    if (MathComponentDataError((dValency == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "valency"))
+	    if (MechanismDataError((dValency == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "valency"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
 		break;
 	    }
 
-	    if (MathComponentDataError((dT == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "T"))
+	    if (MechanismDataError((dT == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "T"))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -3924,7 +3924,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	    if (phslePool)
 	    {
-		if (MathComponentDataError((!instanceof_pool(phslePool)), pmcd, STATUS_NON_POOL_FOR_NERNST, ptstr->ppist, "Object with inputs Erev and Cin is not a Pool"))
+		if (MechanismDataError((!instanceof_pool(phslePool)), pmcd, STATUS_NON_POOL_FOR_NERNST, ptstr->ppist, "Object with inputs Erev and Cin is not a Pool"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -3956,7 +3956,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    {
 		/// \todo fallback to constant nernst, requires changes in the typer
 
-		MathComponentDataError(1, pmcd, STATUS_CONSTANT_NERNST, ptstr->ppist, "Pool falls back on constant nerst potential");
+		MechanismDataError(1, pmcd, STATUS_CONSTANT_NERNST, ptstr->ppist, "Pool falls back on constant nerst potential");
 
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4004,27 +4004,27 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU");
 
-	if (MathComponentDataError((dInitValue == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "concen_init"))
+	if (MechanismDataError((dInitValue == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "concen_init"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (MathComponentDataError((dBeta == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "BETA"))
+	if (MechanismDataError((dBeta == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "BETA"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (MathComponentDataError((dSteadyState == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "BASE"))
+	if (MechanismDataError((dSteadyState == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "BASE"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (MathComponentDataError((dTau == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TAU"))
+	if (MechanismDataError((dTau == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "TAU"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (MathComponentDataError((dBeta == 0), pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist, "BETA"))
+	if (MechanismDataError((dBeta == 0), pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist, "BETA"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4035,7 +4035,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	if (dInitValue == 0)
 	{
-/* 	    MathComponentDataError(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist); */
+/* 	    MechanismDataError(pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist); */
 
 /* 	    iResult = TSTR_PROCESSOR_ABORT; */
 
@@ -4046,7 +4046,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    PidinStackTo_stdout(ptstr->ppist);
 	}
 
-	if (MathComponentDataError((1 / dInitValue == 0
+	if (MechanismDataError((1 / dInitValue == 0
 				    || 1 / dBeta == 0), pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist, "BETA or initial concentration value"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
@@ -4077,7 +4077,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 		struct symtab_HSolveListElement *phsleExternal
 		    = PidinStackLookupTopSymbol(ppistExternal);
 
-		if (MathComponentDataError((!instanceof_channel(phsleExternal)), pmcd, STATUS_NON_CHANNEL_OUTPUTS_IK, ptstr->ppist, "Cannot resolve channel input \'current\'"))
+		if (MechanismDataError((!instanceof_channel(phsleExternal)), pmcd, STATUS_NON_CHANNEL_OUTPUTS_IK, ptstr->ppist, "Cannot resolve channel input \'current\'"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4121,7 +4121,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	struct PidinStack *ppistExternal
 	    = SymbolResolveInput(phsle, ptstr->ppist, "I",  iInput);
 
-	if (MathComponentDataError((ppistExternal != NULL), pmcd, STATUS_MANY_CHANNELS, ptstr->ppist, "Cannot resolve external channel input \'current\'"))
+	if (MechanismDataError((ppistExternal != NULL), pmcd, STATUS_MANY_CHANNELS, ptstr->ppist, "Cannot resolve external channel input \'current\'"))
 	{	  
 	    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4171,17 +4171,17 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iSource2Targets = 0;
 	}
 
-	if (MathComponentDataError((dRefractory == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "REFRACTORY"))
+	if (MechanismDataError((dRefractory == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "REFRACTORY"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 	 
-	if (MathComponentDataError((dThreshold == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "THRESHOLD"))
+	if (MechanismDataError((dThreshold == DBL_MAX), pmcd, STATUS_UNRESOLVABLE_PARAMETERS, ptstr->ppist, "THRESHOLD"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
 
-	if (MathComponentDataError((dRefractory <= 0), pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist, "REFRACTORY"))
+	if (MechanismDataError((dRefractory <= 0), pmcd, STATUS_ILLEGAL_PARAMETER_VALUES, ptstr->ppist, "REFRACTORY"))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4227,7 +4227,7 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	sprintf(pc, "type of %i is unexpected here.", iType);
 
-	MathComponentDataError(1, pmcd, STATUS_CONSISTENCY, ptstr->ppist, pc);
+	MechanismDataError(1, pmcd, STATUS_CONSISTENCY, ptstr->ppist, pc);
       
 	iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4421,7 +4421,7 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 
 		if (//- abort the traversal
 
-		    MathComponentDataError((ppistPool1 != NULL), pmcd, STATUS_MANY_POOLS, ptstr->ppist, "Cannot resolve channel input 'concen'"))
+		    MechanismDataError((ppistPool1 != NULL), pmcd, STATUS_MANY_POOLS, ptstr->ppist, "Cannot resolve channel input 'concen'"))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4492,9 +4492,9 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 			     "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter valid ?).",
 			     SymbolGetName(phsle));
 
-			MathComponentDataError(1, pmcd, STATUS_UNKNOWN_CHANNEL_TYPE1, ptstr->ppist, "unknown channel type 1");
+			MechanismDataError(1, pmcd, STATUS_UNKNOWN_CHANNEL_TYPE1, ptstr->ppist, "unknown channel type 1");
 
-			MathComponentPrintErrorReport(pmcd);
+			MechanismPrintErrorReport(pmcd);
 
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
@@ -4531,9 +4531,9 @@ solver_mathcomponent_typer(struct TreespaceTraversal *ptstr, void *pvUserdata)
 		     "solver_mathcomponent_typer() cannot determine channel type for %s (is the CHANNEL_TYPE parameter present ?).",
 		     SymbolGetName(phsle));
 
-		MathComponentDataError(1, pmcd, STATUS_UNKNOWN_CHANNEL_TYPE3, ptstr->ppist, "unknown channel type 3");
+		MechanismDataError(1, pmcd, STATUS_UNKNOWN_CHANNEL_TYPE3, ptstr->ppist, "unknown channel type 3");
 
-		MathComponentPrintErrorReport(pmcd);
+		MechanismPrintErrorReport(pmcd);
 
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4740,28 +4740,28 @@ static int cellsolver_getmathcomponents(struct simobj_Heccer *pheccer, struct Tr
 
 			    //- do a consistency check on the types encountered during the two traversals
 
-			    if (MathComponentDataError((mcd.piTypes[mcd.iCurrentType] != -1), &mcd, STATUS_CONSISTENCY, ptstr->ppist, "Number of model math components during processing does not match with number during typing."))
+			    if (MechanismDataError((mcd.piTypes[mcd.iCurrentType] != -1), &mcd, STATUS_CONSISTENCY, ptstr->ppist, "Number of model math components during processing does not match with number during typing."))
 			    {
 				iResult = FALSE;
 			    }
 			}
 			else
 			{
-			    MathComponentDataError(1, &mcd, STATUS_MEMORY, ptstr->ppist, "Memory Allocation Error");
+			    MechanismDataError(1, &mcd, STATUS_MEMORY, ptstr->ppist, "Memory Allocation Error");
 
 			    iResult = FALSE;
 			}
 		    }
 		    else
 		    {
-			MathComponentDataError(1, &mcd, STATUS_MEMORY, ptstr->ppist, "Memory Allocation Error");
+			MechanismDataError(1, &mcd, STATUS_MEMORY, ptstr->ppist, "Memory Allocation Error");
 
 			iResult = FALSE;
 		    }
 		}
 		else
 		{
-		    MathComponentDataError(1, &mcd, STATUS_MEMORY, ptstr->ppist, "Memory Allocation Error");
+		    MechanismDataError(1, &mcd, STATUS_MEMORY, ptstr->ppist, "Memory Allocation Error");
 
 		    iResult = FALSE;
 		}
@@ -4811,9 +4811,7 @@ static int cellsolver_getmathcomponents(struct simobj_Heccer *pheccer, struct Tr
 
 	    fprintf(stderr,"%s","\n\n");
 
-	    MathComponentPrintErrorReport(&mcd);
-	   
-
+	    MechanismPrintErrorReport(&mcd);
 	}
     }
     else
@@ -5084,7 +5082,7 @@ static int cellsolver_linkmathcomponents(struct simobj_Heccer * pheccer, struct 
 /* 	    { */
 /* 		//- an error */
 
-/*      MathComponentDataStatusSet(pmcd, STATUS_CONSISTENCY); , ptstr->ppist */
+/*      MechanismDataStatusSet(pmcd, STATUS_CONSISTENCY); , ptstr->ppist */
 
 /* 		iResult = FALSE; */
 /* 	    } */
@@ -5134,7 +5132,7 @@ static int cellsolver_linkmathcomponents(struct simobj_Heccer * pheccer, struct 
 /* 	    { */
 /* 		//- an error */
 
-/*      MathComponentDataStatusSet(pmcd, STATUS_CONSISTENCY); , ptstr->ppist */
+/*      MechanismDataStatusSet(pmcd, STATUS_CONSISTENCY); , ptstr->ppist */
 
 /* 		iResult = FALSE; */
 /* 	    } */
