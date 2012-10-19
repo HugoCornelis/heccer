@@ -702,12 +702,10 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -889,37 +887,15 @@ solver_channel_activation_processor(struct TreespaceTraversal *ptstr, void *pvUs
 
 		pgk->dHHMultExp = dHHMultExp;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHAddNum == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Num", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHMult == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHFactorFlag == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Factor_Flag", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHAdd == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Den", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHOffsetE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Offset_E", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHDivE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Div_E", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHMultExp == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult_Exp", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dHHAddNum == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Num",
+				       (dHHMult == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult",
+				       (dHHFactorFlag == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Factor_Flag",
+				       (dHHAdd == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Den",
+				       (dHHOffsetE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Offset_E",
+				       (dHHDivE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Div_E",
+				       (dHHMultExp == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult_Exp",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1052,12 +1028,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1153,12 +1127,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1340,37 +1312,15 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pgk->dHHMultExp = dHHMultExp;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHAddNum == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Num", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHMult == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHFactorFlag == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Factor_Flag", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHAdd == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Den", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHOffsetE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Offset_E", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHDivE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Div_E", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHMultExp == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult_Exp", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dHHAddNum == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Num",
+				       (dHHMult == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult",
+				       (dHHFactorFlag == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Factor_Flag",
+				       (dHHAdd == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Den",
+				       (dHHOffsetE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Offset_E",
+				       (dHHDivE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Div_E",
+				       (dHHMultExp == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult_Exp",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1471,12 +1421,10 @@ solver_channel_activation_concentration_processor(struct TreespaceTraversal *pts
 
 		pcac->pac.ca.parameters.dTau = dTau;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dBasalLevel == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Base", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTau == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Tau", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dBasalLevel == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Base",
+				       (dTau == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Tau",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1592,12 +1540,10 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -1746,12 +1692,10 @@ solver_channel_concentration_processor(struct TreespaceTraversal *ptstr, void *p
 
 		pcc->pac.ca.parameters.dTau = dTau;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dBasalLevel == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Base", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTau == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Tau", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dBasalLevel == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Base",
+				       (dTau == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Tau",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -1869,12 +1813,10 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2068,37 +2010,15 @@ solver_channel_activation_inactivation_processor(struct TreespaceTraversal *ptst
 		pgk->dHHMultExp = dHHMultExp;
 
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHAddNum == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Num", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHMult == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHFactorFlag == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Factor_Flag", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHAdd == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Den", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHOffsetE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Offset_E", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHDivE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Div_E", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHHMultExp == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult_Exp", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dHHAddNum == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Num",
+				       (dHHMult == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult",
+				       (dHHFactorFlag == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Factor_Flag",
+				       (dHHAdd == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Add_Den",
+				       (dHHOffsetE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Offset_E",
+				       (dHHDivE == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Div_E",
+				       (dHHMultExp == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HH_AB_Mult_Exp",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2203,32 +2123,14 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 	    double dSecondSteadyState = SymbolParameterResolveValue(phsle, ptstr->ppist, "dSecondSteadyState");
 	    pcpsdt->parameters2.dSteadyState = dSecondSteadyState;
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dFirstPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "iFirstPower", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dFirstInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dFirstInitActivation", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dFirstSteadyState == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dFirstSteadyState", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dSecondPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "iSecondPower", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dSecondInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dSecondInitActivation", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-	       
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dSecondSteadyState == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dSecondSteadyState", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dFirstPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "iFirstPower",
+				   (dFirstInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dFirstInitActivation",
+				   (dFirstSteadyState == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dFirstSteadyState",
+				   (dSecondPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "iSecondPower",
+				   (dSecondInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dSecondInitActivation",
+				   (dSecondSteadyState == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dSecondSteadyState",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2296,22 +2198,12 @@ solver_channel_persistent_steadystate_dualtau_processor(struct TreespaceTraversa
 
 		pdtc->dTauDenormalizer = dTauDenormalizer;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMultiplier == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMultiplier", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dDeNominatorOffset", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dMultiplier == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMultiplier",
+				       (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dDeNominatorOffset",
+				       (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset",
+				       (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2423,12 +2315,10 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2507,37 +2397,15 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 		pss->dTauDenormalizer2 = dTauDenormalizer2;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dNominator == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dNominator", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMultiplier1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMultiplier1", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneOffset1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset1", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer1", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMultiplier2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMultiplier2", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneOffset2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset2", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer2", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dNominator == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dNominator",
+				       (dMultiplier1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMultiplier1",
+				       (dMembraneOffset1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset1",
+				       (dTauDenormalizer1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer1",
+				       (dMultiplier2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMultiplier2",
+				       (dMembraneOffset2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset2",
+				       (dTauDenormalizer2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer2",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2587,22 +2455,12 @@ solver_channel_persistent_steadystate_tau_processor(struct TreespaceTraversal *p
 
 		ptc->dTauDenormalizer = dTauDenormalizer;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dNominator == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dDeNominatorOffset", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dNominator == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer",
+				       (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dDeNominatorOffset",
+				       (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dMembraneOffset",
+				       (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "dTauDenormalizer",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -2737,12 +2595,10 @@ solver_channel_springmass_processor(struct TreespaceTraversal *ptstr, void *pvUs
 	    /// \todo perhaps if only tau1 is defined, I should make tau2
 	    /// \todo equal to tau1 and treat it as a single exponential
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dTau1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TAU1", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dTau2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TAU2", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dTau1 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TAU1",
+				   (dTau2 == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TAU2",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2901,12 +2757,10 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dFirstPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dFirstInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dFirstPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER",
+				   (dFirstInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -2950,12 +2804,10 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 		}
 	    }
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dSecondPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER (dSecondPower)", -1))
-	    {
-		iResult = TSTR_PROCESSOR_ABORT;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dSecondInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init (dSecondInitActivation)", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dSecondPower == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "POWER (dSecondPower)",
+				   (dSecondInitActivation == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "state_init (dSecondInitActivation)",
+				   -1))
 	    {
 		iResult = TSTR_PROCESSOR_ABORT;
 	    }
@@ -3041,27 +2893,13 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    pa->dTauDenormalizer = dTauDenormalizer;
 
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dMultiplier == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Multiplier", -1))
-		    {
-			iResult = TSTR_PROCESSOR_ABORT;
-		    }
-
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneDependenceOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneDependenceOffset", -1))
-		    {
-			iResult = TSTR_PROCESSOR_ABORT;
-		    }
-
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "DeNominatorOffset", -1))
-		    {
-			iResult = TSTR_PROCESSOR_ABORT;
-		    }
-
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneOffset", -1))
-		    {
-			iResult = TSTR_PROCESSOR_ABORT;
-		    }
-
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TauDenormalizer", -1))
+		    if (MechanismDataError(pmcd, ptstr->ppist,
+					   (dMultiplier == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Multiplier",
+					   (dMembraneDependenceOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneDependenceOffset",
+					   (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "DeNominatorOffset",
+					   (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneOffset",
+					   (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TauDenormalizer",
+					   -1))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
@@ -3105,17 +2943,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		    pb->dTauDenormalizer = dTauDenormalizer;
 
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dMultiplier == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Multiplier", -1))
-		    {
-			iResult = TSTR_PROCESSOR_ABORT;
-		    }
-
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneDependenceOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneDependenceOffset", -1))
-		    {
-			iResult = TSTR_PROCESSOR_ABORT;
-		    }
-
-		    if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TauDenormalizer", -1))
+		    if (MechanismDataError(pmcd, ptstr->ppist,
+					   (dMultiplier == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Multiplier",
+					   (dMembraneDependenceOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneDependenceOffset",
+					   (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TauDenormalizer",
+					   -1))
 		    {
 			iResult = TSTR_PROCESSOR_ABORT;
 		    }
@@ -3161,17 +2993,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		pdtc->a.dHighTarget = dHighTarget;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dThreshold == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Threshold", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dLowTarget == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "LowTarget", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dHighTarget == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HighTarget", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dThreshold == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Threshold",
+				       (dLowTarget == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "LowTarget",
+				       (dHighTarget == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "HighTarget",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -3216,17 +3042,11 @@ solver_channel_steadystate_steppedtau_processor(struct TreespaceTraversal *ptstr
 
 		pdtc->b.dTauDenormalizer = dTauDenormalizer;
 
-		if (MechanismDataError(pmcd, ptstr->ppist, (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "DeNominatorOffset", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneOffset", -1))
-		{
-		    iResult = TSTR_PROCESSOR_ABORT;
-		}
-
-		if (MechanismDataError(pmcd, ptstr->ppist, (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TauDenormalizer", -1))
+		if (MechanismDataError(pmcd, ptstr->ppist,
+				       (dDeNominatorOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "DeNominatorOffset",
+				       (dMembraneOffset == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "MembraneOffset",
+				       (dTauDenormalizer == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TauDenormalizer",
+				       -1))
 		{
 		    iResult = TSTR_PROCESSOR_ABORT;
 		}
@@ -3548,12 +3368,10 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dReversalPotential = SymbolParameterResolveValue(phsle, ptstr->ppist, "Erev");
 
-	if (MechanismDataError(pmcd, ptstr->ppist, (dMaximalConductance == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "G_MAX", -1))
-	{
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	if (MechanismDataError(pmcd, ptstr->ppist, (dReversalPotential == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Erev", -1))
+	if (MechanismDataError(pmcd, ptstr->ppist,
+			       (dMaximalConductance == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "G_MAX",
+			       (dReversalPotential == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Erev",
+			       -1))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -3875,28 +3693,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    struct symtab_Parameters *pparT
 		= FunctionGetParameter(pfunNernst, "T");
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (!pparCIn), STATUS_UNRESOLVABLE_PARAMETERS, "Cin", -1))
-	    {		
-		iResult = TSTR_PROCESSOR_ABORT;
-		
-		break;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (!pparCOut), STATUS_UNRESOLVABLE_PARAMETERS, "Cout", -1))
-	    {		
-		iResult = TSTR_PROCESSOR_ABORT;
-
-		break;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (!pparValency), STATUS_UNRESOLVABLE_PARAMETERS, "valency", -1))
-	    {		
-		iResult = TSTR_PROCESSOR_ABORT;
-
-		break;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (!pparT), STATUS_UNRESOLVABLE_PARAMETERS, "T", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (!pparCIn), STATUS_UNRESOLVABLE_PARAMETERS, "Cin",
+				   (!pparCOut), STATUS_UNRESOLVABLE_PARAMETERS, "Cout",
+				   (!pparValency), STATUS_UNRESOLVABLE_PARAMETERS, "valency",
+				   (!pparT), STATUS_UNRESOLVABLE_PARAMETERS, "T",
+				   -1))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -3914,28 +3716,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    double dT = ParameterResolveValue(pparT,
 					      (ppistNernst) ? ppistNernst:ptstr->ppist);
 
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dCIn == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Cin", -1))
-	    {		
-		iResult = TSTR_PROCESSOR_ABORT;
-
-		break;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dCOut == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Cout", -1))
-	    {		
-		iResult = TSTR_PROCESSOR_ABORT;
-
-		break;
-	    }
-	     
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dValency == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "valency", -1))
-	    {		
-		iResult = TSTR_PROCESSOR_ABORT;
-
-		break;
-	    }
-
-	    if (MechanismDataError(pmcd, ptstr->ppist, (dT == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "T", -1))
+	    if (MechanismDataError(pmcd, ptstr->ppist,
+				   (dCIn == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Cin",
+				   (dCOut == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "Cout",
+				   (dValency == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "valency",
+				   (dT == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "T",
+				   -1))
 	    {		
 		iResult = TSTR_PROCESSOR_ABORT;
 
@@ -4052,22 +3838,12 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 
 	double dTau = SymbolParameterResolveValue(phsle, ptstr->ppist, "TAU");
 
-	if (MechanismDataError(pmcd, ptstr->ppist, (dInitValue == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "concen_init", -1))
-	{
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	if (MechanismDataError(pmcd, ptstr->ppist, (dBeta == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "BETA", -1))
-	{
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	if (MechanismDataError(pmcd, ptstr->ppist, (dSteadyState == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "BASE", -1))
-	{
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-
-	if (MechanismDataError(pmcd, ptstr->ppist, (dTau == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TAU", -1))
+	if (MechanismDataError(pmcd, ptstr->ppist,
+			       (dInitValue == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "concen_init",
+			       (dBeta == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "BETA",
+			       (dSteadyState == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "BASE",
+			       (dTau == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "TAU",
+			       -1))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
@@ -4219,12 +3995,10 @@ solver_mathcomponent_processor(struct TreespaceTraversal *ptstr, void *pvUserdat
 	    iSource2Targets = 0;
 	}
 
-	if (MechanismDataError(pmcd, ptstr->ppist, (dRefractory == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "REFRACTORY", -1))
-	{
-	    iResult = TSTR_PROCESSOR_ABORT;
-	}
-	 
-	if (MechanismDataError(pmcd, ptstr->ppist, (dThreshold == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "THRESHOLD", -1))
+	if (MechanismDataError(pmcd, ptstr->ppist,
+			       (dRefractory == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "REFRACTORY",
+			       (dThreshold == DBL_MAX), STATUS_UNRESOLVABLE_PARAMETERS, "THRESHOLD",
+			       -1))
 	{
 	    iResult = TSTR_PROCESSOR_ABORT;
 	}
