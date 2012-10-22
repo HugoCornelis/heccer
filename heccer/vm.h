@@ -595,7 +595,7 @@ struct MatsInternalNernst
 
 struct MopsInitializeChannel
 {
-    /// operation : HECCER_MOP_INITIALIZECHANNEL
+    /// operation : HECCER_MOP_INITIALIZECHANNEL or HECCER_MOP_INITIALIZESYNCHANNEL
 
     int iOperator;
 
@@ -613,6 +613,26 @@ struct MopsInitializeChannel
     ((pvMops)								\
      ? ({ struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)(pvMops);	\
 	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNEL;		\
+	     pmops->dReversalPotential = (dE) ;				\
+	     pmops->dMaximalConductance = (dG) ;			\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMopsIndex)							\
+	 ? ({								\
+		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 (iMops) += sizeof(struct MopsInitializeChannel);	\
+		 1;							\
+	     })								\
+	 : ({ iMopNumber++; 1; }) ) )
+
+
+#define SETMOP_INITIALIZESYNCHANNEL(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,dE) \
+    ((pvMops)								\
+     ? ({ struct MopsInitializeChannel *pmops = (struct MopsInitializeChannel *)(pvMops);	\
+	     pmops->iOperator = HECCER_MOP_INITIALIZESYNCHANNEL;	\
 	     pmops->dReversalPotential = (dE) ;				\
 	     pmops->dMaximalConductance = (dG) ;			\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
@@ -649,6 +669,26 @@ struct MopsInitializeChannelErev
     ((pvMops)								\
      ? ({ struct MopsInitializeChannelErev *pmops = (struct MopsInitializeChannelErev *)(pvMops); \
 	     pmops->iOperator = HECCER_MOP_INITIALIZECHANNELEREV;		\
+	     pmops->uReversalPotential.iMat = (iE) ;			\
+	     pmops->dMaximalConductance = (dG) ;			\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&pmops[1];				\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMopsIndex)							\
+	 ? ({								\
+		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 (iMops) += sizeof(struct MopsInitializeChannelErev);	\
+		 1;							\
+	     })								\
+	 : ({ iMopNumber++; 1; }) ) )
+
+
+#define SETMOP_INITIALIZESYNCHANNELEK(iMathComponent,piMC2Mop,ppvMopsIndex,iMopNumber,pvMops,iMops,dG,iE) \
+    ((pvMops)								\
+     ? ({ struct MopsInitializeChannelErev *pmops = (struct MopsInitializeChannelErev *)(pvMops); \
+	     pmops->iOperator = HECCER_MOP_INITIALIZESYNCHANNELEREV;	\
 	     pmops->uReversalPotential.iMat = (iE) ;			\
 	     pmops->dMaximalConductance = (dG) ;			\
 	     ppvMopsIndex[iMopNumber++] = pvMops;			\
@@ -1105,27 +1145,29 @@ struct MopsAggregateCurrent
 #define HECCER_MOP_CALLOUT 10
 
 #define HECCER_MOP_INITIALIZECHANNEL 20
-#define HECCER_MOP_LOADVOLTAGETABLE 21
-#define HECCER_MOP_CONCEPTGATE 22
-#define HECCER_MOP_STORECHANNELCONDUCTANCE 23
-#define HECCER_MOP_EXPONENTIALDECAY 24
-#define HECCER_MOP_FLUXPOOL 25
-#define HECCER_MOP_REGISTERCHANNELCURRENT 26
-#define HECCER_MOP_INTERNALNERNST 27
-#define HECCER_MOP_INITIALIZECHANNELEREV 28
-#define HECCER_MOP_SPRINGMASS 29
-#define HECCER_MOP_EVENTGENERATE 31
-#define HECCER_MOP_RESET 32
+#define HECCER_MOP_INITIALIZESYNCHANNEL 21
+#define HECCER_MOP_INITIALIZECHANNELEREV 22
+#define HECCER_MOP_INITIALIZESYNCHANNELEREV 23
+#define HECCER_MOP_LOADVOLTAGETABLE 24
+#define HECCER_MOP_CONCEPTGATE 25
+#define HECCER_MOP_STORECHANNELCONDUCTANCE 26
+#define HECCER_MOP_EXPONENTIALDECAY 27
+#define HECCER_MOP_FLUXPOOL 28
+#define HECCER_MOP_REGISTERCHANNELCURRENT 29
+#define HECCER_MOP_INTERNALNERNST 30
+#define HECCER_MOP_SPRINGMASS 31
+#define HECCER_MOP_EVENTGENERATE 41
+#define HECCER_MOP_RESET 42
 
-#define HECCER_MOP_UPDATECOMPARTMENTCURRENT 40
-#define HECCER_MOP_STORESINGLECHANNELCURRENT 41
+#define HECCER_MOP_UPDATECOMPARTMENTCURRENT 50
+#define HECCER_MOP_STORESINGLECHANNELCURRENT 51
 
 #define HECCER_MOP_AGGREGATECURRENT 60
 
 
-/// \def all operators for mechanisms have an opcode larger than ...
-
-/// \todo but perhaps this should be done using flags, not sure.
+/// \def all operators for mechanisms have an opcode larger than
+/// HECCER_MOP_COMPARTMENT_BARRIER.  But perhaps this should be done
+/// using flags, not sure.
 
 #define HECCER_MOP_COMPARTMENT_BARRIER 9
 

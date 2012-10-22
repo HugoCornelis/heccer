@@ -390,7 +390,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    if (pcsm->iReversalPotential == -1)
 		    {
-			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pcsm->dReversalPotential);
+			SETMOP_INITIALIZESYNCHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pcsm->dReversalPotential);
 		    }
 
 		    //- else a solved reversal potential
@@ -410,7 +410,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, iMatsReversalPotential);
+			SETMOP_INITIALIZESYNCHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, iMatsReversalPotential);
 		    }
 
 		    //- preprocess the event list if any
@@ -2095,6 +2095,7 @@ int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -2108,6 +2109,7 @@ int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
@@ -2568,6 +2570,7 @@ int HeccerMechanismLink(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -2581,6 +2584,7 @@ int HeccerMechanismLink(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
@@ -3053,6 +3057,7 @@ int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -3066,6 +3071,7 @@ int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
@@ -3681,6 +3687,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -3700,6 +3707,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
