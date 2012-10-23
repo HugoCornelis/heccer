@@ -439,7 +439,7 @@ HeccerAddressMechanismVariable
 	{
 	    //- operators are two off
 
-	    iOperand = -2;
+	    iOperand = 2;
 
 	    //- get mop number
 
@@ -468,9 +468,9 @@ HeccerAddressMechanismVariable
 
 	else if (strcasecmp(pcType, "table_B_index") == 0)
 	{
-	    //- operators are one off
+	    //- operators are three off
 
-	    iOperand = -1;
+	    iOperand = 3;
 
 	    //- get mop number
 
