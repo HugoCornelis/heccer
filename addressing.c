@@ -716,27 +716,32 @@ HeccerAddressVariable
 
     int iIntermediary = HeccerAddressSerial2Intermediary(pheccer, iSerial, pcType);
 
-    //- based on the low-level typing we translate some of the
-    //- variable names for reasons of consistency towards the user.
+    //- if we have math components
 
-    // \note both 'Isyn' and 'current' can be used by the user.
-
-    int iMops = pheccer->vm.piMC2Mop[iIntermediary];
-
-    struct MopsInitializeChannel *pmops
-	= (struct MopsInitializeChannel *)pheccer->vm.ppvMopsIndex[iMops];
-
-    if (0 == strcasecmp(pcType, "current")
-	&& (pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNEL
-	    || pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNELEREV))
+    if (pheccer->inter.pmca)
     {
-	pcType = "Isyn";
-    }
-    else if (0 == strcasecmp(pcType, "conductance")
-	     && (pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNEL
-		 || pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNELEREV))
-    {
-	pcType = "Gsyn";
+	//- based on the low-level typing we translate some of the
+	//- variable names for reasons of consistency towards the user.
+
+	// \note both 'Isyn' and 'current' can be used by the user.
+
+	int iMops = pheccer->vm.piMC2Mop[iIntermediary];
+
+	struct MopsInitializeChannel *pmops
+	    = (struct MopsInitializeChannel *)pheccer->vm.ppvMopsIndex[iMops];
+
+	if (0 == strcasecmp(pcType, "current")
+	    && (pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNEL
+		|| pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNELEREV))
+	{
+	    pcType = "Isyn";
+	}
+	else if (0 == strcasecmp(pcType, "conductance")
+		 && (pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNEL
+		     || pmops->iOperator == HECCER_MOP_INITIALIZESYNCHANNELEREV))
+	{
+	    pcType = "Gsyn";
+	}
     }
 
     if (iIntermediary != -1)
