@@ -151,21 +151,24 @@ struct VM
 };
 
 
-#define SETMOP_FINISH(ppvMopsIndex,iMopNumber,pvMops,iMops)	\
-    ((pvMops)							\
-     ? ({							\
-	     ((int *)pvMops)[0] = HECCER_MOP_FINISH;		\
-	     ppvMopsIndex[iMopNumber++] = pvMops;		\
-	     (pvMops) = (void *)&((int *)pvMops)[1];		\
-	     1;							\
-	 })							\
-     : (							\
-	 (ppvMopsIndex)						\
-	 ? ({							\
-		 iMopNumber++;					\
-		 (iMops) += sizeof(int);			\
-		 1;						\
-	     })							\
+#define SETMOP_FINISH(ppvMopsIndex,iMopNumber,pvMops,iMops)		\
+    ((pvMops)								\
+     ? ({								\
+	     ((int *)pvMops)[0] = HECCER_MOP_FINISH;			\
+	     ppvMopsIndex[iMopNumber++] = pvMops;			\
+	     (pvMops) = (void *)&((int *)pvMops)[1];			\
+	     1;								\
+	 })								\
+     : (								\
+	 (ppvMopsIndex)							\
+	 ? ({								\
+		 /* ((piMC2Mop[iMathComponent] == -1) */		\
+		 /*  ? (piMC2Mop[iMathComponent] = iMopNumber) */	\
+		 /*  : (1)); */						\
+		 iMopNumber++;						\
+		 (iMops) += sizeof(int);				\
+		 1;							\
+	     })								\
 	 : ({ iMopNumber++; 1; }) ) )
 
 #define SETMAT_FINISH(ppdMatsIndex,iMatNumber,pdMats,iMats)		\
@@ -225,6 +228,9 @@ struct MatsCompartment
 	 (ppvMopsIndex)							\
 	 ? ({								\
 		 iLoadVoltageTable = 0;					\
+		 /* ((piMC2Mop[iMathComponent] == -1) */		\
+		 /*  ? (piMC2Mop[iMathComponent] = iMopNumber) */	\
+		 /*  : (1)); */						\
 		 iMopNumber++;						\
 		 (iMops) += sizeof(int);				\
 		 (iMops) += sizeof(int);				\
@@ -251,6 +257,9 @@ struct MatsCompartment
 	 (ppvMopsIndex)							\
 	 ? ({								\
 		 iLoadVoltageTable = 0;					\
+		 /* ((piMC2Mop[iMathComponent] == -1) */		\
+		 /*  ? (piMC2Mop[iMathComponent] = iMopNumber) */	\
+		 /*  : (1)); */						\
 		 iMopNumber++;						\
 		 (iMops) += sizeof(int);				\
 		 1;							\
@@ -344,7 +353,10 @@ struct MatsSpringMass
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsSpringMass);		\
 		     1;							\
 		 })							\
@@ -420,7 +432,10 @@ struct MatsEventGenerate
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsEventGenerate);	\
 		     1;							\
 		 })							\
@@ -469,7 +484,10 @@ struct MopsReset
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsReset);		\
 		     1;							\
 		 })							\
@@ -566,7 +584,10 @@ struct MatsInternalNernst
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsInternalNernst);	\
 		     1;							\
 		 })							\
@@ -622,7 +643,10 @@ struct MopsInitializeChannel
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
-		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 ((piMC2Mop[iMathComponent] == -1)			\
+		  ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		  : (1));						\
+		 iMopNumber++;						\
 		 (iMops) += sizeof(struct MopsInitializeChannel);	\
 		 1;							\
 	     })								\
@@ -642,7 +666,10 @@ struct MopsInitializeChannel
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
-		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 ((piMC2Mop[iMathComponent] == -1)			\
+		  ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		  : (1));						\
+		 iMopNumber++;						\
 		 (iMops) += sizeof(struct MopsInitializeChannel);	\
 		 1;							\
 	     })								\
@@ -678,7 +705,10 @@ struct MopsInitializeChannelErev
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
-		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 ((piMC2Mop[iMathComponent] == -1)			\
+		  ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		  : (1));						\
+		 iMopNumber++;						\
 		 (iMops) += sizeof(struct MopsInitializeChannelErev);	\
 		 1;							\
 	     })								\
@@ -698,7 +728,10 @@ struct MopsInitializeChannelErev
      : (								\
 	 (ppvMopsIndex)							\
 	 ? ({								\
-		 piMC2Mop[iMathComponent] = iMopNumber++;		\
+		 ((piMC2Mop[iMathComponent] == -1)			\
+		  ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		  : (1));						\
+		 iMopNumber++;						\
 		 (iMops) += sizeof(struct MopsInitializeChannelErev);	\
 		 1;							\
 	     })								\
@@ -731,7 +764,10 @@ struct MopsInitializeChannelErev
 /* 	 }) : (								\ */
 /* 	     (ppvMopsIndex)						\ */
 /* 	     ? ({							\ */
-/* 		     piMC2Mop[iMathComponent] = iMopNumber++;		\ */
+/* 		     ((piMC2Mop[iMathComponent] == -1)			\ */
+/* 		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\ */
+/* 		      : (1));						\ */
+/* 		     iMopNumber++;					\ */
 /* 		     (iMops) += sizeof(struct MopsStoreChannelConductance); \ */
 /* 		     1;							\ */
 /* 		 })							\ */
@@ -759,7 +795,10 @@ struct MopsVoltageTableDependency
 		(ppvMopsIndex)						\
 		? ({							\
 			iLoadVoltageTable = 1;				\
-			piMC2Mop[iMathComponent] = iMopNumber++;	\
+			((piMC2Mop[iMathComponent] == -1)		\
+			 ? (piMC2Mop[iMathComponent] = iMopNumber)	\
+			 : (1));					\
+			iMopNumber++;					\
 			(iMops) += sizeof(struct MopsVoltageTableDependency); \
 			1;						\
 		    })							\
@@ -789,7 +828,10 @@ struct MopsUpdateCompartmentCurrent
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsUpdateCompartmentCurrent); \
 		     1;							\
 		 })							\
@@ -837,7 +879,10 @@ struct MopsSingleGateConcept
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsSingleGateConcept);	\
 		     1;							\
 		 })							\
@@ -921,7 +966,10 @@ struct MatsExponentialDecay
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsExponentialDecay);	\
 		     1;							\
 		 })							\
@@ -977,7 +1025,10 @@ struct MatsFluxPool
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsFluxPool);		\
 		     1;							\
 		 })							\
@@ -1020,7 +1071,10 @@ struct MopsRegisterChannelCurrent
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsRegisterChannelCurrent); \
 		     1;							\
 		 })							\
@@ -1056,7 +1110,10 @@ struct MatsStoreSingleChannelCurrent
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsStoreSingleChannelCurrent); \
 		     1;							\
 		 })							\
@@ -1108,7 +1165,10 @@ struct MopsAggregateCurrent
 	 }) : (								\
 	     (ppvMopsIndex)						\
 	     ? ({							\
-		     piMC2Mop[iMathComponent] = iMopNumber++;		\
+		     ((piMC2Mop[iMathComponent] == -1)			\
+		      ? (piMC2Mop[iMathComponent] = iMopNumber)		\
+		      : (1));						\
+		     iMopNumber++;					\
 		     (iMops) += sizeof(struct MopsAggregateCurrent);	\
 		     1;							\
 		 })							\

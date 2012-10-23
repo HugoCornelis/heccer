@@ -282,17 +282,13 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 	    //- fill in compartment constants
 
-	    /// \note note : pdDiagonals was computed with schedule numbers.
-
-	    /// \todo these need an extra check, probably wrong.
-
-	    /// \todo perhaps need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START
-	    /// \todo and SETMAT_COMPARTMENT_FINISH
-	    /// \todo between those two, we compile in the mechanisms.
+	    // \todo perhaps need to split SETMAT_COMPARTMENT in
+	    // SETMAT_COMPARTMENT_START and SETMAT_COMPARTMENT_FINISH.
+	    // Then between these two, we compile in the mechanisms.
 
 	    SETMAT_COMPARTMENT(ppdCMatsIndex, iSchedule, ppdMatsIndex, iMatNumber, pdMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
-	    //- lookup the start of the mechanisms for this compartment
+	    //- lookup the start of the mechanisms of this compartment
 
 	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
 
@@ -323,7 +319,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		switch (iType)
 		{
-		    //- for a callout
+		//- for a callout
 
 		case MATH_TYPE_CallOut_conductance_current:
 		{
