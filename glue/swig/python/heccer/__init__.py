@@ -1006,9 +1006,15 @@ class Heccer:
                     return
                     #raise errors.HeccerCompileError("No Heccer translation service present, can't construct an intermediary from the model")
                 
-                heccer_base.HeccerCompileP1(self.GetCore())
+                result = heccer_base.HeccerCompileP1(self.GetCore())
 
-                self._compiled_p1 = True
+                if result == 0:
+
+                    raise errors.CompileP1Error("Can't compile heccer into an intermediary format")
+
+                else:
+                    
+                    self._compiled_p1 = True
 
         else:
 
@@ -1028,9 +1034,15 @@ class Heccer:
 
             if self._compiled_p2 is False:
                 
-                heccer_base.HeccerCompileP2(self.GetCore())
+                result = heccer_base.HeccerCompileP2(self.GetCore())
 
-                self._compiled_p2 = True
+                if result == 0:
+
+                    raise errors.CompileP2Error("Can't analyze the model and build indexes for optimization")
+
+                else:
+                    
+                    self._compiled_p2 = True
 
         else:
 
@@ -1050,9 +1062,15 @@ class Heccer:
 
             if self._compiled_p3 is False:
                 
-                heccer_base.HeccerCompileP3(self.GetCore())
+                result = heccer_base.HeccerCompileP3(self.GetCore())
 
-                self._compiled_p3 = True
+                if result == 0:
+
+                    raise errors.CompileP3Error("Can't compile intermediary into byte code")
+
+                else:
+                    
+                    self._compiled_p3 = True
 
         else:
 

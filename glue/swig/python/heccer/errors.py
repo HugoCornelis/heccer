@@ -1,5 +1,13 @@
 from exceptions import Exception
 
+class CompileP1Error(Exception):
+    pass
+
+class CompileP2Error(Exception):
+    pass
+
+class CompileP3Error(Exception):
+    pass
 
 class HeccerAddressError(Exception):
     """
