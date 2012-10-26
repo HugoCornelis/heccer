@@ -284,6 +284,10 @@ struct OutputGenerator * pogNextEvent = NULL;
 
 double *pdActivation = NULL;
 
+double *pdCurrent1 = NULL;
+
+double *pdCurrent2 = NULL;
+
 double *pdNextEvent = NULL;
 
 char pcStep[100] = "";
@@ -314,6 +318,10 @@ int main(int argc, char *argv[])
 #define HECCER_TEST_INITIATE \
     pdActivation = HeccerAddressVariable(pheccer, 2000, "activation"); \
     OutputGeneratorAddVariable(pogActivation, "Activation", pdActivation); \
+    pdCurrent1 = HeccerAddressVariable(pheccer, 2000, "Isyn"); \
+    OutputGeneratorAddVariable(pogActivation, "Isyn", pdCurrent1); \
+    pdCurrent2 = HeccerAddressVariable(pheccer, 2000, "current"); \
+    OutputGeneratorAddVariable(pogActivation, "Isyn", pdCurrent2); \
     pdNextEvent = HeccerAddressVariable(pheccer, 2000, "next_event"); \
     OutputGeneratorAddVariable(pogNextEvent, "NextEvent", pdNextEvent)
 
@@ -352,6 +360,10 @@ int main(int argc, char *argv[])
 
     double *pdActivationExternal = HeccerAddressVariable(pheccer, 2000, "activation");
 
+    double *pdCurrent1External = HeccerAddressVariable(pheccer, 2000, "Isyn");
+
+    double *pdCurrent2External = HeccerAddressVariable(pheccer, 2000, "current");
+
     double *pdNextEventExternal = HeccerAddressVariable(pheccer, 2000, "next_event");
 
     double *pdFrequencyExternal = HeccerAddressVariable(pheccer, 2000, "FREQUENCY");
@@ -363,6 +375,10 @@ int main(int argc, char *argv[])
     double *pdVmInternal = HeccerAddressCompartmentVariable(pheccer, 0, "Vm");
 
     double *pdActivationInternal = HeccerAddressMechanismVariable(pheccer, 0, "activation");
+
+    double *pdCurrent1Internal = HeccerAddressMechanismVariable(pheccer, 0, "Isyn");
+
+    double *pdCurrent2Internal = HeccerAddressMechanismVariable(pheccer, 0, "Isyn");
 
     double *pdNextEventInternal = HeccerAddressVariable(pheccer, 2000, "next_event");
 
@@ -380,6 +396,20 @@ int main(int argc, char *argv[])
     if (pdActivationInternal != pdActivationExternal)
     {
 	fprintf(stdout, "*** Error: (pdActivationInternal != pdActivationExternal)\n");
+
+	exit(EXIT_FAILURE);
+    }
+
+    if (pdCurrent1Internal != pdCurrent1External)
+    {
+	fprintf(stdout, "*** Error: (pdCurrent1Internal != pdCurrent1External)\n");
+
+	exit(EXIT_FAILURE);
+    }
+
+    if (pdCurrent2Internal != pdCurrent2External)
+    {
+	fprintf(stdout, "*** Error: (pdCurrent2Internal != pdCurrent2External)\n");
 
 	exit(EXIT_FAILURE);
     }
@@ -403,6 +433,10 @@ int main(int argc, char *argv[])
     fprintf(stdout, "Membrane potential is %g\n", pdVmInternal[0]);
 
     fprintf(stdout, "Activation state is %g\n", pdActivationInternal[0]);
+
+    fprintf(stdout, "Current is %g\n", pdCurrent1Internal[0]);
+
+    fprintf(stdout, "Current is %g\n", pdCurrent2Internal[0]);
 
     fprintf(stdout, "next event time is %g\n", pdNextEventInternal[0]);
 

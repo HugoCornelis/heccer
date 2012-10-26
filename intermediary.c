@@ -332,7 +332,7 @@ HeccerIntermediaryLookup(struct simobj_Heccer *pheccer, int i)
 
     struct MathComponent *pmcResult = NULL;
 
-    //- if mechanisms indexed
+    //- if mechanisms are indexed
 
     if (pheccer->inter.pmca
 	&& pheccer->inter.pmca->ppmcIndex)

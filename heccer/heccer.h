@@ -331,11 +331,13 @@ int HeccerDump(struct simobj_Heccer *pheccer, FILE *pfile, int iSelection);
 #define HECCER_DUMP_ALL_REDUCED (0xffffffff & ~(HECCER_DUMP_SERVICE | HECCER_DUMP_TABLE_GATE_TABLES))
 
 
-char * HeccerGetVersion(void);
+int
+HeccerCheckParameters
+(struct simobj_Heccer *pheccer, char *pcDescription, ...);
 
 int HeccerError(struct simobj_Heccer *pheccer, char *pcContext, char *pcError, ...);
 
-/* int HeccerHecc(struct simobj_Heccer *pheccer); */
+char * HeccerGetVersion(void);
 
 int HeccerHeccs(struct simobj_Heccer *pheccer, double dTime);
 
