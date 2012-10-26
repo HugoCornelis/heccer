@@ -14,6 +14,14 @@ except ImportError, e:
 
 
 
+DES_DUMP_ALL=heccer_base.DES_DUMP_ALL
+DES_DUMP_ALL_EXTENDED=heccer_base.DES_DUMP_ALL_EXTENDED
+DES_DUMP_ALL_REDUCED=heccer_base.DES_DUMP_ALL_REDUCED
+DES_DUMP_SERVICE=heccer_base.DES_DUMP_SERVICE
+DES_DUMP_DISTRIBUTOR_MATRIX=heccer_base.DES_DUMP_DISTRIBUTOR_MATRIX
+DES_DUMP_QUEUER_MATRIX=heccer_base.DES_DUMP_QUEUER_MATRIX
+
+
 #************************* Start DES *******************************************
 
 class DES:
@@ -53,7 +61,12 @@ class DES:
 
     def Construct(self, model=None):
 
-        pass
+        if self._des is None:
+            # should never really be here but just in case
+            # I need to do some sort of a reset
+            self._des = heccer_base.DESNew(1)
+
+        
 
 #---------------------------------------------------------------------------
 
