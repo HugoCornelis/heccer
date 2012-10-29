@@ -31,13 +31,6 @@
 #include "heccer/random.h"
 
 
-static
-int
-HeccerCheckParameters
-(struct simobj_Heccer *pheccer,
- char *pcDescription,
- ...);
-
 static double
 HeccerGateInitActivation
 (struct simobj_Heccer *pheccer, int iTable, double dInitVm, double dInitActivation);
@@ -46,83 +39,6 @@ static
 int
 HeccerMechanismReadDoubleFile
 (struct simobj_Heccer *pheccer, char *pcFilename, double **ppdValues);
-
-
-/// 
-/// \arg pheccer a heccer.
-/// \arg pcDescription description of these parameters.
-/// \arg va_list -1 terminated list of boolean values.
-/// 
-/// \return int
-/// 
-///	success of operation.
-/// 
-/// \brief Check parameters utility function.
-///
-/// \details
-/// 
-///	Just give a list of boolean expressions, telling if the
-///	parameters comply or not, a description where they occur.
-///	This function will call HeccerError() for any FALSE boolean in
-///	the stdarg list.
-/// 
-
-static
-int
-HeccerCheckParameters
-(struct simobj_Heccer *pheccer,
- char *pcDescription,
- ...)
-{
-    //- set default result: ok
-
-    int iResult = 1;
-
-    //v stdargs list
-
-    va_list vaList;
-
-    //- get start of stdargs
-
-    va_start(vaList, pcDescription);
-
-    //- loop over all arguments
-
-    int iOk = va_arg(vaList, int);
-
-    while (iOk != -1)
-    {
-	//- if current argument not ok
-
-	if (!iOk)
-	{
-	    char pcMessage[1000];
-
-	    sprintf(pcMessage, "%s invalid", pcDescription);
-
-	    HeccerError
-		(pheccer,
-		 NULL,
-		 pcMessage);
-
-	    //- break loop
-
-	    break;
-	}
-
-	//- go to next argument
-
-	iOk = va_arg(vaList, int);
-    }
-
-    //- end stdargs
-
-    va_end(vaList);
-
-    //- return result
-
-    return(iResult);
-}
 
 
 /// 
@@ -366,17 +282,13 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 	    //- fill in compartment constants
 
-	    /// \note note : pdDiagonals was computed with schedule numbers.
-
-	    /// \todo these need an extra check, probably wrong.
-
-	    /// \todo perhaps need to split SETMAT_COMPARTMENT in SETMAT_COMPARTMENT_START
-	    /// \todo and SETMAT_COMPARTMENT_FINISH
-	    /// \todo between those two, we compile in the mechanisms.
+	    // \todo perhaps need to split SETMAT_COMPARTMENT in
+	    // SETMAT_COMPARTMENT_START and SETMAT_COMPARTMENT_FINISH.
+	    // Then between these two, we compile in the mechanisms.
 
 	    SETMAT_COMPARTMENT(ppdCMatsIndex, iSchedule, ppdMatsIndex, iMatNumber, pdMats, iMats, dEm / dRm, dInject, dt / dCm, pheccer->vm.pdDiagonals[iSchedule]);
 
-	    //- lookup the start of the mechanisms for this compartment
+	    //- lookup the start of the mechanisms of this compartment
 
 	    int iStart = iIntermediary == 0 ? 0 : pheccer->inter.piC2m[iIntermediary - 1];
 
@@ -407,7 +319,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		switch (iType)
 		{
-		    //- for a callout
+		//- for a callout
 
 		case MATH_TYPE_CallOut_conductance_current:
 		{
@@ -474,7 +386,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 
 		    if (pcsm->iReversalPotential == -1)
 		    {
-			SETMOP_INITIALIZECHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pcsm->dReversalPotential);
+			SETMOP_INITIALIZESYNCHANNEL(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, pcsm->dReversalPotential);
 		    }
 
 		    //- else a solved reversal potential
@@ -494,7 +406,7 @@ int HeccerMechanismCompile(struct simobj_Heccer *pheccer)
 			    iMatsReversalPotential = piMC2Mat ? piMC2Mat[iMathComponentReversalPotential].iMat : -1;
 			}
 
-			SETMOP_INITIALIZECHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, iMatsReversalPotential);
+			SETMOP_INITIALIZESYNCHANNELEK(iMathComponent, piMC2Mop, ppvMopsIndex, iMopNumber, pvMops, iMops, dNormalizer, iMatsReversalPotential);
 		    }
 
 		    //- preprocess the event list if any
@@ -2179,6 +2091,7 @@ int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -2192,6 +2105,7 @@ int HeccerMechanismIndex2Pointer(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
@@ -2652,6 +2566,7 @@ int HeccerMechanismLink(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -2665,6 +2580,7 @@ int HeccerMechanismLink(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
@@ -3137,6 +3053,7 @@ int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -3150,6 +3067,7 @@ int HeccerMechanismPointer2Index(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 
@@ -3765,6 +3683,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization
 
 	    case HECCER_MOP_INITIALIZECHANNEL:
+	    case HECCER_MOP_INITIALIZESYNCHANNEL:
 	    {
 		//- go to next operator
 
@@ -3784,6 +3703,7 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 	    //- for single channel initialization with variable reversal potential
 
 	    case HECCER_MOP_INITIALIZECHANNELEREV:
+	    case HECCER_MOP_INITIALIZESYNCHANNELEREV:
 	    {
 		//- go to next operator
 

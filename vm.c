@@ -103,6 +103,8 @@ static struct HeccerCommandInfo phciMops[] =
     {	HECCER_MOP_FLUXPOOL,			"FLUXPOOL",			sizeof(struct MopsFluxPool),				1,	sizeof(struct MatsFluxPool),	},
     {	HECCER_MOP_INITIALIZECHANNEL,		"INITIALIZECHANNEL",		sizeof(struct MopsInitializeChannel),			0,	0,	},
     {	HECCER_MOP_INITIALIZECHANNELEREV,	"INITIALIZECHANNELEREV",	sizeof(struct MopsInitializeChannelErev),			0,	0,	},
+    {	HECCER_MOP_INITIALIZESYNCHANNEL,	"INITIALIZESYNCHANNEL",		sizeof(struct MopsInitializeChannel),			0,	0,	},
+    {	HECCER_MOP_INITIALIZESYNCHANNELEREV,	"INITIALIZESYNCHANNELEREV",	sizeof(struct MopsInitializeChannelErev),			0,	0,	},
     {	HECCER_MOP_LOADVOLTAGETABLE,		"LOADVOLTAGETABLE",		sizeof(struct MopsVoltageTableDependency),		0,	0,	},
     {	HECCER_MOP_REGISTERCHANNELCURRENT, 	"REGISTERCHANNELCURRENT",	sizeof(struct MopsRegisterChannelCurrent),		0,	0,	},
     {	HECCER_MOP_UPDATECOMPARTMENTCURRENT, 	"UPDATECOMPARTMENTCURRENT",	sizeof(struct MopsUpdateCompartmentCurrent),		0,	0,	},
@@ -509,7 +511,8 @@ HeccerVMDumpOperators
 			}
 			else
 #endif
-			    if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNEL)
+			    if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNEL
+				|| phciCurrent->iValue == HECCER_MOP_INITIALIZESYNCHANNEL)
 			{
 			    struct MopsInitializeChannel *pmops
 				= (struct MopsInitializeChannel *)&piOperators[i / sizeof(int)];
@@ -582,7 +585,8 @@ HeccerVMDumpOperators
 				strcat(pc, pc2);
 			    }
 			}
-			else if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNELEREV)
+			else if (phciCurrent->iValue == HECCER_MOP_INITIALIZECHANNELEREV
+				 || phciCurrent->iValue == HECCER_MOP_INITIALIZESYNCHANNELEREV)
 			{
 			    struct MopsInitializeChannelErev *pmops
 				= (struct MopsInitializeChannelErev *)&piOperators[i / sizeof(int)];
