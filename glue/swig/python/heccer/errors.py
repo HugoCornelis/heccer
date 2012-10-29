@@ -1,5 +1,8 @@
 from exceptions import Exception
 
+class ConnectionError(Exception):
+    pass
+
 class CompileP1Error(Exception):
     pass
 

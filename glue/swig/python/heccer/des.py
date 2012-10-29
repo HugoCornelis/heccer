@@ -29,7 +29,7 @@ class DES:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled DES", model=None, model_source=None, options=None):
+    def __init__(self, name="Untitled DES", model_name=None, model_source=None, options=None):
 
         self.name = name
 
@@ -53,9 +53,9 @@ class DES:
 
         self.projections = []
 
-        self.model_name = None
+        self.model_name = model_name
 
-        self.model_source = None
+        self.model_source = model_source
 
 #---------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ class DES:
         
 #---------------------------------------------------------------------------
 
-    def ConnectSolvers(self):
+    def Connect(self):
 
         if self._solvers_connected:
 
@@ -98,18 +98,36 @@ class DES:
 
         else:
 
+            # an exception here will break it out
+
+            try:
+                
+                model_source.SetAllProjectionQueries()
+
+            except Exception, e:
+
+                raise errors.ConnectionError("Can't construct projection matrix: %s" % e)
+
             model_core = self.model_core.GetCore()
-            
+
+            # might need to change this to just pass model_core
             result = heccer_base.DESConnect(model_core.psr, model_core.ppq)
 
             if result == 0:
 
-                raise Exception("DESConnect Error: Can't connect create connection matrix")
+                raise errors.ConnectionError("Can't connect create connection matrix")
 
             else:
 
                 self._solvers_connected = True
+
+#---------------------------------------------------------------------------
+
+    def AddOutput(self, output=None, type=None):
+
         
+
+
 #---------------------------------------------------------------------------
 
     def GetDistributor(self):
@@ -186,28 +204,3 @@ class DES:
 
 
 
-#************************* Start Distributor ***********************************
-
-class Distributor:
-
-
-    def __init__(self):
-
-        pass
-
-#************************* End Distributor *************************************
-
-
-
-
-
-#************************* Start Queuer ****************************************
-
-class Queuer:
-
-
-    def __init__(self):
-
-        pass
-
-#************************* End Queuer ******************************************

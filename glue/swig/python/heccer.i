@@ -125,6 +125,7 @@ double HeccerAddressGetValue(struct simobj_Heccer *pheccer, int iSerial, char *p
 %include "heccer/service.h"
 %include "heccer/table.h"
 
+%include "integrators/heccer/neurospaces/des2.h"
 %include "integrators/heccer/neurospaces/heccer.h"
 
  // info on the carray library here http://www.swig.org/Doc1.3/Library.html#Library_carrays

@@ -7,9 +7,20 @@
 
 
 %{
+#include "heccer/config.h"
+#include "heccer/addressing.h"
+#include "heccer/callout.h"
+#include "heccer/compartment.h"
 #include "heccer/des.h"
-#include "heccer/event.h"
+#include "heccer/intermediary.h"
+#include "heccer/heccer.h"
+#include "heccer/mathcomponent.h"
+#include "heccer/mechanism.h"
+#include "heccer/serialization.h"
+#include "heccer/table.h"
 
+#include "integrators/heccer/neurospaces/des2.h"
+#include "integrators/heccer/neurospaces/heccer.h"
 
 %}
 
