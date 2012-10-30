@@ -45,6 +45,11 @@ class DES:
 
             pass
 
+
+        else:
+
+            self.options =  options
+
         self._constructed = False
         self._projections_set = False
         self._solvers_connected = False
@@ -86,7 +91,7 @@ class DES:
         
 #---------------------------------------------------------------------------
 
-    def Connect(self):
+    def Connect(self, model_source=None):
 
         if self._solvers_connected:
 
@@ -94,7 +99,13 @@ class DES:
         
         elif self.model_source is None:
 
-            raise Exception("Can't connect solvers, no model source")
+            if not model_source is None:
+
+                self.model_source = model_source
+                
+            else:
+                
+                raise Exception("Can't connect solvers, no model source")
 
         else:
 
@@ -102,13 +113,13 @@ class DES:
 
             try:
                 
-                model_source.SetAllProjectionQueries()
+                self.model_source.SetAllProjectionQueries()
 
             except Exception, e:
 
                 raise errors.ConnectionError("Can't construct projection matrix: %s" % e)
 
-            model_core = self.model_core.GetCore()
+            model_core = self.model_source.GetCore()
 
             # might need to change this to just pass model_core
             result = heccer_base.DESConnect(model_core.psr, model_core.ppq)
@@ -126,7 +137,7 @@ class DES:
     def AddOutput(self, output=None, type=None):
 
         
-
+        pass
 
 #---------------------------------------------------------------------------
 
@@ -137,12 +148,6 @@ class DES:
 #---------------------------------------------------------------------------
 
     def Compile(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-    def Connect(self):
 
         pass
 
