@@ -52,7 +52,7 @@ class DES:
 
         self._constructed = False
         self._projections_set = False
-        self._solvers_connected = False
+        self._connected = False
 
         self.time_step = None
 
@@ -93,7 +93,7 @@ class DES:
 
     def Connect(self, model_source=None):
 
-        if self._solvers_connected:
+        if self._connected:
 
             raise Exception("Solvers have already been connected")
         
@@ -130,7 +130,7 @@ class DES:
 
             else:
 
-                self._solvers_connected = True
+                self._connected = True
 
 #---------------------------------------------------------------------------
 
