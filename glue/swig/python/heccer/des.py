@@ -119,6 +119,14 @@ class DES:
 
                 raise errors.ConnectionError("Can't construct projection matrix: %s" % e)
 
+
+            # set all projection queries to indices before connecting to DES
+
+            if not self.model_source.ProjectionIndicesBuilt():
+
+                self.model_source.SetAllProjectionQueries()
+
+            
             model_core = self.model_source.GetCore()
 
             # might need to change this to just pass model_core
