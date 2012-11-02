@@ -32,6 +32,9 @@ except ValueError:
 
     pass
 
+
+#---------------------------------------------------------------------------
+
 def remove_egg(module_name):
     """
     finds all easy path files, collects all paths to eggs that
@@ -125,7 +128,85 @@ def remove_egg(module_name):
             if not os.path.isfile(pth_file):
 
                 raise Exception("An error occured, the easy-path.pth file wasn't written")
+
+#---------------------------------------------------------------------------
+
+def remove_egg_infos(module_name):
+
+    """
+    removes all egg-info files in any directories it sees on all paths
+    """
+    from commands import getoutput
+    import glob
+    import re
+    
+    info_files = []
+
+
+    print "Looking for egg-info files for '%s'" % module_name
+    
+    for path in sys.path:
+                                                 
+        found_infos = glob.glob("%s%s%s*.egg-info" % (path, os.sep, module_name))
+
+        info_files.extend(found_infos)
         
+    pdb.set_trace()
+    if len(info_files) > 0:
+        
+        for infil in info_files:
+
+            print "Removing egg-info file: %s" % infil
+
+            if os.access(infil, os.W_OK):
+
+                cmdout = getoutput("rm -rf %s" % infil)
+
+            else:
+
+                cmdout = getoutput("sudo rm -rf %s" % infil)
+
+            print cmdout
+
+    else:
+
+        print "No .egg-info files for '%s'" % module_name
+
+
+
+#---------------------------------------------------------------------------
+
+def remove_module_directory(module_name):
+
+    from commands import getoutput
+    
+    try:
+
+        module = __import__(module_name)
+
+    except ImportError:
+
+        return
+
+    path = os.path.dirname(os.path.abspath(module.__file__))
+
+    print "Removing the following installed python directory: \n%s" % path
+
+    if os.access(path, os.W_OK):
+
+        cmdout = getoutput("rm -rf %s" % path)
+
+    else:
+
+        cmdout = getoutput("sudo rm -rf %s" % path)
+
+    print cmdout
+
+    print "Done removing python directory"
+
+    remove_egg_infos(module_name)
+
+#---------------------------------------------------------------------------
 try:
     
     remove_egg('heccer')
@@ -134,22 +215,8 @@ except Exception, e:
 
     print "%s... continuing"
 
-try:
+
     
-    from neurospaces.packages import PackageManager
+remove_module_directory('heccer')
+    
 
-except ImportError:
-
-    print "Heccer package is not installed."
-
-    sys.exit(0)
-
-package_manager = PackageManager(verbose=False)
-
-try:
-
-    package_manager.uninstall('heccer')
-
-except Exception, e:
-
-    print "Can't uninstall heccer: %s" % e

@@ -71,7 +71,9 @@ class DES:
             # I need to do some sort of a reset
             self._des = heccer_base.DESNew(1)
 
-        
+
+    # alias
+    Initiate = Construct
 
 #---------------------------------------------------------------------------
 
