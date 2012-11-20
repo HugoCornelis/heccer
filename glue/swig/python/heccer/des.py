@@ -14,13 +14,6 @@ except ImportError, e:
 
 
 
-DES_DUMP_ALL=heccer_base.DES_DUMP_ALL
-DES_DUMP_ALL_EXTENDED=heccer_base.DES_DUMP_ALL_EXTENDED
-DES_DUMP_ALL_REDUCED=heccer_base.DES_DUMP_ALL_REDUCED
-DES_DUMP_SERVICE=heccer_base.DES_DUMP_SERVICE
-DES_DUMP_DISTRIBUTOR_MATRIX=heccer_base.DES_DUMP_DISTRIBUTOR_MATRIX
-DES_DUMP_QUEUER_MATRIX=heccer_base.DES_DUMP_QUEUER_MATRIX
-
 
 #************************* Start DES *******************************************
 
@@ -106,41 +99,40 @@ class DES:
                 self.model_source = model_source
                 
             else:
-                
+                # an exception here will break it out if we have no model
+                # source to connect to.
                 raise Exception("Can't connect solvers, no model source")
+
+
+
+        try:
+                
+            self.model_source.SetAllProjectionQueries()
+
+        except Exception, e:
+
+            raise errors.ConnectionError("Can't construct projection matrix: %s" % e)
+
+
+        # set all projection queries to indices before connecting to DES
+
+        if not self.model_source.ProjectionIndicesBuilt():
+
+            self.model_source.SetAllProjectionQueries()
+
+            
+        model_core = self.model_source.GetCore()
+
+        # might need to change this to just pass model_core
+        result = heccer_base.DESConnect(model_core.psr, model_core.ppq)
+
+        if result == 0:
+
+            raise errors.ConnectionError("Can't connect create connection matrix")
 
         else:
 
-            # an exception here will break it out
-
-            try:
-                
-                self.model_source.SetAllProjectionQueries()
-
-            except Exception, e:
-
-                raise errors.ConnectionError("Can't construct projection matrix: %s" % e)
-
-
-            # set all projection queries to indices before connecting to DES
-
-            if not self.model_source.ProjectionIndicesBuilt():
-
-                self.model_source.SetAllProjectionQueries()
-
-            
-            model_core = self.model_source.GetCore()
-
-            # might need to change this to just pass model_core
-            result = heccer_base.DESConnect(model_core.psr, model_core.ppq)
-
-            if result == 0:
-
-                raise errors.ConnectionError("Can't connect create connection matrix")
-
-            else:
-
-                self._connected = True
+            self._connected = True
 
 #---------------------------------------------------------------------------
 
