@@ -124,7 +124,7 @@ class DES:
         model_core = self.model_source.GetCore()
 
         # might need to change this to just pass model_core
-        result = heccer_base.DESConnect(model_core.psr, model_core.ppq)
+        result = heccer_base.DESConnect(self._des, model_core.psr, model_core.ppq)
 
         if result == 0:
 
