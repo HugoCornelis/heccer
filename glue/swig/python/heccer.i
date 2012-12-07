@@ -138,3 +138,5 @@ double HeccerAddressGetValue(struct simobj_Heccer *pheccer, int iSerial, char *p
 
 %array_functions(struct Compartment, CompartmentArray)
 
+%include "des.i"
+

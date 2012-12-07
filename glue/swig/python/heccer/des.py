@@ -103,8 +103,6 @@ class DES:
                 # source to connect to.
                 raise Exception("Can't connect solvers, no model source")
 
-
-
         try:
                 
             self.model_source.SetAllProjectionQueries()
@@ -123,20 +121,13 @@ class DES:
             
         model_core = self.model_source.GetCore()
 
-        # might need to change this to just pass model_core
-        result = heccer_base.DESConnect(self._des, model_core.psr, model_core.ppq)
+        heccer_base.PyDesConnectToModelContainer(self._des, model_core)
 
-        if result == 0:
-
-            raise errors.ConnectionError("Can't connect create connection matrix")
-
-        else:
-
-            self._connected = True
+        self._connected = True
 
 #---------------------------------------------------------------------------
 
-    def AddOutput(self, output=None, type=None):
+    def AddOutput(self, output=None, type=None, row=None):
 
         
         pass

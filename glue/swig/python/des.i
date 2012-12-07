@@ -28,72 +28,63 @@
 
 //------------------------------------------ Prototypes -------------------------------
 
-double HeccerAddressGetValue(struct simobj_Heccer *pheccer, int iSerial, char *pcParameter);
-int AddressingNeurospaces2Heccer(int iNeuro);
-int AddressingHeccer2Neurospaces(int iHeccer);
-int SetDoubleValue(double *dAddress, double dValue);
+PyObject * PyDesConnectToModelContainer(struct simobj_DES *pdes, struct Neurospaces *pneuro);
+
 //------------------------------------------ End Prototypes ---------------------------
 
 
+//------------------------------------------------------------------------------
 
-int AddressingNeurospaces2Heccer(int iNeuro)
+PyObject * PyDesConnectToModelContainer(struct simobj_DES *pdes, struct Neurospaces *pneuro)
 {
 
-  return ADDRESSING_NEUROSPACES_2_HECCER(iNeuro);
+  struct SolverRegistry *psr = NULL;
+  struct ProjectionQuery *ppq = NULL;
+  char pcErrorMsg[2048];
+  int iResult = 0;
 
-}
-
-int AddressingHeccer2Neurospaces(int iHeccer)
-{
-
-  return ADDRESSING_HECCER_2_NEUROSPACES(iHeccer);
-
-}
-
-
-
-int SetDoubleValue(double *dAddress, double dValue)
-{
-
-  if( !dAddress )
+  if( !pneuro || !pneuro->psr )
   {
-    return 0;
+
+    snprintf(pcErrorMsg, 2048, "DES Connect Error: No solver registry has been allocated");
+    PyErr_SetString(PyExc_Exception, pcErrorMsg);
+    return NULL;
   }
 
-  (*dAddress) = dValue;
+
+  if( !pneuro->ppq )
+  {
+    //- Not sure if this would be a case i can skip or not.
+    snprintf(pcErrorMsg, 2048, "DES Connect Error: No Projection Queries");
+    PyErr_SetString(PyExc_MemoryError, pcErrorMsg);
+    return NULL;
+    
+  }
+
+  psr = pneuro->psr;
+
+  ppq = pneuro->ppq;
+
+  iResult = DESConnect(pdes, psr, ppq);
+
+
+  if( iResult == 0 )
+  {
+
+    snprintf(pcErrorMsg, 2048, "DES Connect Error: Can't connect solver registry to model container");
+    PyErr_SetString(PyExc_MemoryError, pcErrorMsg);
+    return NULL;
+
+  }
+
+
+  Py_RETURN_NONE;
 
 }
 
 //------------------------------------------------------------------------------
-/*
- * 
- */
-double HeccerAddressGetValue(struct simobj_Heccer *pheccer, int iSerial, char *pcField)
-{
-
-  double *pdResult = NULL;
-
-  if( !pheccer )
-  {
-
-    PyErr_SetString(PyExc_MemoryError,"A Heccer solver has not been allocated");
-
-  }
-
-  pdResult = HeccerAddressVariable(pheccer, iSerial, pcField);
 
 
-  if( !pdResult )
-  {
-
-    PyErr_SetString(PyExc_LookupError,
-		    "Heccer lookup failed, element or parameter does not exist");
-
-  }
-
-  return *pdResult;
-
-}
 //------------------------------------------------------------------------------
 
 
