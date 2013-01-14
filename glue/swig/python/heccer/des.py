@@ -12,7 +12,7 @@ except ImportError, e:
     
     sys.exit("Could not import compiled SWIG heccer_base library: %s" % e)
 
-
+import errors
 
 
 #************************* Start DES *******************************************
