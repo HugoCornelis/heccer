@@ -186,7 +186,7 @@ class DES:
 
                 _time = self.options['time']
 
-        queuer = heccer_base.DESGetQueuer(cpu_core)
+        queuer = heccer_base.DESGetQueuer(self._des, cpu_core)
 
         if _time is None:
 
