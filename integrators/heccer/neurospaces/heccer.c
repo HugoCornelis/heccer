@@ -335,19 +335,19 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
 {
     //- the event_distributor is an event_distributor
 
-    struct EventDistributor *ped = (struct EventDistributor *)pvEventDistributor;
+    struct EventDistributor *ped = (struct EventDistributor *) pvEventDistributor;
 
     pheccer->ped = ped;
 
     //- the event_distributor is an event_distributor
 
-    struct EventQueuer *peq = (struct EventQueuer *)pvEventQueuer;
+    struct EventQueuer *peq = (struct EventQueuer *) pvEventQueuer;
 
     pheccer->peq = peq;
 
     //- the modeling service is neurospaces
 
-    struct Neurospaces *pneuro = (struct Neurospaces *)pvNeurospaces;
+    struct Neurospaces *pneuro = (struct Neurospaces *) pvNeurospaces;
 
     //- set default result : ok
 
@@ -371,10 +371,10 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
     //- allocate the translation service structures
 
     struct TranslationServiceData *ptsd
-	= (struct TranslationServiceData *)calloc(1, sizeof(struct TranslationServiceData));
+	= (struct TranslationServiceData *) calloc(1, sizeof(struct TranslationServiceData));
 
     struct TranslationService *pts
-	= (struct TranslationService *)calloc(1, sizeof(struct TranslationService));
+	= (struct TranslationService *) calloc(1, sizeof(struct TranslationService));
 
     pts->ptsd = ptsd;
 

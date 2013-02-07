@@ -647,8 +647,8 @@ HeccerChannelPersistentSteadyStateDualTauTabulate
 
 	double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
 
-	double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-	double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd1 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd2 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
 
 	//- loop over all entries in the first small table
 
@@ -884,8 +884,8 @@ HeccerChannelPersistentSteadyStateTauTabulate
 
 	double dSmallStep = (phtg->hi.dEnd - phtg->hi.dStart) / (iSmallTableSize);
 
-	double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-	double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd1 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd2 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
 
 	//- loop over all entries in the first small table
 
@@ -1211,8 +1211,8 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 	double dSmallStep = (phtg1->hi.dEnd - phtg1->hi.dStart) / (iSmallTableSize);
 
-	double *pd1 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-	double *pd2 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd1 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd2 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
 
 	//- loop over all entries in the first small table
 
@@ -1320,8 +1320,8 @@ HeccerChannelSteadyStateSteppedTauTabulate
 
 	double dSmallStep = (phtg2->hi.dEnd - phtg2->hi.dStart) / (iSmallTableSize);
 
-	double *pd3 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
-	double *pd4 = (double *)calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd3 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
+	double *pd4 = (double *) calloc(iSmallTableSize + 1, sizeof(double));
 
 	//- loop over all entries in the first small table
 
@@ -1684,7 +1684,7 @@ HeccerTableValuesDeserialize
 
     if (phtg->iEntries)
     {
-	phtg->pdA = (double *)calloc(phtg->iEntries + 1, sizeof(phtg->pdA[0]));
+	phtg->pdA = (double *) calloc(phtg->iEntries + 1, sizeof(phtg->pdA[0]));
 
 	if (!phtg->pdA)
 	{
@@ -1701,7 +1701,7 @@ HeccerTableValuesDeserialize
 
     if (phtg->iEntries)
     {
-	phtg->pdB = (double *)calloc(phtg->iEntries + 1, sizeof(phtg->pdB[0]));
+	phtg->pdB = (double *) calloc(phtg->iEntries + 1, sizeof(phtg->pdB[0]));
 
 	if (!phtg->pdB)
 	{
