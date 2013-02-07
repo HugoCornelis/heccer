@@ -92,9 +92,9 @@ struct HeccerOptions
 
 
 /// \def logical branch grouping for solution matrix :
-/// \def schedules first a leave and all attached compartments until a
-/// \def branch point.  When disabled, all the leaves are scheduled first,
-/// \def next the compartments attached to the leaves, etc.
+/// schedules first a leave and all attached compartments until a
+/// branch point.  When disabled, all the leaves are scheduled first,
+/// next the compartments attached to the leaves, etc.
 
 #define HECCER_OPTION_BRANCHES_FIRST_SCHEDULING		1
 
@@ -113,8 +113,8 @@ struct HeccerOptions
 /// \def enable computation of individual currents and conductances
 
 /// \note so by default the contribution of each channel to the overall
-/// \note compartmental current is computed, when this option is turned on,
-/// \note only the integrated current is computed.  Same for conductance.
+/// compartmental current is computed, when this option is turned on,
+/// only the integrated current is computed.  Same for conductance.
 
 #define HECCER_OPTION_ENABLE_INDIVIDUAL_CURRENTS	32
 
@@ -197,42 +197,45 @@ struct simobj_Heccer
     /// identification service : translates serials to math components.
 
     /// \note so to use this feature: define your translation service, and
-    /// \note set it during the construction of your heccer.
+    /// set it during the construction of your heccer.
 
-    /// \note wouldn't be surprised that I need several layers of services,
-    /// \note will see if that has repercussion at this low level or not.
+    /// \note wouldn't be surprised that I need several layers of
+    /// services, will see if that has repercussion at this low level
+    /// or not.
     ///
     /// \note for the moment we have a function layer, which is fixed, and
-    /// \note a data layer, which is opaque.  The function layer defines the
-    /// \note real interface.
+    /// a data layer, which is opaque.  The function layer defines the
+    /// real interface.
 
     struct TranslationService *pts;
 
     /// event distribution service: given an event, distributes it over the targets
 
     /// \note so to use this feature: define your event distribution service, and
-    /// \note set it during the construction of your heccer.
+    /// set it during the construction of your heccer.
 
-    /// \note wouldn't be surprised that I need several layers of services,
-    /// \note will see if that has repercussion at this low level or not.
+    /// \note wouldn't be surprised that I need several layers of
+    /// services, will see if that has repercussion at this low level
+    /// or not.
     ///
     /// \note for the moment we have a function layer, which is fixed, and
-    /// \note a data layer, which is opaque.  The function layer defines the
-    /// \note real interface.
+    /// a data layer, which is opaque.  The function layer defines the
+    /// real interface.
 
     struct EventDistributor *ped;
 
     /// event reception service: receive an event, and queue till it fires
 
     /// \note so to use this feature: define your event reception service, and
-    /// \note set it during the construction of your heccer.
+    /// set it during the construction of your heccer.
 
-    /// \note wouldn't be surprised that I need several layers of services,
-    /// \note will see if that has repercussion at this low level or not.
+    /// \note wouldn't be surprised that I need several layers of
+    /// services, will see if that has repercussion at this low level
+    /// or not.
     ///
     /// \note for the moment we have a function layer, which is fixed, and
-    /// \note a data layer, which is opaque.  The function layer defines the
-    /// \note real interface.
+    /// a data layer, which is opaque.  The function layer defines the
+    /// real interface.
 
     struct EventQueuer *peq;
 
