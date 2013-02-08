@@ -430,6 +430,8 @@ HeccerDeserializeMain
 
     memset(&pheccer->vm, 0, sizeof(pheccer->vm));
 
+    pheccer->tgt.pdRearranged = NULL;
+
     //- loop over all tables
 
     struct TabulatedGateTable *ptgt = &pheccer->tgt;

@@ -394,7 +394,7 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
     PidinStackSetRooted(ppistRoot);
 
     /// \note gosh, I had to do the same hack when integrating neurospaces
-    /// \note with genesis2/hsolve.
+    /// with genesis2/hsolve.
 
     struct ParserContext *pacRoot = pneuro->pacRootContext;
 
@@ -402,8 +402,8 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
 	= ParserContextGetImportedFile(pacRoot);
 
     /// \note depending on how the linking is done, there can be multiple
-    /// \note instances of neurospaces around.  The following is a hack to
-    /// \note enforce the singleton (a bit)
+    /// instances of neurospaces around.  The following is a hack to
+    /// enforce the singleton (a bit)
 
 /*     fprintf(stdout, "HeccerConstruct(): root import is %p\n", ImportedFileGetRootImport()); */
 
@@ -429,8 +429,8 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
 
     if (ptsd->iModel == INT_MAX)
     {
-	/// \note don't care about memory leak right now, consider this
-	/// \note right now as a fatal crash
+	/// \note don't care about memory leak right now, consider
+	/// this right now as a fatal crash
 
 	fprintf(stderr, "HeccerConstruct: cannot find model %s\n", pcModel);
 
@@ -439,8 +439,8 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
 
     if (!HeccerNeurospacesSegments2Compartments(pts))
     {
-	/// \note don't care about memory leak right now, consider this
-	/// \note right now as a fatal crash
+	/// \note don't care about memory leak right now, consider
+	/// this right now as a fatal crash
 
 	fprintf(stderr, "HeccerConstruct: compartment initialization failed for %s\n", pcModel);
 
@@ -449,8 +449,8 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
 
     if (!HeccerNeurospacesMechanisms2MathComponents(pts))
     {
-	/// \note don't care about memory leak right now, consider this
-	/// \note right now as a fatal crash
+	/// \note don't care about memory leak right now, consider
+	/// this right now as a fatal crash
 
 	fprintf(stderr, "HeccerConstruct: mechanism initialization failed for %s\n", pcModel);
 
@@ -465,10 +465,10 @@ int HeccerConstruct(struct simobj_Heccer *pheccer, void *pvNeurospaces, char *pc
     //- function
 
     /// \note note: closed interval, would probably be better to use a halve
-    /// \note open interval.
+    /// open interval.
 
     /// \todo HeccerConstruct() should not touch inter.
-    /// \todo move or copy the field iSerialStart to ptsd
+    /// move or copy the field iSerialStart to ptsd
 
     pheccer->inter.iSerialStart = ADDRESSING_NEUROSPACES_2_HECCER(ptsd->iModel);
 

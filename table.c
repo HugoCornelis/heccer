@@ -1583,6 +1583,12 @@ HeccerTablesDump
 
     fprintf(pfile, "Tables (iTabulatedGateCount) : (%i)\n", ptgt->iTabulatedGateCount);
 
+/*     //- detected global start and end of the tables */
+
+/*     fprintf(pfile, "Tables (dRearrangedStart) : (%g)\n", ptgt->dRearrangedStart); */
+
+/*     fprintf(pfile, "Tables (dRearrangedEnd) : (%g)\n", ptgt->dRearrangedEnd); */
+
     //- loop over tables
 
     int i;
@@ -1616,6 +1622,65 @@ int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 
     int iResult = TRUE;
 
+    if (pheccer->tgt.pdRearranged)
+    {
+	return(FALSE);
+    }
+
+    //- by default tables can be rearranged
+
+    pheccer->tgt.iCanBeRearranged = TRUE;
+
+    //- determine the minimum and maximum over all tables
+
+    //- note that these values possibly overrule the corresponding values in the global options
+
+    int i;
+
+/*     //- loop over all tables */
+
+/*     for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++) */
+/*     { */
+/* 	//- get pointer to current table */
+
+/* 	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[i]; */
+
+/* 	//- adjust mininum */
+
+/* 	if (pheccer->tgt.dRearrangedStart > phtg->hi.dStart) */
+/* 	{ */
+/* 	    if (pheccer->tgt.dRearrangedStart != DBL_MAX) */
+/* 	    { */
+/* 		pheccer->tgt.iCanBeRearranged = FALSE; */
+/* 	    } */
+
+/* 	    pheccer->tgt.dRearrangedStart = phtg->hi.dStart; */
+/* 	} */
+
+/* 	//- adjust maximum */
+
+/* 	if (pheccer->tgt.dRearrangedEnd < phtg->hi.dEnd) */
+/* 	{ */
+/* 	    if (pheccer->tgt.dRearrangedEnd != DBL_MIN) */
+/* 	    { */
+/* 		pheccer->tgt.iCanBeRearranged = FALSE; */
+/* 	    } */
+
+/* 	    pheccer->tgt.dRearrangedEnd = phtg->hi.dEnd; */
+/* 	} */
+/*     } */
+
+    if (!pheccer->tgt.iCanBeRearranged)
+    {
+	// flag this in the heccer: not using rearranged tables, pdRearranged remains NULL.
+
+	// \todo likely tell the user
+
+	// return without further actions
+
+	return(FALSE);
+    }
+
     //- allocate rearranged tables
 
     int iEntries = pheccer->tgt.iTabulatedGateCount * pheccer->ho.iIntervalEntries;
@@ -1629,13 +1694,20 @@ int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 
     //- loop over all tables
 
-    int i;
-
     for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++)
     {
 	//- get pointer to current table
 
 	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[i];
+
+/* 	//- loop over the start of the table */
+
+/* 	double dValueA; */
+/* 	double dValueB; */
+
+/* 	for (dValue = pheccer->tgt.dRearrangedStart ; dValue += dValueStep ; dValue < phtg->pdA[0]) */
+/* 	{ */
+/* 	} */
 
 	//- loop over all entries in this table
 
@@ -1643,11 +1715,21 @@ int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 
 	for (j = 0 ; j < pheccer->ho.iIntervalEntries ; j++)
 	{
+	    double dA;
+
+	    double dB;
+
+	    dA = phtg->pdA[j];
+
+	    dB = phtg->pdB[j];
+
 	    //- copy the values from the unarranged table to the rearranged table
 
-	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2] = pheccer->dStep * phtg->pdA[j];
+	    //- and convert them to CN values to reduce the number of run-time calculations
 
-	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2 + 1] = 1.0 + pheccer->dStep / 2.0 * phtg->pdB[j];
+	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2] = pheccer->dStep * dA;
+
+	    pheccer->tgt.pdRearranged[(j * pheccer->tgt.iTabulatedGateCount + i) * 2 + 1] = 1.0 + pheccer->dStep / 2.0 * dB;
 	}
     }
 

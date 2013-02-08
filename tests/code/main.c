@@ -214,6 +214,12 @@ int main(int argc, char *argv[])
 
     pheccer->ho.iOptions = HECCER_TEST_OPTIONS;
 
+/*     //- initialize table range detectors: not detected yet */
+
+/*     pheccer->tgt.dRearrangedStart = DBL_MAX; */
+
+/*     pheccer->tgt.dRearrangedEnd = DBL_MIN; */
+
     //- build indices for optimization
 
     HeccerCompileP2(pheccer);

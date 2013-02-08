@@ -77,6 +77,10 @@ int iHECCER_DUMP_ALL_EXTENDED = HECCER_DUMP_ALL_EXTENDED;
 
 int iHECCER_DUMP_ALL_REDUCED = HECCER_DUMP_ALL_REDUCED;
 
+/* double dDoubleMax = DBL_MAX; */
+
+/* double dDoubleMin = DBL_MIN; */
+
 
 /* void piC2m_set(struct Intermediary *pim, int *piC2m) */
 /* { */

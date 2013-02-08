@@ -773,6 +773,12 @@ my $heccer_mapping
 
 # 						       iOptions => $SwiggableHeccer::HECCER_OPTION_BRANCHES_FIRST_SCHEDULING,
 						      },
+# 					   tabulated_gate_table => {
+# 								    iTabulatedGateCount => 0,
+# 								    iCanBeRearranged => 0,
+# 								    dRearrangedStart => $SwiggableHeccer::dDoubleMax,
+# 								    dRearrangedEnd => $SwiggableHeccer::dDoubleMin,
+# 								   },
 
 					   #! this is mainly to get the tests to work ...
 
@@ -807,6 +813,10 @@ my $heccer_mapping
 					      source => 'options',
 					      target => 'ho',
 					     },
+# 				  tabulated_gate_table => {
+# 							   source => 'tabulated_gate_table',
+# 							   target => 'tgt',
+# 							  },
 				 },
 		 },
        intermediary => {
@@ -953,6 +963,15 @@ my $heccer_mapping
 								},
 					       },
 			       },
+#        tabulated_gate_table => {
+# 				constructor_settings => {
+# 							 iTabulatedGateCount => 0,
+# 							 iCanBeRearranged => 0,
+# 							 dRearrangedStart => $SwiggableHeccer::dDoubleMax,
+# 							 dRearrangedEnd => $SwiggableHeccer::dDoubleMin,
+# 							},
+# 				internal_name => 'TabulatedGateTable',
+# 			       },
       };
 
 

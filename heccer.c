@@ -1,4 +1,4 @@
-static char *pcVersionTime="(12/10/17) Wednesday, October 17, 2012 16:10:34 hugo";
+static char *pcVersionTime="(13/02/08) Friday, February 8, 2013 14:07:09 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -1025,7 +1025,7 @@ HeccerNewP1
     //- set result : a new heccer
 
     struct simobj_Heccer *pheccerResult
-	= (struct simobj_Heccer *)calloc(1, sizeof(struct simobj_Heccer));
+	= (struct simobj_Heccer *) calloc(1, sizeof(struct simobj_Heccer));
 
     if (!pheccerResult)
     {
@@ -1065,6 +1065,12 @@ HeccerNewP1
     pheccerResult->ho.iIntervalEntries = HECCER_INTERVAL_DEFAULT_ENTRIES;
 
     pheccerResult->ho.iSmallTableSize = HECCER_INTERPOL_INTERVAL_DEFAULT_ENTRIES;
+
+/*     //- initialize table range detectors: not detected yet */
+
+/*     pheccerResult->tgt.dRearrangedStart = DBL_MAX; */
+
+/*     pheccerResult->tgt.dRearrangedEnd = DBL_MIN; */
 
     //- set new status
 
@@ -1127,7 +1133,7 @@ struct simobj_Heccer *HeccerNewFromFile(char *pc)
 
     FILE *pfile = HeccerSerializationOpenRead(pc);
 
-    pheccerResult= HeccerDeserialize(pfile);
+    pheccerResult = HeccerDeserialize(pfile);
 
     HeccerSerializationClose(pfile);
 

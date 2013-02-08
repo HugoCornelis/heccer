@@ -129,6 +129,16 @@ struct TabulatedGateTable
 
     double *pdRearranged;
 
+    /// can tables be rearranged?
+
+    int iCanBeRearranged;
+
+/*     /// the detected minimum and maximum over all tables */
+
+/*     double dRearrangedStart; */
+
+/*     double dRearrangedEnd; */
+
 };
 
 
