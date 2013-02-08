@@ -507,6 +507,7 @@ class Heccer:
 #---------------------------------------------------------------------------
 
     def GetAddress(self, path, field):
+
         """!
         @brief Returns the Heccer Address variable
         """

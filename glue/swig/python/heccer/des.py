@@ -27,9 +27,9 @@ class DES:
         self.name = name
 
         # This is a pointer to a simobj DES struct
-        self._des = heccer_base.DESNew(1)
+        self._des_core = heccer_base.DESNew(1)
 
-        if self._des is None:
+        if self._des_core is None:
 
             raise Exception("Allocation Error, Can't create DES object")
 
@@ -55,14 +55,26 @@ class DES:
 
         self.model_source = model_source
 
+
+#---------------------------------------------------------------------------
+
+    def GetCore(self):
+        """
+        Returns the core of the DES object. Should
+        never be None since we allocate during the constructor.
+        """
+        
+        return self._des_core
+        
+
 #---------------------------------------------------------------------------
 
     def Construct(self, model=None):
 
-        if self._des is None:
+        if self._des_core is None:
             # should never really be here but just in case
             # I need to do some sort of a reset
-            self._des = heccer_base.DESNew(1)
+            self._des_core = heccer_base.DESNew(1)
 
 
     # alias
@@ -121,7 +133,7 @@ class DES:
             
         model_core = self.model_source.GetCore()
 
-        heccer_base.PyDesConnectToModelContainer(self._des, model_core)
+        heccer_base.PyDesConnectToModelContainer(self._des_core, model_core)
 
         self._connected = True
 
@@ -186,7 +198,7 @@ class DES:
 
                 _time = self.options['time']
 
-        queuer = heccer_base.DESGetQueuer(self._des, cpu_core)
+        queuer = heccer_base.DESGetQueuer(self._des_core, cpu_core)
 
         if _time is None:
 
