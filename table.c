@@ -1614,6 +1614,10 @@ HeccerTablesDump
 ///	success of operation.
 /// 
 /// \brief Rearrange table values for cache line loading.
+///
+/// \note The algorithm implemented in this procedure should be
+/// extended such that tables with different dimensions can still be
+/// rearranged for optimal cache line loading.
 /// 
 
 int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
@@ -1655,6 +1659,10 @@ int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 	{
 	    if (dRearrangedStart != DBL_MAX)
 	    {
+		// \todo rather than bailing out, it would be better
+		// to add another series of tables with the dimension
+		// found here.
+
 		pheccer->tgt.iCanBeRearranged = FALSE;
 	    }
 
@@ -1667,6 +1675,10 @@ int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 	{
 	    if (dRearrangedEnd != DBL_MIN)
 	    {
+		// \todo rather than bailing out, it would be better
+		// to add another series of tables with the dimension
+		// found here.
+
 		pheccer->tgt.iCanBeRearranged = FALSE;
 	    }
 
