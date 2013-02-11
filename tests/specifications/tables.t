@@ -57,7 +57,7 @@ my $test
 				command => 'tests/code/table-ka',
 				command_tests => [
 						  {
-						   description => "Are gates tabulated correctly, simple potassium gates ?",
+						   description => "Are gates tabulated correctly, simple potassium gates (1)?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-ka.txt`),
 						   timeout => 18,
 						  },
@@ -70,7 +70,7 @@ my $test
 				command => 'tests/code/table-kc',
 				command_tests => [
 						  {
-						   description => "Are gates tabulated correctly, simple potassium gates ?",
+						   description => "Are gates tabulated correctly, simple potassium gates (2)?",
 						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-kc.txt`),
 						   timeout => 18,
 						  },
