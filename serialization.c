@@ -451,7 +451,11 @@ HeccerDeserializeMain
 
     //- now rearrange the tables
 
-    iResult = iResult && HeccerTablesRearrange(pheccer);
+    if (!HeccerTablesRearrange(pheccer))
+    {
+	// \todo tell user about this, it is only a warning and heccer
+	// should be happy although running at reduced speed.
+    }
 
     //- return result
 
