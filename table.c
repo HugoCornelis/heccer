@@ -1633,42 +1633,50 @@ int HeccerTablesRearrange(struct simobj_Heccer *pheccer)
 
     //- determine the minimum and maximum over all tables
 
+    double dRearrangedStart = DBL_MAX;
+
+    double dRearrangedEnd = DBL_MIN;
+
     //- note that these values possibly overrule the corresponding values in the global options
 
     int i;
 
-/*     //- loop over all tables */
+    //- loop over all tables
 
-/*     for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++) */
-/*     { */
-/* 	//- get pointer to current table */
+    for (i = 0 ; i < pheccer->tgt.iTabulatedGateCount; i++)
+    {
+	//- get pointer to current table
 
-/* 	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[i]; */
+	struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[i];
 
-/* 	//- adjust mininum */
+	//- adjust mininum
 
-/* 	if (pheccer->tgt.dRearrangedStart > phtg->hi.dStart) */
-/* 	{ */
-/* 	    if (pheccer->tgt.dRearrangedStart != DBL_MAX) */
-/* 	    { */
-/* 		pheccer->tgt.iCanBeRearranged = FALSE; */
-/* 	    } */
+	if (dRearrangedStart > phtg->hi.dStart)
+	{
+	    if (dRearrangedStart != DBL_MAX)
+	    {
+		pheccer->tgt.iCanBeRearranged = FALSE;
+	    }
 
-/* 	    pheccer->tgt.dRearrangedStart = phtg->hi.dStart; */
-/* 	} */
+	    dRearrangedStart = phtg->hi.dStart;
+	}
 
-/* 	//- adjust maximum */
+	//- adjust maximum
 
-/* 	if (pheccer->tgt.dRearrangedEnd < phtg->hi.dEnd) */
-/* 	{ */
-/* 	    if (pheccer->tgt.dRearrangedEnd != DBL_MIN) */
-/* 	    { */
-/* 		pheccer->tgt.iCanBeRearranged = FALSE; */
-/* 	    } */
+	if (dRearrangedEnd < phtg->hi.dEnd)
+	{
+	    if (dRearrangedEnd != DBL_MIN)
+	    {
+		pheccer->tgt.iCanBeRearranged = FALSE;
+	    }
 
-/* 	    pheccer->tgt.dRearrangedEnd = phtg->hi.dEnd; */
-/* 	} */
-/*     } */
+	    dRearrangedEnd = phtg->hi.dEnd;
+	}
+    }
+
+/*     pheccer->tgt.dRearrangedStart = dRearrangedStart; */
+
+/*     pheccer->tgt.dRearrangedEnd = dRearrangedEnd; */
 
     if (!pheccer->tgt.iCanBeRearranged)
     {

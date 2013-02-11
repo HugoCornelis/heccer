@@ -1,4 +1,4 @@
-static char *pcVersionTime="(13/02/08) Friday, February 8, 2013 14:07:09 hugo";
+static char *pcVersionTime="(13/02/09) Saturday, February 9, 2013 09:14:41 hugo";
 
 //
 // Heccer : a compartmental solver that implements efficient Crank-Nicolson
@@ -532,7 +532,11 @@ int HeccerCompileP3(struct simobj_Heccer *pheccer)
 
     //- rearrange table values for cache line loading
 
-    iResult = iResult && HeccerTablesRearrange(pheccer);
+    if (!HeccerTablesRearrange(pheccer))
+    {
+	// \todo tell user about this, it is only a warning and heccer
+	// should be happy although running at reduced speed.
+    }
 
     //- allocate memory for aggregate results
 

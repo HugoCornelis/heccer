@@ -3768,7 +3768,10 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 
 		//- initialize pointers to tables for this membrane potential
 
-		pdRearranged = &pheccer->tgt.pdRearranged[iIndex * pheccer->tgt.iTabulatedGateCount * 2];
+		if (pheccer->tgt.pdRearranged)
+		{
+		    pdRearranged = &pheccer->tgt.pdRearranged[iIndex * pheccer->tgt.iTabulatedGateCount * 2];
+		}
 
 		break;
 	    }
@@ -4181,12 +4184,47 @@ int HeccerMechanismSolveCN(struct simobj_Heccer *pheccer)
 
 		else
 		{
-		    //- fetch A and B gate rates
-
 		    int iTable = pmops->iTableIndex;
 
-		    dA = pdRearranged[iTable * 2];
-		    dB = pdRearranged[iTable * 2 + 1];
+		    //- if optimized for cache use
+
+		    if (pdRearranged)
+		    {
+			//- CN based rates are available immediately 
+
+			dA = pdRearranged[iTable * 2];
+			dB = pdRearranged[iTable * 2 + 1];
+		    }
+
+		    //- else
+
+		    else
+		    {
+			//- get pointer to table data structure
+
+			struct HeccerTabulatedGate *phtg = &pheccer->tgt.phtg[iTable];
+
+			//- discretize and offset the state, specific for this table
+
+			double dState = dVm;
+
+			int iIndex = (dState - phtg->hi.dStart) / phtg->hi.dStep;
+
+			if (iIndex < 0)
+			{
+			    iIndex = 0;
+			}
+			else if (iIndex >= phtg->iEntries)
+			{
+			    iIndex = phtg->iEntries - 1;
+			}
+
+			//- calculate rates according to CN
+
+			dA = pheccer->dStep * phtg->pdA[iIndex];
+
+			dB = 1.0 + pheccer->dStep / 2.0 * phtg->pdB[iIndex];
+		    }
 		}
 
 		//- start computing the new state based on the previous state

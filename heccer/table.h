@@ -77,7 +77,7 @@ struct HeccerTabulatedGate
 
     struct HeccerTableApproximationOptions htao;
 
-    /// number of entries, must always match with interval definition I guess
+    /// number of entries, does not necessarily match with the default interval definition
 
     int iEntries;
 
