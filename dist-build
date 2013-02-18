@@ -98,7 +98,7 @@ if ($?)
 # #! should be put in Makefile.am, but breaks distcheck.
 # #! this one breaks the distcheck, because automake makes dist dirs read-only
 
-# system "cd tests && ./tests_2_html";
+# system "cd tests && neurospaces_harness_2_html";
 
 # if ($?)
 # {
