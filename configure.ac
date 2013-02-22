@@ -323,13 +323,15 @@ AC_SUBST(HECCER_INTEGRATORS)
 
 AC_ARG_ENABLE(source-typing, AS_HELP_STRING([--without-source-typing   don't use model source typing for calculation of aggregate currents]) )
 
+AC_MSG_CHECKING([Use source typing])
+
 if test x"$with_source_typing" == "xno" ; then
 
-    echo "NOT using source typing"
+    AC_MSG_RESULT([no])
 
 else
 
-    echo "Using source typing"
+    AC_MSG_RESULT([yes])
 
     AC_DEFINE(HECCER_SOURCE_TYPING, 1, [use model source typing])
 fi
@@ -551,7 +553,7 @@ dnl         ;;
 
       SWIGLDLINKSFORPERL='-L../../.. -lheccer -L$(top_builddir)/integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -lsymbol_algorithms -lncurses -lreadline -bundle -undefined suppress -flat_namespace $(PERL_LDFLAGS)'
 
-    fi 
+    fi
 
     AC_SUBST(SWIGLDLINKSFORPERL)
 
