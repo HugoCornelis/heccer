@@ -160,7 +160,7 @@ class DES:
 
     def Dump(self):
 
-        pass
+        heccer_base.DESDumpV(self._des_core)
 
 #---------------------------------------------------------------------------
 
