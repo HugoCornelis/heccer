@@ -70,7 +70,7 @@ from experiment.perfectclamp import PerfectClamp
 
 perfect_clamp = PerfectClamp("pc object")
 
-perfect_clamp.SetCommandVoltage(0.1)
+perfect_clamp.SetCommand(0.1)
 
 address = my_heccer.GetCompartmentAddress(0,"Vm")
 
