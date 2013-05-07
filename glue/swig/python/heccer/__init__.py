@@ -112,67 +112,6 @@ class HeccerOptions(heccer_base.HeccerOptions):
         self.dConcentrationGateEnd, self.iIntervalEntries,
         self.iSmallTableSize) 
     
-#---------------------------------------------------------------------------
-
-    def SetOptions(self, options):
- 
-        self.iOptions = options
-        
-#---------------------------------------------------------------------------
-
-    def SetCorrections(self, corrections):
-
-        self.iCorrections = corrections
-
-#---------------------------------------------------------------------------
-
-    def SetInterval(self, interval_set):
-
-        self.iIntervalSet = interval_set
-
-#---------------------------------------------------------------------------
-
-    def SetInternalStart(self, interval_start):
-
-        self.dIntervalStart = interval_start
-
-#---------------------------------------------------------------------------
-
-    def SetInternalEnd(self, interval_end):
-
-        self.dIntervalEnd = interval_end
-
-#---------------------------------------------------------------------------
-
-    def SetActivator(self, activator_set):
-
-        self.iActivatorSet = activator_set
-
-#---------------------------------------------------------------------------
-
-    def SetConcentrationGateStart(self, concentration_gate_start):
-
-        self.dConcentrationGateStart = concentration_gate_start
-
-#---------------------------------------------------------------------------
-
-    def SetConcentrationGateEnd(self, concentration_gate_end):
-
-        self.dConcentrationGateEnd = concentration_gate_end
-
-#---------------------------------------------------------------------------
-
-    def SetIntervalEntries(self, interval_end):
-
-        self.iIntervalEntries = interval_end
-
-#---------------------------------------------------------------------------
-
-    def SetSmallTableSize(self, small_table_size):
-
-        self.iSmallTableSize = small_table_size
-        
-
 #************************* End HeccerOptions ****************************
 
 
