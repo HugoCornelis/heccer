@@ -686,7 +686,7 @@ dnl         ;;
     AC_SUBST(SWIGCOMPILECOMMAND_PERL)
 
 
-    SWIGLDLINKSFORPERL='-g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC'
+    SWIGLDLINKSFORPERL='-g -shared swiggable_heccer_wrap.o -L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -fPIC'
     AC_SUBST(SWIGLDLINKSFORPERL)
 
     SWIGLINKCOMMAND_PERL='gcc $(SWIGLDLINKSFORPERL) -o SwiggableHeccer.$(PERLLIB_EXTENSION)'
@@ -702,7 +702,7 @@ dnl         ;;
    SWIGCOMPILECOMMAND_PYTHON='gcc $(SWIGCOMPILELINKSFORPYTHON) -c swiggable_heccer_wrap.c'
    AC_SUBST(SWIGCOMPILECOMMAND_PYTHON)
 
-    SWIGLDLINKSFORPYTHON='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -lreadline -lhistory -fPIC -Xlinker -export-dynamic $(PYTHON_LDFLAGS)'
+    SWIGLDLINKSFORPYTHON='-L../../.. -lheccer -L../../../integrators -lhneurospaces -L/usr/local/lib/model-container -lneurospacesread -L/usr/local/lib/neurospaces/algorithms/symbol -lsymbol_algorithms -lncurses -fPIC -Xlinker -export-dynamic $(PYTHON_LDFLAGS)'
     AC_SUBST(SWIGLDLINKSFORPYTHON)
 
     SWIGLINKCOMMAND_PYTHON='gcc -shared swiggable_heccer_wrap.o $(SWIGLDLINKSFORPYTHON) -o _SwiggableHeccer.$(PYTHONLIB_EXTENSION)'
