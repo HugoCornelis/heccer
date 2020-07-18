@@ -133,6 +133,7 @@ dist-hook:
 #	cd $(distdir)/tests && neurospaces_harness_2_html --introduction introduction.html
 
 test: check
+	neurospaces_harness
 
 html-upload-prepare:
 	( cd tests && neurospaces_harness_2_html --introduction introduction.html )

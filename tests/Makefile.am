@@ -22,7 +22,5 @@ SUBDIRS = code genesis glue .
 
 #check_SCRIPTS = $(srcdir)/neurospaces_harness 
 
-TESTS = /usr/local/bin/neurospaces_harness
-
-test: check
+# TESTS = /usr/local/bin/neurospaces_harness
 
