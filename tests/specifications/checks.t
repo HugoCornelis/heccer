@@ -20,7 +20,7 @@ my $test
 						  {
 						   comment => 'The internal scheduler still schedules heccer, but heccer refuses to do anything, this is normal and part of the test',
 						   description => "Are illegal compartment parameters reported properly ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/check-compartment.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/check-compartment.txt`),
 						  },
 						 ],
 				description => "illegal compartment parameters",

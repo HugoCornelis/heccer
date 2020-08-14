@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single compartment with a naf conductance solved correctly ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/active/singlea-naf.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/active/singlea-naf.txt`),
 						   timeout => 5,
 						   write => undef,
 						  },

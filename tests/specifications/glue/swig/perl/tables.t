@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple sodium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-naf.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-naf.txt`),
 						   timeout => 18,
 						   write => undef,
 						  },
@@ -33,7 +33,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple potassium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-ka.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-ka.txt`),
 						   timeout => 18,
 						   write => undef,
 						  },

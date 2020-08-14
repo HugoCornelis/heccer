@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single channel current and conductance computed correctly ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/singlea-naf-current.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/singlea-naf-current.txt`),
 						   timeout => 10,
 						  },
 						 ],
@@ -32,7 +32,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are single channel currents summed correctly ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/singlea-naf2-aggregator.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/singlea-naf2-aggregator.txt`),
 						   timeout => 10,
 						  },
 						 ],
@@ -45,7 +45,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are single channel currents summed correctly, double compartment case ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/doublea-aggregator.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/doublea-aggregator.txt`),
 						   timeout => 10,
 						  },
 						 ],
@@ -58,7 +58,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are single channel currents summed correctly, single compartment, three aggregators ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-aggregator1.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/addressing-aggregator1.txt`),
 						   timeout => 10,
 						  },
 						 ],
@@ -71,7 +71,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are single channel currents summed correctly, single compartment, kc current ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/aggregator-kc.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/aggregator-kc.txt`),
 						   timeout => 10,
 						  },
 						 ],
@@ -84,7 +84,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are single channel currents summed correctly, single compartment, kc current in feedback with a ca current ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/aggregator-kc-feedback.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/aggregator-kc-feedback.txt`),
 						   timeout => 10,
 						  },
 						 ],

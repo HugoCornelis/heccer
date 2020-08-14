@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, smaller time step ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass1.txt && cat $::config->{core_directory}/tests/specifications/strings/springmass1-output.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/springmass1.txt && cat $::global_config->{core_directory}/tests/specifications/strings/springmass1-output.txt`),
 						   timeout => 8,
 						  },
 						 ],
@@ -32,7 +32,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, larger time step ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass2.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/springmass2.txt`),
 						   timeout => 8,
 						  },
 						 ],
@@ -45,8 +45,8 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, endogenous firing (works only with the linux rng) ?",
-						   disabled => (`cat $::config->{core_directory}/heccer/config.h` =~ m/define RANDOM.*ran1/ ? 1 : 0),
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass3.txt && cat $::config->{core_directory}/tests/specifications/strings/springmass3-output.txt`),
+						   disabled => (`cat $::global_config->{core_directory}/heccer/config.h` =~ m/define RANDOM.*ran1/ ? 1 : 0),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/springmass3.txt && cat $::global_config->{core_directory}/tests/specifications/strings/springmass3-output.txt`),
 						   timeout => 8,
 						  },
 						 ],
@@ -58,8 +58,8 @@ my $test
 					       $ENV{srcdir}
 					       ? (
 						  -f '../../_build/tests/code/springmass4'
-						  ? ('-c', "cd $ENV{srcdir} && ../_build/tests/code/springmass4")
-						  : ('-c', "cd $ENV{srcdir} && ../tests/code/springmass4")
+						  ? ('-c', "cd " . ( $ENV{srcdir} ? "$ENV{srcdir}" : "ENV{srcdir} does not exist" ) . " && ../_build/tests/code/springmass4")
+						  : ('-c', "cd " . ( $ENV{srcdir} ? "$ENV{srcdir}" : "ENV{srcdir} does not exist" ) . " && ../tests/code/springmass4")
 						 )
 					       : ('-c', "cd tests && ./code/springmass4")
 					      ),
@@ -72,7 +72,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a synaptic (springmass) channel integrated correctly, larger time step, events from a file ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/springmass2.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/springmass2.txt`),
 						   timeout => 8,
 						  },
 						 ],

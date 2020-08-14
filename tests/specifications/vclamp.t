@@ -15,7 +15,7 @@ my $test
 						  {
 						   comment => 'this test still needs tuning.',
 						   description => "Can a passive compartment be clamped ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-passive.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/vclamp-passive.txt`),
 						  },
 						 ],
 				comment => "This is an integration test for voltageclamp and Heccer",
@@ -28,7 +28,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a compartment with a sodium conductance be clamped ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/vclamp-sodium.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/vclamp-sodium.txt`),
 						  },
 						 ],
 				comment => "This is an integration test for voltageclamp and Heccer",

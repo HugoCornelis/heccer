@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single spike ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker1.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/spiker1.txt`),
 						   timeout => 8,
 						  },
 						 ],
@@ -32,7 +32,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single source, single spike, multiple targets, hardcoded connection matrix ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt | grep -v DES:`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/spiker2.txt | grep -v DES:`),
 						   timeout => 8,
 						  },
 						 ],
@@ -45,7 +45,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Is a single spike reported properly, single source, single spike, multiple targets ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/spiker2.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/spiker2.txt`),
 						   timeout => 8,
 						  },
 						 ],

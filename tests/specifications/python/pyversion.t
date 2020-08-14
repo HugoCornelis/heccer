@@ -26,7 +26,7 @@ read => "0.0.0-alpha",
 			       },
 			      ],
        description => "run-time versioning",
-       name => 'pyversion.t',
+       name => 'python/pyversion.t',
       };
 
 

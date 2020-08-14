@@ -14,7 +14,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a single pulsegen object output amplitude in free run mode ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-freerun.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/pulsegen-freerun.txt`),
 						   timeout => 40,
 						  },
 						 ],
@@ -28,7 +28,7 @@ my $test
 				command_tests => [
 						  {
 						   description => " Can a single pulsegen object output amplitude in ext gate mode?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-extgate.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/pulsegen-extgate.txt`),
 						   timeout => 40,
 						  },
 						 ],
@@ -42,7 +42,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a single pulsegen object output amplitude in ext gate mode ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/pulsegen-exttrig.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/pulsegen-exttrig.txt`),
 						   timeout => 40,
 						  },
 						 ],

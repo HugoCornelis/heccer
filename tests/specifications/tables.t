@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, p type calcium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-cap.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-cap.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -32,7 +32,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, calcium t-type gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-cat.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-cat.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -45,7 +45,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, K2 potassium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-k2.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-k2.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -58,7 +58,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple potassium gates (1)?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-ka.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-ka.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -71,7 +71,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple potassium gates (2)?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-kc.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-kc.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -84,7 +84,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, delayed rectifier potassium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-kdr.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-kdr.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -97,7 +97,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, regular delayed rectifier potassium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-kdr2.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-kdr2.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -110,7 +110,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, anomalous rectifier potassium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-kh.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-kh.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -123,7 +123,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, muscarinic potassium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-km.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-km.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -136,7 +136,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, simple sodium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-naf.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-naf.txt`),
 						   timeout => 18,
 						  },
 						 ],
@@ -149,7 +149,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are gates tabulated correctly, persistent sodium gates ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/table-nap.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/table-nap.txt`),
 						   timeout => 18,
 						  },
 						 ],

@@ -14,7 +14,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a single passive compartment be clamped (python) ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/python/perfectclamp-passive1.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/python/perfectclamp-passive1.txt`),
 						  },
 						 ],
 				comment => "This is an integration test for perfectclamp and Heccer (python)",
@@ -29,7 +29,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can ten passive compartments be clamped in python ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/python/perfectclamp-passive10.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/python/perfectclamp-passive10.txt`),
 						   timeout => 100,
 						  },
 						 ],
@@ -39,7 +39,7 @@ my $test
 
 			      ],
        description => "perfectclamp circuitry (Python)",
-       name => 'perfectclamp.t (python)',
+       name => 'python/perfectclamp.t',
       };
 
 

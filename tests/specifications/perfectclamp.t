@@ -14,7 +14,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a single passive compartment be clamped ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive1.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/perfectclamp-passive1.txt`),
 						  },
 						 ],
 				comment => "This is an integration test for perfectclamp and Heccer",
@@ -28,7 +28,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can ten passive compartments be clamped ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive10.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/perfectclamp-passive10.txt`),
 						   timeout => 20,
 						  },
 						 ],
@@ -42,7 +42,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can ten passive compartments be clamped (2) ?",
-						   read => (join '', `cat $::config->{core_directory}/tests/specifications/strings/perfectclamp-passive10-2.txt`),
+						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/perfectclamp-passive10-2.txt`),
 						   timeout => 20,
 						  },
 						 ],

@@ -19,7 +19,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Are calculations for individual transmembrane current variables turned on ?",
-						   disabled => ((join '', `cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
+						   disabled => ((join '', `cat $::global_config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
 								 ? ''
 								 : 'HECCER_SOURCE_NEUROSPACES is disabled'),
 						   read => 'Initiated
@@ -448,12 +448,12 @@ Current is 2.0276e-10
 						  },
 						  {
 						   description => "Are transmembrane current variables addressed correctly ?",
-						   disabled => ((join '', `cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
+						   disabled => ((join '', `cat $::global_config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
 								 ? ''
 								 : 'HECCER_SOURCE_NEUROSPACES is disabled'),
 						   read => {
 							    application_output_file => '/tmp/output',
-							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/addressing-current.txt",
+							    expected_output_file => "$::global_config->{core_directory}/tests/specifications/strings/addressing-current.txt",
 							   },
 						  },
 						 ],
@@ -466,9 +466,9 @@ Current is 2.0276e-10
 				command_tests => [
 						  {
 						   description => "Are the variables in a simplified version of a purkinje segment segment addressed correctly ?",
-						   read => ((join '', `cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
-							    ? (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--with-neurospaces.txt`)
-							    : (join '', `cat $::config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--without-neurospaces.txt`)),
+						   read => ((join '', `cat $::global_config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
+							    ? (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--with-neurospaces.txt`)
+							    : (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/addressing-purk-test-segment--without-neurospaces.txt`)),
 						  },
 						 ],
 				description => "addressing variables for a simplified version of a purkinje segment",
@@ -480,7 +480,7 @@ Current is 2.0276e-10
 				command_tests => [
 						  {
 						   description => "Is synchan activation addressed correctly ?",
-						   disabled => ((join '', `cat $::config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
+						   disabled => ((join '', `cat $::global_config->{core_directory}/heccer/config.h` =~ m/define\s+HECCER_SOURCE_NEUROSPACES/)
 								 ? ''
 								 : 'HECCER_SOURCE_NEUROSPACES is disabled'),
 						   read => '
