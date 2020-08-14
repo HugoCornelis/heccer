@@ -68,7 +68,7 @@ CLEANFILES = \
 
 TESTS = heccer_test.pm
 
-test: check
+# test: check
 
 ## following http://www.geocities.com/foetsch/python/swig_linux.htm
 
