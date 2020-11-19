@@ -40,13 +40,75 @@ my $test
 						  {
 						   description => "Can ten passive compartments be clamped (2) ?",
 						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/perfectclamp-passive10-2.txt`),
+						   figures => [
+							       {
+								axes => {
+									 x => {
+									       label => "Compartmental voltage",
+									       steps => 1000,
+									       step_size => (3e-6),
+									      },
+									 y => {
+									       label => "Time",
+									      },
+									},
+								caption => {
+									    full => "Ten passive compartments clamped with command voltage of 0.1V using a perfect clamp object.",
+									    short => "Ten passive compartments clamped",
+									   },
+								name => "perfectclamp",
+								title => "Compartmental membrane potential over time",
+								variables => [
+									      {
+									       name => "Vm[0]",
+									       regex_parser => '\(pdVms\[0\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[1]",
+									       regex_parser => '\(pdVms\[1\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[2]",
+									       regex_parser => '\(pdVms\[2\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[3]",
+									       regex_parser => '\(pdVms\[3\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[4]",
+									       regex_parser => '\(pdVms\[4\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[5]",
+									       regex_parser => '\(pdVms\[5\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[6]",
+									       regex_parser => '\(pdVms\[6\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[7]",
+									       regex_parser => '\(pdVms\[7\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[8]",
+									       regex_parser => '\(pdVms\[8\]\) : \((.*?)\)',
+									      },
+									      {
+									       name => "Vm[9]",
+									       regex_parser => '\(pdVms\[9\]\) : \((.*?)\)',
+									      },
+									     ],
+							       },
+							      ],
 						   timeout => 20,
 						  },
 						 ],
 				description => "perfectclamp integration functionality, ten passive compartments (2)",
 			       },
 			      ],
-       comment => "All output is obtained with the disassembler facility that is built into Heccer.",
+       comment => "All output is obtained with the disassembler facility that is built into Heccer.  The use of the Heccer disassembler for generating the output is useful for debugging, but it also distorts the figure created with this type of output.",
        description => "perfectclamp circuitry",
        documentation => {
 			 explanation => "
