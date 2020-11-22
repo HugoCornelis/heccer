@@ -157,6 +157,9 @@ experiment package.
 ",
 			},
        name => 'perfectclamp.t',
+       tags => [
+		'manual',
+	       ],
       };
 
 
