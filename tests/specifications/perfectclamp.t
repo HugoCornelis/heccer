@@ -9,12 +9,12 @@ my $figures
        {
 	axes => {
 		 x => {
-		       label => "Compartmental voltage",
+		       label => "Time",
 		       steps => 1000,
 		       step_size => (3e-6),
 		      },
 		 y => {
-		       label => "Time",
+		       label => "Compartmental voltage",
 		      },
 		},
 	caption => {
@@ -82,12 +82,12 @@ my $test
 							       {
 								axes => {
 									 x => {
-									       label => "Compartmental voltage",
+									       label => "Time",
 									       steps => 1000,
 									       step_size => (3e-6),
 									      },
 									 y => {
-									       label => "Time",
+									       label => "Compartmental voltage",
 									      },
 									},
 								caption => {

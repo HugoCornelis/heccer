@@ -9,12 +9,12 @@ my $figures
        {
 	axes => {
 		 x => {
-		       label => "Pulsegen output",
+		       label => "Time",
 		       steps => 200,
 		       step_size => 0.5,
 		      },
 		 y => {
-		       label => "Time",
+		       label => "Pulsegen output",
 		      },
 		},
 	caption => {
@@ -103,6 +103,9 @@ experiment package.
 ",
 			},
        name => 'pulsegen.t',
+       tags => [
+		'manual',
+	       ],
       };
 
 

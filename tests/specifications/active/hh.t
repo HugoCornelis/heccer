@@ -14,12 +14,12 @@ my $figures
        {
 	axes => {
 		 x => {
-		       label => "Compartmental membrane potential",
+		       label => "Time",
 		       steps => 40000,
 		       step_size => 5e-07,
 		      },
 		 y => {
-		       label => "Time",
+		       label => "Compartmental membrane potential",
 		      },
 		},
 	caption => {
@@ -78,6 +78,9 @@ experiment package.
 ",
 			},
        name => 'active/hh.t',
+       tags => [
+		'manual',
+	       ],
       };
 
 
