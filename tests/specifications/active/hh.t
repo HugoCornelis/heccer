@@ -23,7 +23,7 @@ my $figures
 		      },
 		},
 	caption => {
-		    full => "The membrane potential of a single compartment with regular Hodgkin-Huxley channels.",
+		    full => "The membrane potential of a single compartment with regular Hodgkin-Huxley channels with applied current injection.",
 		    short => "Compartmental membrane potential",
 		   },
 	name => "hh",
@@ -31,7 +31,7 @@ my $figures
 	variables => [
 		      {
 		       name => "Vm",
-		       regex_parser => "\n" . '[0-9]+ (-?[0-9]+\.[-0-9]+)',
+		       regex_parser => "\n" . '[0-9]+ (-?[0-9]*\.[-0-9]+([-e0-9]+)?)',
 		      },
 		     ],
        },
