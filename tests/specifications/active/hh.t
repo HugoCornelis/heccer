@@ -56,20 +56,20 @@ my $test
 				description => "single compartment with regular HH channels",
 			       },
 			      ],
-       comment => "All output is obtained with Heccer's disassembler.  The use of the Heccer disassembler for generating the output is useful for debugging and testing, but it may also greatly decrease the accuracy of the figures that are generated from this output.",
+       comment => "All output is obtained with the Heccer disassembler.  The use of the Heccer disassembler for generating the output is useful for debugging and testing, but it may also greatly decrease the accuracy of the figures that are generated from this output.",
        description => "interaction between regular HH channels testing",
        documentation => {
 			 explanation => "
 
-This test instantiates one compartment with the well-known
-Hodgkin-Huxley channels with the parameters that were reported in
-their publications that earned them the Nobel prize.
+This test instantiates a one compartment model containing the
+well-known Hodgkin-Huxley channels.  The parameters are those reported
+in their publications that earned them the Nobel prize.
 
-A current of 3e-10 is applied.  This causes the compartment to
-generate regular spikes.
+A current of 3e-10A is applied and the compartment generates regular
+spiking.
 
-Models are instantiated by use of C structs with actual variable
-values for capacitance and resistance.
+Models are instantiated by use of C structs that employ the actual
+variable values for capacitance and resistance.
 
 ",
 			 purpose => "
