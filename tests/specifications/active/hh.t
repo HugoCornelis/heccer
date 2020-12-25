@@ -68,8 +68,9 @@ in their publications that earned them the Nobel prize.
 A current of 3e-10A is applied and the compartment generates regular
 spiking.
 
-Models are instantiated by use of C structs that employ the actual
-variable values for capacitance and resistance.
+Models are instantiated by use of C structs that contain the
+parameters for capacitance and resistance scaled to the compartment
+surface.
 
 ",
 			 purpose => "

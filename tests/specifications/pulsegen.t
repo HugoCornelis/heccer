@@ -22,7 +22,7 @@ my $figures
 		    short => "The output of the pulsgen object",
 		   },
 	name => "pulsegen",
-	title => "Pulsgen output over time",
+	title => "Pulsegen output over time",
 	variables => [
 		      {
 		       name => "Vm[0]",
@@ -43,7 +43,32 @@ my $test
 				command_tests => [
 						  {
 						   description => "Can a single pulsegen object output amplitude in free run mode ?",
-						   figures => $figures,
+						   figures => [
+							       {
+								axes => {
+									 x => {
+									       label => "Time",
+									       steps => 200,
+									       step_size => 0.5,
+									      },
+									 y => {
+									       label => "Pulsegen output",
+									      },
+									},
+								caption => {
+									    full => "The output of the pulsegen object is directly coupled to the membrane potential.  The resulting membrane potential oscillates between the values 10, 50, 10 and -20.",
+									    short => "The output of the pulsgen object",
+									   },
+								name => "pulsegen",
+								title => "Pulsegen output over time",
+								variables => [
+									      {
+									       name => "Vm[0]",
+									       regex_parser => '\(pdVms\[0\]\) : \((.*?)\)',
+									      },
+									     ],
+							       },
+							      ],
 						   read => (join '', `cat $::global_config->{core_directory}/tests/specifications/strings/pulsegen-freerun.txt`),
 						   timeout => 40,
 						  },
