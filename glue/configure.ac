@@ -27,7 +27,9 @@ AC_INIT(heccer, python-5, hugo.cornelis@gmail.com)
 
 dnl all subdirs
 
-AC_CONFIG_SUBDIRS(swig/perl swig/python)
+dnl AC_CONFIG_SUBDIRS(swig/perl swig/python)
+
+AC_CONFIG_SUBDIRS(swig/perl)
 
 # $Format: "AM_INIT_AUTOMAKE(${package}, ${label})"$
 AM_INIT_AUTOMAKE(heccer, python-5)

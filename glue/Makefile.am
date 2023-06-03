@@ -17,7 +17,9 @@
 
 
 # Removed the subdir swig/python_old since it is long obsolete
-SUBDIRS = swig/perl swig/python 
+# SUBDIRS = swig/perl swig/python
+
+SUBDIRS = swig/perl
 
 test: check
 
