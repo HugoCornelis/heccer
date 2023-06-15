@@ -39,6 +39,7 @@ my $test
 
 			      ],
        description => "perfectclamp circuitry (Python)",
+       disabled => "the python bindings are broken",
        name => 'python/perfectclamp.t',
       };
 

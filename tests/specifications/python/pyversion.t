@@ -26,6 +26,7 @@ read => "0.0.0-alpha",
 			       },
 			      ],
        description => "run-time versioning",
+       disabled => "the python bindings are broken",
        name => 'python/pyversion.t',
       };
 

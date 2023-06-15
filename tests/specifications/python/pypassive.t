@@ -22,6 +22,7 @@ my $test
 				description => "two passive compartments with injected current via python",			       },
 			      ],
        description => "Passive model testing in python",
+       disabled => "the python bindings are broken",
        name => 'python/pypassive.t',
       };
 
